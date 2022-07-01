@@ -17,10 +17,10 @@ const StyledNormaltekst = styled(Normaltekst)`
 `;
 
 const texts = {
-  title: "Endre opplysninger i sykmeldingen",
+  title: "Feilregistrerte opplysninger?",
   content:
-    "Om noen opplysninger er feil eller mangelfulle kan du endre det her.",
-  buttonLabel: "Endre opplysninger",
+    "Har du oppdaget feilregistrerte opplysninger fra papirsykmeldingen kan du endre det her.",
+  buttonLabel: "Korriger sykmeldingen",
 };
 
 const EndreSykmelding = () => {
