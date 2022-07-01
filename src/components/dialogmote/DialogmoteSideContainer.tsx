@@ -7,8 +7,8 @@ import Sidetopp from "../Sidetopp";
 import Feilmelding from "../Feilmelding";
 import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
 import { BrukerKanIkkeVarslesPapirpostAdvarsel } from "@/components/dialogmote/BrukerKanIkkeVarslesPapirpostAdvarsel";
-import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import { useDialogmoterQuery } from "@/data/dialogmote/dialogmoteQueryHooks";
+import { useBrukerinfoQuery } from "@/data/navbruker/navbrukerQueryHooks";
 
 interface DialogmoteSideProps {
   title: string;
@@ -29,7 +29,7 @@ export const DialogmoteSideContainer = ({
     dialogmoteUuid: string;
   }>();
   const { isLoading, isError, data: dialogmoter } = useDialogmoterQuery();
-  const { brukerKanIkkeVarslesDigitalt } = useNavBrukerData();
+  const { brukerKanIkkeVarslesDigitalt } = useBrukerinfoQuery();
 
   const dialogmote = dialogmoter.find(
     (dialogmote) => dialogmote.uuid === dialogmoteUuid

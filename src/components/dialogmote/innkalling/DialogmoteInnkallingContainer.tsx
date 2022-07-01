@@ -7,7 +7,6 @@ import SideLaster from "../../SideLaster";
 import styled from "styled-components";
 import { AlertstripeFullbredde } from "../../AlertstripeFullbredde";
 import { BrukerKanIkkeVarslesPapirpostAdvarsel } from "@/components/dialogmote/BrukerKanIkkeVarslesPapirpostAdvarsel";
-import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import { useDialogmoterQuery } from "@/data/dialogmote/dialogmoteQueryHooks";
 import { Navigate } from "react-router-dom";
 import { moteoversiktRoutePath } from "@/routers/AppRouter";
@@ -15,6 +14,7 @@ import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import Tilbakelenke from "@/components/Tilbakelenke";
 import { NoTilfelleAlert } from "@/components/dialogmote/NoTilfelleAlert";
+import { useBrukerinfoQuery } from "@/data/navbruker/navbrukerQueryHooks";
 
 const texts = {
   title: "Innkalling til dialogmøte",
@@ -29,7 +29,7 @@ const StyledAlert = styled(AlertstripeFullbredde)`
 `;
 
 const DialogmoteInnkallingSide = (): ReactElement => {
-  const { brukerKanIkkeVarslesDigitalt } = useNavBrukerData();
+  const { brukerKanIkkeVarslesDigitalt } = useBrukerinfoQuery();
   const { hasActiveOppfolgingstilfelle } = useOppfolgingstilfellePersonQuery();
 
   return hasActiveOppfolgingstilfelle ? (

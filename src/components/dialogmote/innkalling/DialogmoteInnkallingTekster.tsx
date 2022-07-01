@@ -8,8 +8,8 @@ import { useInnkallingDocument } from "@/hooks/dialogmote/document/useInnkalling
 import { Forhandsvisning } from "../Forhandsvisning";
 import FritekstSeksjon from "../FritekstSeksjon";
 import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
-import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import { AlertstripeFullbredde } from "@/components/AlertstripeFullbredde";
+import { useBrukerinfoQuery } from "@/data/navbruker/navbrukerQueryHooks";
 
 export const MAX_LENGTH_INNKALLING_FRITEKST = 2000;
 
@@ -48,7 +48,7 @@ const DialogmoteInnkallingTekster = ({
   selectedBehandler,
   visAlternativTekst,
 }: DialogmoteInnkallingTeksterProps): ReactElement => {
-  const { brukerKanIkkeVarslesDigitalt } = useNavBrukerData();
+  const { brukerKanIkkeVarslesDigitalt } = useBrukerinfoQuery();
   const { values } = useFormState<DialogmoteInnkallingSkjemaValues>();
   const [
     displayInnkallingArbeidstakerPreview,

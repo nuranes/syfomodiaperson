@@ -4,11 +4,11 @@ import { NyttDialogMote } from "./NyttDialogMote";
 import { MoteIkonBlaaImage } from "../../../../../img/ImageComponents";
 import { DialogmotePanel } from "../DialogmotePanel";
 import { DialogmoteMoteStatusPanel } from "./DialogmoteMoteStatusPanel";
-import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import { BrukerKanIkkeVarslesPapirpostAdvarsel } from "@/components/dialogmote/BrukerKanIkkeVarslesPapirpostAdvarsel";
 import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
 import { DialogmoteunntakSkjemaLenke } from "@/components/dialogmoteunntak/DialogmoteunntakSkjemaLenke";
 import { useDialogmotekandidat } from "@/data/dialogmotekandidat/dialogmotekandidatQueryHooks";
+import { useBrukerinfoQuery } from "@/data/navbruker/navbrukerQueryHooks";
 
 export const texts = {
   bekreftetMote: "Bekreftet møte",
@@ -33,7 +33,7 @@ interface InnkallingDialogmotePanelProps {
 export const InnkallingDialogmotePanel = ({
   aktivtDialogmote,
 }: InnkallingDialogmotePanelProps): ReactElement => {
-  const { brukerKanIkkeVarslesDigitalt } = useNavBrukerData();
+  const { brukerKanIkkeVarslesDigitalt } = useBrukerinfoQuery();
 
   const { isKandidat } = useDialogmotekandidat();
 

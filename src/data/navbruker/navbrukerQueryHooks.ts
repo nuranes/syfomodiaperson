@@ -28,5 +28,9 @@ export const useBrukerinfoQuery = () => {
       navn: "",
       kontaktinfo: undefined,
     },
+    brukerKanIkkeVarslesDigitalt:
+      query.data?.kontaktinfo?.reservasjon?.skalHaVarsel === false,
+    brukerKanVarslesDigitalt:
+      query.data?.kontaktinfo?.reservasjon?.skalHaVarsel === true,
   };
 };
