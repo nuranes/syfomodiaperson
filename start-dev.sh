@@ -18,7 +18,7 @@ else
     read ACCESS_TOKEN
   fi
 
-  echo $ACCESS_TOKEN | docker login https://docker.pkg.github.com --username=${GITHUB_USERNAME} --password-stdin
+  echo $ACCESS_TOKEN | docker login https://ghcr.io --username=${GITHUB_USERNAME} --password-stdin
 
   start
 fi
