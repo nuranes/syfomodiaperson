@@ -8,6 +8,7 @@ on:
       - '.github/workflows/redis.yaml'
       - '.nais/redis/redis.yaml'
 
+
 jobs:
   apply-redis-cache:
     name: Apply Redis instance for caching
