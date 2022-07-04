@@ -38,6 +38,7 @@ import { TidStedSkjemaValues } from "@/data/dialogmote/types/skjemaTypes";
 import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
 import { ToggleNames } from "@/data/unleash/unleash_types";
 import { Flatknapp, Hovedknapp } from "nav-frontend-knapper";
+import dayjs from "dayjs";
 
 interface DialogmoteInnkallingSkjemaTekster {
   fritekstArbeidsgiver: string;
@@ -110,6 +111,13 @@ const toInnkalling = (
   return innkalling;
 };
 
+const isDateFuturistic = (date?: string) => {
+  const today = dayjs(new Date());
+  const selectedDate = dayjs(date);
+
+  return selectedDate.isAfter(today.add(21, "days"), "date");
+};
+
 const DialogmoteInnkallingSkjema = () => {
   const initialValues: Partial<DialogmoteInnkallingSkjemaValues> = {};
   const fnr = useValgtPersonident();
@@ -139,6 +147,9 @@ const DialogmoteInnkallingSkjema = () => {
   const { toTidStedDto } = useSkjemaValuesToDto();
   const opprettInnkalling = useOpprettInnkallingDialogmote(fnr);
 
+  const [isFuturisticMeeting, setIsFuturisticMeeting] =
+    useState<boolean>(false);
+
   const validate = (
     values: Partial<DialogmoteInnkallingSkjemaValues>
   ): DialogmoteInnkallingSkjemaFeil => {
@@ -161,6 +172,8 @@ const DialogmoteInnkallingSkjema = () => {
             }
           : {}),
       });
+
+    setIsFuturisticMeeting(isDateFuturistic(values.dato));
 
     const feilmeldinger: DialogmoteInnkallingSkjemaFeil = {
       arbeidsgiver: validerArbeidsgiver(values.arbeidsgiver),
@@ -202,7 +215,7 @@ const DialogmoteInnkallingSkjema = () => {
             <DialogmoteInnkallingBehandler
               setSelectedBehandler={setSelectedBehandler}
             />
-            <DialogmoteTidOgSted />
+            <DialogmoteTidOgSted isFuturisticMeeting={isFuturisticMeeting} />
             <DialogmoteInnkallingTekster
               selectedBehandler={selectedBehandler}
               visAlternativTekst={visAlternativBehandlertekst}
