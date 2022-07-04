@@ -33,18 +33,14 @@ const brukerKanVarsles = {
   ...brukerinfoMock,
   kontaktinfo: {
     ...brukerinfoMock.kontaktinfo,
-    reservasjon: {
-      skalHaVarsel: true,
-    },
+    skalHaVarsel: true,
   },
 };
 const brukerKanIkkeVarsles = {
   ...brukerinfoMock,
   kontaktinfo: {
     ...brukerinfoMock.kontaktinfo,
-    reservasjon: {
-      skalHaVarsel: false,
-    },
+    skalHaVarsel: false,
   },
 };
 

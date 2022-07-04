@@ -6,11 +6,10 @@ import {
 export const brukerinfoMock = {
   navn: ARBEIDSTAKER_DEFAULT_FULL_NAME,
   kontaktinfo: {
+    fnr: ARBEIDSTAKER_DEFAULT.personIdent,
     epost: ARBEIDSTAKER_DEFAULT.epost,
     tlf: "99887766",
-    reservasjon: {
-      skalHaVarsel: true,
-      feilAarsak: null,
-    },
+    skalHaVarsel: true,
   },
+  arbeidssituasjon: "ARBEIDSTAKER",
 };

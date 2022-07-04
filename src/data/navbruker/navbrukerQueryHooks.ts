@@ -27,10 +27,10 @@ export const useBrukerinfoQuery = () => {
     brukerinfo: query.data || {
       navn: "",
       kontaktinfo: undefined,
+      arbeidssituasjon: "ARBEIDSTAKER",
     },
     brukerKanIkkeVarslesDigitalt:
-      query.data?.kontaktinfo?.reservasjon?.skalHaVarsel === false,
-    brukerKanVarslesDigitalt:
-      query.data?.kontaktinfo?.reservasjon?.skalHaVarsel === true,
+      query.data?.kontaktinfo?.skalHaVarsel === false,
+    brukerKanVarslesDigitalt: query.data?.kontaktinfo?.skalHaVarsel === true,
   };
 };

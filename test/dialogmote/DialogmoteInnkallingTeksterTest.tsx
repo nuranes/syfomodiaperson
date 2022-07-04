@@ -21,18 +21,14 @@ const renderDialogmoteInnkallingTekster = (navBrukerKanVarsles: boolean) => {
     ...brukerinfoMock,
     kontaktinfo: {
       ...brukerinfoMock.kontaktinfo,
-      reservasjon: {
-        skalHaVarsel: true,
-      },
+      skalHaVarsel: true,
     },
   };
   const kanIkkeVarsel = {
     ...brukerinfoMock,
     kontaktinfo: {
       ...brukerinfoMock.kontaktinfo,
-      reservasjon: {
-        skalHaVarsel: false,
-      },
+      skalHaVarsel: false,
     },
   };
   if (navBrukerKanVarsles) {
