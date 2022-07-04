@@ -29,10 +29,10 @@ interface VirksomhetOptionProps {
   virksomhetsnummer: string;
 }
 const VirksomhetOption = ({ virksomhetsnummer }: VirksomhetOptionProps) => {
-  const { data } = useVirksomhetQuery(virksomhetsnummer);
-  const virksomhetsnavn =
-    data?.navn || `Fant ikke virksomhetsnavn for ${virksomhetsnummer}`;
-  return <option value={virksomhetsnummer}>{virksomhetsnavn}</option>;
+  const { virksomhetsnavn } = useVirksomhetQuery(virksomhetsnummer);
+  const virksomhetsnavnText =
+    virksomhetsnavn || `Fant ikke virksomhetsnavn for ${virksomhetsnummer}`;
+  return <option value={virksomhetsnummer}>{virksomhetsnavnText}</option>;
 };
 
 const ArbeidsgiverDropdown = ({

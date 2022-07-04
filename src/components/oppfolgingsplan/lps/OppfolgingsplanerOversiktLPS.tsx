@@ -48,14 +48,14 @@ interface BehandleOppfolgingsplanLPSProps {
 const OppfolgingsplanerOversiktLPS = ({
   oppfolgingsplanLPSBistandsbehov,
 }: BehandleOppfolgingsplanLPSProps) => {
-  const { data: virksomhet } = useVirksomhetQuery(
+  const { virksomhetsnavn } = useVirksomhetQuery(
     oppfolgingsplanLPSBistandsbehov.virksomhetsnummer
   );
 
   return (
     <LPSPlanPanel>
       <UnderTittelInline className="panel__tittel">
-        {virksomhet?.navn}
+        {virksomhetsnavn}
       </UnderTittelInline>
       <p>
         Mottatt:{" "}

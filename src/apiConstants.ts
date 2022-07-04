@@ -1,3 +1,4 @@
+export const EREG_ROOT = "/ereg/api/v1";
 export const FASTLEGEREST_ROOT = "/fastlegerest/api/v2/fastlege";
 export const ISDIALOGMOTE_ROOT = "/isdialogmote/api/v2";
 export const ISDIALOGMOTEKANDIDAT_ROOT =
@@ -11,7 +12,6 @@ export const ISPERSONOPPGAVE_ROOT = "/ispersonoppgave/api/v2";
 export const MODIACONTEXTHOLDER_ROOT = "/modiacontextholder/api";
 export const SYFOBEHANDLENDEENHET_ROOT =
   "/syfobehandlendeenhet/api/internad/v2";
-export const SYFOMOTEADMIN_ROOT = "/syfomoteadmin/api/internad/v2";
 export const SYFOMOTEBEHOV_ROOT = "/syfomotebehov/api/internad/v2/veileder";
 export const SYFOOPPFOLGINGSPLANSERVICE_ROOT =
   "/syfooppfolgingsplanservice/api/internad/v2";

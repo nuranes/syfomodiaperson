@@ -5,6 +5,62 @@ import url = require("url");
 import AuthUtils = require("./auth/utils");
 import Config = require("./config");
 
+const proxyExternalHostWithoutAuthentication = (host: any) =>
+  proxy(host, {
+    https: true,
+    proxyReqPathResolver: (req) => {
+      const urlFromApi = url.parse(host);
+      const pathFromApi =
+        urlFromApi.pathname === "/" ? "" : urlFromApi.pathname;
+
+      const urlFromRequest = url.parse(req.originalUrl);
+      const pathFromRequest = urlFromRequest.pathname;
+
+      const queryString = urlFromRequest.query;
+      const newPath =
+        (pathFromApi ? pathFromApi : "") +
+        (pathFromRequest ? pathFromRequest : "") +
+        (queryString ? "?" + queryString : "");
+
+      return `https://${newPath}`;
+    },
+    proxyErrorHandler: (err, res, next) => {
+      console.log(`Error in proxy for ${host} ${err.message}, ${err.code}`);
+      if (err && err.code === "ECONNREFUSED") {
+        console.log("proxyErrorHandler: Got ECONNREFUSED");
+        return res.status(503).send({ message: `Could not contact ${host}` });
+      }
+      next(err);
+    },
+  });
+
+const proxyDirectly = (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+  authClient: any,
+  externalAppConfig: Config.ExternalAppConfig
+) => {
+  const user = req.user as any;
+  if (!user) {
+    console.log("Missing user in route, waiting for middleware authentication");
+    res
+      .status(401)
+      .header(
+        "WWW-Authenticate",
+        `OAuth realm=${externalAppConfig.host}, charset="UTF-8"`
+      )
+      .send("Not authenticated");
+    return;
+  }
+
+  return proxyExternalHostWithoutAuthentication(externalAppConfig.host)(
+    req,
+    res,
+    next
+  );
+};
+
 const proxyExternalHost = (
   { applicationName, host, removePathPrefix }: any,
   accessToken: any,
@@ -252,13 +308,13 @@ export const setupProxy = (authClient: any) => {
   );
 
   router.use(
-    "/syfomoteadmin/*",
+    "/ereg/*",
     (
       req: express.Request,
       res: express.Response,
       next: express.NextFunction
     ) => {
-      proxyOnBehalfOf(req, res, next, authClient, Config.auth.syfomoteadmin);
+      proxyDirectly(req, res, next, authClient, Config.auth.ereg);
     }
   );
 

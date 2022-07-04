@@ -1,9 +1,9 @@
+import mockEreg from "./ereg/mockEreg";
 import { mockFastlegerest } from "./fastlegerest/mockFastlegerest";
 import { mockIsnarmesteleder } from "./isnarmesteleder/mockIsnarmesteleder";
 import { mockIsoppfolgingstilfelle } from "./isoppfolgingstilfelle/mockIsoppfolgingstilfelle";
 import { mockIspersonoppgave } from "./ispersonoppgave/mockIspersonoppgave";
 import { mockModiacontextholder } from "./modiacontextholder/mockModiacontextholder";
-import { mockSyfomoteadmin } from "./syfomoteadmin/mockSyfomoteadmin";
 import { mockSyfomotebehov } from "./syfomotebehov/mockSyfomotebehov";
 import { mockSyfooppfolgingsplanservice } from "./syfooppfolgingsplanservice/mockSyfooppfolgingsplanservice";
 import { mockSykepengesoknadBackend } from "./sykepengesoknad/mockSykepengesoknadBackend";
@@ -25,12 +25,12 @@ const mockEndepunkter = (server: any) => {
   server.use(express.urlencoded());
 
   [
+    mockEreg,
     mockFastlegerest,
     mockIsnarmesteleder,
     mockIsoppfolgingstilfelle,
     mockIspersonoppgave,
     mockModiacontextholder,
-    mockSyfomoteadmin,
     mockSyfomotebehov,
     mockSyfooppfolgingsplanservice,
     mockSykepengesoknadBackend,

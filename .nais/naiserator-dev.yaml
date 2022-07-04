@@ -96,10 +96,8 @@ spec:
       value: "dev-gcp.teamsykefravr.syfobehandlendeenhet"
     - name: SYFOBEHANDLENDEENHET_HOST
       value: "syfobehandlendeenhet.dev.intern.nav.no"
-    - name: SYFOMOTEADMIN_AAD_APP_CLIENT_ID
-      value: "dd3a6334-20bb-4316-89c7-8035cb42a347"
-    - name: SYFOMOTEADMIN_HOST
-      value: "syfomoteadmin.dev.intern.nav.no"
+    - name: EREG_HOST
+      value: "ereg-services-q1.dev.intern.nav.no"
     - name: SYFOMOTEBEHOV_AAD_APP_CLIENT_ID
       value: "71e608a6-fad4-42f6-b8cf-0130c82fa78a"
     - name: SYFOMOTEBEHOV_HOST

@@ -1,18 +1,30 @@
-import { SYFOMOTEADMIN_ROOT } from "@/apiConstants";
+import { EREG_ROOT } from "@/apiConstants";
 import { get } from "@/api/axios";
-import { Virksomhet } from "@/data/virksomhet/types/Virksomhet";
+import {
+  EregOrganisasjonResponseDTO,
+  getVirksomhetsnavn,
+} from "@/data/virksomhet/types/EregOrganisasjonResponseDTO";
 import { useQuery } from "react-query";
 import { minutesToMillis } from "@/utils/timeUtils";
 
 const virksomhetQueryKeys = {
-  virksomhet: (orgnummer: string | undefined) => ["virksomhet", orgnummer],
+  virksomhet: (virksomhetsnummer: string) => ["virksomhet", virksomhetsnummer],
 };
 
-export const useVirksomhetQuery = (orgnummer: string | undefined) => {
-  const path = `${SYFOMOTEADMIN_ROOT}/virksomhet/${orgnummer}`;
-  const fetchVirksomhet = () => get<Virksomhet>(path);
-  return useQuery(virksomhetQueryKeys.virksomhet(orgnummer), fetchVirksomhet, {
-    enabled: !!orgnummer,
-    staleTime: minutesToMillis(60 * 12),
-  });
+export const useVirksomhetQuery = (virksomhetsnummer: string) => {
+  const path = `${EREG_ROOT}/organisasjon/${virksomhetsnummer}`;
+  const fetchVirksomhet = () => get<EregOrganisasjonResponseDTO>(path);
+  const query = useQuery(
+    virksomhetQueryKeys.virksomhet(virksomhetsnummer),
+    fetchVirksomhet,
+    {
+      enabled: !!virksomhetsnummer,
+      staleTime: minutesToMillis(60 * 12),
+    }
+  );
+
+  return {
+    ...query,
+    virksomhetsnavn: query.data && getVirksomhetsnavn(query.data),
+  };
 };

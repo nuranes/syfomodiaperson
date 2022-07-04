@@ -52,12 +52,12 @@ interface OppfolgingsplanVirksomhetTittelProps {
 const OppfolgingsplanVirksomhetTittel = ({
   plan,
 }: OppfolgingsplanVirksomhetTittelProps) => {
-  const { data: virksomhet } = useVirksomhetQuery(
+  const { virksomhetsnavn } = useVirksomhetQuery(
     plan.virksomhet.virksomhetsnummer
   );
   return (
     <h3 className="panel__tittel navigasjonselement__tittel">
-      {virksomhet?.navn}
+      {virksomhetsnavn}
     </h3>
   );
 };

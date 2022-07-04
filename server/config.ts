@@ -213,13 +213,11 @@ export const auth = {
     }),
     removePathPrefix: true,
   },
-  syfomoteadmin: {
-    applicationName: "syfomoteadmin",
-    clientId: envVar({
-      name: "SYFOMOTEADMIN_AAD_APP_CLIENT_ID",
-    }),
+  ereg: {
+    applicationName: "ereg",
+    clientId: "",
     host: envVar({
-      name: "SYFOMOTEADMIN_HOST",
+      name: "EREG_HOST",
     }),
   },
   syfomotebehov: {

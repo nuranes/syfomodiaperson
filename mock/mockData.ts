@@ -7,7 +7,7 @@ import { dialogmoterMock } from "./isdialogmote/dialogmoterMock";
 import { soknaderMock } from "./sykepengesoknad/soknaderMock";
 import { sykmeldingerMock } from "./syfosmregister/sykmeldingerMock";
 import { tilgangBrukerMock } from "./syfotilgangskontroll/tilgangtilbrukerMock";
-import { virksomhetMock } from "./syfomoteadmin/virksomhetMock";
+import { virksomhetMock } from "./ereg/virksomhetMock";
 
 export const mockData = {
   motebehovMock,

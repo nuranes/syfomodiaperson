@@ -1,11 +1,11 @@
-import { stubVirksomhetApi } from "../stubs/stubSyfomoteadmin";
+import { stubVirksomhetApi } from "../stubs/stubEreg";
 import { QueryClient } from "react-query";
 import { apiMock } from "../stubs/stubApi";
 import nock from "nock";
 import { renderHook, waitFor } from "@testing-library/react";
 import { useVirksomhetQuery } from "@/data/virksomhet/virksomhetQueryHooks";
 import { expect } from "chai";
-import { virksomhetMock } from "../../mock/syfomoteadmin/virksomhetMock";
+import { virksomhetMock } from "../../mock/ereg/virksomhetMock";
 import { queryHookWrapper } from "./queryHookTestUtils";
 import { VIRKSOMHET_PONTYPANDY } from "../../mock/common/mockConstants";
 

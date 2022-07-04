@@ -56,6 +56,8 @@ spec:
       value: "syfomodiaperson-redis"
     - name: AUTH_REDIRECT_URI
       value: "https://syfomodiaperson.intern.nav.no/oauth2/callback"
+    - name: EREG_HOST
+      value: "ereg-services.intern.nav.no"
     - name: FASTLEGEREST_AAD_APP_CLIENT_ID
       value: "prod-gcp.teamsykefravr.fastlegerest"
     - name: FASTLEGEREST_HOST
@@ -96,10 +98,6 @@ spec:
       value: "prod-gcp.teamsykefravr.syfobehandlendeenhet"
     - name: SYFOBEHANDLENDEENHET_HOST
       value: "syfobehandlendeenhet.intern.nav.no"
-    - name: SYFOMOTEADMIN_AAD_APP_CLIENT_ID
-      value: "df2c236f-d109-4999-b255-206757b2f8b4"
-    - name: SYFOMOTEADMIN_HOST
-      value: "syfomoteadmin.intern.nav.no"
     - name: SYFOMOTEBEHOV_AAD_APP_CLIENT_ID
       value: "54f7befe-1d6b-45de-a718-a47de79c4239"
     - name: SYFOMOTEBEHOV_HOST

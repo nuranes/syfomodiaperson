@@ -41,18 +41,17 @@ interface AktivPlanLenkeProps {
 }
 
 const AktivPlanLenke = ({ aktivPlan }: AktivPlanLenkeProps) => {
-  const { data: virksomhet } = useVirksomhetQuery(
+  const { virksomhetsnavn } = useVirksomhetQuery(
     aktivPlan.virksomhet.virksomhetsnummer
   );
-  const virksomhetsNavn = virksomhet?.navn;
   return (
     <span>
       <Lenke
         className="lenke"
         href={`/sykefravaer/oppfoelgingsplaner/${aktivPlan.id}`}
       >
-        {virksomhetsNavn && virksomhetsNavn.length > 0
-          ? virksomhetsNavn.toLowerCase()
+        {virksomhetsnavn && virksomhetsnavn.length > 0
+          ? virksomhetsnavn.toLowerCase()
           : aktivPlan.virksomhet.virksomhetsnummer}
       </Lenke>
     </span>
@@ -80,8 +79,8 @@ interface LpsPlanLenkeProps {
 }
 
 const LpsPlanLenke = ({ lpsPlan }: LpsPlanLenkeProps) => {
-  const { data: virksomhet } = useVirksomhetQuery(lpsPlan.virksomhetsnummer);
-  const virksomhetsNavn = virksomhet?.navn || lpsPlan.virksomhetsnummer;
+  const { virksomhetsnavn } = useVirksomhetQuery(lpsPlan.virksomhetsnummer);
+  const virksomhetsNavn = virksomhetsnavn || lpsPlan.virksomhetsnummer;
   return (
     <a
       className="lenke"

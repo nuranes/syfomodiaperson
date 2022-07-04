@@ -8,7 +8,6 @@ import {
   ISDIALOGMOTE_ROOT,
   ISDIALOGMOTEKANDIDAT_ROOT,
   ISOPPFOLGINGSTILFELLE_ROOT,
-  SYFOMOTEADMIN_ROOT,
   UNLEASH_ROOT,
 } from "../../src/apiConstants";
 import { oppfolgingstilfellePersonMock } from "../../mock/isoppfolgingstilfelle/oppfolgingstilfellePersonMock";
@@ -59,13 +58,6 @@ const getMoter = (state: MoteState): TestMoter => {
 
 Cypress.Commands.add("stubEndepunkter", (state: MoteState) => {
   const moter = getMoter(state);
-  cy.intercept(
-    {
-      method: "GET",
-      url: `${SYFOMOTEADMIN_ROOT}/moter*`,
-    },
-    moter.moter
-  );
   cy.intercept(
     {
       method: "GET",
