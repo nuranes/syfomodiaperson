@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import AppRouter from "./routers/AppRouter";
 import "./styles/styles.less";
 import * as Sentry from "@sentry/react";
@@ -32,12 +32,15 @@ const queryClient = new QueryClient({
   },
 });
 
-ReactDOM.render(
+const container =
+  document.getElementById("maincontent") || new DocumentFragment();
+const root = createRoot(container);
+
+root.render(
   <ValgtEnhetProvider>
     <QueryClientProvider client={queryClient}>
       <AppRouter />
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
-  </ValgtEnhetProvider>,
-  document.getElementById("maincontent")
+  </ValgtEnhetProvider>
 );

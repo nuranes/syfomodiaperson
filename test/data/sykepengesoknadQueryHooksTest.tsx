@@ -2,7 +2,7 @@ import { QueryClient } from "react-query";
 import { apiMock } from "../stubs/stubApi";
 import nock from "nock";
 import { queryHookWrapper } from "./queryHookTestUtils";
-import { renderHook } from "@testing-library/react-hooks";
+import { renderHook, waitFor } from "@testing-library/react";
 import { expect } from "chai";
 import {
   parseSoknad,
@@ -32,11 +32,11 @@ describe("sykepengesoknadQueryHooks", () => {
     );
     const wrapper = queryHookWrapper(queryClient);
 
-    const { result, waitFor } = renderHook(() => useSykepengesoknaderQuery(), {
+    const { result } = renderHook(() => useSykepengesoknaderQuery(), {
       wrapper,
     });
 
-    await waitFor(() => result.current.isSuccess);
+    await waitFor(() => expect(result.current.isSuccess).to.be.true);
 
     expect(result.current.data).to.deep.equal(
       (soknaderMock as unknown as SykepengesoknadDTO[]).map(parseSoknad)

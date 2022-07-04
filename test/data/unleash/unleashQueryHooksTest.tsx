@@ -1,7 +1,7 @@
 import { QueryClient } from "react-query";
 import nock from "nock";
 import { expect } from "chai";
-import { renderHook } from "@testing-library/react-hooks";
+import { renderHook, waitFor } from "@testing-library/react";
 import { apiMock } from "../../stubs/stubApi";
 import { queryHookWrapper } from "../queryHookTestUtils";
 import { unleashMock } from "../../../mock/unleash/unleashMock";
@@ -27,11 +27,11 @@ describe("unleashQuery tests", () => {
 
     const wrapper = queryHookWrapper(queryClient);
 
-    const { result, waitFor } = renderHook(() => useFeatureToggles(), {
+    const { result } = renderHook(() => useFeatureToggles(), {
       wrapper,
     });
 
-    await waitFor(() => result.current.isSuccess);
+    await waitFor(() => expect(result.current.isSuccess).to.be.true);
 
     expect(result.current.data).to.deep.equal(unleashMock);
   });

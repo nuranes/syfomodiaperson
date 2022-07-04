@@ -1,7 +1,7 @@
 import { QueryClient } from "react-query";
 import { apiMock } from "../stubs/stubApi";
 import nock from "nock";
-import { renderHook } from "@testing-library/react-hooks";
+import { renderHook, waitFor } from "@testing-library/react";
 import { expect } from "chai";
 import { queryHookWrapper } from "./queryHookTestUtils";
 import { stubTilgangApi } from "../stubs/stubSyfotilgangskontroll";
@@ -25,11 +25,11 @@ describe("tilgangQueryHooks tests", () => {
 
     const wrapper = queryHookWrapper(queryClient);
 
-    const { result, waitFor } = renderHook(() => useTilgangQuery(), {
+    const { result } = renderHook(() => useTilgangQuery(), {
       wrapper,
     });
 
-    await waitFor(() => result.current.isSuccess);
+    await waitFor(() => expect(result.current.isSuccess).to.be.true);
     expect(result.current.data).to.deep.equal(tilgangBrukerMock);
   });
 });

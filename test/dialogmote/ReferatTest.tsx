@@ -90,9 +90,7 @@ describe("ReferatTest", () => {
       })
     ).to.exist;
 
-    screen
-      .getByRole("button", { name: "Fra arbeidsgiver: Tatten Tattover" })
-      .click();
+    clickButton("Fra arbeidsgiver: Tatten Tattover");
     const getFraArbeidsgiverInput = () => getTextInput("Navn");
 
     // Sjekk at 'Fra arbeidsgiver' valideres

@@ -1,7 +1,7 @@
 import { QueryClient } from "react-query";
 import nock from "nock";
 import { expect } from "chai";
-import { renderHook } from "@testing-library/react-hooks";
+import { renderHook, waitFor } from "@testing-library/react";
 import { apiMock } from "../../stubs/stubApi";
 import { queryHookWrapper } from "../queryHookTestUtils";
 import { dialogmotekandidatMock } from "../../../mock/isdialogmotekandidat/dialogmotekandidatMock";
@@ -29,11 +29,11 @@ describe("dialogmotekandidatQuery tests", () => {
 
     const wrapper = queryHookWrapper(queryClient);
 
-    const { result, waitFor } = renderHook(() => useDialogmotekandidat(), {
+    const { result } = renderHook(() => useDialogmotekandidat(), {
       wrapper,
     });
 
-    await waitFor(() => result.current.isSuccess);
+    await waitFor(() => expect(result.current.isSuccess).to.be.true);
 
     expect(result.current.data).to.deep.equal(dialogmotekandidatMock);
   });

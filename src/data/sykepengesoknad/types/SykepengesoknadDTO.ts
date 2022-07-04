@@ -43,7 +43,7 @@ export interface Kvittering {
 }
 
 export interface SvarDTO {
-  verdi: string | Date;
+  verdi: string;
 }
 
 export interface ArbeidsgiverDTO {

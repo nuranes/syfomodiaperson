@@ -3,7 +3,7 @@ import { QueryClient } from "react-query";
 import { apiMock } from "../stubs/stubApi";
 import nock from "nock";
 import { queryHookWrapper } from "./queryHookTestUtils";
-import { renderHook } from "@testing-library/react-hooks";
+import { renderHook, waitFor } from "@testing-library/react";
 import { expect } from "chai";
 import { stubNarmestelederApi } from "../stubs/stubIsnarmesteleder";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
@@ -49,11 +49,11 @@ describe("ledereQueryHooks tests", () => {
 
     const wrapper = queryHookWrapper(queryClient);
 
-    const { result, waitFor } = renderHook(() => useLedereQuery(), {
+    const { result } = renderHook(() => useLedereQuery(), {
       wrapper,
     });
 
-    await waitFor(() => result.current.isSuccess);
+    await waitFor(() => expect(result.current.isSuccess).to.be.true);
 
     expect(result.current.data).to.deep.equal(ledereData);
     expect(result.current.allLedere).to.deep.equal(ledereData);

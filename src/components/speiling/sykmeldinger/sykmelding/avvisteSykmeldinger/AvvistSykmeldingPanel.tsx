@@ -1,8 +1,7 @@
 import React, { ReactElement } from "react";
-import Veilederpanel from "nav-frontend-veilederpanel";
+import Panel from "nav-frontend-paneler";
 import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat";
 import * as avvisningsregelnavn from "../../../../../utils/sykmeldinger/avvisningsregelnavn";
-import VeiledermannIkon from "../../../../../ikoner/VeiledermannIkon";
 
 const REGELNAVN_INGEN_RETT_TIL_A_SYKMELDE = [
   avvisningsregelnavn.BEHANDLER_IKKE_GYLDIG_I_HPR,
@@ -139,13 +138,7 @@ export const AvvistSykmeldingPanel = ({
   const introtekststreng = hentIntrotekst(sykmelding);
   return (
     <div className="blokk">
-      <Veilederpanel
-        fargetema="feilmelding"
-        type="plakat"
-        kompakt
-        svg={<VeiledermannIkon />}
-        veilederProps={{ center: true, storrelse: "S" }}
-      >
+      <Panel>
         <h2 className="veilederpanel__tittel">
           Sykmeldingen kan dessverre ikke brukes
         </h2>
@@ -153,7 +146,7 @@ export const AvvistSykmeldingPanel = ({
         <p>{introtekststreng}</p>
         <p>{handlingstreng}</p>
         <Begrunnelse sykmelding={sykmelding} />
-      </Veilederpanel>
+      </Panel>
     </div>
   );
 };

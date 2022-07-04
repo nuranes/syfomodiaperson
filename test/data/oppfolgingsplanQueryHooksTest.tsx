@@ -1,7 +1,7 @@
 import { QueryClient } from "react-query";
 import { apiMock } from "../stubs/stubApi";
 import nock from "nock";
-import { renderHook } from "@testing-library/react-hooks";
+import { renderHook, waitFor } from "@testing-library/react";
 import { expect } from "chai";
 import { queryHookWrapper } from "./queryHookTestUtils";
 import {
@@ -38,11 +38,11 @@ describe("oppfolgingsplanQueryHooks tests", () => {
 
     const wrapper = queryHookWrapper(queryClient);
 
-    const { result, waitFor } = renderHook(() => useOppfolgingsplanerQuery(), {
+    const { result } = renderHook(() => useOppfolgingsplanerQuery(), {
       wrapper,
     });
 
-    await waitFor(() => result.current.isSuccess);
+    await waitFor(() => expect(result.current.isSuccess).to.be.true);
 
     expect(result.current.data).to.deep.equal(oppfolgingsplanMock);
   });
@@ -52,14 +52,11 @@ describe("oppfolgingsplanQueryHooks tests", () => {
 
     const wrapper = queryHookWrapper(queryClient);
 
-    const { result, waitFor } = renderHook(
-      () => useOppfolgingsplanerLPSQuery(),
-      {
-        wrapper,
-      }
-    );
+    const { result } = renderHook(() => useOppfolgingsplanerLPSQuery(), {
+      wrapper,
+    });
 
-    await waitFor(() => result.current.isSuccess);
+    await waitFor(() => expect(result.current.isSuccess).to.be.true);
 
     expect(result.current.data).to.deep.equal(oppfolgingsplanerLPSMock(today));
   });
@@ -70,14 +67,14 @@ describe("oppfolgingsplanQueryHooks tests", () => {
 
     const wrapper = queryHookWrapper(queryClient);
 
-    const { result, waitFor } = renderHook(
+    const { result } = renderHook(
       () => useDokumentinfoQuery(oppfolgingsplanId),
       {
         wrapper,
       }
     );
 
-    await waitFor(() => result.current.isSuccess);
+    await waitFor(() => expect(result.current.isSuccess).to.be.true);
 
     expect(result.current.data).to.deep.equal(dokumentinfoMock);
   });

@@ -2,7 +2,7 @@ import { QueryClient } from "react-query";
 import { apiMock } from "../stubs/stubApi";
 import nock from "nock";
 import { queryHookWrapper } from "./queryHookTestUtils";
-import { renderHook } from "@testing-library/react-hooks";
+import { renderHook, waitFor } from "@testing-library/react";
 import { expect } from "chai";
 import { useSykmeldingerQuery } from "@/data/sykmelding/sykmeldingQueryHooks";
 import { stubSykmeldingApi } from "../stubs/stubSyfosmregister";
@@ -33,11 +33,11 @@ describe("sykmeldingQueryHooks", () => {
     stubSykmeldingApi(apiMockScope);
     const wrapper = queryHookWrapper(queryClient);
 
-    const { result, waitFor } = renderHook(() => useSykmeldingerQuery(), {
+    const { result } = renderHook(() => useSykmeldingerQuery(), {
       wrapper,
     });
 
-    await waitFor(() => result.current.isSuccess);
+    await waitFor(() => expect(result.current.isSuccess).to.be.true);
 
     expect(result.current.sykmeldinger).to.deep.equal(
       sykmeldingerMockData.map((value) =>

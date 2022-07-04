@@ -12,7 +12,7 @@ const OppsummeringFritekst = ({
     <OppsummeringSporsmalstekst overskriftsnivaa={overskriftsnivaa}>
       {sporsmalstekst}
     </OppsummeringSporsmalstekst>
-    <p className="sist">{svar[0].verdi}</p>
+    {svar[0] && <p className="sist">{svar[0].verdi}</p>}
   </div>
 );
 

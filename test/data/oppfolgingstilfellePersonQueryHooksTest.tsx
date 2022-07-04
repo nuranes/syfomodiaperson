@@ -1,7 +1,7 @@
 import { QueryClient } from "react-query";
 import { apiMock } from "../stubs/stubApi";
 import nock from "nock";
-import { renderHook } from "@testing-library/react-hooks";
+import { renderHook, waitFor } from "@testing-library/react";
 import { expect } from "chai";
 import { queryHookWrapper } from "./queryHookTestUtils";
 import { stubOppfolgingstilfellePersonApi } from "../stubs/stubIsoppfolgingstilfelle";
@@ -24,14 +24,11 @@ describe("oppfolgingstilfellePersonQueryHooks tests", () => {
 
     const wrapper = queryHookWrapper(queryClient);
 
-    const { result, waitFor } = renderHook(
-      () => useOppfolgingstilfellePersonQuery(),
-      {
-        wrapper,
-      }
-    );
+    const { result } = renderHook(() => useOppfolgingstilfellePersonQuery(), {
+      wrapper,
+    });
 
-    await waitFor(() => result.current.isSuccess);
+    await waitFor(() => expect(result.current.isSuccess).to.be.true);
 
     expect(result.current.latestOppfolgingstilfelle).to.exist;
     expect(result.current.hasActiveOppfolgingstilfelle).to.be.true;

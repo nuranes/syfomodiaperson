@@ -2,7 +2,7 @@ import { stubVirksomhetApi } from "../stubs/stubSyfomoteadmin";
 import { QueryClient } from "react-query";
 import { apiMock } from "../stubs/stubApi";
 import nock from "nock";
-import { renderHook } from "@testing-library/react-hooks";
+import { renderHook, waitFor } from "@testing-library/react";
 import { useVirksomhetQuery } from "@/data/virksomhet/virksomhetQueryHooks";
 import { expect } from "chai";
 import { virksomhetMock } from "../../mock/syfomoteadmin/virksomhetMock";
@@ -28,12 +28,11 @@ describe("virksomhetQueryHooks tests", () => {
 
     const wrapper = queryHookWrapper(queryClient);
 
-    const { result, waitFor } = renderHook(
-      () => useVirksomhetQuery(orgnummer),
-      { wrapper }
-    );
+    const { result } = renderHook(() => useVirksomhetQuery(orgnummer), {
+      wrapper,
+    });
 
-    await waitFor(() => result.current.isSuccess);
+    await waitFor(() => expect(result.current.isSuccess).to.be.true);
 
     expect(result.current.data).to.deep.equal(virksomhetMock());
   });

@@ -1,5 +1,5 @@
 import { QueryClient } from "react-query";
-import { renderHook } from "@testing-library/react-hooks";
+import { renderHook, waitFor } from "@testing-library/react";
 import nock from "nock";
 import { apiMock } from "../stubs/stubApi";
 import { expect } from "chai";
@@ -24,11 +24,11 @@ describe("navbrukerQueryHooks", () => {
     stubPersoninfoApi(apiMockScope);
     const wrapper = queryHookWrapper(queryClient);
 
-    const { result, waitFor } = renderHook(() => useBrukerinfoQuery(), {
+    const { result } = renderHook(() => useBrukerinfoQuery(), {
       wrapper,
     });
 
-    await waitFor(() => result.current.isSuccess);
+    await waitFor(() => expect(result.current.isSuccess).to.be.true);
 
     expect(result.current.data).to.deep.equal(brukerinfoMock);
   });

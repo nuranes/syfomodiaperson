@@ -2,7 +2,7 @@ import { QueryClient } from "react-query";
 import { apiMock } from "../stubs/stubApi";
 import nock from "nock";
 import { queryHookWrapper } from "./queryHookTestUtils";
-import { renderHook } from "@testing-library/react-hooks";
+import { renderHook, waitFor } from "@testing-library/react";
 import { expect } from "chai";
 import { stubEgenansattApi } from "../stubs/stubSyfoperson";
 import { useEgenansattQuery } from "@/data/egenansatt/egenansattQueryHooks";
@@ -23,11 +23,11 @@ describe("egenansattQueryHooks tests", () => {
     stubEgenansattApi(apiMockScope, true);
     const wrapper = queryHookWrapper(queryClient);
 
-    const { result, waitFor } = renderHook(() => useEgenansattQuery(), {
+    const { result } = renderHook(() => useEgenansattQuery(), {
       wrapper,
     });
 
-    await waitFor(() => result.current.isSuccess);
+    await waitFor(() => expect(result.current.isSuccess).to.be.true);
 
     expect(result.current.data).to.deep.equal(true);
   });

@@ -3,7 +3,7 @@ import { apiMock } from "../stubs/stubApi";
 import nock from "nock";
 import { stubPersonadresseApi } from "../stubs/stubSyfoperson";
 import { queryHookWrapper } from "./queryHookTestUtils";
-import { renderHook } from "@testing-library/react-hooks";
+import { renderHook, waitFor } from "@testing-library/react";
 import { expect } from "chai";
 import { usePersonAdresseQuery } from "@/data/personinfo/personAdresseQueryHooks";
 import { personAdresseMock } from "../../mock/syfoperson/personAdresseMock";
@@ -24,11 +24,11 @@ describe("personAdresseQueryHooks", () => {
     stubPersonadresseApi(apiMockScope);
     const wrapper = queryHookWrapper(queryClient);
 
-    const { result, waitFor } = renderHook(() => usePersonAdresseQuery(), {
+    const { result } = renderHook(() => usePersonAdresseQuery(), {
       wrapper,
     });
 
-    await waitFor(() => result.current.isSuccess);
+    await waitFor(() => expect(result.current.isSuccess).to.be.true);
 
     expect(result.current.data).to.deep.equal(personAdresseMock);
   });
