@@ -31,9 +31,7 @@ export interface IInnkallingDocument {
   ): DocumentComponentDto[];
 }
 
-export const useInnkallingDocument = (
-  visAlternativBehandlertekst: boolean
-): IInnkallingDocument => {
+export const useInnkallingDocument = (): IInnkallingDocument => {
   const introComponents = [
     createHeaderH1("Innkalling til dialogmøte"),
     createParagraph(
@@ -89,33 +87,12 @@ export const useInnkallingDocument = (
   const getInnkallingDocumentBehandler = (
     values: Partial<DialogmoteInnkallingSkjemaValues>
   ) => {
-    if (visAlternativBehandlertekst) {
-      return getInnkallingDocumentBehandlerAlternativ(values);
-    }
-
-    const documentComponents = [
-      ...introComponents,
-      ...getMoteInfo(values, values.arbeidsgiver),
-      getIntroGjelder(),
-      createParagraph(innkallingTexts.behandler.intro1),
-    ];
-    if (values.fritekstBehandler) {
-      documentComponents.push(createParagraph(values.fritekstBehandler));
-    }
-    documentComponents.push(...behandlerOutro(), getHilsen());
-
-    return documentComponents;
-  };
-
-  const getInnkallingDocumentBehandlerAlternativ = (
-    values: Partial<DialogmoteInnkallingSkjemaValues>
-  ): DocumentComponentDto[] => {
     const documentComponents = [
       createHeaderH1("Innkalling til dialogmøte, svar ønskes"),
       createParagraph(
         `Sendt ${tilDatoMedManedNavnOgKlokkeslettWithComma(new Date())}`
       ),
-      createParagraph(innkallingTexts.behandler.alternativ.intro),
+      createParagraph(innkallingTexts.behandler.intro),
       ...getMoteInfo(values, values.arbeidsgiver),
       getIntroGjelder(),
     ];
@@ -124,7 +101,7 @@ export const useInnkallingDocument = (
       documentComponents.push(createParagraph(values.fritekstBehandler));
     }
     documentComponents.push(
-      createParagraph(innkallingTexts.behandler.alternativ.outro),
+      createParagraph(innkallingTexts.behandler.outro),
       getHilsen()
     );
 
@@ -197,12 +174,5 @@ const arbeidsgiverOutro = (
     createParagraph(innkallingTexts.arbeidsgiver.outroObligatorisk),
     createParagraph(outro1),
     createParagraphWithTitle(innkallingTexts.arbeidsgiver.outro2Title, outro2),
-  ];
-};
-
-const behandlerOutro = (): DocumentComponentDto[] => {
-  return [
-    createParagraph(innkallingTexts.behandler.outro1),
-    createParagraph(innkallingTexts.behandler.outro2),
   ];
 };

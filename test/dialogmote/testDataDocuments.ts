@@ -204,7 +204,7 @@ const expectedBehandlerInnkalling = (): DocumentComponentDto[] => [
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: [innkallingTexts.behandler.alternativ.intro],
+    texts: [innkallingTexts.behandler.intro],
     type: DocumentComponentType.PARAGRAPH,
   },
   {
@@ -241,7 +241,7 @@ const expectedBehandlerInnkalling = (): DocumentComponentDto[] => [
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: [innkallingTexts.behandler.alternativ.outro],
+    texts: [innkallingTexts.behandler.outro],
     type: DocumentComponentType.PARAGRAPH,
   },
   {
@@ -440,7 +440,7 @@ const expectedBehandlerEndringsdokument = (): DocumentComponentDto[] => [
     type: DocumentComponentType.HEADER_H1,
   },
   {
-    texts: [endreTidStedTexts.behandler.alternativ.intro],
+    texts: [endreTidStedTexts.behandler.intro],
     type: DocumentComponentType.PARAGRAPH,
   },
   {
@@ -492,7 +492,7 @@ const expectedBehandlerEndringsdokument = (): DocumentComponentDto[] => [
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: [endreTidStedTexts.behandler.alternativ.outro],
+    texts: [endreTidStedTexts.behandler.outro],
     type: DocumentComponentType.PARAGRAPH,
   },
   {

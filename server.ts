@@ -55,8 +55,7 @@ const setupServer = async () => {
     const unleashToggles = unleashRoutes.unleashToggles(
       toggles,
       req.query.valgtEnhet,
-      req.query.userId,
-      req.query.behandlerRef
+      req.query.userId
     );
 
     res.status(200).send(unleashToggles);

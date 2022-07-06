@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Panel from "nav-frontend-paneler";
 import DialogmoteInnkallingVelgArbeidsgiver from "./DialogmoteInnkallingVelgArbeidsgiver";
 import DialogmoteTidOgSted from "../DialogmoteTidOgSted";
@@ -35,8 +35,6 @@ import styled from "styled-components";
 import { behandlerNavn } from "@/utils/behandlerUtils";
 import { useSkjemaValuesToDto } from "@/hooks/dialogmote/useSkjemaValuesToDto";
 import { TidStedSkjemaValues } from "@/data/dialogmote/types/skjemaTypes";
-import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
-import { ToggleNames } from "@/data/unleash/unleash_types";
 import { Flatknapp, Hovedknapp } from "nav-frontend-knapper";
 import dayjs from "dayjs";
 
@@ -125,24 +123,8 @@ const DialogmoteInnkallingSkjema = () => {
     useFeilUtbedret();
 
   const [selectedBehandler, setSelectedBehandler] = useState<BehandlerDTO>();
-  const { isFeatureEnabled } = useFeatureToggles(
-    selectedBehandler?.behandlerRef
-  );
-  const [visAlternativBehandlertekst, setVisAlternativBehandlertekst] =
-    useState<boolean>(false);
 
-  const innkallingDocument = useInnkallingDocument(visAlternativBehandlertekst);
-
-  useEffect(() => {
-    if (
-      selectedBehandler?.behandlerRef &&
-      isFeatureEnabled(ToggleNames.behandlertekst)
-    ) {
-      setVisAlternativBehandlertekst(true);
-    } else {
-      setVisAlternativBehandlertekst(false);
-    }
-  }, [selectedBehandler, isFeatureEnabled]);
+  const innkallingDocument = useInnkallingDocument();
 
   const { toTidStedDto } = useSkjemaValuesToDto();
   const opprettInnkalling = useOpprettInnkallingDialogmote(fnr);
@@ -218,7 +200,6 @@ const DialogmoteInnkallingSkjema = () => {
             <DialogmoteTidOgSted isFuturisticMeeting={isFuturisticMeeting} />
             <DialogmoteInnkallingTekster
               selectedBehandler={selectedBehandler}
-              visAlternativTekst={visAlternativBehandlertekst}
             />
             {opprettInnkalling.isError && (
               <SkjemaInnsendingFeil error={opprettInnkalling.error} />

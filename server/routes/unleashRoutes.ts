@@ -44,12 +44,7 @@ const unleash = initialize({
   strategies: [new ByEnhetAndEnvironment(), new ByUserId()],
 });
 
-export const unleashToggles = (
-  toggles: any,
-  valgtEnhet: any,
-  userId: any,
-  behandlerRef: any
-) => {
+export const unleashToggles = (toggles: any, valgtEnhet: any, userId: any) => {
   return {
     "syfo.dialogmote.kandidat": unleash.isEnabled("syfo.dialogmote.kandidat", {
       valgtEnhet: valgtEnhet,
@@ -61,14 +56,6 @@ export const unleashToggles = (
       {
         valgtEnhet: valgtEnhet,
         user: userId,
-      }
-    ),
-
-    "syfo.syfomodiaperson.behandlertekst": unleash.isEnabled(
-      "syfo.syfomodiaperson.behandlertekst",
-      {
-        valgtEnhet: valgtEnhet,
-        userId: behandlerRef,
       }
     ),
   };

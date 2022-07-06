@@ -34,18 +34,10 @@ export const innkallingTexts = {
   },
 
   behandler: {
-    intro1:
-      "Velkommen til dialogmøte mellom deg, arbeidsgiveren, den ansatte og en veileder fra NAV. I møtet skal vi snakke om den ansattes situasjon og bli enige om en plan som kan hjelpe den ansatte videre.",
-    outro1:
-      "Det er obligatorisk å delta i dialogmøtet. Gi oss svar om tidspunktet passer eller ikke. Vi minner om at det ikke må sendes sensitive personopplysninger over e-post eller SMS.",
-    outro2:
-      "Fastlegen eller en annen behandler kan bli invitert til å delta i dialogmøte. Til dette møtet har vi sett behov for å invitere deg.",
-    alternativ: {
-      intro:
-        "Det er obligatorisk å delta i dialogmøtet. Gi oss svar om tidspunktet passer eller ikke.",
-      outro:
-        "Vi minner om at det ikke må sendes sensitive personopplysninger over e-post eller SMS.",
-    },
+    intro:
+      "Det er obligatorisk å delta i dialogmøtet. Gi oss svar om tidspunktet passer eller ikke.",
+    outro:
+      "Vi minner om at det ikke må sendes sensitive personopplysninger over e-post eller SMS.",
   },
 };
 
@@ -87,18 +79,10 @@ export const endreTidStedTexts = {
       "Det er viktig at du og arbeidsgiveren din fyller ut oppfølgingsplanen sammen og deler den med NAV. Den gir oss et godt utgangspunkt for å snakke om hva som fungerer, hva som har blitt forsøkt, og hvilke muligheter som finnes framover.",
   },
   behandler: {
-    outro1:
-      "I møtet vil vi høre både hva du, arbeidsgiveren og den ansatte sier om arbeidssituasjonen og mulighetene for å jobbe.",
-    outro2:
-      "Fastlegen eller en annen behandler kan bli invitert til å delta i dialogmøte. Til dette møtet har vi sett behov for å invitere deg.",
-    outroObligatorisk:
-      "Det er obligatorisk å delta i dialogmøtet. Gi oss svar om tidspunktet passer eller ikke. Vi minner om at det ikke må sendes sensitive personopplysninger over e-post eller SMS.",
-    alternativ: {
-      intro:
-        "Det er obligatorisk å delta i dialogmøtet. Gi oss svar om tidspunktet passer eller ikke.",
-      outro:
-        "Vi minner om at det ikke må sendes sensitive personopplysninger over e-post eller SMS.",
-    },
+    intro:
+      "Det er obligatorisk å delta i dialogmøtet. Gi oss svar om tidspunktet passer eller ikke.",
+    outro:
+      "Vi minner om at det ikke må sendes sensitive personopplysninger over e-post eller SMS.",
   },
 };
 
