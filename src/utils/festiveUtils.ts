@@ -49,24 +49,59 @@ export const stopAndHideSnow = () => {
   snowflakes.stop();
 };
 
-const isApril = (date: Date) => {
-  return date.getMonth() === 3;
+interface EasterSundayNumbers {
+  year: number;
+  month: number;
+  day: number;
+}
+
+/**
+ * Calculates Easter in the Gregorian/Western (Catholic and Protestant) calendar
+ * based on the algorithm by Oudin (1940) from http://www.tondering.dk/claus/cal/easter.php
+ */
+const getEasterSunday = (year): EasterSundayNumbers => {
+  const f = Math.floor,
+    // Golden Number - 1
+    G = year % 19,
+    C = f(year / 100),
+    // related to Epact
+    H = (C - f(C / 4) - f((8 * C + 13) / 25) + 19 * G + 15) % 30,
+    // number of days from 21 March to the Paschal full moon
+    I = H - f(H / 28) * (1 - f(29 / (H + 1)) * f((21 - G) / 11)),
+    // weekday for the Paschal full moon
+    J = (year + f(year / 4) + I + 2 - C + f(C / 4)) % 7,
+    // number of days from 21 March to the Sunday on or before the Paschal full moon
+    L = I - J,
+    month = 3 + f((L + 40) / 44),
+    day = L + 28 - 31 * f(month / 4);
+
+  return {
+    year: year,
+    month: month,
+    day: day,
+  };
 };
 
 const isEasterDate = (date: Date) => {
-  if (date.getDate() === 6) {
-    return isAfternoon(date);
-  }
-  return date.getDate() >= 7 && date.getDate() <= 18;
-};
+  const { year, month, day } = getEasterSunday(date.getFullYear());
 
-const isAfternoon = (date: Date) => {
-  return date.getHours() >= 12;
+  const easterSunday = dayjs(date)
+    .year(year)
+    .month(month - 1)
+    .date(day)
+    .hour(0)
+    .minute(0)
+    .second(0)
+    .millisecond(0);
+
+  const easterStartDate = easterSunday.clone().subtract(10, "days");
+  const dayAfterEasterEndDate = easterSunday.clone().add(2, "days");
+  return dayjs(date) < dayAfterEasterEndDate && dayjs(date) >= easterStartDate;
 };
 
 export const isEaster = () => {
   const today = new Date(Date.now());
-  return isApril(today) && isEasterDate(today);
+  return isEasterDate(today);
 };
 
 export const isPride = () => {
