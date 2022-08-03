@@ -111,9 +111,9 @@ spec:
     - name: SYFOPERSON_HOST
       value: "syfoperson.dev.intern.nav.no"
     - name: SYFOSMREGISTER_AAD_APP_CLIENT_ID
-      value: "616d576a-c26e-4987-9b44-e315677552a2"
+      value: "dev-gcp.teamsykmelding.syfosmregister"
     - name: SYFOSMREGISTER_HOST
-      value: "syfosmregister.dev.intern.nav.no"
+      value: "smregister.dev.intern.nav.no"
     - name: SYKEPENGESOKNAD_BACKEND_AAD_APP_CLIENT_ID
       value: "dev-gcp.flex.sykepengesoknad-backend"
     - name: SYKEPENGESOKNAD_BACKEND_HOST
