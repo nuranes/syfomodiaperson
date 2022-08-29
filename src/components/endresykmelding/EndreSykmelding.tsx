@@ -24,9 +24,9 @@ const texts = {
 };
 
 const EndreSykmelding = () => {
-  const env = erProd() ? "nais.adeo" : "dev.adeo";
+  const env = erProd() ? "intern" : "dev.intern";
   const sykmeldingId = window.location.pathname.split("/")[3];
-  const smregistrering = `https://smregistrering.${env}.no/?sykmeldingid=${sykmeldingId}`;
+  const smregistrering = `https://smregistrering.${env}.nav.no/?sykmeldingid=${sykmeldingId}`;
 
   return (
     <StyledPanel>
