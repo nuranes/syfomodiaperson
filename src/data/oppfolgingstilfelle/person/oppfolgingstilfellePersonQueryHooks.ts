@@ -11,12 +11,35 @@ import dayjs from "dayjs";
 
 const ARBEIDSGIVERPERIODE_DAYS = 16;
 
+const latestTilfelleDifference = (
+  a: OppfolgingstilfelleDTO,
+  b: OppfolgingstilfelleDTO
+) => {
+  return new Date(b.start).getTime() - new Date(a.start).getTime();
+};
+
+const longestTilfelleDifference = (
+  a: OppfolgingstilfelleDTO,
+  b: OppfolgingstilfelleDTO
+) => {
+  return new Date(b.end).getTime() - new Date(a.end).getTime();
+};
+
+const byLatestAndLongestTilfelle = (
+  a: OppfolgingstilfelleDTO,
+  b: OppfolgingstilfelleDTO
+) => {
+  const startDateDifference = latestTilfelleDifference(a, b);
+  if (startDateDifference === 0) {
+    return longestTilfelleDifference(a, b);
+  }
+  return startDateDifference;
+};
+
 const sortByDescendingStart = (
   oppfolgingstilfelleList: OppfolgingstilfelleDTO[]
 ): OppfolgingstilfelleDTO[] => {
-  return oppfolgingstilfelleList.sort((a, b) => {
-    return new Date(b.start).getTime() - new Date(a.start).getTime();
-  });
+  return oppfolgingstilfelleList.sort(byLatestAndLongestTilfelle);
 };
 
 const isInactive = (oppfolgingstilfelle: OppfolgingstilfelleDTO) => {

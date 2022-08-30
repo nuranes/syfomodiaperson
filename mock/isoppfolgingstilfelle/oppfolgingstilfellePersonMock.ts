@@ -15,6 +15,12 @@ export const oppfolgingstilfellePersonMock = {
     {
       arbeidstakerAtTilfelleEnd: true,
       start: "2020-02-21",
+      end: "2020-12-10",
+      virksomhetsnummerList: [VIRKSOMHET_PONTYPANDY.virksomhetsnummer],
+    },
+    {
+      arbeidstakerAtTilfelleEnd: true,
+      start: "2020-02-21",
       end: "2030-12-10",
       virksomhetsnummerList: [
         VIRKSOMHET_PONTYPANDY.virksomhetsnummer,
