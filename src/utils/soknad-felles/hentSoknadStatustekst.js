@@ -27,9 +27,8 @@ const textSendtTilArbeidsgiver = (
 };
 
 const hentStatustekst = (soknad) => {
-  const soknadSendtTilNav =
-    soknad.sendtTilNAVDato !== null || soknad.innsendtDato !== null;
-  const soknadSendtTilArbeidsgiver = soknad.sendtTilArbeidsgiverDato !== null;
+  const isSoknadSentToNav = !!soknad.sendtTilNAVDato || !!soknad.innsendtDato;
+  const isSoknadSentToArbeidsgiver = !!soknad.sendtTilArbeidsgiverDato;
 
   const arbeidsgiver =
     soknad.arbeidsgiver && soknad.arbeidsgiver.navn
@@ -41,18 +40,18 @@ const hentStatustekst = (soknad) => {
     soknad.arbeidsgiver && soknad.arbeidsgiver.orgnummer
       ? formaterOrgnr(soknad.arbeidsgiver.orgnummer)
       : null;
-  const sendtTilArbeidsgiverDato = soknadSendtTilArbeidsgiver
+  const sendtTilArbeidsgiverDato = isSoknadSentToArbeidsgiver
     ? tilLesbarDatoMedArstall(soknad.sendtTilArbeidsgiverDato)
     : null;
-  const sendtTilNavDato = soknadSendtTilNav
+  const sendtTilNavDato = isSoknadSentToNav
     ? tilLesbarDatoMedArstall(soknad.sendtTilNAVDato || soknad.innsendtDato)
     : null;
 
   return soknad.status === SoknadstatusDTO.KORRIGERT
     ? texts.korrigert
-    : soknadSendtTilNav && soknadSendtTilArbeidsgiver
+    : isSoknadSentToNav && isSoknadSentToArbeidsgiver
     ? textSendtTilArbeidsgiverOgNav(arbeidsgiver, orgnr, sendtTilNavDato)
-    : soknadSendtTilNav && !soknadSendtTilArbeidsgiver
+    : isSoknadSentToNav && !isSoknadSentToArbeidsgiver
     ? textSendtTilNav(sendtTilNavDato)
     : textSendtTilArbeidsgiver(arbeidsgiver, orgnr, sendtTilArbeidsgiverDato);
 };
