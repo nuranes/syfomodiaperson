@@ -27,6 +27,10 @@ export const unntakArsakTexts: UnntakArsakText[] = [
     text: "Innleggelse i helseinstitusjon",
   },
   {
+    arsak: UnntakArsak.FRISKMELDT,
+    text: "Friskmeldt",
+  },
+  {
     arsak: UnntakArsak.FORVENTET_FRISKMELDING_INNEN_28UKER,
     text: "Forventet friskmelding innen 28 ukers sykmelding",
   },

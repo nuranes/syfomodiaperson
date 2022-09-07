@@ -92,7 +92,7 @@ describe("DialogmoteunntakSkjema", () => {
   it("sett unntak med kun med obligatorisk verdier fra skjema", () => {
     renderDialogmoteunntakSkjema();
 
-    expect(screen.getAllByRole("radio")).to.have.length(5);
+    expect(screen.getAllByRole("radio")).to.have.length(6);
 
     const unntakArsakText = unntakArsakTexts[0];
 
@@ -115,7 +115,7 @@ describe("DialogmoteunntakSkjema", () => {
   it("sett unntak med alle verdier fra skjema", () => {
     renderDialogmoteunntakSkjema();
 
-    expect(screen.getAllByRole("radio")).to.have.length(5);
+    expect(screen.getAllByRole("radio")).to.have.length(6);
 
     const beskrivelse = "Dette er en begrunnelse";
     const unntakArsakText = unntakArsakTexts[0];
