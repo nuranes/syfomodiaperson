@@ -6,7 +6,7 @@ import { useVirksomhetQuery } from "@/data/virksomhet/virksomhetQueryHooks";
 const texts = {
   chooseArbeidsgiver: "Velg arbeidsgiver",
   noArbeidsgiver:
-    "Det er ikke registrert noen nærmeste leder på denne arbeidstakeren. Du må sende innkallingen fra Arena.",
+    "Det er ikke registrert en virksomhet på denne arbeidstakeren.",
 };
 
 interface ArbeidsgiverDropdownProps {

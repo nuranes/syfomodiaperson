@@ -12,14 +12,13 @@ import { Navigate } from "react-router-dom";
 import { moteoversiktRoutePath } from "@/routers/AppRouter";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
-import Tilbakelenke from "@/components/Tilbakelenke";
-import { NoTilfelleAlert } from "@/components/dialogmote/NoTilfelleAlert";
 import { useBrukerinfoQuery } from "@/data/navbruker/navbrukerQueryHooks";
 import { ArbeidstakerHarIkkeAktivSykmeldingAdvarsel } from "@/components/dialogmote/ArbeidstakerHarIkkeAktivSykmelding";
 
 const texts = {
   title: "Innkalling til dialogmøte",
   tilbake: "Tilbake",
+  // TODO: fjern referanse til Arena når vi stenger for Arena
   nyLosningAlert:
     "I denne nye løsningen sender du innkalling, avlysning, endring av tidspunkt og referat. I Arena trenger du bare " +
     "endre status til ferdig behandlet.",
@@ -34,21 +33,16 @@ const DialogmoteInnkallingSide = (): ReactElement => {
   const { hasActiveOppfolgingstilfelle, hasOppfolgingstilfelle } =
     useOppfolgingstilfellePersonQuery();
 
-  return hasOppfolgingstilfelle ? (
+  return (
     <>
       <StyledAlert type="advarsel">{texts.nyLosningAlert}</StyledAlert>
       {brukerKanIkkeVarslesDigitalt && (
         <BrukerKanIkkeVarslesPapirpostAdvarsel />
       )}
-      {!hasActiveOppfolgingstilfelle && (
+      {!hasActiveOppfolgingstilfelle && hasOppfolgingstilfelle && (
         <ArbeidstakerHarIkkeAktivSykmeldingAdvarsel />
       )}
       <DialogmoteInnkallingSkjema />
-    </>
-  ) : (
-    <>
-      <NoTilfelleAlert />
-      <Tilbakelenke to={moteoversiktRoutePath} tekst={texts.tilbake} />
     </>
   );
 };

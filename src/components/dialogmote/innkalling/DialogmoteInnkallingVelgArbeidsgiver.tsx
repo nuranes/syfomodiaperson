@@ -10,6 +10,7 @@ import { narmesteLederForVirksomhet } from "@/utils/ledereUtils";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { NoNarmesteLederAlert } from "@/components/mote/NoNarmestLederAlert";
+import { NoTilfelleNoVirksomhet } from "@/components/dialogmote/NoTilfelleNoVirksomhet";
 
 const texts = {
   title: "Arbeidsgiver",
@@ -26,9 +27,11 @@ const ArbeidsgiverTittel = styled(Innholdstittel)`
   margin-bottom: 1em;
 `;
 
+// TODO: bytt ut ordet Arbeidsgiver med Virksomhet, så vi er konsekvente
 const DialogmoteInnkallingVelgArbeidsgiver = () => {
   const { currentLedere } = useLedereQuery();
-  const { latestOppfolgingstilfelle } = useOppfolgingstilfellePersonQuery();
+  const { hasOppfolgingstilfelle, latestOppfolgingstilfelle } =
+    useOppfolgingstilfellePersonQuery();
   const virksomheter = latestOppfolgingstilfelle?.virksomhetsnummerList || [];
   const field = "arbeidsgiver";
 
@@ -48,12 +51,16 @@ const DialogmoteInnkallingVelgArbeidsgiver = () => {
 
           return (
             <>
-              <ArbeidsgiverDropdown
-                id={field}
-                velgArbeidsgiver={input.onChange}
-                virksomheter={virksomheter}
-                label={texts.selectLabel}
-              />
+              {hasOppfolgingstilfelle ? (
+                <ArbeidsgiverDropdown
+                  id={field}
+                  velgArbeidsgiver={input.onChange}
+                  virksomheter={virksomheter}
+                  label={texts.selectLabel}
+                />
+              ) : (
+                <NoTilfelleNoVirksomhet />
+              )}
               <SkjemaelementFeilmelding>
                 {meta.submitFailed && meta.error}
               </SkjemaelementFeilmelding>
