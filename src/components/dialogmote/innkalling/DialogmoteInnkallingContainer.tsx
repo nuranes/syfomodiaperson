@@ -15,6 +15,7 @@ import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/pe
 import Tilbakelenke from "@/components/Tilbakelenke";
 import { NoTilfelleAlert } from "@/components/dialogmote/NoTilfelleAlert";
 import { useBrukerinfoQuery } from "@/data/navbruker/navbrukerQueryHooks";
+import { ArbeidstakerHarIkkeAktivSykmeldingAdvarsel } from "@/components/dialogmote/ArbeidstakerHarIkkeAktivSykmelding";
 
 const texts = {
   title: "Innkalling til dialogmøte",
@@ -25,18 +26,22 @@ const texts = {
 };
 
 const StyledAlert = styled(AlertstripeFullbredde)`
-  margin-bottom: 2.5em;
+  margin-bottom: 1em;
 `;
 
 const DialogmoteInnkallingSide = (): ReactElement => {
   const { brukerKanIkkeVarslesDigitalt } = useBrukerinfoQuery();
-  const { hasActiveOppfolgingstilfelle } = useOppfolgingstilfellePersonQuery();
+  const { hasActiveOppfolgingstilfelle, hasOppfolgingstilfelle } =
+    useOppfolgingstilfellePersonQuery();
 
-  return hasActiveOppfolgingstilfelle ? (
+  return hasOppfolgingstilfelle ? (
     <>
       <StyledAlert type="advarsel">{texts.nyLosningAlert}</StyledAlert>
       {brukerKanIkkeVarslesDigitalt && (
         <BrukerKanIkkeVarslesPapirpostAdvarsel />
+      )}
+      {!hasActiveOppfolgingstilfelle && (
+        <ArbeidstakerHarIkkeAktivSykmeldingAdvarsel />
       )}
       <DialogmoteInnkallingSkjema />
     </>

@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { AlertstripeFullbredde } from "@/components/AlertstripeFullbredde";
 
 const AdvarselStripe = styled(AlertstripeFullbredde)`
-  margin-bottom: 2em;
+  margin-bottom: 1em;
 `;
 
 export const texts = {

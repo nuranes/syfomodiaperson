@@ -77,6 +77,7 @@ export const useOppfolgingstilfellePersonQuery = () => {
   return {
     ...query,
     latestOppfolgingstilfelle,
+    hasOppfolgingstilfelle: !!latestOppfolgingstilfelle,
     hasActiveOppfolgingstilfelle:
       !!latestOppfolgingstilfelle && !isInactive(latestOppfolgingstilfelle),
   };

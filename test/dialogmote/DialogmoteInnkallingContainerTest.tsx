@@ -86,22 +86,21 @@ describe("DialogmoteInnkallingContainer", () => {
 
     expect(screen.queryByRole("img", { name: "feil-ikon" })).to.not.exist;
   });
-  it("viser feilmelding når det er mer enn 16 dager siden brukers siste oppfolgingstilfelle", () => {
+  it("viser skjema når det er mer enn 16 dager siden brukers siste oppfolgingstilfelle", () => {
     mockOppfolgingstilfellePerson([
       createOppfolgingstilfelle(daysFromToday(-17)),
     ]);
     renderDialogmoteInnkallingContainer();
 
-    expect(screen.getByRole("img", { name: "feil-ikon" })).to.exist;
-    expect(
-      screen.getByText(
-        /Vi kan ikke sende innkalling til dialogmøte til denne arbeidstakeren/
-      )
-    ).to.exist;
+    expect(screen.getByText(/I denne nye løsningen sender du innkalling/)).to
+      .exist;
 
-    expect(screen.queryByText(/I denne nye løsningen sender du innkalling/)).to
-      .not.exist;
+    expect(screen.getByText(/Denne arbeidstakeren har ingen aktiv sykmelding/))
+      .to.exist;
+
+    expect(screen.queryByRole("img", { name: "feil-ikon" })).to.not.exist;
   });
+
   it("viser feilmelding når bruker mangler oppfolgingstilfelle", () => {
     mockOppfolgingstilfellePerson([]);
     renderDialogmoteInnkallingContainer();
