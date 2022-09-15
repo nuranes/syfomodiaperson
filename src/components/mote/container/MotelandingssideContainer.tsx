@@ -1,6 +1,6 @@
 import React from "react";
 import Side from "../../../sider/Side";
-import { MOETEPLANLEGGER } from "@/enums/menypunkter";
+import { DIALOGMOTE } from "@/enums/menypunkter";
 import Motelandingsside from "../components/Motelandingsside";
 
 const texts = {
@@ -9,7 +9,7 @@ const texts = {
 
 const MotelandingssideContainer = () => {
   return (
-    <Side tittel={texts.pageTitle} aktivtMenypunkt={MOETEPLANLEGGER}>
+    <Side tittel={texts.pageTitle} aktivtMenypunkt={DIALOGMOTE}>
       <Motelandingsside />
     </Side>
   );

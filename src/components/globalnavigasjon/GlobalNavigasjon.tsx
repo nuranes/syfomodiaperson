@@ -27,7 +27,7 @@ const historikkMenypunkt = {
 const motemodulMenypunkt = {
   navn: "Dialogmøter",
   sti: "moteoversikt",
-  menypunkt: menypunkter.MOETEPLANLEGGER,
+  menypunkt: menypunkter.DIALOGMOTE,
 };
 
 const sykmeldingerMenypunkt = {

@@ -1,6 +1,6 @@
 import React from "react";
 import Side from "@/sider/Side";
-import { MOETEPLANLEGGER } from "@/enums/menypunkter";
+import { DIALOGMOTE } from "@/enums/menypunkter";
 import SideLaster from "@/components/SideLaster";
 import Sidetopp from "@/components/Sidetopp";
 import DialogmoteunntakSkjema from "@/components/dialogmoteunntak/DialogmoteunntakSkjema";
@@ -11,7 +11,7 @@ const texts = {
 
 const DialogmoteunntakSkjemaContainer = () => {
   return (
-    <Side tittel={texts.pageTitle} aktivtMenypunkt={MOETEPLANLEGGER}>
+    <Side tittel={texts.pageTitle} aktivtMenypunkt={DIALOGMOTE}>
       <SideLaster henter={false} hentingFeilet={false}>
         <Sidetopp tittel={texts.pageTitle} />
         <DialogmoteunntakSkjema />

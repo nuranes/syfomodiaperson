@@ -1,5 +1,5 @@
 import Side from "../../../sider/Side";
-import { MOETEPLANLEGGER } from "@/enums/menypunkter";
+import { DIALOGMOTE } from "@/enums/menypunkter";
 import React, { ReactElement } from "react";
 import Sidetopp from "../../Sidetopp";
 import DialogmoteInnkallingSkjema from "./DialogmoteInnkallingSkjema";
@@ -65,7 +65,7 @@ const DialogmoteInnkallingContainer = (): ReactElement => {
     hentingLedereFeilet || hentingOppfolgingstilfellerFeilet;
 
   return (
-    <Side tittel={texts.title} aktivtMenypunkt={MOETEPLANLEGGER}>
+    <Side tittel={texts.title} aktivtMenypunkt={DIALOGMOTE}>
       <SideLaster henter={henter} hentingFeilet={hentingFeilet}>
         <Sidetopp tittel={texts.title} />
         <DialogmoteInnkallingSide />

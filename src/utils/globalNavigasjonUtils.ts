@@ -45,7 +45,7 @@ export const numberOfTasks = (
   oppfolgingsplanerlps: OppfolgingsplanLPSMedPersonoppgave[]
 ) => {
   switch (menypunkt) {
-    case menypunkter.MOETEPLANLEGGER:
+    case menypunkter.DIALOGMOTE:
       return moteTasks(motebehov);
     case menypunkter.OPPFOELGINGSPLANER:
       return (

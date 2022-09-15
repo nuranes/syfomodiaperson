@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { useParams } from "react-router-dom";
 import Side from "../../sider/Side";
-import { MOETEPLANLEGGER } from "@/enums/menypunkter";
+import { DIALOGMOTE } from "@/enums/menypunkter";
 import SideLaster from "../SideLaster";
 import Sidetopp from "../Sidetopp";
 import Feilmelding from "../Feilmelding";
@@ -36,7 +36,7 @@ export const DialogmoteSideContainer = ({
   );
 
   return (
-    <Side tittel={title} aktivtMenypunkt={MOETEPLANLEGGER}>
+    <Side tittel={title} aktivtMenypunkt={DIALOGMOTE}>
       <SideLaster henter={isLoading} hentingFeilet={isError}>
         <Sidetopp tittel={header} />
         {brukerKanIkkeVarslesDigitalt && (
