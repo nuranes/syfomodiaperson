@@ -6,7 +6,7 @@ import { capitalizeWord } from "@/utils/stringUtils";
 import { erLokal, erPreProd } from "@/utils/miljoUtil";
 
 const texts = {
-  behandlerLegend: "Behandler som inviteres til dialogmøtet",
+  behandlerLegend: "Velg behandler som inviteres til dialogmøtet",
   behandlerInfo: "Behandleren vil få en dialogmelding med invitasjon.",
   noBehandler: "Ingen behandler",
 };
