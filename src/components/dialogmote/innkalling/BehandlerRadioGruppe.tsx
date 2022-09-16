@@ -3,6 +3,7 @@ import { Radio, RadioGruppe } from "nav-frontend-skjema";
 import styled from "styled-components";
 import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
 import { capitalizeWord } from "@/utils/stringUtils";
+import { erLokal, erPreProd } from "@/utils/miljoUtil";
 
 const texts = {
   behandlerLegend: "Behandler som inviteres til dialogmøtet",
@@ -50,6 +51,9 @@ const BehandlerRadioGruppe = ({
             onChange={() => setSelectedBehandler(behandler)}
           />
         ))}
+        {(erPreProd() || erLokal()) && (
+          <Radio label="Lege Legesen" name="behandler" key="10" />
+        )}
       </StyledRadioGruppe>
       <p>{texts.behandlerInfo}</p>
     </>
