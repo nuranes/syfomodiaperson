@@ -160,8 +160,8 @@ const renderDialogmoteInnkallingSkjema = () =>
   );
 
 const passSkjemaInput = () => {
-  const virksomhetSelect = screen.getByRole("combobox", {
-    name: "Arbeidsgiver",
+  const virksomhetSelect = screen.getByRole("radio", {
+    name: `Fant ikke virksomhetsnavn for ${arbeidsgiver.orgnr}`,
   });
   const datoInput = getTextInput("Dato");
   const klokkeslettInput = screen.getByLabelText("Klokkeslett");
@@ -174,7 +174,7 @@ const passSkjemaInput = () => {
     "Fritekst til nærmeste leder (valgfri)"
   );
 
-  fireEvent.change(virksomhetSelect, { target: { value: arbeidsgiver.orgnr } });
+  fireEvent.click(virksomhetSelect);
   changeTextInput(datoInput, mote.dato);
   fireEvent.blur(datoInput);
   changeTextInput(klokkeslettInput, mote.klokkeslett);

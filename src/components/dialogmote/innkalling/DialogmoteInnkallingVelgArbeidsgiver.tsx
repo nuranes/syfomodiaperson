@@ -1,7 +1,6 @@
 import React from "react";
 import { Input, SkjemaelementFeilmelding } from "nav-frontend-skjema";
 import { Field } from "react-final-form";
-import ArbeidsgiverDropdown from "../../mote/skjema/ArbeidsgiverDropdown";
 import styled from "styled-components";
 import DialogmoteInnkallingSkjemaSeksjon from "./DialogmoteInnkallingSkjemaSeksjon";
 import { FlexColumn, FlexRow, PaddingSize } from "../../Layout";
@@ -11,6 +10,7 @@ import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { NoNarmesteLederAlert } from "@/components/mote/NoNarmestLederAlert";
 import { NoTilfelleNoVirksomhet } from "@/components/dialogmote/NoTilfelleNoVirksomhet";
+import { VirksomhetRadioGruppe } from "@/components/dialogmote/innkalling/VirksomhetRadioGruppe";
 
 const texts = {
   title: "Arbeidsgiver",
@@ -52,11 +52,12 @@ const DialogmoteInnkallingVelgArbeidsgiver = () => {
           return (
             <>
               {hasOppfolgingstilfelle ? (
-                <ArbeidsgiverDropdown
-                  id={field}
-                  velgArbeidsgiver={input.onChange}
+                <VirksomhetRadioGruppe
+                  velgVirksomhet={input.onChange}
                   virksomheter={virksomheter}
+                  id={field}
                   label={texts.selectLabel}
+                  name={field}
                 />
               ) : (
                 <NoTilfelleNoVirksomhet />
