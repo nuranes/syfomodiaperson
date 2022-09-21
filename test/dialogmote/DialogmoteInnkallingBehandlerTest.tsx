@@ -4,7 +4,8 @@ import DialogmoteInnkallingBehandler, {
   texts,
 } from "@/components/dialogmote/innkalling/DialogmoteInnkallingBehandler";
 import { QueryClientProvider } from "react-query";
-import { arbeidstaker } from "./testData";
+import { arbeidstaker, navEnhet } from "./testData";
+import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { dialogmoteRoutePath } from "@/routers/AppRouter";
 import { screen } from "@testing-library/react";
 import { queryClientWithMockData } from "../testQueryClient";
@@ -37,7 +38,7 @@ describe("DialogmoteInnkallingBehandler", () => {
     );
     renderDialogmoteInnkallingBehandler();
 
-    expect(screen.getAllByRole("radio")).to.have.length(2);
+    expect(screen.getAllByRole("radio")).to.have.length(3);
     expect(screen.getByRole("radio", { name: "Ingen behandler" })).to.exist;
     expect(screen.getByRole("radio", { name: "Fastlege: Lego Las Legesen" })).to
       .exist;
@@ -65,7 +66,11 @@ describe("DialogmoteInnkallingBehandler", () => {
 const renderDialogmoteInnkallingBehandler = () => {
   return renderWithRouter(
     <QueryClientProvider client={queryClient}>
-      <DialogmoteInnkallingBehandler setSelectedBehandler={noOpMethod} />
+      <ValgtEnhetContext.Provider
+        value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
+      >
+        <DialogmoteInnkallingBehandler setSelectedBehandler={noOpMethod} />
+      </ValgtEnhetContext.Provider>
     </QueryClientProvider>,
     dialogmoteRoutePath,
     [dialogmoteRoutePath]

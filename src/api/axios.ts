@@ -14,7 +14,8 @@ export const NAV_CONSUMER_ID = "syfomodiaperson";
 export const NAV_PERSONIDENT_HEADER = "nav-personident";
 
 export const defaultRequestHeaders = (
-  personIdent?: string
+  personIdent?: string,
+  addHeader?: { [p: string]: string | boolean | number }
 ): AxiosRequestHeaders => {
   const headers = {
     "Content-Type": "application/json",
@@ -25,6 +26,13 @@ export const defaultRequestHeaders = (
   if (personIdent) {
     headers[NAV_PERSONIDENT_HEADER] = personIdent;
   }
+
+  if (addHeader) {
+    Object.keys(addHeader).forEach(
+      (headerKeyName) => (headers[headerKeyName] = addHeader[headerKeyName])
+    );
+  }
+
   return headers;
 };
 
@@ -60,11 +68,12 @@ const handleAxiosError = (error: AxiosError) => {
 
 export const get = <ResponseData>(
   url: string,
-  personIdent?: string
+  personIdent?: string,
+  addHeader?: { [p: string]: string | boolean | number }
 ): Promise<ResponseData> => {
   return axios
     .get(url, {
-      headers: defaultRequestHeaders(personIdent),
+      headers: defaultRequestHeaders(personIdent, addHeader),
     })
     .then((response) => response.data)
     .catch((error) => {

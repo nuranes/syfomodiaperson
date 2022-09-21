@@ -58,5 +58,13 @@ export const unleashToggles = (toggles: any, valgtEnhet: any, userId: any) => {
         user: userId,
       }
     ),
+
+    "syfo.dialogmote.behandlersok": unleash.isEnabled(
+      "syfo.dialogmote.behandlersok",
+      {
+        valgtEnhet: valgtEnhet,
+        user: userId,
+      }
+    ),
   };
 };

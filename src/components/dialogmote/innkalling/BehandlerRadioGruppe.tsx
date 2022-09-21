@@ -3,7 +3,9 @@ import { Radio, RadioGruppe } from "nav-frontend-skjema";
 import styled from "styled-components";
 import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
 import { capitalizeWord } from "@/utils/stringUtils";
-import { erLokal, erPreProd } from "@/utils/miljoUtil";
+import BehandlerSearch from "@/components/dialogmote/innkalling/BehandlerSearch";
+import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
+import { ToggleNames } from "@/data/unleash/unleash_types";
 
 const texts = {
   behandlerLegend: "Velg behandler som inviteres til dialogmøtet",
@@ -35,6 +37,9 @@ const BehandlerRadioGruppe = ({
   behandlere,
   setSelectedBehandler,
 }: BehandlerRadioGruppeProps): ReactElement => {
+  const { isFeatureEnabled } = useFeatureToggles();
+  const visBehandlerSok = isFeatureEnabled(ToggleNames.behandlersok);
+
   return (
     <>
       <StyledRadioGruppe id={"behandlerId"} legend={texts.behandlerLegend}>
@@ -51,10 +56,13 @@ const BehandlerRadioGruppe = ({
             onChange={() => setSelectedBehandler(behandler)}
           />
         ))}
-        {(erPreProd() || erLokal()) && (
-          <Radio label="Lege Legesen" name="behandler" key="10" />
+        {visBehandlerSok && (
+          <Radio label="Annen behandler" name="behandler" key="-1" />
         )}
       </StyledRadioGruppe>
+      {visBehandlerSok && (
+        <BehandlerSearch /> // TODO: Vis denne bare hvis behandler er valgt
+      )}
       <p>{texts.behandlerInfo}</p>
     </>
   );

@@ -21,3 +21,23 @@ export const useBehandlereQuery = () => {
     data: query.data || [],
   };
 };
+
+export const useSokBehandlereQuery = (searchstring: string) => {
+  const fnr = useValgtPersonident();
+  const searchHeader = { searchstring: searchstring }; // TODO: Vurder om vi bør prefix header med "nav-"
+  const sokBehandlere = () =>
+    get<BehandlerDTO[]>(
+      `${ISDIALOGMELDING_ROOT}/behandler/search`,
+      fnr,
+      searchHeader
+    );
+
+  const query = useQuery(["search", searchstring], sokBehandlere, {
+    enabled: !!searchstring,
+  });
+
+  return {
+    ...query,
+    data: query.data || [],
+  };
+};
