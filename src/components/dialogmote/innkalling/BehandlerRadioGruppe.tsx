@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import { Radio, RadioGruppe } from "nav-frontend-skjema";
 import styled from "styled-components";
 import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
@@ -11,6 +11,7 @@ const texts = {
   behandlerLegend: "Velg behandler som inviteres til dialogmøtet",
   behandlerInfo: "Behandleren vil få en dialogmelding med invitasjon.",
   noBehandler: "Ingen behandler",
+  leggTilBehandler: "Legg til en behandler",
 };
 
 const behandlerOneliner = (behandler: BehandlerDTO): string => {
@@ -28,6 +29,10 @@ export const StyledRadioGruppe = styled(RadioGruppe)`
   margin-bottom: 1em;
 `;
 
+const RadioWrapper = styled.div`
+  margin-top: 1.25em;
+`;
+
 interface BehandlerRadioGruppeProps {
   behandlere: BehandlerDTO[];
   setSelectedBehandler: (behandler?: BehandlerDTO) => void;
@@ -38,32 +43,48 @@ const BehandlerRadioGruppe = ({
   setSelectedBehandler,
 }: BehandlerRadioGruppeProps): ReactElement => {
   const { isFeatureEnabled } = useFeatureToggles();
-  const visBehandlerSok = isFeatureEnabled(ToggleNames.behandlersok);
+  const isBehandlerSearchEnabled = isFeatureEnabled(ToggleNames.behandlersok);
+  const [showBehandlerSearch, setShowBehandlerSearch] =
+    useState<boolean>(false);
+
+  const updateBehandlerAndHideSearch = (behandler?: BehandlerDTO) => {
+    setShowBehandlerSearch(false);
+    setSelectedBehandler(behandler);
+  };
 
   return (
     <>
-      <StyledRadioGruppe id={"behandlerId"} legend={texts.behandlerLegend}>
-        <Radio
-          label={texts.noBehandler}
-          name="behandler"
-          onChange={() => setSelectedBehandler(undefined)}
-        />
-        {behandlere.map((behandler, index) => (
+      <StyledRadioGruppe
+        id={"behandlerId"}
+        legend={texts.behandlerLegend}
+        description={texts.behandlerInfo}
+      >
+        <RadioWrapper>
           <Radio
-            label={behandlerOneliner(behandler)}
+            label={texts.noBehandler}
             name="behandler"
-            key={index}
-            onChange={() => setSelectedBehandler(behandler)}
+            key="ingenBehandler"
+            onChange={() => updateBehandlerAndHideSearch(undefined)}
           />
-        ))}
-        {visBehandlerSok && (
-          <Radio label="Annen behandler" name="behandler" key="-1" />
-        )}
+          {behandlere.map((behandler, index) => (
+            <Radio
+              label={behandlerOneliner(behandler)}
+              name="behandler"
+              key={index}
+              onChange={() => updateBehandlerAndHideSearch(behandler)}
+            />
+          ))}
+          {isBehandlerSearchEnabled && (
+            <Radio
+              label={texts.leggTilBehandler}
+              name="behandler"
+              key="-1"
+              onChange={() => setShowBehandlerSearch(true)}
+            />
+          )}
+        </RadioWrapper>
       </StyledRadioGruppe>
-      {visBehandlerSok && (
-        <BehandlerSearch /> // TODO: Vis denne bare hvis behandler er valgt
-      )}
-      <p>{texts.behandlerInfo}</p>
+      {isBehandlerSearchEnabled && showBehandlerSearch && <BehandlerSearch />}
     </>
   );
 };
