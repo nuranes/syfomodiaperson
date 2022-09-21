@@ -66,5 +66,13 @@ export const unleashToggles = (toggles: any, valgtEnhet: any, userId: any) => {
         user: userId,
       }
     ),
+
+    "syfo.dialogmote.virksomhetinput": unleash.isEnabled(
+      "syfo.dialogmote.virksomhetinput",
+      {
+        valgtEnhet: valgtEnhet,
+        user: userId,
+      }
+    ),
   };
 };

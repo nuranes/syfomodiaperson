@@ -86,7 +86,7 @@ describe("DialogmoteInnkallingContainer", () => {
 
     expect(screen.queryByRole("img", { name: "feil-ikon" })).to.not.exist;
   });
-  it("viser skjema når det er mer enn 16 dager siden brukers siste oppfolgingstilfelle", () => {
+  it("viser skjema med alert når det er mer enn 16 dager siden brukers siste oppfolgingstilfelle", () => {
     mockOppfolgingstilfellePerson([
       createOppfolgingstilfelle(daysFromToday(-17)),
     ]);
@@ -101,7 +101,7 @@ describe("DialogmoteInnkallingContainer", () => {
     expect(screen.queryByRole("img", { name: "feil-ikon" })).to.not.exist;
   });
 
-  it("show a no virksomhet alert in schema when innbygger has no oppfolgingstilfelle", () => {
+  it("don't show a no virksomhet alert in schema when innbygger has no oppfolgingstilfelle", () => {
     mockOppfolgingstilfellePerson([]);
     renderDialogmoteInnkallingContainer();
 
@@ -109,7 +109,7 @@ describe("DialogmoteInnkallingContainer", () => {
       .exist;
 
     expect(
-      screen.getByText(/Denne arbeidstakeren har ingen aktiv sykemelding,/)
-    ).to.exist;
+      screen.queryByText(/Denne arbeidstakeren har ingen aktiv sykemelding,/)
+    ).to.not.exist;
   });
 });

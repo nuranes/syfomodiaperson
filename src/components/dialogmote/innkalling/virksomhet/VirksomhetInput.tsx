@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Input } from "nav-frontend-skjema";
 
 const texts = {
+  id: "virksomhetInput",
   label: "Oppgi virksomhetsnummer",
 };
 
@@ -12,16 +13,14 @@ const StyledInput = styled(Input)`
 
 interface VirksomhetInputProps {
   velgVirksomhet(virksomhetsnummer: string): void;
-  id: string;
 }
 
 export const VirksomhetInput = ({
   velgVirksomhet,
-  id,
 }: VirksomhetInputProps): React.ReactElement => {
   return (
     <StyledInput
-      id={id}
+      id={texts.id}
       label={texts.label}
       onChange={(e) => {
         velgVirksomhet(e.target.value);

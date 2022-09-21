@@ -26,6 +26,8 @@ import {
   DocumentComponentType,
 } from "@/data/dialogmote/types/dialogmoteTypes";
 import { renderWithRouter } from "../../testRouterUtils";
+import { oppfolgingstilfellePersonQueryKeys } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
+import { OppfolgingstilfellePersonDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
 
 let queryClient: any;
 
@@ -150,6 +152,33 @@ describe("DialogmoteInnkallingSkjema", () => {
       name: `Fant ikke virksomhetsnavn for ${VIRKSOMHET_UTEN_NARMESTE_LEDER.virksomhetsnummer}`,
     });
     fireEvent.click(virksomhetRadio);
+
+    expect(screen.queryByText(/Det er ikke registrert en nærmeste leder/i)).to
+      .exist;
+    expect(screen.queryByLabelText("Nærmeste leder")).to.not.exist;
+    expect(screen.queryByLabelText("Epost")).to.not.exist;
+  });
+
+  it("viser ekstra radioknapp for virksomhet hvis det ikke finnes oppfølgingstilfelle", () => {
+    const oppfolgingstilfellePerson: OppfolgingstilfellePersonDTO = {
+      personIdent: arbeidstaker.personident,
+      oppfolgingstilfelleList: [],
+    };
+    queryClient.setQueryData(
+      oppfolgingstilfellePersonQueryKeys.oppfolgingstilfelleperson(
+        arbeidstaker.personident
+      ),
+      () => oppfolgingstilfellePerson
+    );
+    stubInnkallingApi(apiMock());
+    renderDialogmoteInnkallingSkjema();
+    const virksomhetRadio = screen.getByRole("radio", {
+      name: "Oppgi virksomhetsnummer",
+    });
+    fireEvent.click(virksomhetRadio);
+
+    const virksomhetInput = getTextInput("Oppgi virksomhetsnummer");
+    changeTextInput(virksomhetInput, "123456789");
 
     expect(screen.queryByText(/Det er ikke registrert en nærmeste leder/i)).to
       .exist;

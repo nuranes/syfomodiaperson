@@ -2,8 +2,9 @@ import React, { ReactElement, useState } from "react";
 import { AlertstripeFullbredde } from "@/components/AlertstripeFullbredde";
 import { VirksomhetInput } from "@/components/dialogmote/innkalling/virksomhet/VirksomhetInput";
 import { VirksomhetRadioGruppe } from "@/components/dialogmote/innkalling/virksomhet/VirksomhetRadioGruppe";
-import { erLokal, erPreProd } from "@/utils/miljoUtil";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
+import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
+import { ToggleNames } from "@/data/unleash/unleash_types";
 
 const texts = {
   chooseArbeidsgiver: "Velg arbeidsgiver",
@@ -27,8 +28,10 @@ export const VirksomhetChooser = ({
   name,
 }: VirksomhetRadioGruppeProps): ReactElement => {
   const { hasActiveOppfolgingstilfelle } = useOppfolgingstilfellePersonQuery();
+  const { isFeatureEnabled } = useFeatureToggles();
   const hasAccessToVirksomhetInput =
-    (erLokal() || erPreProd()) && !hasActiveOppfolgingstilfelle; // TODO: Hent fra Unleash
+    isFeatureEnabled(ToggleNames.virksomhetinput) &&
+    !hasActiveOppfolgingstilfelle;
   const [showInput, setShowInput] = useState<boolean>(false);
 
   return (
@@ -42,9 +45,7 @@ export const VirksomhetChooser = ({
         name={name}
       />
 
-      {showInput && (
-        <VirksomhetInput velgVirksomhet={velgVirksomhet} id={name} />
-      )}
+      {showInput && <VirksomhetInput velgVirksomhet={velgVirksomhet} />}
 
       {virksomheter.length === 0 && !hasAccessToVirksomhetInput && (
         <AlertstripeFullbredde type="advarsel">

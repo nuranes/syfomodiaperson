@@ -11,7 +11,8 @@ import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/pe
 import { NoNarmesteLederAlert } from "@/components/mote/NoNarmestLederAlert";
 import { NoTilfelleNoVirksomhet } from "@/components/dialogmote/NoTilfelleNoVirksomhet";
 import { VirksomhetChooser } from "@/components/dialogmote/innkalling/virksomhet/VirksomhetChooser";
-import { erLokal, erPreProd } from "@/utils/miljoUtil";
+import { ToggleNames } from "@/data/unleash/unleash_types";
+import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
 
 const texts = {
   title: "Arbeidsgiver",
@@ -30,7 +31,10 @@ const ArbeidsgiverTittel = styled(Innholdstittel)`
 
 // TODO: bytt ut ordet Arbeidsgiver med Virksomhet, så vi er konsekvente
 const DialogmoteInnkallingVelgArbeidsgiver = () => {
-  const hasAccessToVirksomhetInput = erLokal() || erPreProd(); // TODO: Hent fra Unleash
+  const { isFeatureEnabled } = useFeatureToggles();
+  const hasAccessToVirksomhetInput = isFeatureEnabled(
+    ToggleNames.virksomhetinput
+  );
   const { currentLedere } = useLedereQuery();
   const { hasOppfolgingstilfelle, latestOppfolgingstilfelle } =
     useOppfolgingstilfellePersonQuery();
