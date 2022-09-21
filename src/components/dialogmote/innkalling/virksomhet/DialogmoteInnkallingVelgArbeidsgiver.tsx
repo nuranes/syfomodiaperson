@@ -2,15 +2,16 @@ import React from "react";
 import { Input, SkjemaelementFeilmelding } from "nav-frontend-skjema";
 import { Field } from "react-final-form";
 import styled from "styled-components";
-import DialogmoteInnkallingSkjemaSeksjon from "./DialogmoteInnkallingSkjemaSeksjon";
-import { FlexColumn, FlexRow, PaddingSize } from "../../Layout";
+import DialogmoteInnkallingSkjemaSeksjon from "../DialogmoteInnkallingSkjemaSeksjon";
+import { FlexColumn, FlexRow, PaddingSize } from "../../../Layout";
 import { Innholdstittel } from "nav-frontend-typografi";
 import { narmesteLederForVirksomhet } from "@/utils/ledereUtils";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { NoNarmesteLederAlert } from "@/components/mote/NoNarmestLederAlert";
 import { NoTilfelleNoVirksomhet } from "@/components/dialogmote/NoTilfelleNoVirksomhet";
-import { VirksomhetRadioGruppe } from "@/components/dialogmote/innkalling/VirksomhetRadioGruppe";
+import { VirksomhetChooser } from "@/components/dialogmote/innkalling/virksomhet/VirksomhetChooser";
+import { erLokal, erPreProd } from "@/utils/miljoUtil";
 
 const texts = {
   title: "Arbeidsgiver",
@@ -29,6 +30,7 @@ const ArbeidsgiverTittel = styled(Innholdstittel)`
 
 // TODO: bytt ut ordet Arbeidsgiver med Virksomhet, så vi er konsekvente
 const DialogmoteInnkallingVelgArbeidsgiver = () => {
+  const hasAccessToVirksomhetInput = erLokal() || erPreProd(); // TODO: Hent fra Unleash
   const { currentLedere } = useLedereQuery();
   const { hasOppfolgingstilfelle, latestOppfolgingstilfelle } =
     useOppfolgingstilfellePersonQuery();
@@ -51,8 +53,8 @@ const DialogmoteInnkallingVelgArbeidsgiver = () => {
 
           return (
             <>
-              {hasOppfolgingstilfelle ? (
-                <VirksomhetRadioGruppe
+              {hasOppfolgingstilfelle || hasAccessToVirksomhetInput ? (
+                <VirksomhetChooser
                   velgVirksomhet={input.onChange}
                   virksomheter={virksomheter}
                   id={field}

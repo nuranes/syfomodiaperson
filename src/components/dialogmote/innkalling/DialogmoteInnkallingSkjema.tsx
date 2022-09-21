@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Panel from "nav-frontend-paneler";
-import DialogmoteInnkallingVelgArbeidsgiver from "./DialogmoteInnkallingVelgArbeidsgiver";
+import DialogmoteInnkallingVelgArbeidsgiver from "./virksomhet/DialogmoteInnkallingVelgArbeidsgiver";
 import DialogmoteTidOgSted from "../DialogmoteTidOgSted";
 import DialogmoteInnkallingTekster, {
   MAX_LENGTH_INNKALLING_FRITEKST,

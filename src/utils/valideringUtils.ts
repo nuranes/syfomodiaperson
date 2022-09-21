@@ -28,6 +28,7 @@ export const texts = {
   placeMissing: "Vennligst angi møtested",
   textTooLong: (maxLength: number) => `Maks ${maxLength} tegn tillatt`,
   orgMissing: "Vennligst velg arbeidsgiver",
+  orgInvalid: "Vennligst fyll inn et gyldig virksomhetsnummer",
   begrunnelseArbeidstakerMissing:
     "Vennligst angi begrunnelse til arbeidstakeren",
   begrunnelseArbeidsgiverMissing:
@@ -46,6 +47,9 @@ export const harFeilmeldinger = (errors: SkjemaFeil): boolean =>
 export const validerArbeidsgiver = (orgNummer?: string): string | undefined => {
   if (!orgNummer || orgNummer === "VELG") {
     return texts.orgMissing;
+  }
+  if (orgNummer.length !== 9) {
+    return texts.orgInvalid;
   }
   return undefined;
 };
