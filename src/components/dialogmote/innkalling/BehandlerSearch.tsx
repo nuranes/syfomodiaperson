@@ -2,6 +2,7 @@ import React, { ReactElement, useRef, useState } from "react";
 import "@navikt/ds-css";
 import { Search } from "@navikt/ds-react";
 import BehandlerSearchResult from "@/components/dialogmote/innkalling/BehandlerSearchResult";
+import { BehandlerAlert } from "@/components/dialogmote/innkalling/BehandlerAlert";
 
 const BehandlerSearch = (): ReactElement => {
   const searchRef = useRef(null);
@@ -25,6 +26,7 @@ const BehandlerSearch = (): ReactElement => {
         hideLabel={false}
       />
       <BehandlerSearchResult searchRef={searchRef} searchText={searchValue} />
+      <BehandlerAlert />
     </>
   );
 };
