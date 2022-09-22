@@ -6,8 +6,11 @@ import { BehandlerAlert } from "@/components/dialogmote/innkalling/BehandlerAler
 import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
 import styled from "styled-components";
 
-const StyledSearch = styled(Search)`
-  width: 80%;
+const SearchWrapper = styled.div`
+  display: flex;
+  > * {
+    width: 30em;
+  }
 `;
 
 interface BehandlerSearchProps {
@@ -32,25 +35,27 @@ const BehandlerSearch = ({
   };
   return (
     <>
-      <StyledSearch
-        label="Legg til en behandler"
-        ref={searchRef}
-        size="small"
-        variant="simple"
-        onChange={(searchText) => setSearchText(searchText)}
-        clearButton={false}
-        hideLabel={false}
-        value={selectedSearchResult}
-      />
-      {popoverIsOpen && (
-        <BehandlerSearchResult
-          searchRef={searchRef}
-          searchText={searchValue}
-          setPopoverIsOpen={setPopoverIsOpen}
-          setSelectedBehandler={setSelectedBehandler}
-          setSelectedSearchResult={setselectedSearchResult}
+      <SearchWrapper>
+        <Search
+          label="Legg til en behandler"
+          ref={searchRef}
+          size="small"
+          variant="simple"
+          onChange={(searchText) => setSearchText(searchText)}
+          clearButton={false}
+          hideLabel={false}
+          value={selectedSearchResult}
         />
-      )}
+        {popoverIsOpen && (
+          <BehandlerSearchResult
+            searchRef={searchRef}
+            searchText={searchValue}
+            setPopoverIsOpen={setPopoverIsOpen}
+            setSelectedBehandler={setSelectedBehandler}
+            setSelectedSearchResult={setselectedSearchResult}
+          />
+        )}
+      </SearchWrapper>
       <BehandlerAlert />
     </>
   );

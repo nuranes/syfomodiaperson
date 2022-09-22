@@ -11,6 +11,11 @@ const StyledButton = styled(Button)`
   color: #262626;
 `;
 
+const ScrollablePopover = styled(Popover)`
+  overflow: auto;
+  max-height: 15em;
+`;
+
 const PopoverContent = styled(Popover.Content)`
   padding: 0;
 `;
@@ -40,7 +45,7 @@ const BehandlerSearchResult = ({
 
   return (
     <>
-      <Popover
+      <ScrollablePopover
         anchorEl={searchRef.current}
         placement="bottom-start"
         open={behandlere.length > 0 && searchText !== ""}
@@ -63,7 +68,7 @@ const BehandlerSearchResult = ({
             </PopoverContent>
           );
         })}
-      </Popover>
+      </ScrollablePopover>
     </>
   );
 };
