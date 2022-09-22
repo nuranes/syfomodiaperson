@@ -20,8 +20,6 @@ export const texts = {
   ingenMoterPlanlagt: "Ingen møter planlagt",
   dialogMote: "Dialogmøte",
   moteforesporselSendt: "Møteforespørsel sendt",
-  arenaDialogmoteInnkalling:
-    "Dialogmøter med denne innbyggeren må fortsatt kalles inn via Arena.",
 };
 
 const dialogmotePanelHeaderText = (isKandidat: boolean): string => {
