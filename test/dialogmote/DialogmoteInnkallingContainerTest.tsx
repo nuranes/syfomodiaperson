@@ -68,10 +68,6 @@ describe("DialogmoteInnkallingContainer", () => {
     ]);
     renderDialogmoteInnkallingContainer();
 
-    expect(screen.getByRole("img", { name: "advarsel-ikon" })).to.exist;
-    expect(screen.getByText(/I denne nye løsningen sender du innkalling/)).to
-      .exist;
-
     expect(screen.queryByRole("img", { name: "feil-ikon" })).to.not.exist;
   });
   it("viser skjema når det er 16 dager siden brukers siste oppfolgingstilfelle", () => {
@@ -80,10 +76,6 @@ describe("DialogmoteInnkallingContainer", () => {
     ]);
     renderDialogmoteInnkallingContainer();
 
-    expect(screen.getByRole("img", { name: "advarsel-ikon" })).to.exist;
-    expect(screen.getByText(/I denne nye løsningen sender du innkalling/)).to
-      .exist;
-
     expect(screen.queryByRole("img", { name: "feil-ikon" })).to.not.exist;
   });
   it("viser skjema med alert når det er mer enn 16 dager siden brukers siste oppfolgingstilfelle", () => {
@@ -91,9 +83,6 @@ describe("DialogmoteInnkallingContainer", () => {
       createOppfolgingstilfelle(daysFromToday(-17)),
     ]);
     renderDialogmoteInnkallingContainer();
-
-    expect(screen.getByText(/I denne nye løsningen sender du innkalling/)).to
-      .exist;
 
     expect(screen.getByText(/Denne arbeidstakeren har ingen aktiv sykmelding/))
       .to.exist;
@@ -104,9 +93,6 @@ describe("DialogmoteInnkallingContainer", () => {
   it("don't show a no virksomhet alert in schema when innbygger has no oppfolgingstilfelle", () => {
     mockOppfolgingstilfellePerson([]);
     renderDialogmoteInnkallingContainer();
-
-    expect(screen.getByText(/I denne nye løsningen sender du innkalling/)).to
-      .exist;
 
     expect(
       screen.queryByText(/Denne arbeidstakeren har ingen aktiv sykemelding,/)

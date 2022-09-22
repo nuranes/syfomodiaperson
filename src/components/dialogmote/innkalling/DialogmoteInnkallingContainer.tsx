@@ -4,8 +4,6 @@ import React, { ReactElement } from "react";
 import Sidetopp from "../../Sidetopp";
 import DialogmoteInnkallingSkjema from "./DialogmoteInnkallingSkjema";
 import SideLaster from "../../SideLaster";
-import styled from "styled-components";
-import { AlertstripeFullbredde } from "../../AlertstripeFullbredde";
 import { BrukerKanIkkeVarslesPapirpostAdvarsel } from "@/components/dialogmote/BrukerKanIkkeVarslesPapirpostAdvarsel";
 import { useDialogmoterQuery } from "@/data/dialogmote/dialogmoteQueryHooks";
 import { Navigate } from "react-router-dom";
@@ -18,15 +16,7 @@ import { ArbeidstakerHarIkkeAktivSykmeldingAdvarsel } from "@/components/dialogm
 const texts = {
   title: "Innkalling til dialogmøte",
   tilbake: "Tilbake",
-  // TODO: fjern referanse til Arena når vi stenger for Arena
-  nyLosningAlert:
-    "I denne nye løsningen sender du innkalling, avlysning, endring av tidspunkt og referat. I Arena trenger du bare " +
-    "endre status til ferdig behandlet.",
 };
-
-const StyledAlert = styled(AlertstripeFullbredde)`
-  margin-bottom: 1em;
-`;
 
 const DialogmoteInnkallingSide = (): ReactElement => {
   const { brukerKanIkkeVarslesDigitalt } = useBrukerinfoQuery();
@@ -35,7 +25,6 @@ const DialogmoteInnkallingSide = (): ReactElement => {
 
   return (
     <>
-      <StyledAlert type="advarsel">{texts.nyLosningAlert}</StyledAlert>
       {brukerKanIkkeVarslesDigitalt && (
         <BrukerKanIkkeVarslesPapirpostAdvarsel />
       )}
