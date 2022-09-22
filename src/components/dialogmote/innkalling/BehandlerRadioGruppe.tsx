@@ -18,7 +18,8 @@ const behandlerOneliner = (behandler: BehandlerDTO): string => {
   const name = [behandler.fornavn, behandler.mellomnavn, behandler.etternavn]
     .filter(Boolean)
     .join(" ");
-  const typeAndName = `${capitalizeWord(behandler.type)}: ${name}`;
+  const type = !!behandler.type ? `${capitalizeWord(behandler.type)}:` : "";
+  const typeAndName = `${type} ${name}`;
   const office = !!behandler.kontor ? capitalizeWord(behandler.kontor) : "";
   const phone = !!behandler.telefon ? `tlf ${behandler.telefon}` : "";
 
@@ -84,7 +85,9 @@ const BehandlerRadioGruppe = ({
           )}
         </RadioWrapper>
       </StyledRadioGruppe>
-      {isBehandlerSearchEnabled && showBehandlerSearch && <BehandlerSearch />}
+      {isBehandlerSearchEnabled && showBehandlerSearch && (
+        <BehandlerSearch setSelectedBehandler={setSelectedBehandler} />
+      )}
     </>
   );
 };

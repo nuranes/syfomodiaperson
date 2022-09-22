@@ -132,9 +132,9 @@ const addBehandlerTypeAndName = (
   preText: string,
   valgtBehandler: BehandlerDTO
 ) => {
-  return `${preText} ${capitalizeWord(valgtBehandler.type)} ${behandlerNavn(
-    valgtBehandler
-  )}.`;
+  return `${preText} ${capitalizeWord(
+    valgtBehandler.type ?? ""
+  )} ${behandlerNavn(valgtBehandler)}.`;
 };
 
 const arbeidstakerOutro = (
