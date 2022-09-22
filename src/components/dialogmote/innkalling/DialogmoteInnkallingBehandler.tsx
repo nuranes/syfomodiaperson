@@ -16,9 +16,9 @@ export const texts = {
   title: "Behandler",
   legekontor: "Legekontor",
   tlf: "Telefonnummer",
-  //TODO: Oppatere denne teksten når vi stenger Arena
+  // TODO: Fjerne denne når vi skur på behandlersøk
   noBehandlerFound:
-    "Det er ikke registrert noen fastlege som bruker dialogmelding. Vil du invitere en behandler til dette dialogmøtet, må du sende innkallingen fra Arena.",
+    "Det er ikke registrert noen behandler som bruker dialogmelding.",
 };
 
 interface DialogmoteInnkallingBehandlerProps {
