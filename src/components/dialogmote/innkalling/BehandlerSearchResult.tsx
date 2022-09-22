@@ -8,6 +8,7 @@ const StyledButton = styled(Button)`
   width: 100%;
   display: flex;
   justify-content: start;
+  text-align: start;
   color: #262626;
 `;
 
