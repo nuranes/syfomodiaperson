@@ -76,7 +76,6 @@ export const Motelandingsside = () => {
         )}
       />
       <UtdragFraSykefravaeretPanel aktivePlaner={aktivePlaner} fnr={fnr} />
-
       <MotehistorikkPanel
         historiskeMoter={historiskeDialogmoter}
         dialogmoteunntak={dialogmoteunntak}

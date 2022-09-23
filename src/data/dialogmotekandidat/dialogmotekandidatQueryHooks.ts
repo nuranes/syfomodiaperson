@@ -1,8 +1,6 @@
 import { useQuery } from "react-query";
 import { get } from "@/api/axios";
 import { ISDIALOGMOTEKANDIDAT_ROOT } from "@/apiConstants";
-import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
-import { ToggleNames } from "@/data/unleash/unleash_types";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { DialogmotekandidatDTO } from "@/data/dialogmotekandidat/dialogmotekandidatTypes";
 import { useLatestFerdigstiltReferat } from "@/hooks/dialogmote/useDialogmoteReferat";
@@ -29,11 +27,6 @@ export const useIsDialogmoteKandidatWithoutFerdigstiltReferat = (
 };
 
 export const useDialogmotekandidat = () => {
-  const { isFeatureEnabled } = useFeatureToggles();
-  const visDialogmotekandidat: boolean = isFeatureEnabled(
-    ToggleNames.dialogmotekandidat
-  );
-
   const personident = useValgtPersonident();
   const path = `${ISDIALOGMOTEKANDIDAT_ROOT}/kandidat/personident`;
   const fetchKandidat = () => get<DialogmotekandidatDTO>(path, personident);
@@ -41,7 +34,7 @@ export const useDialogmotekandidat = () => {
     dialogmotekandidatQueryKeys.kandidat(personident),
     fetchKandidat,
     {
-      enabled: !!personident && visDialogmotekandidat,
+      enabled: !!personident,
     }
   );
 
@@ -52,9 +45,7 @@ export const useDialogmotekandidat = () => {
     );
 
   const isKandidat: boolean =
-    (visDialogmotekandidat &&
-      isNoFerdigstiltDialogmoteReferatAfterKandidatAt) ||
-    false;
+    isNoFerdigstiltDialogmoteReferatAfterKandidatAt || false;
 
   return {
     ...query,

@@ -1,8 +1,6 @@
 import { useQuery } from "react-query";
 import { get } from "@/api/axios";
 import { ISDIALOGMOTEKANDIDAT_ROOT } from "@/apiConstants";
-import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
-import { ToggleNames } from "@/data/unleash/unleash_types";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { UnntakDTO } from "@/data/dialogmotekandidat/types/dialogmoteunntakTypes";
 
@@ -11,11 +9,6 @@ export const dialogmoteunntakQueryKeys = {
 };
 
 export const useDialogmoteunntakQuery = () => {
-  const { isFeatureEnabled } = useFeatureToggles();
-  const visDialogmotekandidat: boolean = isFeatureEnabled(
-    ToggleNames.dialogmotekandidat
-  );
-
   const personident = useValgtPersonident();
   const path = `${ISDIALOGMOTEKANDIDAT_ROOT}/unntak/personident`;
   const fetchUnntak = () => get<UnntakDTO[]>(path, personident);
@@ -23,7 +16,7 @@ export const useDialogmoteunntakQuery = () => {
     dialogmoteunntakQueryKeys.unntak(personident),
     fetchUnntak,
     {
-      enabled: !!personident && visDialogmotekandidat,
+      enabled: !!personident,
     }
   );
 

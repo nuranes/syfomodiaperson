@@ -46,11 +46,6 @@ const unleash = initialize({
 
 export const unleashToggles = (toggles: any, valgtEnhet: any, userId: any) => {
   return {
-    "syfo.dialogmote.kandidat": unleash.isEnabled("syfo.dialogmote.kandidat", {
-      valgtEnhet: valgtEnhet,
-      user: userId,
-    }),
-
     "syfo.syfomodiaperson.sykmeldingsgrad": unleash.isEnabled(
       "syfo.syfomodiaperson.sykmeldingsgrad",
       {
