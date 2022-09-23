@@ -9,7 +9,7 @@ import {
 } from "@/data/sykepengesoknad/types/SykepengesoknadDTO";
 
 const texts = {
-  timerTot: "timer totalt",
+  timerTotalt: "timer totalt",
   prosent: "prosent",
 };
 
@@ -23,6 +23,17 @@ const verdiAdjustedIfBelop = (
   return svar.verdi as string;
 };
 
+const getSvartypeText = (svartype: SvarTypeDTO | undefined): string => {
+  switch (svartype) {
+    case SvarTypeDTO.TIMER:
+      return texts.timerTotalt;
+    case SvarTypeDTO.PROSENT:
+      return texts.prosent;
+    default:
+      return "";
+  }
+};
+
 const OppsummeringTall = ({
   svar,
   sporsmalstekst,
@@ -31,7 +42,7 @@ const OppsummeringTall = ({
   svartype,
   undertekst,
 }: OppsummeringSporsmalProps): ReactElement => {
-  const text = svartype === SvarTypeDTO.TIMER ? texts.timerTot : texts.prosent;
+  const text = getSvartypeText(svartype);
   const label = undertekst || text;
   return (
     <OppsummeringSporsmalscontainer tag={tag}>

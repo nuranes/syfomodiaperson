@@ -1297,7 +1297,7 @@ export const soknaderMock = [
         max: null,
         pavirkerAndreSporsmal: false,
         kriterieForVisningAvUndersporsmal: "JA",
-        svar: [{ verdi: "NEI" }],
+        svar: [{ verdi: "JA" }],
         undersporsmal: [
           {
             id: "25452",
@@ -1310,6 +1310,20 @@ export const soknaderMock = [
             pavirkerAndreSporsmal: false,
             kriterieForVisningAvUndersporsmal: null,
             svar: [],
+            undersporsmal: [],
+          },
+          {
+            id: "17000",
+            tag: "HVOR_MANGE_TIMER_PER_UKE_0",
+            sporsmalstekst:
+              "Hvor mange timer i uken jobber du vanligvis når du er frisk? Varierer det, kan du oppgi gjennomsnittet.",
+            undertekst: null,
+            svartype: "TALL",
+            min: "1",
+            max: "150",
+            pavirkerAndreSporsmal: false,
+            kriterieForVisningAvUndersporsmal: null,
+            svar: [{ verdi: "37,5" }],
             undersporsmal: [],
           },
         ],
