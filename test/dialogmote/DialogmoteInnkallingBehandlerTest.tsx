@@ -1,8 +1,6 @@
 import { expect } from "chai";
 import React from "react";
-import DialogmoteInnkallingBehandler, {
-  texts,
-} from "@/components/dialogmote/innkalling/DialogmoteInnkallingBehandler";
+import DialogmoteInnkallingBehandler from "@/components/dialogmote/innkalling/DialogmoteInnkallingBehandler";
 import { QueryClientProvider } from "react-query";
 import { arbeidstaker, navEnhet } from "./testData";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
@@ -51,15 +49,14 @@ describe("DialogmoteInnkallingBehandler", () => {
     expect(screen.queryAllByRole("radio")).to.be.empty;
   });
 
-  it("displays alert message when no behandlere", () => {
+  it("Possible to add behandler when no suggested behandlere", () => {
     queryClient.setQueryData(
       behandlereQueryKeys.behandlere(arbeidstaker.personident),
       () => []
     );
     renderDialogmoteInnkallingBehandler();
 
-    expect(screen.getByRole("img", { name: "advarsel-ikon" })).to.exist;
-    expect(screen.getByText(texts.noBehandlerFound)).to.exist;
+    expect(screen.getByText("Legg til en behandler")).to.exist;
   });
 });
 

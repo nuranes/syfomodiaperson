@@ -4,8 +4,6 @@ import styled from "styled-components";
 import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
 import { capitalizeWord } from "@/utils/stringUtils";
 import BehandlerSearch from "@/components/dialogmote/innkalling/BehandlerSearch";
-import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
-import { ToggleNames } from "@/data/unleash/unleash_types";
 
 const texts = {
   behandlerLegend: "Velg behandler som inviteres til dialogmøtet",
@@ -43,8 +41,6 @@ const BehandlerRadioGruppe = ({
   behandlere,
   setSelectedBehandler,
 }: BehandlerRadioGruppeProps): ReactElement => {
-  const { isFeatureEnabled } = useFeatureToggles();
-  const isBehandlerSearchEnabled = isFeatureEnabled(ToggleNames.behandlersok);
   const [showBehandlerSearch, setShowBehandlerSearch] =
     useState<boolean>(false);
 
@@ -75,17 +71,15 @@ const BehandlerRadioGruppe = ({
               onChange={() => updateBehandlerAndHideSearch(behandler)}
             />
           ))}
-          {isBehandlerSearchEnabled && (
-            <Radio
-              label={texts.leggTilBehandler}
-              name="behandler"
-              key="-1"
-              onChange={() => setShowBehandlerSearch(true)}
-            />
-          )}
+          <Radio
+            label={texts.leggTilBehandler}
+            name="behandler"
+            key="-1"
+            onChange={() => setShowBehandlerSearch(true)}
+          />
         </RadioWrapper>
       </StyledRadioGruppe>
-      {isBehandlerSearchEnabled && showBehandlerSearch && (
+      {showBehandlerSearch && (
         <BehandlerSearch setSelectedBehandler={setSelectedBehandler} />
       )}
     </>
