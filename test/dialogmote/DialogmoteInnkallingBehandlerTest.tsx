@@ -1,12 +1,16 @@
 import { expect } from "chai";
 import React from "react";
+import { Form } from "react-final-form";
 import DialogmoteInnkallingBehandler from "@/components/dialogmote/innkalling/DialogmoteInnkallingBehandler";
-import { QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { arbeidstaker, navEnhet } from "./testData";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { dialogmoteRoutePath } from "@/routers/AppRouter";
 import { screen } from "@testing-library/react";
-import { queryClientWithMockData } from "../testQueryClient";
+import {
+  queryClientWithAktivBruker,
+  queryClientWithMockData,
+} from "../testQueryClient";
 import { BehandlerDTO, BehandlerType } from "@/data/behandler/BehandlerDTO";
 import { behandlereQueryKeys } from "@/data/behandler/behandlereQueryHooks";
 import { renderWithRouter } from "../testRouterUtils";
@@ -43,7 +47,8 @@ describe("DialogmoteInnkallingBehandler", () => {
     expect(screen.queryByText("Venter...")).to.not.exist;
   });
   it("displays an app spinner when loading", () => {
-    renderDialogmoteInnkallingBehandler();
+    const differentQueryClient = queryClientWithAktivBruker();
+    renderDialogmoteInnkallingBehandler(differentQueryClient);
 
     expect(screen.getByText("Venter...")).to.exist;
     expect(screen.queryAllByRole("radio")).to.be.empty;
@@ -60,13 +65,22 @@ describe("DialogmoteInnkallingBehandler", () => {
   });
 });
 
-const renderDialogmoteInnkallingBehandler = () => {
+const renderDialogmoteInnkallingBehandler = (
+  differentQueryClient?: QueryClient
+) => {
   return renderWithRouter(
-    <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={differentQueryClient ?? queryClient}>
       <ValgtEnhetContext.Provider
         value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
       >
-        <DialogmoteInnkallingBehandler setSelectedBehandler={noOpMethod} />
+        <Form onSubmit={noOpMethod}>
+          {() => (
+            <DialogmoteInnkallingBehandler
+              selectedbehandler={undefined}
+              setSelectedBehandler={noOpMethod}
+            />
+          )}
+        </Form>
       </ValgtEnhetContext.Provider>
     </QueryClientProvider>,
     dialogmoteRoutePath,

@@ -8,6 +8,7 @@ import DialogmoteInnkallingTekster, {
 import { Form } from "react-final-form";
 import {
   validerArbeidsgiver,
+  behandlerRefValidationErrors,
   validerSkjemaTekster,
   validerSted,
   validerTidspunkt,
@@ -48,6 +49,7 @@ export interface DialogmoteInnkallingSkjemaValues
   extends DialogmoteInnkallingSkjemaTekster,
     TidStedSkjemaValues {
   arbeidsgiver: string;
+  behandlerRef: string;
 }
 
 const StyledPanel = styled(Panel)`
@@ -58,7 +60,12 @@ const StyledPanel = styled(Panel)`
 type DialogmoteInnkallingSkjemaFeil = Partial<
   Pick<
     DialogmoteInnkallingSkjemaValues,
-    "arbeidsgiver" | "sted" | "klokkeslett" | "dato" | "videoLink"
+    | "arbeidsgiver"
+    | "behandlerRef"
+    | "sted"
+    | "klokkeslett"
+    | "dato"
+    | "videoLink"
   >
 >;
 
@@ -159,6 +166,7 @@ const DialogmoteInnkallingSkjema = () => {
 
     const feilmeldinger: DialogmoteInnkallingSkjemaFeil = {
       arbeidsgiver: validerArbeidsgiver(values.arbeidsgiver),
+      behandlerRef: behandlerRefValidationErrors(values.behandlerRef),
       ...validerTidspunkt({
         dato: values.dato,
         klokkeslett: values.klokkeslett,
@@ -196,6 +204,7 @@ const DialogmoteInnkallingSkjema = () => {
             <DialogmoteInnkallingVelgArbeidsgiver />
             <DialogmoteInnkallingBehandler
               setSelectedBehandler={setSelectedBehandler}
+              selectedbehandler={selectedBehandler}
             />
             <DialogmoteTidOgSted isFuturisticMeeting={isFuturisticMeeting} />
             <DialogmoteInnkallingTekster

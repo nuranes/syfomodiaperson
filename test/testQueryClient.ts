@@ -20,6 +20,7 @@ import { unleashMock } from "../mock/unleash/unleashMock";
 import { behandlerDeltaker } from "./dialogmote/testData";
 import { brukerinfoMock } from "../mock/syfoperson/brukerinfoMock";
 import { brukerinfoQueryKeys } from "@/data/navbruker/navbrukerQueryHooks";
+import { behandlereQueryKeys } from "@/data/behandler/behandlereQueryHooks";
 
 export const queryClientWithAktivBruker = (): QueryClient => {
   const queryClient = new QueryClient();
@@ -75,6 +76,11 @@ export const queryClientWithMockData = (): QueryClient => {
       behandlerDeltaker.behandlerRef
     ),
     () => unleashMock
+  );
+
+  queryClient.setQueryData(
+    behandlereQueryKeys.behandlere(ARBEIDSTAKER_DEFAULT.personIdent),
+    () => []
   );
 
   return queryClient;

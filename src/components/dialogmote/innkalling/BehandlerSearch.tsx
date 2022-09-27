@@ -31,6 +31,7 @@ const BehandlerSearch = ({
       setSearchValue("");
     }
     setselectedSearchResult(text);
+    setSelectedBehandler(undefined);
     setPopoverIsOpen(true);
   };
   return (

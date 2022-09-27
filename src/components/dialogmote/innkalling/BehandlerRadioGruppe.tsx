@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { Radio, RadioGruppe } from "nav-frontend-skjema";
 import styled from "styled-components";
 import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
@@ -33,26 +33,45 @@ const RadioWrapper = styled.div`
 `;
 
 interface BehandlerRadioGruppeProps {
+  id: string;
+  input: any;
+  selectedBehandler?: BehandlerDTO;
   behandlere: BehandlerDTO[];
   setSelectedBehandler: (behandler?: BehandlerDTO) => void;
 }
 
 const BehandlerRadioGruppe = ({
+  id,
+  input,
+  selectedBehandler,
   behandlere,
   setSelectedBehandler,
 }: BehandlerRadioGruppeProps): ReactElement => {
   const [showBehandlerSearch, setShowBehandlerSearch] =
     useState<boolean>(false);
 
+  useEffect(() => {
+    if (!showBehandlerSearch) {
+      input.onChange(selectedBehandler?.behandlerRef ?? "NONE");
+    } else {
+      input.onChange(selectedBehandler?.behandlerRef);
+    }
+  }, [input, selectedBehandler?.behandlerRef, showBehandlerSearch]);
+
   const updateBehandlerAndHideSearch = (behandler?: BehandlerDTO) => {
     setShowBehandlerSearch(false);
     setSelectedBehandler(behandler);
   };
 
+  const handleAddBhandlerRadioClick = () => {
+    setShowBehandlerSearch(true);
+    setSelectedBehandler(undefined);
+  };
+
   return (
     <>
       <StyledRadioGruppe
-        id={"behandlerId"}
+        id={id}
         legend={texts.behandlerLegend}
         description={texts.behandlerInfo}
       >
@@ -75,7 +94,7 @@ const BehandlerRadioGruppe = ({
             label={texts.leggTilBehandler}
             name="behandler"
             key="-1"
-            onChange={() => setShowBehandlerSearch(true)}
+            onChange={handleAddBhandlerRadioClick}
           />
         </RadioWrapper>
       </StyledRadioGruppe>

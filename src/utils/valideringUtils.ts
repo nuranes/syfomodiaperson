@@ -29,6 +29,7 @@ export const texts = {
   textTooLong: (maxLength: number) => `Maks ${maxLength} tegn tillatt`,
   orgMissing: "Vennligst velg arbeidsgiver",
   orgInvalid: "Vennligst fyll inn et gyldig virksomhetsnummer",
+  behandlerMissing: "Vennligst velg behandler",
   begrunnelseArbeidstakerMissing:
     "Vennligst angi begrunnelse til arbeidstakeren",
   begrunnelseArbeidsgiverMissing:
@@ -50,6 +51,13 @@ export const validerArbeidsgiver = (orgNummer?: string): string | undefined => {
   }
   if (orgNummer.length !== 9) {
     return texts.orgInvalid;
+  }
+  return undefined;
+};
+
+export const behandlerRefValidationErrors = (behandlerRef?: string) => {
+  if (!behandlerRef) {
+    return texts.behandlerMissing;
   }
   return undefined;
 };

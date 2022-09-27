@@ -246,7 +246,12 @@ const passSkjemaInput = () => {
     "Fritekst til nærmeste leder (valgfri)"
   );
 
+  const behandlerSelect = screen.getByRole("radio", {
+    name: `Ingen behandler`,
+  });
+
   fireEvent.click(virksomhetSelect);
+  fireEvent.click(behandlerSelect);
   changeTextInput(datoInput, mote.dato);
   fireEvent.blur(datoInput);
   changeTextInput(klokkeslettInput, mote.klokkeslett);
