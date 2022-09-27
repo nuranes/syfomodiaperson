@@ -1,4 +1,5 @@
 import { firstLetterToUpperCase } from "./stringUtils";
+import dayjs from "dayjs";
 
 const maneder = [
   "januar",
@@ -301,4 +302,8 @@ export const manederMellomDatoer = (d1, d2) => {
     months -= 1;
   }
   return months <= 0 ? 0 : months;
+};
+
+export const addWeeks = (date, numberOfWeeks) => {
+  return dayjs(date, { utc: true }).add(numberOfWeeks, "weeks").toDate();
 };

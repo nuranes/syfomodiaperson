@@ -10,6 +10,9 @@ import { Innholdstittel } from "nav-frontend-typografi";
 import { AlertstripeFullbredde } from "@/components/AlertstripeFullbredde";
 import { useVeilederinfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
 import { useBrukerinfoQuery } from "@/data/navbruker/navbrukerQueryHooks";
+import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
+import { addWeeks, visDato } from "@/utils/datoUtils";
+import { useDialogmotekandidat } from "@/data/dialogmotekandidat/dialogmotekandidatQueryHooks";
 
 const texts = {
   title: "Tid og sted",
@@ -36,6 +39,17 @@ const AlertstripeFullbreddeStyled = styled(AlertstripeFullbredde)`
   margin-bottom: 2em;
 `;
 
+const FRIST_DIALOGMOTE2_IN_WEEKS = 26;
+
+interface FristProps {
+  startDate: Date;
+}
+
+const Frist = ({ startDate }: FristProps) => {
+  const frist = addWeeks(startDate, FRIST_DIALOGMOTE2_IN_WEEKS);
+  return <p>Frist: {visDato(frist)}</p>;
+};
+
 interface DialogmoteTidOgStedProps {
   isFuturisticMeeting?: boolean;
 }
@@ -52,9 +66,18 @@ const DialogmoteTidOgSted = ({
   const { brukerKanVarslesDigitalt } = useBrukerinfoQuery();
   const showFuturisticWarning =
     !!isFuturisticMeeting && ABTestHit && brukerKanVarslesDigitalt;
+  const { hasActiveOppfolgingstilfelle, latestOppfolgingstilfelle } =
+    useOppfolgingstilfellePersonQuery();
+  const { isKandidat } = useDialogmotekandidat();
+
   return (
     <DialogmoteInnkallingSkjemaSeksjon>
       <TidOgStedTittel>{texts.title}</TidOgStedTittel>
+      {isKandidat &&
+        hasActiveOppfolgingstilfelle &&
+        latestOppfolgingstilfelle && (
+          <Frist startDate={latestOppfolgingstilfelle.start} />
+        )}
       <FlexRow bottomPadding={PaddingSize.MD}>
         <DatoColumn>
           <Label htmlFor={datoField}>{texts.datoLabel}</Label>

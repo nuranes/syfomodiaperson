@@ -1,5 +1,6 @@
 import { expect } from "chai";
 import {
+  addWeeks,
   dagerMellomDatoer,
   erIdag,
   erIkkeIdag,
@@ -155,6 +156,16 @@ describe("datoUtils", () => {
 
       const manederMellom = manederMellomDatoer(date1, date2);
       expect(manederMellom).to.equal(2);
+    });
+  });
+
+  describe("leggTilPaDato", () => {
+    it("legg til uker på en dato", () => {
+      const date1 = new Date("2022-01-01");
+      const date2 = new Date("2022-07-02");
+
+      const dateWithAddedWeeks = addWeeks(date1, 26);
+      expect(dateWithAddedWeeks.getDate()).to.equal(date2.getDate());
     });
   });
 });
