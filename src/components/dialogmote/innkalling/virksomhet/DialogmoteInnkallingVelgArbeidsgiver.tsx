@@ -7,12 +7,9 @@ import { FlexColumn, FlexRow, PaddingSize } from "../../../Layout";
 import { Innholdstittel } from "nav-frontend-typografi";
 import { narmesteLederForVirksomhet } from "@/utils/ledereUtils";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
-import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { NoNarmesteLederAlert } from "@/components/mote/NoNarmestLederAlert";
-import { NoTilfelleNoVirksomhet } from "@/components/dialogmote/NoTilfelleNoVirksomhet";
 import { VirksomhetChooser } from "@/components/dialogmote/innkalling/virksomhet/VirksomhetChooser";
-import { ToggleNames } from "@/data/unleash/unleash_types";
-import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
+import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 
 const texts = {
   title: "Arbeidsgiver",
@@ -31,13 +28,8 @@ const ArbeidsgiverTittel = styled(Innholdstittel)`
 
 // TODO: bytt ut ordet Arbeidsgiver med Virksomhet, så vi er konsekvente
 const DialogmoteInnkallingVelgArbeidsgiver = () => {
-  const { isFeatureEnabled } = useFeatureToggles();
-  const hasAccessToVirksomhetInput = isFeatureEnabled(
-    ToggleNames.virksomhetinput
-  );
   const { currentLedere } = useLedereQuery();
-  const { hasOppfolgingstilfelle, latestOppfolgingstilfelle } =
-    useOppfolgingstilfellePersonQuery();
+  const { latestOppfolgingstilfelle } = useOppfolgingstilfellePersonQuery();
   const virksomheter = latestOppfolgingstilfelle?.virksomhetsnummerList || [];
   const field = "arbeidsgiver";
 
@@ -57,17 +49,13 @@ const DialogmoteInnkallingVelgArbeidsgiver = () => {
 
           return (
             <>
-              {hasOppfolgingstilfelle || hasAccessToVirksomhetInput ? (
-                <VirksomhetChooser
-                  velgVirksomhet={input.onChange}
-                  virksomheter={virksomheter}
-                  id={field}
-                  label={texts.selectLabel}
-                  name={field}
-                />
-              ) : (
-                <NoTilfelleNoVirksomhet />
-              )}
+              <VirksomhetChooser
+                velgVirksomhet={input.onChange}
+                virksomheter={virksomheter}
+                id={field}
+                label={texts.selectLabel}
+                name={field}
+              />
               <SkjemaelementFeilmelding>
                 {meta.submitFailed && meta.error}
               </SkjemaelementFeilmelding>

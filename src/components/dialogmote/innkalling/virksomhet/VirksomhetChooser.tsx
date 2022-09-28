@@ -2,14 +2,14 @@ import React, { ReactElement, useState } from "react";
 import { AlertstripeFullbredde } from "@/components/AlertstripeFullbredde";
 import { VirksomhetInput } from "@/components/dialogmote/innkalling/virksomhet/VirksomhetInput";
 import { VirksomhetRadioGruppe } from "@/components/dialogmote/innkalling/virksomhet/VirksomhetRadioGruppe";
-import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
 import { ToggleNames } from "@/data/unleash/unleash_types";
 
 const texts = {
   chooseArbeidsgiver: "Velg arbeidsgiver",
   noArbeidsgiver:
-    "Det er ikke registrert en virksomhet på denne arbeidstakeren.",
+    "Det er ikke registrert en virksomhet på denne arbeidstakeren. " +
+    "Hvis du mener det er feil, meld sak i Porten",
 };
 
 interface VirksomhetRadioGruppeProps {
@@ -27,11 +27,10 @@ export const VirksomhetChooser = ({
   label,
   name,
 }: VirksomhetRadioGruppeProps): ReactElement => {
-  const { hasActiveOppfolgingstilfelle } = useOppfolgingstilfellePersonQuery();
   const { isFeatureEnabled } = useFeatureToggles();
-  const hasAccessToVirksomhetInput =
-    isFeatureEnabled(ToggleNames.virksomhetinput) &&
-    !hasActiveOppfolgingstilfelle;
+  const hasAccessToVirksomhetInput = isFeatureEnabled(
+    ToggleNames.virksomhetinput
+  );
   const [showInput, setShowInput] = useState<boolean>(false);
 
   return (
