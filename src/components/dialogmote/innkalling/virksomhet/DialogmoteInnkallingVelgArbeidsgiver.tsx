@@ -36,7 +36,8 @@ const DialogmoteInnkallingVelgArbeidsgiver = () => {
     ToggleNames.virksomhetinput
   );
   const { currentLedere } = useLedereQuery();
-  const { latestOppfolgingstilfelle } = useOppfolgingstilfellePersonQuery();
+  const { hasOppfolgingstilfelle, latestOppfolgingstilfelle } =
+    useOppfolgingstilfellePersonQuery();
   const virksomheter = latestOppfolgingstilfelle?.virksomhetsnummerList || [];
   const field = "arbeidsgiver";
 
@@ -56,7 +57,7 @@ const DialogmoteInnkallingVelgArbeidsgiver = () => {
 
           return (
             <>
-              {hasAccessToVirksomhetInput ? (
+              {hasOppfolgingstilfelle || hasAccessToVirksomhetInput ? (
                 <VirksomhetChooser
                   velgVirksomhet={input.onChange}
                   virksomheter={virksomheter}

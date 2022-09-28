@@ -2,6 +2,7 @@ import { RadioGruppe } from "nav-frontend-skjema";
 import React, { ReactElement } from "react";
 import { VirksomhetRadio } from "@/components/dialogmote/innkalling/virksomhet/VirksomhetRadio";
 import { VirksomhetInputRadio } from "@/components/dialogmote/innkalling/virksomhet/VirksomhetInputRadio";
+import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
 import { ToggleNames } from "@/data/unleash/unleash_types";
 
@@ -22,10 +23,11 @@ export const VirksomhetRadioGruppe = ({
   label,
   name,
 }: VirksomhetRadioGruppeProps): ReactElement => {
+  const { hasActiveOppfolgingstilfelle } = useOppfolgingstilfellePersonQuery();
   const { isFeatureEnabled } = useFeatureToggles();
-  const hasAccessToVirksomhetInput = isFeatureEnabled(
-    ToggleNames.virksomhetinput
-  );
+  const hasAccessToVirksomhetInput =
+    isFeatureEnabled(ToggleNames.virksomhetinput) &&
+    !hasActiveOppfolgingstilfelle;
   const removeInputAndChooseVirksomhet = (virksomhetsnummer: string) => {
     setShowInput(false);
     velgVirksomhet(virksomhetsnummer);
