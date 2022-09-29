@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Panel from "nav-frontend-paneler";
-import DialogmoteInnkallingVelgArbeidsgiver from "./virksomhet/DialogmoteInnkallingVelgArbeidsgiver";
+import DialogmoteInnkallingVelgVirksomhet from "./virksomhet/DialogmoteInnkallingVelgVirksomhet";
 import DialogmoteTidOgSted from "../DialogmoteTidOgSted";
 import DialogmoteInnkallingTekster, {
   MAX_LENGTH_INNKALLING_FRITEKST,
@@ -201,7 +201,7 @@ const DialogmoteInnkallingSkjema = () => {
       <Form initialValues={initialValues} onSubmit={submit} validate={validate}>
         {({ handleSubmit, submitFailed, errors }) => (
           <form onSubmit={handleSubmit}>
-            <DialogmoteInnkallingVelgArbeidsgiver />
+            <DialogmoteInnkallingVelgVirksomhet />
             <DialogmoteInnkallingBehandler
               setSelectedBehandler={setSelectedBehandler}
               selectedbehandler={selectedBehandler}

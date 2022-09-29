@@ -22,12 +22,11 @@ const LederNavnColumn = styled(FlexColumn)`
   margin-right: 1em;
 `;
 
-const ArbeidsgiverTittel = styled(Innholdstittel)`
+const VirksomhetTittel = styled(Innholdstittel)`
   margin-bottom: 1em;
 `;
 
-// TODO: bytt ut ordet Arbeidsgiver med Virksomhet, så vi er konsekvente
-const DialogmoteInnkallingVelgArbeidsgiver = () => {
+const DialogmoteInnkallingVelgVirksomhet = () => {
   const { currentLedere } = useLedereQuery();
   const { latestOppfolgingstilfelle } = useOppfolgingstilfellePersonQuery();
   const virksomheter = latestOppfolgingstilfelle?.virksomhetsnummerList || [];
@@ -35,11 +34,11 @@ const DialogmoteInnkallingVelgArbeidsgiver = () => {
 
   return (
     <DialogmoteInnkallingSkjemaSeksjon>
-      <ArbeidsgiverTittel>{texts.title}</ArbeidsgiverTittel>
+      <VirksomhetTittel>{texts.title}</VirksomhetTittel>
       <Field<string> name={field}>
         {({ input, meta }) => {
           const virksomhetsnummer = input.value;
-          const isArbeidsgiverChosen =
+          const isVirksomhetChosen =
             virksomhetsnummer.length > 0 && virksomhetsnummer !== "VELG";
           const narmesteLeder = narmesteLederForVirksomhet(
             currentLedere,
@@ -79,7 +78,7 @@ const DialogmoteInnkallingVelgArbeidsgiver = () => {
                   </FlexColumn>
                 </FlexRow>
               )}
-              {isArbeidsgiverChosen && noNarmesteLeder && (
+              {isVirksomhetChosen && noNarmesteLeder && (
                 <NoNarmesteLederAlert />
               )}
             </>
@@ -89,4 +88,4 @@ const DialogmoteInnkallingVelgArbeidsgiver = () => {
     </DialogmoteInnkallingSkjemaSeksjon>
   );
 };
-export default DialogmoteInnkallingVelgArbeidsgiver;
+export default DialogmoteInnkallingVelgVirksomhet;
