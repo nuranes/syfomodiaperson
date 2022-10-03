@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { PERSONKORTVISNING_TYPE } from "@/konstanter";
 import PersonkortHeader from "./PersonkortHeader";
 import PersonkortVisning from "./PersonkortVisning";
-import Utvidbar from "../Utvidbar";
 import SnowButton from "@/components/personkort/SnowButton";
 import { isDecember, isPride } from "@/utils/festiveUtils";
 import { FlexRow, PaddingSize } from "../Layout";
 import { OversiktLenker } from "@/components/personkort/OversiktLenker";
 import styled from "styled-components";
+import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
 
 const texts = {
   buttons: {
@@ -46,7 +46,7 @@ const Personkort = () => {
         {showSnowButton && <SnowButton />}
       </FlexRow>
       {isPride() && <PrideFlexRow>&nbsp;</PrideFlexRow>}
-      <Utvidbar erApen={false} tittel={<PersonkortHeader />}>
+      <Ekspanderbartpanel tittel={<PersonkortHeader />}>
         <div>
           <ul>
             <li>
@@ -111,7 +111,7 @@ const Personkort = () => {
             <PersonkortVisning visning={visning} />
           </div>
         </div>
-      </Utvidbar>
+      </Ekspanderbartpanel>
     </div>
   );
 };

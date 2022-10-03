@@ -99,12 +99,20 @@ const PersonkortHeader = () => {
         >
           <div className="personkortHeader__etikker">
             {diskresjonskode === "6" && (
-              <EtikettBase type="fokus">Kode 6</EtikettBase>
+              <EtikettBase mini type="fokus">
+                Kode 6
+              </EtikettBase>
             )}
             {diskresjonskode === "7" && (
-              <EtikettBase type="fokus">Kode 7</EtikettBase>
+              <EtikettBase mini type="fokus">
+                Kode 7
+              </EtikettBase>
             )}
-            {isEgenAnsatt && <EtikettBase type="fokus">Egenansatt</EtikettBase>}
+            {isEgenAnsatt && (
+              <EtikettBase mini type="fokus">
+                Egenansatt
+              </EtikettBase>
+            )}
           </div>
         </ErrorBoundary>
       )}
