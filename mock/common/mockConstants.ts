@@ -29,6 +29,11 @@ export const ENHET_GAMLEOSLO = {
   navn: "NAV Gamle Oslo",
 };
 
+export const ENHET_NAV_UTLAND = {
+  nummer: "0393",
+  navn: "NAV Oppfølging utland",
+};
+
 export const BEHANDLENDE_ENHET_DEFAULT = {
   enhetId: ENHET_GRUNERLOKKA.nummer,
   navn: ENHET_GRUNERLOKKA.navn,
