@@ -16,7 +16,6 @@ import {
 import { finnMiljoStreng } from "@/utils/miljoUtil";
 import { tilLesbarPeriodeMedArstall } from "@/utils/datoUtils";
 import { senesteTom, tidligsteFom } from "@/utils/periodeUtils";
-import Utvidbar from "../Utvidbar";
 import styled from "styled-components";
 import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat";
 import {
@@ -31,6 +30,7 @@ import { SpinnsynLenke } from "@/components/vedtak/SpinnsynLenke";
 import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { useSykmeldingerQuery } from "@/data/sykmelding/sykmeldingQueryHooks";
+import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
 
 const tekster = {
   header: "Utdrag fra sykefraværet",
@@ -113,12 +113,11 @@ export const SykmeldingerForVirksomhet = ({
       {sykmeldinger.map((sykmelding, index) => {
         return (
           <div key={index}>
-            <Utvidbar
+            <Ekspanderbartpanel
               tittel={<UtvidbarTittel sykmelding={sykmelding} />}
-              visLukkLenke={false}
             >
               <SykmeldingMotebehovVisning sykmelding={sykmelding} />
-            </Utvidbar>
+            </Ekspanderbartpanel>
           </div>
         );
       })}
@@ -148,7 +147,7 @@ export const Sykmeldinger = ({
   );
   return (
     <div className="utdragFraSykefravaeret__sykmeldinger">
-      <Undertittel>{tekster.sykmeldinger.header}</Undertittel>
+      <Undertittel tag={"h3"}>{tekster.sykmeldinger.header}</Undertittel>
       {Object.keys(sykmeldingerSortertPaaVirksomhet).map((key, index) => (
         <SykmeldingerForVirksomhet
           key={index}
@@ -181,7 +180,9 @@ export const SykmeldingerUtenArbeidsgiver = ({
     <>
       {sykmeldingerSortertPaUtstedelsesdato?.length > 0 && (
         <div className="utdragFraSykefravaeret__sykmeldinger">
-          <h3>{tekster.sykmeldinger.headerUtenArbeidsgiver}</h3>
+          <Undertittel tag={"h3"}>
+            {tekster.sykmeldinger.headerUtenArbeidsgiver}
+          </Undertittel>
           {sykmeldingerSortertPaUtstedelsesdato.length > 0 &&
             sykmeldingerSortertPaUtstedelsesdato.map((sykmelding, index) => {
               return (
@@ -189,12 +190,11 @@ export const SykmeldingerUtenArbeidsgiver = ({
                   className="utdragFraSykefravaeret__sykmeldingerForVirksomhet"
                   key={index}
                 >
-                  <Utvidbar
+                  <Ekspanderbartpanel
                     tittel={<UtvidbarTittel sykmelding={sykmelding} />}
-                    visLukkLenke={false}
                   >
                     <SykmeldingMotebehovVisning sykmelding={sykmelding} />
-                  </Utvidbar>
+                  </Ekspanderbartpanel>
                 </div>
               );
             })}
@@ -214,7 +214,7 @@ interface SamtalereferatProps {
 
 export const Samtalereferat = ({ fnr }: SamtalereferatProps) => (
   <SamtalereferatWrapper>
-    <Undertittel>{tekster.samtalereferat.header}</Undertittel>
+    <Undertittel tag={"h3"}>{tekster.samtalereferat.header}</Undertittel>
     <Lenke
       className="lenke"
       href={`https://modapp${finnMiljoStreng()}.adeo.no/modiabrukerdialog/person/${fnr}#!meldinger`}
@@ -253,7 +253,7 @@ const UtdragFraSykefravaeret = ({
         />
 
         <Samtalereferat fnr={fnr} />
-        <Undertittel>{tekster.vedtak.header}</Undertittel>
+        <Undertittel tag={"h3"}>{tekster.vedtak.header}</Undertittel>
         <SpinnsynLenke />
       </div>
     </DialogmotePanel>

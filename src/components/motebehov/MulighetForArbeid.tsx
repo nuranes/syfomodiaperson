@@ -39,12 +39,6 @@ const AvventendeSykmelding = ({
   </div>
 );
 
-interface AktivitetIkkeMuligProps {
-  beskrivelse?: string;
-  ikkeMuligListe: string[];
-  tittel: string;
-}
-
 const AktivitetHeading = styled(Heading)`
   display: flex;
   align-items: center;
@@ -67,12 +61,22 @@ const StyledSuccessStroke = styled(SuccessStroke)`
   font-size: 1.5rem;
 `;
 
+const StyledMulighetForArbeid = styled.div`
+  margin-top: 1em;
+`;
+
+interface AktivitetIkkeMuligProps {
+  beskrivelse?: string;
+  ikkeMuligListe: string[];
+  tittel: string;
+}
+
 const AktivitetIkkeMulig = ({
   beskrivelse,
   ikkeMuligListe,
   tittel,
 }: AktivitetIkkeMuligProps) => (
-  <div className="MulighetForArbeid">
+  <StyledMulighetForArbeid>
     <AktivitetHeading spacing size="medium" level="4">
       <StyledSuccessFilled />
       {tittel}
@@ -92,7 +96,7 @@ const AktivitetIkkeMulig = ({
       </h6>,
       <p key={1}>{beskrivelse}</p>,
     ]}
-  </div>
+  </StyledMulighetForArbeid>
 );
 
 interface MulighetForArbeidProps {

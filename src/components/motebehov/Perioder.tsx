@@ -43,7 +43,7 @@ interface PerioderProps {
 
 const Perioder = ({ perioder }: PerioderProps) => (
   <div className="sykmeldingMotebehovVisning__perioder">
-    <h6 className="sporsmal">Perioder</h6>
+    <h5 className="undertittel">Perioder</h5>
     {perioder.map((periode, index) => {
       return <PeriodeBoks key={index} periode={periode} />;
     })}

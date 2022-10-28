@@ -152,7 +152,7 @@ export const UtdragOppfolgingsplaner = ({
 
   return (
     <UtdragOppfolgingsplanerWrapper>
-      <Undertittel>{texts.header}</Undertittel>
+      <Undertittel tag={"h3"}>{texts.header}</Undertittel>
       {anyActivePlaner ? (
         <Oppfolgingsplaner
           aktivePlaner={aktivePlaner}
