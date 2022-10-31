@@ -37,11 +37,28 @@ class ByUserId extends Strategy {
   }
 }
 
+class ByEnvironment extends Strategy {
+  constructor() {
+    super("byEnvironmentToggle");
+  }
+
+  isEnabled(parameters: any) {
+    return (
+      (parameters.dev === "true" && process.env.NAIS_CONTEXT === "dev") ||
+      (parameters.prod === "true" && process.env.NAIS_CONTEXT === "prod")
+    );
+  }
+}
+
 const unleash = initialize({
   url: "https://unleash.nais.io/api/",
   appName: "syfomodiaperson",
   environment: process.env.NAIS_CONTEXT,
-  strategies: [new ByEnhetAndEnvironment(), new ByUserId()],
+  strategies: [
+    new ByEnhetAndEnvironment(),
+    new ByUserId(),
+    new ByEnvironment(),
+  ],
 });
 
 export const unleashToggles = (toggles: any, valgtEnhet: any, userId: any) => {
