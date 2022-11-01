@@ -2,24 +2,37 @@ import unleashClient = require("unleash-client");
 
 const { initialize, Strategy } = unleashClient;
 
-class ByEnhetAndEnvironment extends Strategy {
+class ByDevEnhet extends Strategy {
   constructor() {
-    super("byEnhetAndEnvironment");
+    super("byDevEnhet");
   }
 
   isEnabled(parameters: any, context: any) {
-    if (process.env.NAIS_CONTEXT === "dev") {
-      return true;
-    }
     if (!context.valgtEnhet) {
       return false;
     }
 
     const valgtEnhetMatches =
-      parameters.valgtEnhet.indexOf(context.valgtEnhet) !== -1;
-    const environmentEnabled = parameters.tilgjengeligIProd === "true";
+      parameters.enheter.indexOf(context.valgtEnhet) !== -1;
 
-    return valgtEnhetMatches && environmentEnabled;
+    return valgtEnhetMatches && process.env.NAIS_CONTEXT === "dev";
+  }
+}
+
+class ByProdEnhet extends Strategy {
+  constructor() {
+    super("byProdEnhet");
+  }
+
+  isEnabled(parameters: any, context: any) {
+    if (!context.valgtEnhet) {
+      return false;
+    }
+
+    const valgtEnhetMatches =
+      parameters.enheter.indexOf(context.valgtEnhet) !== -1;
+
+    return valgtEnhetMatches && process.env.NAIS_CONTEXT === "prod";
   }
 }
 
@@ -55,8 +68,9 @@ const unleash = initialize({
   appName: "syfomodiaperson",
   environment: process.env.NAIS_CONTEXT,
   strategies: [
-    new ByEnhetAndEnvironment(),
+    new ByDevEnhet(),
     new ByUserId(),
+    new ByProdEnhet(),
     new ByEnvironment(),
   ],
 });
