@@ -57,6 +57,7 @@ import StatusKanImage from "./svg/status--kan.svg";
 import StatusKanIkkeImage from "./svg/status--kanikke.svg";
 import SykmeldingerImage from "./svg/sykmeldinger.svg";
 import SykmeldingerHoverBlaaImage from "./svg/sykmeldinger_hover-blue.svg";
+import Unntaksstatistikk from "./svg/unntaksstatistikk.svg";
 import UtropstegnImage from "./svg/utropstegn.svg";
 
 //PNG
@@ -132,5 +133,6 @@ export {
   KalenderPng,
   KalenderHoverPng,
   PilForrigeBlaaPng,
+  Unntaksstatistikk,
   UtropstegnImage,
 };

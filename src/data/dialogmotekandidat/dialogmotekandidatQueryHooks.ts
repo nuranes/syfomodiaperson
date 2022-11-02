@@ -7,6 +7,7 @@ import { useLatestFerdigstiltReferat } from "@/hooks/dialogmote/useDialogmoteRef
 
 export const dialogmotekandidatQueryKeys = {
   kandidat: (personident: string) => ["dialogmotekandidat", personident],
+  unntaksstatistikk: () => ["unntaksstatistikk"],
 };
 
 export const useIsDialogmoteKandidatWithoutFerdigstiltReferat = (
@@ -50,5 +51,24 @@ export const useDialogmotekandidat = () => {
   return {
     ...query,
     isKandidat,
+  };
+};
+
+export interface HackatonResponse {
+  unntakDato: Date;
+  tilfelleStart: Date;
+  tilfelleEnd: Date;
+}
+
+export const useUnntaksstatistikk = () => {
+  const path = `${ISDIALOGMOTEKANDIDAT_ROOT}/unntak/hackaton`;
+  const fetchUnntaksstatistikk = () => get<HackatonResponse[]>(path);
+  const query = useQuery(
+    dialogmotekandidatQueryKeys.unntaksstatistikk(),
+    fetchUnntaksstatistikk
+  );
+
+  return {
+    ...query,
   };
 };

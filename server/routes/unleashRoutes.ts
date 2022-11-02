@@ -92,5 +92,13 @@ export const unleashToggles = (toggles: any, valgtEnhet: any, userId: any) => {
         user: userId,
       }
     ),
+
+    "syfo.kandidat.unntaksstatistikk": unleash.isEnabled(
+      "syfo.kandidat.unntaksstatistikk",
+      {
+        valgtEnhet: valgtEnhet,
+        user: userId,
+      }
+    ),
   };
 };

@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import { Field } from "react-final-form";
 import { ValidationErrors } from "final-form";
 import {
@@ -7,6 +7,9 @@ import {
   SkjemaelementFeilmelding,
 } from "nav-frontend-skjema";
 import { UnntakArsak } from "@/data/dialogmotekandidat/types/dialogmoteunntakTypes";
+import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
+import { ToggleNames } from "@/data/unleash/unleash_types";
+import DialogmoteunntakSkjemaStatistikk from "@/components/dialogmoteunntak/DialogmoteunntakSkjemaStatistikk";
 
 const texts = {
   arsakLegend: "Årsak til unntak (obligatorisk)",
@@ -55,6 +58,20 @@ const DialogmoteunntakSkjemaArsakVelger = ({
   submitFailed,
   errors,
 }: DialogmoteunntakSkjemaArsakVelgerProps): ReactElement => {
+  const { isFeatureEnabled } = useFeatureToggles();
+  const hasAccessToUnntakStatistikk = isFeatureEnabled(
+    ToggleNames.unntaksstatistikk
+  );
+  const [show, setShow] = useState<boolean>(false);
+
+  const update = (a: string) => {
+    if (a === "Forventet friskmelding innen 28 ukers sykmelding") {
+      setShow(true);
+    } else {
+      setShow(false);
+    }
+  };
+
   return (
     <RadioGruppe legend={texts.arsakLegend}>
       {unntakArsakTexts.map((unntakArsakText, index) => (
@@ -67,6 +84,10 @@ const DialogmoteunntakSkjemaArsakVelger = ({
           {({ input, meta }) => (
             <Radio
               {...input}
+              onChange={(e) => {
+                input.onChange(e);
+                update(unntakArsakText.text);
+              }}
               label={unntakArsakText.text}
               feil={meta.submitFailed && meta.error}
             />
@@ -78,6 +99,9 @@ const DialogmoteunntakSkjemaArsakVelger = ({
           errors &&
           errors[DialogmoteunntakSkjemaArsakVelgerFieldName]}
       </SkjemaelementFeilmelding>
+      {show && hasAccessToUnntakStatistikk && (
+        <DialogmoteunntakSkjemaStatistikk />
+      )}
     </RadioGruppe>
   );
 };

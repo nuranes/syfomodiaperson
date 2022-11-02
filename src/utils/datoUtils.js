@@ -230,6 +230,12 @@ export const dagerMellomDatoer = (startDato, sluttDato) => {
   );
 };
 
+export const dagerMellomDatoerUtenAbs = (startDato, sluttDato) => {
+  return Math.round(
+    (sluttDato.getTime() - startDato.getTime()) / ANTALL_MS_DAG
+  );
+};
+
 export const erIdag = (dato) => {
   const idag = new Date();
   dato = new Date(dato);

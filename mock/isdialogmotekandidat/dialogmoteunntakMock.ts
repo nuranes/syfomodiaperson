@@ -25,6 +25,34 @@ export const dialogmoteunntakUtenBeskrivelse = createDialogmoteunntak(
   undefined
 );
 
+export const hackatonrespons = [
+  {
+    unntakDato: new Date("2022-10-02"),
+    tilfelleStart: new Date("2022-10-01"),
+    tilfelleEnd: new Date("2022-10-16"),
+  },
+  {
+    unntakDato: new Date("2022-04-01"),
+    tilfelleStart: new Date("2022-01-01"),
+    tilfelleEnd: new Date("2022-10-25"),
+  },
+  {
+    unntakDato: new Date("2022-10-02"),
+    tilfelleStart: new Date("2022-10-01"),
+    tilfelleEnd: new Date("2022-11-02"),
+  },
+  {
+    unntakDato: new Date("2022-10-02"),
+    tilfelleStart: new Date("2022-10-01"),
+    tilfelleEnd: new Date("2022-12-20"),
+  },
+  {
+    unntakDato: new Date("2022-10-02"),
+    tilfelleStart: new Date("2022-10-01"),
+    tilfelleEnd: new Date("2023-12-20"),
+  },
+];
+
 export const dialogmoteunntakMock = [
   dialogmoteunntakMedBeskrivelse,
   dialogmoteunntakUtenBeskrivelse,
