@@ -11,8 +11,6 @@ import { personoppgaverMock } from "../../mock/ispersonoppgave/personoppgaveMock
 let queryClient: any;
 let apiMockScope: any;
 
-const today = new Date();
-
 describe("personoppgaveQueryHooks tests", () => {
   beforeEach(() => {
     queryClient = new QueryClient();
@@ -23,7 +21,7 @@ describe("personoppgaveQueryHooks tests", () => {
   });
 
   it("loads personoppgaver for valgt personident", async () => {
-    stubPersonoppgaveApi(apiMockScope, today);
+    stubPersonoppgaveApi(apiMockScope);
 
     const wrapper = queryHookWrapper(queryClient);
 
@@ -33,6 +31,6 @@ describe("personoppgaveQueryHooks tests", () => {
 
     await waitFor(() => expect(result.current.isSuccess).to.be.true);
 
-    expect(result.current.data).to.deep.equal(personoppgaverMock(today));
+    expect(result.current.data).to.deep.equal(personoppgaverMock());
   });
 });

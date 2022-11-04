@@ -17,6 +17,10 @@ import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
 import { narmesteLederForVirksomhet } from "@/utils/ledereUtils";
 import { NoNarmesteLederAlert } from "@/components/mote/NoNarmestLederAlert";
 import Knapp, { Hovedknapp } from "nav-frontend-knapper";
+import VurderOppgaveForDialogmotesvarKnapp from "@/components/mote/components/innkalling/VurderOppgaveForDialogmotesvarKnapp";
+import { usePersonoppgaverQuery } from "@/data/personoppgave/personoppgaveQueryHooks";
+import { PersonOppgave } from "@/data/personoppgave/types/PersonOppgave";
+import { isAktivtDialogMote } from "@/utils/dialogmoteUtils";
 
 const texts = {
   innkallingSendtTrackingContext: "Møtelandingsside: Sendt innkalling",
@@ -76,6 +80,13 @@ export const DialogmoteMoteStatusPanel = ({ dialogmote }: Props) => {
     ? texts.fortsettReferat
     : texts.skrivReferat;
 
+  const { data: personOppgaver } = usePersonoppgaverQuery();
+  const personOppgaveForMote = personOppgaver.find(
+    (oppgave: PersonOppgave) => oppgave.referanseUuid === dialogmote.uuid
+  );
+
+  const skalVurderes = isAktivtDialogMote(dialogmote) && !!personOppgaveForMote;
+
   return (
     <DialogmotePanel
       icon={MoteIkonBlaaImage}
@@ -91,6 +102,14 @@ export const DialogmoteMoteStatusPanel = ({ dialogmote }: Props) => {
       {noNarmesteLeder && (
         <FlexRow>
           <NoNarmesteLederAlert />
+        </FlexRow>
+      )}
+
+      {skalVurderes && (
+        <FlexRow topPadding={PaddingSize.MD}>
+          <VurderOppgaveForDialogmotesvarKnapp
+            personOppgave={personOppgaveForMote}
+          />
         </FlexRow>
       )}
 

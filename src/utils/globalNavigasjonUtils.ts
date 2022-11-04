@@ -11,9 +11,21 @@ import {
 import { OppfolgingsplanLPSMedPersonoppgave } from "@/data/oppfolgingsplan/types/OppfolgingsplanLPS";
 import { OppfolgingsplanDTO } from "@/data/oppfolgingsplan/types/OppfolgingsplanDTO";
 import { MotebehovVeilederDTO } from "@/data/motebehov/types/motebehovTypes";
+import {
+  hasUbehandletPersonOppgaveDialogmotesvar,
+  isBehandletOppgave,
+} from "@/utils/personOppgaveUtils";
 
-const moteTasks = (motebehov: MotebehovVeilederDTO[]) => {
-  return harUbehandletMotebehov(motebehov) ? 1 : 0;
+const getNumberOfMoteOppgaver = (
+  motebehov: MotebehovVeilederDTO[],
+  personOppgaver: PersonOppgave[]
+): number => {
+  const numberOfUbehandledeMotebehov = harUbehandletMotebehov(motebehov)
+    ? 1
+    : 0;
+  const numberOfUbehandledeDialogmotesvar =
+    hasUbehandletPersonOppgaveDialogmotesvar(personOppgaver) ? 1 : 0;
+  return numberOfUbehandledeMotebehov + numberOfUbehandledeDialogmotesvar;
 };
 
 const numberOfActiveOppfolgingsplaner = (
@@ -33,7 +45,7 @@ const numberOfUnprocessedPersonOppgaver = (
   type: string
 ) => {
   return personOppgaver.filter((personoppgave) => {
-    return personoppgave.type === type && !personoppgave.behandletTidspunkt;
+    return personoppgave.type === type && !isBehandletOppgave(personoppgave);
   }).length;
 };
 
@@ -43,10 +55,10 @@ export const numberOfTasks = (
   oppfolgingsplaner: OppfolgingsplanDTO[],
   personOppgaver: PersonOppgave[],
   oppfolgingsplanerlps: OppfolgingsplanLPSMedPersonoppgave[]
-) => {
+): number => {
   switch (menypunkt) {
     case menypunkter.DIALOGMOTE:
-      return moteTasks(motebehov);
+      return getNumberOfMoteOppgaver(motebehov, personOppgaver);
     case menypunkter.OPPFOELGINGSPLANER:
       return (
         numberOfActiveOppfolgingsplaner(oppfolgingsplaner) +

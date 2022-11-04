@@ -4,33 +4,62 @@ import {
 } from "../common/mockConstants";
 import dayjs from "dayjs";
 
-const getDefaultPersonOppgaveUbehandlet = (created: Date) => {
-  return {
-    uuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd1",
-    referanseUuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd2",
-    fnr: ARBEIDSTAKER_DEFAULT.personIdent,
-    virksomhetsnummer: VIRKSOMHET_PONTYPANDY.virksomhetsnummer,
-    type: "OPPFOLGINGSPLANLPS",
-    behandletTidspunkt: null,
-    behandletVeilederIdent: null,
-    opprettet: dayjs(created).subtract(1, "days").toJSON(),
-  };
+const personOppgaveUbehandletOppfolgingsplanLPS = {
+  uuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd0",
+  referanseUuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd5",
+  fnr: ARBEIDSTAKER_DEFAULT.personIdent,
+  virksomhetsnummer: VIRKSOMHET_PONTYPANDY.virksomhetsnummer,
+  type: "OPPFOLGINGSPLANLPS",
+  behandletTidspunkt: null,
+  behandletVeilederIdent: null,
+  opprettet: new Date().toDateString(),
 };
 
-const getPersonOppgaveBehandlet = (created: Date) => {
+const personOppgaveUbehandletDialogmotesvar = {
+  ...personOppgaveUbehandletOppfolgingsplanLPS,
+  uuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd1",
+  referanseUuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd3",
+  type: "DIALOGMOTESVAR",
+};
+
+const personOppgaveBehandletOppfolgingsplanLPS = {
+  ...personOppgaveUbehandletOppfolgingsplanLPS,
+  uuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd2",
+  referanseUuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd6",
+  behandletTidspunkt: new Date(
+    dayjs().subtract(1, "days").toJSON()
+  ).toDateString(),
+  behandletVeilederIdent: "Z991100",
+  opprettet: new Date(dayjs().subtract(10, "days").toJSON()).toDateString(),
+};
+
+const personOppgaveBehandletDialogmotesvar = {
+  ...personOppgaveUbehandletDialogmotesvar,
+  uuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd3",
+  referanseUuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd7",
+  behandletTidspunkt: new Date(
+    dayjs().subtract(1, "days").toJSON()
+  ).toDateString(),
+  behandletVeilederIdent: "Z991100",
+  opprettet: new Date(dayjs().subtract(10, "days").toJSON()).toDateString(),
+};
+
+export const makePersonOppgaveBehandlet = (ubehandletPersonOppgave) => {
   return {
-    ...getDefaultPersonOppgaveUbehandlet,
-    uuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd2",
-    referanseUuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd3",
-    behandletTidspunkt: dayjs(created).subtract(1, "days").toJSON(),
+    ...ubehandletPersonOppgave,
+    behandletTidspunkt: new Date(
+      dayjs().subtract(1, "days").toJSON()
+    ).toDateString(),
     behandletVeilederIdent: "Z991100",
-    opprettet: dayjs(created).subtract(10, "days").toJSON(),
+    opprettet: new Date(dayjs().subtract(10, "days").toJSON()).toDateString(),
   };
 };
 
-export const personoppgaverMock = (created: Date) => {
+export const personoppgaverMock = () => {
   return [
-    getDefaultPersonOppgaveUbehandlet(created),
-    getPersonOppgaveBehandlet(created),
+    personOppgaveUbehandletOppfolgingsplanLPS,
+    personOppgaveUbehandletDialogmotesvar,
+    personOppgaveBehandletOppfolgingsplanLPS,
+    personOppgaveBehandletDialogmotesvar,
   ];
 };

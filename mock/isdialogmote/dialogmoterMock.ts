@@ -13,6 +13,7 @@ import {
 } from "../common/mockConstants";
 import { ReferatDTO } from "../../src/data/dialogmote/types/dialogmoteReferatTypes";
 import { referatTexts } from "../../src/data/dialogmote/dialogmoteTexts";
+import dayjs from "dayjs";
 
 export const createDialogmote = (
   uuid: string,
@@ -177,10 +178,10 @@ const behandler = (uuid: string): DialogmotedeltakerBehandlerDTO => {
 };
 
 export const innkaltDialogmote = createDialogmote(
-  "1",
+  "5f1e2629-062b-442d-ae1f-3b08e9574cd3",
   DialogmoteStatus.INNKALT,
   MotedeltakerVarselType.INNKALT,
-  "2021-11-15T14:22:23.539843"
+  dayjs().add(2, "days").toJSON()
 );
 export const avlystDialogmote = createDialogmote(
   "2",

@@ -3,12 +3,13 @@ export interface PersonOppgave {
   referanseUuid: string;
   fnr: string;
   virksomhetsnummer: string;
-  type: string;
-  behandletTidspunkt: Date;
-  behandletVeilederIdent: string;
+  type: PersonOppgaveType;
+  behandletTidspunkt: Date | null;
+  behandletVeilederIdent: string | null;
   opprettet: Date;
 }
 
-export const PersonOppgaveType = {
-  OPPFOLGINGSPLANLPS: "OPPFOLGINGSPLANLPS",
-};
+export enum PersonOppgaveType {
+  OPPFOLGINGSPLANLPS = "OPPFOLGINGSPLANLPS",
+  DIALOGMOTESVAR = "DIALOGMOTESVAR",
+}
