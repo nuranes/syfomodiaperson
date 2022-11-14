@@ -25,12 +25,12 @@ jobs:
           echo "found_image=$found" >> $GITHUB_ENV
       - name: Checkout code
         if: ${{ !env.found_image }}
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{ github.event.inputs.gitCommit }}
       - name: Use Node
         if: ${{ !env.found_image }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: "14"
       - name: Install and build
@@ -51,7 +51,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}

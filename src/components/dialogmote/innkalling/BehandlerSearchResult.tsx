@@ -36,7 +36,7 @@ const BehandlerSearchResult = ({
   setSelectedBehandler,
   setSelectedSearchResult,
 }: BehandlerSearchResultProps): ReactElement => {
-  const { data: behandlere, isLoading } = useSokBehandlereQuery(searchText);
+  const { data: behandlere } = useSokBehandlereQuery(searchText);
 
   const updateSearch = (behandler: BehandlerDTO, selectedResult: string) => {
     setSelectedSearchResult(selectedResult);
