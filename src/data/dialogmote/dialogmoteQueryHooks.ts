@@ -7,7 +7,7 @@ import {
 import { useQuery } from "react-query";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { useMemo } from "react";
-import { isAktivtDialogMote } from "@/utils/dialogmoteUtils";
+import { isAktivtDialogmote } from "@/utils/dialogmoteUtils";
 
 export const dialogmoterQueryKeys = {
   dialogmoter: (fnr: string) => ["dialogmoter", fnr],
@@ -29,7 +29,7 @@ export const useDialogmoterQuery = () => {
     ...query,
     data: query.data || [],
     aktivtDialogmote: useMemo(
-      () => query.data?.find((mote) => isAktivtDialogMote(mote)),
+      () => query.data?.find((mote) => isAktivtDialogmote(mote)),
       [query.data]
     ),
     ferdigstilteDialogmoter: useMemo(
