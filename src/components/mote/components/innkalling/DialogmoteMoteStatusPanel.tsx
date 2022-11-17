@@ -27,8 +27,6 @@ const texts = {
   headerInnkalling: "Innkallingen er sendt",
   headerEndring: "Endringen er sendt",
   headerMotedatoPassert: "Møtedato er passert",
-  infoMessage:
-    "Du har brukt den nye løsningen i Modia. Her kan du også avlyse, endre tidspunktet, og skrive referat.",
   endreMote: "Endre møtet",
   avlysMote: "Avlys møtet",
   skrivReferat: "Skriv referat",
@@ -96,17 +94,15 @@ export const DialogmoteMoteStatusPanel = ({ dialogmote }: Props) => {
       subtitle={Subtitle(dialogmote)}
       header={headerText(dialogmote)}
     >
-      <FlexRow>
-        <DeltakereSvarInfo dialogmote={dialogmote} />
-      </FlexRow>
-
-      <FlexRow topPadding={PaddingSize.SM}>{texts.infoMessage}</FlexRow>
-
       {noNarmesteLeder && (
-        <FlexRow>
+        <FlexRow bottomPadding={PaddingSize.MD}>
           <NoNarmesteLederAlert />
         </FlexRow>
       )}
+
+      <FlexRow>
+        <DeltakereSvarInfo dialogmote={dialogmote} />
+      </FlexRow>
 
       {skalVurderes && (
         <FlexRow topPadding={PaddingSize.MD}>
