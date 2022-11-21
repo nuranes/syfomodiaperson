@@ -181,7 +181,7 @@ describe("DialogmoteInnkallingSkjema", () => {
     changeTextInput(virksomhetInput, "123456789");
 
     expect(screen.queryByText(/Det er ikke registrert en nærmeste leder/i)).to
-      .exist;
+      .not.exist;
     expect(screen.queryByLabelText("Nærmeste leder")).to.not.exist;
     expect(screen.queryByLabelText("Epost")).to.not.exist;
   });

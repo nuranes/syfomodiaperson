@@ -59,7 +59,7 @@ const DialogmoteInnkallingVelgVirksomhet = () => {
                 {meta.submitFailed && meta.error}
               </SkjemaelementFeilmelding>
               {narmesteLeder && (
-                <FlexRow topPadding={PaddingSize.MD}>
+                <FlexRow topPadding={PaddingSize.SM}>
                   <LederNavnColumn flex={0.2}>
                     <Input
                       bredde="L"
@@ -78,9 +78,9 @@ const DialogmoteInnkallingVelgVirksomhet = () => {
                   </FlexColumn>
                 </FlexRow>
               )}
-              {isVirksomhetChosen && noNarmesteLeder && (
-                <NoNarmesteLederAlert />
-              )}
+              {isVirksomhetChosen &&
+                noNarmesteLeder &&
+                virksomheter.length > 0 && <NoNarmesteLederAlert />}
             </>
           );
         }}

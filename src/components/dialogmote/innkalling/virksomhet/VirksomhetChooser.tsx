@@ -4,12 +4,14 @@ import { VirksomhetInput } from "@/components/dialogmote/innkalling/virksomhet/V
 import { VirksomhetRadioGruppe } from "@/components/dialogmote/innkalling/virksomhet/VirksomhetRadioGruppe";
 import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
 import { ToggleNames } from "@/data/unleash/unleash_types";
+import styled from "styled-components";
 
 const texts = {
   chooseArbeidsgiver: "Velg arbeidsgiver",
-  noArbeidsgiver:
-    "Det er ikke registrert en virksomhet på denne arbeidstakeren. " +
-    "Hvis du mener det er feil, meld sak i Porten",
+  noArbeidsgiver: "Det er ikke registrert en virksomhet på denne personen.",
+  unemployed:
+    "Hvis personen er arbeidsledig, kan du kalle inn til samarbeidsmøte fra aktivitetsplanen.",
+  report_error: "Hvis du mener det er feil, meld sak i Porten.",
 };
 
 interface VirksomhetRadioGruppeProps {
@@ -19,6 +21,11 @@ interface VirksomhetRadioGruppeProps {
   label: string;
   name: string;
 }
+
+const NoVirksomhetAlert = styled(AlertstripeFullbredde)`
+  padding_top: 2em;
+  margin-bottom: 2em;
+`;
 
 export const VirksomhetChooser = ({
   velgVirksomhet,
@@ -47,9 +54,13 @@ export const VirksomhetChooser = ({
       {showInput && <VirksomhetInput velgVirksomhet={velgVirksomhet} />}
 
       {virksomheter.length === 0 && !hasAccessToVirksomhetInput && (
-        <AlertstripeFullbredde type="advarsel">
+        <NoVirksomhetAlert type="advarsel">
           {texts.noArbeidsgiver}
-        </AlertstripeFullbredde>
+          <ul>
+            <li>{texts.unemployed}</li>
+            <li>{texts.report_error}</li>
+          </ul>
+        </NoVirksomhetAlert>
       )}
     </>
   );

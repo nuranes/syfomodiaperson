@@ -9,6 +9,7 @@ const texts = {
 
 const StyledInput = styled(Input)`
   margin-top: 1em;
+  margin-bottom: 2em;
 `;
 
 interface VirksomhetInputProps {
