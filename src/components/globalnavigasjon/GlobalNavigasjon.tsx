@@ -11,6 +11,7 @@ import {
 } from "@/data/oppfolgingsplan/oppfolgingsplanQueryHooks";
 import { useMotebehovQuery } from "@/data/motebehov/motebehovQueryHooks";
 import { toOppfolgingsplanLPSMedPersonoppgave } from "@/utils/oppfolgingsplanerUtils";
+import { VedtakMenypunkt } from "@/components/globalnavigasjon/VedtakMenypunkt";
 
 const nokkelinformasjonMenypunkt = {
   navn: "Nøkkelinformasjon",
@@ -130,36 +131,44 @@ export const GlobalNavigasjon = ({
           oppfolgingsplanerLPSMedPersonOppgave
         );
 
+        const isVedtakMenypunkt = menypunkt === menypunkter.VEDTAK;
+
         return (
-          <li
-            key={index}
-            className="navigasjon__element"
-            aria-current={isAktiv}
-          >
-            <Link
-              ref={(instance) => {
-                if (instance) {
-                  refs.current[index] = instance;
-                }
-              }}
-              className={className}
-              to={`/sykefravaer/${sti}`}
-              onFocus={() => {
-                setFocusIndex(index);
-              }}
-              onKeyDown={(e) => {
-                handleKeyDown(e);
-              }}
-            >
-              <span
-                className="navigasjon__element__tekst"
-                dangerouslySetInnerHTML={{ __html: navn }}
-              />
-              {tasks > 0 && (
-                <UnfinishedTasks tasks={tasks} menypunkt={menypunkt} />
-              )}
-            </Link>
-          </li>
+          <>
+            {isVedtakMenypunkt ? (
+              <VedtakMenypunkt index={index} navn={navn} />
+            ) : (
+              <li
+                key={index}
+                className="navigasjon__element"
+                aria-current={isAktiv}
+              >
+                <Link
+                  ref={(instance) => {
+                    if (instance) {
+                      refs.current[index] = instance;
+                    }
+                  }}
+                  className={className}
+                  to={`/sykefravaer/${sti}`}
+                  onFocus={() => {
+                    setFocusIndex(index);
+                  }}
+                  onKeyDown={(e) => {
+                    handleKeyDown(e);
+                  }}
+                >
+                  <span
+                    className="navigasjon__element__tekst"
+                    dangerouslySetInnerHTML={{ __html: navn }}
+                  />
+                  {tasks > 0 && (
+                    <UnfinishedTasks tasks={tasks} menypunkt={menypunkt} />
+                  )}
+                </Link>
+              </li>
+            )}
+          </>
         );
       })}
     </ul>

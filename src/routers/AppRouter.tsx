@@ -8,7 +8,6 @@ import HistorikkContainer from "../components/historikk/container/HistorikkConta
 import { erGyldigFodselsnummer } from "@/utils/frnValideringUtils";
 import MotelandingssideContainer from "../components/mote/container/MotelandingssideContainer";
 import NokkelinformasjonContainer from "../components/nokkelinformasjon/container/NokkelinformasjonContainer";
-import VedtakContainer from "../components/vedtak/container/VedtakContainer";
 import DialogmoteInnkallingContainer from "../components/dialogmote/innkalling/DialogmoteInnkallingContainer";
 import AvlysDialogmoteContainer from "../components/dialogmote/avlys/AvlysDialogmoteContainer";
 import AppSpinner from "../components/AppSpinner";
@@ -95,10 +94,6 @@ const AktivBrukerRouter = (): ReactElement => {
           <Route
             path={`${appRoutePath}/oppfoelgingsplaner/:oppfoelgingsdialogId`}
             element={<OppfoelgingsplanContainer />}
-          />
-          <Route
-            path={`${appRoutePath}/vedtak`}
-            element={<VedtakContainer />}
           />
           <Route
             path={`${appRoutePath}/personsok`}

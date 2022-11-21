@@ -4,7 +4,7 @@ import { fullNaisUrlIntern } from "@/utils/miljoUtil";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import { ExternalLink } from "@navikt/ds-icons";
 
-const spinnsynUrl = () =>
+export const spinnsynUrl = () =>
   fullNaisUrlIntern("spinnsyn-frontend-interne", "/syk/sykepenger");
 
 export const SpinnsynLenke = () => {
