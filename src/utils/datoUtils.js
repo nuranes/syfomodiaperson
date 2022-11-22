@@ -313,3 +313,16 @@ export const manederMellomDatoer = (d1, d2) => {
 export const addWeeks = (date, numberOfWeeks) => {
   return dayjs(date, { utc: true }).add(numberOfWeeks, "weeks").toDate();
 };
+
+const ONE_WEEK_MILLIS = 7 * 24 * 60 * 60 * 1000;
+
+export const getWeeksSinceDate = (date) => {
+  const now = new Date();
+  return getWeeksBetween(new Date(date), now);
+};
+
+export const getWeeksBetween = (date1, date2) => {
+  return Math.round(
+    Math.abs(date1.getTime() - date2.getTime()) / ONE_WEEK_MILLIS
+  );
+};
