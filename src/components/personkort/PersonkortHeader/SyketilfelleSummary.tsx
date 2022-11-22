@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Diagnosekode } from "@/components/personkort/PersonkortHeader/Diagnosekode";
-import { StartDate } from "@/components/personkort/PersonkortHeader/StartDate";
+import { TilfellePeriod } from "@/components/personkort/PersonkortHeader/TilfellePeriod";
 
 const StyledInfo = styled.div`
   display: flex;
@@ -11,7 +11,7 @@ const StyledInfo = styled.div`
 export const SyketilfelleSummary = () => {
   return (
     <StyledInfo>
-      <StartDate />
+      <TilfellePeriod />
       <Diagnosekode />
     </StyledInfo>
   );

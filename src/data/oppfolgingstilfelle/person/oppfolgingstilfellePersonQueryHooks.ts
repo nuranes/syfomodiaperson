@@ -87,3 +87,8 @@ export const useStartOfLatestOppfolgingstilfelle = (): Date | undefined => {
   const { latestOppfolgingstilfelle } = useOppfolgingstilfellePersonQuery();
   return latestOppfolgingstilfelle?.start;
 };
+
+export const useEndOfLatestOppfolgingstilfelle = (): Date | undefined => {
+  const { latestOppfolgingstilfelle } = useOppfolgingstilfellePersonQuery();
+  return latestOppfolgingstilfelle?.end;
+};
