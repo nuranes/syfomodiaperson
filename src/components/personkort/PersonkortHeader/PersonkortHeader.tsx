@@ -7,43 +7,19 @@ import {
   hentBrukersKjoennFraFnr,
 } from "@/utils/fnrUtils";
 import { KJOENN } from "@/konstanter";
-import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
-import CopyButton from "../kopierknapp/CopyButton";
-import ErrorBoundary from "../ErrorBoundary";
+import CopyButton from "../../kopierknapp/CopyButton";
+import ErrorBoundary from "../../ErrorBoundary";
 import { useEgenansattQuery } from "@/data/egenansatt/egenansattQueryHooks";
 import { useDiskresjonskodeQuery } from "@/data/diskresjonskode/diskresjonskodeQueryHooks";
 import { ApiErrorException } from "@/api/errors";
 import { getKvinneImage, getMannImage } from "@/utils/festiveUtils";
-import { useStartOfLatestOppfolgingstilfelle } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
+import { SyketilfelleSummary } from "@/components/personkort/PersonkortHeader/SyketilfelleSummary";
 
 const texts = {
   copied: "Kopiert!",
-  startDate: "Sykmeldt f.o.m.: ",
   fetchDiskresjonskodeFailed: "Klarte ikke hente diskresjonskode for brukeren.",
-};
-
-interface HeaderInfoStartDateProps {
-  startDate: Date | undefined;
-}
-
-const HeaderInfoStartDate = (
-  headerInfoStartDateProps: HeaderInfoStartDateProps
-) => {
-  const { startDate } = headerInfoStartDateProps;
-  return (
-    <>
-      {!!startDate && (
-        <React.Fragment>
-          <span className="startdate__text">{texts.startDate}</span>
-          <span className="startdate__date">
-            {tilLesbarDatoMedArUtenManedNavn(startDate)}
-          </span>
-        </React.Fragment>
-      )}
-    </>
-  );
 };
 
 const StyledFnr = styled.div`
@@ -63,8 +39,6 @@ const PersonkortHeader = () => {
 
   const visEtiketter =
     diskresjonskode === "6" || diskresjonskode === "7" || isEgenAnsatt;
-
-  const startDate = useStartOfLatestOppfolgingstilfelle();
 
   const personident = useValgtPersonident();
 
@@ -87,7 +61,7 @@ const PersonkortHeader = () => {
             {formaterFnr(personident)}
             <CopyButton message={texts.copied} value={personident} />
           </StyledFnr>
-          <HeaderInfoStartDate startDate={startDate} />
+          <SyketilfelleSummary />
         </div>
       </div>
       {visEtiketter && (

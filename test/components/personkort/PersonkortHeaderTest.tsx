@@ -7,7 +7,7 @@ import { QueryClientProvider } from "react-query";
 import nock from "nock";
 import { render, screen } from "@testing-library/react";
 import React from "react";
-import PersonkortHeader from "@/components/personkort/PersonkortHeader";
+import PersonkortHeader from "@/components/personkort/PersonkortHeader/PersonkortHeader";
 import { expect } from "chai";
 import { queryClientWithAktivBruker } from "../../testQueryClient";
 import { ARBEIDSTAKER_DEFAULT } from "../../../mock/common/mockConstants";

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { PERSONKORTVISNING_TYPE } from "@/konstanter";
-import PersonkortHeader from "./PersonkortHeader";
+import PersonkortHeader from "./PersonkortHeader/PersonkortHeader";
 import PersonkortVisning from "./PersonkortVisning";
 import SnowButton from "@/components/personkort/SnowButton";
 import { isDecember, isPride } from "@/utils/festiveUtils";
