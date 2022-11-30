@@ -1,7 +1,6 @@
 import React, { ReactElement } from "react";
 import { useParams } from "react-router-dom";
 import Side from "../../sider/Side";
-import { DIALOGMOTE } from "@/enums/menypunkter";
 import SideLaster from "../SideLaster";
 import Sidetopp from "../Sidetopp";
 import Feilmelding from "../Feilmelding";
@@ -9,6 +8,7 @@ import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
 import { BrukerKanIkkeVarslesPapirpostAdvarsel } from "@/components/dialogmote/BrukerKanIkkeVarslesPapirpostAdvarsel";
 import { useDialogmoterQuery } from "@/data/dialogmote/dialogmoteQueryHooks";
 import { useBrukerinfoQuery } from "@/data/navbruker/navbrukerQueryHooks";
+import { Menypunkter } from "@/navigation/menypunkterTypes";
 
 interface DialogmoteSideProps {
   title: string;
@@ -36,7 +36,7 @@ export const DialogmoteSideContainer = ({
   );
 
   return (
-    <Side tittel={title} aktivtMenypunkt={DIALOGMOTE}>
+    <Side tittel={title} aktivtMenypunkt={Menypunkter.DIALOGMOTE}>
       <SideLaster henter={isLoading} hentingFeilet={isError}>
         <Sidetopp tittel={header} />
         {brukerKanIkkeVarslesDigitalt && (

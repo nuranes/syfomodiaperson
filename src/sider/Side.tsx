@@ -6,6 +6,7 @@ import DocumentTitle from "react-document-title";
 import { GlobalNavigasjon } from "@/components/globalnavigasjon/GlobalNavigasjon";
 import { isEaster } from "@/utils/festiveUtils";
 import { Easter } from "@/components/Easter";
+import { Menypunkter } from "@/navigation/menypunkterTypes";
 
 const StyledContainer = styled(Container)`
   width: 95%;
@@ -14,7 +15,7 @@ const StyledContainer = styled(Container)`
 interface SideProps {
   tittel: string;
   children?: ReactNode;
-  aktivtMenypunkt: string;
+  aktivtMenypunkt: Menypunkter;
 }
 
 const Side = (sideProps: SideProps) => {

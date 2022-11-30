@@ -3,12 +3,12 @@ import Side from "../../../../sider/Side";
 import SidetoppSpeilet from "../../../SidetoppSpeilet";
 import DineSykmeldinger from "../sykmeldinger/DineSykmeldinger";
 import Brodsmuler from "../../Brodsmuler";
-import { SYKMELDINGER } from "@/enums/menypunkter";
 import Speilingvarsel from "../../Speilingvarsel";
 import Pengestopp from "../../../pengestopp/Pengestopp";
 import SideLaster from "../../../SideLaster";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import { useSykmeldingerQuery } from "@/data/sykmelding/sykmeldingQueryHooks";
+import { Menypunkter } from "@/navigation/menypunkterTypes";
 
 const texts = {
   introduksjonstekst:
@@ -29,7 +29,7 @@ const SykmeldingerSide = (): ReactElement => {
   ];
 
   return (
-    <Side tittel="Sykmeldinger" aktivtMenypunkt={SYKMELDINGER}>
+    <Side tittel="Sykmeldinger" aktivtMenypunkt={Menypunkter.SYKMELDINGER}>
       <SideLaster henter={isLoading} hentingFeilet={isError}>
         <div>
           <Pengestopp sykmeldinger={sykmeldinger} />

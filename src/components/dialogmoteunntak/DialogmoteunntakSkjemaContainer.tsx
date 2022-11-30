@@ -1,9 +1,9 @@
 import React from "react";
 import Side from "@/sider/Side";
-import { DIALOGMOTE } from "@/enums/menypunkter";
 import SideLaster from "@/components/SideLaster";
 import Sidetopp from "@/components/Sidetopp";
 import DialogmoteunntakSkjema from "@/components/dialogmoteunntak/DialogmoteunntakSkjema";
+import { Menypunkter } from "@/navigation/menypunkterTypes";
 
 const texts = {
   pageTitle: "Unntak fra dialogmøte",
@@ -11,7 +11,7 @@ const texts = {
 
 const DialogmoteunntakSkjemaContainer = () => {
   return (
-    <Side tittel={texts.pageTitle} aktivtMenypunkt={DIALOGMOTE}>
+    <Side tittel={texts.pageTitle} aktivtMenypunkt={Menypunkter.DIALOGMOTE}>
       <SideLaster henter={false} hentingFeilet={false}>
         <Sidetopp tittel={texts.pageTitle} />
         <DialogmoteunntakSkjema />

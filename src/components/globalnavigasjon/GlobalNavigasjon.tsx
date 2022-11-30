@@ -1,5 +1,4 @@
 import React, { useRef, useState } from "react";
-import * as menypunkter from "../../enums/menypunkter";
 import cn from "classnames";
 import UnfinishedTasks from "./UnfinishedTasks";
 import { Link } from "react-router-dom";
@@ -12,50 +11,51 @@ import {
 import { useMotebehovQuery } from "@/data/motebehov/motebehovQueryHooks";
 import { toOppfolgingsplanLPSMedPersonoppgave } from "@/utils/oppfolgingsplanerUtils";
 import { VedtakMenypunkt } from "@/components/globalnavigasjon/VedtakMenypunkt";
+import { Menypunkt, Menypunkter } from "@/navigation/menypunkterTypes";
 
 const nokkelinformasjonMenypunkt = {
   navn: "Nøkkelinformasjon",
   sti: "nokkelinformasjon",
-  menypunkt: menypunkter.NOKKELINFORMASJON,
+  menypunkt: Menypunkter.NOKKELINFORMASJON,
 };
 
 const historikkMenypunkt = {
   navn: "Logg",
   sti: "logg",
-  menypunkt: menypunkter.HISTORIKK,
+  menypunkt: Menypunkter.HISTORIKK,
 };
 
 const motemodulMenypunkt = {
   navn: "Dialogmøter",
   sti: "moteoversikt",
-  menypunkt: menypunkter.DIALOGMOTE,
+  menypunkt: Menypunkter.DIALOGMOTE,
 };
 
 const sykmeldingerMenypunkt = {
   navn: "Sykmeldinger",
   sti: "sykmeldinger",
-  menypunkt: menypunkter.SYKMELDINGER,
+  menypunkt: Menypunkter.SYKMELDINGER,
 };
 
 const sykepengesoknadMenypunkt = {
   navn: "Søknader om sykepenger",
   sti: "sykepengesoknader",
-  menypunkt: menypunkter.SYKEPENGESOKNADER,
+  menypunkt: Menypunkter.SYKEPENGESOKNADER,
 };
 
 const oppfoelgingsplanMenypunkt = {
   navn: "Oppfølgingsplaner",
   sti: "oppfoelgingsplaner",
-  menypunkt: menypunkter.OPPFOELGINGSPLANER,
+  menypunkt: Menypunkter.OPPFOELGINGSPLANER,
 };
 
 const vedtakMenypunkt = {
   navn: "Vedtak",
   sti: "vedtak",
-  menypunkt: menypunkter.VEDTAK,
+  menypunkt: Menypunkter.VEDTAK,
 };
 
-const allMenypunkter = [
+const allMenypunkter: Menypunkt[] = [
   nokkelinformasjonMenypunkt,
   historikkMenypunkt,
   sykmeldingerMenypunkt,
@@ -66,7 +66,7 @@ const allMenypunkter = [
 ];
 
 interface GlobalNavigasjonProps {
-  aktivtMenypunkt: string;
+  aktivtMenypunkt: Menypunkter;
 }
 
 export const GlobalNavigasjon = ({
@@ -131,18 +131,14 @@ export const GlobalNavigasjon = ({
           oppfolgingsplanerLPSMedPersonOppgave
         );
 
-        const isVedtakMenypunkt = menypunkt === menypunkter.VEDTAK;
+        const isVedtakMenypunkt = menypunkt === Menypunkter.VEDTAK;
 
         return (
-          <>
+          <React.Fragment key={index}>
             {isVedtakMenypunkt ? (
               <VedtakMenypunkt index={index} navn={navn} />
             ) : (
-              <li
-                key={index}
-                className="navigasjon__element"
-                aria-current={isAktiv}
-              >
+              <li className="navigasjon__element" aria-current={isAktiv}>
                 <Link
                   ref={(instance) => {
                     if (instance) {
@@ -168,7 +164,7 @@ export const GlobalNavigasjon = ({
                 </Link>
               </li>
             )}
-          </>
+          </React.Fragment>
         );
       })}
     </ul>

@@ -1,4 +1,3 @@
-import * as menypunkter from "../enums/menypunkter";
 import { harUbehandletMotebehov } from "./motebehovUtils";
 import {
   activeLPSOppfolgingsplaner,
@@ -15,6 +14,7 @@ import {
   hasUbehandletPersonOppgaveDialogmotesvar,
   isBehandletOppgave,
 } from "@/utils/personOppgaveUtils";
+import { Menypunkter } from "@/navigation/menypunkterTypes";
 
 const getNumberOfMoteOppgaver = (
   motebehov: MotebehovVeilederDTO[],
@@ -50,16 +50,16 @@ const numberOfUnprocessedPersonOppgaver = (
 };
 
 export const numberOfTasks = (
-  menypunkt: string,
+  menypunkt: Menypunkter,
   motebehov: MotebehovVeilederDTO[],
   oppfolgingsplaner: OppfolgingsplanDTO[],
   personOppgaver: PersonOppgave[],
   oppfolgingsplanerlps: OppfolgingsplanLPSMedPersonoppgave[]
 ): number => {
   switch (menypunkt) {
-    case menypunkter.DIALOGMOTE:
+    case Menypunkter.DIALOGMOTE:
       return getNumberOfMoteOppgaver(motebehov, personOppgaver);
-    case menypunkter.OPPFOELGINGSPLANER:
+    case Menypunkter.OPPFOELGINGSPLANER:
       return (
         numberOfActiveOppfolgingsplaner(oppfolgingsplaner) +
         numberOfActiveLPSOppfolgingsplaner(oppfolgingsplanerlps) +

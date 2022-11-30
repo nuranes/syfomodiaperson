@@ -2,7 +2,6 @@ import React from "react";
 import Side from "../../../sider/Side";
 import OppfolgingsplanerOversikt from "../oppfolgingsplaner/OppfolgingsplanerOversikt";
 import IngenPlaner from "../oppfolgingsplaner/IngenPlaner";
-import { OPPFOELGINGSPLANER } from "@/enums/menypunkter";
 import { activeOppfolgingsplaner } from "@/utils/oppfolgingsplanerUtils";
 import SideLaster from "../../SideLaster";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
@@ -10,6 +9,7 @@ import {
   useOppfolgingsplanerLPSQuery,
   useOppfolgingsplanerQuery,
 } from "@/data/oppfolgingsplan/oppfolgingsplanQueryHooks";
+import { Menypunkter } from "@/navigation/menypunkterTypes";
 
 export const OppfoelgingsPlanerOversiktContainer = () => {
   const fnr = useValgtPersonident();
@@ -35,7 +35,10 @@ export const OppfoelgingsPlanerOversiktContainer = () => {
   );
 
   return (
-    <Side tittel="Oppfølgingsplaner" aktivtMenypunkt={OPPFOELGINGSPLANER}>
+    <Side
+      tittel="Oppfølgingsplaner"
+      aktivtMenypunkt={Menypunkter.OPPFOELGINGSPLANER}
+    >
       <SideLaster henter={henter} hentingFeilet={hentingFeilet}>
         {(() => {
           if (

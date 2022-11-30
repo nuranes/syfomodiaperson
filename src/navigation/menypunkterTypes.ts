@@ -1,0 +1,15 @@
+export enum Menypunkter {
+  DIALOGMOTE = "DIALOGMOTE",
+  NOKKELINFORMASJON = "NOKKELINFORMASJON",
+  SYKMELDINGER = "SYKMELDINGER",
+  SYKEPENGESOKNADER = "SYKEPENGESOKNADER",
+  OPPFOELGINGSPLANER = "OPPFOELGINGSPLANER",
+  HISTORIKK = "HISTORIKK",
+  VEDTAK = "VEDTAK",
+}
+
+export type Menypunkt = {
+  navn: string;
+  sti: string;
+  menypunkt: Menypunkter;
+};

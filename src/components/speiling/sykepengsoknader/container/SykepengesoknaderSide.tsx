@@ -2,13 +2,13 @@ import React, { ReactElement } from "react";
 import Side from "../../../../sider/Side";
 import Soknader from "../soknader/Soknader";
 import Brodsmuler from "../../Brodsmuler";
-import { SYKEPENGESOKNADER } from "@/enums/menypunkter";
 import Speilingvarsel from "../../Speilingvarsel";
 import Feilstripe from "../../../Feilstripe";
 import SideLaster from "../../../SideLaster";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import { useSykepengesoknaderQuery } from "@/data/sykepengesoknad/sykepengesoknadQueryHooks";
+import { Menypunkter } from "@/navigation/menypunkterTypes";
 
 const errorMessageText = (name: string) => {
   return `Beklager – vi kunne ikke hente alle sykepengesøknadene til ${name}`;
@@ -32,7 +32,10 @@ const SykepengesoknaderSide = (): ReactElement => {
     },
   ];
   return (
-    <Side tittel="Sykepengesøknader" aktivtMenypunkt={SYKEPENGESOKNADER}>
+    <Side
+      tittel="Sykepengesøknader"
+      aktivtMenypunkt={Menypunkter.SYKEPENGESOKNADER}
+    >
       <SideLaster henter={isLoading} hentingFeilet={isError}>
         <div>
           <Feilstripe

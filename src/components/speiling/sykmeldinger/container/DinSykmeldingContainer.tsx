@@ -9,12 +9,12 @@ import SidetoppSpeilet from "../../../SidetoppSpeilet";
 import SykmeldingSide from "../sykmelding/SykmeldingSide";
 import Brodsmuler from "../../Brodsmuler";
 import Speilingvarsel from "../../Speilingvarsel";
-import { SYKMELDINGER } from "@/enums/menypunkter";
 import SideLaster from "../../../SideLaster";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import { useSykmeldingerQuery } from "@/data/sykmelding/sykmeldingQueryHooks";
 import LenkeTilDineSykmeldinger from "@/components/speiling/sykmeldinger/sykmelding/LenkeTilDineSykmeldinger";
 import EndreSykmelding from "@/components/endresykmelding/EndreSykmelding";
+import { Menypunkter } from "@/navigation/menypunkterTypes";
 
 const texts = {
   pageTitleSykmelding: "Sykmelding",
@@ -72,7 +72,10 @@ const DinSykmeldingSide = (): ReactElement => {
   ];
 
   return (
-    <Side tittel={texts.pageTitleSykmelding} aktivtMenypunkt={SYKMELDINGER}>
+    <Side
+      tittel={texts.pageTitleSykmelding}
+      aktivtMenypunkt={Menypunkter.SYKMELDINGER}
+    >
       <SideLaster henter={isLoading} hentingFeilet={isError}>
         <div>
           <Speilingvarsel brukernavn={brukernavn} />

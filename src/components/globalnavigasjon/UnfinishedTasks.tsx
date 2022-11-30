@@ -1,5 +1,5 @@
 import React from "react";
-import * as menypunkter from "../../enums/menypunkter";
+import { Menypunkter } from "@/navigation/menypunkterTypes";
 
 const opActivePlanerText = (tasks: number) => {
   const activeText = tasks > 1 ? "aktive" : "aktiv";
@@ -9,12 +9,12 @@ const opActivePlanerText = (tasks: number) => {
 
 interface UnfinishedTasksProps {
   tasks: number;
-  menypunkt: string;
+  menypunkt: Menypunkter;
 }
 
 const UnfinishedTasks = (unfinishedTasksProps: UnfinishedTasksProps) => {
   const { tasks, menypunkt } = unfinishedTasksProps;
-  return menypunkt === menypunkter.OPPFOELGINGSPLANER ? (
+  return menypunkt === Menypunkter.OPPFOELGINGSPLANER ? (
     <p className="antallNytt__oppfolgingsplan">{opActivePlanerText(tasks)}</p>
   ) : (
     <i className="antallNytt">{tasks}</i>

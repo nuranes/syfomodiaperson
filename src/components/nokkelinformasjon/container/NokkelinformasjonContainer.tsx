@@ -1,5 +1,4 @@
 import React from "react";
-import { NOKKELINFORMASJON } from "@/enums/menypunkter";
 import Side from "../../../sider/Side";
 import Nokkelinformasjon from "../Nokkelinformasjon";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
@@ -7,6 +6,7 @@ import SideLaster from "../../SideLaster";
 import { useOppfolgingsplanerQuery } from "@/data/oppfolgingsplan/oppfolgingsplanQueryHooks";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
 import { useSykmeldingerQuery } from "@/data/sykmelding/sykmeldingQueryHooks";
+import { Menypunkter } from "@/navigation/menypunkterTypes";
 
 const texts = {
   pageTitle: "Nøkkelinformasjon",
@@ -24,7 +24,10 @@ export const NokkelinformasjonSide = () => {
   const hentingFeilet = henterSykmeldingerFeilet || henterLedereFeilet;
 
   return (
-    <Side tittel={texts.pageTitle} aktivtMenypunkt={NOKKELINFORMASJON}>
+    <Side
+      tittel={texts.pageTitle}
+      aktivtMenypunkt={Menypunkter.NOKKELINFORMASJON}
+    >
       <SideLaster henter={henter} hentingFeilet={hentingFeilet}>
         <Nokkelinformasjon
           fnr={fnr}

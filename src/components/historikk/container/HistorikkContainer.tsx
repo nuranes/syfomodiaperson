@@ -1,7 +1,6 @@
 import React, { ReactElement, useMemo } from "react";
 import Side from "../../../sider/Side";
 import Historikk from "../Historikk";
-import { HISTORIKK } from "@/enums/menypunkter";
 import SideLaster from "../../SideLaster";
 import { HistorikkEvent } from "@/data/historikk/types/historikkTypes";
 import IngenHistorikk from "../IngenHistorikk";
@@ -10,6 +9,7 @@ import Sidetopp from "../../Sidetopp";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { NarmesteLederRelasjonDTO } from "@/data/leder/ledereTypes";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
+import { Menypunkter } from "@/navigation/menypunkterTypes";
 
 const texts = {
   topp: "Logg",
@@ -66,7 +66,7 @@ export const HistorikkContainer = (): ReactElement => {
   const ingenHistorikk = tilfeller.length === 0 || historikkEvents.length === 0;
 
   return (
-    <Side tittel={texts.pageTitle} aktivtMenypunkt={HISTORIKK}>
+    <Side tittel={texts.pageTitle} aktivtMenypunkt={Menypunkter.HISTORIKK}>
       <SideLaster henter={henter} hentingFeilet={hentingFeilet}>
         <Sidetopp tittel={texts.topp} />
         {ingenHistorikk ? (

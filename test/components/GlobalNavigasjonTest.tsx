@@ -2,13 +2,13 @@ import { render, screen } from "@testing-library/react";
 import { GlobalNavigasjon } from "@/components/globalnavigasjon/GlobalNavigasjon";
 import React from "react";
 import { QueryClientProvider } from "react-query";
-import * as menypunkter from "@/enums/menypunkter";
 import { expect } from "chai";
 import { MemoryRouter } from "react-router-dom";
 import { oppfolgingsplanQueryKeys } from "@/data/oppfolgingsplan/oppfolgingsplanQueryHooks";
 import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQueryHooks";
 import { queryClientWithAktivBruker } from "../testQueryClient";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
+import { Menypunkter } from "@/navigation/menypunkterTypes";
 
 const fnr = ARBEIDSTAKER_DEFAULT.personIdent;
 let queryClient: any;
@@ -17,7 +17,7 @@ const renderGlobalNavigasjon = () =>
   render(
     <QueryClientProvider client={queryClient}>
       <MemoryRouter>
-        <GlobalNavigasjon aktivtMenypunkt={menypunkter.NOKKELINFORMASJON} />
+        <GlobalNavigasjon aktivtMenypunkt={Menypunkter.NOKKELINFORMASJON} />
       </MemoryRouter>
     </QueryClientProvider>
   );

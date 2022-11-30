@@ -1,8 +1,8 @@
 import React from "react";
 import { ReactElement } from "react";
-import { SYKEPENGESOKNADER } from "@/enums/menypunkter";
 import Side from "../../../../sider/Side";
 import SykepengesoknadContainer from "./SykepengesoknadContainer";
+import { Menypunkter } from "@/navigation/menypunkterTypes";
 
 const texts = {
   tittel: "Sykepengesøknader",
@@ -10,7 +10,7 @@ const texts = {
 
 export const SykepengesoknadSide = (): ReactElement => {
   return (
-    <Side tittel={texts.tittel} aktivtMenypunkt={SYKEPENGESOKNADER}>
+    <Side tittel={texts.tittel} aktivtMenypunkt={Menypunkter.SYKEPENGESOKNADER}>
       <SykepengesoknadContainer />
     </Side>
   );

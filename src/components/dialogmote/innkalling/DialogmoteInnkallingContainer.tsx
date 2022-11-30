@@ -1,5 +1,4 @@
 import Side from "../../../sider/Side";
-import { DIALOGMOTE } from "@/enums/menypunkter";
 import React, { ReactElement } from "react";
 import Sidetopp from "../../Sidetopp";
 import DialogmoteInnkallingSkjema from "./DialogmoteInnkallingSkjema";
@@ -12,6 +11,7 @@ import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { useBrukerinfoQuery } from "@/data/navbruker/navbrukerQueryHooks";
 import { ArbeidstakerHarIkkeAktivSykmeldingAdvarsel } from "@/components/dialogmote/ArbeidstakerHarIkkeAktivSykmelding";
+import { Menypunkter } from "@/navigation/menypunkterTypes";
 
 const texts = {
   title: "Innkalling til dialogmøte",
@@ -54,7 +54,7 @@ const DialogmoteInnkallingContainer = (): ReactElement => {
     hentingLedereFeilet || hentingOppfolgingstilfellerFeilet;
 
   return (
-    <Side tittel={texts.title} aktivtMenypunkt={DIALOGMOTE}>
+    <Side tittel={texts.title} aktivtMenypunkt={Menypunkter.DIALOGMOTE}>
       <SideLaster henter={henter} hentingFeilet={hentingFeilet}>
         <Sidetopp tittel={texts.title} />
         <DialogmoteInnkallingSide />
