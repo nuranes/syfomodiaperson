@@ -18,7 +18,7 @@ const texts = {
   tilbake: "Tilbake",
 };
 
-const DialogmoteInnkallingSide = (): ReactElement => {
+export const DialogmoteInnkallingSide = (): ReactElement => {
   const { brukerKanIkkeVarslesDigitalt } = useBrukerinfoQuery();
   const { hasActiveOppfolgingstilfelle, hasOppfolgingstilfelle } =
     useOppfolgingstilfellePersonQuery();

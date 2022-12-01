@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import DialogmoteInnkallingContainer from "@/components/dialogmote/innkalling/DialogmoteInnkallingContainer";
+import { DialogmoteInnkallingSide } from "@/components/dialogmote/innkalling/DialogmoteInnkallingContainer";
 import React from "react";
 import { queryClientWithMockData } from "../testQueryClient";
 import { MemoryRouter } from "react-router-dom";
@@ -51,7 +51,7 @@ const renderDialogmoteInnkallingContainer = () =>
         <ValgtEnhetContext.Provider
           value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
         >
-          <DialogmoteInnkallingContainer />
+          <DialogmoteInnkallingSide />
         </ValgtEnhetContext.Provider>
       </QueryClientProvider>
     </MemoryRouter>
