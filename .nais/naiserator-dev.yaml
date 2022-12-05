@@ -62,6 +62,10 @@ spec:
       value: "fastlegerest.dev.intern.nav.no"
     - name: INTERNARBEIDSFLATEDECORATOR_HOST
       value: "internarbeidsflatedecorator-q0.dev.intern.nav.no"
+    - name: ISAKTIVITETSKRAV_AAD_APP_CLIENT_ID
+      value: "dev-gcp.teamsykefravr.isaktivitetskrav"
+    - name: ISAKTIVITETSKRAV_HOST
+      value: "isaktivitetskrav.dev.intern.nav.no"
     - name: ISDIALOGMELDING_AAD_APP_CLIENT_ID
       value: "dev-gcp.teamsykefravr.isdialogmelding"
     - name: ISDIALOGMELDING_HOST

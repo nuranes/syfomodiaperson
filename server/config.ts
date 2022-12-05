@@ -125,6 +125,16 @@ export const auth = {
       name: "FASTLEGEREST_HOST",
     }),
   },
+  isaktivitetskrav: {
+    applicationName: "isaktivitetskrav",
+    clientId: envVar({
+      name: "ISAKTIVITETSKRAV_AAD_APP_CLIENT_ID",
+    }),
+    host: envVar({
+      name: "ISAKTIVITETSKRAV_HOST",
+    }),
+    removePathPrefix: true,
+  },
   isdialogmelding: {
     applicationName: "isdialogmelding",
     clientId: envVar({

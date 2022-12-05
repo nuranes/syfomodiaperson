@@ -174,6 +174,17 @@ export const setupProxy = (authClient: any) => {
   const router = express.Router();
 
   router.use(
+    "/isaktivitetskrav/*",
+    (
+      req: express.Request,
+      res: express.Response,
+      next: express.NextFunction
+    ) => {
+      proxyOnBehalfOf(req, res, next, authClient, Config.auth.isaktivitetskrav);
+    }
+  );
+
+  router.use(
     "/isdialogmote/*",
     (
       req: express.Request,
