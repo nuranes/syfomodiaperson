@@ -6,9 +6,14 @@ import { expect } from "chai";
 import { MemoryRouter } from "react-router-dom";
 import { oppfolgingsplanQueryKeys } from "@/data/oppfolgingsplan/oppfolgingsplanQueryHooks";
 import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQueryHooks";
-import { queryClientWithAktivBruker } from "../testQueryClient";
+import {
+  queryClientWithAktivBruker,
+  queryClientWithMockData,
+} from "../testQueryClient";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import { Menypunkter } from "@/navigation/menypunkterTypes";
+import { navEnhet } from "../dialogmote/testData";
+import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 
 const fnr = ARBEIDSTAKER_DEFAULT.personIdent;
 let queryClient: any;
@@ -17,7 +22,11 @@ const renderGlobalNavigasjon = () =>
   render(
     <QueryClientProvider client={queryClient}>
       <MemoryRouter>
-        <GlobalNavigasjon aktivtMenypunkt={Menypunkter.NOKKELINFORMASJON} />
+        <ValgtEnhetContext.Provider
+          value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
+        >
+          <GlobalNavigasjon aktivtMenypunkt={Menypunkter.NOKKELINFORMASJON} />
+        </ValgtEnhetContext.Provider>
       </MemoryRouter>
     </QueryClientProvider>
   );
@@ -38,7 +47,7 @@ describe("GlobalNavigasjon", () => {
       () => []
     );
   });
-  it("viser linker for alle menypunkter", () => {
+  it("viser linker for alle menypunkter uten toggle", () => {
     renderGlobalNavigasjon();
     const navnMenypunkter = [
       "Nøkkelinformasjon",
@@ -54,6 +63,14 @@ describe("GlobalNavigasjon", () => {
     linker.forEach((link, index) => {
       expect(link.textContent).to.equal(navnMenypunkter[index]);
     });
+  });
+  it("viser link til Aktivitetskrav når toggle enabled", () => {
+    queryClient = queryClientWithMockData();
+    renderGlobalNavigasjon();
+
+    const linker = screen.getAllByRole("link");
+    expect(linker.some((link) => link.textContent == "Aktivitetskrav")).to.be
+      .true;
   });
   it("viser aktivt menypunkt", () => {
     renderGlobalNavigasjon();

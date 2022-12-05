@@ -100,5 +100,10 @@ export const unleashToggles = (toggles: any, valgtEnhet: any, userId: any) => {
         user: userId,
       }
     ),
+
+    "syfo.aktivitetskrav": unleash.isEnabled("syfo.aktivitetskrav", {
+      valgtEnhet: valgtEnhet,
+      user: userId,
+    }),
   };
 };
