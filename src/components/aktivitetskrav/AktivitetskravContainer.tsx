@@ -1,7 +1,6 @@
-import { ReactElement } from "react";
+import React, { ReactElement } from "react";
 import Side from "@/sider/Side";
 import { Menypunkter } from "@/navigation/menypunkterTypes";
-import React from "react";
 
 const texts = {
   title: "Aktivitetskrav",

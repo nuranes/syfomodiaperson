@@ -7,16 +7,16 @@ export enum AktivitetskravStatus {
   STANS = "STANS",
 }
 
-export interface AktivitetskravResponseDTO {
+export interface AktivitetskravDTO {
   uuid: string;
   createdAt: Date;
   sistEndret: Date;
   status: AktivitetskravStatus;
   stoppunktAt: Date;
-  vurderinger: AktivitetskravVurderingResponseDTO[];
+  vurderinger: AktivitetskravVurderingDTO[];
 }
 
-export interface AktivitetskravVurderingResponseDTO {
+export interface AktivitetskravVurderingDTO {
   uuid: string;
   createdAt: Date;
   createdBy: string;
@@ -24,7 +24,7 @@ export interface AktivitetskravVurderingResponseDTO {
   beskrivelse?: string;
 }
 
-export interface AktivitetskravVurderingRequestDTO {
+export interface CreateAktivitetskravVurderingDTO {
   status: AktivitetskravStatus;
   beskrivelse?: string;
 }
