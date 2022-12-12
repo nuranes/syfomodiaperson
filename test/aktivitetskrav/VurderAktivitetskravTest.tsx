@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
@@ -16,6 +16,7 @@ import {
 import {
   AktivitetskravStatus,
   CreateAktivitetskravVurderingDTO,
+  OppfyltVurderingArsak,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { expect } from "chai";
 
@@ -49,25 +50,39 @@ describe("VurderAktivitetskrav", () => {
     expect(getButton("Sett unntak")).to.exist;
     expect(getButton("Aktivitetskravet er oppfylt")).to.exist;
   });
-  it("vurder 'Aktivitetskravet er oppfylt'", () => {
-    renderVurderAktivitetskrav();
+  describe("Oppfylt", () => {
+    it("Validerer årsak", () => {
+      renderVurderAktivitetskrav();
 
-    clickButton("Aktivitetskravet er oppfylt");
+      clickButton("Aktivitetskravet er oppfylt");
+      clickButton("Lagre");
 
-    expect(screen.getByRole("heading", { name: "Aktivitetskravet er oppfylt" }))
-      .to.exist;
+      expect(screen.getByText("Vennligst angi årsak")).to.exist;
+    });
+    it("Lagre vurdering med verdier fra skjema", () => {
+      renderVurderAktivitetskrav();
 
-    const begrunnelseInput = getTextInput("Begrunnelse");
-    changeTextInput(begrunnelseInput, enBegrunnelse);
-    clickButton("Lagre");
+      clickButton("Aktivitetskravet er oppfylt");
 
-    const vurderOppfyltMutation = queryClient.getMutationCache().getAll()[0];
-    const expectedVurdering: CreateAktivitetskravVurderingDTO = {
-      beskrivelse: enBegrunnelse,
-      status: AktivitetskravStatus.OPPFYLT,
-    };
-    expect(vurderOppfyltMutation.options.variables).to.deep.equal(
-      expectedVurdering
-    );
+      expect(
+        screen.getByRole("heading", { name: "Aktivitetskravet er oppfylt" })
+      ).to.exist;
+
+      const arsakRadioButton = screen.getByText("Friskmeldt");
+      fireEvent.click(arsakRadioButton);
+      const begrunnelseInput = getTextInput("Begrunnelse");
+      changeTextInput(begrunnelseInput, enBegrunnelse);
+      clickButton("Lagre");
+
+      const vurderOppfyltMutation = queryClient.getMutationCache().getAll()[0];
+      const expectedVurdering: CreateAktivitetskravVurderingDTO = {
+        beskrivelse: enBegrunnelse,
+        status: AktivitetskravStatus.OPPFYLT,
+        arsaker: [OppfyltVurderingArsak.FRISKMELDT],
+      };
+      expect(vurderOppfyltMutation.options.variables).to.deep.equal(
+        expectedVurdering
+      );
+    });
   });
 });

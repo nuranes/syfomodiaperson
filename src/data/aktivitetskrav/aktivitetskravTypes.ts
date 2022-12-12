@@ -7,6 +7,24 @@ export enum AktivitetskravStatus {
   STANS = "STANS",
 }
 
+export enum AvventVurderingArsak {
+  OPPFOLGINGSPLAN_ARBEIDSGIVER = "OPPFOLGINGSPLAN_ARBEIDSGIVER",
+  INFORMASJON_BEHANDLER = "INFORMASJON_BEHANDLER",
+  ANNET = "ANNET",
+}
+
+export enum UnntakVurderingArsak {
+  MEDISINSKE_GRUNNER = "MEDISINSKE_GRUNNER",
+  TILRETTELEGGING_IKKE_MULIG = "TILRETTELEGGING_IKKE_MULIG",
+  SJOMENN_UTENRIKS = "SJOMENN_UTENRIKS",
+}
+
+export enum OppfyltVurderingArsak {
+  FRISKMELDT = "FRISKMELDT",
+  GRADERT = "GRADERT",
+  TILTAK = "TILTAK",
+}
+
 export interface AktivitetskravDTO {
   uuid: string;
   createdAt: Date;
@@ -22,9 +40,16 @@ export interface AktivitetskravVurderingDTO {
   createdBy: string;
   status: AktivitetskravStatus;
   beskrivelse?: string;
+  arsaker: VurderingArsak[];
 }
+
+export type VurderingArsak =
+  | AvventVurderingArsak
+  | UnntakVurderingArsak
+  | OppfyltVurderingArsak;
 
 export interface CreateAktivitetskravVurderingDTO {
   status: AktivitetskravStatus;
   beskrivelse?: string;
+  arsaker: VurderingArsak[];
 }

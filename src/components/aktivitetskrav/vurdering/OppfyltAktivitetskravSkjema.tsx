@@ -1,21 +1,30 @@
 import { FlexRow, PaddingSize } from "@/components/Layout";
 import { VurderAktivitetskravBegrunnelse } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravBegrunnelse";
 import React from "react";
-import { AktivitetskravStatus } from "@/data/aktivitetskrav/aktivitetskravTypes";
+import {
+  AktivitetskravStatus,
+  CreateAktivitetskravVurderingDTO,
+  OppfyltVurderingArsak,
+} from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { Innholdstittel } from "nav-frontend-typografi";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
-import { SkjemaFeiloppsummering } from "@/components/SkjemaFeiloppsummering";
 import { VurderAktivitetskravSkjemaButtons } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravSkjemaButtons";
 import { Form } from "react-final-form";
 import { useVurderAktivitetskrav } from "@/data/aktivitetskrav/useVurderAktivitetskrav";
-import { useFeilUtbedret } from "@/hooks/useFeilUtbedret";
+import {
+  VurderAktivitetskravArsakRadioGruppe,
+  vurderAktivitetskravArsakFieldName,
+} from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravArsakRadioGruppe";
+import { oppfyltVurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
 
 const texts = {
   title: "Aktivitetskravet er oppfylt",
+  missingArsak: "Vennligst angi årsak",
 };
 
 interface OppfyltAktivitetskravSkjemaValues {
   begrunnelse: string;
+  arsak: OppfyltVurderingArsak;
 }
 
 interface OppfyltAktivitetskravSkjemaProps {
@@ -28,32 +37,37 @@ export const OppfyltAktivitetskravSkjema = ({
   aktivitetskravUuid,
 }: OppfyltAktivitetskravSkjemaProps) => {
   const vurderAktivitetskrav = useVurderAktivitetskrav(aktivitetskravUuid);
-  const { harIkkeUtbedretFeil, resetFeilUtbedret, updateFeilUtbedret } =
-    useFeilUtbedret();
 
   const submit = (values: OppfyltAktivitetskravSkjemaValues) => {
-    const createAktivitetskravVurderingDTO = {
+    const createAktivitetskravVurderingDTO: CreateAktivitetskravVurderingDTO = {
       status: AktivitetskravStatus.OPPFYLT,
       beskrivelse: values.begrunnelse,
+      arsaker: [values.arsak],
     };
     vurderAktivitetskrav.mutate(createAktivitetskravVurderingDTO, {
       onSuccess: () => setModalOpen(false),
     });
   };
 
-  const validate = () => {
-    const feil = {};
-    updateFeilUtbedret(feil);
-
-    return feil;
+  const validate = (values: Partial<OppfyltAktivitetskravSkjemaValues>) => {
+    return {
+      [vurderAktivitetskravArsakFieldName]: !values.arsak
+        ? texts.missingArsak
+        : undefined,
+    };
   };
 
   return (
     <Form onSubmit={submit} validate={validate}>
-      {({ handleSubmit, submitFailed, errors }) => (
+      {({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
-          <FlexRow bottomPadding={PaddingSize.LG}>
+          <FlexRow bottomPadding={PaddingSize.MD}>
             <Innholdstittel>{texts.title}</Innholdstittel>
+          </FlexRow>
+          <FlexRow bottomPadding={PaddingSize.SM}>
+            <VurderAktivitetskravArsakRadioGruppe
+              arsakTexts={oppfyltVurderingArsakTexts}
+            />
           </FlexRow>
           <FlexRow bottomPadding={PaddingSize.MD}>
             <VurderAktivitetskravBegrunnelse />
@@ -61,11 +75,7 @@ export const OppfyltAktivitetskravSkjema = ({
           {vurderAktivitetskrav.isError && (
             <SkjemaInnsendingFeil error={vurderAktivitetskrav.error} />
           )}
-          {submitFailed && harIkkeUtbedretFeil && (
-            <SkjemaFeiloppsummering errors={errors} />
-          )}
           <VurderAktivitetskravSkjemaButtons
-            onLagreClick={resetFeilUtbedret}
             onAvbrytClick={() => setModalOpen(false)}
             showLagreSpinner={vurderAktivitetskrav.isLoading}
           />

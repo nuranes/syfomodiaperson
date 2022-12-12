@@ -13,13 +13,11 @@ const LagreButton = styled(Hovedknapp)`
 `;
 
 interface VurderAktivitetskravSkjemaButtonsProps {
-  onLagreClick: () => void;
   onAvbrytClick: () => void;
   showLagreSpinner: boolean;
 }
 
 export const VurderAktivitetskravSkjemaButtons = ({
-  onLagreClick,
   onAvbrytClick,
   showLagreSpinner,
 }: VurderAktivitetskravSkjemaButtonsProps) => {
@@ -28,7 +26,6 @@ export const VurderAktivitetskravSkjemaButtons = ({
       <LagreButton
         autoDisableVedSpinner
         htmlType="submit"
-        onClick={onLagreClick}
         spinner={showLagreSpinner}
       >
         {texts.lagre}

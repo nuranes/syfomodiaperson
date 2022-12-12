@@ -8,6 +8,10 @@ import {
   AktivitetskravDTO,
   AktivitetskravStatus,
   AktivitetskravVurderingDTO,
+  AvventVurderingArsak,
+  OppfyltVurderingArsak,
+  UnntakVurderingArsak,
+  VurderingArsak,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { generateUUID } from "@/utils/uuidUtils";
 
@@ -38,7 +42,8 @@ export const createAktivitetskrav = (
 };
 
 export const createAktivitetskravVurdering = (
-  status: AktivitetskravStatus
+  status: AktivitetskravStatus,
+  arsaker: VurderingArsak[]
 ): AktivitetskravVurderingDTO => {
   return {
     beskrivelse: "",
@@ -46,15 +51,22 @@ export const createAktivitetskravVurdering = (
     createdBy: VEILEDER_IDENT_DEFAULT,
     status,
     uuid: generateUUID(),
+    arsaker,
   };
 };
 
 export const avventVurdering = createAktivitetskravVurdering(
-  AktivitetskravStatus.AVVENT
+  AktivitetskravStatus.AVVENT,
+  [
+    AvventVurderingArsak.OPPFOLGINGSPLAN_ARBEIDSGIVER,
+    AvventVurderingArsak.INFORMASJON_BEHANDLER,
+  ]
 );
 export const oppfyltVurdering = createAktivitetskravVurdering(
-  AktivitetskravStatus.OPPFYLT
+  AktivitetskravStatus.OPPFYLT,
+  [OppfyltVurderingArsak.FRISKMELDT]
 );
 export const unntakVurdering = createAktivitetskravVurdering(
-  AktivitetskravStatus.UNNTAK
+  AktivitetskravStatus.UNNTAK,
+  [UnntakVurderingArsak.SJOMENN_UTENRIKS]
 );
