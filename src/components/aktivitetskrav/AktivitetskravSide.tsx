@@ -42,7 +42,9 @@ export const AktivitetskravSide = () => {
       {sisteVurdering && (
         <AktivitetskravVurderingAlert vurdering={sisteVurdering} />
       )}
-      {aktivitetskravTilVurdering && <VurderAktivitetskrav />}
+      {aktivitetskravTilVurdering && (
+        <VurderAktivitetskrav aktivitetskrav={aktivitetskravTilVurdering} />
+      )}
       {/* TODO:
        * Utdrag fra sykefraværet
        * Historikk
