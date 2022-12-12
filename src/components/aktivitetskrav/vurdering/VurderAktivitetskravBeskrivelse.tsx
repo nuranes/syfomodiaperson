@@ -3,24 +3,24 @@ import { Field } from "react-final-form";
 import Fritekst from "@/components/Fritekst";
 import { FlexColumn } from "@/components/Layout";
 
-const vurderAktivitetskravBegrunnelseFieldName = "begrunnelse";
 const texts = {
-  label: "Begrunnelse",
+  label: "Beskrivelse",
 };
 
-export const vurderAktivitetskravBegrunnelseMaxLength = 1000;
+export const vurderAktivitetskravBeskrivelseMaxLength = 1000;
+export const vurderAktivitetskravBeskrivelseFieldName = "beskrivelse";
 
-export const VurderAktivitetskravBegrunnelse = () => {
+export const VurderAktivitetskravBeskrivelse = () => {
   return (
     <FlexColumn flex={1}>
-      <Field<string> name={vurderAktivitetskravBegrunnelseFieldName}>
+      <Field<string> name={vurderAktivitetskravBeskrivelseFieldName}>
         {({ input, meta }) => (
           <Fritekst
             size="stor"
-            maxLength={vurderAktivitetskravBegrunnelseMaxLength}
+            maxLength={vurderAktivitetskravBeskrivelseMaxLength}
             label={texts.label}
             feil={meta.submitFailed && meta.error}
-            id={vurderAktivitetskravBegrunnelseFieldName}
+            id={vurderAktivitetskravBeskrivelseFieldName}
             {...input}
           />
         )}

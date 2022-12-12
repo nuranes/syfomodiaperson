@@ -1,5 +1,9 @@
 import { FlexRow, PaddingSize } from "@/components/Layout";
-import { VurderAktivitetskravBegrunnelse } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravBegrunnelse";
+import {
+  VurderAktivitetskravBeskrivelse,
+  vurderAktivitetskravBeskrivelseFieldName,
+  vurderAktivitetskravBeskrivelseMaxLength,
+} from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravBeskrivelse";
 import React from "react";
 import {
   AktivitetskravStatus,
@@ -11,11 +15,12 @@ import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { VurderAktivitetskravSkjemaButtons } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravSkjemaButtons";
 import { Form } from "react-final-form";
 import { useVurderAktivitetskrav } from "@/data/aktivitetskrav/useVurderAktivitetskrav";
-import {
-  VurderAktivitetskravArsakRadioGruppe,
-  vurderAktivitetskravArsakFieldName,
-} from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravArsakRadioGruppe";
 import { oppfyltVurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
+import {
+  vurderAktivitetskravArsakFieldName,
+  VurderAktivitetskravArsakRadioGruppe,
+} from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravArsakRadioGruppe";
+import { validerTekst } from "@/utils/valideringUtils";
 
 const texts = {
   title: "Aktivitetskravet er oppfylt",
@@ -23,7 +28,7 @@ const texts = {
 };
 
 interface OppfyltAktivitetskravSkjemaValues {
-  begrunnelse: string;
+  beskrivelse: string;
   arsak: OppfyltVurderingArsak;
 }
 
@@ -41,7 +46,7 @@ export const OppfyltAktivitetskravSkjema = ({
   const submit = (values: OppfyltAktivitetskravSkjemaValues) => {
     const createAktivitetskravVurderingDTO: CreateAktivitetskravVurderingDTO = {
       status: AktivitetskravStatus.OPPFYLT,
-      beskrivelse: values.begrunnelse,
+      beskrivelse: values.beskrivelse,
       arsaker: [values.arsak],
     };
     vurderAktivitetskrav.mutate(createAktivitetskravVurderingDTO, {
@@ -54,6 +59,10 @@ export const OppfyltAktivitetskravSkjema = ({
       [vurderAktivitetskravArsakFieldName]: !values.arsak
         ? texts.missingArsak
         : undefined,
+      [vurderAktivitetskravBeskrivelseFieldName]: validerTekst({
+        value: values.beskrivelse || "",
+        maxLength: vurderAktivitetskravBeskrivelseMaxLength,
+      }),
     };
   };
 
@@ -70,7 +79,7 @@ export const OppfyltAktivitetskravSkjema = ({
             />
           </FlexRow>
           <FlexRow bottomPadding={PaddingSize.MD}>
-            <VurderAktivitetskravBegrunnelse />
+            <VurderAktivitetskravBeskrivelse />
           </FlexRow>
           {vurderAktivitetskrav.isError && (
             <SkjemaInnsendingFeil error={vurderAktivitetskrav.error} />

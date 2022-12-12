@@ -11,7 +11,7 @@ export const useVurderAktivitetskrav = (aktivitetskravUuid: string) => {
   const path = `${ISAKTIVITETSKRAV_ROOT}/aktivitetskrav/${aktivitetskravUuid}/vurder`;
   const postVurderAktivitetskrav = (
     vurdering: CreateAktivitetskravVurderingDTO
-  ) => post(path, vurdering);
+  ) => post(path, vurdering, personident);
 
   return useMutation(postVurderAktivitetskrav, {
     onSuccess: () => {

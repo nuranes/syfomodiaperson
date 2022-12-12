@@ -12,6 +12,8 @@ import {
   daysFromToday,
   getButton,
   getTextInput,
+  getTooLongText,
+  maxLengthErrorMessage,
 } from "../testUtils";
 import {
   AktivitetskravStatus,
@@ -19,6 +21,7 @@ import {
   OppfyltVurderingArsak,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { expect } from "chai";
+import { vurderAktivitetskravBeskrivelseMaxLength } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravBeskrivelse";
 
 let queryClient: QueryClient;
 
@@ -26,7 +29,7 @@ const aktivitetskrav = createAktivitetskrav(
   daysFromToday(5),
   AktivitetskravStatus.NY
 );
-const enBegrunnelse = "Her er en begrunnelse";
+const enBeskrivelse = "Her er en beskrivelse";
 
 const renderVurderAktivitetskrav = () =>
   render(
@@ -51,13 +54,23 @@ describe("VurderAktivitetskrav", () => {
     expect(getButton("Aktivitetskravet er oppfylt")).to.exist;
   });
   describe("Oppfylt", () => {
-    it("Validerer årsak", () => {
+    it("Validerer årsak og maks tegn beskrivelse", () => {
       renderVurderAktivitetskrav();
 
       clickButton("Aktivitetskravet er oppfylt");
+      const tooLongBeskrivelse = getTooLongText(
+        vurderAktivitetskravBeskrivelseMaxLength
+      );
+      const beskrivelseInput = getTextInput("Beskrivelse");
+      changeTextInput(beskrivelseInput, tooLongBeskrivelse);
       clickButton("Lagre");
 
       expect(screen.getByText("Vennligst angi årsak")).to.exist;
+      expect(
+        screen.getByText(
+          maxLengthErrorMessage(vurderAktivitetskravBeskrivelseMaxLength)
+        )
+      ).to.exist;
     });
     it("Lagre vurdering med verdier fra skjema", () => {
       renderVurderAktivitetskrav();
@@ -70,13 +83,13 @@ describe("VurderAktivitetskrav", () => {
 
       const arsakRadioButton = screen.getByText("Friskmeldt");
       fireEvent.click(arsakRadioButton);
-      const begrunnelseInput = getTextInput("Begrunnelse");
-      changeTextInput(begrunnelseInput, enBegrunnelse);
+      const beskrivelseInput = getTextInput("Beskrivelse");
+      changeTextInput(beskrivelseInput, enBeskrivelse);
       clickButton("Lagre");
 
       const vurderOppfyltMutation = queryClient.getMutationCache().getAll()[0];
       const expectedVurdering: CreateAktivitetskravVurderingDTO = {
-        beskrivelse: enBegrunnelse,
+        beskrivelse: enBeskrivelse,
         status: AktivitetskravStatus.OPPFYLT,
         arsaker: [OppfyltVurderingArsak.FRISKMELDT],
       };
