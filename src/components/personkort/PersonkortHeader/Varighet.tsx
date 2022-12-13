@@ -1,7 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { useStartOfLatestOppfolgingstilfelle } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
-import { getWeeksSinceDate } from "@/utils/datoUtils";
+import {
+  useStartOfLatestOppfolgingstilfelle,
+  useEndOfLatestOppfolgingstilfelle,
+} from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
+import { getWeeksBetween, getEarliestDate } from "@/utils/datoUtils";
 
 const texts = {
   varighet: "Varighet: ",
@@ -19,7 +22,10 @@ const Weeks = styled.span`
 
 export const Varighet = () => {
   const startDate = useStartOfLatestOppfolgingstilfelle();
-  const weeks = getWeeksSinceDate(startDate);
+  const endDate = useEndOfLatestOppfolgingstilfelle();
+  const now = new Date();
+  const earliest = getEarliestDate(endDate, now);
+  const weeks = getWeeksBetween(startDate, earliest);
 
   return (
     <>

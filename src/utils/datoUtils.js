@@ -316,6 +316,10 @@ export const addWeeks = (date, numberOfWeeks) => {
 
 const ONE_WEEK_MILLIS = 7 * 24 * 60 * 60 * 1000;
 
+export const getEarliestDate = (date1, date2) => {
+  return new Date(date1) < new Date(date2) ? new Date(date1) : new Date(date2);
+};
+
 export const getWeeksSinceDate = (date) => {
   const now = new Date();
   return getWeeksBetween(new Date(date), now);
@@ -323,6 +327,7 @@ export const getWeeksSinceDate = (date) => {
 
 export const getWeeksBetween = (date1, date2) => {
   return Math.round(
-    Math.abs(date1.getTime() - date2.getTime()) / ONE_WEEK_MILLIS
+    Math.abs(new Date(date1).getTime() - new Date(date2).getTime()) /
+      ONE_WEEK_MILLIS
   );
 };
