@@ -3,6 +3,7 @@ import React from "react";
 import { AktivitetskravStatus } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { OppfyltAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/OppfyltAktivitetskravSkjema";
 import styled from "styled-components";
+import { UnntakAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/UnntakAktivitetskravSkjema";
 
 const texts = {
   modalContentLabel: "Vurder aktivitetskrav",
@@ -68,6 +69,14 @@ const VurderAktivitetskravModalContent = ({
     case "OPPFYLT": {
       return (
         <OppfyltAktivitetskravSkjema
+          setModalOpen={setModalOpen}
+          aktivitetskravUuid={aktivitetskravUuid}
+        />
+      );
+    }
+    case "UNNTAK": {
+      return (
+        <UnntakAktivitetskravSkjema
           setModalOpen={setModalOpen}
           aktivitetskravUuid={aktivitetskravUuid}
         />

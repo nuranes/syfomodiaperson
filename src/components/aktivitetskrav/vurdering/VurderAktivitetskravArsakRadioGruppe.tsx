@@ -2,17 +2,13 @@ import { Radio, RadioGruppe } from "nav-frontend-skjema";
 import React from "react";
 import { Field, useFormState } from "react-final-form";
 import { VurderingArsak } from "@/data/aktivitetskrav/aktivitetskravTypes";
+import { ArsakText } from "@/data/aktivitetskrav/aktivitetskravTexts";
 
 const texts = {
   arsakLegend: "Årsak (obligatorisk)",
 };
 
 export const vurderAktivitetskravArsakFieldName = "arsak";
-
-type ArsakText = {
-  arsak: VurderingArsak;
-  text: string;
-};
 
 interface VurderAktivitetskravArsakRadioGruppeProps {
   arsakTexts: ArsakText[];

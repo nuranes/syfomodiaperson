@@ -1,11 +1,15 @@
-import { OppfyltVurderingArsak } from "@/data/aktivitetskrav/aktivitetskravTypes";
+import {
+  OppfyltVurderingArsak,
+  UnntakVurderingArsak,
+  VurderingArsak,
+} from "@/data/aktivitetskrav/aktivitetskravTypes";
 
-export type OppfyltVurderingArsakText = {
-  arsak: OppfyltVurderingArsak;
+export type ArsakText = {
+  arsak: VurderingArsak;
   text: string;
 };
 
-export const oppfyltVurderingArsakTexts: OppfyltVurderingArsakText[] = [
+export const oppfyltVurderingArsakTexts: ArsakText[] = [
   {
     arsak: OppfyltVurderingArsak.FRISKMELDT,
     text: "Friskmeldt",
@@ -17,5 +21,20 @@ export const oppfyltVurderingArsakTexts: OppfyltVurderingArsakText[] = [
   {
     arsak: OppfyltVurderingArsak.TILTAK,
     text: "I tiltak",
+  },
+];
+
+export const unntakVurderingArsakTexts: ArsakText[] = [
+  {
+    arsak: UnntakVurderingArsak.MEDISINSKE_GRUNNER,
+    text: "Medisinske grunner",
+  },
+  {
+    arsak: UnntakVurderingArsak.TILRETTELEGGING_IKKE_MULIG,
+    text: "Tilrettelegging ikke mulig",
+  },
+  {
+    arsak: UnntakVurderingArsak.SJOMENN_UTENRIKS,
+    text: "Sjømenn i utenriksfart",
   },
 ];

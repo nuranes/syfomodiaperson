@@ -1,45 +1,45 @@
 import React from "react";
 import {
   AktivitetskravStatus,
-  OppfyltVurderingArsak,
+  UnntakVurderingArsak,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
-import { oppfyltVurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
 import { VurderAktivitetskravArsakRadioGruppe } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravArsakRadioGruppe";
+import { unntakVurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
 import { VurderAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravSkjema";
 import { useAktivitetskravVurderingSkjema } from "@/hooks/aktivitetskrav/useAktivitetskravVurderingSkjema";
 
 const texts = {
-  title: "Aktivitetskravet er oppfylt",
+  title: "Sett unntak fra aktivitetskravet",
 };
 
-interface OppfyltAktivitetskravSkjemaValues {
+interface UnntakAktivitetskravSkjemaValues {
   beskrivelse: string;
-  arsak: OppfyltVurderingArsak;
+  arsak: UnntakVurderingArsak;
 }
 
-interface OppfyltAktivitetskravSkjemaProps {
+interface UnntakAktivitetskravSkjemaProps {
   setModalOpen: (modalOpen: boolean) => void;
   aktivitetskravUuid: string;
 }
 
-export const OppfyltAktivitetskravSkjema = ({
+export const UnntakAktivitetskravSkjema = ({
   setModalOpen,
   aktivitetskravUuid,
-}: OppfyltAktivitetskravSkjemaProps) => {
+}: UnntakAktivitetskravSkjemaProps) => {
   const { createDto, validateArsak, validateBeskrivelse } =
-    useAktivitetskravVurderingSkjema(AktivitetskravStatus.OPPFYLT);
+    useAktivitetskravVurderingSkjema(AktivitetskravStatus.UNNTAK);
 
-  const validate = (values: Partial<OppfyltAktivitetskravSkjemaValues>) => ({
+  const validate = (values: Partial<UnntakAktivitetskravSkjemaValues>) => ({
     ...validateArsak(values.arsak),
     ...validateBeskrivelse(values.beskrivelse, false),
   });
 
   return (
-    <VurderAktivitetskravSkjema<OppfyltAktivitetskravSkjemaValues>
+    <VurderAktivitetskravSkjema<UnntakAktivitetskravSkjemaValues>
       title={texts.title}
       arsakVelger={
         <VurderAktivitetskravArsakRadioGruppe
-          arsakTexts={oppfyltVurderingArsakTexts}
+          arsakTexts={unntakVurderingArsakTexts}
         />
       }
       setModalOpen={setModalOpen}
