@@ -40,7 +40,7 @@ export const mockIsdialogmotekandidat = (server: any) => {
     }
   );
   server.get(
-    `${ISDIALOGMOTEKANDIDAT_ROOT}/unntak/hackaton`,
+    `${ISDIALOGMOTEKANDIDAT_ROOT}/unntak/statistikk`,
     Auth.ensureAuthenticated(),
     (req: express.Request, res: express.Response) => {
       res.send(JSON.stringify(unntaksstatistikk));

@@ -31,7 +31,7 @@ export const useDialogmoteunntakQuery = () => {
 };
 
 export const useDialogmoteUnntaksstatistikkQuery = () => {
-  const path = `${ISDIALOGMOTEKANDIDAT_ROOT}/unntak/hackaton`;
+  const path = `${ISDIALOGMOTEKANDIDAT_ROOT}/unntak/statistikk`;
   const fetchUnntaksstatistikk = () => get<UnntaksstatistikkDTO[]>(path);
   return useQuery(
     dialogmotekandidatQueryKeys.unntaksstatistikk(),
