@@ -17,6 +17,7 @@ import {
 } from "../testUtils";
 import {
   AktivitetskravStatus,
+  AvventVurderingArsak,
   CreateAktivitetskravVurderingDTO,
   OppfyltVurderingArsak,
   UnntakVurderingArsak,
@@ -30,6 +31,8 @@ const aktivitetskrav = createAktivitetskrav(
   daysFromToday(5),
   AktivitetskravStatus.NY
 );
+
+const avventButtonText = "(Avventer)";
 const enBeskrivelse = "Her er en beskrivelse";
 const unntakButtonText = "Sett unntak";
 const oppfyltButtonText = "Aktivitetskravet er oppfylt";
@@ -50,8 +53,7 @@ describe("VurderAktivitetskrav", () => {
   });
   it("renders buttons for vurdering av aktivitetskravet", () => {
     renderVurderAktivitetskrav();
-
-    expect(getButton("(Avventer)")).to.exist;
+    expect(getButton(avventButtonText)).to.exist;
     expect(getButton(unntakButtonText)).to.exist;
     expect(getButton(oppfyltButtonText)).to.exist;
   });
@@ -143,6 +145,53 @@ describe("VurderAktivitetskrav", () => {
         arsaker: [UnntakVurderingArsak.TILRETTELEGGING_IKKE_MULIG],
       };
       expect(vurderUnntakMutation.options.variables).to.deep.equal(
+        expectedVurdering
+      );
+    });
+  });
+  describe("Avvent", () => {
+    it("Validerer årsaker og beskrivelse", () => {
+      renderVurderAktivitetskrav();
+
+      clickButton(avventButtonText);
+      clickButton("Lagre");
+
+      expect(screen.getByText("Vennligst angi beskrivelse")).to.exist;
+      expect(screen.getByText("Vennligst angi årsak")).to.exist;
+    });
+    it("Lagre vurdering med verdier fra skjema", () => {
+      renderVurderAktivitetskrav();
+
+      clickButton(avventButtonText);
+
+      expect(
+        screen.getByRole("heading", {
+          name: "Avventer",
+        })
+      ).to.exist;
+
+      const arsakOppfolgingsplanRadioButton = screen.getByText(
+        "Har bedt om oppfølgingsplan fra arbeidsgiver"
+      );
+      fireEvent.click(arsakOppfolgingsplanRadioButton);
+      const arsakBehandlerRadioButton = screen.getByText(
+        "Har bedt om mer informasjon fra behandler"
+      );
+      fireEvent.click(arsakBehandlerRadioButton);
+      const beskrivelseInput = getTextInput("Beskrivelse (obligatorisk)");
+      changeTextInput(beskrivelseInput, enBeskrivelse);
+      clickButton("Lagre");
+
+      const vurderAvventMutation = queryClient.getMutationCache().getAll()[0];
+      const expectedVurdering: CreateAktivitetskravVurderingDTO = {
+        beskrivelse: enBeskrivelse,
+        status: AktivitetskravStatus.AVVENT,
+        arsaker: [
+          AvventVurderingArsak.OPPFOLGINGSPLAN_ARBEIDSGIVER,
+          AvventVurderingArsak.INFORMASJON_BEHANDLER,
+        ],
+      };
+      expect(vurderAvventMutation.options.variables).to.deep.equal(
         expectedVurdering
       );
     });

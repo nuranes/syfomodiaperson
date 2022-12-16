@@ -4,6 +4,7 @@ import { AktivitetskravStatus } from "@/data/aktivitetskrav/aktivitetskravTypes"
 import { OppfyltAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/OppfyltAktivitetskravSkjema";
 import styled from "styled-components";
 import { UnntakAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/UnntakAktivitetskravSkjema";
+import { AvventAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/AvventAktivitetskravSkjema";
 
 const texts = {
   modalContentLabel: "Vurder aktivitetskrav",
@@ -82,7 +83,14 @@ const VurderAktivitetskravModalContent = ({
         />
       );
     }
-    // TODO: Implement modal for all types
+    case "AVVENT": {
+      return (
+        <AvventAktivitetskravSkjema
+          setModalOpen={setModalOpen}
+          aktivitetskravUuid={aktivitetskravUuid}
+        />
+      );
+    }
     default: {
       return <></>;
     }

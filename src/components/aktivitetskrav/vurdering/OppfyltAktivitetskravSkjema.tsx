@@ -4,17 +4,21 @@ import {
   OppfyltVurderingArsak,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { oppfyltVurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
-import { VurderAktivitetskravArsakRadioGruppe } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravArsakRadioGruppe";
+import {
+  vurderAktivitetskravArsakFieldName,
+  VurderAktivitetskravArsakRadioGruppe,
+} from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravArsakRadioGruppe";
 import { VurderAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravSkjema";
 import { useAktivitetskravVurderingSkjema } from "@/hooks/aktivitetskrav/useAktivitetskravVurderingSkjema";
+import { vurderAktivitetskravBeskrivelseFieldName } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravBeskrivelse";
 
 const texts = {
   title: "Aktivitetskravet er oppfylt",
 };
 
 interface OppfyltAktivitetskravSkjemaValues {
-  beskrivelse: string;
-  arsak: OppfyltVurderingArsak;
+  [vurderAktivitetskravBeskrivelseFieldName]: string;
+  [vurderAktivitetskravArsakFieldName]: OppfyltVurderingArsak;
 }
 
 interface OppfyltAktivitetskravSkjemaProps {
@@ -26,12 +30,12 @@ export const OppfyltAktivitetskravSkjema = ({
   setModalOpen,
   aktivitetskravUuid,
 }: OppfyltAktivitetskravSkjemaProps) => {
-  const { createDto, validateArsak, validateBeskrivelse } =
+  const { createDto, validateArsakField, validateBeskrivelseField } =
     useAktivitetskravVurderingSkjema(AktivitetskravStatus.OPPFYLT);
 
   const validate = (values: Partial<OppfyltAktivitetskravSkjemaValues>) => ({
-    ...validateArsak(values.arsak),
-    ...validateBeskrivelse(values.beskrivelse, false),
+    ...validateArsakField(values.arsak),
+    ...validateBeskrivelseField(values.beskrivelse, false),
   });
 
   return (

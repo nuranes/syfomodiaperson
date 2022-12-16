@@ -3,14 +3,16 @@ import { Field } from "react-final-form";
 import Fritekst from "@/components/Fritekst";
 import { FlexColumn } from "@/components/Layout";
 
-const texts = {
-  label: "Beskrivelse",
-};
-
 export const vurderAktivitetskravBeskrivelseMaxLength = 1000;
 export const vurderAktivitetskravBeskrivelseFieldName = "beskrivelse";
 
-export const VurderAktivitetskravBeskrivelse = () => {
+interface VurderAktivitetskravBeskrivelseProps {
+  label?: string;
+}
+
+export const VurderAktivitetskravBeskrivelse = ({
+  label = "Beskrivelse",
+}: VurderAktivitetskravBeskrivelseProps) => {
   return (
     <FlexColumn flex={1}>
       <Field<string> name={vurderAktivitetskravBeskrivelseFieldName}>
@@ -18,7 +20,7 @@ export const VurderAktivitetskravBeskrivelse = () => {
           <Fritekst
             size="stor"
             maxLength={vurderAktivitetskravBeskrivelseMaxLength}
-            label={texts.label}
+            label={label}
             feil={meta.submitFailed && meta.error}
             id={vurderAktivitetskravBeskrivelseFieldName}
             {...input}

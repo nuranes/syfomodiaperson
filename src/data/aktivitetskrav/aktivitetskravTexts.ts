@@ -1,4 +1,5 @@
 import {
+  AvventVurderingArsak,
   OppfyltVurderingArsak,
   UnntakVurderingArsak,
   VurderingArsak,
@@ -36,5 +37,20 @@ export const unntakVurderingArsakTexts: ArsakText[] = [
   {
     arsak: UnntakVurderingArsak.SJOMENN_UTENRIKS,
     text: "Sjømenn i utenriksfart",
+  },
+];
+
+export const avventVurderingArsakTexts: ArsakText[] = [
+  {
+    arsak: AvventVurderingArsak.OPPFOLGINGSPLAN_ARBEIDSGIVER,
+    text: "Har bedt om oppfølgingsplan fra arbeidsgiver",
+  },
+  {
+    arsak: AvventVurderingArsak.INFORMASJON_BEHANDLER,
+    text: "Har bedt om mer informasjon fra behandler",
+  },
+  {
+    arsak: AvventVurderingArsak.ANNET,
+    text: "Annet",
   },
 ];

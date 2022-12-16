@@ -11,6 +11,8 @@ import { ValidationErrors } from "final-form";
 
 interface VurderAktivitetskravSkjemaProps<SkjemaValues> {
   title: string;
+  subtitle?: ReactElement;
+  beskrivelseLabel?: string;
   arsakVelger: ReactElement;
   setModalOpen: (modalOpen: boolean) => void;
   aktivitetskravUuid: string;
@@ -22,6 +24,8 @@ interface VurderAktivitetskravSkjemaProps<SkjemaValues> {
 
 export const VurderAktivitetskravSkjema = <SkjemaValues extends object>({
   title,
+  subtitle,
+  beskrivelseLabel,
   arsakVelger,
   setModalOpen,
   aktivitetskravUuid,
@@ -45,9 +49,12 @@ export const VurderAktivitetskravSkjema = <SkjemaValues extends object>({
           <FlexRow bottomPadding={PaddingSize.MD}>
             <Innholdstittel>{title}</Innholdstittel>
           </FlexRow>
+          {subtitle && (
+            <FlexRow bottomPadding={PaddingSize.MD}>{subtitle}</FlexRow>
+          )}
           <FlexRow bottomPadding={PaddingSize.SM}>{arsakVelger}</FlexRow>
           <FlexRow bottomPadding={PaddingSize.MD}>
-            <VurderAktivitetskravBeskrivelse />
+            <VurderAktivitetskravBeskrivelse label={beskrivelseLabel} />
           </FlexRow>
           {vurderAktivitetskrav.isError && (
             <SkjemaInnsendingFeil error={vurderAktivitetskrav.error} />

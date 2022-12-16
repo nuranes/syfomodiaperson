@@ -9,6 +9,16 @@ import {
   vurderAktivitetskravBeskrivelseMaxLength,
 } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravBeskrivelse";
 import { validerTekst } from "@/utils/valideringUtils";
+import { vurderAktivitetskravArsakerFieldName } from "@/components/aktivitetskrav/vurdering/AvventArsakerCheckboxGruppe";
+
+const validationText = {
+  missingArsak: "Vennligst angi årsak",
+  missingBeskrivelse: "Vennligst angi beskrivelse",
+};
+
+const validateArsak = (arsak: VurderingArsak | undefined) => {
+  return !arsak ? validationText.missingArsak : undefined;
+};
 
 export const useAktivitetskravVurderingSkjema = (
   status: AktivitetskravStatus
@@ -23,14 +33,17 @@ export const useAktivitetskravVurderingSkjema = (
       arsaker,
     };
   };
-  const validateArsak = (arsak: VurderingArsak | undefined) => {
+  const validateArsakField = (arsak: VurderingArsak | undefined) => {
     return {
-      [vurderAktivitetskravArsakFieldName]: !arsak
-        ? "Vennligst angi årsak"
-        : undefined,
+      [vurderAktivitetskravArsakFieldName]: validateArsak(arsak),
     };
   };
-  const validateBeskrivelse = (
+  const validateArsakerField = (arsaker: VurderingArsak[] | undefined) => {
+    return {
+      [vurderAktivitetskravArsakerFieldName]: validateArsak(arsaker?.[0]),
+    };
+  };
+  const validateBeskrivelseField = (
     beskrivelse: string | undefined,
     required: boolean
   ) => {
@@ -39,7 +52,7 @@ export const useAktivitetskravVurderingSkjema = (
         value: beskrivelse || "",
         maxLength: vurderAktivitetskravBeskrivelseMaxLength,
         missingRequiredMessage: required
-          ? "Vennligst angi beskrivelse"
+          ? validationText.missingBeskrivelse
           : undefined,
       }),
     };
@@ -47,7 +60,8 @@ export const useAktivitetskravVurderingSkjema = (
 
   return {
     createDto,
-    validateArsak,
-    validateBeskrivelse,
+    validateArsakField,
+    validateArsakerField,
+    validateBeskrivelseField,
   };
 };
