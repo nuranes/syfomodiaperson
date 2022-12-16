@@ -1,13 +1,17 @@
 import React from "react";
-import { useUnntaksstatistikk } from "@/data/dialogmotekandidat/dialogmotekandidatQueryHooks";
 import { dagerMellomDatoer, dagerMellomDatoerUtenAbs } from "@/utils/datoUtils";
 import styled from "styled-components";
 import { Unntaksstatistikk } from "../../../img/ImageComponents";
 import { Element, Normaltekst } from "nav-frontend-typografi";
+import { ARBEIDSGIVERPERIODE_DAYS } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
+import { UnntaksstatistikkDTO } from "@/data/dialogmotekandidat/types/dialogmoteunntakTypes";
+import { useDialogmoteUnntaksstatistikkQuery } from "@/data/dialogmotekandidat/dialogmoteunntakQueryHooks";
 
 const texts = {
   header: "Din statistikk",
 };
+
+const THIRTY_WEEKS_IN_DAYS = 30 * 7;
 
 const Icon = styled.img`
   margin-right: 1em;
@@ -22,37 +26,42 @@ const StatistikkWrapper = styled.div`
   width: 65%;
 `;
 
-const DialogmoteunntakSkjemaStatistikk = () => {
-  const { data: unntaksstatistikk } = useUnntaksstatistikk();
-  if (!unntaksstatistikk) return <></>;
-
+const statistikkTekst = (unntaksstatistikk: UnntaksstatistikkDTO[]): string => {
   const total = unntaksstatistikk.filter(
     (value) =>
-      dagerMellomDatoerUtenAbs(new Date(value.tilfelleEnd), new Date()) > 16 ||
+      dagerMellomDatoerUtenAbs(new Date(value.tilfelleEnd), new Date()) >
+        ARBEIDSGIVERPERIODE_DAYS ||
       dagerMellomDatoerUtenAbs(
         new Date(value.tilfelleStart),
         new Date(value.tilfelleEnd)
-      ) >
-        30 * 7
+      ) > THIRTY_WEEKS_IN_DAYS
   );
   const frisk = total.filter(
     (value) =>
       dagerMellomDatoer(
         new Date(value.tilfelleStart),
         new Date(value.tilfelleEnd)
-      ) <=
-      30 * 7
+      ) <= THIRTY_WEEKS_IN_DAYS
   ).length;
 
-  const text = `Du har valgt denne unntaksårsaken ${total.length} ganger tidligere, i ${frisk} av disse tilfellene ble arbeidstakeren friskmeldt innen 28 uker.`;
+  return `Du har valgt denne unntaksårsaken ${total.length} ganger tidligere, i ${frisk} av disse tilfellene ble arbeidstakeren friskmeldt innen 28 uker.`;
+};
+
+const DialogmoteunntakSkjemaStatistikk = () => {
+  const { data: unntaksstatistikk } = useDialogmoteUnntaksstatistikkQuery();
+
   return (
-    <StatistikkWrapper>
-      <Icon src={Unntaksstatistikk} />
-      <div>
-        <Element>{texts.header}</Element>
-        <Normaltekst>{text}</Normaltekst>
-      </div>
-    </StatistikkWrapper>
+    <>
+      {unntaksstatistikk && (
+        <StatistikkWrapper>
+          <Icon src={Unntaksstatistikk} />
+          <div>
+            <Element>{texts.header}</Element>
+            <Normaltekst>{statistikkTekst(unntaksstatistikk)}</Normaltekst>
+          </div>
+        </StatistikkWrapper>
+      )}
+    </>
   );
 };
 

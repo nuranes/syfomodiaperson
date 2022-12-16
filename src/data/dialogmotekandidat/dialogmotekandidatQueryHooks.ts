@@ -53,22 +53,3 @@ export const useDialogmotekandidat = () => {
     isKandidat,
   };
 };
-
-export interface HackatonResponse {
-  unntakDato: Date;
-  tilfelleStart: Date;
-  tilfelleEnd: Date;
-}
-
-export const useUnntaksstatistikk = () => {
-  const path = `${ISDIALOGMOTEKANDIDAT_ROOT}/unntak/hackaton`;
-  const fetchUnntaksstatistikk = () => get<HackatonResponse[]>(path);
-  const query = useQuery(
-    dialogmotekandidatQueryKeys.unntaksstatistikk(),
-    fetchUnntaksstatistikk
-  );
-
-  return {
-    ...query,
-  };
-};

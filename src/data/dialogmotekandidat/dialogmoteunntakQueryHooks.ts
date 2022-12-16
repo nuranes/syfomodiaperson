@@ -2,7 +2,11 @@ import { useQuery } from "react-query";
 import { get } from "@/api/axios";
 import { ISDIALOGMOTEKANDIDAT_ROOT } from "@/apiConstants";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
-import { UnntakDTO } from "@/data/dialogmotekandidat/types/dialogmoteunntakTypes";
+import {
+  UnntakDTO,
+  UnntaksstatistikkDTO,
+} from "@/data/dialogmotekandidat/types/dialogmoteunntakTypes";
+import { dialogmotekandidatQueryKeys } from "@/data/dialogmotekandidat/dialogmotekandidatQueryHooks";
 
 export const dialogmoteunntakQueryKeys = {
   unntak: (personident: string) => ["dialogmoteunntak", personident],
@@ -24,4 +28,13 @@ export const useDialogmoteunntakQuery = () => {
     ...query,
     data: query.data || [],
   };
+};
+
+export const useDialogmoteUnntaksstatistikkQuery = () => {
+  const path = `${ISDIALOGMOTEKANDIDAT_ROOT}/unntak/hackaton`;
+  const fetchUnntaksstatistikk = () => get<UnntaksstatistikkDTO[]>(path);
+  return useQuery(
+    dialogmotekandidatQueryKeys.unntaksstatistikk(),
+    fetchUnntaksstatistikk
+  );
 };

@@ -2,7 +2,10 @@ import express = require("express");
 import { ISDIALOGMOTEKANDIDAT_ROOT } from "../../src/apiConstants";
 import { NAV_PERSONIDENT_HEADER } from "../util/requestUtil";
 import { dialogmotekandidatMock } from "./dialogmotekandidatMock";
-import { dialogmoteunntakMock, hackatonrespons } from "./dialogmoteunntakMock";
+import {
+  dialogmoteunntakMock,
+  unntaksstatistikk,
+} from "./dialogmoteunntakMock";
 
 import Auth = require("../../server/auth");
 
@@ -40,7 +43,7 @@ export const mockIsdialogmotekandidat = (server: any) => {
     `${ISDIALOGMOTEKANDIDAT_ROOT}/unntak/hackaton`,
     Auth.ensureAuthenticated(),
     (req: express.Request, res: express.Response) => {
-      res.send(JSON.stringify(hackatonrespons));
+      res.send(JSON.stringify(unntaksstatistikk));
     }
   );
 };

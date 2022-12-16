@@ -39,7 +39,7 @@ const SkjemaFieldWrapper = styled.div`
   margin-bottom: 2em;
 `;
 
-interface DialogmoteunntakSkjemaValues {
+export interface DialogmoteunntakSkjemaValues {
   arsak: UnntakArsak;
   beskrivelse?: string;
 }
@@ -90,13 +90,10 @@ const DialogmoteunntakSkjema = () => {
       <AlertStripeInfo>{texts.noBrev}</AlertStripeInfo>
       <p>{texts.infoKandidatlist}</p>
       <Form onSubmit={submit} validate={validate}>
-        {({ handleSubmit, submitFailed, errors }) => (
+        {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             <SkjemaFieldWrapper>
-              <DialogmoteunntakSkjemaArsakVelger
-                submitFailed={submitFailed}
-                errors={errors}
-              />
+              <DialogmoteunntakSkjemaArsakVelger />
             </SkjemaFieldWrapper>
             <SkjemaFieldWrapper>
               <DialogmoteunntakSkjemaBeskrivelse />

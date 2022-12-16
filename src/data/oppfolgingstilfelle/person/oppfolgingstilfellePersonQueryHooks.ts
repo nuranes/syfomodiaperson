@@ -9,7 +9,7 @@ import {
 import { minutesToMillis } from "@/utils/timeUtils";
 import dayjs from "dayjs";
 
-const ARBEIDSGIVERPERIODE_DAYS = 16;
+export const ARBEIDSGIVERPERIODE_DAYS = 16;
 
 const latestTilfelleDifference = (
   a: OppfolgingstilfelleDTO,

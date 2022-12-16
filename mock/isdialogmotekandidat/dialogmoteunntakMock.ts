@@ -25,7 +25,7 @@ export const dialogmoteunntakUtenBeskrivelse = createDialogmoteunntak(
   undefined
 );
 
-export const hackatonrespons = [
+export const unntaksstatistikk = [
   {
     unntakDato: new Date("2022-10-02"),
     tilfelleStart: new Date("2022-10-01"),
