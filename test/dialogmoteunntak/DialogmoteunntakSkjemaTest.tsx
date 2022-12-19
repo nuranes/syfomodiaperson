@@ -18,7 +18,7 @@ import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import DialogmoteunntakSkjema, {
   texts as unntakSkjemaTexts,
 } from "@/components/dialogmoteunntak/DialogmoteunntakSkjema";
-import { stubVeilederinfoApi } from "../stubs/stubSyfoveileder";
+import { stubAktivVeilederinfoApi } from "../stubs/stubSyfoveileder";
 import {
   UnntakArsakText,
   unntakArsakTexts,
@@ -49,7 +49,7 @@ describe("DialogmoteunntakSkjema", () => {
       dialogmoterQueryKeys.dialogmoter(ARBEIDSTAKER_DEFAULT.personIdent),
       () => []
     );
-    stubVeilederinfoApi(apiMockScope);
+    stubAktivVeilederinfoApi(apiMockScope);
     stubFeatureTogglesApi(apiMockScope);
   });
 

@@ -3,12 +3,12 @@ import { SYFOMOTEBEHOV_ROOT } from "@/apiConstants";
 import { useMutation, useQueryClient } from "react-query";
 import { post } from "@/api/axios";
 import { motebehovQueryKeys } from "@/data/motebehov/motebehovQueryHooks";
-import { useVeilederinfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
+import { useAktivVeilederinfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
 import { MotebehovVeilederDTO } from "@/data/motebehov/types/motebehovTypes";
 
 export const useBehandleMotebehov = () => {
   const fnr = useValgtPersonident();
-  const { data: veilederinfo } = useVeilederinfoQuery();
+  const { data: veilederinfo } = useAktivVeilederinfoQuery();
   const veilederIdent = veilederinfo?.ident;
   const queryClient = useQueryClient();
   const path = `${SYFOMOTEBEHOV_ROOT}/motebehov/${fnr}/behandle`;

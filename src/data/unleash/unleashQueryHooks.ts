@@ -1,4 +1,4 @@
-import { useVeilederinfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
+import { useAktivVeilederinfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
 import { useValgtEnhet } from "@/context/ValgtEnhetContext";
 import { post } from "@/api/axios";
 import { UNLEASH_ROOT } from "@/apiConstants";
@@ -14,7 +14,7 @@ export const unleashQueryKeys = {
 };
 
 export const useFeatureToggles = (behandlerRef?: string) => {
-  const { data: veilederInfo } = useVeilederinfoQuery();
+  const { data: veilederInfo } = useAktivVeilederinfoQuery();
   const { valgtEnhet } = useValgtEnhet();
   const veilederIdent = veilederInfo?.ident || "";
   const path = `${UNLEASH_ROOT}/toggles?valgtEnhet=${valgtEnhet}${

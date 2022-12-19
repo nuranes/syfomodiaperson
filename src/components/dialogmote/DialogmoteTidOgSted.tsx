@@ -8,7 +8,7 @@ import styled from "styled-components";
 import { FlexColumn, FlexRow, PaddingSize } from "../Layout";
 import { Innholdstittel } from "nav-frontend-typografi";
 import { AlertstripeFullbredde } from "@/components/AlertstripeFullbredde";
-import { useVeilederinfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
+import { useAktivVeilederinfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
 import { useBrukerinfoQuery } from "@/data/navbruker/navbrukerQueryHooks";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { addWeeks, visDato } from "@/utils/datoUtils";
@@ -61,7 +61,7 @@ const DialogmoteTidOgSted = ({
   const klokkeslettField = "klokkeslett";
   const stedField = "sted";
   const videoLinkField = "videoLink";
-  const { data: veilederinfo } = useVeilederinfoQuery();
+  const { data: veilederinfo } = useAktivVeilederinfoQuery();
   const ABTestHit = Number(veilederinfo?.ident.slice(-1)) >= 5;
   const { brukerKanVarslesDigitalt } = useBrukerinfoQuery();
   const showFuturisticWarning =

@@ -8,7 +8,7 @@ import { dialogmotekandidatMock } from "../../../mock/isdialogmotekandidat/dialo
 import { stubDialogmoteKandidatApi } from "../../stubs/stubIsdialogmotekandidat";
 import { stubFeatureTogglesApi } from "../../stubs/stubUnleash";
 import { useDialogmotekandidat } from "@/data/dialogmotekandidat/dialogmotekandidatQueryHooks";
-import { stubVeilederinfoApi } from "../../stubs/stubSyfoveileder";
+import { stubAktivVeilederinfoApi } from "../../stubs/stubSyfoveileder";
 
 let queryClient: any;
 let apiMockScope: any;
@@ -23,7 +23,7 @@ describe("dialogmotekandidatQuery tests", () => {
   });
 
   it("loads dialogmotekandidat for valgt personident", async () => {
-    stubVeilederinfoApi(apiMockScope);
+    stubAktivVeilederinfoApi(apiMockScope);
     stubFeatureTogglesApi(apiMockScope);
     stubDialogmoteKandidatApi(apiMockScope);
 

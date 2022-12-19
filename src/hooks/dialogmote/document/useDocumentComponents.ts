@@ -1,4 +1,4 @@
-import { useVeilederinfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
+import { useAktivVeilederinfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
 import {
   createLink,
   createParagraph,
@@ -15,7 +15,7 @@ import { useValgtPersonident } from "@/hooks/useValgtBruker";
 
 export const useDocumentComponents = () => {
   const navBruker = useNavBrukerData();
-  const { data: veilederinfo } = useVeilederinfoQuery();
+  const { data: veilederinfo } = useAktivVeilederinfoQuery();
   const { getCurrentNarmesteLeder } = useLedereQuery();
 
   const getVirksomhetsnavn = (

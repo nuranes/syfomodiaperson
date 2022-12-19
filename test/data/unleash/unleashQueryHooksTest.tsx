@@ -6,7 +6,7 @@ import { apiMock } from "../../stubs/stubApi";
 import { queryHookWrapper } from "../queryHookTestUtils";
 import { unleashMock } from "../../../mock/unleash/unleashMock";
 import { stubFeatureTogglesApi } from "../../stubs/stubUnleash";
-import { stubVeilederinfoApi } from "../../stubs/stubSyfoveileder";
+import { stubAktivVeilederinfoApi } from "../../stubs/stubSyfoveileder";
 import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
 
 let queryClient: any;
@@ -22,7 +22,7 @@ describe("unleashQuery tests", () => {
   });
 
   it("loads unleash toggles", async () => {
-    stubVeilederinfoApi(apiMockScope);
+    stubAktivVeilederinfoApi(apiMockScope);
     stubFeatureTogglesApi(apiMockScope);
 
     const wrapper = queryHookWrapper(queryClient);

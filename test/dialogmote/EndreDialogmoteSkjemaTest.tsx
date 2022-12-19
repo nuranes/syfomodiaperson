@@ -36,7 +36,7 @@ import sinon from "sinon";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { renderWithRouter } from "../testRouterUtils";
 import { stubFeatureTogglesApi } from "../stubs/stubUnleash";
-import { stubVeilederinfoApi } from "../stubs/stubSyfoveileder";
+import { stubAktivVeilederinfoApi } from "../stubs/stubSyfoveileder";
 import { queryClientWithMockData } from "../testQueryClient";
 
 let queryClient: any;
@@ -330,7 +330,7 @@ describe("EndreDialogmoteSkjemaTest", () => {
       });
   });
   it("forhåndsviser endret tid og sted til behandler når behandler er med", () => {
-    stubVeilederinfoApi(apiMockScope);
+    stubAktivVeilederinfoApi(apiMockScope);
     stubFeatureTogglesApi(apiMockScope);
     renderEndreDialogmoteSkjema(dialogmoteMedBehandler);
     passSkjemaInput();

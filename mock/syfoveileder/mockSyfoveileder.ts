@@ -13,4 +13,13 @@ export const mockSyfoveileder = (server: any) => {
       res.send(JSON.stringify(veilederMock));
     }
   );
+
+  server.get(
+    `${SYFOVEILEDER_ROOT}/veileder/:ident`,
+    Auth.ensureAuthenticated(),
+    (req: express.Request, res: express.Response) => {
+      res.setHeader("Content-Type", "application/json");
+      res.send(JSON.stringify(veilederMock));
+    }
+  );
 };

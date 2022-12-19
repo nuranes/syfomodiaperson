@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { Checkbox, Input } from "nav-frontend-skjema";
 import { FlexColumn, FlexRow, PaddingSize } from "../../Layout";
 import { AndreDeltakere } from "./AndreDeltakere";
-import { useVeilederinfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
+import { useAktivVeilederinfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
 import { DialogmotedeltakerBehandlerDTO } from "@/data/dialogmote/types/dialogmoteTypes";
 import { behandlerDeltokTekst } from "@/utils/behandlerUtils";
 import { EkspanderbartpanelBase } from "nav-frontend-ekspanderbartpanel";
@@ -178,7 +178,7 @@ interface DeltakereProps {
 
 const Deltakere = ({ behandler }: DeltakereProps): ReactElement => {
   const navbruker = useNavBrukerData();
-  const { data: veilederinfo } = useVeilederinfoQuery();
+  const { data: veilederinfo } = useAktivVeilederinfoQuery();
 
   return (
     <DeltakereBoks>

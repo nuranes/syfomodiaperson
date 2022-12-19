@@ -21,7 +21,7 @@ import {
 import { BrukerinfoDTO } from "@/data/navbruker/types/BrukerinfoDTO";
 import { VeilederinfoDTO } from "@/data/veilederinfo/types/VeilederinfoDTO";
 import { commonTexts, referatTexts } from "@/data/dialogmote/dialogmoteTexts";
-import { useVeilederinfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
+import { useAktivVeilederinfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
 import { behandlerDeltokTekst } from "@/utils/behandlerUtils";
 import { useDocumentComponents } from "@/hooks/dialogmote/document/useDocumentComponents";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
@@ -37,7 +37,7 @@ export const useReferatDocument = (
   mode: ReferatMode
 ): IReferatDocument => {
   const navbruker = useNavBrukerData();
-  const { data: veilederinfo } = useVeilederinfoQuery();
+  const { data: veilederinfo } = useAktivVeilederinfoQuery();
   const isEndringAvReferat = mode === ReferatMode.ENDRET;
   const { getVirksomhetsnavn, getHilsen } = useDocumentComponents();
 

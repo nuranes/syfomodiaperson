@@ -4,7 +4,7 @@ import Oppfolgingsplan from "../oppfolgingsplaner/Oppfolgingsplan";
 import SideLaster from "../../SideLaster";
 import { useParams } from "react-router-dom";
 import Feilmelding from "@/components/Feilmelding";
-import { useVeilederinfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
+import { useAktivVeilederinfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
 import { useOppfolgingsplanerQuery } from "@/data/oppfolgingsplan/oppfolgingsplanQueryHooks";
 
 const texts = {
@@ -16,7 +16,7 @@ export const OppfoelgingsplanContainer = () => {
   const { oppfoelgingsdialogId } = useParams<{
     oppfoelgingsdialogId: string;
   }>();
-  const { isLoading: henterVeilederinfo } = useVeilederinfoQuery();
+  const { isLoading: henterVeilederinfo } = useAktivVeilederinfoQuery();
   const {
     data: oppfolgingsplaner,
     isError: oppfolgingsplanerHentingFeilet,
