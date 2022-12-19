@@ -19,8 +19,8 @@ export const AvventArsakerCheckboxGruppe = () => {
         submitFailed && errors && errors[vurderAktivitetskravArsakerFieldName]
       }
     >
-      {avventVurderingArsakTexts.map(({ arsak, text }, index) => (
-        <Field
+      {Object.entries(avventVurderingArsakTexts).map(([arsak, text], index) => (
+        <Field<string>
           key={index}
           name={vurderAktivitetskravArsakerFieldName}
           type="checkbox"

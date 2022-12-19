@@ -12,6 +12,7 @@ import { FlexRow, PaddingSize } from "@/components/Layout";
 import { Element, Normaltekst } from "nav-frontend-typografi";
 import { AlertstripeFullbredde } from "@/components/AlertstripeFullbredde";
 import styled from "styled-components";
+import { avventVurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
 
 const prefixTexts = {
   [AktivitetskravStatus.UNNTAK]: "Det er vurdert unntak for",
@@ -51,8 +52,13 @@ export const AktivitetskravVurderingAlert = ({
             <Normaltekst>{vurdering.beskrivelse}</Normaltekst>
           </FlexRow>
           <FlexRow topPadding={PaddingSize.SM}>
-            {/*TODO: Punkter med avkryssede sjekkbokser når det er implementert
-              for vurdering*/}
+            <ul>
+              {vurdering.arsaker.map((arsak, index) => {
+                const avventArsakText =
+                  avventVurderingArsakTexts[arsak] || arsak;
+                return <li key={index}>{avventArsakText}</li>;
+              })}
+            </ul>
           </FlexRow>
         </StyledAlertstripeFullbredde>
       );

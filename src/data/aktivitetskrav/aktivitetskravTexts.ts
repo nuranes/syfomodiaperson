@@ -5,52 +5,27 @@ import {
   VurderingArsak,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 
-export type ArsakText = {
-  arsak: VurderingArsak;
-  text: string;
+export type VurderingArsakTexts = {
+  [key in VurderingArsak]?: string;
 };
 
-export const oppfyltVurderingArsakTexts: ArsakText[] = [
-  {
-    arsak: OppfyltVurderingArsak.FRISKMELDT,
-    text: "Friskmeldt",
-  },
-  {
-    arsak: OppfyltVurderingArsak.GRADERT,
-    text: "Gradert",
-  },
-  {
-    arsak: OppfyltVurderingArsak.TILTAK,
-    text: "I tiltak",
-  },
-];
+export const oppfyltVurderingArsakTexts: VurderingArsakTexts = {
+  [OppfyltVurderingArsak.FRISKMELDT]: "Friskmeldt",
+  [OppfyltVurderingArsak.GRADERT]: "Gradert",
+  [OppfyltVurderingArsak.TILTAK]: "I tiltak",
+};
 
-export const unntakVurderingArsakTexts: ArsakText[] = [
-  {
-    arsak: UnntakVurderingArsak.MEDISINSKE_GRUNNER,
-    text: "Medisinske grunner",
-  },
-  {
-    arsak: UnntakVurderingArsak.TILRETTELEGGING_IKKE_MULIG,
-    text: "Tilrettelegging ikke mulig",
-  },
-  {
-    arsak: UnntakVurderingArsak.SJOMENN_UTENRIKS,
-    text: "Sjømenn i utenriksfart",
-  },
-];
+export const unntakVurderingArsakTexts: VurderingArsakTexts = {
+  [UnntakVurderingArsak.MEDISINSKE_GRUNNER]: "Medisinske grunner",
+  [UnntakVurderingArsak.TILRETTELEGGING_IKKE_MULIG]:
+    "Tilrettelegging ikke mulig",
+  [UnntakVurderingArsak.SJOMENN_UTENRIKS]: "Sjømenn i utenriksfart",
+};
 
-export const avventVurderingArsakTexts: ArsakText[] = [
-  {
-    arsak: AvventVurderingArsak.OPPFOLGINGSPLAN_ARBEIDSGIVER,
-    text: "Har bedt om oppfølgingsplan fra arbeidsgiver",
-  },
-  {
-    arsak: AvventVurderingArsak.INFORMASJON_BEHANDLER,
-    text: "Har bedt om mer informasjon fra behandler",
-  },
-  {
-    arsak: AvventVurderingArsak.ANNET,
-    text: "Annet",
-  },
-];
+export const avventVurderingArsakTexts: VurderingArsakTexts = {
+  [AvventVurderingArsak.OPPFOLGINGSPLAN_ARBEIDSGIVER]:
+    "Har bedt om oppfølgingsplan fra arbeidsgiver",
+  [AvventVurderingArsak.INFORMASJON_BEHANDLER]:
+    "Har bedt om mer informasjon fra behandler",
+  [AvventVurderingArsak.ANNET]: "Annet",
+};

@@ -1,8 +1,7 @@
 import { Radio, RadioGruppe } from "nav-frontend-skjema";
 import React from "react";
 import { Field, useFormState } from "react-final-form";
-import { VurderingArsak } from "@/data/aktivitetskrav/aktivitetskravTypes";
-import { ArsakText } from "@/data/aktivitetskrav/aktivitetskravTexts";
+import { VurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
 
 const texts = {
   arsakLegend: "Årsak (obligatorisk)",
@@ -11,7 +10,7 @@ const texts = {
 export const vurderAktivitetskravArsakFieldName = "arsak";
 
 interface VurderAktivitetskravArsakRadioGruppeProps {
-  arsakTexts: ArsakText[];
+  arsakTexts: VurderingArsakTexts;
 }
 
 export const VurderAktivitetskravArsakRadioGruppe = ({
@@ -26,8 +25,8 @@ export const VurderAktivitetskravArsakRadioGruppe = ({
         submitFailed && errors && errors[vurderAktivitetskravArsakFieldName]
       }
     >
-      {arsakTexts.map(({ arsak, text }, index) => (
-        <Field<VurderingArsak>
+      {Object.entries(arsakTexts).map(([arsak, text], index) => (
+        <Field<string>
           key={index}
           name={vurderAktivitetskravArsakFieldName}
           value={arsak}

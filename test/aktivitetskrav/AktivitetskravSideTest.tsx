@@ -16,6 +16,7 @@ import { expect } from "chai";
 import {
   avventVurdering,
   createAktivitetskrav,
+  createAktivitetskravVurdering,
   createOppfolgingstilfelle,
   oppfyltVurdering,
   unntakVurdering,
@@ -23,6 +24,7 @@ import {
 import {
   AktivitetskravDTO,
   AktivitetskravStatus,
+  AvventVurderingArsak,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { aktivitetskravQueryKeys } from "@/data/aktivitetskrav/aktivitetskravQueryHooks";
 
@@ -141,7 +143,7 @@ describe("AktivitetskravSide", () => {
   describe("Vurdering alert", () => {
     it("viser advarsel når siste aktivitetskrav-vurdering er AVVENT", () => {
       mockAktivitetskrav([
-        createAktivitetskrav(daysFromToday(20), AktivitetskravStatus.NY, [
+        createAktivitetskrav(daysFromToday(20), AktivitetskravStatus.AVVENT, [
           avventVurdering,
         ]),
       ]);
@@ -151,9 +153,33 @@ describe("AktivitetskravSide", () => {
       expect(screen.getByRole("img", { name: "advarsel-ikon" })).to.exist;
       expect(screen.getByText(/Avventer - /)).to.exist;
     });
+    it("viser beskrivelse og årsaker når siste aktivitetskrav-vurdering er AVVENT", () => {
+      const beskrivelse = "Avventer litt";
+      const vurdering = createAktivitetskravVurdering(
+        AktivitetskravStatus.AVVENT,
+        [
+          AvventVurderingArsak.OPPFOLGINGSPLAN_ARBEIDSGIVER,
+          AvventVurderingArsak.INFORMASJON_BEHANDLER,
+        ],
+        beskrivelse
+      );
+      mockAktivitetskrav([
+        createAktivitetskrav(daysFromToday(20), AktivitetskravStatus.AVVENT, [
+          vurdering,
+        ]),
+      ]);
+      mockOppfolgingstilfellePerson([activeOppfolgingstilfelle]);
+      renderAktivitetskravSide();
+
+      expect(screen.getByText(beskrivelse)).to.exist;
+      expect(screen.getByText("Har bedt om oppfølgingsplan fra arbeidsgiver"))
+        .to.exist;
+      expect(screen.getByText("Har bedt om mer informasjon fra behandler")).to
+        .exist;
+    });
     it("viser suksess når siste aktivitetskrav-vurdering er OPPFYLT", () => {
       mockAktivitetskrav([
-        createAktivitetskrav(daysFromToday(20), AktivitetskravStatus.NY, [
+        createAktivitetskrav(daysFromToday(20), AktivitetskravStatus.OPPFYLT, [
           oppfyltVurdering,
           avventVurdering,
         ]),
@@ -166,7 +192,7 @@ describe("AktivitetskravSide", () => {
     });
     it("viser suksess når siste aktivitetskrav-vurdering er UNNTAK", () => {
       mockAktivitetskrav([
-        createAktivitetskrav(daysFromToday(20), AktivitetskravStatus.NY, [
+        createAktivitetskrav(daysFromToday(20), AktivitetskravStatus.UNNTAK, [
           unntakVurdering,
           avventVurdering,
         ]),

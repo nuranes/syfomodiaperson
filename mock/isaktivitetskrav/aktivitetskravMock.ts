@@ -1,4 +1,8 @@
-import { AktivitetskravStatus } from "../../src/data/aktivitetskrav/aktivitetskravTypes";
+import {
+  AktivitetskravStatus,
+  AvventVurderingArsak,
+  OppfyltVurderingArsak,
+} from "../../src/data/aktivitetskrav/aktivitetskravTypes";
 import { generateUUID } from "../../src/utils/uuidUtils";
 import { VEILEDER_DEFAULT } from "../common/mockConstants";
 import { daysFromToday } from "../../test/testUtils";
@@ -25,6 +29,7 @@ const aktivitetskravOppfylt = {
       createdBy: VEILEDER_DEFAULT.ident,
       status: AktivitetskravStatus.OPPFYLT,
       beskrivelse: "Oppfylt",
+      arsaker: [OppfyltVurderingArsak.FRISKMELDT],
     },
     {
       uuid: generateUUID(),
@@ -32,6 +37,10 @@ const aktivitetskravOppfylt = {
       createdBy: VEILEDER_DEFAULT.ident,
       status: AktivitetskravStatus.AVVENT,
       beskrivelse: "Avventer info",
+      arsaker: [
+        AvventVurderingArsak.OPPFOLGINGSPLAN_ARBEIDSGIVER,
+        AvventVurderingArsak.INFORMASJON_BEHANDLER,
+      ],
     },
   ],
 };
