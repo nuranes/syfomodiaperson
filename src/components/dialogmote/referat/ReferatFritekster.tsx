@@ -8,8 +8,8 @@ import { Field } from "react-final-form";
 import Fritekst, { FritekstSize } from "@/components/Fritekst";
 import { ReferatMode } from "@/components/dialogmote/referat/Referat";
 
-export const MAX_LENGTH_SITUASJON = 3500;
-export const MAX_LENGTH_KONKLUSJON = 1000;
+export const MAX_LENGTH_SITUASJON = 6500;
+export const MAX_LENGTH_KONKLUSJON = 1500;
 export const MAX_LENGTH_ARBEIDSTAKERS_OPPGAVE = 600;
 export const MAX_LENGTH_ARBEIDSGIVERS_OPPGAVE = 600;
 export const MAX_LENGTH_BEHANDLERS_OPPGAVE = 600;
