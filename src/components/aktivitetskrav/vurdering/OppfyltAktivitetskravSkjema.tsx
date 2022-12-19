@@ -13,7 +13,7 @@ import { useAktivitetskravVurderingSkjema } from "@/hooks/aktivitetskrav/useAkti
 import { vurderAktivitetskravBeskrivelseFieldName } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravBeskrivelse";
 
 const texts = {
-  title: "Aktivitetskravet er oppfylt",
+  title: "Er i aktivitet",
 };
 
 interface OppfyltAktivitetskravSkjemaValues {

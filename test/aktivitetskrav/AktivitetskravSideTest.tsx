@@ -188,7 +188,9 @@ describe("AktivitetskravSide", () => {
       renderAktivitetskravSide();
 
       expect(screen.getByRole("img", { name: "suksess-ikon" })).to.exist;
-      expect(screen.getByText(/Det er vurdert at kravet er oppfylt/)).to.exist;
+      expect(
+        screen.getByText(/Det er vurdert at Samuel Sam Jones er i aktivitet/)
+      ).to.exist;
     });
     it("viser suksess når siste aktivitetskrav-vurdering er UNNTAK", () => {
       mockAktivitetskrav([

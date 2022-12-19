@@ -14,11 +14,6 @@ import { AlertstripeFullbredde } from "@/components/AlertstripeFullbredde";
 import styled from "styled-components";
 import { avventVurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
 
-const prefixTexts = {
-  [AktivitetskravStatus.UNNTAK]: "Det er vurdert unntak for",
-  [AktivitetskravStatus.OPPFYLT]: "Det er vurdert at kravet er oppfylt for",
-};
-
 const StyledAlertstripeFullbredde = styled(AlertstripeFullbredde)`
   margin-bottom: 1em;
 `;
@@ -31,14 +26,20 @@ export const AktivitetskravVurderingAlert = ({
   vurdering,
 }: AktivitetskravVurderingAlertProps) => {
   const navbruker = useNavBrukerData();
+  const vurderingDatoMedArUtenMndNavn = tilLesbarDatoMedArUtenManedNavn(
+    vurdering.createdAt
+  );
   switch (vurdering.status) {
     case AktivitetskravStatus.OPPFYLT:
+      return (
+        <StyledAlertstripeFullbredde type="suksess">
+          {`Det er vurdert at ${navbruker.navn} er i aktivitet ${vurderingDatoMedArUtenMndNavn}`}
+        </StyledAlertstripeFullbredde>
+      );
     case AktivitetskravStatus.UNNTAK: {
       return (
         <StyledAlertstripeFullbredde type="suksess">
-          {`${prefixTexts[vurdering.status]} ${
-            navbruker.navn
-          } ${tilLesbarDatoMedArUtenManedNavn(vurdering.createdAt)}`}
+          {`Det er vurdert unntak for ${navbruker.navn} ${vurderingDatoMedArUtenMndNavn}`}
         </StyledAlertstripeFullbredde>
       );
     }

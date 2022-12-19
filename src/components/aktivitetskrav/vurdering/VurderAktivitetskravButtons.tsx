@@ -6,7 +6,7 @@ import { ModalType } from "@/components/aktivitetskrav/vurdering/VurderAktivitet
 
 const texts = {
   avventer: "(Avventer)",
-  oppfylt: "Aktivitetskravet er oppfylt",
+  oppfylt: "Er i aktivitet",
   unntak: "Sett unntak",
 };
 

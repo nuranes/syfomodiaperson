@@ -35,7 +35,7 @@ const aktivitetskrav = createAktivitetskrav(
 const avventButtonText = "(Avventer)";
 const enBeskrivelse = "Her er en beskrivelse";
 const unntakButtonText = "Sett unntak";
-const oppfyltButtonText = "Aktivitetskravet er oppfylt";
+const oppfyltButtonText = "Er i aktivitet";
 
 const renderVurderAktivitetskrav = () =>
   render(
@@ -81,9 +81,7 @@ describe("VurderAktivitetskrav", () => {
 
       clickButton(oppfyltButtonText);
 
-      expect(
-        screen.getByRole("heading", { name: "Aktivitetskravet er oppfylt" })
-      ).to.exist;
+      expect(screen.getByRole("heading", { name: "Er i aktivitet" })).to.exist;
 
       const arsakRadioButton = screen.getByText("Friskmeldt");
       fireEvent.click(arsakRadioButton);
