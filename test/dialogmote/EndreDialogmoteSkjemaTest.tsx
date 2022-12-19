@@ -30,7 +30,7 @@ import {
 } from "@/data/dialogmote/types/dialogmoteTypes";
 import { fireEvent, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { MAX_LENGTH_AVLYS_BEGRUNNELSE } from "@/components/dialogmote/avlys/AvlysDialogmoteSkjema";
+import { MAX_LENGTH_ENDRE_BEGRUNNELSE } from "@/components/dialogmote/endre/EndreDialogmoteTekster";
 import { expectedEndringDocuments } from "./testDataDocuments";
 import sinon from "sinon";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
@@ -156,9 +156,9 @@ describe("EndreDialogmoteSkjemaTest", () => {
       .to.exist;
   });
   it("validerer maks lengde på begrunnelser", () => {
-    const tooLongFritekst = getTooLongText(MAX_LENGTH_AVLYS_BEGRUNNELSE);
+    const tooLongFritekst = getTooLongText(MAX_LENGTH_ENDRE_BEGRUNNELSE);
     const maxLengthErrorMsg = maxLengthErrorMessage(
-      MAX_LENGTH_AVLYS_BEGRUNNELSE
+      MAX_LENGTH_ENDRE_BEGRUNNELSE
     );
     renderEndreDialogmoteSkjema(dialogmoteMedBehandler);
 
