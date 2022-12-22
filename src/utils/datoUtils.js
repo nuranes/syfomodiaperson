@@ -226,7 +226,10 @@ export const tilLesbarPeriodeMedArUtenManednavn = (fomArg, tomArg) => {
 
 export const dagerMellomDatoer = (startDato, sluttDato) => {
   return Math.round(
-    Math.abs((sluttDato.getTime() - startDato.getTime()) / ANTALL_MS_DAG)
+    Math.abs(
+      (new Date(sluttDato).getTime() - new Date(startDato).getTime()) /
+        ANTALL_MS_DAG
+    )
   );
 };
 

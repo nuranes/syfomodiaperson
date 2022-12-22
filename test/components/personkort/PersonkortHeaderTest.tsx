@@ -13,6 +13,7 @@ import { queryClientWithAktivBruker } from "../../testQueryClient";
 import { ARBEIDSTAKER_DEFAULT } from "../../../mock/common/mockConstants";
 import { brukerinfoQueryKeys } from "@/data/navbruker/navbrukerQueryHooks";
 import { brukerinfoMock } from "../../../mock/syfoperson/brukerinfoMock";
+import { ValgtEnhetProvider } from "@/context/ValgtEnhetContext";
 
 let queryClient: any;
 let apiMockScope: any;
@@ -20,7 +21,9 @@ let apiMockScope: any;
 const renderPersonkortHeader = () =>
   render(
     <QueryClientProvider client={queryClient}>
-      <PersonkortHeader />
+      <ValgtEnhetProvider>
+        <PersonkortHeader />
+      </ValgtEnhetProvider>
     </QueryClientProvider>
   );
 

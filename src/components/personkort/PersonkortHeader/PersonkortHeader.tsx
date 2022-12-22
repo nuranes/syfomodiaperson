@@ -16,6 +16,11 @@ import { getKvinneImage, getMannImage } from "@/utils/festiveUtils";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import { SyketilfelleSummary } from "@/components/personkort/PersonkortHeader/SyketilfelleSummary";
+import { Refresh } from "@navikt/ds-icons";
+import { Tooltip } from "@navikt/ds-react";
+import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
+import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
+import { ToggleNames } from "@/data/unleash/unleash_types";
 
 const texts = {
   copied: "Kopiert!",
@@ -32,6 +37,15 @@ const StyledFnr = styled.div`
   }
 `;
 
+const PersonkortH3 = styled.h3`
+  display: flex;
+  align-items: center;
+`;
+
+const GjentagendeSykefravarRefresh = styled(Refresh)`
+  margin-left: 0.5em;
+`;
+
 const PersonkortHeader = () => {
   const { data: isEgenAnsatt } = useEgenansattQuery();
   const navbruker = useNavBrukerData();
@@ -41,6 +55,11 @@ const PersonkortHeader = () => {
     diskresjonskode === "6" || diskresjonskode === "7" || isEgenAnsatt;
 
   const personident = useValgtPersonident();
+  const { isFeatureEnabled } = useFeatureToggles();
+  const { hasGjentakendeSykefravar } = useOppfolgingstilfellePersonQuery();
+  const showGjentakendeSykefravar =
+    isFeatureEnabled(ToggleNames.gjentakendesykefravar) &&
+    hasGjentakendeSykefravar;
 
   return (
     <div className="personkortHeader">
@@ -54,9 +73,15 @@ const PersonkortHeader = () => {
           alt="person"
         />
         <div>
-          <h3>{`${navbruker.navn} (${hentBrukersAlderFraFnr(
-            personident
-          )} år)`}</h3>
+          <PersonkortH3>
+            {`${navbruker.navn} (${hentBrukersAlderFraFnr(personident)} år)`}
+            {showGjentakendeSykefravar && (
+              <Tooltip content={"Gjentatt sykefravær"}>
+                <GjentagendeSykefravarRefresh />
+              </Tooltip>
+            )}
+          </PersonkortH3>
+
           <StyledFnr>
             {formaterFnr(personident)}
             <CopyButton message={texts.copied} value={personident} />

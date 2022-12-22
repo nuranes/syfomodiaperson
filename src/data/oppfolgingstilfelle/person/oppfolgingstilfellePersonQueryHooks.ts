@@ -8,8 +8,11 @@ import {
 } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
 import { minutesToMillis } from "@/utils/timeUtils";
 import dayjs from "dayjs";
+import { isGjentakendeSykefravar } from "@/utils/oppfolgingstilfelleUtils";
 
 export const ARBEIDSGIVERPERIODE_DAYS = 16;
+export const THREE_YEARS_AGO_IN_MONTHS = 36;
+export const MIN_DAYS_IN_LONG_TILFELLE = 4;
 
 const latestTilfelleDifference = (
   a: OppfolgingstilfelleDTO,
@@ -74,12 +77,17 @@ export const useOppfolgingstilfellePersonQuery = () => {
   );
   const latestOppfolgingstilfelle =
     query.data && sortByDescendingStart(query.data.oppfolgingstilfelleList)[0];
+
+  const gjentakende =
+    query.data && isGjentakendeSykefravar(query.data.oppfolgingstilfelleList);
+
   return {
     ...query,
     latestOppfolgingstilfelle,
     hasOppfolgingstilfelle: !!latestOppfolgingstilfelle,
     hasActiveOppfolgingstilfelle:
       !!latestOppfolgingstilfelle && !isInactive(latestOppfolgingstilfelle),
+    hasGjentakendeSykefravar: !!gjentakende,
   };
 };
 

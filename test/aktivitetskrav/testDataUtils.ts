@@ -26,6 +26,18 @@ export const createOppfolgingstilfelle = (
   };
 };
 
+export const generateOppfolgingstilfelle = (
+  start: Date,
+  end: Date
+): OppfolgingstilfelleDTO => {
+  return {
+    virksomhetsnummerList: [VIRKSOMHET_PONTYPANDY.virksomhetsnummer],
+    arbeidstakerAtTilfelleEnd: true,
+    end: end,
+    start: start,
+  };
+};
+
 export const createAktivitetskrav = (
   stoppunktAt: Date,
   status: AktivitetskravStatus,

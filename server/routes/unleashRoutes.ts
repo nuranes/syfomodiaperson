@@ -105,5 +105,13 @@ export const unleashToggles = (toggles: any, valgtEnhet: any, userId: any) => {
       valgtEnhet: valgtEnhet,
       user: userId,
     }),
+
+    "syfo.gjentakendesykefravar": unleash.isEnabled(
+      "syfo.gjentakendesykefravar",
+      {
+        valgtEnhet: valgtEnhet,
+        user: userId,
+      }
+    ),
   };
 };

@@ -79,6 +79,7 @@ describe("datoUtils", () => {
       expect(periode).to.equal("11.03.2019 - 02.10.2019");
     });
   });
+
   describe("dagerMellomDatoer", () => {
     it("Skal gi antall dager mellom to datoer", () => {
       const restDatoFom = new Date("2019-03-11");
@@ -86,7 +87,15 @@ describe("datoUtils", () => {
       const antallDager = dagerMellomDatoer(restDatoFom, restDatoTom);
       expect(antallDager).to.equal(4);
     });
+
+    it("gir 0 dager hvis start og slutt er samme dato", () => {
+      const restDatoFom = new Date("2019-01-01");
+      const restDatoTom = new Date("2019-01-01");
+      const antallDager = dagerMellomDatoer(restDatoFom, restDatoTom);
+      expect(antallDager).to.equal(0);
+    });
   });
+
   describe("erIdag", () => {
     it("Skal returnere true om en dato er i dag", () => {
       const dato = new Date();
