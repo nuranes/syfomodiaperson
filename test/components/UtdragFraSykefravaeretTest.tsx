@@ -3,10 +3,7 @@ import UtdragFraSykefravaeret from "@/components/utdragFraSykefravaeret/UtdragFr
 import React from "react";
 import { QueryClientProvider } from "react-query";
 import { expect } from "chai";
-import {
-  ARBEIDSTAKER_DEFAULT,
-  ARBEIDSTAKER_DEFAULT_FULL_NAME,
-} from "../../mock/common/mockConstants";
+import { ARBEIDSTAKER_DEFAULT_FULL_NAME } from "../../mock/common/mockConstants";
 import { queryClientWithMockData } from "../testQueryClient";
 
 const queryClient = queryClientWithMockData();
@@ -15,10 +12,7 @@ describe("UtdragFraSykefravaeret", () => {
   it("viser spinnsyn-lenke til vedtak", () => {
     render(
       <QueryClientProvider client={queryClient}>
-        <UtdragFraSykefravaeret
-          aktivePlaner={[]}
-          fnr={ARBEIDSTAKER_DEFAULT.personIdent}
-        />
+        <UtdragFraSykefravaeret aktivePlaner={[]} />
       </QueryClientProvider>
     );
 

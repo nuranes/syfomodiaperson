@@ -71,6 +71,13 @@ describe("AktivitetskravSide", () => {
     queryClient = queryClientWithMockData();
   });
 
+  it("Viser utdrag fra sykefraværet", () => {
+    renderAktivitetskravSide();
+
+    expect(screen.getByRole("heading", { name: "Utdrag fra sykefraværet" })).to
+      .exist;
+  });
+
   describe("Vurder aktivitetskravet", () => {
     it("Vises når aktivt oppfølgingstilfelle med aktivitetskrav", () => {
       mockOppfolgingstilfellePerson([

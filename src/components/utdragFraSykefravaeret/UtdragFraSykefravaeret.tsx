@@ -31,6 +31,7 @@ import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { useSykmeldingerQuery } from "@/data/sykmelding/sykmeldingQueryHooks";
 import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
+import { useValgtPersonident } from "@/hooks/useValgtBruker";
 
 const tekster = {
   header: "Utdrag fra sykefraværet",
@@ -208,31 +209,28 @@ const SamtalereferatWrapper = styled.div`
   margin-bottom: 2em;
 `;
 
-interface SamtalereferatProps {
-  fnr: string;
-}
-
-export const Samtalereferat = ({ fnr }: SamtalereferatProps) => (
-  <SamtalereferatWrapper>
-    <Undertittel tag={"h3"}>{tekster.samtalereferat.header}</Undertittel>
-    <Lenke
-      className="lenke"
-      href={`https://modapp${finnMiljoStreng()}.adeo.no/modiabrukerdialog/person/${fnr}#!meldinger`}
-      target="_blank"
-    >
-      {tekster.samtalereferat.lenkeTekst}
-    </Lenke>
-  </SamtalereferatWrapper>
-);
+export const Samtalereferat = () => {
+  const fnr = useValgtPersonident();
+  return (
+    <SamtalereferatWrapper>
+      <Undertittel tag={"h3"}>{tekster.samtalereferat.header}</Undertittel>
+      <Lenke
+        className="lenke"
+        href={`https://modapp${finnMiljoStreng()}.adeo.no/modiabrukerdialog/person/${fnr}#!meldinger`}
+        target="_blank"
+      >
+        {tekster.samtalereferat.lenkeTekst}
+      </Lenke>
+    </SamtalereferatWrapper>
+  );
+};
 
 interface UtdragFraSykefravaeretProps {
   aktivePlaner: OppfolgingsplanDTO[];
-  fnr: string;
 }
 
 const UtdragFraSykefravaeret = ({
   aktivePlaner,
-  fnr,
 }: UtdragFraSykefravaeretProps) => {
   const { sykmeldinger } = useSykmeldingerQuery();
   const { latestOppfolgingstilfelle } = useOppfolgingstilfellePersonQuery();
@@ -252,7 +250,7 @@ const UtdragFraSykefravaeret = ({
           sykmeldinger={sykmeldinger}
         />
 
-        <Samtalereferat fnr={fnr} />
+        <Samtalereferat />
         <Undertittel tag={"h3"}>{tekster.vedtak.header}</Undertittel>
         <SpinnsynLenke />
       </div>

@@ -8,12 +8,11 @@ import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
 
 interface NokkelinformasjonProps {
   aktivePlaner: OppfolgingsplanDTO[];
-  fnr: string;
   pageTitle: string;
 }
 
 const Nokkelinformasjon = (nokkelinformasjonProps: NokkelinformasjonProps) => {
-  const { aktivePlaner, fnr, pageTitle } = nokkelinformasjonProps;
+  const { aktivePlaner, pageTitle } = nokkelinformasjonProps;
 
   const { isFeatureEnabled } = useFeatureToggles();
   const visSykmeldingsgrad = isFeatureEnabled(ToggleNames.sykmeldingsgrad);
@@ -24,7 +23,7 @@ const Nokkelinformasjon = (nokkelinformasjonProps: NokkelinformasjonProps) => {
 
       {visSykmeldingsgrad && <Sykmeldingsgrad />}
 
-      <UtdragFraSykefravaeret aktivePlaner={aktivePlaner} fnr={fnr} />
+      <UtdragFraSykefravaeret aktivePlaner={aktivePlaner} />
     </div>
   );
 };

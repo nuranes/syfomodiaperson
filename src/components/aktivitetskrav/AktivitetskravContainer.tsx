@@ -6,6 +6,7 @@ import { useAktivitetskravQuery } from "@/data/aktivitetskrav/aktivitetskravQuer
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import SideLaster from "@/components/SideLaster";
 import { AktivitetskravSide } from "@/components/aktivitetskrav/AktivitetskravSide";
+import { useOppfolgingsplanerQuery } from "@/data/oppfolgingsplan/oppfolgingsplanQueryHooks";
 
 const texts = {
   title: "Aktivitetskrav",
@@ -15,13 +16,22 @@ export const AktivitetskravContainer = (): ReactElement => {
   const { isLoading: henterAktivitetskrav, isError: hentAktivitetskravFeilet } =
     useAktivitetskravQuery();
   const {
+    isLoading: henterOppfolgingsplaner,
+    isError: hentOppfolgingsplanerFeilet,
+  } = useOppfolgingsplanerQuery();
+  const {
     isLoading: henterOppfolgingstilfeller,
     isError: hentOppfolgingstilfellerFeilet,
   } = useOppfolgingstilfellePersonQuery();
 
-  const henter = henterAktivitetskrav || henterOppfolgingstilfeller;
+  const henter =
+    henterAktivitetskrav ||
+    henterOppfolgingstilfeller ||
+    henterOppfolgingsplaner;
   const hentingFeilet =
-    hentAktivitetskravFeilet || hentOppfolgingstilfellerFeilet;
+    hentAktivitetskravFeilet ||
+    hentOppfolgingstilfellerFeilet ||
+    hentOppfolgingsplanerFeilet;
 
   return (
     <Side tittel={texts.title} aktivtMenypunkt={Menypunkter.AKTIVITETSKRAV}>

@@ -6,7 +6,6 @@ import SideLaster from "../../SideLaster";
 import { DialogmoteOnskePanel } from "../../motebehov/DialogmoteOnskePanel";
 import { MotehistorikkPanel } from "../../dialogmote/motehistorikk/MotehistorikkPanel";
 import { useDialogmoterQuery } from "@/data/dialogmote/dialogmoteQueryHooks";
-import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { useOppfolgingsplanerQuery } from "@/data/oppfolgingsplan/oppfolgingsplanQueryHooks";
 import { useMotebehovQuery } from "@/data/motebehov/motebehovQueryHooks";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
@@ -20,8 +19,6 @@ const texts = {
 };
 
 export const Motelandingsside = () => {
-  const fnr = useValgtPersonident();
-
   const { isLoading: henterOppfolgingsplaner, aktivePlaner } =
     useOppfolgingsplanerQuery();
   const {
@@ -75,7 +72,7 @@ export const Motelandingsside = () => {
           (mote) => mote.status === DialogmoteStatus.FERDIGSTILT
         )}
       />
-      <UtdragFraSykefravaeretPanel aktivePlaner={aktivePlaner} fnr={fnr} />
+      <UtdragFraSykefravaeretPanel aktivePlaner={aktivePlaner} />
       <MotehistorikkPanel
         historiskeMoter={historiskeDialogmoter}
         dialogmoteunntak={dialogmoteunntak}
