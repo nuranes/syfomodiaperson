@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { Area, AreaChart, XAxis, YAxis } from "recharts";
+import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 import React, { ReactElement } from "react";
 import { Normaltekst, Systemtittel } from "nav-frontend-typografi";
 import Panel from "nav-frontend-paneler";
@@ -14,6 +14,10 @@ import {
 } from "@/utils/datoUtils";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { useSykmeldingerQuery } from "@/data/sykmelding/sykmeldingQueryHooks";
+import { SyketilfelleList } from "@/components/nokkelinformasjon/SyketilfelleList";
+import styled from "styled-components";
+import { ToggleNames } from "@/data/unleash/unleash_types";
+import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
 
 const texts = {
   title: "Sykmeldingsgrad",
@@ -23,9 +27,17 @@ const texts = {
   yAxis: "Y-akse: sykmeldingsgrad",
 };
 
+const ChartAndTilfeller = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
 export const Sykmeldingsgrad = () => {
   const { sykmeldinger } = useSykmeldingerQuery();
   const { latestOppfolgingstilfelle } = useOppfolgingstilfellePersonQuery();
+
+  const { isFeatureEnabled } = useFeatureToggles();
+  const showTilfelleList = isFeatureEnabled(ToggleNames.gjentakendesykefravar);
 
   const innsendteSykmeldinger = sykmeldingerMedStatusSendt(sykmeldinger);
   const sykmeldingerIOppfolgingstilfellet =
@@ -93,16 +105,27 @@ export const Sykmeldingsgrad = () => {
           )}
         </Normaltekst>
       )}
-      <AreaChart
-        width={750}
-        height={360}
-        data={dataBarChart}
-        margin={{ top: 40, right: 30, left: 0, bottom: 30 }}
-      >
-        <YAxis type="number" domain={[0, 100]} tickCount={11} />
-        <XAxis dataKey="x" interval={0} tick={renderTick} tickLine={false} />
-        <Area dataKey="grad" stroke="grey" fill="#8884d8" />
-      </AreaChart>
+
+      <ChartAndTilfeller>
+        <ResponsiveContainer width="70%" height={360}>
+          <AreaChart
+            data={dataBarChart}
+            margin={{ top: 40, right: 30, left: 0, bottom: 30 }}
+          >
+            <YAxis type="number" domain={[0, 100]} tickCount={11} />
+            <XAxis
+              dataKey="x"
+              interval={0}
+              tick={renderTick}
+              tickLine={false}
+            />
+            <Area dataKey="grad" stroke="grey" fill="#8884d8" />
+          </AreaChart>
+        </ResponsiveContainer>
+
+        {showTilfelleList && <SyketilfelleList />}
+      </ChartAndTilfeller>
+
       <Normaltekst>{texts.yAxis}</Normaltekst>
       <Normaltekst>{texts.xAxis}</Normaltekst>
     </Panel>

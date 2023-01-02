@@ -8,42 +8,14 @@ import {
 } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
 import { minutesToMillis } from "@/utils/timeUtils";
 import dayjs from "dayjs";
-import { isGjentakendeSykefravar } from "@/utils/oppfolgingstilfelleUtils";
+import {
+  isGjentakendeSykefravar,
+  sortByDescendingStart,
+} from "@/utils/oppfolgingstilfelleUtils";
 
 export const ARBEIDSGIVERPERIODE_DAYS = 16;
 export const THREE_YEARS_AGO_IN_MONTHS = 36;
 export const MIN_DAYS_IN_LONG_TILFELLE = 4;
-
-const latestTilfelleDifference = (
-  a: OppfolgingstilfelleDTO,
-  b: OppfolgingstilfelleDTO
-) => {
-  return new Date(b.start).getTime() - new Date(a.start).getTime();
-};
-
-const longestTilfelleDifference = (
-  a: OppfolgingstilfelleDTO,
-  b: OppfolgingstilfelleDTO
-) => {
-  return new Date(b.end).getTime() - new Date(a.end).getTime();
-};
-
-const byLatestAndLongestTilfelle = (
-  a: OppfolgingstilfelleDTO,
-  b: OppfolgingstilfelleDTO
-) => {
-  const startDateDifference = latestTilfelleDifference(a, b);
-  if (startDateDifference === 0) {
-    return longestTilfelleDifference(a, b);
-  }
-  return startDateDifference;
-};
-
-const sortByDescendingStart = (
-  oppfolgingstilfelleList: OppfolgingstilfelleDTO[]
-): OppfolgingstilfelleDTO[] => {
-  return oppfolgingstilfelleList.sort(byLatestAndLongestTilfelle);
-};
 
 const isInactive = (oppfolgingstilfelle: OppfolgingstilfelleDTO) => {
   const today = dayjs(new Date());
@@ -75,8 +47,13 @@ export const useOppfolgingstilfellePersonQuery = () => {
       staleTime: minutesToMillis(60 * 12),
     }
   );
+
+  const tilfellerDescendingStart = query.data
+    ? sortByDescendingStart(query.data.oppfolgingstilfelleList)
+    : [];
+
   const latestOppfolgingstilfelle =
-    query.data && sortByDescendingStart(query.data.oppfolgingstilfelleList)[0];
+    tilfellerDescendingStart && tilfellerDescendingStart[0];
 
   const gjentakende =
     query.data && isGjentakendeSykefravar(query.data.oppfolgingstilfelleList);
@@ -84,6 +61,7 @@ export const useOppfolgingstilfellePersonQuery = () => {
   return {
     ...query,
     latestOppfolgingstilfelle,
+    tilfellerDescendingStart,
     hasOppfolgingstilfelle: !!latestOppfolgingstilfelle,
     hasActiveOppfolgingstilfelle:
       !!latestOppfolgingstilfelle && !isInactive(latestOppfolgingstilfelle),
