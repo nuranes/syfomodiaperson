@@ -3,17 +3,13 @@ import Sidetopp from "../Sidetopp";
 import UtdragFraSykefravaeret from "../utdragFraSykefravaeret/UtdragFraSykefravaeret";
 import { Sykmeldingsgrad } from "@/components/sykmeldingsgrad/Sykmeldingsgrad";
 import { ToggleNames } from "@/data/unleash/unleash_types";
-import { OppfolgingsplanDTO } from "@/data/oppfolgingsplan/types/OppfolgingsplanDTO";
 import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
 
 interface NokkelinformasjonProps {
-  aktivePlaner: OppfolgingsplanDTO[];
   pageTitle: string;
 }
 
-const Nokkelinformasjon = (nokkelinformasjonProps: NokkelinformasjonProps) => {
-  const { aktivePlaner, pageTitle } = nokkelinformasjonProps;
-
+const Nokkelinformasjon = ({ pageTitle }: NokkelinformasjonProps) => {
   const { isFeatureEnabled } = useFeatureToggles();
   const visSykmeldingsgrad = isFeatureEnabled(ToggleNames.sykmeldingsgrad);
 
@@ -23,7 +19,7 @@ const Nokkelinformasjon = (nokkelinformasjonProps: NokkelinformasjonProps) => {
 
       {visSykmeldingsgrad && <Sykmeldingsgrad />}
 
-      <UtdragFraSykefravaeret aktivePlaner={aktivePlaner} />
+      <UtdragFraSykefravaeret />
     </div>
   );
 };

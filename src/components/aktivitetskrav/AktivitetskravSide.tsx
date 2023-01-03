@@ -9,7 +9,6 @@ import {
 import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
 import { AktivitetskravVurderingAlert } from "@/components/aktivitetskrav/vurdering/AktivitetskravVurderingAlert";
 import UtdragFraSykefravaeret from "@/components/utdragFraSykefravaeret/UtdragFraSykefravaeret";
-import { useOppfolgingsplanerQuery } from "@/data/oppfolgingsplan/oppfolgingsplanQueryHooks";
 
 const gjelderOppfolgingstilfelle = (
   aktivitetskrav: AktivitetskravDTO,
@@ -25,7 +24,6 @@ export const AktivitetskravSide = () => {
   const { hasActiveOppfolgingstilfelle, latestOppfolgingstilfelle } =
     useOppfolgingstilfellePersonQuery();
   const { data } = useAktivitetskravQuery();
-  const { aktivePlaner } = useOppfolgingsplanerQuery();
 
   const aktivitetskravForOppfolgingstilfelle = data.filter(
     (aktivitetskrav) =>
@@ -52,7 +50,7 @@ export const AktivitetskravSide = () => {
       {/* TODO:
        * Historikk
        */}
-      <UtdragFraSykefravaeret aktivePlaner={aktivePlaner} />
+      <UtdragFraSykefravaeret />
     </>
   );
 };

@@ -19,8 +19,7 @@ const texts = {
 };
 
 export const Motelandingsside = () => {
-  const { isLoading: henterOppfolgingsplaner, aktivePlaner } =
-    useOppfolgingsplanerQuery();
+  const { isLoading: henterOppfolgingsplaner } = useOppfolgingsplanerQuery();
   const {
     isLoading: henterDialogmoter,
     isError: henterDialogmoterFeilet,
@@ -72,7 +71,7 @@ export const Motelandingsside = () => {
           (mote) => mote.status === DialogmoteStatus.FERDIGSTILT
         )}
       />
-      <UtdragFraSykefravaeretPanel aktivePlaner={aktivePlaner} />
+      <UtdragFraSykefravaeretPanel />
       <MotehistorikkPanel
         historiskeMoter={historiskeDialogmoter}
         dialogmoteunntak={dialogmoteunntak}

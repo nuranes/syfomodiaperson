@@ -12,8 +12,7 @@ const texts = {
 };
 
 export const NokkelinformasjonSide = () => {
-  const { aktivePlaner, isLoading: henterOppfolgingsplaner } =
-    useOppfolgingsplanerQuery();
+  const { isLoading: henterOppfolgingsplaner } = useOppfolgingsplanerQuery();
   const { isError: henterSykmeldingerFeilet } = useSykmeldingerQuery();
   const { isLoading: henterLedere, isError: henterLedereFeilet } =
     useLedereQuery();
@@ -27,10 +26,7 @@ export const NokkelinformasjonSide = () => {
       aktivtMenypunkt={Menypunkter.NOKKELINFORMASJON}
     >
       <SideLaster henter={henter} hentingFeilet={hentingFeilet}>
-        <Nokkelinformasjon
-          aktivePlaner={aktivePlaner}
-          pageTitle={texts.pageTitle}
-        />
+        <Nokkelinformasjon pageTitle={texts.pageTitle} />
       </SideLaster>
     </Side>
   );

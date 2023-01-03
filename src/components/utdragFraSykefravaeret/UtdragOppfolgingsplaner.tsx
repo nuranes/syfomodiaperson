@@ -9,7 +9,10 @@ import {
 import { OppfolgingsplanLPS } from "@/data/oppfolgingsplan/types/OppfolgingsplanLPS";
 import { SYFOOPPFOLGINGSPLANSERVICE_ROOT } from "@/apiConstants";
 import { useVirksomhetQuery } from "@/data/virksomhet/virksomhetQueryHooks";
-import { useOppfolgingsplanerLPSQuery } from "@/data/oppfolgingsplan/oppfolgingsplanQueryHooks";
+import {
+  useOppfolgingsplanerLPSQuery,
+  useOppfolgingsplanerQuery,
+} from "@/data/oppfolgingsplan/oppfolgingsplanQueryHooks";
 import { OppfolgingsplanDTO } from "@/data/oppfolgingsplan/types/OppfolgingsplanDTO";
 import { Undertittel } from "nav-frontend-typografi";
 import { useStartOfLatestOppfolgingstilfelle } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
@@ -127,17 +130,12 @@ const Oppfolgingsplaner = ({
   );
 };
 
-interface UtdragOppfolgingsplanerProps {
-  aktivePlaner: OppfolgingsplanDTO[];
-}
-
 const UtdragOppfolgingsplanerWrapper = styled.div`
   margin-bottom: 2.5em;
 `;
 
-export const UtdragOppfolgingsplaner = ({
-  aktivePlaner,
-}: UtdragOppfolgingsplanerProps) => {
+export const UtdragOppfolgingsplaner = () => {
+  const { aktivePlaner } = useOppfolgingsplanerQuery();
   const { data: oppfolgingsplanerLPS } = useOppfolgingsplanerLPSQuery();
 
   const startDateNewestActiveTilfelle = useStartOfLatestOppfolgingstilfelle();

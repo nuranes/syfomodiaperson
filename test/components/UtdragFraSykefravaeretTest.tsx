@@ -12,7 +12,7 @@ describe("UtdragFraSykefravaeret", () => {
   it("viser spinnsyn-lenke til vedtak", () => {
     render(
       <QueryClientProvider client={queryClient}>
-        <UtdragFraSykefravaeret aktivePlaner={[]} />
+        <UtdragFraSykefravaeret />
       </QueryClientProvider>
     );
 

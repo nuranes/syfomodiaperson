@@ -24,7 +24,6 @@ import {
 } from "../../../img/ImageComponents";
 import { UtdragOppfolgingsplaner } from "./UtdragOppfolgingsplaner";
 import { DialogmotePanel } from "../mote/components/DialogmotePanel";
-import { OppfolgingsplanDTO } from "@/data/oppfolgingsplan/types/OppfolgingsplanDTO";
 import { Undertittel } from "nav-frontend-typografi";
 import { SpinnsynLenke } from "@/components/vedtak/SpinnsynLenke";
 import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
@@ -225,20 +224,14 @@ export const Samtalereferat = () => {
   );
 };
 
-interface UtdragFraSykefravaeretProps {
-  aktivePlaner: OppfolgingsplanDTO[];
-}
-
-const UtdragFraSykefravaeret = ({
-  aktivePlaner,
-}: UtdragFraSykefravaeretProps) => {
+const UtdragFraSykefravaeret = () => {
   const { sykmeldinger } = useSykmeldingerQuery();
   const { latestOppfolgingstilfelle } = useOppfolgingstilfellePersonQuery();
 
   return (
     <DialogmotePanel icon={GultDokumentImage} header={tekster.header}>
       <div className="utdragFraSykefravaeret">
-        <UtdragOppfolgingsplaner aktivePlaner={aktivePlaner} />
+        <UtdragOppfolgingsplaner />
 
         <Sykmeldinger
           latestOppfolgingstilfelle={latestOppfolgingstilfelle}
