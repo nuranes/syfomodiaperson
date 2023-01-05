@@ -56,11 +56,12 @@ export const createAktivitetskrav = (
 export const createAktivitetskravVurdering = (
   status: AktivitetskravStatus,
   arsaker: VurderingArsak[],
-  beskrivelse = ""
+  beskrivelse = "",
+  createdAt = new Date()
 ): AktivitetskravVurderingDTO => {
   return {
     beskrivelse,
-    createdAt: new Date(),
+    createdAt,
     createdBy: VEILEDER_IDENT_DEFAULT,
     status,
     uuid: generateUUID(),
