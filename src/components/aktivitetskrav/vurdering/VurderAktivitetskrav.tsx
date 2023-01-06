@@ -29,21 +29,19 @@ export const VurderAktivitetskrav = ({
   };
 
   return (
-    <>
-      <AktivitetskravPanel>
-        <FlexRow bottomPadding={PaddingSize.MD}>
-          <Innholdstittel>{texts.header}</Innholdstittel>
-        </FlexRow>
-        <VurderAktivitetskravButtons
-          onButtonClick={visVurderingAktivitetskravModalForType}
-        />
-        <VurderAktivitetskravModal
-          isOpen={visVurderAktivitetskravModal}
-          setModalOpen={setVisVurderAktivitetskravModal}
-          modalType={modalType}
-          aktivitetskravUuid={aktivitetskrav.uuid}
-        />
-      </AktivitetskravPanel>
-    </>
+    <AktivitetskravPanel>
+      <FlexRow bottomPadding={PaddingSize.MD}>
+        <Innholdstittel>{texts.header}</Innholdstittel>
+      </FlexRow>
+      <VurderAktivitetskravButtons
+        onButtonClick={visVurderingAktivitetskravModalForType}
+      />
+      <VurderAktivitetskravModal
+        isOpen={visVurderAktivitetskravModal}
+        setModalOpen={setVisVurderAktivitetskravModal}
+        modalType={modalType}
+        aktivitetskravUuid={aktivitetskrav.uuid}
+      />
+    </AktivitetskravPanel>
   );
 };

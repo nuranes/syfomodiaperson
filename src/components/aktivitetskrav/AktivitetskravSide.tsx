@@ -10,6 +10,7 @@ import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/
 import { AktivitetskravVurderingAlert } from "@/components/aktivitetskrav/vurdering/AktivitetskravVurderingAlert";
 import UtdragFraSykefravaeret from "@/components/utdragFraSykefravaeret/UtdragFraSykefravaeret";
 import { AktivitetskravHistorikk } from "@/components/aktivitetskrav/historikk/AktivitetskravHistorikk";
+import { AktivitetskravPanel } from "@/components/aktivitetskrav/AktivitetskravPanel";
 
 const gjelderOppfolgingstilfelle = (
   aktivitetskrav: AktivitetskravDTO,
@@ -46,7 +47,9 @@ export const AktivitetskravSide = () => {
       {aktivitetskravTilVurdering && (
         <VurderAktivitetskrav aktivitetskrav={aktivitetskravTilVurdering} />
       )}
-      <UtdragFraSykefravaeret />
+      <AktivitetskravPanel>
+        <UtdragFraSykefravaeret />
+      </AktivitetskravPanel>
       <AktivitetskravHistorikk />
     </>
   );

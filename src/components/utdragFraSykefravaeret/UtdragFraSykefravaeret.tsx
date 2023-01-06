@@ -23,7 +23,6 @@ import {
   MerInformasjonImage,
 } from "../../../img/ImageComponents";
 import { UtdragOppfolgingsplaner } from "./UtdragOppfolgingsplaner";
-import { DialogmotePanel } from "../mote/components/DialogmotePanel";
 import { Undertittel } from "nav-frontend-typografi";
 import { SpinnsynLenke } from "@/components/vedtak/SpinnsynLenke";
 import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
@@ -31,6 +30,7 @@ import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/pe
 import { useSykmeldingerQuery } from "@/data/sykmelding/sykmeldingQueryHooks";
 import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
+import { IconHeader } from "@/components/IconHeader";
 
 const tekster = {
   header: "Utdrag fra sykefraværet",
@@ -229,7 +229,12 @@ const UtdragFraSykefravaeret = () => {
   const { latestOppfolgingstilfelle } = useOppfolgingstilfellePersonQuery();
 
   return (
-    <DialogmotePanel icon={GultDokumentImage} header={tekster.header}>
+    <>
+      <IconHeader
+        icon={GultDokumentImage}
+        altIcon="Gult dokument"
+        header={tekster.header}
+      />
       <div className="utdragFraSykefravaeret">
         <UtdragOppfolgingsplaner />
 
@@ -247,7 +252,7 @@ const UtdragFraSykefravaeret = () => {
         <Undertittel tag={"h3"}>{tekster.vedtak.header}</Undertittel>
         <SpinnsynLenke />
       </div>
-    </DialogmotePanel>
+    </>
   );
 };
 

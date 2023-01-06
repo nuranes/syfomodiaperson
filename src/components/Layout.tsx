@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Panel from "nav-frontend-paneler";
 
 export enum JustifyContentType {
   CENTER = "center",
@@ -64,4 +65,11 @@ export const FlexRow = styled.div<RowProps>`
 
 export const H2NoMargins = styled.h2`
   margin: 0;
+`;
+
+export const FlexPanel = styled(Panel)`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: ${PaddingSize.MD};
+  padding: 2em;
 `;

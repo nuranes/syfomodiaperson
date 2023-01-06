@@ -4,6 +4,7 @@ import UtdragFraSykefravaeret from "../utdragFraSykefravaeret/UtdragFraSykefrava
 import { Sykmeldingsgrad } from "@/components/sykmeldingsgrad/Sykmeldingsgrad";
 import { ToggleNames } from "@/data/unleash/unleash_types";
 import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
+import { FlexPanel } from "@/components/Layout";
 
 interface NokkelinformasjonProps {
   pageTitle: string;
@@ -19,7 +20,9 @@ const Nokkelinformasjon = ({ pageTitle }: NokkelinformasjonProps) => {
 
       {visSykmeldingsgrad && <Sykmeldingsgrad />}
 
-      <UtdragFraSykefravaeret />
+      <FlexPanel>
+        <UtdragFraSykefravaeret />
+      </FlexPanel>
     </div>
   );
 };
