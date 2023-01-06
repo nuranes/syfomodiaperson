@@ -3,7 +3,7 @@ import {
   isGjentakendeSykefravar,
   sortByDescendingStart,
 } from "@/utils/oppfolgingstilfelleUtils";
-import { generateOppfolgingstilfelle } from "../aktivitetskrav/testDataUtils";
+import { generateOppfolgingstilfelle } from "../testDataUtils";
 import { daysFromToday } from "../testUtils";
 import { THREE_YEARS_AGO_IN_MONTHS } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import dayjs from "dayjs";

@@ -2,8 +2,7 @@ import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/
 import {
   VEILEDER_IDENT_DEFAULT,
   VIRKSOMHET_PONTYPANDY,
-} from "../../mock/common/mockConstants";
-import { daysFromToday } from "../testUtils";
+} from "../mock/common/mockConstants";
 import {
   AktivitetskravDTO,
   AktivitetskravStatus,
@@ -14,17 +13,6 @@ import {
   VurderingArsak,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { generateUUID } from "@/utils/uuidUtils";
-
-export const createOppfolgingstilfelle = (
-  end: Date
-): OppfolgingstilfelleDTO => {
-  return {
-    virksomhetsnummerList: [VIRKSOMHET_PONTYPANDY.virksomhetsnummer],
-    arbeidstakerAtTilfelleEnd: true,
-    end,
-    start: daysFromToday(-30),
-  };
-};
 
 export const generateOppfolgingstilfelle = (
   start: Date,

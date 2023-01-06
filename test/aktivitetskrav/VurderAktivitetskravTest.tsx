@@ -5,7 +5,7 @@ import { navEnhet } from "../dialogmote/testData";
 import React from "react";
 import { VurderAktivitetskrav } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskrav";
 import { queryClientWithMockData } from "../testQueryClient";
-import { createAktivitetskrav } from "./testDataUtils";
+import { createAktivitetskrav } from "../testDataUtils";
 import {
   changeTextInput,
   clickButton,

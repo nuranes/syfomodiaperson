@@ -12,10 +12,6 @@ import {
   OppfyltVurderingArsak,
   UnntakVurderingArsak,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
-import {
-  createAktivitetskrav,
-  createAktivitetskravVurdering,
-} from "./testDataUtils";
 import { expect } from "chai";
 import { tilDatoMedManedNavn } from "@/utils/datoUtils";
 import { daysFromToday, getButton } from "../testUtils";
@@ -27,6 +23,10 @@ import {
 } from "../../mock/common/mockConstants";
 import { veilederinfoQueryKeys } from "@/data/veilederinfo/veilederinfoQueryHooks";
 import { aktivitetskravQueryKeys } from "@/data/aktivitetskrav/aktivitetskravQueryHooks";
+import {
+  createAktivitetskrav,
+  createAktivitetskravVurdering,
+} from "../testDataUtils";
 
 let queryClient: QueryClient;
 

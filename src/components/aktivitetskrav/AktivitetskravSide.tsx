@@ -22,13 +22,11 @@ const gjelderOppfolgingstilfelle = (
 };
 
 export const AktivitetskravSide = () => {
-  const { hasActiveOppfolgingstilfelle, latestOppfolgingstilfelle } =
-    useOppfolgingstilfellePersonQuery();
+  const { latestOppfolgingstilfelle } = useOppfolgingstilfellePersonQuery();
   const { data } = useAktivitetskravQuery();
 
   const aktivitetskravForOppfolgingstilfelle = data.filter(
     (aktivitetskrav) =>
-      hasActiveOppfolgingstilfelle &&
       latestOppfolgingstilfelle &&
       gjelderOppfolgingstilfelle(aktivitetskrav, latestOppfolgingstilfelle)
   );
