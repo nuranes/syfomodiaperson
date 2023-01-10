@@ -20,7 +20,10 @@ import Knapp, { Hovedknapp } from "nav-frontend-knapper";
 import VurderOppgaveForDialogmotesvarKnapp from "@/components/mote/components/innkalling/VurderOppgaveForDialogmotesvarKnapp";
 import { usePersonoppgaverQuery } from "@/data/personoppgave/personoppgaveQueryHooks";
 import { PersonOppgave } from "@/data/personoppgave/types/PersonOppgave";
-import { harMottattSvar, isAktivtDialogmote } from "@/utils/dialogmoteUtils";
+import {
+  isAktivtDialogmote,
+  oppgaveCreatedAfterLatestMoteEndring,
+} from "@/utils/dialogmoteUtils";
 
 const texts = {
   innkallingSendtTrackingContext: "Møtelandingsside: Sendt innkalling",
@@ -85,8 +88,8 @@ export const DialogmoteMoteStatusPanel = ({ dialogmote }: Props) => {
 
   const skalVurderes =
     isAktivtDialogmote(dialogmote) &&
-    harMottattSvar(dialogmote) &&
-    !!personOppgaveForMote;
+    !!personOppgaveForMote &&
+    oppgaveCreatedAfterLatestMoteEndring(personOppgaveForMote, dialogmote);
 
   return (
     <DialogmotePanel

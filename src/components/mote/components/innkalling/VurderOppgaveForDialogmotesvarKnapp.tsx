@@ -7,7 +7,7 @@ import { isBehandletOppgave } from "@/utils/personOppgaveUtils";
 
 const texts = {
   fjernOppgave:
-    "Jeg har vurdert ønsker om endring eller avlysning, men vil beholde møtet som det er.",
+    "Jeg har vurdert alle møtesvarene. Oppgaven kan fjernes fra oversikten.",
 };
 
 const vurderOppgaveForInnkallingLabel = (

@@ -3,6 +3,7 @@ import {
   DialogmoteStatus,
   DocumentComponentType,
   MotedeltakerVarselType,
+  SvarType,
 } from "../../src/data/dialogmote/types/dialogmoteTypes";
 import { BehandlerType } from "../../src/data/behandler/BehandlerDTO";
 import {
@@ -94,9 +95,21 @@ export const createDialogmote = (
                 svar: [
                   {
                     uuid: uuid + 6,
-                    createdAt: "2021-12-03T12:56:26.282386",
-                    svarType: "KOMMER",
+                    createdAt: "2021-12-05T14:56:26.282386",
+                    svarType: SvarType.KOMMER,
                     tekst: "Jeg kommer i møtet.",
+                  },
+                  {
+                    uuid: uuid + 7,
+                    createdAt: "2021-12-04T13:56:26.282386",
+                    svarType: SvarType.NYTT_TID_STED,
+                    tekst: "Jeg vil endre møtet!",
+                  },
+                  {
+                    uuid: uuid + 8,
+                    createdAt: "2021-12-03T12:56:26.282386",
+                    svarType: SvarType.KOMMER_IKKE,
+                    tekst: "Jeg kommer IKKE!!!!!! i møtet.",
                   },
                 ],
               },

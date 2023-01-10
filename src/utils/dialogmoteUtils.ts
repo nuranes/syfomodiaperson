@@ -1,8 +1,9 @@
 import {
   DialogmoteDTO,
   DialogmoteStatus,
-  SvarType,
 } from "@/data/dialogmote/types/dialogmoteTypes";
+import { PersonOppgave } from "@/data/personoppgave/types/PersonOppgave";
+import dayjs from "dayjs";
 
 export const isAktivtDialogmote = (dialogmote: DialogmoteDTO): boolean => {
   return (
@@ -11,23 +12,11 @@ export const isAktivtDialogmote = (dialogmote: DialogmoteDTO): boolean => {
   );
 };
 
-export const harMottattSvar = (dialogmote: DialogmoteDTO): boolean => {
-  const svarFraArbeidstaker =
-    dialogmote.arbeidstaker.varselList[0]?.svar?.svarType;
-  const svarFraArbeidsgiver =
-    dialogmote.arbeidsgiver.varselList[0]?.svar?.svarType;
-  const svarFraBehandler =
-    dialogmote.behandler?.varselList[0]?.svar[0]?.svarType;
-
-  return (
-    erSvarSomKreverHandling(svarFraArbeidstaker) ||
-    erSvarSomKreverHandling(svarFraArbeidsgiver) ||
-    erSvarSomKreverHandling(svarFraBehandler)
-  );
-};
-
-const erSvarSomKreverHandling = (svartype: SvarType | undefined): boolean => {
-  return (
-    svartype === SvarType.NYTT_TID_STED || svartype === SvarType.KOMMER_IKKE
-  );
+export const oppgaveCreatedAfterLatestMoteEndring = (
+  oppgave: PersonOppgave,
+  dialogmote: DialogmoteDTO
+) => {
+  const oppgaveCreatedAt = dayjs(oppgave.opprettet);
+  const dialogmoteUpdatedAt = dayjs(dialogmote.updatedAt);
+  return oppgaveCreatedAt.isAfter(dialogmoteUpdatedAt);
 };
