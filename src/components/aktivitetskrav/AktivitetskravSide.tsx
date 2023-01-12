@@ -23,29 +23,39 @@ const gjelderOppfolgingstilfelle = (
 };
 
 export const AktivitetskravSide = () => {
-  const { latestOppfolgingstilfelle } = useOppfolgingstilfellePersonQuery();
+  const { tilfellerDescendingStart } = useOppfolgingstilfellePersonQuery();
   const { data } = useAktivitetskravQuery();
 
-  const aktivitetskravForOppfolgingstilfelle = data.filter(
-    (aktivitetskrav) =>
-      latestOppfolgingstilfelle &&
-      gjelderOppfolgingstilfelle(aktivitetskrav, latestOppfolgingstilfelle)
-  );
-  const aktivitetskravTilVurdering = aktivitetskravForOppfolgingstilfelle.find(
+  const aktivitetskravTilVurdering = data.find(
     (aktivitetskrav) =>
       aktivitetskrav.status !== AktivitetskravStatus.AUTOMATISK_OPPFYLT
   );
-  const sisteVurdering = aktivitetskravForOppfolgingstilfelle.find(
-    (aktivitetskrav) => aktivitetskrav.vurderinger.length > 0
-  )?.vurderinger[0];
+  const oppfolgingstilfelle =
+    aktivitetskravTilVurdering &&
+    tilfellerDescendingStart.find((tilfelle) =>
+      gjelderOppfolgingstilfelle(aktivitetskravTilVurdering, tilfelle)
+    );
+  const vurderteAktivitetskravForOppfolgingstilfelle =
+    oppfolgingstilfelle &&
+    data.filter(
+      (aktivitetskrav) =>
+        gjelderOppfolgingstilfelle(aktivitetskrav, oppfolgingstilfelle) &&
+        aktivitetskrav.vurderinger.length > 0
+    );
+  const sisteVurdering = vurderteAktivitetskravForOppfolgingstilfelle?.flatMap(
+    (aktivitetskrav) => aktivitetskrav.vurderinger
+  )[0];
 
   return (
     <>
       {sisteVurdering && (
         <AktivitetskravVurderingAlert vurdering={sisteVurdering} />
       )}
-      {aktivitetskravTilVurdering && (
-        <VurderAktivitetskrav aktivitetskrav={aktivitetskravTilVurdering} />
+      {aktivitetskravTilVurdering && oppfolgingstilfelle && (
+        <VurderAktivitetskrav
+          aktivitetskrav={aktivitetskravTilVurdering}
+          oppfolgingstilfelle={oppfolgingstilfelle}
+        />
       )}
       <AktivitetskravPanel>
         <UtdragFraSykefravaeret />

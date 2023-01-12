@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { Innholdstittel } from "nav-frontend-typografi";
+import { Innholdstittel, Normaltekst } from "nav-frontend-typografi";
 import { VurderAktivitetskravButtons } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravButtons";
 import { AktivitetskravPanel } from "@/components/aktivitetskrav/AktivitetskravPanel";
-import { FlexRow, PaddingSize } from "@/components/Layout";
+import { FlexRow } from "@/components/Layout";
 import {
   ModalType,
   VurderAktivitetskravModal,
 } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravModal";
 import { AktivitetskravDTO } from "@/data/aktivitetskrav/aktivitetskravTypes";
+import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
+import { tilLesbarPeriodeMedArUtenManednavn } from "@/utils/datoUtils";
 
 export const texts = {
   header: "Vurdere aktivitetskravet",
@@ -15,10 +17,12 @@ export const texts = {
 
 interface VurderAktivitetskravProps {
   aktivitetskrav: AktivitetskravDTO;
+  oppfolgingstilfelle: OppfolgingstilfelleDTO;
 }
 
 export const VurderAktivitetskrav = ({
   aktivitetskrav,
+  oppfolgingstilfelle,
 }: VurderAktivitetskravProps) => {
   const [visVurderAktivitetskravModal, setVisVurderAktivitetskravModal] =
     useState(false);
@@ -30,8 +34,14 @@ export const VurderAktivitetskrav = ({
 
   return (
     <AktivitetskravPanel>
-      <FlexRow bottomPadding={PaddingSize.MD}>
+      <FlexRow>
         <Innholdstittel>{texts.header}</Innholdstittel>
+      </FlexRow>
+      <FlexRow>
+        <Normaltekst>{`Gjelder tilfelle ${tilLesbarPeriodeMedArUtenManednavn(
+          oppfolgingstilfelle.start,
+          oppfolgingstilfelle.end
+        )}`}</Normaltekst>
       </FlexRow>
       <VurderAktivitetskravButtons
         onButtonClick={visVurderingAktivitetskravModalForType}

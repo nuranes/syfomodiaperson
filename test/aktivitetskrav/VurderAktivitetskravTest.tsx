@@ -5,7 +5,10 @@ import { navEnhet } from "../dialogmote/testData";
 import React from "react";
 import { VurderAktivitetskrav } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskrav";
 import { queryClientWithMockData } from "../testQueryClient";
-import { createAktivitetskrav } from "../testDataUtils";
+import {
+  createAktivitetskrav,
+  generateOppfolgingstilfelle,
+} from "../testDataUtils";
 import {
   changeTextInput,
   clickButton,
@@ -24,12 +27,19 @@ import {
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { expect } from "chai";
 import { vurderAktivitetskravBeskrivelseMaxLength } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravBeskrivelse";
+import { tilLesbarPeriodeMedArUtenManednavn } from "@/utils/datoUtils";
 
 let queryClient: QueryClient;
 
 const aktivitetskrav = createAktivitetskrav(
   daysFromToday(5),
   AktivitetskravStatus.NY
+);
+const tilfelleStart = daysFromToday(-50);
+const tilfelleEnd = daysFromToday(50);
+const oppfolgingstilfelle = generateOppfolgingstilfelle(
+  tilfelleStart,
+  tilfelleEnd
 );
 
 const avventButtonText = "(Avventer)";
@@ -43,7 +53,10 @@ const renderVurderAktivitetskrav = () =>
       <ValgtEnhetContext.Provider
         value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
       >
-        <VurderAktivitetskrav aktivitetskrav={aktivitetskrav} />
+        <VurderAktivitetskrav
+          aktivitetskrav={aktivitetskrav}
+          oppfolgingstilfelle={oppfolgingstilfelle}
+        />
       </ValgtEnhetContext.Provider>
     </QueryClientProvider>
   );
@@ -56,6 +69,15 @@ describe("VurderAktivitetskrav", () => {
     expect(getButton(avventButtonText)).to.exist;
     expect(getButton(unntakButtonText)).to.exist;
     expect(getButton(oppfyltButtonText)).to.exist;
+  });
+  it("renders periode for oppfølgingstilfelle", () => {
+    renderVurderAktivitetskrav();
+
+    const periodeText = tilLesbarPeriodeMedArUtenManednavn(
+      tilfelleStart,
+      tilfelleEnd
+    );
+    expect(screen.getByText(`Gjelder tilfelle ${periodeText}`)).to.exist;
   });
   describe("Oppfylt", () => {
     it("Validerer årsak og maks tegn beskrivelse", () => {

@@ -56,6 +56,10 @@ const activeOppfolgingstilfelle = generateOppfolgingstilfelle(
   daysFromToday(-30),
   daysFromToday(30)
 );
+const inactiveOppfolgingstilfelle = generateOppfolgingstilfelle(
+  daysFromToday(-100),
+  daysFromToday(-50)
+);
 
 const renderAktivitetskravSide = () => {
   render(
@@ -82,7 +86,7 @@ describe("AktivitetskravSide", () => {
   });
 
   describe("Vurder aktivitetskravet", () => {
-    it("Vises når siste oppfølgingstilfelle har aktivitetskrav (NY)", () => {
+    it("Vises når person har oppfølgingstilfelle med aktivitetskrav (NY)", () => {
       mockOppfolgingstilfellePerson([activeOppfolgingstilfelle]);
       mockAktivitetskrav([
         createAktivitetskrav(daysFromToday(20), AktivitetskravStatus.NY),
@@ -93,7 +97,7 @@ describe("AktivitetskravSide", () => {
       expect(screen.getByRole("heading", { name: "Vurdere aktivitetskravet" }))
         .to.exist;
     });
-    it("Vises når siste oppfølgingstilfelle er inaktivt med aktivitetskrav (NY)", () => {
+    it("Vises når person har inaktivt oppfølgingstilfelle med aktivitetskrav (NY)", () => {
       mockOppfolgingstilfellePerson([
         generateOppfolgingstilfelle(daysFromToday(-30), daysFromToday(-20)),
       ]);
@@ -106,7 +110,7 @@ describe("AktivitetskravSide", () => {
       expect(screen.getByRole("heading", { name: "Vurdere aktivitetskravet" }))
         .to.exist;
     });
-    it("Vises ikke når siste oppfølgingstilfelle har aktivitetskrav automatisk oppfylt", () => {
+    it("Vises ikke når person har oppfølgingstilfelle med bare aktivitetskrav (AUTOMATISK_OPPFYLT)", () => {
       mockOppfolgingstilfellePerson([activeOppfolgingstilfelle]);
       mockAktivitetskrav([
         createAktivitetskrav(
@@ -121,19 +125,21 @@ describe("AktivitetskravSide", () => {
         screen.queryByRole("heading", { name: "Vurdere aktivitetskravet" })
       ).to.not.exist;
     });
-    it("Vises ikke når aktivitetskrav gjelder tidligere tilfelle", () => {
-      mockOppfolgingstilfellePerson([activeOppfolgingstilfelle]);
+    it("Vises når aktivitetskrav gjelder tidligere tilfelle", () => {
+      mockOppfolgingstilfellePerson([
+        inactiveOppfolgingstilfelle,
+        activeOppfolgingstilfelle,
+      ]);
       mockAktivitetskrav([
-        createAktivitetskrav(daysFromToday(70), AktivitetskravStatus.NY),
+        createAktivitetskrav(daysFromToday(-70), AktivitetskravStatus.NY),
       ]);
 
       renderAktivitetskravSide();
 
-      expect(
-        screen.queryByRole("heading", { name: "Vurdere aktivitetskravet" })
-      ).to.not.exist;
+      expect(screen.getByRole("heading", { name: "Vurdere aktivitetskravet" }))
+        .to.exist;
     });
-    it("Vises ikke når siste oppfølgingstilfelle uten aktivitetskrav", () => {
+    it("Vises ikke når person har oppfølgingstilfelle uten aktivitetskrav", () => {
       mockOppfolgingstilfellePerson([activeOppfolgingstilfelle]);
       mockAktivitetskrav([]);
 
@@ -145,6 +151,24 @@ describe("AktivitetskravSide", () => {
     });
   });
   describe("Vurdering alert", () => {
+    it("viser siste aktivitetskrav-vurdering fra alle aktivitetskrav for oppfølgingstilfellet", () => {
+      mockAktivitetskrav([
+        createAktivitetskrav(daysFromToday(20), AktivitetskravStatus.OPPFYLT, [
+          oppfyltVurdering,
+          avventVurdering,
+        ]),
+        createAktivitetskrav(daysFromToday(20), AktivitetskravStatus.UNNTAK, [
+          unntakVurdering,
+        ]),
+      ]);
+      mockOppfolgingstilfellePerson([activeOppfolgingstilfelle]);
+      renderAktivitetskravSide();
+
+      expect(screen.getByRole("img", { name: "suksess-ikon" })).to.exist;
+      expect(
+        screen.getByText(/Det er vurdert at Samuel Sam Jones er i aktivitet/)
+      ).to.exist;
+    });
     it("viser advarsel når siste aktivitetskrav-vurdering er AVVENT", () => {
       mockAktivitetskrav([
         createAktivitetskrav(daysFromToday(20), AktivitetskravStatus.AVVENT, [

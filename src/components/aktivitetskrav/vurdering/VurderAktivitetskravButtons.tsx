@@ -1,5 +1,5 @@
 import React from "react";
-import { FlexRow } from "@/components/Layout";
+import { FlexRow, PaddingSize } from "@/components/Layout";
 import Knapp from "nav-frontend-knapper";
 import styled from "styled-components";
 import { ModalType } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravModal";
@@ -22,7 +22,7 @@ export const VurderAktivitetskravButtons = ({
   onButtonClick,
 }: VurderAktivitetskravButtonsProps) => {
   return (
-    <FlexRow>
+    <FlexRow topPadding={PaddingSize.MD}>
       <StyledKnapp onClick={() => onButtonClick("AVVENT")}>
         {texts.avventer}
       </StyledKnapp>
