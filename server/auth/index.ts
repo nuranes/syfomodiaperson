@@ -36,7 +36,6 @@ const getStrategy = async (authClient: any) => {
     },
     (req: any, tokenSet: any, done: any) => {
       if (!tokenSet.expired()) {
-        console.log("OpenIdClient.Strategy: Mapping tokenSet to User.");
         return done(null, {
           tokenSets: {
             [Config.tokenSetIdType.self]: tokenSet,
