@@ -24,8 +24,8 @@ export const useAktivitetskravVurderingSkjema = (
   status: AktivitetskravStatus
 ) => {
   const createDto = (
-    beskrivelse: string,
-    arsaker: VurderingArsak[]
+    arsaker: VurderingArsak[],
+    beskrivelse?: string
   ): CreateAktivitetskravVurderingDTO => {
     return {
       status,

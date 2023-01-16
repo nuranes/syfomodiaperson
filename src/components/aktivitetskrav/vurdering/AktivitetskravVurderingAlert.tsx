@@ -7,7 +7,7 @@ import {
   tilDatoMedManedNavn,
   tilLesbarDatoMedArUtenManedNavn,
 } from "@/utils/datoUtils";
-import React from "react";
+import React, { ReactElement } from "react";
 import { FlexRow, PaddingSize } from "@/components/Layout";
 import { Element, Normaltekst } from "nav-frontend-typografi";
 import { AlertstripeFullbredde } from "@/components/AlertstripeFullbredde";
@@ -24,7 +24,7 @@ interface AktivitetskravVurderingAlertProps {
 
 export const AktivitetskravVurderingAlert = ({
   vurdering,
-}: AktivitetskravVurderingAlertProps) => {
+}: AktivitetskravVurderingAlertProps): ReactElement => {
   const navbruker = useNavBrukerData();
   const vurderingDatoMedArUtenMndNavn = tilLesbarDatoMedArUtenManedNavn(
     vurdering.createdAt
@@ -61,6 +61,13 @@ export const AktivitetskravVurderingAlert = ({
               })}
             </ul>
           </FlexRow>
+        </StyledAlertstripeFullbredde>
+      );
+    }
+    case AktivitetskravStatus.IKKE_OPPFYLT: {
+      return (
+        <StyledAlertstripeFullbredde type="suksess">
+          {`Det er vurdert at aktivitetskravet ikke er oppfylt for ${navbruker.navn} ${vurderingDatoMedArUtenMndNavn}`}
         </StyledAlertstripeFullbredde>
       );
     }

@@ -46,6 +46,7 @@ const avventButtonText = "(Avventer)";
 const enBeskrivelse = "Her er en beskrivelse";
 const unntakButtonText = "Sett unntak";
 const oppfyltButtonText = "Er i aktivitet";
+const ikkeOppfyltButtonText = "Ikke oppfylt";
 
 const renderVurderAktivitetskrav = () =>
   render(
@@ -69,6 +70,7 @@ describe("VurderAktivitetskrav", () => {
     expect(getButton(avventButtonText)).to.exist;
     expect(getButton(unntakButtonText)).to.exist;
     expect(getButton(oppfyltButtonText)).to.exist;
+    expect(getButton(ikkeOppfyltButtonText)).to.exist;
   });
   it("renders periode for oppfølgingstilfelle", () => {
     renderVurderAktivitetskrav();
@@ -210,6 +212,32 @@ describe("VurderAktivitetskrav", () => {
           AvventVurderingArsak.OPPFOLGINGSPLAN_ARBEIDSGIVER,
           AvventVurderingArsak.INFORMASJON_BEHANDLER,
         ],
+      };
+      expect(vurderAvventMutation.options.variables).to.deep.equal(
+        expectedVurdering
+      );
+    });
+  });
+  describe("Ikke oppfylt", () => {
+    it("Lagre vurdering med verdier fra skjema", () => {
+      renderVurderAktivitetskrav();
+
+      clickButton(ikkeOppfyltButtonText);
+
+      expect(
+        screen.getByRole("heading", {
+          name: "Ikke oppfylt",
+        })
+      ).to.exist;
+
+      expect(screen.getByText(/Saken må ferdigstilles i Arena/)).to.exist;
+      clickButton("Lagre");
+
+      const vurderAvventMutation = queryClient.getMutationCache().getAll()[0];
+      const expectedVurdering: CreateAktivitetskravVurderingDTO = {
+        status: AktivitetskravStatus.IKKE_OPPFYLT,
+        arsaker: [],
+        beskrivelse: undefined,
       };
       expect(vurderAvventMutation.options.variables).to.deep.equal(
         expectedVurdering

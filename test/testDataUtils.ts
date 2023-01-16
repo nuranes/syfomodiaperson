@@ -72,3 +72,7 @@ export const unntakVurdering = createAktivitetskravVurdering(
   AktivitetskravStatus.UNNTAK,
   [UnntakVurderingArsak.SJOMENN_UTENRIKS]
 );
+export const ikkeOppfyltVurdering = createAktivitetskravVurdering(
+  AktivitetskravStatus.IKKE_OPPFYLT,
+  []
+);

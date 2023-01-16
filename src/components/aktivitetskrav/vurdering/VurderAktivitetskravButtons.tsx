@@ -8,6 +8,7 @@ const texts = {
   avventer: "(Avventer)",
   oppfylt: "Er i aktivitet",
   unntak: "Sett unntak",
+  ikkeOppfylt: "Ikke oppfylt",
 };
 
 const StyledKnapp = styled(Knapp)`
@@ -31,6 +32,9 @@ export const VurderAktivitetskravButtons = ({
       </StyledKnapp>
       <StyledKnapp onClick={() => onButtonClick("OPPFYLT")}>
         {texts.oppfylt}
+      </StyledKnapp>
+      <StyledKnapp onClick={() => onButtonClick("IKKE_OPPFYLT")}>
+        {texts.ikkeOppfylt}
       </StyledKnapp>
     </FlexRow>
   );

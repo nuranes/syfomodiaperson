@@ -8,7 +8,6 @@ import { AktivitetskravHistorikk } from "@/components/aktivitetskrav/historikk/A
 import {
   AktivitetskravStatus,
   AktivitetskravVurderingDTO,
-  AvventVurderingArsak,
   OppfyltVurderingArsak,
   UnntakVurderingArsak,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
@@ -24,8 +23,10 @@ import {
 import { veilederinfoQueryKeys } from "@/data/veilederinfo/veilederinfoQueryHooks";
 import { aktivitetskravQueryKeys } from "@/data/aktivitetskrav/aktivitetskravQueryHooks";
 import {
+  avventVurdering,
   createAktivitetskrav,
   createAktivitetskravVurdering,
+  ikkeOppfyltVurdering,
 } from "../testDataUtils";
 
 let queryClient: QueryClient;
@@ -46,10 +47,6 @@ const unntakVurdering = createAktivitetskravVurdering(
   [UnntakVurderingArsak.MEDISINSKE_GRUNNER],
   enBeskrivelse,
   dayInThePast
-);
-const avventVurdering = createAktivitetskravVurdering(
-  AktivitetskravStatus.AVVENT,
-  [AvventVurderingArsak.INFORMASJON_BEHANDLER]
 );
 const stansVurdering = createAktivitetskravVurdering(
   AktivitetskravStatus.STANS,
@@ -111,6 +108,11 @@ describe("AktivitetskravHistorikk", () => {
 
     expect(getButton(`Innstilling om stopp - ${tilDatoMedManedNavn(today)}`)).to
       .exist;
+  });
+  it("viser riktig overskrift for IKKE_OPPFYLT-vurdering", () => {
+    renderAktivitetskravHistorikk([ikkeOppfyltVurdering]);
+
+    expect(getButton(`Ikke oppfylt - ${tilDatoMedManedNavn(today)}`)).to.exist;
   });
   it("viser ikke AVVENT-vurdering", () => {
     renderAktivitetskravHistorikk([avventVurdering]);

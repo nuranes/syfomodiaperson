@@ -8,9 +8,15 @@ import {
   VurderAktivitetskravArsakRadioGruppe,
 } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravArsakRadioGruppe";
 import { unntakVurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
-import { VurderAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravSkjema";
+import {
+  VurderAktivitetskravSkjema,
+  VurderAktivitetskravSkjemaProps,
+} from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravSkjema";
 import { useAktivitetskravVurderingSkjema } from "@/hooks/aktivitetskrav/useAktivitetskravVurderingSkjema";
-import { vurderAktivitetskravBeskrivelseFieldName } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravBeskrivelse";
+import {
+  VurderAktivitetskravBeskrivelse,
+  vurderAktivitetskravBeskrivelseFieldName,
+} from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravBeskrivelse";
 
 const texts = {
   title: "Sett unntak fra aktivitetskravet",
@@ -21,15 +27,9 @@ interface UnntakAktivitetskravSkjemaValues {
   [vurderAktivitetskravArsakFieldName]: UnntakVurderingArsak;
 }
 
-interface UnntakAktivitetskravSkjemaProps {
-  setModalOpen: (modalOpen: boolean) => void;
-  aktivitetskravUuid: string;
-}
-
-export const UnntakAktivitetskravSkjema = ({
-  setModalOpen,
-  aktivitetskravUuid,
-}: UnntakAktivitetskravSkjemaProps) => {
+export const UnntakAktivitetskravSkjema = (
+  props: VurderAktivitetskravSkjemaProps
+) => {
   const { createDto, validateArsakField, validateBeskrivelseField } =
     useAktivitetskravVurderingSkjema(AktivitetskravStatus.UNNTAK);
 
@@ -46,10 +46,10 @@ export const UnntakAktivitetskravSkjema = ({
           arsakTexts={unntakVurderingArsakTexts}
         />
       }
-      setModalOpen={setModalOpen}
-      aktivitetskravUuid={aktivitetskravUuid}
-      toDto={(values) => createDto(values.beskrivelse, [values.arsak])}
+      beskrivelse={<VurderAktivitetskravBeskrivelse />}
+      toDto={(values) => createDto([values.arsak], values.beskrivelse)}
       validate={validate}
+      {...props}
     />
   );
 };

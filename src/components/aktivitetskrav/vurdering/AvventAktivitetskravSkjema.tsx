@@ -3,7 +3,10 @@ import {
   AktivitetskravStatus,
   AvventVurderingArsak,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
-import { VurderAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravSkjema";
+import {
+  VurderAktivitetskravSkjema,
+  VurderAktivitetskravSkjemaProps,
+} from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravSkjema";
 import { useAktivitetskravVurderingSkjema } from "@/hooks/aktivitetskrav/useAktivitetskravVurderingSkjema";
 import { Normaltekst } from "nav-frontend-typografi";
 import { FlexColumn } from "@/components/Layout";
@@ -11,7 +14,10 @@ import {
   AvventArsakerCheckboxGruppe,
   vurderAktivitetskravArsakerFieldName,
 } from "@/components/aktivitetskrav/vurdering/AvventArsakerCheckboxGruppe";
-import { vurderAktivitetskravBeskrivelseFieldName } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravBeskrivelse";
+import {
+  VurderAktivitetskravBeskrivelse,
+  vurderAktivitetskravBeskrivelseFieldName,
+} from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravBeskrivelse";
 
 const texts = {
   title: "Avventer",
@@ -26,15 +32,9 @@ interface AvventAktivitetskravSkjemaValues {
   [vurderAktivitetskravArsakerFieldName]: AvventVurderingArsak[];
 }
 
-interface AvventAktivitetskravSkjemaProps {
-  setModalOpen: (modalOpen: boolean) => void;
-  aktivitetskravUuid: string;
-}
-
-export const AvventAktivitetskravSkjema = ({
-  setModalOpen,
-  aktivitetskravUuid,
-}: AvventAktivitetskravSkjemaProps) => {
+export const AvventAktivitetskravSkjema = (
+  props: VurderAktivitetskravSkjemaProps
+) => {
   const { createDto, validateArsakerField, validateBeskrivelseField } =
     useAktivitetskravVurderingSkjema(AktivitetskravStatus.AVVENT);
 
@@ -52,12 +52,13 @@ export const AvventAktivitetskravSkjema = ({
           <Normaltekst>{texts.subtitle2}</Normaltekst>
         </FlexColumn>
       }
-      beskrivelseLabel={texts.beskrivelseLabel}
+      beskrivelse={
+        <VurderAktivitetskravBeskrivelse label={texts.beskrivelseLabel} />
+      }
       arsakVelger={<AvventArsakerCheckboxGruppe />}
-      setModalOpen={setModalOpen}
-      aktivitetskravUuid={aktivitetskravUuid}
-      toDto={(values) => createDto(values.beskrivelse, values.arsaker)}
+      toDto={(values) => createDto(values.arsaker, values.beskrivelse)}
       validate={validate}
+      {...props}
     />
   );
 };

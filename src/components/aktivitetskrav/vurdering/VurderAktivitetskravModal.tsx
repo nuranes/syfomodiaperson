@@ -1,10 +1,11 @@
 import ModalWrapper from "nav-frontend-modal";
-import React from "react";
+import React, { ReactElement } from "react";
 import { AktivitetskravStatus } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { OppfyltAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/OppfyltAktivitetskravSkjema";
 import styled from "styled-components";
 import { UnntakAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/UnntakAktivitetskravSkjema";
 import { AvventAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/AvventAktivitetskravSkjema";
+import { IkkeOppfyltAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/IkkeOppfyltAktivitetskravSkjema";
 
 const texts = {
   modalContentLabel: "Vurder aktivitetskrav",
@@ -13,7 +14,8 @@ const texts = {
 export type ModalType = `${
   | AktivitetskravStatus.AVVENT
   | AktivitetskravStatus.UNNTAK
-  | AktivitetskravStatus.OPPFYLT}`;
+  | AktivitetskravStatus.OPPFYLT
+  | AktivitetskravStatus.IKKE_OPPFYLT}`;
 
 interface VurderAktivitetskravModalProps {
   isOpen: boolean;
@@ -62,37 +64,21 @@ export const ModalContent = styled.div`
 `;
 
 const VurderAktivitetskravModalContent = ({
-  setModalOpen,
   modalType,
-  aktivitetskravUuid,
-}: VurderAktivitetskravModalContentProps) => {
+  ...rest
+}: VurderAktivitetskravModalContentProps): ReactElement => {
   switch (modalType) {
     case "OPPFYLT": {
-      return (
-        <OppfyltAktivitetskravSkjema
-          setModalOpen={setModalOpen}
-          aktivitetskravUuid={aktivitetskravUuid}
-        />
-      );
+      return <OppfyltAktivitetskravSkjema {...rest} />;
     }
     case "UNNTAK": {
-      return (
-        <UnntakAktivitetskravSkjema
-          setModalOpen={setModalOpen}
-          aktivitetskravUuid={aktivitetskravUuid}
-        />
-      );
+      return <UnntakAktivitetskravSkjema {...rest} />;
     }
     case "AVVENT": {
-      return (
-        <AvventAktivitetskravSkjema
-          setModalOpen={setModalOpen}
-          aktivitetskravUuid={aktivitetskravUuid}
-        />
-      );
+      return <AvventAktivitetskravSkjema {...rest} />;
     }
-    default: {
-      return <></>;
+    case "IKKE_OPPFYLT": {
+      return <IkkeOppfyltAktivitetskravSkjema {...rest} />;
     }
   }
 };

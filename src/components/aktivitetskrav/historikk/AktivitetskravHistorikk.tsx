@@ -21,7 +21,8 @@ const texts = {
 const isRelevantForHistorikk = (vurdering: AktivitetskravVurderingDTO) =>
   vurdering.status === AktivitetskravStatus.OPPFYLT ||
   vurdering.status === AktivitetskravStatus.UNNTAK ||
-  vurdering.status === AktivitetskravStatus.STANS;
+  vurdering.status === AktivitetskravStatus.STANS ||
+  vurdering.status === AktivitetskravStatus.IKKE_OPPFYLT;
 
 const byCreatedAt = (
   v1: AktivitetskravVurderingDTO,
@@ -53,13 +54,27 @@ interface HistorikkElementProps {
   vurdering: AktivitetskravVurderingDTO;
 }
 
+const headerPrefix = (status: AktivitetskravStatus): string => {
+  switch (status) {
+    case AktivitetskravStatus.OPPFYLT:
+    case AktivitetskravStatus.UNNTAK: {
+      return capitalizeWord(status);
+    }
+    case AktivitetskravStatus.STANS: {
+      return "Innstilling om stopp";
+    }
+    case AktivitetskravStatus.IKKE_OPPFYLT: {
+      return "Ikke oppfylt";
+    }
+    default: {
+      return "";
+    }
+  }
+};
+
 const HistorikkElement = ({ vurdering }: HistorikkElementProps) => {
   const { data: veilederinfo } = useVeilederInfoQuery(vurdering.createdBy);
-  const headerPrefix =
-    vurdering.status === AktivitetskravStatus.STANS
-      ? "Innstilling om stopp"
-      : capitalizeWord(vurdering.status);
-  const header = `${headerPrefix} - ${tilDatoMedManedNavn(
+  const header = `${headerPrefix(vurdering.status)} - ${tilDatoMedManedNavn(
     vurdering.createdAt
   )}`;
 

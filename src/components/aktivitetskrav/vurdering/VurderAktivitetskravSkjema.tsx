@@ -6,32 +6,34 @@ import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { VurderAktivitetskravSkjemaButtons } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravSkjemaButtons";
 import { Form } from "react-final-form";
 import { useVurderAktivitetskrav } from "@/data/aktivitetskrav/useVurderAktivitetskrav";
-import { VurderAktivitetskravBeskrivelse } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravBeskrivelse";
 import { ValidationErrors } from "final-form";
 
-interface VurderAktivitetskravSkjemaProps<SkjemaValues> {
-  title: string;
-  subtitle?: ReactElement;
-  beskrivelseLabel?: string;
-  arsakVelger: ReactElement;
+export interface VurderAktivitetskravSkjemaProps {
   setModalOpen: (modalOpen: boolean) => void;
   aktivitetskravUuid: string;
+}
+
+interface Props<SkjemaValues> extends VurderAktivitetskravSkjemaProps {
+  title: string;
+  subtitle?: ReactElement;
+  beskrivelse?: ReactElement;
+  arsakVelger?: ReactElement;
 
   toDto(values: SkjemaValues): CreateAktivitetskravVurderingDTO;
 
-  validate(values: Partial<SkjemaValues>): ValidationErrors;
+  validate?: (values: Partial<SkjemaValues>) => ValidationErrors;
 }
 
 export const VurderAktivitetskravSkjema = <SkjemaValues extends object>({
   title,
   subtitle,
-  beskrivelseLabel,
+  beskrivelse,
   arsakVelger,
   setModalOpen,
   aktivitetskravUuid,
   toDto,
   validate,
-}: VurderAktivitetskravSkjemaProps<SkjemaValues>) => {
+}: Props<SkjemaValues>) => {
   const vurderAktivitetskrav = useVurderAktivitetskrav(aktivitetskravUuid);
 
   const submit = (values: SkjemaValues) => {
@@ -53,9 +55,9 @@ export const VurderAktivitetskravSkjema = <SkjemaValues extends object>({
             <FlexRow bottomPadding={PaddingSize.MD}>{subtitle}</FlexRow>
           )}
           <FlexRow bottomPadding={PaddingSize.SM}>{arsakVelger}</FlexRow>
-          <FlexRow bottomPadding={PaddingSize.MD}>
-            <VurderAktivitetskravBeskrivelse label={beskrivelseLabel} />
-          </FlexRow>
+          {beskrivelse && (
+            <FlexRow bottomPadding={PaddingSize.MD}>{beskrivelse}</FlexRow>
+          )}
           {vurderAktivitetskrav.isError && (
             <SkjemaInnsendingFeil error={vurderAktivitetskrav.error} />
           )}

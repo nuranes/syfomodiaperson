@@ -18,6 +18,7 @@ import {
   createAktivitetskrav,
   createAktivitetskravVurdering,
   generateOppfolgingstilfelle,
+  ikkeOppfyltVurdering,
   oppfyltVurdering,
   unntakVurdering,
 } from "../testDataUtils";
@@ -232,6 +233,22 @@ describe("AktivitetskravSide", () => {
 
       expect(screen.getByRole("img", { name: "suksess-ikon" })).to.exist;
       expect(screen.getByText(/Det er vurdert unntak/)).to.exist;
+    });
+    it("viser suksess når siste aktivitetskrav-vurdering er IKKE_OPPFYLT", () => {
+      mockAktivitetskrav([
+        createAktivitetskrav(
+          daysFromToday(20),
+          AktivitetskravStatus.IKKE_OPPFYLT,
+          [ikkeOppfyltVurdering, avventVurdering]
+        ),
+      ]);
+      mockOppfolgingstilfellePerson([activeOppfolgingstilfelle]);
+      renderAktivitetskravSide();
+
+      expect(screen.getByRole("img", { name: "suksess-ikon" })).to.exist;
+      expect(
+        screen.getByText(/Det er vurdert at aktivitetskravet ikke er oppfylt/)
+      ).to.exist;
     });
     it("viser ingen alert når ingen aktivitetskrav-vurdering", () => {
       mockAktivitetskrav([

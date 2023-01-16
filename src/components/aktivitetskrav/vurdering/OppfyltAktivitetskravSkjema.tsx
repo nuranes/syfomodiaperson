@@ -8,9 +8,15 @@ import {
   vurderAktivitetskravArsakFieldName,
   VurderAktivitetskravArsakRadioGruppe,
 } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravArsakRadioGruppe";
-import { VurderAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravSkjema";
+import {
+  VurderAktivitetskravSkjema,
+  VurderAktivitetskravSkjemaProps,
+} from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravSkjema";
 import { useAktivitetskravVurderingSkjema } from "@/hooks/aktivitetskrav/useAktivitetskravVurderingSkjema";
-import { vurderAktivitetskravBeskrivelseFieldName } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravBeskrivelse";
+import {
+  VurderAktivitetskravBeskrivelse,
+  vurderAktivitetskravBeskrivelseFieldName,
+} from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravBeskrivelse";
 
 const texts = {
   title: "Er i aktivitet",
@@ -21,15 +27,9 @@ interface OppfyltAktivitetskravSkjemaValues {
   [vurderAktivitetskravArsakFieldName]: OppfyltVurderingArsak;
 }
 
-interface OppfyltAktivitetskravSkjemaProps {
-  setModalOpen: (modalOpen: boolean) => void;
-  aktivitetskravUuid: string;
-}
-
-export const OppfyltAktivitetskravSkjema = ({
-  setModalOpen,
-  aktivitetskravUuid,
-}: OppfyltAktivitetskravSkjemaProps) => {
+export const OppfyltAktivitetskravSkjema = (
+  props: VurderAktivitetskravSkjemaProps
+) => {
   const { createDto, validateArsakField, validateBeskrivelseField } =
     useAktivitetskravVurderingSkjema(AktivitetskravStatus.OPPFYLT);
 
@@ -46,10 +46,10 @@ export const OppfyltAktivitetskravSkjema = ({
           arsakTexts={oppfyltVurderingArsakTexts}
         />
       }
-      setModalOpen={setModalOpen}
-      aktivitetskravUuid={aktivitetskravUuid}
-      toDto={(values) => createDto(values.beskrivelse, [values.arsak])}
+      beskrivelse={<VurderAktivitetskravBeskrivelse />}
+      toDto={(values) => createDto([values.arsak], values.beskrivelse)}
       validate={validate}
+      {...props}
     />
   );
 };
