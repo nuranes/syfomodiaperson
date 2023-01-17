@@ -33,7 +33,6 @@ export const createAktivitetskrav = (
 ): AktivitetskravDTO => {
   return {
     createdAt: new Date(),
-    sistEndret: new Date(),
     status,
     stoppunktAt,
     uuid: generateUUID(),

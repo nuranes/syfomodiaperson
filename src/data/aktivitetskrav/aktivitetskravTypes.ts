@@ -29,7 +29,6 @@ export enum OppfyltVurderingArsak {
 export interface AktivitetskravDTO {
   uuid: string;
   createdAt: Date;
-  sistEndret: Date;
   status: AktivitetskravStatus;
   stoppunktAt: Date;
   vurderinger: AktivitetskravVurderingDTO[];
