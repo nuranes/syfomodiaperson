@@ -5,12 +5,13 @@ import {
   tilLesbarDatoMedArstall,
   tilLesbarPeriodeMedArstall,
 } from "@/utils/datoUtils";
-import Lightbox from "../../../Lightbox";
 import { SoknaderImage } from "../../../../../img/ImageComponents";
 import {
   SoknadstatusDTO,
   SykepengesoknadDTO,
 } from "@/data/sykepengesoknad/types/SykepengesoknadDTO";
+import { Modal } from "@navikt/ds-react";
+import styled from "styled-components";
 
 const texts = {
   dato: {
@@ -25,6 +26,7 @@ const texts = {
   },
   tittel: "Søknad om sykepenger",
   teaserTekst: "Gjelder perioden",
+  close: "Lukk",
 };
 
 const textDatoInfo = (dato?: string) => {
@@ -52,25 +54,9 @@ const textTeaserText = (periode: string) => {
   return `${texts.teaserTekst} ${periode}`;
 };
 
-interface SoknadLightboxProps {
-  soknad: SykepengesoknadDTO;
-
-  onClose(): void;
-}
-
-const SoknadLightbox = ({ soknad, onClose }: SoknadLightboxProps) => (
-  <Lightbox onClose={onClose}>
-    <h3 className="panel__tittel">{texts.dato.tittel}</h3>
-    <p>
-      {textDatoInfo(
-        tilLesbarDatoMedArstall(dayjs(soknad.tom).add(1, "days").toDate())
-      )}
-    </p>
-    <div className="knapperad">
-      <Knapp onClick={onClose}>Lukk</Knapp>
-    </div>
-  </Lightbox>
-);
+const ModalWrapper = styled(Modal)`
+  padding: 1em;
+`;
 
 interface FremtidigSoknadTeaserProps {
   soknad: SykepengesoknadDTO;
@@ -119,7 +105,24 @@ const FremtidigSoknadTeaser = ({
           )}
         </div>
       </button>
-      {vis && <SoknadLightbox soknad={soknad} onClose={() => setVis(false)} />}
+      <ModalWrapper
+        aria-label="Modal planlagt søknad"
+        aria-labelledby="modal-heading"
+        open={vis}
+        onClose={() => setVis(false)}
+        closeButton={false}
+        shouldCloseOnOverlayClick={false}
+      >
+        <h3 className="panel__tittel">{texts.dato.tittel}</h3>
+        <p>
+          {textDatoInfo(
+            tilLesbarDatoMedArstall(dayjs(soknad.tom).add(1, "days").toDate())
+          )}
+        </p>
+        <div className="knapperad">
+          <Knapp onClick={() => setVis(false)}>{texts.close}</Knapp>
+        </div>
+      </ModalWrapper>
     </article>
   );
 };
