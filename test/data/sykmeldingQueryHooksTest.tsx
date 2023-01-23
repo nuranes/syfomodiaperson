@@ -1,4 +1,3 @@
-import { QueryClient } from "react-query";
 import { apiMock } from "../stubs/stubApi";
 import nock from "nock";
 import { queryHookWrapper } from "./queryHookTestUtils";
@@ -13,6 +12,7 @@ import {
   oldFormatSMForAG,
 } from "@/utils/sykmeldinger/sykmeldingParser";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
+import { testQueryClient } from "../testQueryClient";
 
 let queryClient: any;
 let apiMockScope: any;
@@ -22,7 +22,7 @@ const sykmeldingerMockData =
 
 describe("sykmeldingQueryHooks", () => {
   beforeEach(() => {
-    queryClient = new QueryClient();
+    queryClient = testQueryClient();
     apiMockScope = apiMock();
   });
   afterEach(() => {

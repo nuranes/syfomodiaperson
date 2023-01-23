@@ -37,7 +37,7 @@ export const HistorikkContainer = (): ReactElement => {
   } = useHistorikk();
 
   const {
-    isLoading: henterLedere,
+    isInitialLoading: henterLedere,
     isError: hentingLedereFeilet,
     currentLedere,
     formerLedere,
@@ -45,7 +45,7 @@ export const HistorikkContainer = (): ReactElement => {
 
   const {
     data: oppfolgingstilfellePerson,
-    isLoading: henterTilfeller,
+    isInitialLoading: henterTilfeller,
     isError: hentingTilfellerFeilet,
   } = useOppfolgingstilfellePersonQuery();
 

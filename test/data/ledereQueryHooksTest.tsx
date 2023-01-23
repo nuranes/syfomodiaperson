@@ -1,5 +1,4 @@
 import { NarmesteLederRelasjonStatus } from "@/data/leder/ledereTypes";
-import { QueryClient } from "react-query";
 import { apiMock } from "../stubs/stubApi";
 import nock from "nock";
 import { queryHookWrapper } from "./queryHookTestUtils";
@@ -7,6 +6,7 @@ import { renderHook, waitFor } from "@testing-library/react";
 import { expect } from "chai";
 import { stubNarmestelederApi } from "../stubs/stubIsnarmesteleder";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
+import { testQueryClient } from "../testQueryClient";
 
 const currentLedere = [
   {
@@ -37,7 +37,7 @@ let apiMockScope: any;
 
 describe("ledereQueryHooks tests", () => {
   beforeEach(() => {
-    queryClient = new QueryClient();
+    queryClient = testQueryClient();
     apiMockScope = apiMock();
   });
   afterEach(() => {

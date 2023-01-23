@@ -1,5 +1,5 @@
 import { dialogmoteRoutePath } from "@/routers/AppRouter";
-import { QueryClientProvider } from "react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import { texts as valideringsTexts } from "@/utils/valideringUtils";
 import EndreDialogmoteSkjema from "@/components/dialogmote/endre/EndreDialogmoteSkjema";

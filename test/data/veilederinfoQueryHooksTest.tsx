@@ -1,4 +1,3 @@
-import { QueryClient } from "react-query";
 import { apiMock } from "../stubs/stubApi";
 import nock from "nock";
 import { renderHook, waitFor } from "@testing-library/react";
@@ -13,13 +12,14 @@ import {
 } from "../stubs/stubSyfoveileder";
 import { veilederMock } from "../../mock/syfoveileder/veilederMock";
 import { queryHookWrapper } from "./queryHookTestUtils";
+import { testQueryClient } from "../testQueryClient";
 
 let queryClient: any;
 let apiMockScope: any;
 
 describe("veilederinfoQueryHooks tests", () => {
   beforeEach(() => {
-    queryClient = new QueryClient();
+    queryClient = testQueryClient();
     apiMockScope = apiMock();
   });
   afterEach(() => {

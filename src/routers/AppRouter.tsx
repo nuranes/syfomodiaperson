@@ -129,9 +129,9 @@ const IngenAktivBrukerRouter = (): ReactElement => {
 };
 
 const AktivBrukerLoader = () => {
-  const { isLoading, data } = useAktivBruker();
+  const { isInitialLoading, data } = useAktivBruker();
 
-  if (isLoading) {
+  if (isInitialLoading) {
     return <AppSpinner />;
   }
 

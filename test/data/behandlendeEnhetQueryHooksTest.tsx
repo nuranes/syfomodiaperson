@@ -1,4 +1,3 @@
-import { QueryClient } from "react-query";
 import { apiMock } from "../stubs/stubApi";
 import nock from "nock";
 import { renderHook, waitFor } from "@testing-library/react";
@@ -7,13 +6,14 @@ import { stubBehandlendeEnhetApi } from "../stubs/stubSyfobehandlendeEnhet";
 import { useBehandlendeEnhetQuery } from "@/data/behandlendeenhet/behandlendeEnhetQueryHooks";
 import { behandlendeEnhetMock } from "../../mock/syfobehandlendeenhet/behandlendeEnhetMock";
 import { queryHookWrapper } from "./queryHookTestUtils";
+import { testQueryClient } from "../testQueryClient";
 
 let queryClient: any;
 let apiMockScope: any;
 
 describe("behandlendeEnhetQueryHooks tests", () => {
   beforeEach(() => {
-    queryClient = new QueryClient();
+    queryClient = testQueryClient();
     apiMockScope = apiMock();
   });
   afterEach(() => {

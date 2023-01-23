@@ -4,8 +4,8 @@ import AppRouter from "./routers/AppRouter";
 import "./styles/styles.less";
 import * as Sentry from "@sentry/react";
 import { getEnvironmentAsString } from "./utils/miljoUtil";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { minutesToMillis } from "@/utils/timeUtils";
 import { ValgtEnhetProvider } from "@/context/ValgtEnhetContext";
 import { isClientError } from "@/api/errors";
@@ -17,7 +17,11 @@ Sentry.init({
 
 const queryClient = new QueryClient({
   defaultOptions: {
+    mutations: {
+      networkMode: "offlineFirst",
+    },
     queries: {
+      networkMode: "offlineFirst",
       refetchOnWindowFocus: false,
       cacheTime: minutesToMillis(60),
       staleTime: minutesToMillis(30),

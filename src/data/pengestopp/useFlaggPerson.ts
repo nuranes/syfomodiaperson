@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ISPENGESTOPP_ROOT } from "@/apiConstants";
 import { post } from "@/api/axios";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
@@ -31,7 +31,7 @@ export const useFlaggPerson = () => {
     },
     onSettled: () =>
       queryClient.invalidateQueries(pengestoppStatusQueryKey, {
-        refetchActive: false,
+        refetchType: "none",
       }),
   });
 };

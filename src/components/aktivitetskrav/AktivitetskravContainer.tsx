@@ -13,14 +13,16 @@ const texts = {
 };
 
 export const AktivitetskravContainer = (): ReactElement => {
-  const { isLoading: henterAktivitetskrav, isError: hentAktivitetskravFeilet } =
-    useAktivitetskravQuery();
   const {
-    isLoading: henterOppfolgingsplaner,
+    isInitialLoading: henterAktivitetskrav,
+    isError: hentAktivitetskravFeilet,
+  } = useAktivitetskravQuery();
+  const {
+    isInitialLoading: henterOppfolgingsplaner,
     isError: hentOppfolgingsplanerFeilet,
   } = useOppfolgingsplanerQuery();
   const {
-    isLoading: henterOppfolgingstilfeller,
+    isInitialLoading: henterOppfolgingstilfeller,
     isError: hentOppfolgingstilfellerFeilet,
   } = useOppfolgingstilfellePersonQuery();
 

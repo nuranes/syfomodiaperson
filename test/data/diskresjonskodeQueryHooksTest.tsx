@@ -1,4 +1,3 @@
-import { QueryClient } from "react-query";
 import { apiMock } from "../stubs/stubApi";
 import nock from "nock";
 import { queryHookWrapper } from "./queryHookTestUtils";
@@ -6,13 +5,14 @@ import { renderHook, waitFor } from "@testing-library/react";
 import { expect } from "chai";
 import { stubDiskresjonskodeApi } from "../stubs/stubSyfoperson";
 import { useDiskresjonskodeQuery } from "@/data/diskresjonskode/diskresjonskodeQueryHooks";
+import { testQueryClient } from "../testQueryClient";
 
 let queryClient: any;
 let apiMockScope: any;
 
 describe("diskresjonskodeQueryHooks tests", () => {
   beforeEach(() => {
-    queryClient = new QueryClient();
+    queryClient = testQueryClient();
     apiMockScope = apiMock();
   });
   afterEach(() => {

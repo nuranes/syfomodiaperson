@@ -1,4 +1,3 @@
-import { QueryClient } from "react-query";
 import { apiMock } from "../stubs/stubApi";
 import nock from "nock";
 import { queryHookWrapper } from "./queryHookTestUtils";
@@ -7,13 +6,14 @@ import { expect } from "chai";
 import { stubBehandlereDialogmeldingApi } from "../stubs/stubIsdialogmelding";
 import { behandlereDialogmeldingMock } from "../../mock/isdialogmelding/behandlereDialogmeldingMock";
 import { useBehandlereQuery } from "@/data/behandler/behandlereQueryHooks";
+import { testQueryClient } from "../testQueryClient";
 
 let queryClient: any;
 let apiMockScope: any;
 
 describe("behandlereQueryHooks tests", () => {
   beforeEach(() => {
-    queryClient = new QueryClient();
+    queryClient = testQueryClient();
     apiMockScope = apiMock();
   });
   afterEach(() => {

@@ -6,12 +6,13 @@ import { render, screen } from "@testing-library/react";
 import React from "react";
 import { DialogmoteMoteStatusPanel } from "@/components/mote/components/innkalling/DialogmoteMoteStatusPanel";
 import { dialogmote, dialogmoteMedMellomlagretReferat } from "./testData";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { MemoryRouter } from "react-router-dom";
 import { expect } from "chai";
 import { daysFromToday, getButton } from "../testUtils";
+import { testQueryClient } from "../testQueryClient";
 
-const queryClient = new QueryClient();
+const queryClient = testQueryClient();
 
 const renderDialogmoteMoteStatusPanel = (dialogmote: DialogmoteDTO) =>
   render(

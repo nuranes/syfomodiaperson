@@ -75,10 +75,12 @@ interface OppfolgingsplanProps {
 }
 
 const Oppfolgingsplan = ({ oppfolgingsplan }: OppfolgingsplanProps) => {
-  const { data, isLoading, isError } = useDokumentinfoQuery(oppfolgingsplan.id);
+  const { data, isInitialLoading, isError } = useDokumentinfoQuery(
+    oppfolgingsplan.id
+  );
 
   return (() => {
-    if (isLoading) {
+    if (isInitialLoading) {
       return <AppSpinner />;
     }
     if (isError) {

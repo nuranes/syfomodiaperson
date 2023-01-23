@@ -1,7 +1,7 @@
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { SYFOOPPFOLGINGSPLANSERVICE_ROOT } from "@/apiConstants";
 import { get } from "@/api/axios";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { OppfolgingsplanLPS } from "@/data/oppfolgingsplan/types/OppfolgingsplanLPS";
 import { minutesToMillis } from "@/utils/timeUtils";
 import { DokumentinfoDTO } from "@/data/oppfolgingsplan/types/DokumentinfoDTO";

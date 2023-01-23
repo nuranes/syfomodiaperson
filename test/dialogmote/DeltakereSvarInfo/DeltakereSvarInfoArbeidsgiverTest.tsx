@@ -5,7 +5,7 @@ import {
 } from "../testData";
 import { render, screen } from "@testing-library/react";
 import { expect } from "chai";
-import { QueryClientProvider } from "react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import { DeltakereSvarInfo } from "@/components/dialogmote/DeltakereSvarInfo";
 import {

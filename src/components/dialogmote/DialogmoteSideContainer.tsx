@@ -28,7 +28,11 @@ export const DialogmoteSideContainer = ({
   const { dialogmoteUuid } = useParams<{
     dialogmoteUuid: string;
   }>();
-  const { isLoading, isError, data: dialogmoter } = useDialogmoterQuery();
+  const {
+    isInitialLoading,
+    isError,
+    data: dialogmoter,
+  } = useDialogmoterQuery();
   const { brukerKanIkkeVarslesDigitalt } = useBrukerinfoQuery();
 
   const dialogmote = dialogmoter.find(
@@ -37,7 +41,7 @@ export const DialogmoteSideContainer = ({
 
   return (
     <Side tittel={title} aktivtMenypunkt={Menypunkter.DIALOGMOTE}>
-      <SideLaster henter={isLoading} hentingFeilet={isError}>
+      <SideLaster henter={isInitialLoading} hentingFeilet={isError}>
         <Sidetopp tittel={header} />
         {brukerKanIkkeVarslesDigitalt && (
           <BrukerKanIkkeVarslesPapirpostAdvarsel />

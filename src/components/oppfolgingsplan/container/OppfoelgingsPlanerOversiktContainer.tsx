@@ -16,12 +16,12 @@ export const OppfoelgingsPlanerOversiktContainer = () => {
   const {
     data: oppfolgingsplaner,
     isError: oppfolgingsplanerHentingFeilet,
-    isLoading: henterOppfolgingsplaner,
+    isInitialLoading: henterOppfolgingsplaner,
   } = useOppfolgingsplanerQuery();
   const {
     data: oppfolgingsplanerLPS,
     isError: oppfolgingsplanerLPSHentingFeilet,
-    isLoading: henterOppfolgingsplanerLPS,
+    isInitialLoading: henterOppfolgingsplanerLPS,
   } = useOppfolgingsplanerLPSQuery();
 
   const henter = henterOppfolgingsplaner || henterOppfolgingsplanerLPS;

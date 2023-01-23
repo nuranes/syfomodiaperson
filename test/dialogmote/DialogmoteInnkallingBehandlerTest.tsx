@@ -2,7 +2,7 @@ import { expect } from "chai";
 import React from "react";
 import { Form } from "react-final-form";
 import DialogmoteInnkallingBehandler from "@/components/dialogmote/innkalling/DialogmoteInnkallingBehandler";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { arbeidstaker, navEnhet } from "./testData";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { dialogmoteRoutePath } from "@/routers/AppRouter";

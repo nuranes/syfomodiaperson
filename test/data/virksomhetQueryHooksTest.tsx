@@ -1,5 +1,4 @@
 import { stubVirksomhetApi } from "../stubs/stubEreg";
-import { QueryClient } from "react-query";
 import { apiMock } from "../stubs/stubApi";
 import nock from "nock";
 import { renderHook, waitFor } from "@testing-library/react";
@@ -8,6 +7,7 @@ import { expect } from "chai";
 import { virksomhetMock } from "../../mock/ereg/virksomhetMock";
 import { queryHookWrapper } from "./queryHookTestUtils";
 import { VIRKSOMHET_PONTYPANDY } from "../../mock/common/mockConstants";
+import { testQueryClient } from "../testQueryClient";
 
 let queryClient: any;
 let apiMockScope: any;
@@ -16,7 +16,7 @@ const orgnummer = VIRKSOMHET_PONTYPANDY.virksomhetsnummer;
 
 describe("virksomhetQueryHooks tests", () => {
   beforeEach(() => {
-    queryClient = new QueryClient();
+    queryClient = testQueryClient();
     apiMockScope = apiMock();
   });
   afterEach(() => {

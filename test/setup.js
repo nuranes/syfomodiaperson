@@ -1,6 +1,5 @@
 import path from "path";
 import MutationObserver from "@sheerun/mutationobserver-shim";
-import { setLogger } from "react-query";
 
 const dotEnvPath = path.resolve(".env");
 
@@ -12,14 +11,6 @@ const { JSDOM } = require("jsdom");
 
 const jsdom = new JSDOM("<!doctype html><html><body></body></html>");
 const { window } = jsdom;
-
-setLogger({
-  log: console.log,
-  warn: console.warn,
-  error: () => {
-    /*empty*/
-  },
-});
 
 const copyProps = (src, target) => {
   const props = Object.getOwnPropertyNames(src)

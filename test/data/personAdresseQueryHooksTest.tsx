@@ -1,4 +1,3 @@
-import { QueryClient } from "react-query";
 import { apiMock } from "../stubs/stubApi";
 import nock from "nock";
 import { stubPersonadresseApi } from "../stubs/stubSyfoperson";
@@ -7,13 +6,14 @@ import { renderHook, waitFor } from "@testing-library/react";
 import { expect } from "chai";
 import { usePersonAdresseQuery } from "@/data/personinfo/personAdresseQueryHooks";
 import { personAdresseMock } from "../../mock/syfoperson/personAdresseMock";
+import { testQueryClient } from "../testQueryClient";
 
 let queryClient: any;
 let apiMockScope: any;
 
 describe("personAdresseQueryHooks", () => {
   beforeEach(() => {
-    queryClient = new QueryClient();
+    queryClient = testQueryClient();
     apiMockScope = apiMock();
   });
   afterEach(() => {

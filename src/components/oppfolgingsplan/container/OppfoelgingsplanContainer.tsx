@@ -16,11 +16,11 @@ export const OppfoelgingsplanContainer = () => {
   const { oppfoelgingsdialogId } = useParams<{
     oppfoelgingsdialogId: string;
   }>();
-  const { isLoading: henterVeilederinfo } = useAktivVeilederinfoQuery();
+  const { isInitialLoading: henterVeilederinfo } = useAktivVeilederinfoQuery();
   const {
     data: oppfolgingsplaner,
     isError: oppfolgingsplanerHentingFeilet,
-    isLoading: henterOppfolgingsplaner,
+    isInitialLoading: henterOppfolgingsplaner,
   } = useOppfolgingsplanerQuery();
   const henter = henterOppfolgingsplaner || henterVeilederinfo;
   const oppfolgingsplan = oppfolgingsplaner.find((plan) => {

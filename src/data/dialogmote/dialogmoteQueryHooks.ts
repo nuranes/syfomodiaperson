@@ -4,7 +4,7 @@ import {
   DialogmoteDTO,
   DialogmoteStatus,
 } from "@/data/dialogmote/types/dialogmoteTypes";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { useMemo } from "react";
 import { isAktivtDialogmote } from "@/utils/dialogmoteUtils";

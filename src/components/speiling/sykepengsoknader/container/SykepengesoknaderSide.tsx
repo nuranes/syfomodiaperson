@@ -19,7 +19,7 @@ const SykepengesoknaderSide = (): ReactElement => {
   const {
     data: sykepengesoknader,
     isError,
-    isLoading,
+    isInitialLoading,
   } = useSykepengesoknaderQuery();
 
   const brukernavn = useNavBrukerData().navn;
@@ -36,7 +36,7 @@ const SykepengesoknaderSide = (): ReactElement => {
       tittel="Sykepengesøknader"
       aktivtMenypunkt={Menypunkter.SYKEPENGESOKNADER}
     >
-      <SideLaster henter={isLoading} hentingFeilet={isError}>
+      <SideLaster henter={isInitialLoading} hentingFeilet={isError}>
         <div>
           <Feilstripe
             className="blokk--s"

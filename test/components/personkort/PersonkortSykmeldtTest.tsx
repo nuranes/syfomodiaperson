@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import PersonkortSykmeldt from "@/components/personkort/PersonkortSykmeldt";
 import { expect } from "chai";
 import React from "react";
-import { QueryClientProvider } from "react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { apiMock } from "../../stubs/stubApi";
 import { stubPersonadresseApi } from "../../stubs/stubSyfoperson";
 import { vegadresse } from "../../../mock/syfoperson/personAdresseMock";

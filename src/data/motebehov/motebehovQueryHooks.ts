@@ -2,7 +2,7 @@ import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { SYFOMOTEBEHOV_ROOT } from "@/apiConstants";
 import { get } from "@/api/axios";
 import { MotebehovVeilederDTO } from "@/data/motebehov/types/motebehovTypes";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { minutesToMillis } from "@/utils/timeUtils";
 import { sorterMotebehovDataEtterDato } from "@/utils/motebehovUtils";
 

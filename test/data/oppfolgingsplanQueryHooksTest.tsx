@@ -1,4 +1,3 @@
-import { QueryClient } from "react-query";
 import { apiMock } from "../stubs/stubApi";
 import nock from "nock";
 import { renderHook, waitFor } from "@testing-library/react";
@@ -18,6 +17,7 @@ import {
 import { oppfolgingsplanerLPSMock } from "../../mock/syfooppfolgingsplanservice/oppfolgingsplanLPSMock";
 import { dokumentinfoMock } from "../../mock/syfooppfolgingsplanservice/dokumentinfoMock";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
+import { testQueryClient } from "../testQueryClient";
 
 let queryClient: any;
 let apiMockScope: any;
@@ -26,7 +26,7 @@ const today = new Date();
 
 describe("oppfolgingsplanQueryHooks tests", () => {
   beforeEach(() => {
-    queryClient = new QueryClient();
+    queryClient = testQueryClient();
     apiMockScope = apiMock();
   });
   afterEach(() => {

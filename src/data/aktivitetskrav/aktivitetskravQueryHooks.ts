@@ -2,7 +2,7 @@ import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { ISAKTIVITETSKRAV_ROOT } from "@/apiConstants";
 import { get } from "@/api/axios";
 import { AktivitetskravDTO } from "@/data/aktivitetskrav/aktivitetskravTypes";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
 import { ToggleNames } from "@/data/unleash/unleash_types";
 

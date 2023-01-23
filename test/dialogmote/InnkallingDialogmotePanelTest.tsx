@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import { InnkallingDialogmotePanel } from "@/components/mote/components/innkalling/InnkallingDialogmotePanel";
 import { texts as brukerKanIkkeVarslesPapirpostTexts } from "../../src/components/dialogmote/BrukerKanIkkeVarslesPapirpostAdvarsel";
 import { brukerKanIkkeVarslesTekst } from "@/components/BrukerKanIkkeVarslesText";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";

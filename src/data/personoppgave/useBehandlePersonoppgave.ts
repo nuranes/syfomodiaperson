@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ISPERSONOPPGAVE_ROOT } from "@/apiConstants";
 import { post } from "@/api/axios";
 import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQueryHooks";

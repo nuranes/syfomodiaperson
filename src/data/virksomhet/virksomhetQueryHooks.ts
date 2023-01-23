@@ -4,7 +4,7 @@ import {
   EregOrganisasjonResponseDTO,
   getVirksomhetsnavn,
 } from "@/data/virksomhet/types/EregOrganisasjonResponseDTO";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { minutesToMillis } from "@/utils/timeUtils";
 
 const virksomhetQueryKeys = {

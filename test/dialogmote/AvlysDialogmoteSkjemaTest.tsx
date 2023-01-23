@@ -14,7 +14,7 @@ import {
   getTooLongText,
   maxLengthErrorMessage,
 } from "../testUtils";
-import { QueryClientProvider } from "react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { dialogmoteRoutePath } from "@/routers/AppRouter";
 import { stubAvlysApi } from "../stubs/stubIsdialogmote";
 import { apiMock } from "../stubs/stubApi";

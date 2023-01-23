@@ -1,4 +1,4 @@
-import { QueryClient } from "react-query";
+import { QueryClient } from "@tanstack/react-query";
 import { tilgangQueryKeys } from "@/data/tilgang/tilgangQueryHooks";
 import { tilgangBrukerMock } from "../mock/syfotilgangskontroll/tilgangtilbrukerMock";
 import { ledereQueryKeys } from "@/data/leder/ledereQueryHooks";
@@ -22,8 +22,20 @@ import { brukerinfoMock } from "../mock/syfoperson/brukerinfoMock";
 import { brukerinfoQueryKeys } from "@/data/navbruker/navbrukerQueryHooks";
 import { behandlereQueryKeys } from "@/data/behandler/behandlereQueryHooks";
 
+export const testQueryClient = (): QueryClient => {
+  return new QueryClient({
+    logger: {
+      log: console.log,
+      warn: console.warn,
+      error: () => {
+        /*empty*/
+      },
+    },
+  });
+};
+
 export const queryClientWithAktivBruker = (): QueryClient => {
-  const queryClient = new QueryClient();
+  const queryClient = testQueryClient();
   queryClient.setQueryData(
     modiacontextQueryKeys.aktivbruker,
     () => AKTIV_BRUKER_DEFAULT

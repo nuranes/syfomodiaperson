@@ -1,7 +1,7 @@
 import React from "react";
 import { expect } from "chai";
 import Motelandingsside from "../../src/components/mote/components/Motelandingsside";
-import { QueryClientProvider } from "react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { dialogmoterQueryKeys } from "@/data/dialogmote/dialogmoteQueryHooks";
 import {
   ARBEIDSTAKER_DEFAULT,

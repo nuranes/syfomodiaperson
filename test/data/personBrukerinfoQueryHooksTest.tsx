@@ -1,4 +1,3 @@
-import { QueryClient } from "react-query";
 import { renderHook, waitFor } from "@testing-library/react";
 import nock from "nock";
 import { apiMock } from "../stubs/stubApi";
@@ -7,13 +6,14 @@ import { queryHookWrapper } from "./queryHookTestUtils";
 import { stubPersoninfoApi } from "../stubs/stubSyfoperson";
 import { useBrukerinfoQuery } from "@/data/navbruker/navbrukerQueryHooks";
 import { brukerinfoMock } from "../../mock/syfoperson/brukerinfoMock";
+import { testQueryClient } from "../testQueryClient";
 
 let queryClient: any;
 let apiMockScope: any;
 
 describe("navbrukerQueryHooks", () => {
   beforeEach(() => {
-    queryClient = new QueryClient();
+    queryClient = testQueryClient();
     apiMockScope = apiMock();
   });
   afterEach(() => {

@@ -1,4 +1,4 @@
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import {
   DialogmotedeltakerBehandlerVarselSvarDTO,
   DialogmoteDTO,
@@ -14,7 +14,10 @@ import { render, screen, within } from "@testing-library/react";
 import { DeltakereSvarInfo } from "@/components/dialogmote/DeltakereSvarInfo";
 import React from "react";
 import { expect } from "chai";
-import { queryClientWithMockData } from "../../testQueryClient";
+import {
+  queryClientWithMockData,
+  testQueryClient,
+} from "../../testQueryClient";
 
 let queryClient: any;
 
@@ -61,7 +64,7 @@ const renderDeltakereSvarInfo = (dialogmote: DialogmoteDTO) =>
 
 describe("DeltakereSvarInfo uten behandler", () => {
   it("viser ikke ekspanderbart panel for svar fra behandler", () => {
-    queryClient = new QueryClient();
+    queryClient = testQueryClient();
     renderDeltakereSvarInfo(dialogmote);
 
     expect(screen.queryByText("Behandleren", { exact: false })).to.not.exist;

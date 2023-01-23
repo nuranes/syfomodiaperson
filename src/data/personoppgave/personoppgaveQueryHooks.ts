@@ -2,7 +2,7 @@ import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { ISPERSONOPPGAVE_ROOT } from "@/apiConstants";
 import { get } from "@/api/axios";
 import { PersonOppgave } from "@/data/personoppgave/types/PersonOppgave";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { minutesToMillis } from "@/utils/timeUtils";
 
 export const personoppgaverQueryKeys = {

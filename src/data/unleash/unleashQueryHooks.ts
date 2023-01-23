@@ -3,7 +3,7 @@ import { useValgtEnhet } from "@/context/ValgtEnhetContext";
 import { post } from "@/api/axios";
 import { UNLEASH_ROOT } from "@/apiConstants";
 import { ToggleNames, Toggles } from "@/data/unleash/unleash_types";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 export const unleashQueryKeys = {
   toggles: (

@@ -1,7 +1,7 @@
 import { FASTLEGEREST_ROOT } from "@/apiConstants";
 import { get } from "@/api/axios";
 import { Fastlege, RelasjonKodeVerdi } from "@/data/fastlege/types/Fastlege";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { minutesToMillis } from "@/utils/timeUtils";

@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ISDIALOGMOTE_ROOT } from "@/apiConstants";
 import { NewDialogmoteReferatDTO } from "@/data/dialogmote/types/dialogmoteReferatTypes";
 import { post } from "@/api/axios";
@@ -13,7 +13,7 @@ export const useMellomlagreReferat = (fnr: string, dialogmoteUuid: string) => {
   return useMutation(postMellomlagreReferat, {
     onSettled: () =>
       queryClient.invalidateQueries(dialogmoterQueryKeys.dialogmoter(fnr), {
-        refetchActive: false,
+        refetchType: "none",
       }),
   });
 };

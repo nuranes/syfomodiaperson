@@ -1,7 +1,7 @@
 import { ISNARMESTELEDER_ROOT } from "@/apiConstants";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { get } from "@/api/axios";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { minutesToMillis } from "@/utils/timeUtils";
 import { useMemo } from "react";
 import {

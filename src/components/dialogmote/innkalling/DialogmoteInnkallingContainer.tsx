@@ -37,11 +37,11 @@ export const DialogmoteInnkallingSide = (): ReactElement => {
 };
 
 const DialogmoteInnkallingContainer = (): ReactElement => {
-  const { isLoading: henterLedere, isError: hentingLedereFeilet } =
+  const { isInitialLoading: henterLedere, isError: hentingLedereFeilet } =
     useLedereQuery();
   const { aktivtDialogmote } = useDialogmoterQuery();
   const {
-    isLoading: henterOppfolgingstilfeller,
+    isInitialLoading: henterOppfolgingstilfeller,
     isError: hentingOppfolgingstilfellerFeilet,
   } = useOppfolgingstilfellePersonQuery();
 

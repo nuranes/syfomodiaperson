@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ISDIALOGMOTE_ROOT } from "@/apiConstants";
 import { EndreTidStedDialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
 import { post } from "@/api/axios";

@@ -4,7 +4,6 @@ import {
   useHistorikkMotebehovQuery,
   useHistorikkOppfolgingsplan,
 } from "@/data/historikk/historikkQueryHooks";
-import { QueryClient } from "react-query";
 import { apiMock } from "../stubs/stubApi";
 import nock from "nock";
 import { expect } from "chai";
@@ -13,13 +12,14 @@ import { historikkoppfolgingsplanMock } from "../../mock/syfooppfolgingsplanserv
 import { stubMotebehovHistorikkApi } from "../stubs/stubSyfomotebehov";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import { stubOppfolgingsplanHistorikkApi } from "../stubs/stubSyfooppfolgingsplan";
+import { testQueryClient } from "../testQueryClient";
 
 let queryClient: any;
 let apiMockScope: any;
 
 describe("historikkQueryHooks", () => {
   beforeEach(() => {
-    queryClient = new QueryClient();
+    queryClient = testQueryClient();
     apiMockScope = apiMock();
   });
   afterEach(() => {

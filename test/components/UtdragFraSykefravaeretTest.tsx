@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import UtdragFraSykefravaeret from "@/components/utdragFraSykefravaeret/UtdragFraSykefravaeret";
 import React from "react";
-import { QueryClientProvider } from "react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { expect } from "chai";
 import { ARBEIDSTAKER_DEFAULT_FULL_NAME } from "../../mock/common/mockConstants";
 import { queryClientWithMockData } from "../testQueryClient";

@@ -16,7 +16,7 @@ const texts = {
 };
 
 const SykmeldingerSide = (): ReactElement => {
-  const { isLoading, isError, sykmeldinger } = useSykmeldingerQuery();
+  const { isInitialLoading, isError, sykmeldinger } = useSykmeldingerQuery();
   const { navn: brukernavn } = useNavBrukerData();
 
   const brodsmuler = [
@@ -30,7 +30,7 @@ const SykmeldingerSide = (): ReactElement => {
 
   return (
     <Side tittel="Sykmeldinger" aktivtMenypunkt={Menypunkter.SYKMELDINGER}>
-      <SideLaster henter={isLoading} hentingFeilet={isError}>
+      <SideLaster henter={isInitialLoading} hentingFeilet={isError}>
         <div>
           <Pengestopp sykmeldinger={sykmeldinger} />
           <Speilingvarsel brukernavn={brukernavn} />

@@ -3,7 +3,7 @@ import { DialogmoteInnkallingSide } from "@/components/dialogmote/innkalling/Dia
 import React from "react";
 import { queryClientWithMockData } from "../testQueryClient";
 import { MemoryRouter } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { oppfolgingstilfellePersonQueryKeys } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import {

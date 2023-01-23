@@ -26,12 +26,12 @@ const SykepengesoknadContainer = (): ReactElement => {
   const {
     data: sykepengesoknader,
     isError: hentingFeiletSoknader,
-    isLoading: henterSoknader,
+    isInitialLoading: henterSoknader,
   } = useSykepengesoknaderQuery();
   const {
     sykmeldinger,
     isError: hentingSykmeldingerFeilet,
-    isLoading: henterSykmeldinger,
+    isInitialLoading: henterSykmeldinger,
   } = useSykmeldingerQuery();
 
   const henter = henterSykmeldinger || henterSoknader;

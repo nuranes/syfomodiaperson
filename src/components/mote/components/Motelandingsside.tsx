@@ -20,9 +20,10 @@ const texts = {
 };
 
 export const Motelandingsside = () => {
-  const { isLoading: henterOppfolgingsplaner } = useOppfolgingsplanerQuery();
+  const { isInitialLoading: henterOppfolgingsplaner } =
+    useOppfolgingsplanerQuery();
   const {
-    isLoading: henterDialogmoter,
+    isInitialLoading: henterDialogmoter,
     isError: henterDialogmoterFeilet,
     aktivtDialogmote,
     historiskeDialogmoter,
@@ -30,16 +31,16 @@ export const Motelandingsside = () => {
   const {
     data: dialogmoteunntak,
     isError: henterDialogmoteunntakFeilet,
-    isLoading: henterDialogmoteunntak,
+    isInitialLoading: henterDialogmoteunntak,
   } = useDialogmoteunntakQuery();
   const {
     data: motebehov,
     isError: henterMotebehovFeilet,
-    isLoading: henterMotebehov,
+    isInitialLoading: henterMotebehov,
   } = useMotebehovQuery();
   const {
     currentLedere,
-    isLoading: henterLedere,
+    isInitialLoading: henterLedere,
     isError: henterLedereFeilet,
   } = useLedereQuery();
   const navbruker = useNavBrukerData();

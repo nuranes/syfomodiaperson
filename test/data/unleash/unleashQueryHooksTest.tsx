@@ -1,4 +1,3 @@
-import { QueryClient } from "react-query";
 import nock from "nock";
 import { expect } from "chai";
 import { renderHook, waitFor } from "@testing-library/react";
@@ -8,13 +7,14 @@ import { unleashMock } from "../../../mock/unleash/unleashMock";
 import { stubFeatureTogglesApi } from "../../stubs/stubUnleash";
 import { stubAktivVeilederinfoApi } from "../../stubs/stubSyfoveileder";
 import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
+import { testQueryClient } from "../../testQueryClient";
 
 let queryClient: any;
 let apiMockScope: any;
 
 describe("unleashQuery tests", () => {
   beforeEach(() => {
-    queryClient = new QueryClient();
+    queryClient = testQueryClient();
     apiMockScope = apiMock();
   });
   afterEach(() => {

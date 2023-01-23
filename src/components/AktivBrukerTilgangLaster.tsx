@@ -17,7 +17,7 @@ const AktivBrukerTilgangLaster = ({
   children,
 }: AktivBrukerTilgangLasterProps): ReactElement => {
   const {
-    isLoading: henterTilgang,
+    isInitialLoading: henterTilgang,
     isError: hentingTilgangFeilet,
     data: tilgang,
   } = useTilgangQuery();

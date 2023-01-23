@@ -2,7 +2,7 @@ import React from "react";
 import { expect } from "chai";
 import PersonkortVisning from "../../../src/components/personkort/PersonkortVisning";
 import { PERSONKORTVISNING_TYPE } from "@/konstanter";
-import { QueryClientProvider } from "react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { behandlendeEnhetQueryKeys } from "@/data/behandlendeenhet/behandlendeEnhetQueryHooks";
 import { apiMock } from "../../stubs/stubApi";
 import { stubFastlegerApi } from "../../stubs/stubFastlegeRest";

@@ -1,4 +1,3 @@
-import { QueryClient } from "react-query";
 import { apiMock } from "../stubs/stubApi";
 import nock from "nock";
 import { renderHook, waitFor } from "@testing-library/react";
@@ -7,13 +6,14 @@ import { stubFastlegerApi } from "../stubs/stubFastlegeRest";
 import { useFastlegerQuery } from "@/data/fastlege/fastlegerQueryHooks";
 import { fastlegerMock } from "../../mock/fastlegerest/fastlegerMock";
 import { queryHookWrapper } from "./queryHookTestUtils";
+import { testQueryClient } from "../testQueryClient";
 
 let queryClient: any;
 let apiMockScope: any;
 
 describe("fastlegerQueryHooks tests", () => {
   beforeEach(() => {
-    queryClient = new QueryClient();
+    queryClient = testQueryClient();
     apiMockScope = apiMock();
   });
   afterEach(() => {

@@ -3,7 +3,7 @@ import { expect } from "chai";
 import SykepengesoknadContainer from "../../src/components/speiling/sykepengsoknader/container/SykepengesoknadContainer";
 import mockSoknader from "../mockdata/mockSoknader";
 import { screen } from "@testing-library/react";
-import { QueryClientProvider } from "react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { tilgangQueryKeys } from "@/data/tilgang/tilgangQueryHooks";
 import { tilgangBrukerMock } from "../../mock/syfotilgangskontroll/tilgangtilbrukerMock";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";

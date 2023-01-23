@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { get } from "@/api/axios";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { ISOPPFOLGINGSTILFELLE_ROOT } from "@/apiConstants";

@@ -1,6 +1,6 @@
 import { SYFOBEHANDLENDEENHET_ROOT } from "@/apiConstants";
 import { post } from "@/api/axios";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { PersonDTO } from "@/data/behandlendeenhet/types/BehandlendeEnhet";
 import { behandlendeEnhetQueryKeys } from "@/data/behandlendeenhet/behandlendeEnhetQueryHooks";
 

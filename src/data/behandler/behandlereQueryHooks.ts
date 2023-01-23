@@ -1,6 +1,6 @@
 import { get } from "@/api/axios";
 import { ISDIALOGMELDING_ROOT } from "@/apiConstants";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
 

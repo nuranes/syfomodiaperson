@@ -24,14 +24,14 @@ const PersonkortEnhet = () => {
   const {
     error,
     data: behandlendeenhet,
-    isLoading,
+    isInitialLoading,
     isFetching,
   } = useBehandlendeEnhetQuery();
   const informasjonNokkelTekster = new Map([["enhetId", texts.enhet]]);
   const apiError = error instanceof ApiErrorException ? error.error : undefined;
   return (
     <ErrorBoundary apiError={apiError}>
-      {isLoading || isFetching ? (
+      {isInitialLoading || isFetching ? (
         <AppSpinner />
       ) : behandlendeenhet ? (
         <PersonkortElement

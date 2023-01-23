@@ -1,6 +1,6 @@
 import React from "react";
 import { expect } from "chai";
-import { QueryClientProvider } from "react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import {
   arbeidsgiver,
   arbeidstaker,

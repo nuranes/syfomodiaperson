@@ -20,7 +20,7 @@ const SideLaster = ({
   children,
 }: SideLasterProps): ReactElement => {
   const {
-    isLoading: henterTilgang,
+    isInitialLoading: henterTilgang,
     isError: hentingTilgangFeilet,
     data: tilgang,
   } = useTilgangQuery();

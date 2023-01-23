@@ -1,4 +1,3 @@
-import { QueryClient } from "react-query";
 import { apiMock } from "../stubs/stubApi";
 import nock from "nock";
 import { queryHookWrapper } from "./queryHookTestUtils";
@@ -8,13 +7,14 @@ import { useAktivitetskravQuery } from "@/data/aktivitetskrav/aktivitetskravQuer
 import { aktivitetskravMock } from "../../mock/isaktivitetskrav/aktivitetskravMock";
 import { stubAktivitetskravApi } from "../stubs/stubIsaktivitetskrav";
 import { stubFeatureTogglesApi } from "../stubs/stubUnleash";
+import { testQueryClient } from "../testQueryClient";
 
 let queryClient;
 let apiMockScope;
 
 describe("aktivitetskravqueryHook tests", () => {
   beforeEach(() => {
-    queryClient = new QueryClient();
+    queryClient = testQueryClient();
     apiMockScope = apiMock();
   });
   afterEach(() => {

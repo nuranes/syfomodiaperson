@@ -6,7 +6,7 @@ import {
   MotedeltakerVarselType,
 } from "@/data/dialogmote/types/dialogmoteTypes";
 import { MotehistorikkPanel } from "@/components/dialogmote/motehistorikk/MotehistorikkPanel";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import {
   ENHET_GRUNERLOKKA,
   VEILEDER_IDENT_DEFAULT,
@@ -19,6 +19,7 @@ import {
   dialogmoteunntakUtenBeskrivelse,
 } from "../../mock/isdialogmotekandidat/dialogmoteunntakMock";
 import { unntakLenkeText } from "@/components/dialogmote/motehistorikk/MoteHistorikkUnntak";
+import { testQueryClient } from "../testQueryClient";
 
 let queryClient: any;
 const ferdigstiltMoteTid = "2021-01-15T11:52:13.539843";
@@ -110,7 +111,7 @@ const dialogmoter: DialogmoteDTO[] = [ferdigstiltMote, avlystMote];
 
 describe("Historiske dialogmøter", () => {
   beforeEach(() => {
-    queryClient = new QueryClient();
+    queryClient = testQueryClient();
   });
   it("Fremviser avholdte og avlyste dialogmøter", () => {
     render(

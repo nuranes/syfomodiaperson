@@ -1,6 +1,6 @@
 import { get } from "@/api/axios";
 import { SYFOPERSON_ROOT } from "@/apiConstants";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { minutesToMillis } from "@/utils/timeUtils";
 

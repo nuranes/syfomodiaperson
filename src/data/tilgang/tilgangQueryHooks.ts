@@ -1,7 +1,7 @@
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { SYFOTILGANGSKONTROLL_ROOT } from "@/apiConstants";
 import { get } from "@/api/axios";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Tilgang } from "@/data/tilgang/tilgangTypes";
 
 export const tilgangQueryKeys = {

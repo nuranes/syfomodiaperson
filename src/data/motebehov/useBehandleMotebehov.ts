@@ -1,6 +1,6 @@
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { SYFOMOTEBEHOV_ROOT } from "@/apiConstants";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { post } from "@/api/axios";
 import { motebehovQueryKeys } from "@/data/motebehov/motebehovQueryHooks";
 import { useAktivVeilederinfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
@@ -32,7 +32,7 @@ export const useBehandleMotebehov = () => {
     },
     onSettled: () =>
       queryClient.invalidateQueries(motebehovQueryKey, {
-        refetchActive: false,
+        refetchType: "none",
       }),
   });
 };

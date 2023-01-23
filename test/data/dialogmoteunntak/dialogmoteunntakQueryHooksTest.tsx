@@ -1,4 +1,3 @@
-import { QueryClient } from "react-query";
 import nock from "nock";
 import { expect } from "chai";
 import { renderHook, waitFor } from "@testing-library/react";
@@ -9,13 +8,14 @@ import { stubDialogmoteKandidatApi } from "../../stubs/stubIsdialogmotekandidat"
 import { stubFeatureTogglesApi } from "../../stubs/stubUnleash";
 import { useDialogmotekandidat } from "@/data/dialogmotekandidat/dialogmotekandidatQueryHooks";
 import { stubAktivVeilederinfoApi } from "../../stubs/stubSyfoveileder";
+import { testQueryClient } from "../../testQueryClient";
 
 let queryClient: any;
 let apiMockScope: any;
 
 describe("dialogmotekandidatQuery tests", () => {
   beforeEach(() => {
-    queryClient = new QueryClient();
+    queryClient = testQueryClient();
     apiMockScope = apiMock();
   });
   afterEach(() => {
