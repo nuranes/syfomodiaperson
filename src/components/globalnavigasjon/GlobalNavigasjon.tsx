@@ -14,6 +14,7 @@ import { VedtakMenypunkt } from "@/components/globalnavigasjon/VedtakMenypunkt";
 import { Menypunkt, Menypunkter } from "@/navigation/menypunkterTypes";
 import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
 import { ToggleNames } from "@/data/unleash/unleash_types";
+import { useAktivitetskravQuery } from "@/data/aktivitetskrav/aktivitetskravQueryHooks";
 
 const nokkelinformasjonMenypunkt = {
   navn: "Nøkkelinformasjon",
@@ -87,6 +88,7 @@ export const GlobalNavigasjon = ({
   const { data: oppfolgingsplaner } = useOppfolgingsplanerQuery();
   const { data: oppfolgingsplanerLPS } = useOppfolgingsplanerLPSQuery();
   const { data: motebehov } = useMotebehovQuery();
+  const { data: aktivitetskrav } = useAktivitetskravQuery();
   const { isFeatureEnabled } = useFeatureToggles();
   const showAktivitetskravMenypunkt = isFeatureEnabled(
     ToggleNames.aktivitetskrav
@@ -140,7 +142,8 @@ export const GlobalNavigasjon = ({
           motebehov,
           oppfolgingsplaner,
           personoppgaver,
-          oppfolgingsplanerLPSMedPersonOppgave
+          oppfolgingsplanerLPSMedPersonOppgave,
+          aktivitetskrav
         );
 
         const isVedtakMenypunkt = menypunkt === Menypunkter.VEDTAK;
