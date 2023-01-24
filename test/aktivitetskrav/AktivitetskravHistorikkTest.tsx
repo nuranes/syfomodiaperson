@@ -26,7 +26,6 @@ import {
   avventVurdering,
   createAktivitetskrav,
   createAktivitetskravVurdering,
-  ikkeOppfyltVurdering,
 } from "../testDataUtils";
 
 let queryClient: QueryClient;
@@ -36,11 +35,23 @@ const today = new Date();
 const dayInThePast = daysFromToday(-500);
 const enBeskrivelse = "Her er en beskrivelse";
 const friskmeldtBeskrivelse = "Arbeidstaker er friskmeldt";
+const friskmeldtArsak = "Friskmeldt";
+const arsakTitle = "Årsak";
+const beskrivelseTitle = "Beskrivelse";
 const oppfyltVurdering = createAktivitetskravVurdering(
   AktivitetskravStatus.OPPFYLT,
   [OppfyltVurderingArsak.FRISKMELDT],
   friskmeldtBeskrivelse,
   today
+);
+const oppfyltVurderingWithoutBeskrivelse: AktivitetskravVurderingDTO = {
+  ...oppfyltVurdering,
+  beskrivelse: undefined,
+};
+const ikkeOppfyltVurdering = createAktivitetskravVurdering(
+  AktivitetskravStatus.IKKE_OPPFYLT,
+  [],
+  undefined
 );
 const unntakVurdering = createAktivitetskravVurdering(
   AktivitetskravStatus.UNNTAK,
@@ -94,13 +105,40 @@ describe("AktivitetskravHistorikk", () => {
       `Unntak - ${tilDatoMedManedNavn(dayInThePast)}`
     );
   });
-  it("klikk på overskrift viser beskrivelse og veileder-navn", () => {
+  it("klikk på overskrift viser årsak med tittel, beskrivelse med tittel og veileder-navn", () => {
     renderAktivitetskravHistorikk([oppfyltVurdering]);
 
     const vurderingButton = screen.getByRole("button");
     userEvent.click(vurderingButton);
 
+    expect(screen.getByText(arsakTitle)).to.exist;
+    expect(screen.getByText(friskmeldtArsak)).to.exist;
+    expect(screen.getByText(beskrivelseTitle)).to.exist;
     expect(screen.getByText(friskmeldtBeskrivelse)).to.exist;
+    expect(screen.getByText(VEILEDER_DEFAULT.navn)).to.exist;
+  });
+  it("klikk på overskrift viser årsak med tittel og veileder-navn, uten beskrivelse og tittel hvis beskrivelse mangler", () => {
+    renderAktivitetskravHistorikk([oppfyltVurderingWithoutBeskrivelse]);
+
+    const vurderingButton = screen.getByRole("button");
+    userEvent.click(vurderingButton);
+
+    expect(screen.getByText(arsakTitle)).to.exist;
+    expect(screen.getByText(friskmeldtArsak)).to.exist;
+    expect(screen.queryByText(beskrivelseTitle)).to.not.exist;
+    expect(screen.queryByText(friskmeldtBeskrivelse)).to.not.exist;
+    expect(screen.getByText(VEILEDER_DEFAULT.navn)).to.exist;
+  });
+  it("klikk på overskrift viser kun veiledernavn hvis årsak og beskrivelse mangler", () => {
+    renderAktivitetskravHistorikk([ikkeOppfyltVurdering]);
+
+    const vurderingButton = screen.getByRole("button");
+    userEvent.click(vurderingButton);
+
+    expect(screen.queryByText(arsakTitle)).to.not.exist;
+    expect(screen.queryByText(friskmeldtArsak)).to.not.exist;
+    expect(screen.queryByText(beskrivelseTitle)).to.not.exist;
+    expect(screen.queryByText(friskmeldtBeskrivelse)).to.not.exist;
     expect(screen.getByText(VEILEDER_DEFAULT.navn)).to.exist;
   });
   it("viser riktig overskrift for STANS-vurdering", () => {

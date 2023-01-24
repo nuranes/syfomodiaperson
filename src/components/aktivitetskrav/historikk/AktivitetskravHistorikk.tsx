@@ -3,6 +3,7 @@ import React from "react";
 import {
   AktivitetskravStatus,
   AktivitetskravVurderingDTO,
+  VurderingArsak,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { FlexColumn, FlexRow, PaddingSize } from "@/components/Layout";
 import { Innholdstittel, Normaltekst } from "nav-frontend-typografi";
@@ -11,11 +12,18 @@ import { capitalizeWord } from "@/utils/stringUtils";
 import { tilDatoMedManedNavn } from "@/utils/datoUtils";
 import { useVeilederInfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
 import { useAktivitetskravQuery } from "@/data/aktivitetskrav/aktivitetskravQueryHooks";
+import {
+  oppfyltVurderingArsakTexts,
+  unntakVurderingArsakTexts,
+} from "@/data/aktivitetskrav/aktivitetskravTexts";
+import styled from "styled-components";
 
 const texts = {
   header: "Historikk",
   subHeader:
     "Tidligere behandling av aktivitetskravet som ble gjennomført i Modia.",
+  arsakTitle: "Årsak",
+  beskrivelseTitle: "Beskrivelse",
 };
 
 const isRelevantForHistorikk = (vurdering: AktivitetskravVurderingDTO) =>
@@ -72,22 +80,56 @@ const headerPrefix = (status: AktivitetskravStatus): string => {
   }
 };
 
+const getArsakText = (arsak: VurderingArsak) => {
+  return (
+    oppfyltVurderingArsakTexts[arsak] ||
+    unntakVurderingArsakTexts[arsak] ||
+    arsak
+  );
+};
+
 const HistorikkElement = ({ vurdering }: HistorikkElementProps) => {
   const { data: veilederinfo } = useVeilederInfoQuery(vurdering.createdBy);
   const header = `${headerPrefix(vurdering.status)} - ${tilDatoMedManedNavn(
     vurdering.createdAt
   )}`;
+  const arsak = vurdering.arsaker[0];
 
   return (
     <Accordion>
       <Accordion.Item>
         <Accordion.Header>{header}</Accordion.Header>
         <Accordion.Content>
-          <Normaltekst>{vurdering.beskrivelse}</Normaltekst>
-          <br />
+          {!!arsak && (
+            <Paragraph title={texts.arsakTitle} body={getArsakText(arsak)} />
+          )}
+          {!!vurdering.beskrivelse && (
+            <Paragraph
+              title={texts.beskrivelseTitle}
+              body={vurdering.beskrivelse}
+            />
+          )}
           {veilederinfo?.navn}
         </Accordion.Content>
       </Accordion.Item>
     </Accordion>
+  );
+};
+
+interface ParagraphProps {
+  title: string;
+  body: string;
+}
+
+const ParagraphWrapper = styled.div`
+  padding-bottom: 1em;
+`;
+
+const Paragraph = ({ title, body }: ParagraphProps) => {
+  return (
+    <ParagraphWrapper>
+      <b>{title}</b>
+      <Normaltekst>{body}</Normaltekst>
+    </ParagraphWrapper>
   );
 };

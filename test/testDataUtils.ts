@@ -43,7 +43,7 @@ export const createAktivitetskrav = (
 export const createAktivitetskravVurdering = (
   status: AktivitetskravStatus,
   arsaker: VurderingArsak[],
-  beskrivelse = "",
+  beskrivelse: string | undefined = "",
   createdAt = new Date()
 ): AktivitetskravVurderingDTO => {
   return {
