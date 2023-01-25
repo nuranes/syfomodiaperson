@@ -7,12 +7,19 @@ import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/pe
 import SideLaster from "@/components/SideLaster";
 import { AktivitetskravSide } from "@/components/aktivitetskrav/AktivitetskravSide";
 import { useOppfolgingsplanerQuery } from "@/data/oppfolgingsplan/oppfolgingsplanQueryHooks";
+import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
+import { ToggleNames } from "@/data/unleash/unleash_types";
+import Feilmelding from "@/components/Feilmelding";
 
 const texts = {
   title: "Aktivitetskrav",
+  noAccess: "Du har ikke tilgang til denne tjenesten",
 };
 
 export const AktivitetskravContainer = (): ReactElement => {
+  const { isFeatureEnabled, isFetched } = useFeatureToggles();
+  const manglerTilgangAktivitetskrav =
+    isFetched && !isFeatureEnabled(ToggleNames.aktivitetskrav);
   const {
     isInitialLoading: henterAktivitetskrav,
     isError: hentAktivitetskravFeilet,
@@ -34,6 +41,10 @@ export const AktivitetskravContainer = (): ReactElement => {
     hentAktivitetskravFeilet ||
     hentOppfolgingstilfellerFeilet ||
     hentOppfolgingsplanerFeilet;
+
+  if (manglerTilgangAktivitetskrav) {
+    return <Feilmelding tittel={texts.noAccess} melding={""} />;
+  }
 
   return (
     <Side tittel={texts.title} aktivtMenypunkt={Menypunkter.AKTIVITETSKRAV}>

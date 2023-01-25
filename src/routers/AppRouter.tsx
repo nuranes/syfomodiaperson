@@ -21,8 +21,6 @@ import { useAktivBruker } from "@/data/modiacontext/modiacontextQueryHooks";
 import DialogmoteEndreReferatContainer from "@/components/dialogmote/referat/DialogmoteEndreReferatContainer";
 import DialogmoteunntakSkjemaContainer from "@/components/dialogmoteunntak/DialogmoteunntakSkjemaContainer";
 import { PersonsokSide } from "@/components/PersonsokSide";
-import { ToggleNames } from "@/data/unleash/unleash_types";
-import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
 import { AktivitetskravContainer } from "@/components/aktivitetskrav/AktivitetskravContainer";
 
 export const appRoutePath = "/sykefravaer";
@@ -32,9 +30,6 @@ export const dialogmoteUnntakRoutePath = `${appRoutePath}/dialogmoteunntak`;
 export const moteoversiktRoutePath = `${appRoutePath}/moteoversikt`;
 
 const AktivBrukerRouter = (): ReactElement => {
-  const { isFeatureEnabled } = useFeatureToggles();
-  const aktivitetskravEnabled = isFeatureEnabled(ToggleNames.aktivitetskrav);
-
   return (
     <AktivBrukerTilgangLaster>
       <BrowserRouter>
@@ -45,12 +40,10 @@ const AktivBrukerRouter = (): ReactElement => {
             path={`${appRoutePath}/nokkelinformasjon`}
             element={<NokkelinformasjonContainer />}
           />
-          {aktivitetskravEnabled && (
-            <Route
-              path={`${appRoutePath}/aktivitetskrav`}
-              element={<AktivitetskravContainer />}
-            />
-          )}
+          <Route
+            path={`${appRoutePath}/aktivitetskrav`}
+            element={<AktivitetskravContainer />}
+          />
           <Route
             path={`${appRoutePath}/logg`}
             element={<HistorikkContainer />}
