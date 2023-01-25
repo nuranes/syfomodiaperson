@@ -81,6 +81,11 @@ describe("VurderAktivitetskrav", () => {
     );
     expect(screen.getByText(`Gjelder tilfelle ${periodeText}`)).to.exist;
   });
+  it("renders helptext tooltip", () => {
+    renderVurderAktivitetskrav();
+
+    expect(screen.getByRole("tooltip")).to.exist;
+  });
   describe("Oppfylt", () => {
     it("Validerer årsak og maks tegn beskrivelse", () => {
       renderVurderAktivitetskrav();
