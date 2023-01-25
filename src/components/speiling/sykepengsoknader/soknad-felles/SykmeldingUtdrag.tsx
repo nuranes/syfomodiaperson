@@ -3,11 +3,8 @@ import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat
 import { tilLesbarDatoMedArstall } from "@/utils/datoUtils";
 import SykmeldingPerioder from "../../sykmeldinger/sykmelding/sykmeldingOpplysninger/SykmeldingPerioder";
 import SykmeldingNokkelOpplysning from "../../sykmeldinger/sykmelding/sykmeldingOpplysninger/SykmeldingNokkelOpplysning";
-import Utvidbar from "../../../Utvidbar";
-import {
-  PlasterHoverImage,
-  PlasterImage,
-} from "../../../../../img/ImageComponents";
+import { SpeilingEkspanderbartPanel } from "@/components/speiling/ekspanderbar/SpeilingEkspanderbartPanel";
+import { SpeilingEkspanderbartPanelTittel } from "@/components/speiling/ekspanderbar/SpeilingEkspanderbartPanelTittel";
 
 const texts = {
   tittel: "Opplysninger fra sykmeldingen",
@@ -26,15 +23,15 @@ const SykmeldingUtdrag = ({
 }: SykmeldingUtdragProps): ReactElement => {
   return (
     <div className="blokk">
-      <Utvidbar
-        Overskrift="h2"
-        erApen={erApen}
-        visLukklenke={!erApen}
-        tittel={texts.tittel}
+      <SpeilingEkspanderbartPanel
         variant="lysebla"
-        ikon={PlasterImage}
-        ikonHover={PlasterHoverImage}
-        ikonAltTekst="Plaster-ikon"
+        visLukkLenke={!erApen}
+        defaultOpen={erApen}
+        tittel={
+          <SpeilingEkspanderbartPanelTittel icon="plaster">
+            {texts.tittel}
+          </SpeilingEkspanderbartPanelTittel>
+        }
       >
         <div>
           <SykmeldingPerioder
@@ -51,7 +48,7 @@ const SykmeldingUtdrag = ({
             </p>
           </SykmeldingNokkelOpplysning>
         </div>
-      </Utvidbar>
+      </SpeilingEkspanderbartPanel>
     </div>
   );
 };

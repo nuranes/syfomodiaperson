@@ -6,12 +6,9 @@ import SykmeldingNokkelOpplysning from "./SykmeldingNokkelOpplysning";
 import SykmeldingPerioder from "./SykmeldingPerioder";
 import { SykmeldingCheckbox } from "./SykmeldingCheckbox";
 import FlereOpplysninger from "./flereopplysninger/FlereOpplysninger";
-import Utvidbar from "../../../../Utvidbar";
 import { SykmeldingCheckboxForFelt } from "./SykmeldingCheckboxForFelt";
-import {
-  DoctorHoverImage,
-  DoctorImage,
-} from "../../../../../../img/ImageComponents";
+import { SpeilingEkspanderbartPanel } from "@/components/speiling/ekspanderbar/SpeilingEkspanderbartPanel";
+import { SpeilingEkspanderbartPanelTittel } from "@/components/speiling/ekspanderbar/SpeilingEkspanderbartPanelTittel";
 
 const texts = {
   dinSykmeldingTittel: "Sykmelding\n",
@@ -194,17 +191,17 @@ const DineSykmeldingOpplysninger = (
           </SykmeldingNokkelOpplysning>
         ) : null}
       </div>
-      <Utvidbar
-        tittel={texts.flereOpplysningerTittel}
-        ikon={DoctorImage}
-        ikonHover={DoctorHoverImage}
-        ikonAltTekst="Lege"
-        className="blokk-s"
+      <SpeilingEkspanderbartPanel
+        tittel={
+          <SpeilingEkspanderbartPanelTittel icon="lege">
+            {texts.flereOpplysningerTittel}
+          </SpeilingEkspanderbartPanelTittel>
+        }
       >
         <div className="sykmeldingSeksjoner">
           <FlereOpplysninger sykmelding={sykmelding} />
         </div>
-      </Utvidbar>
+      </SpeilingEkspanderbartPanel>
     </div>
   );
 };

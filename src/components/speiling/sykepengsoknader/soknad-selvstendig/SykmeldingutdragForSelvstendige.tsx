@@ -5,13 +5,10 @@ import {
   SykmeldingopplysningForsikring,
   SykmeldingopplysningFravaersperioder,
 } from "../../sykmeldinger/sykmeldingstatuspanel/SykmeldingStatuspanelOpplysning";
-import Utvidbar from "../../../Utvidbar";
 import SykmeldingPerioder from "../../sykmeldinger/sykmelding/sykmeldingOpplysninger/SykmeldingPerioder";
 import SykmeldingNokkelOpplysning from "../../sykmeldinger/sykmelding/sykmeldingOpplysninger/SykmeldingNokkelOpplysning";
-import {
-  PlasterHoverImage,
-  PlasterImage,
-} from "../../../../../img/ImageComponents";
+import { SpeilingEkspanderbartPanel } from "@/components/speiling/ekspanderbar/SpeilingEkspanderbartPanel";
+import { SpeilingEkspanderbartPanelTittel } from "@/components/speiling/ekspanderbar/SpeilingEkspanderbartPanelTittel";
 
 const texts = {
   datoSykmelding: "Dato sykmeldingen ble skrevet",
@@ -67,21 +64,20 @@ interface SykmeldingUtdragForSelvstendigeProps {
   sykmelding: SykmeldingOldFormat;
 }
 
-const SykmeldingUtdragForSelvstendige = (
-  sykmeldingUtdragForSelvstendigeProps: SykmeldingUtdragForSelvstendigeProps
-): ReactElement => {
-  const { erApen, sykmelding } = sykmeldingUtdragForSelvstendigeProps;
+const SykmeldingUtdragForSelvstendige = ({
+  erApen,
+  sykmelding,
+}: SykmeldingUtdragForSelvstendigeProps): ReactElement => {
   return (
-    <Utvidbar
-      className="blokk js-sykmelding-utdrag"
-      Overskrift="h2"
-      erApen={erApen}
-      visLukklenke={!erApen}
-      tittel={texts.opplysninger}
-      variant="lilla"
-      ikon={PlasterImage}
-      ikonHover={PlasterHoverImage}
-      ikonAltTekst="Plaster-ikon"
+    <SpeilingEkspanderbartPanel
+      defaultOpen={erApen}
+      visLukkLenke={!erApen}
+      variant="lyselilla"
+      tittel={
+        <SpeilingEkspanderbartPanelTittel icon="plaster">
+          {texts.opplysninger}
+        </SpeilingEkspanderbartPanelTittel>
+      }
     >
       <div>
         <SykmeldingPerioder perioder={sykmelding.mulighetForArbeid.perioder} />
@@ -100,7 +96,7 @@ const SykmeldingUtdragForSelvstendige = (
         <SykmeldingopplysningFravaersperioder sykmelding={sykmelding} />
         <SykmeldingopplysningForsikring sykmelding={sykmelding} />
       </div>
-    </Utvidbar>
+    </SpeilingEkspanderbartPanel>
   );
 };
 

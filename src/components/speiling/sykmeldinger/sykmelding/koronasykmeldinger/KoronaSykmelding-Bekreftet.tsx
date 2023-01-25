@@ -3,11 +3,8 @@ import { Undertittel } from "nav-frontend-typografi";
 import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat";
 import BekreftetSykmeldingStatuspanel from "../../sykmeldingstatuspanel/BekreftetSykmeldingStatuspanel";
 import DineKoronaSykmeldingOpplysninger from "../sykmeldingOpplysninger/DineKoronaSykmeldingOpplysninger";
-import Utvidbar from "../../../../Utvidbar";
-import {
-  PersonHoverImage,
-  PersonImage,
-} from "../../../../../../img/ImageComponents";
+import { SpeilingEkspanderbartPanelTittel } from "@/components/speiling/ekspanderbar/SpeilingEkspanderbartPanelTittel";
+import { SpeilingEkspanderbartPanel } from "@/components/speiling/ekspanderbar/SpeilingEkspanderbartPanel";
 
 const texts = {
   pageSubtitle: "for selvstendig næringsdrivende og frilansere",
@@ -18,28 +15,26 @@ interface KoronaSykmeldingBekreftetProps {
   dinSykmelding: SykmeldingOldFormat;
 }
 
-const KoronaSykmeldingBekreftet = (
-  koronaSykmeldingBekreftetProps: KoronaSykmeldingBekreftetProps
-) => {
-  const { dinSykmelding } = koronaSykmeldingBekreftetProps;
+const KoronaSykmeldingBekreftet = ({
+  dinSykmelding,
+}: KoronaSykmeldingBekreftetProps) => {
   return (
     <div>
       <Undertittel style={{ marginBottom: "2.5rem", textAlign: "center" }}>
         {texts.pageSubtitle}
       </Undertittel>
       <BekreftetSykmeldingStatuspanel sykmelding={dinSykmelding} />
-      <Utvidbar
-        erApen
-        tittel={texts.expandableTitle}
-        ikon={PersonImage}
-        ikonHover={PersonHoverImage}
-        ikonAltTekst="Du"
-        className="blokk"
+      <SpeilingEkspanderbartPanel
         variant="lysebla"
-        Overskrift="h2"
+        defaultOpen
+        tittel={
+          <SpeilingEkspanderbartPanelTittel icon="person">
+            {texts.expandableTitle}
+          </SpeilingEkspanderbartPanelTittel>
+        }
       >
         <DineKoronaSykmeldingOpplysninger sykmelding={dinSykmelding} />
-      </Utvidbar>
+      </SpeilingEkspanderbartPanel>
     </div>
   );
 };

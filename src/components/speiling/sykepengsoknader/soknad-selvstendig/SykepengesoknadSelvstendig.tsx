@@ -5,7 +5,6 @@ import IkkeInnsendtSoknad from "../soknad-felles/IkkeInnsendtSoknad";
 import SendtSoknadSelvstendigStatuspanel from "./SendtSoknadSelvstendigStatuspanel";
 import AvbruttSoknadSelvstendigStatuspanel from "./AvbruttSoknadSelvstendigStatuspanel";
 import SykmeldingUtdragForSelvstendige from "./SykmeldingutdragForSelvstendige";
-import Utvidbar from "../../../Utvidbar";
 import {
   SoknadstatusDTO,
   SykepengesoknadDTO,
@@ -13,6 +12,7 @@ import {
 import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat";
 import { Brodsmule } from "../../Brodsmuler";
 import { erVaerKlarOverAt } from "@/utils/sykepengesoknadUtils";
+import { SpeilingEkspanderbartPanel } from "@/components/speiling/ekspanderbar/SpeilingEkspanderbartPanel";
 
 const texts = {
   oppsummering: "Oppsummering",
@@ -53,11 +53,7 @@ const SykepengesoknadSelvstendig = ({
           {sykmelding?.sporsmal && (
             <SykmeldingUtdragForSelvstendige sykmelding={sykmelding} erApen />
           )}
-          <Utvidbar
-            tittel={texts.oppsummering}
-            className="blokk js-soknad-oppsummering"
-            erApen
-          >
+          <SpeilingEkspanderbartPanel tittel={texts.oppsummering} defaultOpen>
             <Oppsummeringsvisning
               soknad={{
                 ...soknad,
@@ -66,7 +62,7 @@ const SykepengesoknadSelvstendig = ({
                 ),
               }}
             />
-          </Utvidbar>
+          </SpeilingEkspanderbartPanel>
           <div className="panel">
             <Oppsummeringsvisning
               soknad={{

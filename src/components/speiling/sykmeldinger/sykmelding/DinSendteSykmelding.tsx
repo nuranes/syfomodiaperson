@@ -3,11 +3,8 @@ import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat
 import ArbeidsgiversSykmelding from "./ArbeidsgiversSykmelding";
 import DineSykmeldingOpplysninger from "./sykmeldingOpplysninger/DineSykmeldingOpplysninger";
 import SykmeldingStatuspanel from "../sykmeldingstatuspanel/SykmeldingStatuspanel";
-import Utvidbar from "../../../Utvidbar";
-import {
-  PersonHoverImage,
-  PersonImage,
-} from "../../../../../img/ImageComponents";
+import { SpeilingEkspanderbartPanel } from "@/components/speiling/ekspanderbar/SpeilingEkspanderbartPanel";
+import { SpeilingEkspanderbartPanelTittel } from "@/components/speiling/ekspanderbar/SpeilingEkspanderbartPanelTittel";
 
 const texts = {
   tittel: "Dine opplysinger",
@@ -18,25 +15,24 @@ interface DinSendteSykmeldingProps {
   arbeidsgiversSykmelding: SykmeldingOldFormat;
 }
 
-const DinSendteSykmelding = (
-  dinSendteSykmeldingProps: DinSendteSykmeldingProps
-) => {
-  const { dinSykmelding, arbeidsgiversSykmelding } = dinSendteSykmeldingProps;
+const DinSendteSykmelding = ({
+  dinSykmelding,
+  arbeidsgiversSykmelding,
+}: DinSendteSykmeldingProps) => {
   return (
     <div>
       <SykmeldingStatuspanel sykmelding={dinSykmelding} />
-      <Utvidbar
-        className="blokk"
-        erApen
-        tittel={texts.tittel}
-        ikon={PersonImage}
-        ikonHover={PersonHoverImage}
-        ikonAltTekst="Du"
+      <SpeilingEkspanderbartPanel
+        defaultOpen
         variant="lysebla"
-        Overskrift="h2"
+        tittel={
+          <SpeilingEkspanderbartPanelTittel icon="person">
+            {texts.tittel}
+          </SpeilingEkspanderbartPanelTittel>
+        }
       >
         <DineSykmeldingOpplysninger sykmelding={dinSykmelding} />
-      </Utvidbar>
+      </SpeilingEkspanderbartPanel>
       <div className="blokk--l">
         <ArbeidsgiversSykmelding sykmelding={arbeidsgiversSykmelding} />
       </div>

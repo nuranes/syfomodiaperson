@@ -3,11 +3,8 @@ import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat
 import ArbeidsgiversSykmelding from "./ArbeidsgiversSykmelding";
 import BekreftetSykmeldingStatuspanel from "../sykmeldingstatuspanel/BekreftetSykmeldingStatuspanel";
 import DineSykmeldingOpplysninger from "./sykmeldingOpplysninger/DineSykmeldingOpplysninger";
-import Utvidbar from "../../../Utvidbar";
-import {
-  PersonHoverImage,
-  PersonImage,
-} from "../../../../../img/ImageComponents";
+import { SpeilingEkspanderbartPanel } from "@/components/speiling/ekspanderbar/SpeilingEkspanderbartPanel";
+import { SpeilingEkspanderbartPanelTittel } from "@/components/speiling/ekspanderbar/SpeilingEkspanderbartPanelTittel";
 
 const texts = {
   tittel: "Dine opplysinger",
@@ -18,26 +15,24 @@ interface DinBekreftedeSykmeldingProps {
   arbeidsgiversSykmelding: SykmeldingOldFormat;
 }
 
-const DinBekreftedeSykmelding = (
-  dinBekreftedeSykmeldingProps: DinBekreftedeSykmeldingProps
-) => {
-  const { dinSykmelding, arbeidsgiversSykmelding } =
-    dinBekreftedeSykmeldingProps;
+const DinBekreftedeSykmelding = ({
+  dinSykmelding,
+  arbeidsgiversSykmelding,
+}: DinBekreftedeSykmeldingProps) => {
   return (
     <div>
       <BekreftetSykmeldingStatuspanel sykmelding={dinSykmelding} />
-      <Utvidbar
-        className="blokk"
-        erApen
-        tittel={texts.tittel}
-        ikon={PersonImage}
-        ikonHover={PersonHoverImage}
-        ikonAltTekst="Du"
-        variant="lysebla"
-        Overskrift="h2"
+      <SpeilingEkspanderbartPanel
+        variant="lyselilla"
+        defaultOpen
+        tittel={
+          <SpeilingEkspanderbartPanelTittel icon="person">
+            {texts.tittel}
+          </SpeilingEkspanderbartPanelTittel>
+        }
       >
         <DineSykmeldingOpplysninger sykmelding={dinSykmelding} />
-      </Utvidbar>
+      </SpeilingEkspanderbartPanel>
       {dinSykmelding.valgtArbeidssituasjon === "ARBEIDSTAKER" && (
         <div className="blokk">
           <ArbeidsgiversSykmelding sykmelding={arbeidsgiversSykmelding} />

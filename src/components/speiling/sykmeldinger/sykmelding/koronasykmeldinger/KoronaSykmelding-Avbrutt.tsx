@@ -3,11 +3,8 @@ import { Undertittel } from "nav-frontend-typografi";
 import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat";
 import SykmeldingStatuspanel from "../../sykmeldingstatuspanel/SykmeldingStatuspanel";
 import DineKoronaSykmeldingOpplysninger from "../sykmeldingOpplysninger/DineKoronaSykmeldingOpplysninger";
-import Utvidbar from "../../../../Utvidbar";
-import {
-  PersonHoverImage,
-  PersonImage,
-} from "../../../../../../img/ImageComponents";
+import { SpeilingEkspanderbartPanel } from "@/components/speiling/ekspanderbar/SpeilingEkspanderbartPanel";
+import { SpeilingEkspanderbartPanelTittel } from "@/components/speiling/ekspanderbar/SpeilingEkspanderbartPanelTittel";
 
 const texts = {
   pageSubtitle: "for selvstendig næringsdrivende og frilansere",
@@ -18,28 +15,26 @@ interface KoronaSykmeldingAvbruttProps {
   sykmelding: SykmeldingOldFormat;
 }
 
-const KoronaSykmeldingAvbrutt = (
-  koronaSykmeldingAvbruttProps: KoronaSykmeldingAvbruttProps
-) => {
-  const { sykmelding } = koronaSykmeldingAvbruttProps;
+const KoronaSykmeldingAvbrutt = ({
+  sykmelding,
+}: KoronaSykmeldingAvbruttProps) => {
   return (
     <div>
       <Undertittel style={{ marginBottom: "2.5rem", textAlign: "center" }}>
         {texts.pageSubtitle}
       </Undertittel>
       <SykmeldingStatuspanel sykmelding={sykmelding} />
-      <Utvidbar
-        erApen
-        tittel={texts.expandableTitle}
-        ikon={PersonImage}
-        ikonHover={PersonHoverImage}
-        ikonAltTekst="Du"
-        className="blokk"
+      <SpeilingEkspanderbartPanel
         variant="lysebla"
-        Overskrift="h2"
+        defaultOpen
+        tittel={
+          <SpeilingEkspanderbartPanelTittel icon="person">
+            {texts.expandableTitle}
+          </SpeilingEkspanderbartPanelTittel>
+        }
       >
         <DineKoronaSykmeldingOpplysninger sykmelding={sykmelding} />
-      </Utvidbar>
+      </SpeilingEkspanderbartPanel>
     </div>
   );
 };

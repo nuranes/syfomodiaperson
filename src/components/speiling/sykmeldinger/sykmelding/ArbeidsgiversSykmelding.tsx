@@ -1,11 +1,8 @@
 import React from "react";
 import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat";
 import ArbeidsgiversSykmeldingOpplysninger from "./ArbeidsgiversSykmeldingOpplysninger";
-import Utvidbar from "../../../Utvidbar";
-import {
-  DoctorHoverImage,
-  DoctorImage,
-} from "../../../../../img/ImageComponents";
+import { SpeilingEkspanderbartPanel } from "@/components/speiling/ekspanderbar/SpeilingEkspanderbartPanel";
+import { SpeilingEkspanderbartPanelTittel } from "@/components/speiling/ekspanderbar/SpeilingEkspanderbartPanelTittel";
 
 interface ArbeidsgiversSykmeldingProps {
   sykmelding: SykmeldingOldFormat;
@@ -13,27 +10,25 @@ interface ArbeidsgiversSykmeldingProps {
   erApen?: boolean;
 }
 
-const ArbeidsgiversSykmelding = (
-  arbeidsgiversSykmeldingProps: ArbeidsgiversSykmeldingProps
-) => {
-  const {
-    sykmelding,
-    Overskrift = "h2",
-    erApen = false,
-  } = arbeidsgiversSykmeldingProps;
-  return (
-    <Utvidbar
-      tittel="Dette får arbeidsgiveren din se"
-      ikon={DoctorImage}
-      ikonHover={DoctorHoverImage}
-      ikonAltTekst="Lege"
-      erApen={erApen}
-      variant="lilla"
-      Overskrift={Overskrift}
-    >
-      <ArbeidsgiversSykmeldingOpplysninger sykmelding={sykmelding} />
-    </Utvidbar>
-  );
+const texts = {
+  tittel: "Dette får arbeidsgiveren din se",
 };
+
+const ArbeidsgiversSykmelding = ({
+  sykmelding,
+  erApen = false,
+}: ArbeidsgiversSykmeldingProps) => (
+  <SpeilingEkspanderbartPanel
+    defaultOpen={erApen}
+    variant="lyselilla"
+    tittel={
+      <SpeilingEkspanderbartPanelTittel icon="lege">
+        {texts.tittel}
+      </SpeilingEkspanderbartPanelTittel>
+    }
+  >
+    <ArbeidsgiversSykmeldingOpplysninger sykmelding={sykmelding} />
+  </SpeilingEkspanderbartPanel>
+);
 
 export default ArbeidsgiversSykmelding;

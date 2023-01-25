@@ -2,7 +2,6 @@ import React, { ReactElement } from "react";
 import Oppsummeringsvisning from "../soknad-felles-oppsummering/Oppsummeringsvisning";
 import SoknadSpeiling from "../soknad-felles/SoknadSpeiling";
 import SykepengesoknadStatuspanel from "./SykepengesoknadStatuspanel";
-import Utvidbar from "../../../Utvidbar";
 import { Brodsmule } from "../../Brodsmuler";
 import {
   SoknadstatusDTO,
@@ -12,6 +11,7 @@ import { KorrigertAv } from "../soknad-arbeidstaker/KorrigertAv";
 import { RelaterteSoknader } from "../soknad-arbeidstaker/RelaterteSoknader";
 import { SykmeldingUtdragContainer } from "../SykmeldingUtdragContainer";
 import { erVaerKlarOverAt } from "@/utils/sykepengesoknadUtils";
+import { SpeilingEkspanderbartPanel } from "@/components/speiling/ekspanderbar/SpeilingEkspanderbartPanel";
 
 const texts = {
   tittel: "Søknad om sykepenger",
@@ -24,9 +24,9 @@ interface OppsummeringUtvidbarProps {
 
 const OppsummeringUtvidbar = ({ soknad }: OppsummeringUtvidbarProps) => {
   return (
-    <Utvidbar className="blokk" tittel={texts.oppsummeringTittel}>
+    <SpeilingEkspanderbartPanel tittel={texts.oppsummeringTittel}>
       <Oppsummeringsvisning soknad={soknad} />
-    </Utvidbar>
+    </SpeilingEkspanderbartPanel>
   );
 };
 
