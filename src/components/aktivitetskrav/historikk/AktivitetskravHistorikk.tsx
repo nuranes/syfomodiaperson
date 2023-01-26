@@ -20,8 +20,7 @@ import styled from "styled-components";
 
 const texts = {
   header: "Historikk",
-  subHeader:
-    "Tidligere behandling av aktivitetskravet som ble gjennomført i Modia.",
+  subHeader: "Tidligere vurderinger av aktivitetskravet i Modia",
   arsakTitle: "Årsak",
   beskrivelseTitle: "Beskrivelse",
 };
