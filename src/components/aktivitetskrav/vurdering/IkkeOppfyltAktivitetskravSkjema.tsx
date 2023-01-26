@@ -11,8 +11,7 @@ import { FlexColumn } from "@/components/Layout";
 const texts = {
   title: "Ikke oppfylt",
   subtitle1:
-    "Saken må ferdigstilles i Arena. Ta ut oppgaven fra enhetens oversikt.",
-  subtitle2: "Hendelsen vil lagres under historikk på personen.",
+    "Innstilling må skrives og sendes til NAY i Gosys. Ved å lagre fjerner du hendelsen fra oversikten.",
 };
 
 export const IkkeOppfyltAktivitetskravSkjema = (
@@ -27,7 +26,6 @@ export const IkkeOppfyltAktivitetskravSkjema = (
       subtitle={
         <FlexColumn>
           <Normaltekst>{texts.subtitle1}</Normaltekst>
-          <Normaltekst>{texts.subtitle2}</Normaltekst>
         </FlexColumn>
       }
       toDto={() => createDto([])}

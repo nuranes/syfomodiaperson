@@ -235,7 +235,9 @@ describe("VurderAktivitetskrav", () => {
         })
       ).to.exist;
 
-      expect(screen.getByText(/Saken må ferdigstilles i Arena/)).to.exist;
+      expect(
+        screen.getByText(/Innstilling må skrives og sendes til NAY i Gosys/)
+      ).to.exist;
       clickButton("Lagre");
 
       const vurderAvventMutation = queryClient.getMutationCache().getAll()[0];
