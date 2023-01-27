@@ -6,7 +6,6 @@ import { useAktivitetskravQuery } from "@/data/aktivitetskrav/aktivitetskravQuer
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import SideLaster from "@/components/SideLaster";
 import { AktivitetskravSide } from "@/components/aktivitetskrav/AktivitetskravSide";
-import { useOppfolgingsplanerQuery } from "@/data/oppfolgingsplan/oppfolgingsplanQueryHooks";
 import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
 import { ToggleNames } from "@/data/unleash/unleash_types";
 import Feilmelding from "@/components/Feilmelding";
@@ -25,22 +24,13 @@ export const AktivitetskravContainer = (): ReactElement => {
     isError: hentAktivitetskravFeilet,
   } = useAktivitetskravQuery();
   const {
-    isInitialLoading: henterOppfolgingsplaner,
-    isError: hentOppfolgingsplanerFeilet,
-  } = useOppfolgingsplanerQuery();
-  const {
     isInitialLoading: henterOppfolgingstilfeller,
     isError: hentOppfolgingstilfellerFeilet,
   } = useOppfolgingstilfellePersonQuery();
 
-  const henter =
-    henterAktivitetskrav ||
-    henterOppfolgingstilfeller ||
-    henterOppfolgingsplaner;
+  const henter = henterAktivitetskrav || henterOppfolgingstilfeller;
   const hentingFeilet =
-    hentAktivitetskravFeilet ||
-    hentOppfolgingstilfellerFeilet ||
-    hentOppfolgingsplanerFeilet;
+    hentAktivitetskravFeilet || hentOppfolgingstilfellerFeilet;
 
   if (manglerTilgangAktivitetskrav) {
     return <Feilmelding tittel={texts.noAccess} melding={""} />;
