@@ -53,15 +53,7 @@ export const server = {
   logLevel: envVar({ name: "LOG_LEVEL", defaultValue: "info" }),
 };
 
-const graphapiClientId = "https://graph.microsoft.com";
-
-const tokenSetSelfId = "self";
-const tokenSetGraphId = "graph";
-
-export const tokenSetIdType = {
-  self: tokenSetSelfId,
-  graph: tokenSetGraphId,
-};
+export const tokenSetSelf = "self";
 
 export interface ExternalAppConfig {
   applicationName: string;
@@ -207,11 +199,12 @@ export const auth = {
   },
   modiacontextholder: {
     applicationName: "modiacontextholder",
-    clientId: graphapiClientId,
+    clientId: envVar({
+      name: "MODIACONTEXTHOLDER_AAD_APP_CLIENT_ID",
+    }),
     host: envVar({
       name: "MODIACONTEXTHOLDER_HOST",
     }),
-    tokenSetId: tokenSetIdType.graph,
   },
   syfobehandlendeenhet: {
     applicationName: "syfobehandlendeenhet",
@@ -311,5 +304,4 @@ module.exports = {
   isProd: isProd,
   redis: redis,
   server: server,
-  tokenSetIdType: tokenSetIdType,
 };

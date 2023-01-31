@@ -75,19 +75,9 @@ const proxyExternalHost = (
       if (!options.headers) {
         options.headers = {};
       }
-      if (host === Config.auth.modiacontextholder.host) {
-        const reqUser = srcReq.user as any;
-        if (!reqUser) {
-          return options;
-        }
-        const selfAccessToken = reqUser.tokenSets.self.access_token;
-        options.headers["Authorization"] = `Bearer ${selfAccessToken}`;
-        options.headers["Cookie"] = `isso-accesstoken=${accessToken}`;
-      } else {
-        options.headers["Authorization"] = `Bearer ${accessToken}`;
-      }
+      options.headers["Authorization"] = `Bearer ${accessToken}`;
       if (host === Config.auth.syfosmregister.host) {
-        options.headers["fnr"] = options.headers["nav-personident"];
+        options.headers["fnr"] = options.headers["nav-personident"]; // TODO: brukes dette?
       }
       return options;
     },
@@ -143,7 +133,6 @@ const proxyOnBehalfOf = (
   AuthUtils.getOrRefreshOnBehalfOfToken(
     authClient,
     user.tokenSets,
-    externalAppConfig.tokenSetId,
     externalAppConfig.clientId
   )
     .then((onBehalfOfToken: any) => {

@@ -7,6 +7,7 @@ import Config = require("../config");
 import Session = require("../session");
 
 import dotenv = require("dotenv");
+import { tokenSetSelf } from "../config";
 dotenv.config();
 
 export const ensureAuthenticated = () => {
@@ -38,7 +39,7 @@ const getStrategy = async (authClient: any) => {
       if (!tokenSet.expired()) {
         return done(null, {
           tokenSets: {
-            [Config.tokenSetIdType.self]: tokenSet,
+            [tokenSetSelf]: tokenSet,
           },
         });
       }

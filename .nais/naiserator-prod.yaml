@@ -96,6 +96,8 @@ spec:
       value: "prod-gcp.teamsykefravr.ispersonoppgave"
     - name: ISPERSONOPPGAVE_HOST
       value: "ispersonoppgave.intern.nav.no"
+    - name: MODIACONTEXTHOLDER_AAD_APP_CLIENT_ID
+      value: "prod-fss.personoversikt.modiacontextholder"
     - name: MODIACONTEXTHOLDER_HOST
       value: "modiacontextholder.intern.nav.no"
     - name: SYFOBEHANDLENDEENHET_AAD_APP_CLIENT_ID
