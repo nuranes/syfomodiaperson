@@ -2,7 +2,10 @@ import React, { ReactElement, useState } from "react";
 import { Form, FormSpy } from "react-final-form";
 import arrayMutators from "final-form-arrays";
 import Panel from "nav-frontend-paneler";
-import { tilDatoMedManedNavn } from "@/utils/datoUtils";
+import {
+  showTimeIncludingSeconds,
+  tilDatoMedManedNavn,
+} from "@/utils/datoUtils";
 import Deltakere from "./Deltakere";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import {
@@ -48,6 +51,8 @@ import {
 import { StandardTekster } from "@/components/dialogmote/referat/StandardTekster";
 import { useEndreReferat } from "@/data/dialogmote/useEndreReferat";
 import Lenke from "nav-frontend-lenker";
+import dayjs, { Dayjs } from "dayjs";
+import { useDebouncedCallback } from "use-debounce";
 
 export const texts = {
   digitalReferat:
@@ -148,6 +153,8 @@ const Referat = ({
   const ferdigstillDialogmote = useFerdigstillDialogmote(fnr, dialogmote.uuid);
   const mellomlagreReferat = useMellomlagreReferat(fnr, dialogmote.uuid);
   const endreReferat = useEndreReferat(fnr, dialogmote.uuid);
+  const [showToast, setShowToast] = useState<boolean>(false);
+  const [lastSavedTime, setLastSavedTime] = useState<Dayjs>(dayjs());
   const [uendretSidenMellomlagring, setUendretSidenMellomlagring] = useState<
     boolean | undefined
   >();
@@ -235,8 +242,27 @@ const Referat = ({
   const mellomlagre = (values: ReferatSkjemaValues) => {
     mellomlagreReferat.mutate(
       toNewReferat(dialogmote, values, getReferatDocument),
-      { onSuccess: () => setUendretSidenMellomlagring(true) }
+      {
+        onSuccess: () => {
+          setUendretSidenMellomlagring(true);
+          setShowToast(true);
+          setLastSavedTime(dayjs());
+        },
+        onError: () => setShowToast(false),
+      }
     );
+  };
+
+  const debouncedAutoSave = useDebouncedCallback(
+    (values: ReferatSkjemaValues) => {
+      mellomlagre(values);
+    },
+    5000,
+    { maxWait: 20000 }
+  );
+
+  const savedReferatText = (savedDate: Date) => {
+    return `${texts.referatSaved} ${showTimeIncludingSeconds(savedDate)}`;
   };
 
   const initialValues = useInitialValuesReferat(dialogmote);
@@ -258,9 +284,8 @@ const Referat = ({
             <FormSpy
               subscription={{ values: true }}
               onChange={() => {
-                if (uendretSidenMellomlagring) {
-                  setUendretSidenMellomlagring(false);
-                }
+                setUendretSidenMellomlagring(false);
+                debouncedAutoSave(values);
               }}
             />
             <ReferatTittel>{header}</ReferatTittel>
@@ -278,6 +303,7 @@ const Referat = ({
                 {texts.personvernLenketekst}
               </Lenke>
             </ReferatWarningAlert>
+            {showToast && <p>{savedReferatText(lastSavedTime.toDate())}</p>}
             <ReferatFritekster dialogmote={dialogmote} mode={mode} />
             <StandardTekster />
             <FlexRow topPadding={PaddingSize.SM} bottomPadding={PaddingSize.MD}>
@@ -302,7 +328,7 @@ const Referat = ({
             )}
             {mellomlagreReferat.isSuccess && uendretSidenMellomlagring && (
               <AlertstripeFullbredde type="suksess">
-                {texts.referatSaved}
+                {savedReferatText(lastSavedTime.toDate())}
               </AlertstripeFullbredde>
             )}
             <ReferatButtons

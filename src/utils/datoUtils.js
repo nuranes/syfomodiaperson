@@ -88,6 +88,16 @@ export const visKlokkeslett = (d) => {
   return `${hour}.${minute}`;
 };
 
+export const showTimeIncludingSeconds = (d) => {
+  if (typeof d === "undefined" || d === null) {
+    return null;
+  }
+  const hour = pad(d.getHours());
+  const minute = pad(d.getMinutes());
+  const second = pad(d.getSeconds());
+  return `${hour}:${minute}:${second}`;
+};
+
 export const lagJsDate = (dato) => {
   if (dato) {
     return new Date(dato);

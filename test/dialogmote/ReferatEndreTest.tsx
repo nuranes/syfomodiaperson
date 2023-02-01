@@ -117,7 +117,8 @@ describe("ReferatEndreTest", () => {
 
     const endringFerdigstillMutation = queryClient
       .getMutationCache()
-      .getAll()[0];
+      .getAll()
+      .pop();
     const expectedEndringFerdigstilling = {
       narmesteLederNavn: narmesteLederNavn,
       situasjon: moteTekster.situasjonTekst,

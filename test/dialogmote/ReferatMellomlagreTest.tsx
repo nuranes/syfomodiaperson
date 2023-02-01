@@ -53,7 +53,7 @@ describe("ReferatMellomlagreTest", () => {
     passSkjemaTekstInput();
     clickButton("Lagre");
 
-    const mellomlagreMutation = queryClient.getMutationCache().getAll()[0];
+    const mellomlagreMutation = queryClient.getMutationCache().getAll().pop();
     const expectedReferat = {
       narmesteLederNavn: narmesteLederNavn,
       situasjon: moteTekster.situasjonTekst,

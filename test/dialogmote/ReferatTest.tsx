@@ -142,7 +142,7 @@ describe("ReferatTest", () => {
     clickButton("Lagre og send");
 
     // Sjekk behandlers deltakelse-felter og brev
-    const ferdigstillMutation = queryClient.getMutationCache().getAll()[0];
+    const ferdigstillMutation = queryClient.getMutationCache().getAll().pop();
     const newReferat: NewDialogmoteReferatDTO =
       ferdigstillMutation.options.variables;
     expect(newReferat).to.deep.include({
@@ -271,7 +271,7 @@ describe("ReferatTest", () => {
 
     clickButton("Lagre og send");
 
-    const ferdigstillMutation = queryClient.getMutationCache().getAll()[0];
+    const ferdigstillMutation = queryClient.getMutationCache().getAll().pop();
     const expectedFerdigstilling = {
       narmesteLederNavn: narmesteLederNavn,
       situasjon: moteTekster.situasjonTekst,
