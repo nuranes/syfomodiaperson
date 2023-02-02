@@ -265,11 +265,18 @@ const Referat = ({
 
   const debouncedAutoSave = useDebouncedCallback(
     (values: ReferatSkjemaValues) => {
-      mellomlagre(values);
+      if (!ferdigstillDialogmote.isLoading && !endreReferat.isLoading) {
+        mellomlagre(values);
+      }
     },
     5000,
     { maxWait: 20000 }
   );
+
+  const handleSendClick = () => {
+    debouncedAutoSave.cancel();
+    resetFeilUtbedret();
+  };
 
   const savedReferatText = (savedDate: Date) => {
     return `${texts.referatSaved} ${showTimeIncludingSeconds(savedDate)}`;
@@ -349,7 +356,7 @@ const Referat = ({
             <ReferatButtons
               pageTitle={pageTitle}
               onSaveClick={() => mellomlagre(values)}
-              onSendClick={resetFeilUtbedret}
+              onSendClick={handleSendClick}
               showSaveSpinner={mellomlagreReferat.isLoading}
               showSendSpinner={
                 ferdigstillDialogmote.isLoading || endreReferat.isLoading
