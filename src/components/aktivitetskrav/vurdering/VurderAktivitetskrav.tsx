@@ -26,8 +26,8 @@ const HjelpetekstColumn = styled(FlexColumn)`
 `;
 
 interface VurderAktivitetskravProps {
-  aktivitetskrav: AktivitetskravDTO;
-  oppfolgingstilfelle: OppfolgingstilfelleDTO;
+  aktivitetskrav: AktivitetskravDTO | undefined;
+  oppfolgingstilfelle: OppfolgingstilfelleDTO | undefined;
 }
 
 export const VurderAktivitetskrav = ({
@@ -53,12 +53,14 @@ export const VurderAktivitetskrav = ({
           </Hjelpetekst>
         </HjelpetekstColumn>
       </FlexRow>
-      <FlexRow>
-        <Normaltekst>{`Gjelder tilfelle ${tilLesbarPeriodeMedArUtenManednavn(
-          oppfolgingstilfelle.start,
-          oppfolgingstilfelle.end
-        )}`}</Normaltekst>
-      </FlexRow>
+      {oppfolgingstilfelle && (
+        <FlexRow>
+          <Normaltekst>{`Gjelder tilfelle ${tilLesbarPeriodeMedArUtenManednavn(
+            oppfolgingstilfelle.start,
+            oppfolgingstilfelle.end
+          )}`}</Normaltekst>
+        </FlexRow>
+      )}
       <VurderAktivitetskravButtons
         onButtonClick={visVurderingAktivitetskravModalForType}
       />
@@ -66,7 +68,7 @@ export const VurderAktivitetskrav = ({
         isOpen={visVurderAktivitetskravModal}
         setModalOpen={setVisVurderAktivitetskravModal}
         modalType={modalType}
-        aktivitetskravUuid={aktivitetskrav.uuid}
+        aktivitetskravUuid={aktivitetskrav?.uuid}
       />
     </AktivitetskravPanel>
   );

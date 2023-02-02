@@ -19,6 +19,7 @@ import {
   maxLengthErrorMessage,
 } from "../testUtils";
 import {
+  AktivitetskravDTO,
   AktivitetskravStatus,
   AvventVurderingArsak,
   CreateAktivitetskravVurderingDTO,
@@ -28,6 +29,7 @@ import {
 import { expect } from "chai";
 import { vurderAktivitetskravBeskrivelseMaxLength } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravBeskrivelse";
 import { tilLesbarPeriodeMedArUtenManednavn } from "@/utils/datoUtils";
+import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
 
 let queryClient: QueryClient;
 
@@ -48,15 +50,18 @@ const unntakButtonText = "Sett unntak";
 const oppfyltButtonText = "Er i aktivitet";
 const ikkeOppfyltButtonText = "Ikke oppfylt";
 
-const renderVurderAktivitetskrav = () =>
+const renderVurderAktivitetskrav = (
+  aktivitetskravDto: AktivitetskravDTO | undefined,
+  oppfolgingstilfelleDto: OppfolgingstilfelleDTO | undefined
+) =>
   render(
     <QueryClientProvider client={queryClient}>
       <ValgtEnhetContext.Provider
         value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
       >
         <VurderAktivitetskrav
-          aktivitetskrav={aktivitetskrav}
-          oppfolgingstilfelle={oppfolgingstilfelle}
+          aktivitetskrav={aktivitetskravDto}
+          oppfolgingstilfelle={oppfolgingstilfelleDto}
         />
       </ValgtEnhetContext.Provider>
     </QueryClientProvider>
@@ -66,14 +71,14 @@ describe("VurderAktivitetskrav", () => {
     queryClient = queryClientWithMockData();
   });
   it("renders buttons for vurdering av aktivitetskravet", () => {
-    renderVurderAktivitetskrav();
+    renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
     expect(getButton(avventButtonText)).to.exist;
     expect(getButton(unntakButtonText)).to.exist;
     expect(getButton(oppfyltButtonText)).to.exist;
     expect(getButton(ikkeOppfyltButtonText)).to.exist;
   });
   it("renders periode for oppfølgingstilfelle", () => {
-    renderVurderAktivitetskrav();
+    renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
     const periodeText = tilLesbarPeriodeMedArUtenManednavn(
       tilfelleStart,
@@ -82,13 +87,13 @@ describe("VurderAktivitetskrav", () => {
     expect(screen.getByText(`Gjelder tilfelle ${periodeText}`)).to.exist;
   });
   it("renders helptext tooltip", () => {
-    renderVurderAktivitetskrav();
+    renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
     expect(screen.getByRole("tooltip")).to.exist;
   });
   describe("Oppfylt", () => {
     it("Validerer årsak og maks tegn beskrivelse", () => {
-      renderVurderAktivitetskrav();
+      renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
       clickButton(oppfyltButtonText);
       const tooLongBeskrivelse = getTooLongText(
@@ -106,7 +111,7 @@ describe("VurderAktivitetskrav", () => {
       ).to.exist;
     });
     it("Lagre vurdering med verdier fra skjema", () => {
-      renderVurderAktivitetskrav();
+      renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
       clickButton(oppfyltButtonText);
 
@@ -131,7 +136,7 @@ describe("VurderAktivitetskrav", () => {
   });
   describe("Unntak", () => {
     it("Validerer årsak og maks tegn beskrivelse", () => {
-      renderVurderAktivitetskrav();
+      renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
       clickButton(unntakButtonText);
       const tooLongBeskrivelse = getTooLongText(
@@ -149,7 +154,7 @@ describe("VurderAktivitetskrav", () => {
       ).to.exist;
     });
     it("Lagre vurdering med verdier fra skjema", () => {
-      renderVurderAktivitetskrav();
+      renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
       clickButton(unntakButtonText);
 
@@ -178,7 +183,7 @@ describe("VurderAktivitetskrav", () => {
   });
   describe("Avvent", () => {
     it("Validerer årsaker og beskrivelse", () => {
-      renderVurderAktivitetskrav();
+      renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
       clickButton(avventButtonText);
       clickButton("Lagre");
@@ -187,7 +192,7 @@ describe("VurderAktivitetskrav", () => {
       expect(screen.getByText("Vennligst angi årsak")).to.exist;
     });
     it("Lagre vurdering med verdier fra skjema", () => {
-      renderVurderAktivitetskrav();
+      renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
       clickButton(avventButtonText);
 
@@ -225,7 +230,7 @@ describe("VurderAktivitetskrav", () => {
   });
   describe("Ikke oppfylt", () => {
     it("Lagre vurdering med verdier fra skjema", () => {
-      renderVurderAktivitetskrav();
+      renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
       clickButton(ikkeOppfyltButtonText);
 
@@ -247,6 +252,31 @@ describe("VurderAktivitetskrav", () => {
         beskrivelse: undefined,
       };
       expect(vurderAvventMutation.options.variables).to.deep.equal(
+        expectedVurdering
+      );
+    });
+  });
+  describe("Uten oppfølgingstilfelle med aktivitetskrav", () => {
+    it("Lagre vurdering med verdier fra skjema", () => {
+      renderVurderAktivitetskrav(undefined, undefined);
+
+      expect(screen.queryByText(/Gjelder tilfelle/)).to.not.exist;
+
+      clickButton(unntakButtonText);
+
+      const arsakRadioButton = screen.getByText("Medisinske grunner");
+      fireEvent.click(arsakRadioButton);
+      const beskrivelseInput = getTextInput("Beskrivelse");
+      changeTextInput(beskrivelseInput, enBeskrivelse);
+      clickButton("Lagre");
+
+      const vurderUnntakMutation = queryClient.getMutationCache().getAll()[0];
+      const expectedVurdering: CreateAktivitetskravVurderingDTO = {
+        beskrivelse: enBeskrivelse,
+        status: AktivitetskravStatus.UNNTAK,
+        arsaker: [UnntakVurderingArsak.MEDISINSKE_GRUNNER],
+      };
+      expect(vurderUnntakMutation.options.variables).to.deep.equal(
         expectedVurdering
       );
     });

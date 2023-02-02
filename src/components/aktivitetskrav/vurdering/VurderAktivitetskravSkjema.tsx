@@ -10,7 +10,7 @@ import { ValidationErrors } from "final-form";
 
 export interface VurderAktivitetskravSkjemaProps {
   setModalOpen: (modalOpen: boolean) => void;
-  aktivitetskravUuid: string;
+  aktivitetskravUuid: string | undefined;
 }
 
 interface Props<SkjemaValues> extends VurderAktivitetskravSkjemaProps {

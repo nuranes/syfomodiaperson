@@ -2,28 +2,20 @@ import React from "react";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { VurderAktivitetskrav } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskrav";
 import { useAktivitetskravQuery } from "@/data/aktivitetskrav/aktivitetskravQueryHooks";
-import {
-  AktivitetskravDTO,
-  AktivitetskravStatus,
-} from "@/data/aktivitetskrav/aktivitetskravTypes";
-import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
+import { AktivitetskravStatus } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { AktivitetskravVurderingAlert } from "@/components/aktivitetskrav/vurdering/AktivitetskravVurderingAlert";
 import UtdragFraSykefravaeret from "@/components/utdragFraSykefravaeret/UtdragFraSykefravaeret";
 import { AktivitetskravHistorikk } from "@/components/aktivitetskrav/historikk/AktivitetskravHistorikk";
 import { AktivitetskravPanel } from "@/components/aktivitetskrav/AktivitetskravPanel";
-
-const gjelderOppfolgingstilfelle = (
-  aktivitetskrav: AktivitetskravDTO,
-  oppfolgingstilfelle: OppfolgingstilfelleDTO
-): boolean => {
-  return (
-    aktivitetskrav.stoppunktAt > oppfolgingstilfelle.start &&
-    aktivitetskrav.stoppunktAt <= oppfolgingstilfelle.end
-  );
-};
+import {
+  aktivitetskravVurderingerForOppfolgingstilfelle,
+  oppfolgingstilfelleForAktivitetskrav,
+} from "@/utils/aktivitetskravUtils";
+import { NoOppfolgingstilfelleAktivitetskravAlert } from "@/components/aktivitetskrav/NoOppfolgingstilfelleAktivitetskravAlert";
 
 export const AktivitetskravSide = () => {
-  const { tilfellerDescendingStart } = useOppfolgingstilfellePersonQuery();
+  const { tilfellerDescendingStart, hasActiveOppfolgingstilfelle } =
+    useOppfolgingstilfellePersonQuery();
   const { data } = useAktivitetskravQuery();
 
   const aktivitetskravTilVurdering = data.find(
@@ -32,31 +24,29 @@ export const AktivitetskravSide = () => {
   );
   const oppfolgingstilfelle =
     aktivitetskravTilVurdering &&
-    tilfellerDescendingStart.find((tilfelle) =>
-      gjelderOppfolgingstilfelle(aktivitetskravTilVurdering, tilfelle)
+    oppfolgingstilfelleForAktivitetskrav(
+      aktivitetskravTilVurdering,
+      tilfellerDescendingStart
     );
-  const vurderteAktivitetskravForOppfolgingstilfelle =
-    oppfolgingstilfelle &&
-    data.filter(
-      (aktivitetskrav) =>
-        gjelderOppfolgingstilfelle(aktivitetskrav, oppfolgingstilfelle) &&
-        aktivitetskrav.vurderinger.length > 0
-    );
-  const sisteVurdering = vurderteAktivitetskravForOppfolgingstilfelle?.flatMap(
-    (aktivitetskrav) => aktivitetskrav.vurderinger
-  )[0];
+  const sisteVurdering = oppfolgingstilfelle
+    ? aktivitetskravVurderingerForOppfolgingstilfelle(
+        data,
+        oppfolgingstilfelle
+      )[0]
+    : aktivitetskravTilVurdering?.vurderinger[0];
 
   return (
     <>
+      {!hasActiveOppfolgingstilfelle && (
+        <NoOppfolgingstilfelleAktivitetskravAlert />
+      )}
       {sisteVurdering && (
         <AktivitetskravVurderingAlert vurdering={sisteVurdering} />
       )}
-      {aktivitetskravTilVurdering && oppfolgingstilfelle && (
-        <VurderAktivitetskrav
-          aktivitetskrav={aktivitetskravTilVurdering}
-          oppfolgingstilfelle={oppfolgingstilfelle}
-        />
-      )}
+      <VurderAktivitetskrav
+        aktivitetskrav={aktivitetskravTilVurdering}
+        oppfolgingstilfelle={oppfolgingstilfelle}
+      />
       <AktivitetskravPanel>
         <UtdragFraSykefravaeret />
       </AktivitetskravPanel>

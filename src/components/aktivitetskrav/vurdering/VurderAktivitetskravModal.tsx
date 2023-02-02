@@ -21,7 +21,7 @@ interface VurderAktivitetskravModalProps {
   isOpen: boolean;
   setModalOpen: (modalOpen: boolean) => void;
   modalType: ModalType | undefined;
-  aktivitetskravUuid: string;
+  aktivitetskravUuid: string | undefined;
 }
 
 export const VurderAktivitetskravModal = ({
@@ -53,7 +53,7 @@ export const VurderAktivitetskravModal = ({
 interface VurderAktivitetskravModalContentProps {
   setModalOpen: (modalOpen: boolean) => void;
   modalType: ModalType;
-  aktivitetskravUuid: string;
+  aktivitetskravUuid: string | undefined;
 }
 
 export const ModalContent = styled.div`
