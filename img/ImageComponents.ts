@@ -59,6 +59,7 @@ import SykmeldingerImage from "./svg/sykmeldinger.svg";
 import SykmeldingerHoverBlaaImage from "./svg/sykmeldinger_hover-blue.svg";
 import Unntaksstatistikk from "./svg/unntaksstatistikk.svg";
 import UtropstegnImage from "./svg/utropstegn.svg";
+import SaveFile from "./svg/save-file.svg";
 
 //PNG
 import CheckboxPng from "./png/check-box-1.png";
@@ -135,4 +136,5 @@ export {
   PilForrigeBlaaPng,
   Unntaksstatistikk,
   UtropstegnImage,
+  SaveFile,
 };

@@ -53,6 +53,7 @@ import { useEndreReferat } from "@/data/dialogmote/useEndreReferat";
 import Lenke from "nav-frontend-lenker";
 import dayjs, { Dayjs } from "dayjs";
 import { useDebouncedCallback } from "use-debounce";
+import { SaveFile } from "../../../../img/ImageComponents";
 
 export const texts = {
   digitalReferat:
@@ -143,6 +144,15 @@ const toNewReferat = (
   document: getReferatDocument(values),
   andreDeltakere: values.andreDeltakere || [],
 });
+
+const SavedReferatToast = styled.div`
+  margin-bottom: 1em;
+  font-weight: bold;
+
+  > * {
+    margin-right: 0.5em;
+  }
+`;
 
 const Referat = ({
   dialogmote,
@@ -303,7 +313,12 @@ const Referat = ({
                 {texts.personvernLenketekst}
               </Lenke>
             </ReferatWarningAlert>
-            {showToast && <p>{savedReferatText(lastSavedTime.toDate())}</p>}
+            {showToast && (
+              <SavedReferatToast>
+                <img src={SaveFile} alt="saved" />
+                <span>{savedReferatText(lastSavedTime.toDate())}</span>
+              </SavedReferatToast>
+            )}
             <ReferatFritekster dialogmote={dialogmote} mode={mode} />
             <StandardTekster />
             <FlexRow topPadding={PaddingSize.SM} bottomPadding={PaddingSize.MD}>
