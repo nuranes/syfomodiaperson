@@ -265,7 +265,7 @@ const Referat = ({
 
   const debouncedAutoSave = useDebouncedCallback(
     (values: ReferatSkjemaValues) => {
-      if (!ferdigstillDialogmote.isLoading && !endreReferat.isLoading) {
+      if (!(ferdigstillDialogmote.isLoading || endreReferat.isLoading)) {
         mellomlagre(values);
       }
     },
