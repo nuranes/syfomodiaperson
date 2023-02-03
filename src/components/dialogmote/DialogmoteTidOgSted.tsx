@@ -1,8 +1,8 @@
 import React, { ReactElement } from "react";
-import { Input, Label } from "nav-frontend-skjema";
+import { Input } from "nav-frontend-skjema";
 import { Field } from "react-final-form";
 import KlokkeslettField from "../KlokkeslettField";
-import Datovelger from "../Datovelger";
+import DialogmoteDatoField from "./DialogmoteDatoField";
 import DialogmoteInnkallingSkjemaSeksjon from "./innkalling/DialogmoteInnkallingSkjemaSeksjon";
 import styled from "styled-components";
 import { FlexColumn, FlexRow, PaddingSize } from "../Layout";
@@ -18,8 +18,6 @@ const texts = {
   title: "Tid og sted",
   stedLabel: "Sted",
   stedPlaceholder: "F.eks: På arbeidsplassen",
-  datoLabel: "Dato",
-  datoPlaceholder: "dd.mm.åååå",
   tidLabel: "Klokkeslett",
   videoLabel: "Lenke til videomøte (valgfritt)",
   videoPlaceholder: "https://",
@@ -57,7 +55,6 @@ interface DialogmoteTidOgStedProps {
 const DialogmoteTidOgSted = ({
   isFuturisticMeeting,
 }: DialogmoteTidOgStedProps): ReactElement => {
-  const datoField = "dato";
   const klokkeslettField = "klokkeslett";
   const stedField = "sted";
   const videoLinkField = "videoLink";
@@ -80,12 +77,7 @@ const DialogmoteTidOgSted = ({
         )}
       <FlexRow bottomPadding={PaddingSize.MD}>
         <DatoColumn>
-          <Label htmlFor={datoField}>{texts.datoLabel}</Label>
-          <Datovelger
-            id={datoField}
-            name={datoField}
-            placeholder={texts.datoPlaceholder}
-          />
+          <DialogmoteDatoField />
         </DatoColumn>
         <FlexColumn flex={1}>
           <KlokkeslettField
