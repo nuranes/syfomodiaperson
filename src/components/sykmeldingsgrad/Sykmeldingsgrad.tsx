@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import { Normaltekst, Systemtittel } from "nav-frontend-typografi";
 import Panel from "nav-frontend-paneler";
 import {
@@ -18,11 +18,12 @@ import { SyketilfelleList } from "@/components/nokkelinformasjon/SyketilfelleLis
 import styled from "styled-components";
 import { ToggleNames } from "@/data/unleash/unleash_types";
 import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
+import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
 
 const texts = {
   title: "Sykmeldingsgrad",
   subtitle: "Endringer i sykmeldingsgrad",
-  tilfelleVarighet: "Siste tilfellet sin varighet: ",
+  tilfelleVarighet: "Valgt tilfelle sin varighet: ",
   xAxis: "X-akse: måned i tilfellet",
   yAxis: "Y-akse: sykmeldingsgrad",
 };
@@ -36,6 +37,9 @@ export const Sykmeldingsgrad = () => {
   const { sykmeldinger } = useSykmeldingerQuery();
   const { latestOppfolgingstilfelle } = useOppfolgingstilfellePersonQuery();
 
+  const [selectedOppfolgingstilfelle, setSelectedOppfolgingstilfelle] =
+    useState<OppfolgingstilfelleDTO>(latestOppfolgingstilfelle);
+
   const { isFeatureEnabled } = useFeatureToggles();
   const showTilfelleList = isFeatureEnabled(ToggleNames.gjentakendesykefravar);
 
@@ -43,7 +47,7 @@ export const Sykmeldingsgrad = () => {
   const sykmeldingerIOppfolgingstilfellet =
     sykmeldingerInnenforOppfolgingstilfelle(
       innsendteSykmeldinger,
-      latestOppfolgingstilfelle
+      selectedOppfolgingstilfelle
     );
 
   const DAYS_IN_GRAPH = 55 * 7;
@@ -96,12 +100,12 @@ export const Sykmeldingsgrad = () => {
     <Panel className="blokk">
       <Systemtittel>{texts.title}</Systemtittel>
       <Normaltekst>{texts.subtitle}</Normaltekst>
-      {latestOppfolgingstilfelle && perioderListSortert.length > 0 && (
+      {selectedOppfolgingstilfelle && perioderListSortert.length > 0 && (
         <Normaltekst>
           {texts.tilfelleVarighet}
           {tilLesbarPeriodeMedArstall(
-            latestOppfolgingstilfelle.start,
-            latestOppfolgingstilfelle.end
+            selectedOppfolgingstilfelle.start,
+            selectedOppfolgingstilfelle.end
           )}
         </Normaltekst>
       )}
@@ -123,7 +127,11 @@ export const Sykmeldingsgrad = () => {
           </AreaChart>
         </ResponsiveContainer>
 
-        {showTilfelleList && <SyketilfelleList />}
+        {showTilfelleList && (
+          <SyketilfelleList
+            changeSelectedTilfelle={setSelectedOppfolgingstilfelle}
+          />
+        )}
       </ChartAndTilfeller>
 
       <Normaltekst>{texts.yAxis}</Normaltekst>

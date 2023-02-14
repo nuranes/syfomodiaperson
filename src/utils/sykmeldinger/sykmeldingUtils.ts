@@ -7,6 +7,8 @@ import {
 } from "@/data/sykmelding/types/SykmeldingOldFormat";
 import { manederMellomDatoer } from "@/utils/datoUtils";
 import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
+import dayjs from "dayjs";
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 
 export const finnAvventendeSykmeldingTekst = (
   sykmelding: SykmeldingOldFormat
@@ -219,13 +221,15 @@ export const sykmeldingerInnenforOppfolgingstilfelle = (
       }
     }
 
-    const sykmeldingStart: Date = getSykmeldingStartdato(sykmelding);
-    sykmeldingStart.setHours(0, 0, 0, 0);
+    const sykmeldingStart = dayjs(getSykmeldingStartdato(sykmelding));
+    const oppfolgingstilfelleStart = dayjs(oppfolgingstilfelle.start);
+    const oppfolgingstilfelleEnd = dayjs(oppfolgingstilfelle.end);
 
-    const oppfolgingstilfelleStart = new Date(oppfolgingstilfelle.start);
-    oppfolgingstilfelleStart.setHours(0, 0, 0, 0);
-
-    return sykmeldingStart.getTime() - oppfolgingstilfelleStart.getTime() >= 0;
+    dayjs.extend(isSameOrAfter);
+    return (
+      sykmeldingStart.isSameOrAfter(oppfolgingstilfelleStart, "day") &&
+      oppfolgingstilfelleEnd.isSameOrAfter(sykmeldingStart, "day")
+    );
   });
 };
 

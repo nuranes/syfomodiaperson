@@ -2,41 +2,45 @@ import React from "react";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
 import { tilLesbarPeriodeMedArUtenManednavn } from "@/utils/datoUtils";
-import styled from "styled-components";
+import { Radio, RadioGroup } from "@navikt/ds-react";
 
 const texts = {
   title: "Siste sykefravær",
 };
 
-const Header = styled.h3`
-  margin-bottom: 0;
-`;
+interface SyketilfelleListProps {
+  changeSelectedTilfelle: (value: OppfolgingstilfelleDTO) => void;
+}
 
-const List = styled.ul`
-  margin-top: 0;
-`;
-
-export const SyketilfelleList = () => {
+export const SyketilfelleList = ({
+  changeSelectedTilfelle,
+}: SyketilfelleListProps) => {
   const { tilfellerDescendingStart } = useOppfolgingstilfellePersonQuery();
   const tenLatestTilfeller = tilfellerDescendingStart?.slice(0, 10);
 
   return (
     <div>
-      <Header>{texts.title}</Header>
-      <List>
+      <RadioGroup
+        legend={texts.title}
+        onChange={(value: OppfolgingstilfelleDTO) =>
+          changeSelectedTilfelle(value)
+        }
+        size="small"
+        defaultValue={tilfellerDescendingStart[0]}
+      >
         {tenLatestTilfeller.map(
           (tilfelle: OppfolgingstilfelleDTO, index: number) => {
             return (
-              <li key={index}>
+              <Radio key={index} value={tilfelle}>
                 {tilLesbarPeriodeMedArUtenManednavn(
                   tilfelle.start,
                   tilfelle.end
                 )}
-              </li>
+              </Radio>
             );
           }
         )}
-      </List>
+      </RadioGroup>
     </div>
   );
 };

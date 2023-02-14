@@ -493,12 +493,14 @@ describe("sykmeldingUtils", () => {
       clock.restore();
     });
 
-    it("skal returnere en liste med bare sykmeldinger innenfor oppfølgingstilfellet", () => {
+    it("skal returnere en liste med bare sykmeldinger som starter innenfor oppfølgingstilfellet", () => {
+      const startDate = new Date("2023-01-01");
+      const endDate = new Date("2023-05-01");
       const oppfolgingstilfelle = {
         arbeidstakerAtTilfelleEnd: true,
-        start: new Date(Date.now() - ANTALL_MS_DAG * 120),
-        end: new Date(Date.now() + ANTALL_MS_DAG * 15),
-        virksomhetsnummerList: ["123", "321"],
+        start: startDate,
+        end: endDate,
+        virksomhetsnummerList: ["123", "321", "999"],
       };
 
       const sykmeldinger: SykmeldingOldFormat[] = [
@@ -508,8 +510,8 @@ describe("sykmeldingUtils", () => {
           mulighetForArbeid: {
             perioder: [
               {
-                fom: new Date("2018-12-28"),
-                tom: new Date("2018-12-31"),
+                fom: startDate,
+                tom: endDate,
               },
             ],
           },
@@ -520,8 +522,20 @@ describe("sykmeldingUtils", () => {
           mulighetForArbeid: {
             perioder: [
               {
-                fom: new Date("2017-01-01"),
-                tom: new Date("2017-01-04"),
+                fom: new Date(startDate.getDate() - ANTALL_MS_DAG * 10),
+                tom: new Date(startDate.getDate() - ANTALL_MS_DAG),
+              },
+            ],
+          },
+        },
+        {
+          ...baseSykmelding,
+          orgnummer: "999",
+          mulighetForArbeid: {
+            perioder: [
+              {
+                fom: new Date(endDate.getDate() + ANTALL_MS_DAG),
+                tom: new Date(endDate.getDate() + ANTALL_MS_DAG * 10),
               },
             ],
           },
