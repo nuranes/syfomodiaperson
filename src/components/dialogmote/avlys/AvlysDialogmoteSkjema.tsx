@@ -15,12 +15,12 @@ import { useFeilUtbedret } from "@/hooks/useFeilUtbedret";
 import { validerBegrunnelser } from "@/utils/valideringUtils";
 import { useAvlysningDocument } from "@/hooks/dialogmote/document/useAvlysningDocument";
 import { Forhandsvisning } from "../Forhandsvisning";
-import { AlertstripeFullbredde } from "../../AlertstripeFullbredde";
 import { moteoversiktRoutePath } from "@/routers/AppRouter";
 import { useAvlysDialogmote } from "@/data/dialogmote/useAvlysDialogmote";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import FritekstSeksjon from "@/components/dialogmote/FritekstSeksjon";
 import { Flatknapp, Hovedknapp } from "nav-frontend-knapper";
+import { AlertstripeFullbredde } from "@/components/AlertstripeFullbredde";
 
 export const MAX_LENGTH_AVLYS_BEGRUNNELSE = 500;
 
@@ -61,10 +61,6 @@ const AvlysPanel = styled(Panel)`
 
 const SendButton = styled(Hovedknapp)`
   margin-right: 0.5rem;
-`;
-
-const AvlysningAlertStripe = styled(AlertstripeFullbredde)`
-  margin-bottom: 4em;
 `;
 
 const AvlysDialogmoteSkjema = ({
@@ -195,9 +191,9 @@ const AvlysDialogmoteSkjema = ({
             {avlysDialogmote.isError && (
               <SkjemaInnsendingFeil error={avlysDialogmote.error} />
             )}
-            <AvlysningAlertStripe type="advarsel">
+            <AlertstripeFullbredde type="advarsel" marginbottom="4em">
               {texts.alert}
-            </AvlysningAlertStripe>
+            </AlertstripeFullbredde>
             {submitFailed && harIkkeUtbedretFeil && (
               <SkjemaFeiloppsummering errors={errors} />
             )}

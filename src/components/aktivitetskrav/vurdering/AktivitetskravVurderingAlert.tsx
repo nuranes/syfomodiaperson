@@ -10,13 +10,8 @@ import {
 import React, { ReactElement } from "react";
 import { FlexRow, PaddingSize } from "@/components/Layout";
 import { Element, Normaltekst } from "nav-frontend-typografi";
-import { AlertstripeFullbredde } from "@/components/AlertstripeFullbredde";
-import styled from "styled-components";
 import { avventVurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
-
-const StyledAlertstripeFullbredde = styled(AlertstripeFullbredde)`
-  margin-bottom: 1em;
-`;
+import { AktivitetskravAlertstripe } from "@/components/aktivitetskrav/AktivitetskravAlertstripe";
 
 interface AktivitetskravVurderingAlertProps {
   vurdering: AktivitetskravVurderingDTO;
@@ -32,20 +27,20 @@ export const AktivitetskravVurderingAlert = ({
   switch (vurdering.status) {
     case AktivitetskravStatus.OPPFYLT:
       return (
-        <StyledAlertstripeFullbredde type="suksess">
+        <AktivitetskravAlertstripe type="suksess">
           {`Det er vurdert at ${navbruker.navn} er i aktivitet ${vurderingDatoMedArUtenMndNavn}`}
-        </StyledAlertstripeFullbredde>
+        </AktivitetskravAlertstripe>
       );
     case AktivitetskravStatus.UNNTAK: {
       return (
-        <StyledAlertstripeFullbredde type="suksess">
+        <AktivitetskravAlertstripe type="suksess">
           {`Det er vurdert unntak for ${navbruker.navn} ${vurderingDatoMedArUtenMndNavn}`}
-        </StyledAlertstripeFullbredde>
+        </AktivitetskravAlertstripe>
       );
     }
     case AktivitetskravStatus.AVVENT: {
       return (
-        <StyledAlertstripeFullbredde type="advarsel">
+        <AktivitetskravAlertstripe type="advarsel">
           <Element>
             Avventer - {tilDatoMedManedNavn(vurdering.createdAt)}
           </Element>
@@ -61,14 +56,14 @@ export const AktivitetskravVurderingAlert = ({
               })}
             </ul>
           </FlexRow>
-        </StyledAlertstripeFullbredde>
+        </AktivitetskravAlertstripe>
       );
     }
     case AktivitetskravStatus.IKKE_OPPFYLT: {
       return (
-        <StyledAlertstripeFullbredde type="suksess">
+        <AktivitetskravAlertstripe type="suksess">
           {`Det er vurdert at aktivitetskravet ikke er oppfylt for ${navbruker.navn} ${vurderingDatoMedArUtenMndNavn}`}
-        </StyledAlertstripeFullbredde>
+        </AktivitetskravAlertstripe>
       );
     }
     default:

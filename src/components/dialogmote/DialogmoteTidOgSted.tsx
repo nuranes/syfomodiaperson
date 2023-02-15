@@ -33,10 +33,6 @@ const TidOgStedTittel = styled(Innholdstittel)`
   margin-bottom: 1em;
 `;
 
-const AlertstripeFullbreddeStyled = styled(AlertstripeFullbredde)`
-  margin-bottom: 2em;
-`;
-
 const FRIST_DIALOGMOTE2_IN_WEEKS = 26;
 
 interface FristProps {
@@ -88,9 +84,9 @@ const DialogmoteTidOgSted = ({
         </FlexColumn>
       </FlexRow>
       {showFuturisticWarning && (
-        <AlertstripeFullbreddeStyled type="info">
+        <AlertstripeFullbredde type="info" marginbottom="2em">
           <p>{texts.alertText}</p>
-        </AlertstripeFullbreddeStyled>
+        </AlertstripeFullbredde>
       )}
       <FlexRow bottomPadding={PaddingSize.MD}>
         <FlexColumn flex={1}>

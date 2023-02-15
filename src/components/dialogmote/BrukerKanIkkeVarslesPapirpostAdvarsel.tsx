@@ -1,12 +1,7 @@
 import { BrukerKanIkkeVarslesText } from "@/components/BrukerKanIkkeVarslesText";
 import { Normaltekst } from "nav-frontend-typografi";
 import React from "react";
-import styled from "styled-components";
 import { AlertstripeFullbredde } from "@/components/AlertstripeFullbredde";
-
-const AdvarselStripe = styled(AlertstripeFullbredde)`
-  margin-bottom: 1em;
-`;
 
 export const texts = {
   papirpostDialogmote:
@@ -14,8 +9,8 @@ export const texts = {
 };
 
 export const BrukerKanIkkeVarslesPapirpostAdvarsel = (): React.ReactElement => (
-  <AdvarselStripe type="advarsel">
+  <AlertstripeFullbredde type="advarsel" marginbottom="1em">
     <BrukerKanIkkeVarslesText />
     <Normaltekst>{texts.papirpostDialogmote}</Normaltekst>
-  </AdvarselStripe>
+  </AlertstripeFullbredde>
 );

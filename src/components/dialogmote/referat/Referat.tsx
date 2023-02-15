@@ -106,10 +106,6 @@ const ReferatTittel = styled(Innholdstittel)`
   margin-bottom: 2em;
 `;
 
-const ReferatWarningAlert = styled(AlertstripeFullbredde)`
-  margin-bottom: 4em;
-`;
-
 interface ReferatProps {
   dialogmote: DialogmoteDTO;
   pageTitle: string;
@@ -306,11 +302,15 @@ const Referat = ({
               }}
             />
             <ReferatTittel>{header}</ReferatTittel>
-            <ReferatWarningAlert type="advarsel">
+            <AlertstripeFullbredde type="advarsel" marginbottom="4em">
               {texts.digitalReferat}
-            </ReferatWarningAlert>
+            </AlertstripeFullbredde>
             <Deltakere behandler={dialogmote.behandler} />
-            <ReferatWarningAlert type="advarsel" form="inline">
+            <AlertstripeFullbredde
+              type="advarsel"
+              form="inline"
+              marginbottom="4em"
+            >
               {texts.personvern}
               <Lenke
                 target="_blank"
@@ -319,7 +319,7 @@ const Referat = ({
               >
                 {texts.personvernLenketekst}
               </Lenke>
-            </ReferatWarningAlert>
+            </AlertstripeFullbredde>
             {showToast && (
               <SavedReferatToast>
                 <img src={SaveFile} alt="saved" />

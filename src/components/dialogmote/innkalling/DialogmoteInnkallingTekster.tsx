@@ -35,9 +35,6 @@ export const texts = {
 const TeksterTittel = styled(Innholdstittel)`
   margin-bottom: 0.5em;
 `;
-const ReservertAlert = styled(AlertstripeFullbredde)`
-  margin-bottom: 1em;
-`;
 
 interface DialogmoteInnkallingTeksterProps {
   selectedBehandler: BehandlerDTO | undefined;
@@ -72,7 +69,9 @@ const DialogmoteInnkallingTekster = ({
     <DialogmoteInnkallingSkjemaSeksjon>
       <TeksterTittel>{texts.title}</TeksterTittel>
       {brukerKanIkkeVarslesDigitalt && (
-        <ReservertAlert type="advarsel">{texts.reservertAlert}</ReservertAlert>
+        <AlertstripeFullbredde type="advarsel" marginbottom="1em">
+          {texts.reservertAlert}
+        </AlertstripeFullbredde>
       )}
       <FritekstSeksjon
         fieldName="fritekstArbeidstaker"

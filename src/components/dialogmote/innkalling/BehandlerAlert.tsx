@@ -1,6 +1,5 @@
 import React from "react";
 import { AlertstripeFullbredde } from "@/components/AlertstripeFullbredde";
-import styled from "styled-components";
 
 const texts = {
   searchCriteriaInfo:
@@ -10,13 +9,9 @@ const texts = {
     "Finner du ikke behandleren du leter etter? Da bør du melde det inn i Porten.",
 };
 
-const BehandlerInfo = styled(AlertstripeFullbredde)`
-  margin-top: 2em;
-`;
-
 export const BehandlerAlert = () => (
-  <BehandlerInfo type="info">
+  <AlertstripeFullbredde type="info" margintop="2em">
     <p>{texts.searchCriteriaInfo}</p>
     <p>{texts.noSearchMatchInfo}</p>
-  </BehandlerInfo>
+  </AlertstripeFullbredde>
 );

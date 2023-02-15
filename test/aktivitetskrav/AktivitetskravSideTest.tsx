@@ -87,6 +87,14 @@ describe("AktivitetskravSide", () => {
     expect(screen.getByRole("heading", { name: "Utdrag fra sykefraværet" })).to
       .exist;
   });
+  it("Viser info om å vurdere alle arbeidsforhold", () => {
+    renderAktivitetskravSide();
+
+    expect(screen.getByRole("img", { name: "info-ikon" })).to.exist;
+    expect(
+      screen.getByText(/Aktivitetskravvurderingen skal gjøres per sykefravær/)
+    ).to.exist;
+  });
 
   describe("Vurder aktivitetskravet", () => {
     it("Vises når person har oppfølgingstilfelle med aktivitetskrav (NY)", () => {

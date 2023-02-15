@@ -4,7 +4,6 @@ import { VirksomhetInput } from "@/components/dialogmote/innkalling/virksomhet/V
 import { VirksomhetRadioGruppe } from "@/components/dialogmote/innkalling/virksomhet/VirksomhetRadioGruppe";
 import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
 import { ToggleNames } from "@/data/unleash/unleash_types";
-import styled from "styled-components";
 
 const texts = {
   chooseArbeidsgiver: "Velg arbeidsgiver",
@@ -21,11 +20,6 @@ interface VirksomhetRadioGruppeProps {
   label: string;
   name: string;
 }
-
-const NoVirksomhetAlert = styled(AlertstripeFullbredde)`
-  padding_top: 2em;
-  margin-bottom: 2em;
-`;
 
 export const VirksomhetChooser = ({
   velgVirksomhet,
@@ -54,13 +48,13 @@ export const VirksomhetChooser = ({
       {showInput && <VirksomhetInput velgVirksomhet={velgVirksomhet} />}
 
       {virksomheter.length === 0 && !hasAccessToVirksomhetInput && (
-        <NoVirksomhetAlert type="advarsel">
+        <AlertstripeFullbredde type="advarsel" marginbottom="2em">
           {texts.noArbeidsgiver}
           <ul>
             <li>{texts.unemployed}</li>
             <li>{texts.report_error}</li>
           </ul>
-        </NoVirksomhetAlert>
+        </AlertstripeFullbredde>
       )}
     </>
   );
