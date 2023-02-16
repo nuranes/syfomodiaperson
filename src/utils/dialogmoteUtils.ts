@@ -12,11 +12,14 @@ export const isAktivtDialogmote = (dialogmote: DialogmoteDTO): boolean => {
   );
 };
 
-export const oppgaveCreatedAfterLatestMoteEndring = (
+export const isPersonoppgaveCompletedAfterLastMoteEndring = (
   oppgave: PersonOppgave,
   dialogmote: DialogmoteDTO
 ) => {
-  const oppgaveCreatedAt = dayjs(oppgave.opprettet);
-  const dialogmoteUpdatedAt = dayjs(dialogmote.updatedAt);
-  return oppgaveCreatedAt.isAfter(dialogmoteUpdatedAt);
+  const behandletTidspunkt = dayjs(oppgave.behandletTidspunkt);
+  const lastMoteEndring = dayjs(
+    dialogmote.arbeidstaker.varselList[0]?.createdAt || null
+  );
+
+  return behandletTidspunkt.isAfter(lastMoteEndring);
 };

@@ -22,7 +22,7 @@ import { usePersonoppgaverQuery } from "@/data/personoppgave/personoppgaveQueryH
 import { PersonOppgave } from "@/data/personoppgave/types/PersonOppgave";
 import {
   isAktivtDialogmote,
-  oppgaveCreatedAfterLatestMoteEndring,
+  isPersonoppgaveCompletedAfterLastMoteEndring,
 } from "@/utils/dialogmoteUtils";
 
 const texts = {
@@ -89,7 +89,11 @@ export const DialogmoteMoteStatusPanel = ({ dialogmote }: Props) => {
   const skalVurderes =
     isAktivtDialogmote(dialogmote) &&
     !!personOppgaveForMote &&
-    oppgaveCreatedAfterLatestMoteEndring(personOppgaveForMote, dialogmote);
+    (personOppgaveForMote.behandletTidspunkt === null ||
+      isPersonoppgaveCompletedAfterLastMoteEndring(
+        personOppgaveForMote,
+        dialogmote
+      ));
 
   return (
     <DialogmotePanel
