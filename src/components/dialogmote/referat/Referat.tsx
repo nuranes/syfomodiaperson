@@ -269,6 +269,11 @@ const Referat = ({
     { maxWait: 20000 }
   );
 
+  const handleLagreClick = (values: ReferatSkjemaValues) => {
+    debouncedAutoSave.cancel();
+    mellomlagre(values);
+  };
+
   const handleSendClick = () => {
     debouncedAutoSave.cancel();
     resetFeilUtbedret();
@@ -355,7 +360,7 @@ const Referat = ({
             )}
             <ReferatButtons
               pageTitle={pageTitle}
-              onSaveClick={() => mellomlagre(values)}
+              onSaveClick={() => handleLagreClick(values)}
               onSendClick={handleSendClick}
               showSaveSpinner={mellomlagreReferat.isLoading}
               showSendSpinner={
