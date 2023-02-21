@@ -54,6 +54,7 @@ import Lenke from "nav-frontend-lenker";
 import dayjs, { Dayjs } from "dayjs";
 import { useDebouncedCallback } from "use-debounce";
 import { SaveFile } from "../../../../img/ImageComponents";
+import { FormState } from "final-form";
 
 export const texts = {
   digitalReferat:
@@ -176,6 +177,10 @@ const Referat = ({
     useFeilUtbedret();
   const { getReferatDocument } = useReferatDocument(dialogmote, mode);
 
+  const isSendingReferat = () => {
+    return ferdigstillDialogmote.isLoading || endreReferat.isLoading;
+  };
+
   const validate = (values: Partial<ReferatSkjemaValues>) => {
     const friteksterFeil = validerSkjemaTekster<ReferatSkjemaTekster>({
       situasjon: {
@@ -245,6 +250,23 @@ const Referat = ({
     }
   };
 
+  const isNullOrEmpty = (value?: string | undefined) => {
+    return !value || value === "";
+  };
+
+  const isEmptyReferat = (values: ReferatSkjemaValues) => {
+    return (
+      (!values.standardtekster || values.standardtekster.length === 0) &&
+      isNullOrEmpty(values.situasjon) &&
+      isNullOrEmpty(values.konklusjon) &&
+      isNullOrEmpty(values.arbeidstakersOppgave) &&
+      isNullOrEmpty(values.arbeidsgiversOppgave) &&
+      isNullOrEmpty(values.behandlersOppgave) &&
+      isNullOrEmpty(values.veiledersOppgave) &&
+      isNullOrEmpty(values.begrunnelseEndring)
+    );
+  };
+
   const mellomlagre = (values: ReferatSkjemaValues) => {
     mellomlagreReferat.mutate(
       toNewReferat(dialogmote, values, getReferatDocument),
@@ -261,7 +283,7 @@ const Referat = ({
 
   const debouncedAutoSave = useDebouncedCallback(
     (values: ReferatSkjemaValues) => {
-      if (!(ferdigstillDialogmote.isLoading || endreReferat.isLoading)) {
+      if (!isSendingReferat() && !isEmptyReferat(values)) {
         mellomlagre(values);
       }
     },
@@ -301,9 +323,9 @@ const Referat = ({
           <form onSubmit={handleSubmit}>
             <FormSpy
               subscription={{ values: true }}
-              onChange={() => {
+              onChange={(formState: FormState<ReferatSkjemaValues>) => {
                 setUendretSidenMellomlagring(false);
-                debouncedAutoSave(values);
+                debouncedAutoSave(formState.values);
               }}
             />
             <ReferatTittel>{header}</ReferatTittel>
