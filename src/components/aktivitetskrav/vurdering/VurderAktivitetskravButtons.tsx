@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { ModalType } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravModal";
 
 const texts = {
-  avventer: "(Avventer)",
+  avventer: "Avventer",
   oppfylt: "Er i aktivitet",
   unntak: "Sett unntak",
   ikkeOppfylt: "Ikke oppfylt",

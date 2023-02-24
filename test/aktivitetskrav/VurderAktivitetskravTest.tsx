@@ -44,7 +44,7 @@ const oppfolgingstilfelle = generateOppfolgingstilfelle(
   tilfelleEnd
 );
 
-const avventButtonText = "(Avventer)";
+const avventButtonText = "Avventer";
 const enBeskrivelse = "Her er en beskrivelse";
 const unntakButtonText = "Sett unntak";
 const oppfyltButtonText = "Er i aktivitet";
