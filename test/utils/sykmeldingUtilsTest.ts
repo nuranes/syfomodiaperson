@@ -12,6 +12,7 @@ import {
   erMulighetForArbeidInformasjon,
   finnAvventendeSykmeldingTekst,
   latestSykmeldingForVirksomhet,
+  sendtAndBekreftetSykmeldinger,
   stringMedAlleGraderingerFraSykmeldingPerioder,
   sykmeldingerGruppertEtterVirksomhet,
   sykmeldingerInnenforOppfolgingstilfelle,
@@ -551,6 +552,69 @@ describe("sykmeldingUtils", () => {
       expect(sykmeldingerIOppfolgingstilfellet.length).to.equal(1);
       expect(sykmeldingerIOppfolgingstilfellet[0].orgnummer).to.equal("123");
     });
+
+    it("skal returnere en liste med sykmeldinger uavhengig av virksomhet", () => {
+      const startDate = new Date("2023-01-01");
+      const endDate = new Date("2023-05-01");
+      const oppfolgingstilfelle = {
+        arbeidstakerAtTilfelleEnd: true,
+        start: startDate,
+        end: endDate,
+        virksomhetsnummerList: ["123", "321", "999"],
+      };
+      const virksomhetNotInTilfelle = "000000";
+
+      const sykmeldinger: SykmeldingOldFormat[] = [
+        {
+          ...baseSykmelding,
+          orgnummer: "123",
+          mulighetForArbeid: {
+            perioder: [
+              {
+                fom: startDate,
+                tom: endDate,
+              },
+            ],
+          },
+        },
+        {
+          ...baseSykmelding,
+          orgnummer: virksomhetNotInTilfelle,
+          mulighetForArbeid: {
+            perioder: [
+              {
+                fom: startDate,
+                tom: endDate,
+              },
+            ],
+          },
+        },
+        {
+          ...baseSykmelding,
+          orgnummer: "999",
+          mulighetForArbeid: {
+            perioder: [
+              {
+                fom: new Date(endDate.getDate() + ANTALL_MS_DAG),
+                tom: new Date(endDate.getDate() + ANTALL_MS_DAG * 10),
+              },
+            ],
+          },
+        },
+      ];
+
+      const sykmeldingerIOppfolgingstilfellet =
+        sykmeldingerInnenforOppfolgingstilfelle(
+          sykmeldinger,
+          oppfolgingstilfelle
+        );
+
+      expect(sykmeldingerIOppfolgingstilfellet.length).to.equal(2);
+      expect(sykmeldingerIOppfolgingstilfellet[0].orgnummer).to.equal("123");
+      expect(sykmeldingerIOppfolgingstilfellet[1].orgnummer).to.equal(
+        virksomhetNotInTilfelle
+      );
+    });
   });
 
   describe("sykmeldingerSortertNyestTilEldst", () => {
@@ -937,6 +1001,72 @@ describe("sykmeldingUtils", () => {
       );
 
       expect(actualSykmelding.id).to.equal(wantedSykmeldingId);
+    });
+  });
+
+  describe("sendtAndBekreftetSykmeldinger", () => {
+    const unwantedStatuser = [
+      SykmeldingStatus.NY,
+      SykmeldingStatus.UTGAATT,
+      SykmeldingStatus.AVBRUTT,
+      SykmeldingStatus.TIL_SENDING,
+    ];
+
+    const sykmeldingListContainsStatuser = (
+      sykmeldinger: SykmeldingOldFormat[],
+      statuser: SykmeldingStatus[]
+    ): boolean => {
+      return sykmeldinger.some((sykmelding) => {
+        return statuser.includes(sykmelding.status);
+      });
+    };
+
+    it("Returns a list containing only sykmeldinger with status SENDT and BEKREFTET", () => {
+      const sykmeldinglistWithEveryStatus: SykmeldingOldFormat[] = Object.keys(
+        SykmeldingStatus
+      ).map((status) => {
+        return {
+          ...baseSykmelding,
+          status,
+        } as SykmeldingOldFormat;
+      });
+
+      const usedSykmeldinger = sendtAndBekreftetSykmeldinger(
+        sykmeldinglistWithEveryStatus
+      );
+
+      const hasSykmeldingWithWrongStatus = sykmeldingListContainsStatuser(
+        usedSykmeldinger,
+        unwantedStatuser
+      );
+      const hasSendtSykmelding = sykmeldingListContainsStatuser(
+        sykmeldinglistWithEveryStatus,
+        [SykmeldingStatus.SENDT]
+      );
+      const hasBekreftetSykmelding = sykmeldingListContainsStatuser(
+        sykmeldinglistWithEveryStatus,
+        [SykmeldingStatus.BEKREFTET]
+      );
+      expect(usedSykmeldinger.length).to.equal(2);
+      expect(hasSykmeldingWithWrongStatus).to.be.false;
+      expect(hasSendtSykmelding).to.be.true;
+      expect(hasBekreftetSykmelding).to.be.true;
+    });
+
+    it("Returns an empty list if only unwanted statuser in sykmelding list", () => {
+      const sykmeldinglistWithEveryStatus: SykmeldingOldFormat[] =
+        unwantedStatuser.map((status) => {
+          return {
+            ...baseSykmelding,
+            status,
+          } as SykmeldingOldFormat;
+        });
+
+      const usedSykmeldinger = sendtAndBekreftetSykmeldinger(
+        sykmeldinglistWithEveryStatus
+      );
+
+      expect(usedSykmeldinger.length).to.equal(0);
     });
   });
 });

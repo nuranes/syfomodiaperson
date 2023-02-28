@@ -201,6 +201,17 @@ export const getSykmeldingStartdato = (
   return new Date(sykmeldingperioderSortertEldstTilNyest(perioder)[0].fom);
 };
 
+export const sendtAndBekreftetSykmeldinger = (
+  sykmeldinger: SykmeldingOldFormat[]
+) => {
+  return sykmeldinger.filter((sykmelding) => {
+    return (
+      sykmelding.status === SykmeldingStatus.BEKREFTET ||
+      sykmelding.status === SykmeldingStatus.SENDT
+    );
+  });
+};
+
 export const sykmeldingerInnenforOppfolgingstilfelle = (
   sykmeldinger: SykmeldingOldFormat[],
   oppfolgingstilfelle?: OppfolgingstilfelleDTO
@@ -209,18 +220,6 @@ export const sykmeldingerInnenforOppfolgingstilfelle = (
     return [];
   }
   return sykmeldinger.filter((sykmelding) => {
-    if (!erSykmeldingUtenArbeidsgiver(sykmelding)) {
-      const sykmeldingOrgnummer = sykmelding.orgnummer;
-      if (!sykmeldingOrgnummer) {
-        return false;
-      }
-      if (
-        !oppfolgingstilfelle.virksomhetsnummerList.includes(sykmeldingOrgnummer)
-      ) {
-        return false;
-      }
-    }
-
     const sykmeldingStart = dayjs(getSykmeldingStartdato(sykmelding));
     const oppfolgingstilfelleStart = dayjs(oppfolgingstilfelle.start);
     const oppfolgingstilfelleEnd = dayjs(oppfolgingstilfelle.end);

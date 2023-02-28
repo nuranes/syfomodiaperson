@@ -5,7 +5,7 @@ import { Normaltekst, Systemtittel } from "nav-frontend-typografi";
 import Panel from "nav-frontend-paneler";
 import {
   sykmeldingerInnenforOppfolgingstilfelle,
-  sykmeldingerMedStatusSendt,
+  sendtAndBekreftetSykmeldinger,
 } from "@/utils/sykmeldinger/sykmeldingUtils";
 import {
   dagerMellomDatoer,
@@ -43,10 +43,10 @@ export const Sykmeldingsgrad = () => {
   const { isFeatureEnabled } = useFeatureToggles();
   const showTilfelleList = isFeatureEnabled(ToggleNames.gjentakendesykefravar);
 
-  const innsendteSykmeldinger = sykmeldingerMedStatusSendt(sykmeldinger);
+  const usedSykmeldinger = sendtAndBekreftetSykmeldinger(sykmeldinger);
   const sykmeldingerIOppfolgingstilfellet =
     sykmeldingerInnenforOppfolgingstilfelle(
-      innsendteSykmeldinger,
+      usedSykmeldinger,
       selectedOppfolgingstilfelle
     );
 
