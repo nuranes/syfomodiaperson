@@ -14,8 +14,6 @@ import {
 import { AktivitetskravAlertstripe } from "@/components/aktivitetskrav/AktivitetskravAlertstripe";
 
 const texts = {
-  vurderArbeidsforhold:
-    "Aktivitetskravvurderingen skal gjøres per sykefravær. Eksempel: Hvis personen er 100% sykmeldt fra to arbeidsforhold, må det gjøres to individuelle vurderinger.",
   noTilfelle:
     "Vi finner ingen aktiv sykmelding på denne personen. Du kan likevel vurdere aktivitetskravet hvis det er behov for det.",
 };
@@ -44,9 +42,6 @@ export const AktivitetskravSide = () => {
 
   return (
     <>
-      <AktivitetskravAlertstripe type="info">
-        {texts.vurderArbeidsforhold}
-      </AktivitetskravAlertstripe>
       {!hasActiveOppfolgingstilfelle && (
         <AktivitetskravAlertstripe type="advarsel">
           {texts.noTilfelle}
