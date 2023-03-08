@@ -19,8 +19,6 @@ import { SyketilfelleSummary } from "@/components/personkort/PersonkortHeader/Sy
 import { Refresh } from "@navikt/ds-icons";
 import { Tooltip } from "@navikt/ds-react";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
-import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
-import { ToggleNames } from "@/data/unleash/unleash_types";
 
 const texts = {
   copied: "Kopiert!",
@@ -55,11 +53,7 @@ const PersonkortHeader = () => {
     diskresjonskode === "6" || diskresjonskode === "7" || isEgenAnsatt;
 
   const personident = useValgtPersonident();
-  const { isFeatureEnabled } = useFeatureToggles();
   const { hasGjentakendeSykefravar } = useOppfolgingstilfellePersonQuery();
-  const showGjentakendeSykefravar =
-    isFeatureEnabled(ToggleNames.gjentakendesykefravar) &&
-    hasGjentakendeSykefravar;
 
   return (
     <div className="personkortHeader">
@@ -75,7 +69,7 @@ const PersonkortHeader = () => {
         <div>
           <PersonkortH3>
             {`${navbruker.navn} (${hentBrukersAlderFraFnr(personident)} år)`}
-            {showGjentakendeSykefravar && (
+            {hasGjentakendeSykefravar && (
               <Tooltip content={"Gjentatt sykefravær"}>
                 <GjentagendeSykefravarRefresh />
               </Tooltip>

@@ -77,14 +77,6 @@ const unleash = initialize({
 
 export const unleashToggles = (toggles: any, valgtEnhet: any, userId: any) => {
   return {
-    "syfo.syfomodiaperson.sykmeldingsgrad": unleash.isEnabled(
-      "syfo.syfomodiaperson.sykmeldingsgrad",
-      {
-        valgtEnhet: valgtEnhet,
-        user: userId,
-      }
-    ),
-
     "syfo.dialogmote.virksomhetinput": unleash.isEnabled(
       "syfo.dialogmote.virksomhetinput",
       {
@@ -92,7 +84,6 @@ export const unleashToggles = (toggles: any, valgtEnhet: any, userId: any) => {
         user: userId,
       }
     ),
-
     "syfo.kandidat.unntaksstatistikk": unleash.isEnabled(
       "syfo.kandidat.unntaksstatistikk",
       {
@@ -100,18 +91,9 @@ export const unleashToggles = (toggles: any, valgtEnhet: any, userId: any) => {
         user: userId,
       }
     ),
-
     "syfo.aktivitetskrav": unleash.isEnabled("syfo.aktivitetskrav", {
       valgtEnhet: valgtEnhet,
       user: userId,
     }),
-
-    "syfo.gjentakendesykefravar": unleash.isEnabled(
-      "syfo.gjentakendesykefravar",
-      {
-        valgtEnhet: valgtEnhet,
-        user: userId,
-      }
-    ),
   };
 };

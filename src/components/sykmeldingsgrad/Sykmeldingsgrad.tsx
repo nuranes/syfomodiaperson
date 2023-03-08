@@ -16,8 +16,6 @@ import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/pe
 import { useSykmeldingerQuery } from "@/data/sykmelding/sykmeldingQueryHooks";
 import { SyketilfelleList } from "@/components/nokkelinformasjon/SyketilfelleList";
 import styled from "styled-components";
-import { ToggleNames } from "@/data/unleash/unleash_types";
-import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
 import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
 
 const texts = {
@@ -39,9 +37,6 @@ export const Sykmeldingsgrad = () => {
 
   const [selectedOppfolgingstilfelle, setSelectedOppfolgingstilfelle] =
     useState<OppfolgingstilfelleDTO>(latestOppfolgingstilfelle);
-
-  const { isFeatureEnabled } = useFeatureToggles();
-  const showTilfelleList = isFeatureEnabled(ToggleNames.gjentakendesykefravar);
 
   const usedSykmeldinger = sendtAndBekreftetSykmeldinger(sykmeldinger);
   const sykmeldingerIOppfolgingstilfellet =
@@ -127,11 +122,11 @@ export const Sykmeldingsgrad = () => {
           </AreaChart>
         </ResponsiveContainer>
 
-        {showTilfelleList && (
+        {
           <SyketilfelleList
             changeSelectedTilfelle={setSelectedOppfolgingstilfelle}
           />
-        )}
+        }
       </ChartAndTilfeller>
 
       <Normaltekst>{texts.yAxis}</Normaltekst>
