@@ -69,6 +69,10 @@ spec:
       value: "prod-gcp.teamsykefravr.isaktivitetskrav"
     - name: ISAKTIVITETSKRAV_HOST
       value: "isaktivitetskrav.intern.nav.no"
+    - name: ISBEHANDLERDIALOG_AAD_APP_CLIENT_ID
+      value: "prod-gcp.teamsykefravr.isbehandlerdialog"
+    - name: ISBEHANDLERDIALOG_HOST
+      value: "isbehandlerdialog.intern.nav.no"
     - name: ISDIALOGMELDING_AAD_APP_CLIENT_ID
       value: "prod-gcp.teamsykefravr.isdialogmelding"
     - name: ISDIALOGMELDING_HOST

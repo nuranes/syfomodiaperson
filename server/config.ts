@@ -127,6 +127,16 @@ export const auth = {
     }),
     removePathPrefix: true,
   },
+  isbehandlerdialog: {
+    applicationName: "isbehandlerdialog",
+    clientId: envVar({
+      name: "ISBEHANDLERDIALOG_AAD_APP_CLIENT_ID",
+    }),
+    host: envVar({
+      name: "ISBEHANDLERDIALOG_HOST",
+    }),
+    removePathPrefix: true,
+  },
   isdialogmelding: {
     applicationName: "isdialogmelding",
     clientId: envVar({

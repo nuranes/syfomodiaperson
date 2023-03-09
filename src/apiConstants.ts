@@ -1,6 +1,7 @@
 export const EREG_ROOT = "/ereg/api/v1";
 export const FASTLEGEREST_ROOT = "/fastlegerest/api/v2/fastlege";
 export const ISAKTIVITETSKRAV_ROOT = "/isaktivitetskrav/api/internad/v1";
+export const ISBEHANDLERDIALOG_ROOT = "/isbehandlerdialog/api/internad/v1";
 export const ISDIALOGMOTE_ROOT = "/isdialogmote/api/v2";
 export const ISDIALOGMOTEKANDIDAT_ROOT =
   "/isdialogmotekandidat/api/internad/v1";

@@ -172,6 +172,23 @@ export const setupProxy = (authClient: any) => {
   );
 
   router.use(
+    "/isbehandlerdialog/*",
+    (
+      req: express.Request,
+      res: express.Response,
+      next: express.NextFunction
+    ) => {
+      proxyOnBehalfOf(
+        req,
+        res,
+        next,
+        authClient,
+        Config.auth.isbehandlerdialog
+      );
+    }
+  );
+
+  router.use(
     "/isdialogmote/*",
     (
       req: express.Request,
