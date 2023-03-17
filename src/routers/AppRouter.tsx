@@ -22,6 +22,7 @@ import DialogmoteEndreReferatContainer from "@/components/dialogmote/referat/Dia
 import DialogmoteunntakSkjemaContainer from "@/components/dialogmoteunntak/DialogmoteunntakSkjemaContainer";
 import { PersonsokSide } from "@/components/PersonsokSide";
 import { AktivitetskravContainer } from "@/components/aktivitetskrav/AktivitetskravContainer";
+import { BehandlerdialogContainer } from "@/components/behandlerdialog/BehandlerdialogContainer";
 
 export const appRoutePath = "/sykefravaer";
 
@@ -43,6 +44,10 @@ const AktivBrukerRouter = (): ReactElement => {
           <Route
             path={`${appRoutePath}/aktivitetskrav`}
             element={<AktivitetskravContainer />}
+          />
+          <Route
+            path={`${appRoutePath}/behandlerdialog`}
+            element={<BehandlerdialogContainer />}
           />
           <Route
             path={`${appRoutePath}/logg`}

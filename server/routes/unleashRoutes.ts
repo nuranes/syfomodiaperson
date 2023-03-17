@@ -91,5 +91,9 @@ export const unleashToggles = (toggles: any, valgtEnhet: any, userId: any) => {
         user: userId,
       }
     ),
+    "syfo.behandlerdialog": unleash.isEnabled("syfo.behandlerdialog", {
+      valgtEnhet: valgtEnhet,
+      user: userId,
+    }),
   };
 };
