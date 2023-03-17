@@ -12,8 +12,6 @@ import { useMotebehovQuery } from "@/data/motebehov/motebehovQueryHooks";
 import { toOppfolgingsplanLPSMedPersonoppgave } from "@/utils/oppfolgingsplanerUtils";
 import { VedtakMenypunkt } from "@/components/globalnavigasjon/VedtakMenypunkt";
 import { Menypunkt, Menypunkter } from "@/navigation/menypunkterTypes";
-import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
-import { ToggleNames } from "@/data/unleash/unleash_types";
 import { useAktivitetskravQuery } from "@/data/aktivitetskrav/aktivitetskravQueryHooks";
 
 const nokkelinformasjonMenypunkt = {
@@ -89,10 +87,6 @@ export const GlobalNavigasjon = ({
   const { data: oppfolgingsplanerLPS } = useOppfolgingsplanerLPSQuery();
   const { data: motebehov } = useMotebehovQuery();
   const { data: aktivitetskrav } = useAktivitetskravQuery();
-  const { isFeatureEnabled } = useFeatureToggles();
-  const showAktivitetskravMenypunkt = isFeatureEnabled(
-    ToggleNames.aktivitetskrav
-  );
 
   const oppfolgingsplanerLPSMedPersonOppgave = oppfolgingsplanerLPS.map(
     (oppfolgingsplanLPS) =>
@@ -147,11 +141,6 @@ export const GlobalNavigasjon = ({
         );
 
         const isVedtakMenypunkt = menypunkt === Menypunkter.VEDTAK;
-        const isAktivitetskravMenypunkt =
-          menypunkt === Menypunkter.AKTIVITETSKRAV;
-        if (isAktivitetskravMenypunkt && !showAktivitetskravMenypunkt) {
-          return null;
-        }
 
         return (
           <React.Fragment key={index}>

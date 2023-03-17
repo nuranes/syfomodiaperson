@@ -6,10 +6,7 @@ import { expect } from "chai";
 import { MemoryRouter } from "react-router-dom";
 import { oppfolgingsplanQueryKeys } from "@/data/oppfolgingsplan/oppfolgingsplanQueryHooks";
 import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQueryHooks";
-import {
-  queryClientWithAktivBruker,
-  queryClientWithMockData,
-} from "../testQueryClient";
+import { queryClientWithAktivBruker } from "../testQueryClient";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import { Menypunkter } from "@/navigation/menypunkterTypes";
 import { navEnhet } from "../dialogmote/testData";
@@ -51,6 +48,7 @@ describe("GlobalNavigasjon", () => {
     renderGlobalNavigasjon();
     const navnMenypunkter = [
       "Nøkkelinformasjon",
+      "Aktivitetskrav",
       "Logg",
       "Sykmeldinger",
       "Søknader om sykepenger",
@@ -63,14 +61,6 @@ describe("GlobalNavigasjon", () => {
     linker.forEach((link, index) => {
       expect(link.textContent).to.equal(navnMenypunkter[index]);
     });
-  });
-  it("viser link til Aktivitetskrav når toggle enabled", () => {
-    queryClient = queryClientWithMockData();
-    renderGlobalNavigasjon();
-
-    const linker = screen.getAllByRole("link");
-    expect(linker.some((link) => link.textContent == "Aktivitetskrav")).to.be
-      .true;
   });
   it("viser aktivt menypunkt", () => {
     renderGlobalNavigasjon();

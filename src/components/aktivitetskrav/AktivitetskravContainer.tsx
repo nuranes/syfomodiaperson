@@ -6,9 +6,6 @@ import { useAktivitetskravQuery } from "@/data/aktivitetskrav/aktivitetskravQuer
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import SideLaster from "@/components/SideLaster";
 import { AktivitetskravSide } from "@/components/aktivitetskrav/AktivitetskravSide";
-import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
-import { ToggleNames } from "@/data/unleash/unleash_types";
-import Feilmelding from "@/components/Feilmelding";
 
 const texts = {
   title: "Aktivitetskrav",
@@ -16,9 +13,6 @@ const texts = {
 };
 
 export const AktivitetskravContainer = (): ReactElement => {
-  const { isFeatureEnabled, isFetched } = useFeatureToggles();
-  const manglerTilgangAktivitetskrav =
-    isFetched && !isFeatureEnabled(ToggleNames.aktivitetskrav);
   const {
     isInitialLoading: henterAktivitetskrav,
     isError: hentAktivitetskravFeilet,
@@ -31,10 +25,6 @@ export const AktivitetskravContainer = (): ReactElement => {
   const henter = henterAktivitetskrav || henterOppfolgingstilfeller;
   const hentingFeilet =
     hentAktivitetskravFeilet || hentOppfolgingstilfellerFeilet;
-
-  if (manglerTilgangAktivitetskrav) {
-    return <Feilmelding tittel={texts.noAccess} melding={""} />;
-  }
 
   return (
     <Side tittel={texts.title} aktivtMenypunkt={Menypunkter.AKTIVITETSKRAV}>
