@@ -1,5 +1,5 @@
 import express = require("express");
-import { ISBEHANDLERDIALOG_ROOT } from "@/apiConstants";
+import { ISBEHANDLERDIALOG_ROOT } from "../../src/apiConstants";
 import Auth = require("../../server/auth");
 import { NAV_PERSONIDENT_HEADER } from "../util/requestUtil";
 
