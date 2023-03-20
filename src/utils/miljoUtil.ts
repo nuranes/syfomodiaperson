@@ -3,7 +3,10 @@ export const erProd = () => {
 };
 
 export const erPreProd = () => {
-  return window.location.href.indexOf("syfomodiaperson.dev.intern.nav.no") > -1;
+  return (
+    window.location.href.indexOf("syfomodiaperson.dev.intern.nav.no") > -1 ||
+    window.location.href.indexOf("syfomodiaperson.intern.dev.nav.no") > -1
+  );
 };
 
 export const finnMiljoStreng = () => {

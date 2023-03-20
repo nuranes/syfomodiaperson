@@ -10,7 +10,7 @@ export const spinnsynUrl = function () {
     return path;
   }
   if (erPreProd()) {
-    `https://spinnsyn-frontend-interne.intern.dev.nav.no${path}`;
+    return `https://spinnsyn-frontend-interne.intern.dev.nav.no${path}`;
   }
   return fullNaisUrlIntern("spinnsyn-frontend-interne", path);
 };

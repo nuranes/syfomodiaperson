@@ -38,8 +38,6 @@ spec:
       allowAllUsers: true
       enabled: true
       tenant: trygdeetaten.no
-      replyURLs:
-        - "https://syfomodiaperson.dev.intern.nav.no/oauth2/callback"
       claims:
         extra:
           - "NAVident"
@@ -60,13 +58,13 @@ spec:
     - name: FASTLEGEREST_AAD_APP_CLIENT_ID
       value: "dev-gcp.teamsykefravr.fastlegerest"
     - name: FASTLEGEREST_HOST
-      value: "fastlegerest.dev.intern.nav.no"
+      value: "fastlegerest.intern.dev.nav.no"
     - name: INTERNARBEIDSFLATEDECORATOR_HOST
       value: "internarbeidsflatedecorator-q0.dev.intern.nav.no"
     - name: ISAKTIVITETSKRAV_AAD_APP_CLIENT_ID
       value: "dev-gcp.teamsykefravr.isaktivitetskrav"
     - name: ISAKTIVITETSKRAV_HOST
-      value: "isaktivitetskrav.dev.intern.nav.no"
+      value: "isaktivitetskrav.intern.dev.nav.no"
     - name: ISBEHANDLERDIALOG_AAD_APP_CLIENT_ID
       value: "dev-gcp.teamsykefravr.isbehandlerdialog"
     - name: ISBEHANDLERDIALOG_HOST
@@ -74,39 +72,39 @@ spec:
     - name: ISDIALOGMELDING_AAD_APP_CLIENT_ID
       value: "dev-gcp.teamsykefravr.isdialogmelding"
     - name: ISDIALOGMELDING_HOST
-      value: "isdialogmelding.dev.intern.nav.no"
+      value: "isdialogmelding.intern.dev.nav.no"
     - name: ISDIALOGMOTE_AAD_APP_CLIENT_ID
       value: "1705435b-f7e7-49d6-9fae-89375f28d68f"
     - name: ISDIALOGMOTE_HOST
-      value: "isdialogmote.dev.intern.nav.no"
+      value: "isdialogmote.intern.dev.nav.no"
     - name: ISDIALOGMOTEKANDIDAT_AAD_APP_CLIENT_ID
       value: "dev-gcp.teamsykefravr.isdialogmotekandidat"
     - name: ISDIALOGMOTEKANDIDAT_HOST
-      value: "isdialogmotekandidat.dev.intern.nav.no"
+      value: "isdialogmotekandidat.intern.dev.nav.no"
     - name: ISNARMESTELEDER_AAD_APP_CLIENT_ID
       value: "dev-gcp.teamsykefravr.isnarmesteleder"
     - name: ISNARMESTELEDER_HOST
-      value: "isnarmesteleder.dev.intern.nav.no"
+      value: "isnarmesteleder.intern.dev.nav.no"
     - name: ISOPPFOLGINGSTILFELLE_HOST
-      value: "isoppfolgingstilfelle.dev.intern.nav.no"
+      value: "isoppfolgingstilfelle.intern.dev.nav.no"
     - name: ISOPPFOLGINGSTILFELLE_AAD_APP_CLIENT_ID
       value: "dev-gcp.teamsykefravr.isoppfolgingstilfelle"
     - name: ISPENGESTOPP_AAD_APP_CLIENT_ID
       value: "dev-gcp.teamsykefravr.ispengestopp"
     - name: ISPENGESTOPP_HOST
-      value: "ispengestopp.dev.intern.nav.no"
+      value: "ispengestopp.intern.dev.nav.no"
     - name: ISPERSONOPPGAVE_AAD_APP_CLIENT_ID
       value: "dev-gcp.teamsykefravr.ispersonoppgave"
     - name: MODIACONTEXTHOLDER_AAD_APP_CLIENT_ID
       value: "dev-fss.personoversikt.modiacontextholder-q1"
     - name: ISPERSONOPPGAVE_HOST
-      value: "ispersonoppgave.dev.intern.nav.no"
+      value: "ispersonoppgave.intern.dev.nav.no"
     - name: MODIACONTEXTHOLDER_HOST
       value: "modiacontextholder-q1.dev.intern.nav.no"
     - name: SYFOBEHANDLENDEENHET_AAD_APP_CLIENT_ID
       value: "dev-gcp.teamsykefravr.syfobehandlendeenhet"
     - name: SYFOBEHANDLENDEENHET_HOST
-      value: "syfobehandlendeenhet.dev.intern.nav.no"
+      value: "syfobehandlendeenhet.intern.dev.nav.no"
     - name: EREG_HOST
       value: "ereg-services-q1.dev.intern.nav.no"
     - name: SYFOMOTEBEHOV_AAD_APP_CLIENT_ID
@@ -120,7 +118,7 @@ spec:
     - name: SYFOPERSON_AAD_APP_CLIENT_ID
       value: "dev-gcp.teamsykefravr.syfoperson"
     - name: SYFOPERSON_HOST
-      value: "syfoperson.dev.intern.nav.no"
+      value: "syfoperson.intern.dev.nav.no"
     - name: SYFOSMREGISTER_AAD_APP_CLIENT_ID
       value: "dev-gcp.teamsykmelding.syfosmregister"
     - name: SYFOSMREGISTER_HOST
@@ -136,5 +134,5 @@ spec:
     - name: SYFOVEILEDER_AAD_APP_CLIENT_ID
       value: "dev-gcp.teamsykefravr.syfoveileder"
     - name: SYFOVEILEDER_HOST
-      value: "syfoveileder.dev.intern.nav.no"
+      value: "syfoveileder.intern.dev.nav.no"
 
