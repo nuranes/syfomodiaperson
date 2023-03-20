@@ -8,52 +8,11 @@ on:
         required: true
         default: ""
 
-env:
-  IMAGE: ghcr.io/${{ github.repository }}/syfomodiaperson:${{ github.event.inputs.gitCommit }}
-
 jobs:
-  build:
-    name: Check if built, if not, Checkout code and create docker tag
-    runs-on: ubuntu-latest
-    steps:
-      - name: check if built
-        run: |
-          manifest=$(curl -X GET "https://ghcr.io/v2/navikt/syfomodiaperson/syfomodiaperson/manifests/${{ github.event.inputs.gitCommit }}" -u "$GITHUB_ACTOR:${{ secrets.GITHUB_TOKEN }}" | jq '.')
-          echo ${manifest}
-          found=$(echo "$manifest" | grep "schemaVersion" || true)
-          echo ${found}
-          echo "found_image=$found" >> $GITHUB_ENV
-      - name: Checkout code
-        if: ${{ !env.found_image }}
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ github.event.inputs.gitCommit }}
-      - name: Use Node
-        if: ${{ !env.found_image }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: "14"
-      - name: Install and build
-        if: ${{ !env.found_image }}
-        run: |
-          npm install && npm run build && npm prune --production
-      - name: Build and publish Docker image if not already done
-        if: ${{ !env.found_image }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          docker build --tag ${IMAGE} .
-          docker login ghcr.io -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
-          docker push ${IMAGE}
-          echo ${IMAGE}
   deploy-dev:
     name: Deploy to NAIS Dev-fss
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: nais/deploy/actions/deploy@v1
-        env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          CLUSTER: dev-fss
-          RESOURCE: .nais/naiserator-dev.yaml
+    uses: navikt/isworkflows/.github/workflows/manual-deploy-dev.yml@master
+    with:
+      git-commit: ${{ github.event.inputs.gitCommit }}
+      dev-cluster: dev-fss
+    secrets: inherit

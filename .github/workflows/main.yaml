@@ -1,83 +1,10 @@
 name: main
 on: push
 
-env:
-  IMAGE: ghcr.io/${{ github.repository }}/syfomodiaperson:${{ github.sha }}
-
 jobs:
-  build:
-    name: Checkout code and create docker tag
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Use Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: "14"
-      - name: Cache node modules
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-      - name: Install deps
-        run: |
-          npm install
-      - name: Prettier check 💅
-        run: |
-          npx prettier --check .
-      - name: Run lint and typecheck
-        run: |
-          npm run lint-and-typecheck
-      - name: Run unit tests
-        run: |
-          npm run test
-      - name: Build
-        run: |
-          npm run build
-      - name: Prune
-        run: |
-          npm prune --production
-      - name: Build Docker image
-        run: |
-          docker build -t ${IMAGE} .
-      - name: Login to Github Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Push Docker image
-        run: |
-          docker push ${IMAGE}
-          echo ${IMAGE}
-
-  deploy-dev:
-    if: github.ref == 'refs/heads/master'
-    name: Deploy to NAIS Dev-fss
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: nais/deploy/actions/deploy@v1
-        env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          CLUSTER: dev-fss
-          RESOURCE: .nais/naiserator-dev.yaml
-
-  deploy-prod:
-    if: github.ref == 'refs/heads/master'
-    name: Deploy to NAIS Prod-fss
-    needs: deploy-dev
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: nais/deploy/actions/deploy@v1
-        env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          CLUSTER: prod-fss
-          RESOURCE: .nais/naiserator-prod.yaml
+  build-and-deploy:
+    uses: navikt/isworkflows/.github/workflows/node-build-deploy.yml@master
+    with:
+      dev-cluster: dev-fss
+      prod-cluster: prod-fss
+    secrets: inherit
