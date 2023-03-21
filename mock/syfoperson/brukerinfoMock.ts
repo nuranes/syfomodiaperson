@@ -12,4 +12,5 @@ export const brukerinfoMock = {
     skalHaVarsel: true,
   },
   arbeidssituasjon: "ARBEIDSTAKER",
+  dodsdato: null,
 };

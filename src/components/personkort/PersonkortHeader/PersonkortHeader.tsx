@@ -19,10 +19,12 @@ import { SyketilfelleSummary } from "@/components/personkort/PersonkortHeader/Sy
 import { Refresh } from "@navikt/ds-icons";
 import { Tooltip } from "@navikt/ds-react";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
+import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
 
 const texts = {
   copied: "Kopiert!",
   fetchDiskresjonskodeFailed: "Klarte ikke hente diskresjonskode for brukeren.",
+  dod: "Død",
 };
 
 const StyledFnr = styled.div`
@@ -49,11 +51,16 @@ const PersonkortHeader = () => {
   const navbruker = useNavBrukerData();
   const { error, data: diskresjonskode } = useDiskresjonskodeQuery();
 
-  const visEtiketter =
-    diskresjonskode === "6" || diskresjonskode === "7" || isEgenAnsatt;
-
   const personident = useValgtPersonident();
   const { hasGjentakendeSykefravar } = useOppfolgingstilfellePersonQuery();
+  const isDead = !!navbruker.dodsdato;
+  const dateOfDeath = tilLesbarDatoMedArUtenManedNavn(navbruker.dodsdato);
+
+  const visEtiketter =
+    diskresjonskode === "6" ||
+    diskresjonskode === "7" ||
+    isEgenAnsatt ||
+    isDead;
 
   return (
     <div className="personkortHeader">
@@ -104,6 +111,11 @@ const PersonkortHeader = () => {
             {isEgenAnsatt && (
               <EtikettBase mini type="fokus">
                 Egenansatt
+              </EtikettBase>
+            )}
+            {isDead && (
+              <EtikettBase mini type="advarsel">
+                {`${texts.dod} ${dateOfDeath}`}
               </EtikettBase>
             )}
           </div>

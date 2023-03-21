@@ -22,13 +22,17 @@ export const useBrukerinfoQuery = () => {
       staleTime: minutesToMillis(60 * 12),
     }
   );
+
+  const defaultData: BrukerinfoDTO = {
+    navn: "",
+    kontaktinfo: undefined,
+    arbeidssituasjon: "ARBEIDSTAKER",
+    dodsdato: null,
+  };
+
   return {
     ...query,
-    brukerinfo: query.data || {
-      navn: "",
-      kontaktinfo: undefined,
-      arbeidssituasjon: "ARBEIDSTAKER",
-    },
+    brukerinfo: query.data || defaultData,
     brukerKanIkkeVarslesDigitalt:
       query.data?.kontaktinfo?.skalHaVarsel === false,
     brukerKanVarslesDigitalt: query.data?.kontaktinfo?.skalHaVarsel === true,

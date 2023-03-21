@@ -8,4 +8,5 @@ export interface BrukerinfoDTO {
   navn: string;
   kontaktinfo?: KontaktinfoDTO;
   arbeidssituasjon: string;
+  dodsdato: string | null;
 }

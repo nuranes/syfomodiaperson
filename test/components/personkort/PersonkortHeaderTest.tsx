@@ -1,6 +1,7 @@
 import {
   stubDiskresjonskodeApi,
   stubEgenansattApi,
+  stubPersoninfoApi,
 } from "../../stubs/stubSyfoperson";
 import { apiMock } from "../../stubs/stubApi";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -10,9 +11,6 @@ import React from "react";
 import PersonkortHeader from "@/components/personkort/PersonkortHeader/PersonkortHeader";
 import { expect } from "chai";
 import { queryClientWithAktivBruker } from "../../testQueryClient";
-import { ARBEIDSTAKER_DEFAULT } from "../../../mock/common/mockConstants";
-import { brukerinfoQueryKeys } from "@/data/navbruker/navbrukerQueryHooks";
-import { brukerinfoMock } from "../../../mock/syfoperson/brukerinfoMock";
 import { ValgtEnhetProvider } from "@/context/ValgtEnhetContext";
 
 let queryClient: any;
@@ -30,10 +28,6 @@ const renderPersonkortHeader = () =>
 describe("PersonkortHeader", () => {
   beforeEach(() => {
     queryClient = queryClientWithAktivBruker();
-    queryClient.setQueryData(
-      brukerinfoQueryKeys.brukerinfo(ARBEIDSTAKER_DEFAULT.personIdent),
-      () => brukerinfoMock
-    );
     apiMockScope = apiMock();
   });
   afterEach(() => {
@@ -50,8 +44,9 @@ describe("PersonkortHeader", () => {
 
   it("viser ikke 'Egenansatt' når isEgenansatt er false fra API", async () => {
     stubEgenansattApi(apiMockScope, false);
-    stubDiskresjonskodeApi(apiMockScope);
+    stubDiskresjonskodeApi(apiMockScope, "6");
     renderPersonkortHeader();
+    await screen.findByText("Kode 6");
 
     expect(screen.queryByText("Egenansatt")).not.to.exist;
   });
@@ -76,7 +71,24 @@ describe("PersonkortHeader", () => {
     stubEgenansattApi(apiMockScope, true);
     stubDiskresjonskodeApi(apiMockScope);
     renderPersonkortHeader();
+    await screen.findByText("Egenansatt");
 
     expect(screen.queryByText("Kode")).not.to.exist;
+  });
+
+  it("viser dødsdato når dato finnes i brukerinfo", async () => {
+    stubPersoninfoApi(apiMockScope, "2023-02-01");
+    renderPersonkortHeader();
+
+    expect(await screen.findByText("Død 01.02.2023")).to.exist;
+  });
+
+  it("viser ikke dødsdato når det ikke finnes i brukerinfo", async () => {
+    stubEgenansattApi(apiMockScope, true);
+    stubPersoninfoApi(apiMockScope);
+    renderPersonkortHeader();
+    await screen.findByText("Egenansatt");
+
+    expect(screen.queryByText("Død")).not.to.exist;
   });
 });
