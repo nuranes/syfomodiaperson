@@ -8,7 +8,6 @@ import {
   tilLesbarDatoMedArUtenManedNavn,
 } from "@/utils/datoUtils";
 import React, { ReactElement } from "react";
-import { FlexRow, PaddingSize } from "@/components/Layout";
 import { Element, Normaltekst } from "nav-frontend-typografi";
 import { avventVurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
 import { AktivitetskravAlertstripe } from "@/components/aktivitetskrav/AktivitetskravAlertstripe";
@@ -44,18 +43,13 @@ export const AktivitetskravVurderingAlert = ({
           <Element>
             Avventer - {tilDatoMedManedNavn(vurdering.createdAt)}
           </Element>
-          <FlexRow topPadding={PaddingSize.SM}>
-            <Normaltekst>{vurdering.beskrivelse}</Normaltekst>
-          </FlexRow>
-          <FlexRow topPadding={PaddingSize.SM}>
-            <ul>
-              {vurdering.arsaker.map((arsak, index) => {
-                const avventArsakText =
-                  avventVurderingArsakTexts[arsak] || arsak;
-                return <li key={index}>{avventArsakText}</li>;
-              })}
-            </ul>
-          </FlexRow>
+          <Normaltekst>{vurdering.beskrivelse}</Normaltekst>
+          <ul>
+            {vurdering.arsaker.map((arsak, index) => {
+              const avventArsakText = avventVurderingArsakTexts[arsak] || arsak;
+              return <li key={index}>{avventArsakText}</li>;
+            })}
+          </ul>
         </AktivitetskravAlertstripe>
       );
     }

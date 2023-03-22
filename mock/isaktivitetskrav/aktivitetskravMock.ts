@@ -62,6 +62,28 @@ const aktivitetskravOppfylt = {
     },
   ],
 };
+
+const aktivitetskravAvvent = {
+  uuid: generateUUID(),
+  createdAt: daysFromToday(-20),
+  status: AktivitetskravStatus.OPPFYLT,
+  stoppunktAt: daysFromToday(20),
+  vurderinger: [
+    {
+      uuid: generateUUID(),
+      createdAt: daysFromToday(-10),
+      createdBy: VEILEDER_DEFAULT.ident,
+      status: AktivitetskravStatus.AVVENT,
+      beskrivelse:
+        "Dette er tekst som forklarer hvorfor jeg avventer. Lorem ipsum! Jeg sendte epost til arbeidsgiver og ba om oppfølgingsplan. Jeg har også sendt forespørsel til behandler (men jeg skulle ønske jeg kunne sende dialogmeldinger fra modia!)",
+      arsaker: [
+        AvventVurderingArsak.OPPFOLGINGSPLAN_ARBEIDSGIVER,
+        AvventVurderingArsak.INFORMASJON_BEHANDLER,
+      ],
+    },
+  ],
+};
+
 const aktivitetskravAutomatiskOppfylt = {
   uuid: generateUUID(),
   createdAt: daysFromToday(-350),
