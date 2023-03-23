@@ -41,15 +41,14 @@ export const UnntakAktivitetskravSkjema = (
   return (
     <VurderAktivitetskravSkjema<UnntakAktivitetskravSkjemaValues>
       title={texts.title}
-      arsakVelger={
-        <VurderAktivitetskravArsakRadioGruppe
-          arsakTexts={unntakVurderingArsakTexts}
-        />
-      }
-      beskrivelse={<VurderAktivitetskravBeskrivelse />}
       toDto={(values) => createDto([values.arsak], values.beskrivelse)}
       validate={validate}
       {...props}
-    />
+    >
+      <VurderAktivitetskravArsakRadioGruppe
+        arsakTexts={unntakVurderingArsakTexts}
+      />
+      <VurderAktivitetskravBeskrivelse />
+    </VurderAktivitetskravSkjema>
   );
 };

@@ -41,15 +41,14 @@ export const OppfyltAktivitetskravSkjema = (
   return (
     <VurderAktivitetskravSkjema<OppfyltAktivitetskravSkjemaValues>
       title={texts.title}
-      arsakVelger={
-        <VurderAktivitetskravArsakRadioGruppe
-          arsakTexts={oppfyltVurderingArsakTexts}
-        />
-      }
-      beskrivelse={<VurderAktivitetskravBeskrivelse />}
       toDto={(values) => createDto([values.arsak], values.beskrivelse)}
       validate={validate}
       {...props}
-    />
+    >
+      <VurderAktivitetskravArsakRadioGruppe
+        arsakTexts={oppfyltVurderingArsakTexts}
+      />
+      <VurderAktivitetskravBeskrivelse />
+    </VurderAktivitetskravSkjema>
   );
 };

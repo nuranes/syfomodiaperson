@@ -18,6 +18,9 @@ import {
   VurderAktivitetskravBeskrivelse,
   vurderAktivitetskravBeskrivelseFieldName,
 } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravBeskrivelse";
+import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
+import { ToggleNames } from "@/data/unleash/unleash_types";
+import { AvventFristDato } from "@/components/aktivitetskrav/vurdering/AvventFristDato";
 
 const texts = {
   title: "Avventer",
@@ -35,6 +38,10 @@ interface AvventAktivitetskravSkjemaValues {
 export const AvventAktivitetskravSkjema = (
   props: VurderAktivitetskravSkjemaProps
 ) => {
+  const { isFeatureEnabled } = useFeatureToggles();
+  const visFristFelt = isFeatureEnabled(
+    ToggleNames.aktivitetskravVurderingFrist
+  );
   const { createDto, validateArsakerField, validateBeskrivelseField } =
     useAktivitetskravVurderingSkjema(AktivitetskravStatus.AVVENT);
 
@@ -52,13 +59,13 @@ export const AvventAktivitetskravSkjema = (
           <Normaltekst>{texts.subtitle2}</Normaltekst>
         </FlexColumn>
       }
-      beskrivelse={
-        <VurderAktivitetskravBeskrivelse label={texts.beskrivelseLabel} />
-      }
-      arsakVelger={<AvventArsakerCheckboxGruppe />}
       toDto={(values) => createDto(values.arsaker, values.beskrivelse)}
       validate={validate}
       {...props}
-    />
+    >
+      <AvventArsakerCheckboxGruppe />
+      <VurderAktivitetskravBeskrivelse label={texts.beskrivelseLabel} />
+      {visFristFelt && <AvventFristDato />}
+    </VurderAktivitetskravSkjema>
   );
 };
