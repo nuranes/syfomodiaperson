@@ -15,4 +15,5 @@ export interface BehandlerDTO {
 
 export enum BehandlerType {
   FASTLEGE = "FASTLEGE",
+  SYKMELDER = "SYKMELDER",
 }
