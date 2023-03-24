@@ -6,7 +6,7 @@ import DialogmoteInnkallingSkjemaSeksjon from "@/components/dialogmote/innkallin
 import AppSpinner from "@/components/AppSpinner";
 import BehandlerRadioGruppe, {
   BehandlerRadioGruppeTexts,
-} from "../../behandler/BehandlerRadioGruppe";
+} from "@/components/behandler/BehandlerRadioGruppe";
 import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
 import { useBehandlereQuery } from "@/data/behandler/behandlereQueryHooks";
 import { SkjemaelementFeilmelding } from "nav-frontend-skjema";

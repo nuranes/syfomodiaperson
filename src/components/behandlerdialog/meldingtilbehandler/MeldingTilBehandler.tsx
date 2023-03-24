@@ -1,18 +1,18 @@
 import React from "react";
-import { SkrivTilBehandlerSkjema } from "@/components/behandlerdialog/skrivtilbehandler/SkrivTilBehandlerSkjema";
+import { MeldingTilBehandlerSkjema } from "@/components/behandlerdialog/meldingtilbehandler/MeldingTilBehandlerSkjema";
 import { Heading } from "@navikt/ds-react";
 
 export const texts = {
   header: "Skriv til behandler",
 };
 
-export const SkrivTilBehandler = () => {
+export const MeldingTilBehandler = () => {
   return (
     <>
       <Heading level={"1"} size={"large"}>
         {texts.header}
       </Heading>
-      <SkrivTilBehandlerSkjema />
+      <MeldingTilBehandlerSkjema />
     </>
   );
 };

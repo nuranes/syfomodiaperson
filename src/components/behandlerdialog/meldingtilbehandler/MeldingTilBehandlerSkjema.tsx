@@ -3,13 +3,13 @@ import { SkjemaFeiloppsummering } from "@/components/SkjemaFeiloppsummering";
 import { FlexRow } from "@/components/Layout";
 import { Button } from "@navikt/ds-react";
 import { Form } from "react-final-form";
-import { VelgBehandler } from "@/components/behandlerdialog/skrivtilbehandler/VelgBehandler";
+import { VelgBehandler } from "@/components/behandlerdialog/meldingtilbehandler/VelgBehandler";
 import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
 import styled from "styled-components";
 import {
   MeldingTekstfelt,
   meldingTekstField,
-} from "@/components/behandlerdialog/skrivtilbehandler/MeldingTekstfelt";
+} from "@/components/behandlerdialog/meldingtilbehandler/MeldingTekstfelt";
 import {
   behandlerRefValidationErrors,
   validerSkjemaTekster,
@@ -46,7 +46,7 @@ interface SkrivTilBehandlerSkjemaFritekstfelter {
 
 export const MAX_LENGTH_BEHANDLER_MELDING = 2000; // TODO: må bli enige om noe her
 
-export const SkrivTilBehandlerSkjema = () => {
+export const MeldingTilBehandlerSkjema = () => {
   const [selectedBehandler, setSelectedBehandler] = useState<BehandlerDTO>();
   const { harIkkeUtbedretFeil, resetFeilUtbedret, updateFeilUtbedret } =
     useFeilUtbedret();

@@ -5,44 +5,44 @@ import { navEnhet } from "../dialogmote/testData";
 import React from "react";
 import { queryClientWithMockData } from "../testQueryClient";
 import { expect } from "chai";
-import { SkrivTilBehandler } from "@/components/behandlerdialog/skrivtilbehandler/SkrivTilBehandler";
+import { MeldingTilBehandler } from "@/components/behandlerdialog/meldingtilbehandler/MeldingTilBehandler";
 import { changeTextInput, clickButton, getTextInput } from "../testUtils";
 
 let queryClient: QueryClient;
 
-const renderSkrivTilBehandler = () => {
+const renderMeldingTilBehandler = () => {
   render(
     <QueryClientProvider client={queryClient}>
       <ValgtEnhetContext.Provider
         value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
       >
-        <SkrivTilBehandler />
+        <MeldingTilBehandler />
       </ValgtEnhetContext.Provider>
     </QueryClientProvider>
   );
 };
 
-describe("Skriv til behandler", () => {
+describe("Melding til behandler", () => {
   beforeEach(() => {
     queryClient = queryClientWithMockData();
   });
 
-  it("Viser SkrivTilBehandler side", () => {
-    renderSkrivTilBehandler();
+  it("Viser MeldingTilBehandler side", () => {
+    renderMeldingTilBehandler();
 
     expect(screen.getByRole("heading", { name: "Skriv til behandler" })).to
       .exist;
   });
 
   it("Viser radiobuttons med behandlervalg, der det ikke er mulig å velge 'Ingen behandler'", () => {
-    renderSkrivTilBehandler();
+    renderMeldingTilBehandler();
 
     expect(screen.queryByText("Ingen behandler")).to.not.exist;
     expect(screen.getByText("Søk etter behandler")).to.exist;
   });
 
   it("Viser behandlersøk ved klikk på radiobutton 'Søk etter behandler'", () => {
-    renderSkrivTilBehandler();
+    renderMeldingTilBehandler();
 
     const sokBehandlerRadioButton = screen.getByText("Søk etter behandler");
     fireEvent.click(sokBehandlerRadioButton);
@@ -54,8 +54,8 @@ describe("Skriv til behandler", () => {
     ).to.exist;
   });
 
-  it("Validerer SkrivTilBehandlerSkjema ved innsending", () => {
-    renderSkrivTilBehandler();
+  it("Validerer MeldingTilBehandlerSkjema ved innsending", () => {
+    renderMeldingTilBehandler();
 
     clickButton("Send til behandler");
 

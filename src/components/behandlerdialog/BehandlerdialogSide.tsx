@@ -1,5 +1,5 @@
 import React from "react";
-import { SkrivTilBehandler } from "@/components/behandlerdialog/skrivtilbehandler/SkrivTilBehandler";
+import { MeldingTilBehandler } from "@/components/behandlerdialog/meldingtilbehandler/MeldingTilBehandler";
 import styled from "styled-components";
 import { Panel } from "@navikt/ds-react";
 
@@ -13,7 +13,7 @@ export const BehandlerdialogPanel = styled(Panel)`
 export const BehandlerdialogSide = () => {
   return (
     <BehandlerdialogPanel>
-      <SkrivTilBehandler />
+      <MeldingTilBehandler />
     </BehandlerdialogPanel>
   );
 };

@@ -2,7 +2,7 @@ import React from "react";
 import { Textarea } from "@navikt/ds-react";
 import styled from "styled-components";
 import { Field } from "react-final-form";
-import { MAX_LENGTH_BEHANDLER_MELDING } from "@/components/behandlerdialog/skrivtilbehandler/SkrivTilBehandlerSkjema";
+import { MAX_LENGTH_BEHANDLER_MELDING } from "@/components/behandlerdialog/meldingtilbehandler/MeldingTilBehandlerSkjema";
 import { SkjemaelementFeilmelding } from "nav-frontend-skjema";
 
 const texts = {
