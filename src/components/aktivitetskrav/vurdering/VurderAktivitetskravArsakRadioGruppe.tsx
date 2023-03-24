@@ -1,7 +1,7 @@
-import { Radio, RadioGruppe } from "nav-frontend-skjema";
 import React from "react";
 import { Field, useFormState } from "react-final-form";
 import { VurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
+import { Radio, RadioGroup } from "@navikt/ds-react";
 
 const texts = {
   arsakLegend: "Årsak (obligatorisk)",
@@ -19,9 +19,10 @@ export const VurderAktivitetskravArsakRadioGruppe = ({
   const { submitFailed, errors } = useFormState();
 
   return (
-    <RadioGruppe
+    <RadioGroup
+      size="small"
       legend={texts.arsakLegend}
-      feil={
+      error={
         submitFailed && errors && errors[vurderAktivitetskravArsakFieldName]
       }
     >
@@ -32,9 +33,9 @@ export const VurderAktivitetskravArsakRadioGruppe = ({
           value={arsak}
           type="radio"
         >
-          {({ input }) => <Radio {...input} label={text} />}
+          {({ input }) => <Radio {...input}>{text}</Radio>}
         </Field>
       ))}
-    </RadioGruppe>
+    </RadioGroup>
   );
 };

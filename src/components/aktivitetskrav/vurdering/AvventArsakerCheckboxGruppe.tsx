@@ -1,7 +1,7 @@
-import { Checkbox, CheckboxGruppe } from "nav-frontend-skjema";
 import React from "react";
 import { Field, useFormState } from "react-final-form";
 import { avventVurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
+import { Checkbox, CheckboxGroup } from "@navikt/ds-react";
 
 const texts = {
   arsakLegend: "Årsak (obligatorisk)",
@@ -13,9 +13,10 @@ export const AvventArsakerCheckboxGruppe = () => {
   const { submitFailed, errors } = useFormState();
 
   return (
-    <CheckboxGruppe
+    <CheckboxGroup
+      size="small"
       legend={texts.arsakLegend}
-      feil={
+      error={
         submitFailed && errors && errors[vurderAktivitetskravArsakerFieldName]
       }
     >
@@ -26,9 +27,13 @@ export const AvventArsakerCheckboxGruppe = () => {
           type="checkbox"
           value={arsak}
         >
-          {({ input }) => <Checkbox {...input} label={text} />}
+          {({ input }) => (
+            <Checkbox value={input.value} onChange={input.onChange}>
+              {text}
+            </Checkbox>
+          )}
         </Field>
       ))}
-    </CheckboxGruppe>
+    </CheckboxGroup>
   );
 };
