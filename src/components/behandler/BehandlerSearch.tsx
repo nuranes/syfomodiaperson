@@ -1,8 +1,8 @@
 import React, { ReactElement, useRef, useState } from "react";
 import "@navikt/ds-css";
 import { Search } from "@navikt/ds-react";
-import BehandlerSearchResult from "@/components/dialogmote/innkalling/BehandlerSearchResult";
-import { BehandlerAlert } from "@/components/dialogmote/innkalling/BehandlerAlert";
+import BehandlerSearchResult from "@/components/behandler/BehandlerSearchResult";
+import { BehandlerAlert } from "@/components/behandler/BehandlerAlert";
 import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
 import styled from "styled-components";
 
@@ -15,10 +15,12 @@ const SearchWrapper = styled.div`
 
 interface BehandlerSearchProps {
   setSelectedBehandler: (behandler?: BehandlerDTO) => void;
+  label: string;
 }
 
 const BehandlerSearch = ({
   setSelectedBehandler,
+  label,
 }: BehandlerSearchProps): ReactElement => {
   const searchRef = useRef(null);
   const [searchValue, setSearchValue] = useState("");
@@ -38,7 +40,7 @@ const BehandlerSearch = ({
     <>
       <SearchWrapper>
         <Search
-          label="Legg til en behandler"
+          label={label}
           ref={searchRef}
           size="small"
           variant="simple"

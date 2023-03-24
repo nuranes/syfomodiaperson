@@ -166,7 +166,7 @@ const DialogmoteInnkallingSkjema = () => {
 
     const feilmeldinger: DialogmoteInnkallingSkjemaFeil = {
       arbeidsgiver: validerArbeidsgiver(values.arbeidsgiver),
-      behandlerRef: behandlerRefValidationErrors(values.behandlerRef),
+      behandlerRef: behandlerRefValidationErrors(values.behandlerRef, true),
       ...validerTidspunkt({
         dato: values.dato,
         klokkeslett: values.klokkeslett,

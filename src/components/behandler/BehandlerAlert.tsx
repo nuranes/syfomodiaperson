@@ -11,7 +11,8 @@ const texts = {
 
 export const BehandlerAlert = () => (
   <AlertstripeFullbredde type="info" margintop="2em">
-    <p>{texts.searchCriteriaInfo}</p>
-    <p>{texts.noSearchMatchInfo}</p>
+    <p>
+      {texts.searchCriteriaInfo} {texts.noSearchMatchInfo}
+    </p>
   </AlertstripeFullbredde>
 );

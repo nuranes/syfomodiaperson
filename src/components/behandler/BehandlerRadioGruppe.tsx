@@ -3,14 +3,17 @@ import { Radio, RadioGruppe } from "nav-frontend-skjema";
 import styled from "styled-components";
 import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
 import { capitalizeWord } from "@/utils/stringUtils";
-import BehandlerSearch from "@/components/dialogmote/innkalling/BehandlerSearch";
+import BehandlerSearch from "@/components/behandler/BehandlerSearch";
 
 const texts = {
-  behandlerLegend: "Velg behandler som inviteres til dialogmøtet",
-  behandlerInfo: "Behandleren vil få en dialogmelding med invitasjon.",
   noBehandler: "Ingen behandler",
-  leggTilBehandler: "Legg til en behandler",
 };
+
+export interface BehandlerRadioGruppeTexts {
+  behandlerLegend: string;
+  behandlersokTekst: string;
+  behandlerDescription?: string;
+}
 
 const behandlerOneliner = (behandler: BehandlerDTO): string => {
   const name = [behandler.fornavn, behandler.mellomnavn, behandler.etternavn]
@@ -28,16 +31,14 @@ export const StyledRadioGruppe = styled(RadioGruppe)`
   margin-bottom: 1em;
 `;
 
-const RadioWrapper = styled.div`
-  margin-top: 1.25em;
-`;
-
 interface BehandlerRadioGruppeProps {
   id: string;
   input: any;
   selectedBehandler?: BehandlerDTO;
   behandlere: BehandlerDTO[];
   setSelectedBehandler: (behandler?: BehandlerDTO) => void;
+  behandlerRadioGruppeTexts: BehandlerRadioGruppeTexts;
+  showNoBehandlerOption?: boolean;
 }
 
 const BehandlerRadioGruppe = ({
@@ -46,6 +47,8 @@ const BehandlerRadioGruppe = ({
   selectedBehandler,
   behandlere,
   setSelectedBehandler,
+  behandlerRadioGruppeTexts,
+  showNoBehandlerOption = true,
 }: BehandlerRadioGruppeProps): ReactElement => {
   const [showBehandlerSearch, setShowBehandlerSearch] =
     useState<boolean>(false);
@@ -63,7 +66,7 @@ const BehandlerRadioGruppe = ({
     setSelectedBehandler(behandler);
   };
 
-  const handleAddBhandlerRadioClick = () => {
+  const handleAddBehandlerRadioClick = () => {
     setShowBehandlerSearch(true);
     setSelectedBehandler(undefined);
   };
@@ -72,16 +75,18 @@ const BehandlerRadioGruppe = ({
     <>
       <StyledRadioGruppe
         id={id}
-        legend={texts.behandlerLegend}
-        description={texts.behandlerInfo}
+        legend={behandlerRadioGruppeTexts.behandlerLegend}
+        description={behandlerRadioGruppeTexts.behandlerDescription}
       >
-        <RadioWrapper>
-          <Radio
-            label={texts.noBehandler}
-            name="behandler"
-            key="ingenBehandler"
-            onChange={() => updateBehandlerAndHideSearch(undefined)}
-          />
+        <>
+          {showNoBehandlerOption && (
+            <Radio
+              label={texts.noBehandler}
+              name="behandler"
+              key="ingenBehandler"
+              onChange={() => updateBehandlerAndHideSearch(undefined)}
+            />
+          )}
           {behandlere.map((behandler, index) => (
             <Radio
               label={behandlerOneliner(behandler)}
@@ -91,15 +96,18 @@ const BehandlerRadioGruppe = ({
             />
           ))}
           <Radio
-            label={texts.leggTilBehandler}
+            label={behandlerRadioGruppeTexts.behandlersokTekst}
             name="behandler"
             key="-1"
-            onChange={handleAddBhandlerRadioClick}
+            onChange={handleAddBehandlerRadioClick}
           />
-        </RadioWrapper>
+        </>
       </StyledRadioGruppe>
       {showBehandlerSearch && (
-        <BehandlerSearch setSelectedBehandler={setSelectedBehandler} />
+        <BehandlerSearch
+          setSelectedBehandler={setSelectedBehandler}
+          label={behandlerRadioGruppeTexts.behandlersokTekst}
+        />
       )}
     </>
   );

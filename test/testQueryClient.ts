@@ -21,6 +21,7 @@ import { behandlerDeltaker } from "./dialogmote/testData";
 import { brukerinfoMock } from "../mock/syfoperson/brukerinfoMock";
 import { brukerinfoQueryKeys } from "@/data/navbruker/navbrukerQueryHooks";
 import { behandlereQueryKeys } from "@/data/behandler/behandlereQueryHooks";
+import { behandlereDialogmeldingMock } from "../mock/isdialogmelding/behandlereDialogmeldingMock";
 
 export const testQueryClient = (): QueryClient => {
   return new QueryClient({
@@ -92,7 +93,7 @@ export const queryClientWithMockData = (): QueryClient => {
 
   queryClient.setQueryData(
     behandlereQueryKeys.behandlere(ARBEIDSTAKER_DEFAULT.personIdent),
-    () => []
+    () => behandlereDialogmeldingMock
   );
 
   return queryClient;

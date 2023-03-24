@@ -4,7 +4,9 @@ import styled from "styled-components";
 import { Innholdstittel } from "nav-frontend-typografi";
 import DialogmoteInnkallingSkjemaSeksjon from "@/components/dialogmote/innkalling/DialogmoteInnkallingSkjemaSeksjon";
 import AppSpinner from "@/components/AppSpinner";
-import BehandlerRadioGruppe from "@/components/dialogmote/innkalling/BehandlerRadioGruppe";
+import BehandlerRadioGruppe, {
+  BehandlerRadioGruppeTexts,
+} from "../../behandler/BehandlerRadioGruppe";
 import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
 import { useBehandlereQuery } from "@/data/behandler/behandlereQueryHooks";
 import { SkjemaelementFeilmelding } from "nav-frontend-skjema";
@@ -17,6 +19,12 @@ export const texts = {
   title: "Behandler",
   legekontor: "Legekontor",
   tlf: "Telefonnummer",
+};
+
+const behandlerRadioGruppeTexts: BehandlerRadioGruppeTexts = {
+  behandlerLegend: "Velg behandler som inviteres til dialogmøtet",
+  behandlerDescription: "Behandleren vil få en dialogmelding med invitasjon.",
+  behandlersokTekst: "Legg til en behandler",
 };
 
 interface DialogmoteInnkallingBehandlerProps {
@@ -47,6 +55,7 @@ const DialogmoteInnkallingBehandler = ({
                   selectedBehandler={selectedbehandler}
                   behandlere={behandlere}
                   setSelectedBehandler={setSelectedBehandler}
+                  behandlerRadioGruppeTexts={behandlerRadioGruppeTexts}
                 />
               )}
               <SkjemaelementFeilmelding>

@@ -55,8 +55,11 @@ export const validerArbeidsgiver = (orgNummer?: string): string | undefined => {
   return undefined;
 };
 
-export const behandlerRefValidationErrors = (behandlerRef?: string) => {
-  if (!behandlerRef) {
+export const behandlerRefValidationErrors = (
+  behandlerRef: string | undefined,
+  allowNoBehandler: boolean
+) => {
+  if ((!allowNoBehandler && behandlerRef === "NONE") || !behandlerRef) {
     return texts.behandlerMissing;
   }
   return undefined;
