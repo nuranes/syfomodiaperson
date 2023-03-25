@@ -52,4 +52,5 @@ export interface CreateAktivitetskravVurderingDTO {
   status: AktivitetskravStatus;
   beskrivelse?: string;
   arsaker: VurderingArsak[];
+  frist?: string;
 }

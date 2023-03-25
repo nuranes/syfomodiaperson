@@ -25,12 +25,14 @@ export const useAktivitetskravVurderingSkjema = (
 ) => {
   const createDto = (
     arsaker: VurderingArsak[],
-    beskrivelse?: string
+    beskrivelse?: string,
+    frist?: string
   ): CreateAktivitetskravVurderingDTO => {
     return {
       status,
       beskrivelse,
       arsaker,
+      frist,
     };
   };
   const validateArsakField = (arsak: VurderingArsak | undefined) => {

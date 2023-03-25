@@ -30,6 +30,7 @@ import { expect } from "chai";
 import { vurderAktivitetskravBeskrivelseMaxLength } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravBeskrivelse";
 import { tilLesbarPeriodeMedArUtenManednavn } from "@/utils/datoUtils";
 import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
+import dayjs from "dayjs";
 
 let queryClient: QueryClient;
 
@@ -128,6 +129,7 @@ describe("VurderAktivitetskrav", () => {
         beskrivelse: enBeskrivelse,
         status: AktivitetskravStatus.OPPFYLT,
         arsaker: [OppfyltVurderingArsak.FRISKMELDT],
+        frist: undefined,
       };
       expect(vurderOppfyltMutation.options.variables).to.deep.equal(
         expectedVurdering
@@ -175,6 +177,7 @@ describe("VurderAktivitetskrav", () => {
         beskrivelse: enBeskrivelse,
         status: AktivitetskravStatus.UNNTAK,
         arsaker: [UnntakVurderingArsak.TILRETTELEGGING_IKKE_MULIG],
+        frist: undefined,
       };
       expect(vurderUnntakMutation.options.variables).to.deep.equal(
         expectedVurdering
@@ -212,6 +215,11 @@ describe("VurderAktivitetskrav", () => {
       fireEvent.click(arsakBehandlerRadioButton);
       const beskrivelseInput = getTextInput("Beskrivelse (obligatorisk)");
       changeTextInput(beskrivelseInput, enBeskrivelse);
+
+      const today = dayjs();
+      const datoInput = getTextInput("Avventer til");
+      changeTextInput(datoInput, today.format("DD.MM.YYYY"));
+
       clickButton("Lagre");
 
       const vurderAvventMutation = queryClient.getMutationCache().getAll()[0];
@@ -222,6 +230,7 @@ describe("VurderAktivitetskrav", () => {
           AvventVurderingArsak.OPPFOLGINGSPLAN_ARBEIDSGIVER,
           AvventVurderingArsak.INFORMASJON_BEHANDLER,
         ],
+        frist: today.format("YYYY-MM-DD"),
       };
       expect(vurderAvventMutation.options.variables).to.deep.equal(
         expectedVurdering
@@ -245,13 +254,16 @@ describe("VurderAktivitetskrav", () => {
       ).to.exist;
       clickButton("Lagre");
 
-      const vurderAvventMutation = queryClient.getMutationCache().getAll()[0];
+      const vurderIkkeOppfyltMutation = queryClient
+        .getMutationCache()
+        .getAll()[0];
       const expectedVurdering: CreateAktivitetskravVurderingDTO = {
         status: AktivitetskravStatus.IKKE_OPPFYLT,
         arsaker: [],
         beskrivelse: undefined,
+        frist: undefined,
       };
-      expect(vurderAvventMutation.options.variables).to.deep.equal(
+      expect(vurderIkkeOppfyltMutation.options.variables).to.deep.equal(
         expectedVurdering
       );
     });
@@ -275,6 +287,7 @@ describe("VurderAktivitetskrav", () => {
         beskrivelse: enBeskrivelse,
         status: AktivitetskravStatus.UNNTAK,
         arsaker: [UnntakVurderingArsak.MEDISINSKE_GRUNNER],
+        frist: undefined,
       };
       expect(vurderUnntakMutation.options.variables).to.deep.equal(
         expectedVurdering

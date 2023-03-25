@@ -20,7 +20,10 @@ import {
 } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravBeskrivelse";
 import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
 import { ToggleNames } from "@/data/unleash/unleash_types";
-import { AvventFristDato } from "@/components/aktivitetskrav/vurdering/AvventFristDato";
+import {
+  avventerFristDatoField,
+  AvventFristDato,
+} from "@/components/aktivitetskrav/vurdering/AvventFristDato";
 
 const texts = {
   title: "Avventer",
@@ -33,6 +36,7 @@ const texts = {
 interface AvventAktivitetskravSkjemaValues {
   [vurderAktivitetskravBeskrivelseFieldName]: string;
   [vurderAktivitetskravArsakerFieldName]: AvventVurderingArsak[];
+  [avventerFristDatoField]?: string;
 }
 
 export const AvventAktivitetskravSkjema = (
@@ -59,7 +63,9 @@ export const AvventAktivitetskravSkjema = (
           <Normaltekst>{texts.subtitle2}</Normaltekst>
         </FlexColumn>
       }
-      toDto={(values) => createDto(values.arsaker, values.beskrivelse)}
+      toDto={(values) =>
+        createDto(values.arsaker, values.beskrivelse, values.fristDato)
+      }
       validate={validate}
       {...props}
     >
