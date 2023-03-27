@@ -68,7 +68,7 @@ spec:
     - name: ISBEHANDLERDIALOG_AAD_APP_CLIENT_ID
       value: "dev-gcp.teamsykefravr.isbehandlerdialog"
     - name: ISBEHANDLERDIALOG_HOST
-      value: "isbehandlerdialog.dev.intern.nav.no"
+      value: "isbehandlerdialog.intern.dev.nav.no"
     - name: ISDIALOGMELDING_AAD_APP_CLIENT_ID
       value: "dev-gcp.teamsykefravr.isdialogmelding"
     - name: ISDIALOGMELDING_HOST

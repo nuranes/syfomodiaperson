@@ -9,7 +9,9 @@ require("dotenv").config({
 
 const { JSDOM } = require("jsdom");
 
-const jsdom = new JSDOM("<!doctype html><html><body></body></html>");
+const jsdom = new JSDOM("<!doctype html><html><body></body></html>", {
+  pretendToBeVisual: true,
+});
 const { window } = jsdom;
 
 const copyProps = (src, target) => {
@@ -42,8 +44,6 @@ global.document = window.document;
 global.navigator = {
   userAgent: "node.js",
 };
-global.cancelAnimationFrame = (callback = () => {}) => {
-  callback();
-};
+global.cancelAnimationFrame = function () {};
 window.MutationObserver = MutationObserver;
 copyProps(window, global);

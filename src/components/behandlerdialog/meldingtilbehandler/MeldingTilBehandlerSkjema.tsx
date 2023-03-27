@@ -15,6 +15,8 @@ import {
   validerSkjemaTekster,
 } from "@/utils/valideringUtils";
 import { useFeilUtbedret } from "@/hooks/useFeilUtbedret";
+import { MeldingTilBehandlerDTO } from "@/data/behandlerdialog/behandlerdialogTypes";
+import { useMeldingTilBehandler } from "@/data/behandlerdialog/useMeldingTilBehandler";
 
 const texts = {
   knappTekst: "Send til behandler",
@@ -50,6 +52,7 @@ export const MeldingTilBehandlerSkjema = () => {
   const [selectedBehandler, setSelectedBehandler] = useState<BehandlerDTO>();
   const { harIkkeUtbedretFeil, resetFeilUtbedret, updateFeilUtbedret } =
     useFeilUtbedret();
+  const meldingTilBehandler = useMeldingTilBehandler();
 
   const validate = (
     values: Partial<SkrivTilBehandlerSkjemaValues>
@@ -72,9 +75,14 @@ export const MeldingTilBehandlerSkjema = () => {
   };
 
   const submit = (values: SkrivTilBehandlerSkjemaValues) => {
-    return; // TODO: POST-kall til API
+    const meldingTilBehandlerDTO: MeldingTilBehandlerDTO = {
+      behandlerRef: values.behandlerRef,
+      tekst: values[meldingTekstField],
+    };
+    meldingTilBehandler.mutate(meldingTilBehandlerDTO);
   };
 
+  // TODO: Legge til tilbakemelding ved feilmelding eller suksess, og cleare form
   return (
     <SkrivTilBehandlerFormWrapper>
       <Form onSubmit={submit} validate={validate}>
@@ -94,7 +102,7 @@ export const MeldingTilBehandlerSkjema = () => {
               <Button
                 variant={"primary"}
                 onClick={resetFeilUtbedret}
-                loading={false}
+                loading={meldingTilBehandler.isLoading}
                 type={"submit"}
               >
                 {texts.knappTekst}
