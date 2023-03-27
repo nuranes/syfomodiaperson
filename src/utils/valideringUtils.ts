@@ -2,6 +2,8 @@ import { isISODateString } from "nav-datovelger";
 import { ReferatSkjemaValues } from "@/components/dialogmote/referat/Referat";
 import { genererDato } from "@/components/mote/utils";
 import { containsWhiteSpace } from "@/utils/stringUtils";
+import { toDatePrettyPrint } from "@/utils/datoUtils";
+import dayjs from "dayjs";
 
 export interface SkjemaFeil {
   [key: string]: string | undefined;
@@ -21,8 +23,9 @@ interface Begrunnelser {
 const MAX_LENGTH_STED = 200;
 
 export const texts = {
-  dateMissing: "Vennligst angi dato",
-  dateWrongFormat: "Vennligst angi riktig datoformat; dd.mm.åååå",
+  dateMissing: "Vennligst angi gyldig dato",
+  dateWrongFormat:
+    "Datoen er ikke gyldig eller har ikke riktig format (dd.mm.åååå)",
   timeMissing: "Vennligst angi klokkeslett",
   timePassed: "Tidspunktet har passert",
   placeMissing: "Vennligst angi møtested",
@@ -73,6 +76,30 @@ export const validerSted = (
     return texts.placeMissing;
   } else if (maxLength && sted && sted.length > maxLength) {
     return texts.textTooLong(MAX_LENGTH_STED);
+  } else {
+    return undefined;
+  }
+};
+
+export const validerDato = (
+  value: string | undefined,
+  minDate?: Date,
+  maxDate?: Date
+) => {
+  if (!value) {
+    return texts.dateMissing;
+  } else if (!isISODateString(value)) {
+    return texts.dateWrongFormat;
+  } else if (
+    minDate &&
+    new Date(value) < dayjs(minDate).startOf("day").toDate()
+  ) {
+    return `Datoen må være etter ${toDatePrettyPrint(minDate)}`;
+  } else if (
+    maxDate &&
+    new Date(value) > dayjs(maxDate).endOf("day").toDate()
+  ) {
+    return `Datoen må være før ${toDatePrettyPrint(maxDate)}`;
   } else {
     return undefined;
   }

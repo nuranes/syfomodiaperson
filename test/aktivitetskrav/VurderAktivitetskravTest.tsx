@@ -185,7 +185,7 @@ describe("VurderAktivitetskrav", () => {
     });
   });
   describe("Avvent", () => {
-    it("Validerer årsaker og beskrivelse", () => {
+    it("Validerer årsaker, beskrivelse og dato", () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
       clickButton(avventButtonText);
@@ -193,6 +193,7 @@ describe("VurderAktivitetskrav", () => {
 
       expect(screen.getByText("Vennligst angi beskrivelse")).to.exist;
       expect(screen.getByText("Vennligst angi årsak")).to.exist;
+      expect(screen.getByText("Vennligst angi gyldig dato")).to.exist;
     });
     it("Lagre vurdering med verdier fra skjema", () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
