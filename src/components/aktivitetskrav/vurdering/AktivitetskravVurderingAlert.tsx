@@ -11,6 +11,8 @@ import React, { ReactElement } from "react";
 import { Element, Normaltekst } from "nav-frontend-typografi";
 import { avventVurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
 import { AktivitetskravAlertstripe } from "@/components/aktivitetskrav/AktivitetskravAlertstripe";
+import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
+import { ToggleNames } from "@/data/unleash/unleash_types";
 
 interface AktivitetskravVurderingAlertProps {
   vurdering: AktivitetskravVurderingDTO;
@@ -22,6 +24,10 @@ export const AktivitetskravVurderingAlert = ({
   const navbruker = useNavBrukerData();
   const vurderingDatoMedArUtenMndNavn = tilLesbarDatoMedArUtenManedNavn(
     vurdering.createdAt
+  );
+  const { isFeatureEnabled } = useFeatureToggles();
+  const visFristFelt = isFeatureEnabled(
+    ToggleNames.aktivitetskravVurderingFrist
   );
   switch (vurdering.status) {
     case AktivitetskravStatus.OPPFYLT:
@@ -40,9 +46,15 @@ export const AktivitetskravVurderingAlert = ({
     case AktivitetskravStatus.AVVENT: {
       return (
         <AktivitetskravAlertstripe type="advarsel">
-          <Element>
-            Avventer - {tilDatoMedManedNavn(vurdering.createdAt)}
-          </Element>
+          {visFristFelt && vurdering.frist ? (
+            <Element>
+              Avventer til {tilDatoMedManedNavn(vurdering.frist)}
+            </Element>
+          ) : (
+            <Element>
+              Avventer - {tilDatoMedManedNavn(vurdering.createdAt)}
+            </Element>
+          )}
           <Normaltekst>{vurdering.beskrivelse}</Normaltekst>
           <ul>
             {vurdering.arsaker.map((arsak, index) => {

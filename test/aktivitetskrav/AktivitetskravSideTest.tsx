@@ -28,6 +28,7 @@ import {
   AvventVurderingArsak,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { aktivitetskravQueryKeys } from "@/data/aktivitetskrav/aktivitetskravQueryHooks";
+import { tilDatoMedManedNavn } from "@/utils/datoUtils";
 
 let queryClient: QueryClient;
 
@@ -231,7 +232,9 @@ describe("AktivitetskravSide", () => {
       renderAktivitetskravSide();
 
       expect(screen.getByRole("img", { name: "advarsel-ikon" })).to.exist;
-      expect(screen.getByText(/Avventer - /)).to.exist;
+      expect(
+        screen.getByText(`Avventer til ${tilDatoMedManedNavn(new Date())}`)
+      ).to.exist;
     });
     it("viser beskrivelse og årsaker når siste aktivitetskrav-vurdering er AVVENT", () => {
       const beskrivelse = "Avventer litt";

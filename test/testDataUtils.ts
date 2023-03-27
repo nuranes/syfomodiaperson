@@ -44,7 +44,8 @@ export const createAktivitetskravVurdering = (
   status: AktivitetskravStatus,
   arsaker: VurderingArsak[],
   beskrivelse: string | undefined = "",
-  createdAt = new Date()
+  createdAt = new Date(),
+  frist?: Date
 ): AktivitetskravVurderingDTO => {
   return {
     beskrivelse,
@@ -53,6 +54,7 @@ export const createAktivitetskravVurdering = (
     status,
     uuid: generateUUID(),
     arsaker,
+    frist: frist,
   };
 };
 
@@ -61,7 +63,10 @@ export const avventVurdering = createAktivitetskravVurdering(
   [
     AvventVurderingArsak.OPPFOLGINGSPLAN_ARBEIDSGIVER,
     AvventVurderingArsak.INFORMASJON_BEHANDLER,
-  ]
+  ],
+  "",
+  new Date(),
+  new Date()
 );
 export const oppfyltVurdering = createAktivitetskravVurdering(
   AktivitetskravStatus.OPPFYLT,

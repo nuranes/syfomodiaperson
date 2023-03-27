@@ -39,8 +39,9 @@ export interface AktivitetskravVurderingDTO {
   createdAt: Date;
   createdBy: string;
   status: AktivitetskravStatus;
-  beskrivelse?: string;
+  beskrivelse: string | undefined;
   arsaker: VurderingArsak[];
+  frist: Date | undefined;
 }
 
 export type VurderingArsak =
