@@ -15,6 +15,7 @@ import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { expect } from "chai";
 import {
   avventVurdering,
+  avventVurderingUtenFrist,
   createAktivitetskrav,
   createAktivitetskravVurdering,
   generateOppfolgingstilfelle,
@@ -222,7 +223,7 @@ describe("AktivitetskravSide", () => {
       expect(screen.getByRole("img", { name: "suksess-ikon" })).to.exist;
       expect(screen.getByText(/Det er vurdert unntak/)).to.exist;
     });
-    it("viser advarsel når siste aktivitetskrav-vurdering er AVVENT", () => {
+    it("viser advarsel med frist når siste aktivitetskrav-vurdering er AVVENT med frist", () => {
       mockAktivitetskrav([
         createAktivitetskrav(daysFromToday(20), AktivitetskravStatus.AVVENT, [
           avventVurdering,
@@ -235,6 +236,18 @@ describe("AktivitetskravSide", () => {
       expect(
         screen.getByText(`Avventer til ${tilDatoMedManedNavn(new Date())}`)
       ).to.exist;
+    });
+    it("viser advarsel uten frist når siste aktivitetskrav-vurdering er AVVENT uten frist", () => {
+      mockAktivitetskrav([
+        createAktivitetskrav(daysFromToday(20), AktivitetskravStatus.AVVENT, [
+          avventVurderingUtenFrist,
+        ]),
+      ]);
+      mockOppfolgingstilfellePerson([activeOppfolgingstilfelle]);
+      renderAktivitetskravSide();
+
+      expect(screen.getByRole("img", { name: "advarsel-ikon" })).to.exist;
+      expect(screen.getAllByText(`Avventer`)).to.have.length(2);
     });
     it("viser beskrivelse og årsaker når siste aktivitetskrav-vurdering er AVVENT", () => {
       const beskrivelse = "Avventer litt";

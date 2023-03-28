@@ -46,9 +46,11 @@ export const AktivitetskravVurderingAlert = ({
     case AktivitetskravStatus.AVVENT: {
       return (
         <AktivitetskravAlertstripe type="advarsel">
-          {visFristFelt && vurdering.frist ? (
+          {visFristFelt ? (
             <Element>
-              Avventer til {tilDatoMedManedNavn(vurdering.frist)}
+              {vurdering.frist
+                ? `Avventer til ${tilDatoMedManedNavn(vurdering.frist)}`
+                : "Avventer"}
             </Element>
           ) : (
             <Element>

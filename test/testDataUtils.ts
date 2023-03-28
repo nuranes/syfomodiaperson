@@ -68,6 +68,15 @@ export const avventVurdering = createAktivitetskravVurdering(
   new Date(),
   new Date()
 );
+export const avventVurderingUtenFrist = createAktivitetskravVurdering(
+  AktivitetskravStatus.AVVENT,
+  [
+    AvventVurderingArsak.OPPFOLGINGSPLAN_ARBEIDSGIVER,
+    AvventVurderingArsak.INFORMASJON_BEHANDLER,
+  ],
+  "",
+  new Date()
+);
 export const oppfyltVurdering = createAktivitetskravVurdering(
   AktivitetskravStatus.OPPFYLT,
   [OppfyltVurderingArsak.FRISKMELDT]
