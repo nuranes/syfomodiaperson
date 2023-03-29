@@ -5,16 +5,16 @@ import React, { ReactElement, useState } from "react";
 import {
   DialogmoteDTO,
   DialogmoteStatus,
-  DocumentComponentDto,
   MotedeltakerVarselType,
 } from "@/data/dialogmote/types/dialogmoteTypes";
 import { tilDatoMedManedNavn } from "@/utils/datoUtils";
-import { Forhandsvisning } from "../Forhandsvisning";
+import { Forhandsvisning } from "../../Forhandsvisning";
 import { useDialogmoteReferat } from "@/hooks/dialogmote/useDialogmoteReferat";
 import styled from "styled-components";
 import { UnntakDTO } from "@/data/dialogmotekandidat/types/dialogmoteunntakTypes";
 import { MoteHistorikkUnntak } from "@/components/dialogmote/motehistorikk/MoteHistorikkUnntak";
 import { Flatknapp } from "nav-frontend-knapper";
+import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
 
 const texts = {
   header: "Møtehistorikk",

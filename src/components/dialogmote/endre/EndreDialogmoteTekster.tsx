@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useFormState } from "react-final-form";
-import { Forhandsvisning } from "../Forhandsvisning";
+import { Forhandsvisning } from "../../Forhandsvisning";
 import { EndreTidStedSkjemaValues } from "./EndreDialogmoteSkjema";
 import { useTidStedDocument } from "@/hooks/dialogmote/document/useTidStedDocument";
 import FritekstSeksjon from "@/components/dialogmote/FritekstSeksjon";

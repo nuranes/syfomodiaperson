@@ -8,10 +8,7 @@ import {
 } from "@/utils/datoUtils";
 import Deltakere from "./Deltakere";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
-import {
-  DialogmoteDTO,
-  DocumentComponentDto,
-} from "@/data/dialogmote/types/dialogmoteTypes";
+import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
 import { AlertstripeFullbredde } from "../../AlertstripeFullbredde";
 import ReferatButtons from "./ReferatButtons";
 import { Innholdstittel } from "nav-frontend-typografi";
@@ -23,7 +20,7 @@ import {
 import { useFeilUtbedret } from "@/hooks/useFeilUtbedret";
 import { SkjemaFeiloppsummering } from "../../SkjemaFeiloppsummering";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
-import { Forhandsvisning } from "../Forhandsvisning";
+import { Forhandsvisning } from "../../Forhandsvisning";
 import { useReferatDocument } from "@/hooks/dialogmote/document/useReferatDocument";
 import { StandardTekst } from "@/data/dialogmote/dialogmoteTexts";
 import {
@@ -55,6 +52,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { useDebouncedCallback } from "use-debounce";
 import { SaveFile } from "../../../../img/ImageComponents";
 import { FormState } from "final-form";
+import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
 
 export const texts = {
   digitalReferat:

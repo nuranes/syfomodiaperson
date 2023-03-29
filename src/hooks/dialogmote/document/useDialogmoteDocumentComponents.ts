@@ -1,21 +1,17 @@
-import { useAktivVeilederinfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
 import {
   createLink,
-  createParagraph,
   createParagraphWithTitle,
 } from "@/utils/documentComponentUtils";
 import { commonTexts } from "@/data/dialogmote/dialogmoteTexts";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
-import { DocumentComponentDto } from "@/data/dialogmote/types/dialogmoteTypes";
 import { TidStedSkjemaValues } from "@/data/dialogmote/types/skjemaTypes";
 import { tilDatoMedUkedagOgManedNavnOgKlokkeslett } from "@/utils/datoUtils";
 import { genererDato } from "@/components/mote/utils";
-import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
-import { useValgtPersonident } from "@/hooks/useValgtBruker";
+import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
+import { useDocumentComponents } from "@/hooks/useDocumentComponents";
 
-export const useDocumentComponents = () => {
-  const navBruker = useNavBrukerData();
-  const { data: veilederinfo } = useAktivVeilederinfoQuery();
+export const useDialogmoteDocumentComponents = () => {
+  const { getHilsen, getIntroGjelder, getIntroHei } = useDocumentComponents();
   const { getCurrentNarmesteLeder } = useLedereQuery();
 
   const getVirksomhetsnavn = (
@@ -60,15 +56,11 @@ export const useDocumentComponents = () => {
     return components;
   };
 
-  const personident = useValgtPersonident();
-
   return {
-    getHilsen: () =>
-      createParagraph(commonTexts.hilsen, veilederinfo?.navn || "", "NAV"),
+    getHilsen,
     getVirksomhetsnavn,
     getMoteInfo,
-    getIntroHei: () => createParagraph(`Hei, ${navBruker.navn}`),
-    getIntroGjelder: () =>
-      createParagraph(`Gjelder ${navBruker.navn}, f.nr. ${personident}`),
+    getIntroHei,
+    getIntroGjelder,
   };
 };

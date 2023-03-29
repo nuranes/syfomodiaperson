@@ -1,7 +1,6 @@
 import {
   DialogmotedeltakerBehandlerDTO,
   DialogmoteStatus,
-  DocumentComponentType,
   MotedeltakerVarselType,
   SvarType,
 } from "../../src/data/dialogmote/types/dialogmoteTypes";
@@ -15,6 +14,7 @@ import {
 import { ReferatDTO } from "../../src/data/dialogmote/types/dialogmoteReferatTypes";
 import { referatTexts } from "../../src/data/dialogmote/dialogmoteTexts";
 import dayjs from "dayjs";
+import { DocumentComponentType } from "../../src/data/documentcomponent/documentComponentTypes";
 
 export const createDialogmote = (
   uuid: string,

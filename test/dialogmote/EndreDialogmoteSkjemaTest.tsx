@@ -25,7 +25,6 @@ import {
 } from "./testData";
 import {
   DialogmoteDTO,
-  DocumentComponentType,
   EndreTidStedDialogmoteDTO,
 } from "@/data/dialogmote/types/dialogmoteTypes";
 import { fireEvent, screen, within } from "@testing-library/react";
@@ -38,6 +37,7 @@ import { renderWithRouter } from "../testRouterUtils";
 import { stubFeatureTogglesApi } from "../stubs/stubUnleash";
 import { stubAktivVeilederinfoApi } from "../stubs/stubSyfoveileder";
 import { queryClientWithMockData } from "../testQueryClient";
+import { DocumentComponentType } from "@/data/documentcomponent/documentComponentTypes";
 
 let queryClient: any;
 let apiMockScope;

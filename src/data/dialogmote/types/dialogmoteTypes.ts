@@ -1,5 +1,6 @@
 import { ReferatDTO } from "./dialogmoteReferatTypes";
 import { BehandlerType } from "@/data/behandler/BehandlerDTO";
+import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
 
 export enum MotedeltakerVarselType {
   AVLYST = "AVLYST",
@@ -50,21 +51,6 @@ export enum SvarType {
   KOMMER = "KOMMER",
   NYTT_TID_STED = "NYTT_TID_STED",
   KOMMER_IKKE = "KOMMER_IKKE",
-}
-
-export enum DocumentComponentType {
-  HEADER = "HEADER",
-  HEADER_H1 = "HEADER_H1",
-  HEADER_H2 = "HEADER_H2",
-  PARAGRAPH = "PARAGRAPH",
-  LINK = "LINK",
-}
-
-export interface DocumentComponentDto {
-  readonly type: DocumentComponentType;
-  readonly key?: string;
-  readonly title?: string;
-  readonly texts: string[];
 }
 
 export enum DialogmoteStatus {

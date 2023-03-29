@@ -2,11 +2,12 @@ import React, { ReactElement } from "react";
 import { UnntakDTO } from "@/data/dialogmotekandidat/types/dialogmoteunntakTypes";
 import { tilDatoMedManedNavn } from "@/utils/datoUtils";
 import { ForhandsvisDocumentButtonRow } from "@/components/dialogmote/motehistorikk/MotehistorikkPanel";
+
+import { unntakArsakTexts } from "@/components/dialogmoteunntak/DialogmoteunntakSkjemaArsakVelger";
 import {
   DocumentComponentDto,
   DocumentComponentType,
-} from "@/data/dialogmote/types/dialogmoteTypes";
-import { unntakArsakTexts } from "@/components/dialogmoteunntak/DialogmoteunntakSkjemaArsakVelger";
+} from "@/data/documentcomponent/documentComponentTypes";
 
 const texts = {
   unntakTitle: "Unntak fra dialogmøte",

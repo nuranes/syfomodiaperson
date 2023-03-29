@@ -14,7 +14,7 @@ import { SkjemaFeiloppsummering } from "../../SkjemaFeiloppsummering";
 import { useFeilUtbedret } from "@/hooks/useFeilUtbedret";
 import { validerBegrunnelser } from "@/utils/valideringUtils";
 import { useAvlysningDocument } from "@/hooks/dialogmote/document/useAvlysningDocument";
-import { Forhandsvisning } from "../Forhandsvisning";
+import { Forhandsvisning } from "../../Forhandsvisning";
 import { moteoversiktRoutePath } from "@/routers/AppRouter";
 import { useAvlysDialogmote } from "@/data/dialogmote/useAvlysDialogmote";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";

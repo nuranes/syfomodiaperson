@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { Innholdstittel } from "nav-frontend-typografi";
 import { DialogmoteInnkallingSkjemaValues } from "./DialogmoteInnkallingSkjema";
 import { useInnkallingDocument } from "@/hooks/dialogmote/document/useInnkallingDocument";
-import { Forhandsvisning } from "../Forhandsvisning";
+import { Forhandsvisning } from "../../Forhandsvisning";
 import FritekstSeksjon from "../FritekstSeksjon";
 import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
 import { AlertstripeFullbredde } from "@/components/AlertstripeFullbredde";

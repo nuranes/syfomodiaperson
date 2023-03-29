@@ -1,4 +1,4 @@
-import { DocumentComponentDto } from "./dialogmoteTypes";
+import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
 
 export interface ReferatDTO {
   readonly uuid: string;

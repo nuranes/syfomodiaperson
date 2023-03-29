@@ -5,7 +5,6 @@ import {
   DialogmotedeltakerBehandlerDTO,
   DialogmoteDTO,
   DialogmoteStatus,
-  DocumentComponentType,
   MotedeltakerVarselType,
   VarselSvarDTO,
 } from "@/data/dialogmote/types/dialogmoteTypes";
@@ -24,6 +23,7 @@ import { capitalizeWord } from "@/utils/stringUtils";
 import { behandlerNavn } from "@/utils/behandlerUtils";
 import { referatTexts } from "@/data/dialogmote/dialogmoteTexts";
 import { BehandlerDTO, BehandlerType } from "@/data/behandler/BehandlerDTO";
+import { DocumentComponentType } from "@/data/documentcomponent/documentComponentTypes";
 
 export const arbeidstaker = {
   navn: ARBEIDSTAKER_DEFAULT_FULL_NAME,

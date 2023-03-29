@@ -96,7 +96,6 @@ export const commonTexts = {
   moteTidTitle: "Møtetidspunkt",
   moteStedTitle: "Møtested",
   videoLinkTitle: "Lenke til videomøte",
-  hilsen: "Vennlig hilsen",
   arbeidsgiverTlfLabel: "Arbeidsgivertelefonen",
   arbeidsgiverTlf: "55 55 33 36",
 };

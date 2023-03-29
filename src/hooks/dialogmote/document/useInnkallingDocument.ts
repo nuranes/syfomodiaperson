@@ -1,5 +1,4 @@
 import { DialogmoteInnkallingSkjemaValues } from "@/components/dialogmote/innkalling/DialogmoteInnkallingSkjema";
-import { DocumentComponentDto } from "@/data/dialogmote/types/dialogmoteTypes";
 import { tilDatoMedManedNavnOgKlokkeslettWithComma } from "@/utils/datoUtils";
 import {
   commonTexts,
@@ -13,7 +12,8 @@ import {
 import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
 import { capitalizeWord } from "@/utils/stringUtils";
 import { behandlerNavn } from "@/utils/behandlerUtils";
-import { useDocumentComponents } from "@/hooks/dialogmote/document/useDocumentComponents";
+import { useDialogmoteDocumentComponents } from "@/hooks/dialogmote/document/useDialogmoteDocumentComponents";
+import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
 
 export interface IInnkallingDocument {
   getInnkallingDocumentArbeidstaker(
@@ -39,7 +39,7 @@ export const useInnkallingDocument = (): IInnkallingDocument => {
     ),
   ];
   const { getHilsen, getMoteInfo, getIntroHei, getIntroGjelder } =
-    useDocumentComponents();
+    useDialogmoteDocumentComponents();
 
   const getInnkallingDocumentArbeidstaker = (
     values: Partial<DialogmoteInnkallingSkjemaValues>,

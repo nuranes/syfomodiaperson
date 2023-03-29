@@ -1,11 +1,11 @@
 import React from "react";
-import { Forhandsvisning } from "@/components/dialogmote/Forhandsvisning";
+import { Forhandsvisning } from "@/components/Forhandsvisning";
 import { expect } from "chai";
+import { render, screen } from "@testing-library/react";
 import {
   DocumentComponentDto,
   DocumentComponentType,
-} from "@/data/dialogmote/types/dialogmoteTypes";
-import { render, screen } from "@testing-library/react";
+} from "@/data/documentcomponent/documentComponentTypes";
 
 const doNothing = () => {
   /* do nothing */

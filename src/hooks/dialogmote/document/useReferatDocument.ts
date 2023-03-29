@@ -2,10 +2,7 @@ import {
   ReferatMode,
   ReferatSkjemaValues,
 } from "@/components/dialogmote/referat/Referat";
-import {
-  DialogmoteDTO,
-  DocumentComponentDto,
-} from "@/data/dialogmote/types/dialogmoteTypes";
+import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import {
   tilDatoMedManedNavnOgKlokkeslettWithComma,
@@ -16,15 +13,18 @@ import {
   createHeaderH2,
   createParagraph,
   createParagraphWithTitle,
-  createStandardtekstParagraph,
 } from "@/utils/documentComponentUtils";
 import { BrukerinfoDTO } from "@/data/navbruker/types/BrukerinfoDTO";
 import { VeilederinfoDTO } from "@/data/veilederinfo/types/VeilederinfoDTO";
 import { commonTexts, referatTexts } from "@/data/dialogmote/dialogmoteTexts";
 import { useAktivVeilederinfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
 import { behandlerDeltokTekst } from "@/utils/behandlerUtils";
-import { useDocumentComponents } from "@/hooks/dialogmote/document/useDocumentComponents";
+import { useDialogmoteDocumentComponents } from "@/hooks/dialogmote/document/useDialogmoteDocumentComponents";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
+import {
+  DocumentComponentDto,
+  DocumentComponentType,
+} from "@/data/documentcomponent/documentComponentTypes";
 
 export interface IReferatDocument {
   getReferatDocument(
@@ -39,7 +39,7 @@ export const useReferatDocument = (
   const navbruker = useNavBrukerData();
   const { data: veilederinfo } = useAktivVeilederinfoQuery();
   const isEndringAvReferat = mode === ReferatMode.ENDRET;
-  const { getVirksomhetsnavn, getHilsen } = useDocumentComponents();
+  const { getVirksomhetsnavn, getHilsen } = useDialogmoteDocumentComponents();
 
   const personident = useValgtPersonident();
 
@@ -187,9 +187,12 @@ const standardTekster = (
   if (values.standardtekster && values.standardtekster.length > 0) {
     documentComponents.push(
       createHeaderH2(referatTexts.standardTeksterHeader),
-      ...values.standardtekster.map((standardtekst) =>
-        createStandardtekstParagraph(standardtekst)
-      )
+      ...values.standardtekster.map((standardtekst) => ({
+        type: DocumentComponentType.PARAGRAPH,
+        key: standardtekst.key,
+        title: standardtekst.label,
+        texts: [standardtekst.text],
+      }))
     );
   }
   return documentComponents;

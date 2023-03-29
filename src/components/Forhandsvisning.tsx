@@ -4,7 +4,7 @@ import {
   JustifyContentType,
   ModalContentContainer,
   PaddingSize,
-} from "../Layout";
+} from "./Layout";
 import {
   Element,
   Innholdstittel,
@@ -13,13 +13,13 @@ import {
   Systemtittel,
 } from "nav-frontend-typografi";
 import React, { ReactElement } from "react";
-import {
-  DocumentComponentDto,
-  DocumentComponentType,
-} from "@/data/dialogmote/types/dialogmoteTypes";
 import styled from "styled-components";
 import Lenke from "nav-frontend-lenker";
 import { Hovedknapp } from "nav-frontend-knapper";
+import {
+  DocumentComponentDto,
+  DocumentComponentType,
+} from "@/data/documentcomponent/documentComponentTypes";
 
 const texts = {
   close: "Lukk",

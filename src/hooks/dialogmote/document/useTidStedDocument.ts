@@ -12,10 +12,10 @@ import {
 import {
   DialogmotedeltakerBehandlerDTO,
   DialogmoteDTO,
-  DocumentComponentDto,
 } from "@/data/dialogmote/types/dialogmoteTypes";
 import { behandlerDeltakerTekst } from "@/utils/behandlerUtils";
-import { useDocumentComponents } from "@/hooks/dialogmote/document/useDocumentComponents";
+import { useDialogmoteDocumentComponents } from "@/hooks/dialogmote/document/useDialogmoteDocumentComponents";
+import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
 
 export interface ITidStedDocument {
   getTidStedDocumentArbeidsgiver(
@@ -37,7 +37,7 @@ export const useTidStedDocument = (
   const { tid, arbeidsgiver, behandler } = dialogmote;
 
   const { getHilsen, getMoteInfo, getIntroHei, getIntroGjelder } =
-    useDocumentComponents();
+    useDialogmoteDocumentComponents();
 
   const sendtDato = createParagraph(
     `Sendt ${tilDatoMedManedNavnOgKlokkeslettWithComma(new Date())}`

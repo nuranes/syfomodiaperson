@@ -21,13 +21,11 @@ import sinon from "sinon";
 import { queryClientWithMockData } from "../../testQueryClient";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { VIRKSOMHET_UTEN_NARMESTE_LEDER } from "../../../mock/common/mockConstants";
-import {
-  DialogmoteInnkallingDTO,
-  DocumentComponentType,
-} from "@/data/dialogmote/types/dialogmoteTypes";
+import { DialogmoteInnkallingDTO } from "@/data/dialogmote/types/dialogmoteTypes";
 import { renderWithRouter } from "../../testRouterUtils";
 import { oppfolgingstilfellePersonQueryKeys } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { OppfolgingstilfellePersonDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
+import { DocumentComponentType } from "@/data/documentcomponent/documentComponentTypes";
 
 let queryClient: any;
 

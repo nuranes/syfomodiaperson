@@ -1,8 +1,7 @@
 import {
   DocumentComponentDto,
   DocumentComponentType,
-} from "@/data/dialogmote/types/dialogmoteTypes";
-import { StandardTekst } from "@/data/dialogmote/dialogmoteTexts";
+} from "@/data/documentcomponent/documentComponentTypes";
 
 export const createLink = (
   title: string,
@@ -24,15 +23,6 @@ export const createParagraph = (...texts: string[]): DocumentComponentDto => ({
   type: DocumentComponentType.PARAGRAPH,
   texts,
 });
-export const createStandardtekstParagraph = (
-  standardTekst: StandardTekst
-): DocumentComponentDto => ({
-  type: DocumentComponentType.PARAGRAPH,
-  key: standardTekst.key,
-  title: standardTekst.label,
-  texts: [standardTekst.text],
-});
-
 export const createHeaderH1 = (text: string): DocumentComponentDto => ({
   type: DocumentComponentType.HEADER_H1,
   texts: [text],

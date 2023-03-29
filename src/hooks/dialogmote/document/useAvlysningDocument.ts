@@ -1,7 +1,4 @@
-import {
-  DialogmoteDTO,
-  DocumentComponentDto,
-} from "@/data/dialogmote/types/dialogmoteTypes";
+import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
 import { AvlysDialogmoteSkjemaValues } from "@/components/dialogmote/avlys/AvlysDialogmoteSkjema";
 import { avlysningTexts } from "@/data/dialogmote/dialogmoteTexts";
 import { tilDatoMedManedNavnOgKlokkeslettWithComma } from "@/utils/datoUtils";
@@ -9,7 +6,8 @@ import {
   createHeaderH1,
   createParagraph,
 } from "@/utils/documentComponentUtils";
-import { useDocumentComponents } from "@/hooks/dialogmote/document/useDocumentComponents";
+import { useDialogmoteDocumentComponents } from "@/hooks/dialogmote/document/useDialogmoteDocumentComponents";
+import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
 
 export interface IAvlysningDocument {
   getAvlysningDocumentArbeidstaker(
@@ -29,7 +27,7 @@ export const useAvlysningDocument = (
   dialogmote: DialogmoteDTO
 ): IAvlysningDocument => {
   const { getHilsen, getIntroHei, getIntroGjelder, getVirksomhetsnavn } =
-    useDocumentComponents();
+    useDialogmoteDocumentComponents();
 
   const sendt = createParagraph(
     `Sendt ${tilDatoMedManedNavnOgKlokkeslettWithComma(new Date())}`
