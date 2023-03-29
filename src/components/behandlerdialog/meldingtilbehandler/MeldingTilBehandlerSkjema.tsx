@@ -17,6 +17,10 @@ import {
 import { useFeilUtbedret } from "@/hooks/useFeilUtbedret";
 import { MeldingTilBehandlerDTO } from "@/data/behandlerdialog/behandlerdialogTypes";
 import { useMeldingTilBehandler } from "@/data/behandlerdialog/useMeldingTilBehandler";
+import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
+import { AlertstripeFullbredde } from "@/components/AlertstripeFullbredde";
+import { tilDatoMedManedNavn, visKlokkeslett } from "@/utils/datoUtils";
+import { FormApi } from "final-form";
 
 const texts = {
   knappTekst: "Send til behandler",
@@ -25,7 +29,7 @@ const texts = {
   },
 };
 
-const SkrivTilBehandlerFormWrapper = styled.div`
+const MeldingTilBehandlerFormWrapper = styled.div`
   margin-top: 1.5em;
 `;
 
@@ -37,12 +41,12 @@ const StyledForm = styled.form`
   }
 `;
 
-interface SkrivTilBehandlerSkjemaValues
-  extends SkrivTilBehandlerSkjemaFritekstfelter {
+interface MeldingTilBehandlerSkjemaValues
+  extends MeldingTilBehandlerSkjemaFritekstfelter {
   behandlerRef: string;
 }
 
-interface SkrivTilBehandlerSkjemaFritekstfelter {
+interface MeldingTilBehandlerSkjemaFritekstfelter {
   [meldingTekstField]: string;
 }
 
@@ -53,19 +57,20 @@ export const MeldingTilBehandlerSkjema = () => {
   const { harIkkeUtbedretFeil, resetFeilUtbedret, updateFeilUtbedret } =
     useFeilUtbedret();
   const meldingTilBehandler = useMeldingTilBehandler();
+  const now = new Date();
 
   const validate = (
-    values: Partial<SkrivTilBehandlerSkjemaValues>
-  ): Partial<SkrivTilBehandlerSkjemaValues> => {
+    values: Partial<MeldingTilBehandlerSkjemaValues>
+  ): Partial<MeldingTilBehandlerSkjemaValues> => {
     const friteksterFeil =
-      validerSkjemaTekster<SkrivTilBehandlerSkjemaFritekstfelter>({
+      validerSkjemaTekster<MeldingTilBehandlerSkjemaFritekstfelter>({
         meldingTekst: {
           maxLength: MAX_LENGTH_BEHANDLER_MELDING,
           value: values.meldingTekst || "",
           missingRequiredMessage: texts.validation.missingMeldingTekst,
         },
       });
-    const feilmeldinger: Partial<SkrivTilBehandlerSkjemaValues> = {
+    const feilmeldinger: Partial<MeldingTilBehandlerSkjemaValues> = {
       behandlerRef: behandlerRefValidationErrors(values.behandlerRef, false),
       ...friteksterFeil,
     };
@@ -74,20 +79,31 @@ export const MeldingTilBehandlerSkjema = () => {
     return feilmeldinger;
   };
 
-  const submit = (values: SkrivTilBehandlerSkjemaValues) => {
+  const submit = (
+    values: MeldingTilBehandlerSkjemaValues,
+    form: FormApi<MeldingTilBehandlerSkjemaValues>
+  ) => {
     const meldingTilBehandlerDTO: MeldingTilBehandlerDTO = {
       behandlerRef: values.behandlerRef,
       tekst: values[meldingTekstField],
     };
-    meldingTilBehandler.mutate(meldingTilBehandlerDTO);
+    meldingTilBehandler.mutate(meldingTilBehandlerDTO, {
+      onSuccess: () => form.reset(), // TODO: Reset for radiogruppe fungerer ikke
+    });
   };
 
-  // TODO: Legge til tilbakemelding ved feilmelding eller suksess, og cleare form
   return (
-    <SkrivTilBehandlerFormWrapper>
+    <MeldingTilBehandlerFormWrapper>
       <Form onSubmit={submit} validate={validate}>
         {({ handleSubmit, submitFailed, errors }) => (
           <StyledForm onSubmit={handleSubmit}>
+            {meldingTilBehandler.isSuccess && (
+              <AlertstripeFullbredde type={"suksess"}>
+                {`Meldingen ble sendt ${tilDatoMedManedNavn(
+                  now
+                )} kl ${visKlokkeslett(now)}`}
+              </AlertstripeFullbredde>
+            )}
             <VelgBehandler
               selectedBehandler={selectedBehandler}
               setSelectedBehandler={
@@ -95,6 +111,12 @@ export const MeldingTilBehandlerSkjema = () => {
               } /* TODO: Skrive oss bort fra state her, bruke values fra form i stedet*/
             />
             <MeldingTekstfelt />
+            {meldingTilBehandler.isError && (
+              <SkjemaInnsendingFeil
+                error={meldingTilBehandler.error}
+                bottomPadding={null}
+              />
+            )}
             {submitFailed && harIkkeUtbedretFeil && (
               <SkjemaFeiloppsummering errors={errors} />
             )}
@@ -111,6 +133,6 @@ export const MeldingTilBehandlerSkjema = () => {
           </StyledForm>
         )}
       </Form>
-    </SkrivTilBehandlerFormWrapper>
+    </MeldingTilBehandlerFormWrapper>
   );
 };
