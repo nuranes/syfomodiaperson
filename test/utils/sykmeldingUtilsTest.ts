@@ -11,6 +11,7 @@ import {
   erMeldingTilNavInformasjon,
   erMulighetForArbeidInformasjon,
   finnAvventendeSykmeldingTekst,
+  getDiagnosekodeFromLatestSykmelding,
   latestSykmeldingForVirksomhet,
   sendtAndBekreftetSykmeldinger,
   stringMedAlleGraderingerFraSykmeldingPerioder,
@@ -29,6 +30,7 @@ import {
 import { BehandlingsutfallStatusDTO } from "@/data/sykmelding/types/BehandlingsutfallStatusDTO";
 import { SporsmalSvarDTO } from "@/data/sykmelding/types/SporsmalSvarDTO";
 import sinon from "sinon";
+import dayjs from "dayjs";
 
 const baseSykmelding: SykmeldingOldFormat = {
   arbeidsevne: {},
@@ -1067,6 +1069,74 @@ describe("sykmeldingUtils", () => {
       );
 
       expect(usedSykmeldinger.length).to.equal(0);
+    });
+  });
+
+  describe("getDiagnosekodeFromLatestSykmelding", () => {
+    it("Returns diagnosekode from only sykmelding in list", () => {
+      const wantedDiagnosekode = "A00";
+      const sykmelding = {
+        ...baseSykmelding,
+        diagnose: {
+          hoveddiagnose: {
+            diagnosekode: wantedDiagnosekode,
+            diagnosesystem: "ICD-10",
+          },
+        },
+      };
+
+      const diagnosekode = getDiagnosekodeFromLatestSykmelding([sykmelding]);
+
+      expect(diagnosekode).to.equal(wantedDiagnosekode);
+    });
+
+    it("Returns diagnosekode from latest sykmelding in list", () => {
+      const wantedDiagnosekode = "A00";
+      const latestSykmelding = {
+        ...baseSykmelding,
+        bekreftelse: {
+          utstedelsesdato: new Date(),
+        },
+        diagnose: {
+          hoveddiagnose: {
+            diagnosekode: wantedDiagnosekode,
+            diagnosesystem: "ICD-10",
+          },
+        },
+      };
+      const oldestSykmelding = {
+        ...baseSykmelding,
+        bekreftelse: {
+          utstedelsesdato: dayjs().subtract(100, "days").toDate(),
+        },
+        diagnose: {
+          hoveddiagnose: {
+            diagnosekode: "B99",
+            diagnosesystem: "ICD-10",
+          },
+        },
+      };
+
+      const diagnosekode = getDiagnosekodeFromLatestSykmelding([
+        latestSykmelding,
+        oldestSykmelding,
+      ]);
+
+      expect(diagnosekode).to.equal(wantedDiagnosekode);
+    });
+
+    it("Returns empty string if no sykmeldinger in list", () => {
+      const diagnosekode = getDiagnosekodeFromLatestSykmelding([]);
+
+      expect(diagnosekode).to.equal("");
+    });
+
+    it("Returns empty string if latest sykmelding doesn't have diagnose", () => {
+      const diagnosekode = getDiagnosekodeFromLatestSykmelding([
+        baseSykmelding,
+      ]);
+
+      expect(diagnosekode).to.equal("");
     });
   });
 });

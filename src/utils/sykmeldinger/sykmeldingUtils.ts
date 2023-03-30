@@ -339,3 +339,13 @@ export const skalVisesSomTidligereSykmelding = (sykmld: SykmeldingOldFormat) =>
     senesteTom(sykmld.mulighetForArbeid.perioder),
     new Date()
   ) >= 3;
+
+export const getDiagnosekodeFromLatestSykmelding = (
+  sykmeldinger: SykmeldingOldFormat[]
+) => {
+  const latestSykmelding = sykmeldingerSortertNyestTilEldst(sykmeldinger)[0];
+  const latestDiagnosekode =
+    latestSykmelding?.diagnose?.hoveddiagnose?.diagnosekode;
+
+  return latestDiagnosekode || "";
+};

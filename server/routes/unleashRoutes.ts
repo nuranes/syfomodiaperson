@@ -102,5 +102,12 @@ export const unleashToggles = (toggles: any, valgtEnhet: any, userId: any) => {
         user: userId,
       }
     ),
+    "syfo.gradgraf.diagnosekode": unleash.isEnabled(
+      "syfo.gradgraf.diagnosekode",
+      {
+        valgtEnhet: valgtEnhet,
+        user: userId,
+      }
+    ),
   };
 };
