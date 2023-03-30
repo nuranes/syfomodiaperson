@@ -4,19 +4,10 @@ import { genererDato } from "../../../src/components/mote/utils";
 
 describe("utils", () => {
   let clock;
-  let today = new Date("2017-02-01");
-
-  beforeEach(() => {
-    clock = sinon.useFakeTimers(today.getTime());
-  });
-
-  afterEach(() => {
-    clock.restore();
-  });
 
   describe("genererDato", () => {
     beforeEach(() => {
-      today = new Date("2017-05-31");
+      const today = new Date("2017-05-31");
       clock = sinon.useFakeTimers(today.getTime());
     });
     afterEach(() => {
