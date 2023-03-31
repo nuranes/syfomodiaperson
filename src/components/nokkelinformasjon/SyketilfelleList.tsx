@@ -6,7 +6,7 @@ import { Radio, RadioGroup } from "@navikt/ds-react";
 import { useSykmeldingerQuery } from "@/data/sykmelding/sykmeldingQueryHooks";
 import {
   getDiagnosekodeFromLatestSykmelding,
-  sendtAndBekreftetSykmeldinger,
+  newAndActivatedSykmeldinger,
   sykmeldingerInnenforOppfolgingstilfelle,
 } from "@/utils/sykmeldinger/sykmeldingUtils";
 import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
@@ -47,9 +47,9 @@ export const SyketilfelleList = ({
   const tenLatestTilfeller = tilfellerDescendingStart?.slice(0, 10);
 
   const getDiagnosekode = (tilfelle: OppfolgingstilfelleDTO): string => {
-    const usedSykmeldinger = sendtAndBekreftetSykmeldinger(sykmeldinger);
+    const newAndUsedSykmeldinger = newAndActivatedSykmeldinger(sykmeldinger);
     const sykmeldingerIOppfolgingstilfellet =
-      sykmeldingerInnenforOppfolgingstilfelle(usedSykmeldinger, tilfelle);
+      sykmeldingerInnenforOppfolgingstilfelle(newAndUsedSykmeldinger, tilfelle);
 
     return getDiagnosekodeFromLatestSykmelding(
       sykmeldingerIOppfolgingstilfellet

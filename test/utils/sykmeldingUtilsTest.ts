@@ -13,7 +13,7 @@ import {
   finnAvventendeSykmeldingTekst,
   getDiagnosekodeFromLatestSykmelding,
   latestSykmeldingForVirksomhet,
-  sendtAndBekreftetSykmeldinger,
+  newAndActivatedSykmeldinger,
   stringMedAlleGraderingerFraSykmeldingPerioder,
   sykmeldingerGruppertEtterVirksomhet,
   sykmeldingerInnenforOppfolgingstilfelle,
@@ -1006,9 +1006,8 @@ describe("sykmeldingUtils", () => {
     });
   });
 
-  describe("sendtAndBekreftetSykmeldinger", () => {
+  describe("newAndActivatedSykmeldinger", () => {
     const unwantedStatuser = [
-      SykmeldingStatus.NY,
       SykmeldingStatus.UTGAATT,
       SykmeldingStatus.AVBRUTT,
       SykmeldingStatus.TIL_SENDING,
@@ -1023,7 +1022,7 @@ describe("sykmeldingUtils", () => {
       });
     };
 
-    it("Returns a list containing only sykmeldinger with status SENDT and BEKREFTET", () => {
+    it("Returns a list containing only sykmeldinger with status SENDT, BEKREFTET, and NY", () => {
       const sykmeldinglistWithEveryStatus: SykmeldingOldFormat[] = Object.keys(
         SykmeldingStatus
       ).map((status) => {
@@ -1033,12 +1032,12 @@ describe("sykmeldingUtils", () => {
         } as SykmeldingOldFormat;
       });
 
-      const usedSykmeldinger = sendtAndBekreftetSykmeldinger(
+      const newAndUsedSykmeldinger = newAndActivatedSykmeldinger(
         sykmeldinglistWithEveryStatus
       );
 
       const hasSykmeldingWithWrongStatus = sykmeldingListContainsStatuser(
-        usedSykmeldinger,
+        newAndUsedSykmeldinger,
         unwantedStatuser
       );
       const hasSendtSykmelding = sykmeldingListContainsStatuser(
@@ -1049,10 +1048,15 @@ describe("sykmeldingUtils", () => {
         sykmeldinglistWithEveryStatus,
         [SykmeldingStatus.BEKREFTET]
       );
-      expect(usedSykmeldinger.length).to.equal(2);
+      const hasNySykmelding = sykmeldingListContainsStatuser(
+        sykmeldinglistWithEveryStatus,
+        [SykmeldingStatus.NY]
+      );
+      expect(newAndUsedSykmeldinger.length).to.equal(3);
       expect(hasSykmeldingWithWrongStatus).to.be.false;
       expect(hasSendtSykmelding).to.be.true;
       expect(hasBekreftetSykmelding).to.be.true;
+      expect(hasNySykmelding).to.be.true;
     });
 
     it("Returns an empty list if only unwanted statuser in sykmelding list", () => {
@@ -1064,11 +1068,11 @@ describe("sykmeldingUtils", () => {
           } as SykmeldingOldFormat;
         });
 
-      const usedSykmeldinger = sendtAndBekreftetSykmeldinger(
+      const newAndUsedSykmeldinger = newAndActivatedSykmeldinger(
         sykmeldinglistWithEveryStatus
       );
 
-      expect(usedSykmeldinger.length).to.equal(0);
+      expect(newAndUsedSykmeldinger.length).to.equal(0);
     });
   });
 

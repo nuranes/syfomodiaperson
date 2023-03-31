@@ -201,13 +201,14 @@ export const getSykmeldingStartdato = (
   return new Date(sykmeldingperioderSortertEldstTilNyest(perioder)[0].fom);
 };
 
-export const sendtAndBekreftetSykmeldinger = (
+export const newAndActivatedSykmeldinger = (
   sykmeldinger: SykmeldingOldFormat[]
 ) => {
   return sykmeldinger.filter((sykmelding) => {
     return (
       sykmelding.status === SykmeldingStatus.BEKREFTET ||
-      sykmelding.status === SykmeldingStatus.SENDT
+      sykmelding.status === SykmeldingStatus.SENDT ||
+      sykmelding.status === SykmeldingStatus.NY
     );
   });
 };
