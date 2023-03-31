@@ -6,6 +6,9 @@ import React from "react";
 import { queryClientWithMockData } from "../testQueryClient";
 import { expect } from "chai";
 import { Meldinger } from "@/components/behandlerdialog/meldinger/Meldinger";
+import { behandlerdialogQueryKeys } from "@/data/behandlerdialog/behandlerdialogQueryHooks";
+import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
+import { behandlerdialogMockEmpty } from "../../mock/isbehandlerdialog/behandlerdialogMock";
 
 let queryClient: QueryClient;
 
@@ -50,5 +53,21 @@ describe("Meldinger panel", () => {
     expect(accordions[0].textContent).to.contain("behandlerRef3");
     expect(accordions[1].textContent).to.contain("behandlerRef2");
     expect(accordions[2].textContent).to.contain("behandlerRef");
+  });
+
+  it("Viser GuidePanel når det ikke finnes dialogmeldinger på personen", () => {
+    queryClient.setQueryData(
+      behandlerdialogQueryKeys.behandlerdialog(
+        ARBEIDSTAKER_DEFAULT.personIdent
+      ),
+      () => behandlerdialogMockEmpty
+    );
+    renderMeldinger();
+
+    expect(
+      screen.getByText(
+        "Her kommer meldingene som blir sendt til og fra behandler(e) som er knyttet til personen."
+      )
+    ).to.exist;
   });
 });

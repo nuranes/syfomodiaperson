@@ -28,3 +28,7 @@ export const behandlerdialogMock = {
     "conversationRef-789": meldinger,
   },
 };
+
+export const behandlerdialogMockEmpty = {
+  conversations: {},
+};
