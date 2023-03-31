@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
@@ -9,6 +9,8 @@ import { MeldingTilBehandler } from "@/components/behandlerdialog/meldingtilbeha
 import { changeTextInput, clickButton, getTextInput } from "../testUtils";
 import { MeldingTilBehandlerDTO } from "@/data/behandlerdialog/behandlerdialogTypes";
 import { behandlereDialogmeldingMock } from "../../mock/isdialogmelding/behandlereDialogmeldingMock";
+import userEvent from "@testing-library/user-event";
+import { expectedMeldingTilBehandlerDocument } from "./testDataDocuments";
 
 let queryClient: QueryClient;
 
@@ -24,6 +26,8 @@ const renderMeldingTilBehandler = () => {
   );
 };
 
+const enMeldingTekst = "En testmelding";
+
 describe("MeldingTilBehandler", () => {
   beforeEach(() => {
     queryClient = queryClientWithMockData();
@@ -35,7 +39,6 @@ describe("MeldingTilBehandler", () => {
     expect(screen.getByRole("heading", { name: "Skriv til behandler" })).to
       .exist;
   });
-
   describe("MeldingTilBehandlerSkjema", () => {
     it("Viser radiobuttons med behandlervalg, der det ikke er mulig å velge 'Ingen behandler'", () => {
       renderMeldingTilBehandler();
@@ -43,7 +46,6 @@ describe("MeldingTilBehandler", () => {
       expect(screen.queryByText("Ingen behandler")).to.not.exist;
       expect(screen.getByText("Søk etter behandler")).to.exist;
     });
-
     it("Viser behandlersøk ved klikk på radiobutton 'Søk etter behandler'", () => {
       renderMeldingTilBehandler();
 
@@ -55,6 +57,29 @@ describe("MeldingTilBehandler", () => {
           exact: false,
         })
       ).to.exist;
+    });
+    it("Forhåndsviser melding til behandler ved klikk på Forhåndsvisning-knapp", () => {
+      renderMeldingTilBehandler();
+
+      const meldingInput = getTextInput("Skriv inn tekst");
+      changeTextInput(meldingInput, enMeldingTekst);
+
+      const previewButton = screen.getByRole("button", {
+        name: "Forhåndsvisning",
+      });
+      userEvent.click(previewButton);
+
+      const previewModal = screen.getByRole("dialog", {
+        name: "Forhåndsvis melding til behandler",
+      });
+      expect(previewModal).to.exist;
+
+      const expectedTexts = expectedMeldingTilBehandlerDocument(
+        enMeldingTekst
+      ).flatMap((documentComponent) => documentComponent.texts);
+      expectedTexts.forEach((text) => {
+        expect(within(previewModal).getByText(text)).to.exist;
+      });
     });
 
     it("Validerer MeldingTilBehandlerSkjema ved innsending", () => {
@@ -68,7 +93,7 @@ describe("MeldingTilBehandler", () => {
       expect(screen.getAllByText("Vennligst velg behandler")).to.have.length(2);
 
       const meldingInput = getTextInput("Skriv inn tekst");
-      changeTextInput(meldingInput, "En testmelding");
+      changeTextInput(meldingInput, enMeldingTekst);
       expect(screen.queryByText("Innholdet i meldingen er tomt")).to.not.exist;
 
       const velgBehandlerRadioButton = screen.getAllByText("Fastlege:", {
@@ -82,7 +107,8 @@ describe("MeldingTilBehandler", () => {
   describe("MeldingTilBehandler innsending", () => {
     const meldingTilBehandlerDTO: MeldingTilBehandlerDTO = {
       behandlerRef: behandlereDialogmeldingMock[0].behandlerRef,
-      tekst: "En testmelding",
+      tekst: enMeldingTekst,
+      document: expectedMeldingTilBehandlerDocument(enMeldingTekst),
     };
 
     it("Send melding med verdier fra skjema", () => {

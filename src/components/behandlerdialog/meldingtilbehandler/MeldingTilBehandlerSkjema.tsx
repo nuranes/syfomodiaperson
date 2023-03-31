@@ -21,9 +21,13 @@ import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { AlertstripeFullbredde } from "@/components/AlertstripeFullbredde";
 import { tilDatoMedManedNavn, visKlokkeslett } from "@/utils/datoUtils";
 import { FormApi } from "final-form";
+import { Forhandsvisning } from "@/components/Forhandsvisning";
+import { useMeldingTilBehandlerDocument } from "@/hooks/behandlerdialog/document/useMeldingTilBehandlerDocument";
 
 const texts = {
-  knappTekst: "Send til behandler",
+  sendKnapp: "Send til behandler",
+  previewKnapp: "Forhåndsvisning",
+  previewContentLabel: "Forhåndsvis melding til behandler",
   validation: {
     missingMeldingTekst: "Innholdet i meldingen er tomt", // TODO: se nærmere på teksten
   },
@@ -41,7 +45,11 @@ const StyledForm = styled.form`
   }
 `;
 
-interface MeldingTilBehandlerSkjemaValues
+const SendButton = styled(Button)`
+  margin-right: 0.5em;
+`;
+
+export interface MeldingTilBehandlerSkjemaValues
   extends MeldingTilBehandlerSkjemaFritekstfelter {
   behandlerRef: string;
 }
@@ -53,6 +61,9 @@ interface MeldingTilBehandlerSkjemaFritekstfelter {
 export const MAX_LENGTH_BEHANDLER_MELDING = 2000; // TODO: må bli enige om noe her
 
 export const MeldingTilBehandlerSkjema = () => {
+  const [displayPreview, setDisplayPreview] = useState(false);
+  const { getTilleggsOpplysningerPasientDocument } =
+    useMeldingTilBehandlerDocument();
   const [selectedBehandler, setSelectedBehandler] = useState<BehandlerDTO>();
   const { harIkkeUtbedretFeil, resetFeilUtbedret, updateFeilUtbedret } =
     useFeilUtbedret();
@@ -86,6 +97,7 @@ export const MeldingTilBehandlerSkjema = () => {
     const meldingTilBehandlerDTO: MeldingTilBehandlerDTO = {
       behandlerRef: values.behandlerRef,
       tekst: values[meldingTekstField],
+      document: getTilleggsOpplysningerPasientDocument(values),
     };
     meldingTilBehandler.mutate(meldingTilBehandlerDTO, {
       onSuccess: () => form.reset(), // TODO: Reset for radiogruppe fungerer ikke
@@ -95,7 +107,7 @@ export const MeldingTilBehandlerSkjema = () => {
   return (
     <MeldingTilBehandlerFormWrapper>
       <Form onSubmit={submit} validate={validate}>
-        {({ handleSubmit, submitFailed, errors }) => (
+        {({ handleSubmit, submitFailed, errors, values }) => (
           <StyledForm onSubmit={handleSubmit}>
             {meldingTilBehandler.isSuccess && (
               <AlertstripeFullbredde type={"suksess"}>
@@ -111,6 +123,14 @@ export const MeldingTilBehandlerSkjema = () => {
               } /* TODO: Skrive oss bort fra state her, bruke values fra form i stedet*/
             />
             <MeldingTekstfelt />
+            <Forhandsvisning
+              contentLabel={texts.previewContentLabel}
+              isOpen={displayPreview}
+              handleClose={() => setDisplayPreview(false)}
+              getDocumentComponents={() =>
+                getTilleggsOpplysningerPasientDocument(values)
+              }
+            />
             {meldingTilBehandler.isError && (
               <SkjemaInnsendingFeil
                 error={meldingTilBehandler.error}
@@ -121,13 +141,20 @@ export const MeldingTilBehandlerSkjema = () => {
               <SkjemaFeiloppsummering errors={errors} />
             )}
             <FlexRow>
-              <Button
+              <SendButton
                 variant={"primary"}
                 onClick={resetFeilUtbedret}
                 loading={meldingTilBehandler.isLoading}
                 type={"submit"}
               >
-                {texts.knappTekst}
+                {texts.sendKnapp}
+              </SendButton>
+              <Button
+                variant="secondary"
+                type="button"
+                onClick={() => setDisplayPreview(true)}
+              >
+                {texts.previewKnapp}
               </Button>
             </FlexRow>
           </StyledForm>
