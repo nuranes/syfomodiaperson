@@ -327,7 +327,7 @@ const Referat = ({
               }}
             />
             <ReferatTittel>{header}</ReferatTittel>
-            <AlertstripeFullbredde type="advarsel" marginbottom="4em">
+            <AlertstripeFullbredde type="info" marginbottom="4em">
               {texts.digitalReferat}
             </AlertstripeFullbredde>
             <Deltakere behandler={dialogmote.behandler} />
