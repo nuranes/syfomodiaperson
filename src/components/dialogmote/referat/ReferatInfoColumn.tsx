@@ -6,8 +6,8 @@ import { ReactElement } from "react";
 import React from "react";
 
 const InfoPanel = styled(Panel)`
-  background-color: ${navFarger.navLysBlaLighten80};
-  border: 1px solid ${navFarger.navLysBlaDarken40};
+  background-color: ${navFarger.navGraBakgrunn};
+  border: 1px solid ${navFarger.navMorkGra};
   margin-top: 1.9em;
 `;
 
