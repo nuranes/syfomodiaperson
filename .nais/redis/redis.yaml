@@ -24,3 +24,7 @@ spec:
   service:
     port: 6379
     protocol: redis
+  accessPolicy:
+    inbound:
+      rules:
+        - application: syfomodiaperson

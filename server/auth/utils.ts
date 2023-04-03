@@ -86,15 +86,6 @@ const requestOnBehalfOfToken = async (
 
 export const getOpenIdClient = async (issuerUrl: string) => {
   try {
-    if (Config.server.proxy) {
-      const proxyAgent = HttpsProxyAgent(Config.server.proxy);
-      OpenIdClient.custom.setHttpOptionsDefaults({
-        agent: {
-          http: proxyAgent,
-          https: proxyAgent,
-        },
-      });
-    }
     const issuer = await OpenIdClient.Issuer.discover(issuerUrl);
 
     return new issuer.Client(

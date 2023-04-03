@@ -35,12 +35,6 @@ export const isProd = envVar({ name: "NODE_ENV" }) === "production";
 export const server = {
   host: envVar({ name: "HOST", defaultValue: "localhost" }),
   port: Number.parseInt(envVar({ name: "PORT", defaultValue: "8080" })),
-  proxy: envVar({
-    name: "HTTP_PROXY",
-    defaultValue: {
-      dev: "",
-    },
-  }),
   sessionKey: envVar({ name: "SESSION_KEY" }),
   sessionCookieName: envVar({
     name: "SESSION_COOKIE_NAME",
@@ -278,6 +272,7 @@ export const auth = {
     host: envVar({
       name: "SYKEPENGESOKNAD_BACKEND_HOST",
     }),
+    removePathPrefix: true,
   },
   syfotilgangskontroll: {
     applicationName: "syfo-tilgangskontroll",

@@ -4,5 +4,5 @@ import { soknaderMock } from "../../mock/sykepengesoknad/soknaderMock";
 
 export const stubSykepengesoknadBackendApi = (scope: nock.Scope, fnr: string) =>
   scope
-    .get(`${SYKEPENGESOKNAD_BACKEND_ROOT}/soknader?fnr=${fnr}`)
+    .get(`${SYKEPENGESOKNAD_BACKEND_ROOT}/veileder/soknader?fnr=${fnr}`)
     .reply(200, () => soknaderMock);

@@ -7,7 +7,7 @@ import Config = require("./config");
 
 const proxyExternalHostWithoutAuthentication = (host: any) =>
   proxy(host, {
-    https: true,
+    https: false,
     proxyReqPathResolver: (req) => {
       const urlFromApi = url.parse(host);
       const pathFromApi =
@@ -22,7 +22,7 @@ const proxyExternalHostWithoutAuthentication = (host: any) =>
         (pathFromRequest ? pathFromRequest : "") +
         (queryString ? "?" + queryString : "");
 
-      return `https://${newPath}`;
+      return newPath;
     },
     proxyErrorHandler: (err, res, next) => {
       console.log(`Error in proxy for ${host} ${err.message}, ${err.code}`);
@@ -66,7 +66,7 @@ const proxyExternalHost = (
   parseReqBody: any
 ) =>
   proxy(host, {
-    https: true,
+    https: false,
     parseReqBody: parseReqBody,
     proxyReqOptDecorator: async (options, srcReq) => {
       if (!accessToken) {
@@ -97,9 +97,9 @@ const proxyExternalHost = (
 
       if (removePathPrefix) {
         const newPathWithoutPrefix = newPath.replace(`${applicationName}/`, "");
-        return `https://${newPathWithoutPrefix}`;
+        return newPathWithoutPrefix;
       }
-      return `https://${newPath}`;
+      return newPath;
     },
     proxyErrorHandler: (err, res, next) => {
       console.log(`Error in proxy for ${host} ${err.message}, ${err.code}`);

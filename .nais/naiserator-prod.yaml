@@ -41,9 +41,38 @@ spec:
       claims:
         extra:
           - "NAVident"
+  accessPolicy:
+    outbound:
+      external:
+        - host: "login.microsoftonline.com"
+        - host: "unleash.nais.io"
+        - host: "internarbeidsflatedecorator.prod-fss-pub.nais.io"
+        - host: "modiacontextholder.prod-fss-pub.nais.io"
+        - host: "ereg-services.prod-fss-pub.nais.io"
+        - host: "syfomotebehov.prod-fss-pub.nais.io"
+        - host: "syfooppfolgingsplanservice.prod-fss-pub.nais.io"
+        - host: "syfo-tilgangskontroll.prod-fss-pub.nais.io"
+      rules:
+        - application: fastlegerest
+        - application: isaktivitetskrav
+        - application: isbehandlerdialog
+        - application: isdialogmelding
+        - application: isdialogmote
+        - application: isdialogmotekandidat
+        - application: isnarmesteleder
+        - application: isoppfolgingstilfelle
+        - application: ispengestopp
+        - application: ispersonoppgave
+        - application: syfobehandlendeenhet
+        - application: syfoperson
+        - application: syfoveileder
+        - application: syfosmregister
+          namespace: teamsykmelding
+        - application: sykepengesoknad-backend
+          namespace: flex
+        - application: syfomodiaperson-redis
   envFrom:
     - secret: syfomodiaperson-session-key
-  webproxy: true
   ingresses:
     - "https://syfomodiaperson.intern.nav.no"
   env:
@@ -56,82 +85,82 @@ spec:
     - name: AUTH_REDIRECT_URI
       value: "https://syfomodiaperson.intern.nav.no/oauth2/callback"
     - name: EREG_HOST
-      value: "ereg-services.intern.nav.no"
+      value: "https://ereg-services.prod-fss-pub.nais.io"
     - name: FASTLEGEREST_AAD_APP_CLIENT_ID
       value: "prod-gcp.teamsykefravr.fastlegerest"
     - name: FASTLEGEREST_HOST
-      value: "fastlegerest.intern.nav.no"
+      value: "http://fastlegerest"
     - name: INTERNARBEIDSFLATEDECORATOR_HOST
-      value: "internarbeidsflatedecorator.intern.nav.no"
+      value: "https://internarbeidsflatedecorator.prod-fss-pub.nais.io"
     - name: ISAKTIVITETSKRAV_AAD_APP_CLIENT_ID
       value: "prod-gcp.teamsykefravr.isaktivitetskrav"
     - name: ISAKTIVITETSKRAV_HOST
-      value: "isaktivitetskrav.intern.nav.no"
+      value: "http://isaktivitetskrav"
     - name: ISBEHANDLERDIALOG_AAD_APP_CLIENT_ID
       value: "prod-gcp.teamsykefravr.isbehandlerdialog"
     - name: ISBEHANDLERDIALOG_HOST
-      value: "isbehandlerdialog.intern.nav.no"
+      value: "http://isbehandlerdialog"
     - name: ISDIALOGMELDING_AAD_APP_CLIENT_ID
       value: "prod-gcp.teamsykefravr.isdialogmelding"
     - name: ISDIALOGMELDING_HOST
-      value: "isdialogmelding.intern.nav.no"
+      value: "http://isdialogmelding"
     - name: ISDIALOGMOTE_AAD_APP_CLIENT_ID
-      value: "4898e614-e73d-4067-aafd-5afc2254c6b6"
+      value: "prod-gcp.teamsykefravr.isdialogmote"
     - name: ISDIALOGMOTE_HOST
-      value: "isdialogmote.intern.nav.no"
+      value: "http://isdialogmote"
     - name: ISDIALOGMOTEKANDIDAT_AAD_APP_CLIENT_ID
       value: "prod-gcp.teamsykefravr.isdialogmotekandidat"
     - name: ISDIALOGMOTEKANDIDAT_HOST
-      value: "isdialogmotekandidat.intern.nav.no"
+      value: "http://isdialogmotekandidat"
     - name: ISNARMESTELEDER_AAD_APP_CLIENT_ID
       value: "prod-gcp.teamsykefravr.isnarmesteleder"
     - name: ISNARMESTELEDER_HOST
-      value: "isnarmesteleder.intern.nav.no"
-    - name: ISOPPFOLGINGSTILFELLE_HOST
-      value: "isoppfolgingstilfelle.intern.nav.no"
+      value: "http://isnarmesteleder"
     - name: ISOPPFOLGINGSTILFELLE_AAD_APP_CLIENT_ID
       value: "prod-gcp.teamsykefravr.isoppfolgingstilfelle"
+    - name: ISOPPFOLGINGSTILFELLE_HOST
+      value: "http://isoppfolgingstilfelle"
     - name: ISPENGESTOPP_AAD_APP_CLIENT_ID
       value: "prod-gcp.teamsykefravr.ispengestopp"
     - name: ISPENGESTOPP_HOST
-      value: "ispengestopp.intern.nav.no"
+      value: "http://ispengestopp"
     - name: ISPERSONOPPGAVE_AAD_APP_CLIENT_ID
       value: "prod-gcp.teamsykefravr.ispersonoppgave"
     - name: ISPERSONOPPGAVE_HOST
-      value: "ispersonoppgave.intern.nav.no"
+      value: "http://ispersonoppgave"
     - name: MODIACONTEXTHOLDER_AAD_APP_CLIENT_ID
       value: "prod-fss.personoversikt.modiacontextholder"
     - name: MODIACONTEXTHOLDER_HOST
-      value: "modiacontextholder.intern.nav.no"
+      value: "https://modiacontextholder.prod-fss-pub.nais.io"
     - name: SYFOBEHANDLENDEENHET_AAD_APP_CLIENT_ID
       value: "prod-gcp.teamsykefravr.syfobehandlendeenhet"
     - name: SYFOBEHANDLENDEENHET_HOST
-      value: "syfobehandlendeenhet.intern.nav.no"
+      value: "http://syfobehandlendeenhet"
     - name: SYFOMOTEBEHOV_AAD_APP_CLIENT_ID
-      value: "54f7befe-1d6b-45de-a718-a47de79c4239"
+      value: "prod-fss.team-esyfo.syfomotebehov"
     - name: SYFOMOTEBEHOV_HOST
-      value: "syfomotebehov.intern.nav.no"
+      value: "https://syfomotebehov.prod-fss-pub.nais.io"
     - name: SYFOOPPFOLGINGSPLANSERVICE_AAD_APP_CLIENT_ID
-      value: "9eae3413-a2e3-4b5b-bb56-f5fa1e737110"
+      value: "prod-fss.team-esyfo.syfooppfolgingsplanservice"
     - name: SYFOOPPFOLGINGSPLANSERVICE_HOST
-      value: "syfooppfolgingsplanservice.intern.nav.no"
+      value: "https://syfooppfolgingsplanservice.prod-fss-pub.nais.io"
     - name: SYFOPERSON_AAD_APP_CLIENT_ID
       value: "prod-gcp.teamsykefravr.syfoperson"
     - name: SYFOPERSON_HOST
-      value: "syfoperson.intern.nav.no"
+      value: "http://syfoperson"
     - name: SYFOSMREGISTER_AAD_APP_CLIENT_ID
       value: "prod-gcp.teamsykmelding.syfosmregister"
     - name: SYFOSMREGISTER_HOST
-      value: "smregister.intern.nav.no"
+      value: "http://syfosmregister.teamsykmelding"
     - name: SYKEPENGESOKNAD_BACKEND_AAD_APP_CLIENT_ID
       value: "prod-gcp.flex.sykepengesoknad-backend"
     - name: SYKEPENGESOKNAD_BACKEND_HOST
-      value: "flex-intern-gateway.intern.nav.no"
+      value: "http://sykepengesoknad-backend.flex"
     - name: SYFOTILGANGSKONTROLL_AAD_APP_CLIENT_ID
       value: "prod-fss.teamsykefravr.syfo-tilgangskontroll"
     - name: SYFOTILGANGSKONTROLL_HOST
-      value: "syfo-tilgangskontroll.intern.nav.no"
+      value: "https://syfo-tilgangskontroll.prod-fss-pub.nais.io"
     - name: SYFOVEILEDER_AAD_APP_CLIENT_ID
       value: "prod-gcp.teamsykefravr.syfoveileder"
     - name: SYFOVEILEDER_HOST
-      value: "syfoveileder.intern.nav.no"
+      value: "http://syfoveileder"
