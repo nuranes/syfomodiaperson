@@ -1,6 +1,6 @@
 import React from "react";
 import { Row } from "nav-frontend-grid";
-import NavFrontendSpinner from "nav-frontend-spinner";
+import { Loader } from "@navikt/ds-react";
 
 const AppSpinner = () => {
   return (
@@ -8,9 +8,9 @@ const AppSpinner = () => {
       className="row-centered blokk--xl"
       aria-label="Vent litt mens siden laster"
     >
-      <NavFrontendSpinner type="XL">
+      <Loader size="2xlarge" title="Venter...">
         Vent litt mens siden laster
-      </NavFrontendSpinner>
+      </Loader>
     </Row>
   );
 };

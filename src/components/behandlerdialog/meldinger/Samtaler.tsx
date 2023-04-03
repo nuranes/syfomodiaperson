@@ -7,7 +7,7 @@ import {
 import { GuidePanel } from "@navikt/ds-react";
 import styled from "styled-components";
 import { SamtalerAccordionList } from "@/components/behandlerdialog/meldinger/SamtalerAccordionList";
-import { AppSpinnerNew } from "@/components/AppSpinnerNew";
+import AppSpinner from "@/components/AppSpinner";
 
 const texts = {
   guidePanel:
@@ -63,7 +63,7 @@ export const Samtaler = () => {
   return (
     <StyledSamtaler>
       {isInitialLoading ? (
-        <AppSpinnerNew />
+        <AppSpinner />
       ) : sortedConversations.length ? (
         <SamtalerAccordionList sortedConversations={sortedConversations} />
       ) : (
