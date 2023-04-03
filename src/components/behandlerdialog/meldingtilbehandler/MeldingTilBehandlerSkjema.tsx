@@ -19,7 +19,7 @@ import { MeldingTilBehandlerDTO } from "@/data/behandlerdialog/behandlerdialogTy
 import { useMeldingTilBehandler } from "@/data/behandlerdialog/useMeldingTilBehandler";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { AlertstripeFullbredde } from "@/components/AlertstripeFullbredde";
-import { tilDatoMedManedNavn, visKlokkeslett } from "@/utils/datoUtils";
+import { tilDatoMedManedNavnOgKlokkeslett } from "@/utils/datoUtils";
 import { FormApi } from "final-form";
 import { Forhandsvisning } from "@/components/Forhandsvisning";
 import { useMeldingTilBehandlerDocument } from "@/hooks/behandlerdialog/document/useMeldingTilBehandlerDocument";
@@ -111,9 +111,7 @@ export const MeldingTilBehandlerSkjema = () => {
           <StyledForm onSubmit={handleSubmit}>
             {meldingTilBehandler.isSuccess && (
               <AlertstripeFullbredde type={"suksess"}>
-                {`Meldingen ble sendt ${tilDatoMedManedNavn(
-                  now
-                )} kl ${visKlokkeslett(now)}`}
+                {`Meldingen ble sendt ${tilDatoMedManedNavnOgKlokkeslett(now)}`}
               </AlertstripeFullbredde>
             )}
             <VelgBehandler

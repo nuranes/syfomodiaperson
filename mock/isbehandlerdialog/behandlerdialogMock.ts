@@ -5,10 +5,13 @@ export const defaultMelding = {
   innkommende: false,
 };
 
+const longMelding =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec tincidunt sapien. Aliquam a velit nisl. Integer feugiat est et suscipit cursus. Morbi iaculis quam ut malesuada semper. In hac habitasse platea dictumst. Nam scelerisque neque at augue dictum pulvinar. Sed sed posuere mi. Duis ac quam at metus luctus hendrerit ac ut nulla. Ut eu laoreet arcu. Ut eget lacus sed nisi vestibulum volutpat a sit amet tellus.";
+
 const meldinger = [
   defaultMelding,
   {
-    ...defaultMelding,
+    tekst: longMelding,
     behandlerRef: "behandlerRef2",
     innkommende: true,
     tidspunkt: "2023-01-02T12:00:00.000+01:00",

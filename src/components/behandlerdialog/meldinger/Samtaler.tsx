@@ -4,9 +4,10 @@ import {
   Conversations,
   Melding,
 } from "@/data/behandlerdialog/behandlerdialogTypes";
-import { Accordion, GuidePanel } from "@navikt/ds-react";
-import { tilDatoMedManedNavnOgKlokkeslett } from "@/utils/datoUtils";
+import { GuidePanel } from "@navikt/ds-react";
 import styled from "styled-components";
+import { SamtalerAccordionList } from "@/components/behandlerdialog/meldinger/SamtalerAccordionList";
+import { AppSpinnerNew } from "@/components/AppSpinnerNew";
 
 const texts = {
   guidePanel:
@@ -19,13 +20,20 @@ const StyledSamtaler = styled.div`
 
 const StyledGuidePanel = styled(GuidePanel)`
   margin-bottom: 1.5em;
+
   > * {
     min-height: 0;
   }
 `;
 
-const sortMeldingerByTidspunkt = (m1: Melding, m2: Melding) => {
-  return new Date(m2.tidspunkt).getTime() - new Date(m1.tidspunkt).getTime();
+const sortMeldingerByTidspunkt = (
+  m1: Melding,
+  m2: Melding,
+  order: "asc" | "desc" = "asc"
+) => {
+  return order === "desc"
+    ? new Date(m2.tidspunkt).getTime() - new Date(m1.tidspunkt).getTime()
+    : new Date(m1.tidspunkt).getTime() - new Date(m2.tidspunkt).getTime();
 };
 
 export const sortConversations = (
@@ -33,20 +41,20 @@ export const sortConversations = (
 ): Melding[][] => {
   const conversationRefs: string[] = Object.keys(conversations);
   conversationRefs.sort((a, b) => {
-    const aNewestMelding: Melding = conversations[a].sort((m1, m2) =>
-      sortMeldingerByTidspunkt(m1, m2)
-    )[0];
-    const bNewestMelding: Melding = conversations[b].sort((m1, m2) =>
-      sortMeldingerByTidspunkt(m1, m2)
-    )[0];
-    return sortMeldingerByTidspunkt(aNewestMelding, bNewestMelding);
+    const aNewestMelding: Melding = conversations[a]
+      .sort((m1, m2) => sortMeldingerByTidspunkt(m1, m2))
+      .slice(-1)[0];
+    const bNewestMelding: Melding = conversations[b]
+      .sort((m1, m2) => sortMeldingerByTidspunkt(m1, m2))
+      .slice(-1)[0];
+    return sortMeldingerByTidspunkt(aNewestMelding, bNewestMelding, "desc");
   });
 
   return conversationRefs.map((ref: string) => conversations[ref]);
 };
 
 export const Samtaler = () => {
-  const { data } = useBehandlerdialogQuery();
+  const { data, isInitialLoading } = useBehandlerdialogQuery();
 
   const sortedConversations: Melding[][] = useMemo(() => {
     return data ? sortConversations(data.conversations) : [];
@@ -54,22 +62,10 @@ export const Samtaler = () => {
 
   return (
     <StyledSamtaler>
-      {sortedConversations.length ? (
-        sortedConversations.map((meldinger: Melding[], index: number) => {
-          const dateAndTimeForNewestMelding = `${tilDatoMedManedNavnOgKlokkeslett(
-            meldinger[0].tidspunkt
-          )}`;
-          return (
-            <Accordion key={index}>
-              <Accordion.Item>
-                <Accordion.Header>{`${meldinger[0].behandlerRef} ${dateAndTimeForNewestMelding}`}</Accordion.Header>{" "}
-                {/*TODO: Hent behandlernavn basert på behandlerRef*/}
-                <Accordion.Content>{meldinger[0].tekst}</Accordion.Content>{" "}
-                {/*TODO: Utvid med visning for meldinger*/}
-              </Accordion.Item>
-            </Accordion>
-          );
-        })
+      {isInitialLoading ? (
+        <AppSpinnerNew />
+      ) : sortedConversations.length ? (
+        <SamtalerAccordionList sortedConversations={sortedConversations} />
       ) : (
         <StyledGuidePanel>{texts.guidePanel}</StyledGuidePanel>
       )}

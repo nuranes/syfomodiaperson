@@ -40,6 +40,7 @@ import MotebehovIkkeSvartImage from "./svg/motebehov--ikkesvart.svg";
 import MotebehovKanImage from "./svg/motebehov--kan.svg";
 import MotebehovKanIkkeImage from "./svg/motebehov--kanikke.svg";
 import MoteIkonBlaaImage from "./svg/moteikon_blaabg.svg";
+import NavLogoRod from "./svg/nav_logo_rod.svg";
 import PersonImage from "./svg/person.svg";
 import PersonHighContrastImage from "./svg/person-highcontrast.svg";
 import PersonHoverImage from "./svg/person_hover.svg";
@@ -55,6 +56,8 @@ import SoknaderHoverImage from "./svg/soknader_hover-blue.svg";
 import StatusIkkeSvarImage from "./svg/status--ikkesvar.svg";
 import StatusKanImage from "./svg/status--kan.svg";
 import StatusKanIkkeImage from "./svg/status--kanikke.svg";
+import StetoskopIkon from "./svg/stetoskop_ikon.svg";
+import StetoskopIkonBakgrunn from "./svg/stetoskop_ikon_bakgrunn.svg";
 import SykmeldingerImage from "./svg/sykmeldinger.svg";
 import SykmeldingerHoverBlaaImage from "./svg/sykmeldinger_hover-blue.svg";
 import Unntaksstatistikk from "./svg/unntaksstatistikk.svg";
@@ -111,6 +114,7 @@ export {
   MotebehovKanImage,
   MotebehovKanIkkeImage,
   MoteIkonBlaaImage,
+  NavLogoRod,
   PersonImage,
   PersonHighContrastImage,
   PersonHoverImage,
@@ -128,6 +132,8 @@ export {
   StatusIkkeSvarImage,
   StatusKanImage,
   StatusKanIkkeImage,
+  StetoskopIkon,
+  StetoskopIkonBakgrunn,
   SykmeldingerImage,
   SykmeldingerHoverBlaaImage,
   CheckboxPng,

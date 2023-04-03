@@ -38,11 +38,11 @@ describe("Meldinger panel", () => {
   it("Viser accordion med en samtale", () => {
     renderMeldinger();
 
-    const samtaleAccordion = screen.getByText("behandlerRef3", {
+    const samtaleAccordion = screen.getByText("behandlerRef 3. januar", {
       exact: false,
     });
     expect(samtaleAccordion).to.exist;
-    expect(screen.getAllByText("Dette er en melding")).to.have.length(3);
+    expect(screen.getAllByText("Dette er en melding")).to.have.length(4);
   });
 
   it("Meldinger sorteres i riktig rekkefølge med nyeste samtale først", () => {
@@ -50,9 +50,9 @@ describe("Meldinger panel", () => {
 
     const accordions = screen.getAllByRole("button");
     expect(accordions).to.have.length(3);
-    expect(accordions[0].textContent).to.contain("behandlerRef3");
-    expect(accordions[1].textContent).to.contain("behandlerRef2");
-    expect(accordions[2].textContent).to.contain("behandlerRef");
+    expect(accordions[0].textContent).to.contain("3. januar");
+    expect(accordions[1].textContent).to.contain("2. januar");
+    expect(accordions[2].textContent).to.contain("1. januar");
   });
 
   it("Viser GuidePanel når det ikke finnes dialogmeldinger på personen", () => {
