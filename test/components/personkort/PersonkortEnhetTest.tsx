@@ -64,4 +64,13 @@ describe("PersonkortEnhet", () => {
 
     expect(await screen.findByText("Endre til NAV utland")).to.exist;
   });
+
+  it("viser endre enhet til geografisk enhet hvis allerede NAV utland", async () => {
+    const utlandEnhet = { enhetId: "0393", navn: "NAV Utland" };
+    stubBehandlendeEnhetApi(apiMockScope, utlandEnhet);
+    stubChangeEnhetApi(apiMockScope, person);
+    renderPersonkortEnhet();
+
+    expect(await screen.findByText("Endre til geografisk enhet")).to.exist;
+  });
 });

@@ -7,10 +7,18 @@ import { useValgtPersonident } from "@/hooks/useValgtBruker";
 
 const texts = {
   endre: "Endre til",
-  contentModal1:
-    "Hvis du ikke har tilgang til NAV utland, vil du miste tilgangen til denne personen når enheten endres.",
-  contentModal2:
-    "Veiledere med tilgang til NAV utland kan senere flytte personen tilbake til geografisk enhet.",
+  toUtland: {
+    contentModal1:
+      "Hvis du ikke har tilgang til NAV utland, vil du miste tilgangen til denne personen når enheten endres.",
+    contentModal2:
+      "Veiledere med tilgang til NAV utland kan senere flytte personen tilbake til geografisk enhet.",
+  },
+  toGeografisk: {
+    contentModal1:
+      "Hvis du ikke har tilgang til den geografiske enheten, vil du miste tilgangen til denne personen når enheten endres.",
+    contentModal2:
+      "Veiledere med tilgang til geografisk enhet kan senere flytte personen tilbake til NAV Utland.",
+  },
 };
 
 const NAV_UTLAND = "0393";
@@ -41,6 +49,13 @@ const PersonkortChangeEnhet = ({
     isCurrentlyNavUtland ? "geografisk enhet" : "NAV utland"
   }`;
 
+  const modalText1 = isCurrentlyNavUtland
+    ? texts.toGeografisk.contentModal1
+    : texts.toUtland.contentModal1;
+  const modalText2 = isCurrentlyNavUtland
+    ? texts.toGeografisk.contentModal2
+    : texts.toUtland.contentModal2;
+
   const updateEnhet = () => {
     changeEnhet.mutate({
       personident: fnr,
@@ -66,8 +81,8 @@ const PersonkortChangeEnhet = ({
             {heading}
           </Heading>
           <BodyLong as={"div"} spacing={true}>
-            <p>{texts.contentModal1}</p>
-            <p>{texts.contentModal2}</p>
+            <p>{modalText1}</p>
+            <p>{modalText2}</p>
           </BodyLong>
           <ButtonGroup>
             <Button variant="danger" onClick={updateEnhet}>
