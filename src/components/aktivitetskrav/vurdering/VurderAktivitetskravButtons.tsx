@@ -1,8 +1,8 @@
 import React from "react";
 import { FlexRow, PaddingSize } from "@/components/Layout";
-import Knapp from "nav-frontend-knapper";
 import styled from "styled-components";
 import { ModalType } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravModal";
+import { Button } from "@navikt/ds-react";
 
 const texts = {
   avventer: "Avventer",
@@ -11,7 +11,7 @@ const texts = {
   ikkeOppfylt: "Ikke oppfylt",
 };
 
-const StyledKnapp = styled(Knapp)`
+const StyledButton = styled(Button)`
   margin-right: 1em;
 `;
 
@@ -24,18 +24,24 @@ export const VurderAktivitetskravButtons = ({
 }: VurderAktivitetskravButtonsProps) => {
   return (
     <FlexRow topPadding={PaddingSize.MD}>
-      <StyledKnapp onClick={() => onButtonClick("AVVENT")}>
+      <StyledButton variant="secondary" onClick={() => onButtonClick("AVVENT")}>
         {texts.avventer}
-      </StyledKnapp>
-      <StyledKnapp onClick={() => onButtonClick("UNNTAK")}>
+      </StyledButton>
+      <StyledButton variant="secondary" onClick={() => onButtonClick("UNNTAK")}>
         {texts.unntak}
-      </StyledKnapp>
-      <StyledKnapp onClick={() => onButtonClick("OPPFYLT")}>
+      </StyledButton>
+      <StyledButton
+        variant="secondary"
+        onClick={() => onButtonClick("OPPFYLT")}
+      >
         {texts.oppfylt}
-      </StyledKnapp>
-      <StyledKnapp onClick={() => onButtonClick("IKKE_OPPFYLT")}>
+      </StyledButton>
+      <StyledButton
+        variant="secondary"
+        onClick={() => onButtonClick("IKKE_OPPFYLT")}
+      >
         {texts.ikkeOppfylt}
-      </StyledKnapp>
+      </StyledButton>
     </FlexRow>
   );
 };

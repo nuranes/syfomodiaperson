@@ -1,14 +1,14 @@
-import { Flatknapp, Hovedknapp } from "nav-frontend-knapper";
 import { FlexRow } from "@/components/Layout";
 import React from "react";
 import styled from "styled-components";
+import { Button } from "@navikt/ds-react";
 
 const texts = {
   lagre: "Lagre",
   avbryt: "Avbryt",
 };
 
-const LagreButton = styled(Hovedknapp)`
+const LagreButton = styled(Button)`
   margin-right: 1em;
 `;
 
@@ -23,14 +23,12 @@ export const VurderAktivitetskravSkjemaButtons = ({
 }: VurderAktivitetskravSkjemaButtonsProps) => {
   return (
     <FlexRow>
-      <LagreButton
-        autoDisableVedSpinner
-        htmlType="submit"
-        spinner={showLagreSpinner}
-      >
+      <LagreButton loading={showLagreSpinner} type="submit">
         {texts.lagre}
       </LagreButton>
-      <Flatknapp onClick={onAvbrytClick}>{texts.avbryt}</Flatknapp>
+      <Button variant="tertiary" onClick={onAvbrytClick}>
+        {texts.avbryt}
+      </Button>
     </FlexRow>
   );
 };
