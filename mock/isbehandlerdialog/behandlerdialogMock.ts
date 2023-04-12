@@ -1,5 +1,10 @@
+import {
+  behandlerRefDoktorLegesen,
+  behandlerRefLegoLasLegesen,
+} from "../isdialogmelding/behandlereDialogmeldingMock";
+
 export const defaultMelding = {
-  behandlerRef: "behandlerRef",
+  behandlerRef: behandlerRefDoktorLegesen,
   tekst: "Dette er en melding",
   tidspunkt: "2023-01-01T12:00:00.000+01:00",
   innkommende: false,
@@ -12,13 +17,12 @@ const meldinger = [
   defaultMelding,
   {
     tekst: longMelding,
-    behandlerRef: "behandlerRef2",
+    behandlerRef: behandlerRefLegoLasLegesen,
     innkommende: true,
     tidspunkt: "2023-01-02T12:00:00.000+01:00",
   },
   {
     ...defaultMelding,
-    behandlerRef: "behandlerRef3",
     innkommende: true,
     tidspunkt: "2023-01-03T12:00:00.000+01:00",
   },

@@ -1,7 +1,10 @@
+export const behandlerRefLegoLasLegesen = "behandler-ref-uuid";
+export const behandlerRefDoktorLegesen = "behandler-ref-annen-uuid";
+
 export const behandlereDialogmeldingMock = [
   {
     type: "FASTLEGE",
-    behandlerRef: "behandler-ref-uuid",
+    behandlerRef: behandlerRefLegoLasLegesen,
     fornavn: "Lego",
     mellomnavn: "Las",
     etternavn: "Legesen",
@@ -42,3 +45,17 @@ export const behandlerSokDialogmeldingMock = [
     orgnummer: "000888001",
   },
 ];
+
+export const behandlerByBehandlerRefMock = {
+  type: "FASTLEGE",
+  behandlerRef: behandlerRefDoktorLegesen,
+  fornavn: "Doktor",
+  mellomnavn: undefined,
+  etternavn: "Legesen",
+  kontor: "PONTYPANDY LEGEKONTOR",
+  adresse: "Branngata 2",
+  postnummer: "1400",
+  poststed: "Pontypandy",
+  telefon: "12345678",
+  orgnummer: "000999000",
+};

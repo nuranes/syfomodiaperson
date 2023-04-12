@@ -21,7 +21,11 @@ import { behandlerDeltaker } from "./dialogmote/testData";
 import { brukerinfoMock } from "../mock/syfoperson/brukerinfoMock";
 import { brukerinfoQueryKeys } from "@/data/navbruker/navbrukerQueryHooks";
 import { behandlereQueryKeys } from "@/data/behandler/behandlereQueryHooks";
-import { behandlereDialogmeldingMock } from "../mock/isdialogmelding/behandlereDialogmeldingMock";
+import {
+  behandlerByBehandlerRefMock,
+  behandlereDialogmeldingMock,
+  behandlerRefDoktorLegesen,
+} from "../mock/isdialogmelding/behandlereDialogmeldingMock";
 import { behandlerdialogQueryKeys } from "@/data/behandlerdialog/behandlerdialogQueryHooks";
 import { behandlerdialogMock } from "../mock/isbehandlerdialog/behandlerdialogMock";
 
@@ -101,6 +105,11 @@ export const queryClientWithMockData = (): QueryClient => {
   queryClient.setQueryData(
     behandlerdialogQueryKeys.behandlerdialog(ARBEIDSTAKER_DEFAULT.personIdent),
     () => behandlerdialogMock
+  );
+
+  queryClient.setQueryData(
+    behandlereQueryKeys.behandlerRef(behandlerRefDoktorLegesen),
+    () => behandlerByBehandlerRefMock
   );
 
   return queryClient;

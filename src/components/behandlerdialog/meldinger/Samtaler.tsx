@@ -6,7 +6,7 @@ import {
 } from "@/data/behandlerdialog/behandlerdialogTypes";
 import { GuidePanel } from "@navikt/ds-react";
 import styled from "styled-components";
-import { SamtalerAccordionList } from "@/components/behandlerdialog/meldinger/SamtalerAccordionList";
+import { SamtaleAccordion } from "@/components/behandlerdialog/meldinger/SamtaleAccordion";
 import AppSpinner from "@/components/AppSpinner";
 
 const texts = {
@@ -65,7 +65,11 @@ export const Samtaler = () => {
       {isInitialLoading ? (
         <AppSpinner />
       ) : sortedConversations.length ? (
-        <SamtalerAccordionList sortedConversations={sortedConversations} />
+        <>
+          {sortedConversations.map((meldinger: Melding[], index: number) => (
+            <SamtaleAccordion meldinger={meldinger} key={index} />
+          ))}
+        </>
       ) : (
         <StyledGuidePanel>{texts.guidePanel}</StyledGuidePanel>
       )}

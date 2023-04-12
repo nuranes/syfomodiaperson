@@ -6,6 +6,7 @@ import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
 
 export const behandlereQueryKeys = {
   behandlere: (fnr: string) => ["behandlere", fnr],
+  behandlerRef: (behandlerRef: string) => ["behandlerRef", behandlerRef],
 };
 
 export const useBehandlereQuery = () => {
@@ -40,4 +41,20 @@ export const useSokBehandlereQuery = (searchstring: string) => {
     ...query,
     data: query.data || [],
   };
+};
+
+export const useBehandlerByBehandlerRefQuery = (
+  behandlerRef: string,
+  isEnabled: boolean
+) => {
+  const fetchBehandlerByBehandlerRef = () =>
+    get<BehandlerDTO>(`${ISDIALOGMELDING_ROOT}/behandler/${behandlerRef}`);
+
+  return useQuery(
+    behandlereQueryKeys.behandlerRef(behandlerRef),
+    fetchBehandlerByBehandlerRef,
+    {
+      enabled: isEnabled,
+    }
+  );
 };

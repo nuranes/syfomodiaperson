@@ -38,7 +38,7 @@ describe("Meldinger panel", () => {
   it("Viser accordion med en samtale", () => {
     renderMeldinger();
 
-    const samtaleAccordion = screen.getByText("behandlerRef 3. januar", {
+    const samtaleAccordion = screen.getByText("Doktor Legesen 3. januar", {
       exact: false,
     });
     expect(samtaleAccordion).to.exist;
@@ -69,5 +69,14 @@ describe("Meldinger panel", () => {
         "Her kommer meldingene som blir sendt til og fra behandler(e) som er knyttet til personen."
       )
     ).to.exist;
+  });
+
+  it("Viser riktig behandlerNavn for behandlere", () => {
+    renderMeldinger();
+
+    expect(screen.getAllByText("Skrevet av Lego Las Legesen")).to.have.length(
+      2
+    );
+    expect(screen.getByText("Skrevet av Doktor Legesen")).to.exist;
   });
 });
