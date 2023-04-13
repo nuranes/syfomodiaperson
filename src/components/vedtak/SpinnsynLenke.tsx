@@ -1,18 +1,11 @@
 import Lenke from "nav-frontend-lenker";
 import React from "react";
-import { erLokal, erPreProd, fullNaisUrlIntern } from "@/utils/miljoUtil";
+import { fullNaisUrlIntern } from "@/utils/miljoUtil";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import { ExternalLink } from "@navikt/ds-icons";
 
 export const spinnsynUrl = function () {
-  const path = "/syk/sykepenger";
-  if (erLokal()) {
-    return path;
-  }
-  if (erPreProd()) {
-    return `https://spinnsyn-frontend-interne.intern.dev.nav.no${path}`;
-  }
-  return fullNaisUrlIntern("spinnsyn-frontend-interne", path);
+  return fullNaisUrlIntern("spinnsyn-frontend-interne", "/syk/sykepenger");
 };
 
 export const SpinnsynLenke = () => {

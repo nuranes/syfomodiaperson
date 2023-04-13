@@ -3,10 +3,7 @@ export const erProd = () => {
 };
 
 export const erPreProd = () => {
-  return (
-    window.location.href.indexOf("syfomodiaperson.dev.intern.nav.no") > -1 ||
-    window.location.href.indexOf("syfomodiaperson.intern.dev.nav.no") > -1
-  );
+  return window.location.href.indexOf("syfomodiaperson.intern.dev.nav.no") > -1;
 };
 
 export const finnMiljoStreng = () => {
@@ -18,7 +15,7 @@ export const erLokal = (): boolean => {
 };
 
 export const finnNaisUrlIntern = () => {
-  return erPreProd() ? ".dev.intern.nav.no" : ".intern.nav.no";
+  return erPreProd() ? ".intern.dev.nav.no" : ".intern.nav.no";
 };
 
 export const fullNaisUrlIntern = (host: string, path = "") => {
