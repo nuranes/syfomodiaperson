@@ -6,6 +6,7 @@ export enum AktivitetskravStatus {
   AUTOMATISK_OPPFYLT = "AUTOMATISK_OPPFYLT",
   STANS = "STANS",
   IKKE_OPPFYLT = "IKKE_OPPFYLT",
+  IKKE_AKTUELL = "IKKE_AKTUELL",
 }
 
 export enum AvventVurderingArsak {

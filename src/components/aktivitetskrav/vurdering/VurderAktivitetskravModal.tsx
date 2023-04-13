@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { UnntakAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/UnntakAktivitetskravSkjema";
 import { AvventAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/AvventAktivitetskravSkjema";
 import { IkkeOppfyltAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/IkkeOppfyltAktivitetskravSkjema";
+import { IkkeAktuellAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/IkkeAktuellAktivitetskravSkjema";
 
 const texts = {
   modalContentLabel: "Vurder aktivitetskrav",
@@ -15,6 +16,7 @@ export type ModalType = `${
   | AktivitetskravStatus.AVVENT
   | AktivitetskravStatus.UNNTAK
   | AktivitetskravStatus.OPPFYLT
+  | AktivitetskravStatus.IKKE_AKTUELL
   | AktivitetskravStatus.IKKE_OPPFYLT}`;
 
 interface VurderAktivitetskravModalProps {
@@ -79,6 +81,9 @@ const VurderAktivitetskravModalContent = ({
     }
     case "IKKE_OPPFYLT": {
       return <IkkeOppfyltAktivitetskravSkjema {...rest} />;
+    }
+    case "IKKE_AKTUELL": {
+      return <IkkeAktuellAktivitetskravSkjema {...rest} />;
     }
   }
 };

@@ -19,6 +19,7 @@ import {
   createAktivitetskrav,
   createAktivitetskravVurdering,
   generateOppfolgingstilfelle,
+  ikkeAktuellVurdering,
   ikkeOppfyltVurdering,
   oppfyltVurdering,
   unntakVurdering,
@@ -315,6 +316,22 @@ describe("AktivitetskravSide", () => {
       expect(screen.getByRole("img", { name: "suksess-ikon" })).to.exist;
       expect(
         screen.getByText(/Det er vurdert at aktivitetskravet ikke er oppfylt/)
+      ).to.exist;
+    });
+    it("viser suksess når siste aktivitetskrav-vurdering er IKKE_AKTUELL", () => {
+      mockAktivitetskrav([
+        createAktivitetskrav(
+          daysFromToday(20),
+          AktivitetskravStatus.IKKE_AKTUELL,
+          [ikkeAktuellVurdering]
+        ),
+      ]);
+      mockOppfolgingstilfellePerson([activeOppfolgingstilfelle]);
+      renderAktivitetskravSide();
+
+      expect(screen.getByRole("img", { name: "suksess-ikon" })).to.exist;
+      expect(
+        screen.getByText(/Det er vurdert at aktivitetskravet ikke er aktuelt/)
       ).to.exist;
     });
     it("viser ingen alert når ingen aktivitetskrav-vurdering", () => {

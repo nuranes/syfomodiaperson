@@ -1,5 +1,4 @@
 import React from "react";
-import { FlexRow, PaddingSize } from "@/components/Layout";
 import styled from "styled-components";
 import { ModalType } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravModal";
 import { Button } from "@navikt/ds-react";
@@ -9,10 +8,16 @@ const texts = {
   oppfylt: "Er i aktivitet",
   unntak: "Sett unntak",
   ikkeOppfylt: "Ikke oppfylt",
+  ikkeAktuell: "Ikke aktuell",
 };
 
-const StyledButton = styled(Button)`
-  margin-right: 1em;
+const ButtonRow = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  flex-flow: row wrap;
+  gap: 1em;
+  padding-top: 2em;
+  padding-bottom: 1em;
 `;
 
 interface VurderAktivitetskravButtonsProps {
@@ -23,25 +28,25 @@ export const VurderAktivitetskravButtons = ({
   onButtonClick,
 }: VurderAktivitetskravButtonsProps) => {
   return (
-    <FlexRow topPadding={PaddingSize.MD}>
-      <StyledButton variant="secondary" onClick={() => onButtonClick("AVVENT")}>
+    <ButtonRow>
+      <Button variant="secondary" onClick={() => onButtonClick("AVVENT")}>
         {texts.avventer}
-      </StyledButton>
-      <StyledButton variant="secondary" onClick={() => onButtonClick("UNNTAK")}>
+      </Button>
+      <Button variant="secondary" onClick={() => onButtonClick("UNNTAK")}>
         {texts.unntak}
-      </StyledButton>
-      <StyledButton
-        variant="secondary"
-        onClick={() => onButtonClick("OPPFYLT")}
-      >
+      </Button>
+      <Button variant="secondary" onClick={() => onButtonClick("OPPFYLT")}>
         {texts.oppfylt}
-      </StyledButton>
-      <StyledButton
-        variant="secondary"
-        onClick={() => onButtonClick("IKKE_OPPFYLT")}
-      >
+      </Button>
+      <Button variant="secondary" onClick={() => onButtonClick("IKKE_OPPFYLT")}>
         {texts.ikkeOppfylt}
-      </StyledButton>
-    </FlexRow>
+      </Button>
+      <Button
+        variant="secondary-neutral"
+        onClick={() => onButtonClick("IKKE_AKTUELL")}
+      >
+        {texts.ikkeAktuell}
+      </Button>
+    </ButtonRow>
   );
 };

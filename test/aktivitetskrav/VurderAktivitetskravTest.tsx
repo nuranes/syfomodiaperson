@@ -45,11 +45,15 @@ const oppfolgingstilfelle = generateOppfolgingstilfelle(
   tilfelleEnd
 );
 
-const avventButtonText = "Avventer";
+export const buttonTexts = {
+  [AktivitetskravStatus.AVVENT]: "Avventer",
+  [AktivitetskravStatus.UNNTAK]: "Sett unntak",
+  [AktivitetskravStatus.OPPFYLT]: "Er i aktivitet",
+  [AktivitetskravStatus.IKKE_OPPFYLT]: "Ikke oppfylt",
+  [AktivitetskravStatus.IKKE_AKTUELL]: "Ikke aktuell",
+};
+
 const enBeskrivelse = "Her er en beskrivelse";
-const unntakButtonText = "Sett unntak";
-const oppfyltButtonText = "Er i aktivitet";
-const ikkeOppfyltButtonText = "Ikke oppfylt";
 
 const renderVurderAktivitetskrav = (
   aktivitetskravDto: AktivitetskravDTO | undefined,
@@ -73,10 +77,9 @@ describe("VurderAktivitetskrav", () => {
   });
   it("renders buttons for vurdering av aktivitetskravet", () => {
     renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
-    expect(getButton(avventButtonText)).to.exist;
-    expect(getButton(unntakButtonText)).to.exist;
-    expect(getButton(oppfyltButtonText)).to.exist;
-    expect(getButton(ikkeOppfyltButtonText)).to.exist;
+    Object.values(buttonTexts).forEach(
+      (text) => expect(getButton(text)).to.exist
+    );
   });
   it("renders periode for oppfølgingstilfelle", () => {
     renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
@@ -90,13 +93,17 @@ describe("VurderAktivitetskrav", () => {
   it("renders helptext tooltip", () => {
     renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
-    expect(screen.getByRole("tooltip")).to.exist;
+    const tooltip = screen.getByRole("tooltip");
+    expect(tooltip).to.exist;
+    Object.values(buttonTexts).forEach((text) =>
+      expect(tooltip.textContent?.toLowerCase()).to.contain(text.toLowerCase())
+    );
   });
   describe("Oppfylt", () => {
     it("Validerer årsak og maks tegn beskrivelse", () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
-      clickButton(oppfyltButtonText);
+      clickButton(buttonTexts["OPPFYLT"]);
       const tooLongBeskrivelse = getTooLongText(
         vurderAktivitetskravBeskrivelseMaxLength
       );
@@ -114,7 +121,7 @@ describe("VurderAktivitetskrav", () => {
     it("Lagre vurdering med verdier fra skjema", () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
-      clickButton(oppfyltButtonText);
+      clickButton(buttonTexts["OPPFYLT"]);
 
       expect(screen.getByRole("heading", { name: "Er i aktivitet" })).to.exist;
 
@@ -140,7 +147,7 @@ describe("VurderAktivitetskrav", () => {
     it("Validerer årsak og maks tegn beskrivelse", () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
-      clickButton(unntakButtonText);
+      clickButton(buttonTexts["UNNTAK"]);
       const tooLongBeskrivelse = getTooLongText(
         vurderAktivitetskravBeskrivelseMaxLength
       );
@@ -158,7 +165,7 @@ describe("VurderAktivitetskrav", () => {
     it("Lagre vurdering med verdier fra skjema", () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
-      clickButton(unntakButtonText);
+      clickButton(buttonTexts["UNNTAK"]);
 
       expect(
         screen.getByRole("heading", {
@@ -188,7 +195,7 @@ describe("VurderAktivitetskrav", () => {
     it("Validerer årsaker, beskrivelse og dato", () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
-      clickButton(avventButtonText);
+      clickButton(buttonTexts["AVVENT"]);
       clickButton("Lagre");
 
       expect(screen.getByText("Vennligst angi beskrivelse")).to.exist;
@@ -198,7 +205,7 @@ describe("VurderAktivitetskrav", () => {
     it("Lagre vurdering med verdier fra skjema", () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
-      clickButton(avventButtonText);
+      clickButton(buttonTexts["AVVENT"]);
 
       expect(
         screen.getByRole("heading", {
@@ -242,7 +249,7 @@ describe("VurderAktivitetskrav", () => {
     it("Lagre vurdering med verdier fra skjema", () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
-      clickButton(ikkeOppfyltButtonText);
+      clickButton(buttonTexts["IKKE_OPPFYLT"]);
 
       expect(
         screen.getByRole("heading", {
@@ -269,13 +276,46 @@ describe("VurderAktivitetskrav", () => {
       );
     });
   });
+  describe("Ikke aktuell", () => {
+    it("Lagre vurdering med verdier fra skjema", () => {
+      renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
+
+      clickButton(buttonTexts["IKKE_AKTUELL"]);
+
+      expect(
+        screen.getByRole("heading", {
+          name: "Ikke aktuell",
+        })
+      ).to.exist;
+
+      expect(
+        screen.getByText(
+          /Aktivitetskravet skal ikke vurderes for denne personen/
+        )
+      ).to.exist;
+      clickButton("Lagre");
+
+      const vurderIkkeAktuellMutation = queryClient
+        .getMutationCache()
+        .getAll()[0];
+      const expectedVurdering: CreateAktivitetskravVurderingDTO = {
+        status: AktivitetskravStatus.IKKE_AKTUELL,
+        arsaker: [],
+        beskrivelse: undefined,
+        frist: undefined,
+      };
+      expect(vurderIkkeAktuellMutation.options.variables).to.deep.equal(
+        expectedVurdering
+      );
+    });
+  });
   describe("Uten oppfølgingstilfelle med aktivitetskrav", () => {
     it("Lagre vurdering med verdier fra skjema", () => {
       renderVurderAktivitetskrav(undefined, undefined);
 
       expect(screen.queryByText(/Gjelder tilfelle/)).to.not.exist;
 
-      clickButton(unntakButtonText);
+      clickButton(buttonTexts["UNNTAK"]);
 
       const arsakRadioButton = screen.getByText("Medisinske grunner");
       fireEvent.click(arsakRadioButton);

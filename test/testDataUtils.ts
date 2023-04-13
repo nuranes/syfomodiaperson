@@ -89,3 +89,7 @@ export const ikkeOppfyltVurdering = createAktivitetskravVurdering(
   AktivitetskravStatus.IKKE_OPPFYLT,
   []
 );
+export const ikkeAktuellVurdering = createAktivitetskravVurdering(
+  AktivitetskravStatus.IKKE_AKTUELL,
+  []
+);

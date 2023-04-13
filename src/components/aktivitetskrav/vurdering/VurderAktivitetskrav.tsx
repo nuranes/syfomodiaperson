@@ -17,7 +17,7 @@ import { PopoverOrientering } from "nav-frontend-popover";
 export const texts = {
   header: "Vurdere aktivitetskravet",
   helptext1:
-    "Vurderingen (Avventer, sett unntak, er i aktivitet, ikke oppfylt) gjøres i to trinn.",
+    "Vurderingen (Avventer, sett unntak, er i aktivitet, ikke oppfylt, ikke aktuell) gjøres i to trinn.",
   helptext2: "Ved klikk legger du inn informasjon rundt vurderingen.",
 };
 

@@ -74,6 +74,13 @@ export const AktivitetskravVurderingAlert = ({
         </AktivitetskravAlertstripe>
       );
     }
+    case AktivitetskravStatus.IKKE_AKTUELL: {
+      return (
+        <AktivitetskravAlertstripe type="suksess">
+          {`Det er vurdert at aktivitetskravet ikke er aktuelt for ${navbruker.navn} ${vurderingDatoMedArUtenMndNavn}`}
+        </AktivitetskravAlertstripe>
+      );
+    }
     default:
       return <></>;
   }
