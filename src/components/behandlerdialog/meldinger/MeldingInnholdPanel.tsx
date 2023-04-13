@@ -3,7 +3,6 @@ import { Melding } from "@/data/behandlerdialog/behandlerdialogTypes";
 import { BodyLong, Detail, Panel } from "@navikt/ds-react";
 import styled from "styled-components";
 import { tilDatoMedManedNavnOgKlokkeslett } from "@/utils/datoUtils";
-import { useBehandlerNavn } from "@/hooks/behandler/useBehandlerNavn";
 
 const StyledPanel = styled(Panel)`
   width: 80%;
@@ -29,13 +28,13 @@ interface MeldingInnholdPanelProps {
 }
 
 export const MeldingInnholdPanel = ({ melding }: MeldingInnholdPanelProps) => {
-  const behandlerNavn = useBehandlerNavn(melding.behandlerRef);
+  const behandlerNavn = melding.behandlerNavn;
   return (
     <StyledPanel border>
       <MeldingTekst>{melding.tekst}</MeldingTekst>
       <MeldingDetails>
         <Detail>{tilDatoMedManedNavnOgKlokkeslett(melding.tidspunkt)}</Detail>
-        {melding.innkommende && (
+        {melding.innkommende && behandlerNavn && (
           <Detail>{`Skrevet av ${behandlerNavn}`}</Detail>
         )}
       </MeldingDetails>

@@ -16,6 +16,7 @@ export interface Conversations {
 
 export interface Melding {
   behandlerRef: string;
+  behandlerNavn: string | null;
   tekst: string;
   tidspunkt: Date;
   innkommende: boolean;

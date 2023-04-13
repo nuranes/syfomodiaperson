@@ -8,7 +8,11 @@ import { expect } from "chai";
 import { Meldinger } from "@/components/behandlerdialog/meldinger/Meldinger";
 import { behandlerdialogQueryKeys } from "@/data/behandlerdialog/behandlerdialogQueryHooks";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
-import { behandlerdialogMockEmpty } from "../../mock/isbehandlerdialog/behandlerdialogMock";
+import {
+  behandlerdialogMockEmpty,
+  defaultMelding,
+} from "../../mock/isbehandlerdialog/behandlerdialogMock";
+import { MeldingResponseDTO } from "@/data/behandlerdialog/behandlerdialogTypes";
 
 let queryClient: QueryClient;
 
@@ -78,5 +82,30 @@ describe("Meldinger panel", () => {
       2
     );
     expect(screen.getByText("Skrevet av Doktor Legesen")).to.exist;
+  });
+
+  it("Skal ikke vise 'Skrevet av {navn}' hvis behandlerNavn på innkommende melding er null", () => {
+    const meldingResponse: MeldingResponseDTO = {
+      conversations: {
+        ...behandlerdialogMockEmpty.conversations,
+        ["conversationRef000"]: [
+          {
+            ...defaultMelding,
+            innkommende: true,
+            tidspunkt: new Date(),
+          },
+        ],
+      },
+    };
+    queryClient.setQueryData(
+      behandlerdialogQueryKeys.behandlerdialog(
+        ARBEIDSTAKER_DEFAULT.personIdent
+      ),
+      () => meldingResponse
+    );
+
+    renderMeldinger();
+
+    expect(screen.queryByText("Skrevet av", { exact: false })).to.not.exist;
   });
 });
