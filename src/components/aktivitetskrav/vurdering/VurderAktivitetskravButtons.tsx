@@ -1,7 +1,7 @@
 import React from "react";
-import styled from "styled-components";
 import { ModalType } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravModal";
 import { Button } from "@navikt/ds-react";
+import { ButtonRow, PaddingSize } from "@/components/Layout";
 
 const texts = {
   avventer: "Avventer",
@@ -11,15 +11,6 @@ const texts = {
   ikkeAktuell: "Ikke aktuell",
 };
 
-const ButtonRow = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  flex-flow: row wrap;
-  gap: 1em;
-  padding-top: 2em;
-  padding-bottom: 1em;
-`;
-
 interface VurderAktivitetskravButtonsProps {
   onButtonClick: (modalType: ModalType) => void;
 }
@@ -28,7 +19,7 @@ export const VurderAktivitetskravButtons = ({
   onButtonClick,
 }: VurderAktivitetskravButtonsProps) => {
   return (
-    <ButtonRow>
+    <ButtonRow topPadding={PaddingSize.MD}>
       <Button variant="secondary" onClick={() => onButtonClick("AVVENT")}>
         {texts.avventer}
       </Button>

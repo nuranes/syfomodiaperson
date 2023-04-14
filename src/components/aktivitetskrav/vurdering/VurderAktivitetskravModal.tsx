@@ -12,12 +12,12 @@ const texts = {
   modalContentLabel: "Vurder aktivitetskrav",
 };
 
-export type ModalType = `${
-  | AktivitetskravStatus.AVVENT
-  | AktivitetskravStatus.UNNTAK
-  | AktivitetskravStatus.OPPFYLT
-  | AktivitetskravStatus.IKKE_AKTUELL
-  | AktivitetskravStatus.IKKE_OPPFYLT}`;
+export type ModalType = `${Exclude<
+  AktivitetskravStatus,
+  | AktivitetskravStatus.NY
+  | AktivitetskravStatus.AUTOMATISK_OPPFYLT
+  | AktivitetskravStatus.STANS
+>}`;
 
 interface VurderAktivitetskravModalProps {
   isOpen: boolean;

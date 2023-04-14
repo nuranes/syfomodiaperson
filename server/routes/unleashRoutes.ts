@@ -95,13 +95,6 @@ export const unleashToggles = (toggles: any, valgtEnhet: any, userId: any) => {
       valgtEnhet: valgtEnhet,
       user: userId,
     }),
-    "syfo.aktivitetskrav.vurdering.frist": unleash.isEnabled(
-      "syfo.aktivitetskrav.vurdering.frist",
-      {
-        valgtEnhet: valgtEnhet,
-        user: userId,
-      }
-    ),
     "syfo.gradgraf.diagnosekode": unleash.isEnabled(
       "syfo.gradgraf.diagnosekode",
       {

@@ -73,7 +73,11 @@ const headerPrefix = (status: AktivitetskravStatus): string => {
     case AktivitetskravStatus.IKKE_OPPFYLT: {
       return "Ikke oppfylt";
     }
-    default: {
+    case AktivitetskravStatus.NY:
+    case AktivitetskravStatus.AUTOMATISK_OPPFYLT:
+    case AktivitetskravStatus.AVVENT:
+    case AktivitetskravStatus.IKKE_AKTUELL: {
+      // Ikke relevant for historikk
       return "";
     }
   }

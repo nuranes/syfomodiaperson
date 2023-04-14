@@ -7,6 +7,5 @@ export enum ToggleNames {
   virksomhetinput = "syfo.dialogmote.virksomhetinput",
   unntaksstatistikk = "syfo.kandidat.unntaksstatistikk",
   behandlerdialog = "syfo.behandlerdialog",
-  aktivitetskravVurderingFrist = "syfo.aktivitetskrav.vurdering.frist",
   gradgrafDiagnosekode = "syfo.gradgraf.diagnosekode",
 }

@@ -73,3 +73,17 @@ export const FlexPanel = styled(Panel)`
   margin-bottom: ${PaddingSize.MD};
   padding: 2em;
 `;
+
+interface ButtonRowProps {
+  topPadding?: PaddingSize;
+  bottomPadding?: PaddingSize;
+}
+
+export const ButtonRow = styled.div<ButtonRowProps>`
+  display: flex;
+  justify-content: flex-start;
+  flex-flow: row wrap;
+  gap: 1em;
+  padding-top: ${(props) => props.topPadding || 0};
+  padding-bottom: ${(props) => props.bottomPadding || 0};
+`;

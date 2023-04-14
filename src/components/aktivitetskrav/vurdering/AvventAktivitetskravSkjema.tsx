@@ -8,8 +8,6 @@ import {
   VurderAktivitetskravSkjemaProps,
 } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravSkjema";
 import { useAktivitetskravVurderingSkjema } from "@/hooks/aktivitetskrav/useAktivitetskravVurderingSkjema";
-import { Normaltekst } from "nav-frontend-typografi";
-import { FlexColumn } from "@/components/Layout";
 import {
   AvventArsakerCheckboxGruppe,
   vurderAktivitetskravArsakerFieldName,
@@ -18,8 +16,6 @@ import {
   VurderAktivitetskravBeskrivelse,
   vurderAktivitetskravBeskrivelseFieldName,
 } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravBeskrivelse";
-import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
-import { ToggleNames } from "@/data/unleash/unleash_types";
 import {
   avventerFristDatoField,
   AvventFristDato,
@@ -42,10 +38,6 @@ interface AvventAktivitetskravSkjemaValues {
 export const AvventAktivitetskravSkjema = (
   props: VurderAktivitetskravSkjemaProps
 ) => {
-  const { isFeatureEnabled } = useFeatureToggles();
-  const visFristFelt = isFeatureEnabled(
-    ToggleNames.aktivitetskravVurderingFrist
-  );
   const { createDto, validateArsakerField, validateBeskrivelseField } =
     useAktivitetskravVurderingSkjema(AktivitetskravStatus.AVVENT);
 
@@ -57,12 +49,7 @@ export const AvventAktivitetskravSkjema = (
   return (
     <VurderAktivitetskravSkjema<AvventAktivitetskravSkjemaValues>
       title={texts.title}
-      subtitle={
-        <FlexColumn>
-          <Normaltekst>{texts.subtitle1}</Normaltekst>
-          <Normaltekst>{texts.subtitle2}</Normaltekst>
-        </FlexColumn>
-      }
+      subtitles={[texts.subtitle1, texts.subtitle2]}
       toDto={(values) =>
         createDto(values.arsaker, values.beskrivelse, values.fristDato)
       }
@@ -71,7 +58,7 @@ export const AvventAktivitetskravSkjema = (
     >
       <AvventArsakerCheckboxGruppe />
       <VurderAktivitetskravBeskrivelse label={texts.beskrivelseLabel} />
-      {visFristFelt && <AvventFristDato />}
+      <AvventFristDato />
     </VurderAktivitetskravSkjema>
   );
 };

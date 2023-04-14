@@ -5,8 +5,6 @@ import {
 import { useAktivitetskravVurderingSkjema } from "@/hooks/aktivitetskrav/useAktivitetskravVurderingSkjema";
 import { AktivitetskravStatus } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import React from "react";
-import { Normaltekst } from "nav-frontend-typografi";
-import { FlexColumn } from "@/components/Layout";
 
 const texts = {
   title: "Ikke oppfylt",
@@ -23,11 +21,7 @@ export const IkkeOppfyltAktivitetskravSkjema = (
   return (
     <VurderAktivitetskravSkjema<Record<string, never>>
       title={texts.title}
-      subtitle={
-        <FlexColumn>
-          <Normaltekst>{texts.subtitle1}</Normaltekst>
-        </FlexColumn>
-      }
+      subtitles={[texts.subtitle1]}
       toDto={() => createDto([])}
       {...props}
     />

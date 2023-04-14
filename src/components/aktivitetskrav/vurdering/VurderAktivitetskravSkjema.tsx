@@ -1,7 +1,7 @@
-import { FlexRow, PaddingSize } from "@/components/Layout";
-import React, { ReactElement, ReactNode } from "react";
+import { FlexColumn, FlexRow, PaddingSize } from "@/components/Layout";
+import React, { ReactNode } from "react";
 import { CreateAktivitetskravVurderingDTO } from "@/data/aktivitetskrav/aktivitetskravTypes";
-import { Innholdstittel } from "nav-frontend-typografi";
+import { Innholdstittel, Normaltekst } from "nav-frontend-typografi";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { VurderAktivitetskravSkjemaButtons } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravSkjemaButtons";
 import { Form } from "react-final-form";
@@ -16,7 +16,7 @@ export interface VurderAktivitetskravSkjemaProps {
 
 interface Props<SkjemaValues> extends VurderAktivitetskravSkjemaProps {
   title: string;
-  subtitle?: ReactElement;
+  subtitles?: string[];
   children?: ReactNode;
 
   toDto(values: SkjemaValues): CreateAktivitetskravVurderingDTO;
@@ -36,7 +36,7 @@ const ChildrenContainer = styled.div`
 
 export const VurderAktivitetskravSkjema = <SkjemaValues extends object>({
   title,
-  subtitle,
+  subtitles,
   children,
   setModalOpen,
   aktivitetskravUuid,
@@ -60,8 +60,14 @@ export const VurderAktivitetskravSkjema = <SkjemaValues extends object>({
           <FlexRow bottomPadding={PaddingSize.MD}>
             <Innholdstittel>{title}</Innholdstittel>
           </FlexRow>
-          {subtitle && (
-            <FlexRow bottomPadding={PaddingSize.MD}>{subtitle}</FlexRow>
+          {subtitles && (
+            <FlexRow bottomPadding={PaddingSize.MD}>
+              <FlexColumn>
+                {subtitles.map((subtitle, index) => (
+                  <Normaltekst key={index}>{subtitle}</Normaltekst>
+                ))}
+              </FlexColumn>
+            </FlexRow>
           )}
           <ChildrenContainer>{children}</ChildrenContainer>
           {vurderAktivitetskrav.isError && (
