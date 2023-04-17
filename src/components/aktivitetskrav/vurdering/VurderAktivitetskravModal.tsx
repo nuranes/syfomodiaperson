@@ -1,4 +1,3 @@
-import ModalWrapper from "nav-frontend-modal";
 import React, { ReactElement } from "react";
 import { AktivitetskravStatus } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { OppfyltAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/OppfyltAktivitetskravSkjema";
@@ -7,6 +6,7 @@ import { UnntakAktivitetskravSkjema } from "@/components/aktivitetskrav/vurderin
 import { AvventAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/AvventAktivitetskravSkjema";
 import { IkkeOppfyltAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/IkkeOppfyltAktivitetskravSkjema";
 import { IkkeAktuellAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/IkkeAktuellAktivitetskravSkjema";
+import { Modal } from "@navikt/ds-react";
 
 const texts = {
   modalContentLabel: "Vurder aktivitetskrav",
@@ -33,11 +33,10 @@ export const VurderAktivitetskravModal = ({
   aktivitetskravUuid,
 }: VurderAktivitetskravModalProps) => {
   return (
-    <ModalWrapper
-      onRequestClose={() => setModalOpen(false)}
-      isOpen={isOpen}
-      contentLabel={texts.modalContentLabel}
-      ariaHideApp={false}
+    <Modal
+      onClose={() => setModalOpen(false)}
+      open={isOpen}
+      aria-labelledby={texts.modalContentLabel}
     >
       {modalType && (
         <ModalContent>
@@ -48,7 +47,7 @@ export const VurderAktivitetskravModal = ({
           />
         </ModalContent>
       )}
-    </ModalWrapper>
+    </Modal>
   );
 };
 
@@ -58,10 +57,8 @@ interface VurderAktivitetskravModalContentProps {
   aktivitetskravUuid: string | undefined;
 }
 
-export const ModalContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 1em;
+export const ModalContent = styled(Modal.Content)`
+  padding: 2em;
   min-width: 600px;
 `;
 

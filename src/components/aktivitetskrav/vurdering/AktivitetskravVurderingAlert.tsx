@@ -8,9 +8,9 @@ import {
   tilLesbarDatoMedArUtenManedNavn,
 } from "@/utils/datoUtils";
 import React, { ReactElement } from "react";
-import { Element, Normaltekst } from "nav-frontend-typografi";
 import { avventVurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
 import { AktivitetskravAlertstripe } from "@/components/aktivitetskrav/AktivitetskravAlertstripe";
+import { BodyLong, BodyShort, Label } from "@navikt/ds-react";
 
 interface AktivitetskravVurderingAlertProps {
   vurdering: AktivitetskravVurderingDTO;
@@ -54,24 +54,28 @@ export const AktivitetskravVurderingAlert = ({
     case AktivitetskravStatus.IKKE_OPPFYLT:
     case AktivitetskravStatus.IKKE_AKTUELL: {
       return (
-        <AktivitetskravAlertstripe type="suksess">
-          {successText(vurdering.status)}
+        <AktivitetskravAlertstripe variant="success">
+          <BodyShort size="small">{successText(vurdering.status)}</BodyShort>
         </AktivitetskravAlertstripe>
       );
     }
     case AktivitetskravStatus.AVVENT: {
       return (
-        <AktivitetskravAlertstripe type="advarsel">
-          <Element>
+        <AktivitetskravAlertstripe variant="warning">
+          <Label size="small">
             {vurdering.frist
               ? `Avventer til ${tilDatoMedManedNavn(vurdering.frist)}`
               : "Avventer"}
-          </Element>
-          <Normaltekst>{vurdering.beskrivelse}</Normaltekst>
+          </Label>
+          <BodyLong size="small">{vurdering.beskrivelse}</BodyLong>
           <ul>
             {vurdering.arsaker.map((arsak, index) => {
               const avventArsakText = avventVurderingArsakTexts[arsak] || arsak;
-              return <li key={index}>{avventArsakText}</li>;
+              return (
+                <li key={index}>
+                  <BodyShort size="small">{avventArsakText}</BodyShort>
+                </li>
+              );
             })}
           </ul>
         </AktivitetskravAlertstripe>

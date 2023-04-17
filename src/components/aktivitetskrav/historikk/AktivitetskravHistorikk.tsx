@@ -6,8 +6,7 @@ import {
   VurderingArsak,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { FlexColumn, FlexRow, PaddingSize } from "@/components/Layout";
-import { Innholdstittel, Normaltekst } from "nav-frontend-typografi";
-import { Accordion } from "@navikt/ds-react";
+import { Accordion, BodyLong, BodyShort, Heading } from "@navikt/ds-react";
 import { capitalizeWord } from "@/utils/stringUtils";
 import { tilDatoMedManedNavn } from "@/utils/datoUtils";
 import { useVeilederInfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
@@ -46,8 +45,10 @@ export const AktivitetskravHistorikk = () => {
     <AktivitetskravPanel>
       <FlexRow bottomPadding={PaddingSize.MD}>
         <FlexColumn>
-          <Innholdstittel>{texts.header}</Innholdstittel>
-          <Normaltekst>{texts.subHeader}</Normaltekst>
+          <Heading level="2" size="large">
+            {texts.header}
+          </Heading>
+          <BodyShort size="small">{texts.subHeader}</BodyShort>
         </FlexColumn>
       </FlexRow>
       {vurderinger.sort(byCreatedAt).map((vurdering, index) => (
@@ -132,7 +133,7 @@ const Paragraph = ({ title, body }: ParagraphProps) => {
   return (
     <ParagraphWrapper>
       <b>{title}</b>
-      <Normaltekst>{body}</Normaltekst>
+      <BodyLong size="small">{body}</BodyLong>
     </ParagraphWrapper>
   );
 };

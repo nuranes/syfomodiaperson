@@ -102,7 +102,7 @@ describe("AktivitetskravSide", () => {
 
       expect(screen.getByRole("heading", { name: "Vurdere aktivitetskravet" }))
         .to.exist;
-      expect(screen.queryByRole("img", { name: "advarsel-ikon" })).to.not.exist;
+      expect(screen.queryByRole("img", { name: "Advarsel" })).to.not.exist;
       expect(screen.queryByText(noOppfolgingstilfelleAktivitetskravText)).to.not
         .exist;
     });
@@ -118,7 +118,7 @@ describe("AktivitetskravSide", () => {
 
       expect(screen.getByRole("heading", { name: "Vurdere aktivitetskravet" }))
         .to.exist;
-      expect(screen.getByRole("img", { name: "advarsel-ikon" })).to.exist;
+      expect(screen.getByRole("img", { name: "Advarsel" })).to.exist;
       expect(screen.getByText(noOppfolgingstilfelleAktivitetskravText)).to
         .exist;
     });
@@ -135,7 +135,7 @@ describe("AktivitetskravSide", () => {
 
       expect(screen.getByRole("heading", { name: "Vurdere aktivitetskravet" }))
         .to.exist;
-      expect(screen.queryByRole("img", { name: "advarsel-ikon" })).to.not.exist;
+      expect(screen.queryByRole("img", { name: "Advarsel" })).to.not.exist;
       expect(screen.queryByRole(noOppfolgingstilfelleAktivitetskravText)).to.not
         .exist;
     });
@@ -152,7 +152,7 @@ describe("AktivitetskravSide", () => {
 
       expect(screen.getByRole("heading", { name: "Vurdere aktivitetskravet" }))
         .to.exist;
-      expect(screen.queryByRole("img", { name: "advarsel-ikon" })).to.not.exist;
+      expect(screen.queryByRole("img", { name: "Advarsel" })).to.not.exist;
       expect(screen.queryByText(noOppfolgingstilfelleAktivitetskravText)).to.not
         .exist;
     });
@@ -164,7 +164,7 @@ describe("AktivitetskravSide", () => {
 
       expect(screen.getByRole("heading", { name: "Vurdere aktivitetskravet" }))
         .to.exist;
-      expect(screen.queryByRole("img", { name: "advarsel-ikon" })).to.not.exist;
+      expect(screen.queryByRole("img", { name: "Advarsel" })).to.not.exist;
       expect(screen.queryByText(noOppfolgingstilfelleAktivitetskravText)).to.not
         .exist;
     });
@@ -176,7 +176,7 @@ describe("AktivitetskravSide", () => {
 
       expect(screen.getByRole("heading", { name: "Vurdere aktivitetskravet" }))
         .to.exist;
-      expect(screen.getByRole("img", { name: "advarsel-ikon" })).to.exist;
+      expect(screen.getByRole("img", { name: "Advarsel" })).to.exist;
       expect(screen.getByText(noOppfolgingstilfelleAktivitetskravText)).to
         .exist;
     });
@@ -189,7 +189,7 @@ describe("AktivitetskravSide", () => {
 
       expect(screen.getByRole("heading", { name: "Vurdere aktivitetskravet" }))
         .to.exist;
-      expect(screen.getByRole("img", { name: "advarsel-ikon" })).to.exist;
+      expect(screen.getByRole("img", { name: "Advarsel" })).to.exist;
       expect(screen.getByText(noOppfolgingstilfelleAktivitetskravText)).to
         .exist;
     });
@@ -208,7 +208,7 @@ describe("AktivitetskravSide", () => {
       mockOppfolgingstilfellePerson([activeOppfolgingstilfelle]);
       renderAktivitetskravSide();
 
-      expect(screen.getByRole("img", { name: "suksess-ikon" })).to.exist;
+      expect(screen.getByRole("img", { name: "Suksess" })).to.exist;
       expect(
         screen.getByText(/Det er vurdert at Samuel Sam Jones er i aktivitet/)
       ).to.exist;
@@ -221,7 +221,7 @@ describe("AktivitetskravSide", () => {
       ]);
       renderAktivitetskravSide();
 
-      expect(screen.getByRole("img", { name: "suksess-ikon" })).to.exist;
+      expect(screen.getByRole("img", { name: "Suksess" })).to.exist;
       expect(screen.getByText(/Det er vurdert unntak/)).to.exist;
     });
     it("viser advarsel med frist når siste aktivitetskrav-vurdering er AVVENT med frist", () => {
@@ -233,7 +233,7 @@ describe("AktivitetskravSide", () => {
       mockOppfolgingstilfellePerson([activeOppfolgingstilfelle]);
       renderAktivitetskravSide();
 
-      expect(screen.getByRole("img", { name: "advarsel-ikon" })).to.exist;
+      expect(screen.getByRole("img", { name: "Advarsel" })).to.exist;
       expect(
         screen.getByText(`Avventer til ${tilDatoMedManedNavn(new Date())}`)
       ).to.exist;
@@ -247,7 +247,7 @@ describe("AktivitetskravSide", () => {
       mockOppfolgingstilfellePerson([activeOppfolgingstilfelle]);
       renderAktivitetskravSide();
 
-      expect(screen.getByRole("img", { name: "advarsel-ikon" })).to.exist;
+      expect(screen.getByRole("img", { name: "Advarsel" })).to.exist;
       expect(screen.getAllByText(`Avventer`)).to.have.length(2);
     });
     it("viser beskrivelse og årsaker når siste aktivitetskrav-vurdering er AVVENT", () => {
@@ -284,7 +284,7 @@ describe("AktivitetskravSide", () => {
       mockOppfolgingstilfellePerson([activeOppfolgingstilfelle]);
       renderAktivitetskravSide();
 
-      expect(screen.getByRole("img", { name: "suksess-ikon" })).to.exist;
+      expect(screen.getByRole("img", { name: "Suksess" })).to.exist;
       expect(
         screen.getByText(/Det er vurdert at Samuel Sam Jones er i aktivitet/)
       ).to.exist;
@@ -299,7 +299,7 @@ describe("AktivitetskravSide", () => {
       mockOppfolgingstilfellePerson([activeOppfolgingstilfelle]);
       renderAktivitetskravSide();
 
-      expect(screen.getByRole("img", { name: "suksess-ikon" })).to.exist;
+      expect(screen.getByRole("img", { name: "Suksess" })).to.exist;
       expect(screen.getByText(/Det er vurdert unntak/)).to.exist;
     });
     it("viser suksess når siste aktivitetskrav-vurdering er IKKE_OPPFYLT", () => {
@@ -313,7 +313,7 @@ describe("AktivitetskravSide", () => {
       mockOppfolgingstilfellePerson([activeOppfolgingstilfelle]);
       renderAktivitetskravSide();
 
-      expect(screen.getByRole("img", { name: "suksess-ikon" })).to.exist;
+      expect(screen.getByRole("img", { name: "Suksess" })).to.exist;
       expect(
         screen.getByText(/Det er vurdert at aktivitetskravet ikke er oppfylt/)
       ).to.exist;
@@ -329,7 +329,7 @@ describe("AktivitetskravSide", () => {
       mockOppfolgingstilfellePerson([activeOppfolgingstilfelle]);
       renderAktivitetskravSide();
 
-      expect(screen.getByRole("img", { name: "suksess-ikon" })).to.exist;
+      expect(screen.getByRole("img", { name: "Suksess" })).to.exist;
       expect(
         screen.getByText(/Det er vurdert at aktivitetskravet ikke er aktuelt/)
       ).to.exist;
@@ -341,8 +341,8 @@ describe("AktivitetskravSide", () => {
       mockOppfolgingstilfellePerson([activeOppfolgingstilfelle]);
       renderAktivitetskravSide();
 
-      expect(screen.queryByRole("img", { name: "advarsel-ikon" })).to.not.exist;
-      expect(screen.queryByRole("img", { name: "suksess-ikon" })).to.not.exist;
+      expect(screen.queryByRole("img", { name: "Advarsel" })).to.not.exist;
+      expect(screen.queryByRole("img", { name: "Suksess" })).to.not.exist;
       expect(screen.queryByText(/Det er vurdert/)).to.not.exist;
       expect(screen.queryByText(/Avventer - /)).to.not.exist;
     });

@@ -31,6 +31,7 @@ import { vurderAktivitetskravBeskrivelseMaxLength } from "@/components/aktivitet
 import { tilLesbarPeriodeMedArUtenManednavn } from "@/utils/datoUtils";
 import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
 import dayjs from "dayjs";
+import { Modal } from "@navikt/ds-react";
 
 let queryClient: QueryClient;
 
@@ -72,6 +73,7 @@ const renderVurderAktivitetskrav = (
     </QueryClientProvider>
   );
 describe("VurderAktivitetskrav", () => {
+  Modal.setAppElement(document.createElement("div"));
   beforeEach(() => {
     queryClient = queryClientWithMockData();
   });
@@ -93,11 +95,10 @@ describe("VurderAktivitetskrav", () => {
   it("renders helptext tooltip", () => {
     renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
-    const tooltip = screen.getByRole("tooltip");
+    const tooltip = screen.getByRole("button", { name: /hjelp/ });
     expect(tooltip).to.exist;
-    Object.values(buttonTexts).forEach((text) =>
-      expect(tooltip.textContent?.toLowerCase()).to.contain(text.toLowerCase())
-    );
+    const buttonTextsJoined = Object.values(buttonTexts).join(", ");
+    expect(screen.getByText(buttonTextsJoined, { exact: false })).to.exist;
   });
   describe("Oppfylt", () => {
     it("Validerer årsak og maks tegn beskrivelse", () => {

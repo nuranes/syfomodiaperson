@@ -1,13 +1,13 @@
 import { FlexColumn, FlexRow, PaddingSize } from "@/components/Layout";
 import React, { ReactNode } from "react";
 import { CreateAktivitetskravVurderingDTO } from "@/data/aktivitetskrav/aktivitetskravTypes";
-import { Innholdstittel, Normaltekst } from "nav-frontend-typografi";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { VurderAktivitetskravSkjemaButtons } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravSkjemaButtons";
 import { Form } from "react-final-form";
 import { useVurderAktivitetskrav } from "@/data/aktivitetskrav/useVurderAktivitetskrav";
 import { ValidationErrors } from "final-form";
 import styled from "styled-components";
+import { BodyShort, Heading } from "@navikt/ds-react";
 
 export interface VurderAktivitetskravSkjemaProps {
   setModalOpen: (modalOpen: boolean) => void;
@@ -58,13 +58,17 @@ export const VurderAktivitetskravSkjema = <SkjemaValues extends object>({
       {({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
           <FlexRow bottomPadding={PaddingSize.MD}>
-            <Innholdstittel>{title}</Innholdstittel>
+            <Heading level="2" size="large">
+              {title}
+            </Heading>
           </FlexRow>
           {subtitles && (
             <FlexRow bottomPadding={PaddingSize.MD}>
               <FlexColumn>
                 {subtitles.map((subtitle, index) => (
-                  <Normaltekst key={index}>{subtitle}</Normaltekst>
+                  <BodyShort key={index} size="small">
+                    {subtitle}
+                  </BodyShort>
                 ))}
               </FlexColumn>
             </FlexRow>

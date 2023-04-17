@@ -1,5 +1,5 @@
+import { Panel } from "@navikt/ds-react";
 import styled from "styled-components";
-import Panel from "nav-frontend-paneler";
 
 export const AktivitetskravPanel = styled(Panel)`
   display: flex;

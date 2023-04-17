@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Innholdstittel, Normaltekst } from "nav-frontend-typografi";
 import { VurderAktivitetskravButtons } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravButtons";
 import { AktivitetskravPanel } from "@/components/aktivitetskrav/AktivitetskravPanel";
 import { FlexColumn, FlexRow, JustifyContentType } from "@/components/Layout";
@@ -10,15 +9,13 @@ import {
 import { AktivitetskravDTO } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
 import { tilLesbarPeriodeMedArUtenManednavn } from "@/utils/datoUtils";
-import Hjelpetekst from "nav-frontend-hjelpetekst";
 import styled from "styled-components";
-import { PopoverOrientering } from "nav-frontend-popover";
+import { BodyShort, Heading, HelpText } from "@navikt/ds-react";
 
 export const texts = {
   header: "Vurdere aktivitetskravet",
-  helptext1:
-    "Vurderingen (Avventer, sett unntak, er i aktivitet, ikke oppfylt, ikke aktuell) gjøres i to trinn.",
-  helptext2: "Ved klikk legger du inn informasjon rundt vurderingen.",
+  helptext:
+    "Vurderingen (Avventer, sett unntak, er i aktivitet, ikke oppfylt, ikke aktuell) gjøres i to trinn. Ved klikk legger du inn informasjon rundt vurderingen.",
 };
 
 const HjelpetekstColumn = styled(FlexColumn)`
@@ -45,20 +42,21 @@ export const VurderAktivitetskrav = ({
   return (
     <AktivitetskravPanel>
       <FlexRow>
-        <Innholdstittel>{texts.header}</Innholdstittel>
+        <Heading level="2" size="large">
+          {texts.header}
+        </Heading>
         <HjelpetekstColumn justifyContent={JustifyContentType.CENTER}>
-          <Hjelpetekst type={PopoverOrientering.Hoyre}>
-            <Normaltekst>{texts.helptext1}</Normaltekst>
-            <Normaltekst>{texts.helptext2}</Normaltekst>
-          </Hjelpetekst>
+          <HelpText placement="right">
+            <BodyShort size="small">{texts.helptext}</BodyShort>
+          </HelpText>
         </HjelpetekstColumn>
       </FlexRow>
       {oppfolgingstilfelle && (
         <FlexRow>
-          <Normaltekst>{`Gjelder tilfelle ${tilLesbarPeriodeMedArUtenManednavn(
+          <BodyShort size="small">{`Gjelder tilfelle ${tilLesbarPeriodeMedArUtenManednavn(
             oppfolgingstilfelle.start,
             oppfolgingstilfelle.end
-          )}`}</Normaltekst>
+          )}`}</BodyShort>
         </FlexRow>
       )}
       <VurderAktivitetskravButtons
