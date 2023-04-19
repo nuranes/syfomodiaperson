@@ -17,13 +17,13 @@ export const expectedMeldingTilBehandlerDocument = (
   },
   {
     texts: [
-      `Gjelder ${ARBEIDSTAKER_DEFAULT_FULL_NAME}, f.nr. ${ARBEIDSTAKER_DEFAULT.personIdent}`,
+      `Gjelder pasient: ${ARBEIDSTAKER_DEFAULT_FULL_NAME}, ${ARBEIDSTAKER_DEFAULT.personIdent}`,
     ],
     type: DocumentComponentType.PARAGRAPH,
   },
   {
     texts: [
-      "Som et ledd i NAVs videre vurdering oppfølging av din pasient ber vi deg besvare følgende spørsmål:",
+      "NAV trenger opplysninger fra deg vedrørende din pasient. Du kan utelate opplysninger som etter din vurdering faller utenfor formålet.",
     ],
     type: DocumentComponentType.PARAGRAPH,
   },
@@ -32,24 +32,20 @@ export const expectedMeldingTilBehandlerDocument = (
     type: DocumentComponentType.PARAGRAPH,
   },
   {
+    texts: ["Spørsmålene besvares i fritekst, og honoreres med takst L8."],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    title: "Lovhjemmel",
     texts: [
-      "Opplysninger som etter din vurdering faller utenfor formålet, kan du utelade i oversendelsen til NAV.",
+      "Folketrygdloven § 21-4 andre ledd gir NAV rett til å innhente nødvendige opplysninger. Dette gjelder selv om opplysningene er taushetsbelagte, jf. § 21-4 sjette ledd.",
     ],
     type: DocumentComponentType.PARAGRAPH,
   },
   {
     texts: [
-      "Det er ikke utarbeidet blankett til dette formålet. Spørsmålene besvares i fritekst, og honoreres med takst L8.",
-    ],
-    type: DocumentComponentType.PARAGRAPH,
-  },
-  {
-    texts: ["Folketrygdeloven § 21-4"],
-    type: DocumentComponentType.PARAGRAPH,
-  },
-  {
-    texts: [
-      "Pålegget om utlevering av opplysninger kan påklages etter forvaltningsloven § 14",
+      "Pålegget om utlevering av opplysninger kan påklages etter forvaltningsloven § 14.",
+      "Klageadgangen gjelder kun lovligheten i pålegget. Fristen for å klage er tre dager etter at pålegget er mottatt. Klagen kan fremsettes muntlig eller skriftlig.",
     ],
     type: DocumentComponentType.PARAGRAPH,
   },

@@ -4,15 +4,20 @@ import { useDocumentComponents } from "@/hooks/useDocumentComponents";
 import {
   createHeaderH1,
   createParagraph,
+  createParagraphWithTitle,
 } from "@/utils/documentComponentUtils";
 import { tilleggsOpplysningerPasientTexts } from "@/data/behandlerdialog/behandlerMeldingTexts";
+import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
+import { useValgtPersonident } from "@/hooks/useValgtBruker";
 
 export const useMeldingTilBehandlerDocument = (): {
   getTilleggsOpplysningerPasientDocument(
     values: Partial<MeldingTilBehandlerSkjemaValues>
   ): DocumentComponentDto[];
 } => {
-  const { getIntroGjelder, getHilsen } = useDocumentComponents();
+  const navBruker = useNavBrukerData();
+  const personident = useValgtPersonident();
+  const { getHilsen } = useDocumentComponents();
 
   return {
     getTilleggsOpplysningerPasientDocument: (
@@ -20,7 +25,7 @@ export const useMeldingTilBehandlerDocument = (): {
     ) => {
       const documentComponents = [
         createHeaderH1(tilleggsOpplysningerPasientTexts.header),
-        getIntroGjelder(),
+        createParagraph(`Gjelder pasient: ${navBruker.navn}, ${personident}`),
         createParagraph(tilleggsOpplysningerPasientTexts.intro),
       ];
 
@@ -29,10 +34,15 @@ export const useMeldingTilBehandlerDocument = (): {
       }
 
       documentComponents.push(
-        createParagraph(tilleggsOpplysningerPasientTexts.outro1),
-        createParagraph(tilleggsOpplysningerPasientTexts.outro2),
-        createParagraph(tilleggsOpplysningerPasientTexts.hjemmel1),
-        createParagraph(tilleggsOpplysningerPasientTexts.hjemmel2),
+        createParagraph(tilleggsOpplysningerPasientTexts.takst),
+        createParagraphWithTitle(
+          tilleggsOpplysningerPasientTexts.lovhjemmel.title,
+          tilleggsOpplysningerPasientTexts.lovhjemmel.text
+        ),
+        createParagraph(
+          tilleggsOpplysningerPasientTexts.klage1,
+          tilleggsOpplysningerPasientTexts.klage2
+        ),
         getHilsen()
       );
 
