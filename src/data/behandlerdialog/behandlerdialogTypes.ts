@@ -20,4 +20,5 @@ export interface Melding {
   tekst: string;
   tidspunkt: Date;
   innkommende: boolean;
+  document: DocumentComponentDto[];
 }

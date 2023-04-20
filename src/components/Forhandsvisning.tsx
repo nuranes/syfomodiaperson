@@ -97,7 +97,7 @@ interface DocumentComponentVisningProps {
 
 const DocumentComponentVisning = ({
   documentComponent: { type, title, texts },
-}: DocumentComponentVisningProps) => {
+}: DocumentComponentVisningProps): ReactElement => {
   switch (type) {
     case DocumentComponentType.HEADER: {
       return DocumentComponentHeaderH2(texts);
@@ -113,9 +113,6 @@ const DocumentComponentVisning = ({
     }
     case DocumentComponentType.PARAGRAPH: {
       return DocumentComponentParagraph(texts, title);
-    }
-    default: {
-      return null;
     }
   }
 };
@@ -145,13 +142,11 @@ export const Forhandsvisning = ({
       ariaHideApp={false}
     >
       <ModalContentContainer data-cy="ForhåndsvisningModal">
-        <FlexRow topPadding={PaddingSize.SM}>
-          {title ? (
-            <FlexRow justifyContent={JustifyContentType.CENTER}>
-              <Sidetittel>{title}</Sidetittel>
-            </FlexRow>
-          ) : null}
-        </FlexRow>
+        {title ? (
+          <FlexRow justifyContent={JustifyContentType.CENTER}>
+            <Sidetittel>{title}</Sidetittel>
+          </FlexRow>
+        ) : null}
         {documentComponents.map((component, index) => (
           <DocumentComponentVisning key={index} documentComponent={component} />
         ))}

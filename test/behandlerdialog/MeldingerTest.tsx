@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
@@ -13,6 +13,8 @@ import {
   defaultMelding,
 } from "../../mock/isbehandlerdialog/behandlerdialogMock";
 import { MeldingResponseDTO } from "@/data/behandlerdialog/behandlerdialogTypes";
+import userEvent from "@testing-library/user-event";
+import { clickButton } from "../testUtils";
 
 let queryClient: QueryClient;
 
@@ -27,6 +29,8 @@ const renderMeldinger = () => {
     </QueryClientProvider>
   );
 };
+
+const seMeldingButtonTekst = "Se utfyllende melding";
 
 describe("Meldinger panel", () => {
   beforeEach(() => {
@@ -107,5 +111,36 @@ describe("Meldinger panel", () => {
     renderMeldinger();
 
     expect(screen.queryByText("Skrevet av", { exact: false })).to.not.exist;
+  });
+
+  it("Viser 'Se melding'-knapp for melding til behandler i alle samtaler", () => {
+    renderMeldinger();
+
+    const accordions = screen.getAllByRole("button");
+    expect(accordions).to.have.length(3);
+    accordions.forEach((accordion) => userEvent.click(accordion));
+    const seMeldingButtons = screen.getAllByRole("button", {
+      name: seMeldingButtonTekst,
+    });
+    expect(seMeldingButtons).to.have.length(3);
+  });
+
+  it("Viser melding til behandler ved klikk på 'Se melding'-knapp", () => {
+    renderMeldinger();
+
+    const accordions = screen.getAllByRole("button");
+    userEvent.click(accordions[0]);
+    clickButton(seMeldingButtonTekst);
+
+    const seMeldingModal = screen.getByRole("dialog", {
+      name: "Vis melding",
+    });
+    expect(seMeldingModal).to.exist;
+
+    expect(
+      within(seMeldingModal).getByText(
+        "Spørsmål om tilleggsopplysninger vedrørende pasient"
+      )
+    ).to.exist;
   });
 });

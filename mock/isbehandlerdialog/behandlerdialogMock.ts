@@ -4,13 +4,63 @@ import {
   behandlerRefDoktorLegesen,
   behandlerRefLegoLasLegesen,
 } from "../isdialogmelding/behandlereDialogmeldingMock";
+import { DocumentComponentType } from "../../src/data/documentcomponent/documentComponentTypes";
+import {
+  ARBEIDSTAKER_DEFAULT,
+  ARBEIDSTAKER_DEFAULT_FULL_NAME,
+  VEILEDER_DEFAULT,
+} from "../common/mockConstants";
+import { tilleggsOpplysningerPasientTexts } from "../../src/data/behandlerdialog/behandlerMeldingTexts";
+
+const defaultMeldingTekst = "Dette er en melding";
+const meldingtilBehandlerDocument = [
+  {
+    texts: [tilleggsOpplysningerPasientTexts.header],
+    type: DocumentComponentType.HEADER_H1,
+  },
+  {
+    texts: [
+      `Gjelder pasient: ${ARBEIDSTAKER_DEFAULT_FULL_NAME}, ${ARBEIDSTAKER_DEFAULT.personIdent}`,
+    ],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: [tilleggsOpplysningerPasientTexts.intro],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: [defaultMeldingTekst],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: [tilleggsOpplysningerPasientTexts.takst],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    title: tilleggsOpplysningerPasientTexts.lovhjemmel.title,
+    texts: [tilleggsOpplysningerPasientTexts.lovhjemmel.text],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: [
+      tilleggsOpplysningerPasientTexts.klage1,
+      tilleggsOpplysningerPasientTexts.klage2,
+    ],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: ["Vennlig hilsen", VEILEDER_DEFAULT.navn, "NAV"],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+];
 
 export const defaultMelding = {
   behandlerRef: behandlerRefDoktorLegesen,
   behandlerNavn: null,
-  tekst: "Dette er en melding",
+  tekst: defaultMeldingTekst,
   tidspunkt: "2023-01-01T12:00:00.000+01:00",
   innkommende: false,
+  document: meldingtilBehandlerDocument,
 };
 
 const longMelding =
@@ -24,12 +74,14 @@ const meldinger = [
     behandlerNavn: `${behandlerLegoLasLegesen.fornavn} ${behandlerLegoLasLegesen.mellomnavn} ${behandlerLegoLasLegesen.etternavn}`,
     innkommende: true,
     tidspunkt: "2023-01-02T12:00:00.000+01:00",
+    document: [],
   },
   {
     ...defaultMelding,
     behandlerNavn: `${behandlerDoktorLegesen.fornavn} ${behandlerDoktorLegesen.etternavn}`,
     innkommende: true,
     tidspunkt: "2023-01-03T12:00:00.000+01:00",
+    document: [],
   },
 ];
 
