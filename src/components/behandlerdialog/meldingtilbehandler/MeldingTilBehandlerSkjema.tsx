@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { SkjemaFeiloppsummering } from "@/components/SkjemaFeiloppsummering";
 import { FlexRow } from "@/components/Layout";
-import { Button } from "@navikt/ds-react";
+import { Alert, Button } from "@navikt/ds-react";
 import { Form } from "react-final-form";
 import { VelgBehandler } from "@/components/behandlerdialog/meldingtilbehandler/VelgBehandler";
 import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
@@ -18,7 +18,6 @@ import { useFeilUtbedret } from "@/hooks/useFeilUtbedret";
 import { MeldingTilBehandlerDTO } from "@/data/behandlerdialog/behandlerdialogTypes";
 import { useMeldingTilBehandler } from "@/data/behandlerdialog/useMeldingTilBehandler";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
-import { AlertstripeFullbredde } from "@/components/AlertstripeFullbredde";
 import { tilDatoMedManedNavnOgKlokkeslett } from "@/utils/datoUtils";
 import { FormApi } from "final-form";
 import { Forhandsvisning } from "@/components/Forhandsvisning";
@@ -110,9 +109,9 @@ export const MeldingTilBehandlerSkjema = () => {
         {({ handleSubmit, submitFailed, errors, values }) => (
           <StyledForm onSubmit={handleSubmit}>
             {meldingTilBehandler.isSuccess && (
-              <AlertstripeFullbredde type={"suksess"}>
+              <Alert variant="success" size="small">
                 {`Meldingen ble sendt ${tilDatoMedManedNavnOgKlokkeslett(now)}`}
-              </AlertstripeFullbredde>
+              </Alert>
             )}
             <VelgBehandler
               selectedBehandler={selectedBehandler}

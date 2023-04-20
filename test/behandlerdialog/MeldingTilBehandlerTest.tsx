@@ -33,11 +33,17 @@ describe("MeldingTilBehandler", () => {
     queryClient = queryClientWithMockData();
   });
 
-  it("Viser MeldingTilBehandler side", () => {
+  it("Viser overskrift og info-alert", () => {
     renderMeldingTilBehandler();
 
     expect(screen.getByRole("heading", { name: "Skriv til behandler" })).to
       .exist;
+    expect(screen.getByRole("img", { name: "Informasjon" })).to.exist;
+    expect(
+      screen.getByText(
+        "Her kan du be om tilleggsopplysninger vedrørende pasienten. Behandleren honoreres med takst L8."
+      )
+    ).to.exist;
   });
   describe("MeldingTilBehandlerSkjema", () => {
     it("Viser radiobuttons med behandlervalg, der det ikke er mulig å velge 'Ingen behandler'", () => {

@@ -1,5 +1,5 @@
 import React from "react";
-import { AlertstripeFullbredde } from "@/components/AlertstripeFullbredde";
+import { Alert } from "@navikt/ds-react";
 
 const texts = {
   searchCriteriaInfo:
@@ -10,9 +10,9 @@ const texts = {
 };
 
 export const BehandlerAlert = () => (
-  <AlertstripeFullbredde type="info" margintop="2em">
+  <Alert variant="info" size="small" style={{ marginTop: "2em" }}>
     <p>
       {texts.searchCriteriaInfo} {texts.noSearchMatchInfo}
     </p>
-  </AlertstripeFullbredde>
+  </Alert>
 );
