@@ -2,7 +2,7 @@ import React from "react";
 import Panel from "nav-frontend-paneler";
 import styled from "styled-components";
 import { Normaltekst, Systemtittel } from "nav-frontend-typografi";
-import { erProd } from "@/utils/miljoUtil";
+import { erPreProd } from "@/utils/miljoUtil";
 
 const StyledPanel = styled(Panel)`
   margin-bottom: 1em;
@@ -24,7 +24,7 @@ const texts = {
 };
 
 const EndreSykmelding = () => {
-  const env = erProd() ? "intern" : "dev.intern";
+  const env = erPreProd() ? "intern.dev" : "intern";
   const sykmeldingId = window.location.pathname.split("/")[3];
   const smregistrering = `https://smregistrering.${env}.nav.no/?sykmeldingid=${sykmeldingId}`;
 
