@@ -143,4 +143,62 @@ describe("Meldinger panel", () => {
       )
     ).to.exist;
   });
+
+  it("Viser vedlegg-ikon og tekst for meldinger fra behandler med vedlegg", () => {
+    const meldingResponse = {
+      conversations: {
+        ["conversationRef123"]: [
+          defaultMelding,
+          {
+            ...defaultMelding,
+            innkommende: true,
+            antallVedlegg: 2,
+          },
+          {
+            ...defaultMelding,
+            innkommende: true,
+            antallVedlegg: 5,
+          },
+        ],
+        ["conversationRef000"]: [
+          defaultMelding,
+          {
+            ...defaultMelding,
+            innkommende: true,
+            antallVedlegg: 1,
+          },
+        ],
+      },
+    };
+    queryClient.setQueryData(
+      behandlerdialogQueryKeys.behandlerdialog(
+        ARBEIDSTAKER_DEFAULT.personIdent
+      ),
+      () => meldingResponse
+    );
+
+    const meldingerMedVedlegg = Object.values(
+      meldingResponse.conversations
+    ).flatMap((meldinger) =>
+      meldinger.filter(
+        (melding) => melding.innkommende && melding.antallVedlegg > 0
+      )
+    );
+    renderMeldinger();
+
+    const accordions = screen.getAllByRole("button");
+    accordions.forEach((accordion) => userEvent.click(accordion));
+
+    const vedleggIkoner = screen.getAllByRole("img", {
+      name: "Binders-ikon for vedlegg",
+    });
+    expect(vedleggIkoner).to.have.length(meldingerMedVedlegg.length);
+
+    meldingerMedVedlegg.forEach((melding) => {
+      const vedleggTekst = screen.getByText(
+        `${melding.antallVedlegg} vedlegg. Se i Gosys.`
+      );
+      expect(vedleggTekst).to.exist;
+    });
+  });
 });

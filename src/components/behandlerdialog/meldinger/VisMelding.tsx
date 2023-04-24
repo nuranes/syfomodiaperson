@@ -26,7 +26,7 @@ export const VisMelding = ({ melding }: VisMeldingProps) => {
         onClick={() => setVisMelding(true)}
         variant="secondary"
         size="small"
-        icon={<EyeWithPupilIcon />}
+        icon={<EyeWithPupilIcon aria-hidden />}
       >
         {texts.visButton}
       </VisMeldingButton>

@@ -21,4 +21,5 @@ export interface Melding {
   tidspunkt: Date;
   innkommende: boolean;
   document: DocumentComponentDto[];
+  antallVedlegg: number;
 }

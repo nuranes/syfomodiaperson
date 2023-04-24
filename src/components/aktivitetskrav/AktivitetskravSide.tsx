@@ -43,7 +43,7 @@ export const AktivitetskravSide = () => {
   return (
     <>
       {!hasActiveOppfolgingstilfelle && (
-        <AktivitetskravAlertstripe variant="warning">
+        <AktivitetskravAlertstripe variant="warning" size="small">
           {texts.noTilfelle}
         </AktivitetskravAlertstripe>
       )}

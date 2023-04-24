@@ -61,6 +61,7 @@ export const defaultMelding = {
   tidspunkt: "2023-01-01T12:00:00.000+01:00",
   innkommende: false,
   document: meldingtilBehandlerDocument,
+  antallVedlegg: 0,
 };
 
 const longMelding =
@@ -74,6 +75,7 @@ const meldinger = [
     behandlerNavn: `${behandlerLegoLasLegesen.fornavn} ${behandlerLegoLasLegesen.mellomnavn} ${behandlerLegoLasLegesen.etternavn}`,
     innkommende: true,
     tidspunkt: "2023-01-02T12:00:00.000+01:00",
+    antallVedlegg: 5,
     document: [],
   },
   {
@@ -81,6 +83,7 @@ const meldinger = [
     behandlerNavn: `${behandlerDoktorLegesen.fornavn} ${behandlerDoktorLegesen.etternavn}`,
     innkommende: true,
     tidspunkt: "2023-01-03T12:00:00.000+01:00",
+    antallVedlegg: 0,
     document: [],
   },
 ];
