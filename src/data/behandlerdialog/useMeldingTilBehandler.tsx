@@ -12,7 +12,8 @@ export const useMeldingTilBehandler = () => {
   const postSendDialogmelding = (meldingTilBehandler: MeldingTilBehandlerDTO) =>
     post(path, meldingTilBehandler, personident);
 
-  return useMutation(postSendDialogmelding, {
+  return useMutation({
+    mutationFn: postSendDialogmelding,
     onSuccess: () => {
       queryClient.invalidateQueries(
         behandlerdialogQueryKeys.behandlerdialog(personident)

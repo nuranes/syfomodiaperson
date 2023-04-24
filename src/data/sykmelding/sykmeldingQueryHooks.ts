@@ -18,14 +18,12 @@ export const useSykmeldingerQuery = () => {
   const fnr = useValgtPersonident();
   const path = `${SYFOSMREGISTER_ROOT}/internal/sykmeldinger`;
   const fetchSykmeldinger = () => get<SykmeldingNewFormatDTO[]>(path, fnr);
-  const query = useQuery(
-    sykmeldingerQueryKeys.sykmeldinger(fnr),
-    fetchSykmeldinger,
-    {
-      enabled: !!fnr,
-      staleTime: minutesToMillis(60 * 12),
-    }
-  );
+  const query = useQuery({
+    queryKey: sykmeldingerQueryKeys.sykmeldinger(fnr),
+    queryFn: fetchSykmeldinger,
+    enabled: !!fnr,
+    staleTime: minutesToMillis(60 * 12),
+  });
 
   return {
     ...query,

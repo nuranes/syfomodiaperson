@@ -13,7 +13,8 @@ export const useFerdigstillDialogmote = (
   const postFerdigstillDialogmote = (referat: NewDialogmoteReferatDTO) =>
     post(path, referat);
 
-  return useMutation(postFerdigstillDialogmote, {
+  return useMutation({
+    mutationFn: postFerdigstillDialogmote,
     onSettled: () =>
       queryClient.invalidateQueries(dialogmoterQueryKeys.dialogmoter(fnr)),
   });

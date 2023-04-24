@@ -10,7 +10,8 @@ export const useEndreReferat = (fnr: string, dialogmoteUuid: string) => {
   const postEndreFerdigstilt = (referat: NewDialogmoteReferatDTO) =>
     post(path, referat);
 
-  return useMutation(postEndreFerdigstilt, {
+  return useMutation({
+    mutationFn: postEndreFerdigstilt,
     onSettled: () =>
       queryClient.invalidateQueries(dialogmoterQueryKeys.dialogmoter(fnr)),
   });

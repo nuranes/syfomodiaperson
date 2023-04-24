@@ -14,14 +14,12 @@ export const useBrukerinfoQuery = () => {
   const personident = useValgtPersonident();
   const path = `${SYFOPERSON_ROOT}/person/brukerinfo`;
   const fetchBrukerInfo = () => get<BrukerinfoDTO>(path, personident);
-  const query = useQuery(
-    brukerinfoQueryKeys.brukerinfo(personident),
-    fetchBrukerInfo,
-    {
-      enabled: !!personident && erGyldigFodselsnummer(personident),
-      staleTime: minutesToMillis(60 * 12),
-    }
-  );
+  const query = useQuery({
+    queryKey: brukerinfoQueryKeys.brukerinfo(personident),
+    queryFn: fetchBrukerInfo,
+    enabled: !!personident && erGyldigFodselsnummer(personident),
+    staleTime: minutesToMillis(60 * 12),
+  });
 
   const defaultData: BrukerinfoDTO = {
     navn: "",

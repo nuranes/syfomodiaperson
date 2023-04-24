@@ -20,14 +20,12 @@ export const useHistorikkMotebehovQuery = () => {
   const fnr = useValgtPersonident();
   const path = `${SYFOMOTEBEHOV_ROOT}/historikk?fnr=${fnr}`;
   const fetchHistorikkMotebehov = () => get<HistorikkEvent[]>(path);
-  const query = useQuery(
-    historikkQueryKeys.motebehov(fnr),
-    fetchHistorikkMotebehov,
-    {
-      enabled: !!fnr,
-      staleTime: minutesToMillis(60 * 12),
-    }
-  );
+  const query = useQuery({
+    queryKey: historikkQueryKeys.motebehov(fnr),
+    queryFn: fetchHistorikkMotebehov,
+    enabled: !!fnr,
+    staleTime: minutesToMillis(60 * 12),
+  });
 
   return {
     ...query,
@@ -39,14 +37,12 @@ export const useHistorikkOppfolgingsplan = () => {
   const fnr = useValgtPersonident();
   const path = `${SYFOOPPFOLGINGSPLANSERVICE_ROOT}/oppfolgingsplan/${fnr}/historikk`;
   const fetchHistorikkOppfolgingsplan = () => get<HistorikkEvent[]>(path);
-  const query = useQuery(
-    historikkQueryKeys.oppfolgingsplan(fnr),
-    fetchHistorikkOppfolgingsplan,
-    {
-      enabled: !!fnr,
-      staleTime: minutesToMillis(60 * 12),
-    }
-  );
+  const query = useQuery({
+    queryKey: historikkQueryKeys.oppfolgingsplan(fnr),
+    queryFn: fetchHistorikkOppfolgingsplan,
+    enabled: !!fnr,
+    staleTime: minutesToMillis(60 * 12),
+  });
 
   return {
     ...query,

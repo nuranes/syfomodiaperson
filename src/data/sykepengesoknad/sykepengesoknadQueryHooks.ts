@@ -17,15 +17,13 @@ export const useSykepengesoknaderQuery = () => {
   const fnr = useValgtPersonident();
   const path = `${SYKEPENGESOKNAD_BACKEND_ROOT}/veileder/soknader?fnr=${fnr}`;
   const fetchSykepengesoknader = () => get<SykepengesoknadDTO[]>(path);
-  const query = useQuery(
-    sykepengesoknaderQueryKeys.sykepengesoknader(fnr),
-    fetchSykepengesoknader,
-    {
-      enabled: !!fnr,
-      staleTime: minutesToMillis(60 * 12),
-      select: (data) => data.map(parseSoknad),
-    }
-  );
+  const query = useQuery({
+    queryKey: sykepengesoknaderQueryKeys.sykepengesoknader(fnr),
+    queryFn: fetchSykepengesoknader,
+    enabled: !!fnr,
+    staleTime: minutesToMillis(60 * 12),
+    select: (data) => data.map(parseSoknad),
+  });
 
   return {
     ...query,

@@ -13,7 +13,9 @@ export const useBehandlereQuery = () => {
   const fnr = useValgtPersonident();
   const fetchBehandlere = () =>
     get<BehandlerDTO[]>(`${ISDIALOGMELDING_ROOT}/behandler/personident`, fnr);
-  const query = useQuery(behandlereQueryKeys.behandlere(fnr), fetchBehandlere, {
+  const query = useQuery({
+    queryKey: behandlereQueryKeys.behandlere(fnr),
+    queryFn: fetchBehandlere,
     enabled: !!fnr,
   });
 
@@ -33,7 +35,9 @@ export const useSokBehandlereQuery = (searchstring: string) => {
       searchHeader
     );
 
-  const query = useQuery(["search", searchstring], sokBehandlere, {
+  const query = useQuery({
+    queryKey: ["search", searchstring],
+    queryFn: sokBehandlere,
     enabled: !!searchstring,
   });
 
@@ -50,11 +54,9 @@ export const useBehandlerByBehandlerRefQuery = (
   const fetchBehandlerByBehandlerRef = () =>
     get<BehandlerDTO>(`${ISDIALOGMELDING_ROOT}/behandler/${behandlerRef}`);
 
-  return useQuery(
-    behandlereQueryKeys.behandlerRef(behandlerRef),
-    fetchBehandlerByBehandlerRef,
-    {
-      enabled: isEnabled,
-    }
-  );
+  return useQuery({
+    queryKey: behandlereQueryKeys.behandlerRef(behandlerRef),
+    queryFn: fetchBehandlerByBehandlerRef,
+    enabled: isEnabled,
+  });
 };

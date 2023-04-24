@@ -14,7 +14,8 @@ export const useSettDialogmoteunntak = () => {
 
   const personident = useValgtPersonident();
 
-  return useMutation(postSettDialogmoteunntak, {
+  return useMutation({
+    mutationFn: postSettDialogmoteunntak,
     onSettled: () =>
       queryClient.invalidateQueries(
         dialogmotekandidatQueryKeys.kandidat(personident)

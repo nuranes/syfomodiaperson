@@ -13,7 +13,9 @@ export const usePersonAdresseQuery = () => {
   const fnr = useValgtPersonident();
   const path = `${SYFOPERSON_ROOT}/person/adresse`;
   const fetchPersonAdresse = () => get<PersonAdresse>(path, fnr);
-  return useQuery(personinfoQueryKeys.personadresse(fnr), fetchPersonAdresse, {
+  return useQuery({
+    queryKey: personinfoQueryKeys.personadresse(fnr),
+    queryFn: fetchPersonAdresse,
     enabled: !!fnr,
     staleTime: minutesToMillis(60 * 12),
   });

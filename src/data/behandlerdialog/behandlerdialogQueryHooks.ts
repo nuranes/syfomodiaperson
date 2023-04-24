@@ -13,11 +13,11 @@ export const useBehandlerdialogQuery = () => {
   const path = `${ISBEHANDLERDIALOG_ROOT}/melding`;
   const fetchBehandlerdialog = () => get<MeldingResponseDTO>(path, personident);
 
-  const query = useQuery(
-    behandlerdialogQueryKeys.behandlerdialog(personident),
-    fetchBehandlerdialog,
-    { enabled: !!personident }
-  );
+  const query = useQuery({
+    queryKey: behandlerdialogQueryKeys.behandlerdialog(personident),
+    queryFn: fetchBehandlerdialog,
+    enabled: !!personident,
+  });
 
   return {
     ...query,

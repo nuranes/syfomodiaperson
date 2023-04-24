@@ -12,7 +12,9 @@ export const useEgenansattQuery = () => {
   const fnr = useValgtPersonident();
   const path = `${SYFOPERSON_ROOT}/person/egenansatt`;
   const fetchEgenansatt = () => get<boolean>(path, fnr);
-  return useQuery(egenansattQueryKeys.egenansatt(fnr), fetchEgenansatt, {
+  return useQuery({
+    queryKey: egenansattQueryKeys.egenansatt(fnr),
+    queryFn: fetchEgenansatt,
     enabled: !!fnr,
     staleTime: minutesToMillis(60 * 12),
   });

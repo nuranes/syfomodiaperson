@@ -13,14 +13,12 @@ export const usePersonoppgaverQuery = () => {
   const fnr = useValgtPersonident();
   const path = `${ISPERSONOPPGAVE_ROOT}/personoppgave/personident`;
   const fetchPersonoppgaver = () => get<PersonOppgave[]>(path, fnr);
-  const query = useQuery(
-    personoppgaverQueryKeys.personoppgaver(fnr),
-    fetchPersonoppgaver,
-    {
-      enabled: !!fnr,
-      staleTime: minutesToMillis(60 * 12),
-    }
-  );
+  const query = useQuery({
+    queryKey: personoppgaverQueryKeys.personoppgaver(fnr),
+    queryFn: fetchPersonoppgaver,
+    enabled: !!fnr,
+    staleTime: minutesToMillis(60 * 12),
+  });
 
   return {
     ...query,

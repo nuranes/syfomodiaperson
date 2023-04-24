@@ -14,15 +14,18 @@ export const veilederinfoQueryKeys = {
 export const useAktivVeilederinfoQuery = () => {
   const path = `${SYFOVEILEDER_ROOT}/veileder/self`;
   const fetchVeilederinfo = () => get<VeilederinfoDTO>(path);
-  return useQuery(veilederinfoQueryKeys.veilederinfo, fetchVeilederinfo);
+  return useQuery({
+    queryKey: veilederinfoQueryKeys.veilederinfo,
+    queryFn: fetchVeilederinfo,
+  });
 };
 
 export const useVeilederInfoQuery = (ident: string) => {
   const fetchVeilederinfoByIdent = () =>
     get<VeilederinfoDTO>(`${SYFOVEILEDER_ROOT}/veileder/${ident}`);
-  return useQuery(
-    veilederinfoQueryKeys.veilederinfoByIdent(ident),
-    fetchVeilederinfoByIdent,
-    { enabled: !!ident }
-  );
+  return useQuery({
+    queryKey: veilederinfoQueryKeys.veilederinfoByIdent(ident),
+    queryFn: fetchVeilederinfoByIdent,
+    enabled: !!ident,
+  });
 };

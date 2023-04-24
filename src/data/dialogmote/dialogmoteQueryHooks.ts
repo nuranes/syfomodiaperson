@@ -17,13 +17,11 @@ export const useDialogmoterQuery = () => {
   const fnr = useValgtPersonident();
   const path = `${ISDIALOGMOTE_ROOT}/dialogmote/personident`;
   const fetchDialogmoter = () => get<DialogmoteDTO[]>(path, fnr);
-  const query = useQuery(
-    dialogmoterQueryKeys.dialogmoter(fnr),
-    fetchDialogmoter,
-    {
-      enabled: !!fnr,
-    }
-  );
+  const query = useQuery({
+    queryKey: dialogmoterQueryKeys.dialogmoter(fnr),
+    queryFn: fetchDialogmoter,
+    enabled: !!fnr,
+  });
 
   return {
     ...query,

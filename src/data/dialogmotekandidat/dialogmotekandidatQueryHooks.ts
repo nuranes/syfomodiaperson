@@ -31,13 +31,11 @@ export const useDialogmotekandidat = () => {
   const personident = useValgtPersonident();
   const path = `${ISDIALOGMOTEKANDIDAT_ROOT}/kandidat/personident`;
   const fetchKandidat = () => get<DialogmotekandidatDTO>(path, personident);
-  const query = useQuery(
-    dialogmotekandidatQueryKeys.kandidat(personident),
-    fetchKandidat,
-    {
-      enabled: !!personident,
-    }
-  );
+  const query = useQuery({
+    queryKey: dialogmotekandidatQueryKeys.kandidat(personident),
+    queryFn: fetchKandidat,
+    enabled: !!personident,
+  });
 
   const isNoFerdigstiltDialogmoteReferatAfterKandidatAt =
     useIsDialogmoteKandidatWithoutFerdigstiltReferat(

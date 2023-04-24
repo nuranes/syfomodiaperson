@@ -10,7 +10,8 @@ export const useMellomlagreReferat = (fnr: string, dialogmoteUuid: string) => {
   const postMellomlagreReferat = (referat: NewDialogmoteReferatDTO) =>
     post(path, referat);
 
-  return useMutation(postMellomlagreReferat, {
+  return useMutation({
+    mutationFn: postMellomlagreReferat,
     onSettled: () =>
       queryClient.invalidateQueries(dialogmoterQueryKeys.dialogmoter(fnr), {
         refetchType: "none",

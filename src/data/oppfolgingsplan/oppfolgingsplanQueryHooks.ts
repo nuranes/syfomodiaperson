@@ -18,14 +18,12 @@ export const useOppfolgingsplanerQuery = () => {
   const fnr = useValgtPersonident();
   const path = `${SYFOOPPFOLGINGSPLANSERVICE_ROOT}/oppfolgingsplan/${fnr}`;
   const fetchOppfolgingsplaner = () => get<OppfolgingsplanDTO[]>(path, fnr);
-  const query = useQuery(
-    oppfolgingsplanQueryKeys.oppfolgingsplaner(fnr),
-    fetchOppfolgingsplaner,
-    {
-      enabled: !!fnr,
-      staleTime: minutesToMillis(60 * 12),
-    }
-  );
+  const query = useQuery({
+    queryKey: oppfolgingsplanQueryKeys.oppfolgingsplaner(fnr),
+    queryFn: fetchOppfolgingsplaner,
+    enabled: !!fnr,
+    staleTime: minutesToMillis(60 * 12),
+  });
 
   return {
     ...query,
@@ -46,14 +44,12 @@ export const useOppfolgingsplanerLPSQuery = () => {
   const fnr = useValgtPersonident();
   const path = `${SYFOOPPFOLGINGSPLANSERVICE_ROOT}/oppfolgingsplan/lps`;
   const fetchOppfolgingsplanerLPS = () => get<OppfolgingsplanLPS[]>(path, fnr);
-  const query = useQuery(
-    oppfolgingsplanQueryKeys.oppfolgingsplanerLPS(fnr),
-    fetchOppfolgingsplanerLPS,
-    {
-      enabled: !!fnr,
-      staleTime: minutesToMillis(60 * 12),
-    }
-  );
+  const query = useQuery({
+    queryKey: oppfolgingsplanQueryKeys.oppfolgingsplanerLPS(fnr),
+    queryFn: fetchOppfolgingsplanerLPS,
+    enabled: !!fnr,
+    staleTime: minutesToMillis(60 * 12),
+  });
 
   return {
     ...query,
@@ -64,11 +60,9 @@ export const useOppfolgingsplanerLPSQuery = () => {
 export const useDokumentinfoQuery = (oppfolgingsplanId: number) => {
   const path = `${SYFOOPPFOLGINGSPLANSERVICE_ROOT}/dokument/${oppfolgingsplanId}/dokumentinfo`;
   const fetchDokumentinfo = () => get<DokumentinfoDTO>(path);
-  return useQuery(
-    oppfolgingsplanQueryKeys.dokumentinfo(oppfolgingsplanId),
-    fetchDokumentinfo,
-    {
-      staleTime: minutesToMillis(60 * 12),
-    }
-  );
+  return useQuery({
+    queryKey: oppfolgingsplanQueryKeys.dokumentinfo(oppfolgingsplanId),
+    queryFn: fetchDokumentinfo,
+    staleTime: minutesToMillis(60 * 12),
+  });
 };

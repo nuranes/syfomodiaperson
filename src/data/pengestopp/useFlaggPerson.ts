@@ -17,7 +17,8 @@ export const useFlaggPerson = () => {
   const pengestoppStatusQueryKey =
     pengestoppStatusQueryKeys.pengestoppStatus(fnr);
 
-  return useMutation(postFlaggPerson, {
+  return useMutation({
+    mutationFn: postFlaggPerson,
     onSuccess: (_, stoppAutomatikk) => {
       const previousStatusEndring =
         queryClient.getQueryData<StatusEndring[]>(pengestoppStatusQueryKey) ||

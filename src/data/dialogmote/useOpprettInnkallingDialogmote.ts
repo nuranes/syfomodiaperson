@@ -10,7 +10,8 @@ export const useOpprettInnkallingDialogmote = (fnr: string) => {
   const postOpprettInnkalling = (innkalling: DialogmoteInnkallingDTO) =>
     post(path, innkalling, fnr);
 
-  return useMutation(postOpprettInnkalling, {
+  return useMutation({
+    mutationFn: postOpprettInnkalling,
     onSettled: () =>
       queryClient.invalidateQueries(dialogmoterQueryKeys.dialogmoter(fnr)),
   });

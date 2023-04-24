@@ -13,14 +13,12 @@ export const usePengestoppStatusQuery = () => {
   const fnr = useValgtPersonident();
   const path = `${ISPENGESTOPP_ROOT}/person/status`;
   const fetchPengestoppStatus = () => get<StatusEndring[]>(path, fnr);
-  const query = useQuery(
-    pengestoppStatusQueryKeys.pengestoppStatus(fnr),
-    fetchPengestoppStatus,
-    {
-      enabled: !!fnr,
-      staleTime: minutesToMillis(60 * 12),
-    }
-  );
+  const query = useQuery({
+    queryKey: pengestoppStatusQueryKeys.pengestoppStatus(fnr),
+    queryFn: fetchPengestoppStatus,
+    enabled: !!fnr,
+    staleTime: minutesToMillis(60 * 12),
+  });
 
   return {
     ...query,

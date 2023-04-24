@@ -11,7 +11,9 @@ export const modiacontextQueryKeys = {
 export const useAktivBruker = () => {
   const path = `${MODIACONTEXTHOLDER_ROOT}/context/aktivbruker`;
   const fetchAktivBruker = () => get<RSContext>(path);
-  return useQuery(modiacontextQueryKeys.aktivbruker, fetchAktivBruker, {
+  return useQuery({
+    queryKey: modiacontextQueryKeys.aktivbruker,
+    queryFn: fetchAktivBruker,
     staleTime: minutesToMillis(60 * 12),
   });
 };

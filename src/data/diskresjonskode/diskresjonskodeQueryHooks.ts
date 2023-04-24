@@ -12,13 +12,11 @@ export const useDiskresjonskodeQuery = () => {
   const fnr = useValgtPersonident();
   const path = `${SYFOPERSON_ROOT}/person/diskresjonskode`;
   const fetchDiskresjonskode = () => get<number>(path, fnr);
-  return useQuery(
-    diskresjonskodeQueryKeys.diskresjonskode(fnr),
-    fetchDiskresjonskode,
-    {
-      enabled: !!fnr,
-      staleTime: minutesToMillis(60 * 12),
-      select: (diskresjonskode) => diskresjonskode.toString(),
-    }
-  );
+  return useQuery({
+    queryKey: diskresjonskodeQueryKeys.diskresjonskode(fnr),
+    queryFn: fetchDiskresjonskode,
+    enabled: !!fnr,
+    staleTime: minutesToMillis(60 * 12),
+    select: (diskresjonskode) => diskresjonskode.toString(),
+  });
 };

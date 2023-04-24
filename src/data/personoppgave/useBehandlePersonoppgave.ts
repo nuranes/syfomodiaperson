@@ -11,7 +11,8 @@ export const useBehandlePersonoppgave = () => {
     post(`${ISPERSONOPPGAVE_ROOT}/personoppgave/${uuid}/behandle`, {});
   const personOppgaverQueryKey = personoppgaverQueryKeys.personoppgaver(fnr);
 
-  return useMutation(postBehandlePersonoppgave, {
+  return useMutation({
+    mutationFn: postBehandlePersonoppgave,
     onSettled: () => queryClient.invalidateQueries(personOppgaverQueryKey),
   });
 };

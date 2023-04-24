@@ -39,14 +39,13 @@ export const useOppfolgingstilfellePersonQuery = () => {
   const path = `${ISOPPFOLGINGSTILFELLE_ROOT}/oppfolgingstilfelle/personident`;
   const fetchOppfolgingstilfellePerson = () =>
     get<OppfolgingstilfellePersonDTO>(path, personIdent);
-  const query = useQuery(
-    oppfolgingstilfellePersonQueryKeys.oppfolgingstilfelleperson(personIdent),
-    fetchOppfolgingstilfellePerson,
-    {
-      enabled: !!personIdent,
-      staleTime: minutesToMillis(60 * 12),
-    }
-  );
+  const query = useQuery({
+    queryKey:
+      oppfolgingstilfellePersonQueryKeys.oppfolgingstilfelleperson(personIdent),
+    queryFn: fetchOppfolgingstilfellePerson,
+    enabled: !!personIdent,
+    staleTime: minutesToMillis(60 * 12),
+  });
 
   const tilfellerDescendingStart = query.data
     ? sortByDescendingStart(query.data.oppfolgingstilfelleList)

@@ -12,7 +12,9 @@ export const useTilgangQuery = () => {
   const fnr = useValgtPersonident();
   const path = `${SYFOTILGANGSKONTROLL_ROOT}/tilgang/navident/person`;
   const fetchTilgang = () => get<Tilgang>(path, fnr);
-  return useQuery(tilgangQueryKeys.tilgang(fnr), fetchTilgang, {
+  return useQuery({
+    queryKey: tilgangQueryKeys.tilgang(fnr),
+    queryFn: fetchTilgang,
     enabled: !!fnr,
   });
 };

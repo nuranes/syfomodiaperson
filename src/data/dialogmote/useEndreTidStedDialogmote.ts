@@ -13,7 +13,8 @@ export const useEndreTidStedDialogmote = (
   const postEndreTidSted = (endring: EndreTidStedDialogmoteDTO) =>
     post(path, endring);
 
-  return useMutation(postEndreTidSted, {
+  return useMutation({
+    mutationFn: postEndreTidSted,
     onSettled: () =>
       queryClient.invalidateQueries(dialogmoterQueryKeys.dialogmoter(fnr)),
   });

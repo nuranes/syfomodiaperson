@@ -17,7 +17,8 @@ export const useVurderAktivitetskrav = (
     vurdering: CreateAktivitetskravVurderingDTO
   ) => post(path, vurdering, personident);
 
-  return useMutation(postVurderAktivitetskrav, {
+  return useMutation({
+    mutationFn: postVurderAktivitetskrav,
     onSuccess: () => {
       return queryClient.invalidateQueries(
         aktivitetskravQueryKeys.aktivitetskrav(personident)

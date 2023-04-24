@@ -16,13 +16,11 @@ export const useDialogmoteunntakQuery = () => {
   const personident = useValgtPersonident();
   const path = `${ISDIALOGMOTEKANDIDAT_ROOT}/unntak/personident`;
   const fetchUnntak = () => get<UnntakDTO[]>(path, personident);
-  const query = useQuery(
-    dialogmoteunntakQueryKeys.unntak(personident),
-    fetchUnntak,
-    {
-      enabled: !!personident,
-    }
-  );
+  const query = useQuery({
+    queryKey: dialogmoteunntakQueryKeys.unntak(personident),
+    queryFn: fetchUnntak,
+    enabled: !!personident,
+  });
 
   return {
     ...query,
@@ -33,8 +31,8 @@ export const useDialogmoteunntakQuery = () => {
 export const useDialogmoteUnntaksstatistikkQuery = () => {
   const path = `${ISDIALOGMOTEKANDIDAT_ROOT}/unntak/statistikk`;
   const fetchUnntaksstatistikk = () => get<UnntaksstatistikkDTO[]>(path);
-  return useQuery(
-    dialogmotekandidatQueryKeys.unntaksstatistikk(),
-    fetchUnntaksstatistikk
-  );
+  return useQuery({
+    queryKey: dialogmotekandidatQueryKeys.unntaksstatistikk(),
+    queryFn: fetchUnntaksstatistikk,
+  });
 };

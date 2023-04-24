@@ -13,11 +13,11 @@ export const useAktivitetskravQuery = () => {
   const path = `${ISAKTIVITETSKRAV_ROOT}/aktivitetskrav/personident`;
   const fetchAktivitetskrav = () => get<AktivitetskravDTO[]>(path, personident);
 
-  const query = useQuery(
-    aktivitetskravQueryKeys.aktivitetskrav(personident),
-    fetchAktivitetskrav,
-    { enabled: !!personident }
-  );
+  const query = useQuery({
+    queryKey: aktivitetskravQueryKeys.aktivitetskrav(personident),
+    queryFn: fetchAktivitetskrav,
+    enabled: !!personident,
+  });
 
   return {
     ...query,

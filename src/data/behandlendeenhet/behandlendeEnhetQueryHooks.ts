@@ -13,9 +13,10 @@ export const useBehandlendeEnhetQuery = () => {
   const fnr = useValgtPersonident();
   const path = `${SYFOBEHANDLENDEENHET_ROOT}/personident`;
   const fetchBehandlendeEnhet = () => get<BehandlendeEnhet>(path, fnr);
-  return useQuery(
-    behandlendeEnhetQueryKeys.behandlendeEnhet(fnr),
-    fetchBehandlendeEnhet,
-    { enabled: !!fnr, staleTime: minutesToMillis(60 * 12) }
-  );
+  return useQuery({
+    queryKey: behandlendeEnhetQueryKeys.behandlendeEnhet(fnr),
+    queryFn: fetchBehandlendeEnhet,
+    enabled: !!fnr,
+    staleTime: minutesToMillis(60 * 12),
+  });
 };

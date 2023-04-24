@@ -11,7 +11,8 @@ export const useChangeEnhet = (fnr: string) => {
   const behandlendeEnhetQueryKey =
     behandlendeEnhetQueryKeys.behandlendeEnhet(fnr);
 
-  return useMutation(postChangeEnhet, {
+  return useMutation({
+    mutationFn: postChangeEnhet,
     onSuccess: (data: PersonDTO) => {
       queryClient.setQueryData(behandlendeEnhetQueryKey, data);
     },

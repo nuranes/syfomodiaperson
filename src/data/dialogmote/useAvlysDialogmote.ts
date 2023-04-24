@@ -10,7 +10,8 @@ export const useAvlysDialogmote = (fnr: string, dialogmoteUuid: string) => {
   const postAvlysDialogmote = (avlysning: AvlysDialogmoteDTO) =>
     post(path, avlysning);
 
-  return useMutation(postAvlysDialogmote, {
+  return useMutation({
+    mutationFn: postAvlysDialogmote,
     onSettled: () =>
       queryClient.invalidateQueries(dialogmoterQueryKeys.dialogmoter(fnr)),
   });

@@ -15,7 +15,8 @@ export const useBehandleMotebehov = () => {
   const postBehandleMotebehov = () => post(path, {});
   const motebehovQueryKey = motebehovQueryKeys.motebehov(fnr);
 
-  return useMutation(postBehandleMotebehov, {
+  return useMutation({
+    mutationFn: postBehandleMotebehov,
     onSuccess: () => {
       const previousMotebehov =
         queryClient.getQueryData<MotebehovVeilederDTO[]>(motebehovQueryKey);

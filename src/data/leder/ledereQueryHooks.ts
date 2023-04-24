@@ -21,7 +21,9 @@ export const useLedereQuery = () => {
   const fnr = useValgtPersonident();
   const path = `${ISNARMESTELEDER_ROOT}${ISNARMESTELEDER_NARMESTELEDERRELASJON_PERSONIDENT_PATH}`;
   const fetchLedere = () => get<NarmesteLederRelasjonDTO[]>(path, fnr);
-  const query = useQuery(ledereQueryKeys.ledere(fnr), fetchLedere, {
+  const query = useQuery({
+    queryKey: ledereQueryKeys.ledere(fnr),
+    queryFn: fetchLedere,
     enabled: !!fnr,
     staleTime: minutesToMillis(60 * 12),
   });

@@ -15,7 +15,9 @@ export const useMotebehovQuery = () => {
   const path = `${SYFOMOTEBEHOV_ROOT}/motebehov?fnr=${fnr}`;
   const fetchMotebehov = () => get<MotebehovVeilederDTO[]>(path);
 
-  const query = useQuery(motebehovQueryKeys.motebehov(fnr), fetchMotebehov, {
+  const query = useQuery({
+    queryKey: motebehovQueryKeys.motebehov(fnr),
+    queryFn: fetchMotebehov,
     enabled: !!fnr,
     staleTime: minutesToMillis(60 * 12),
   });

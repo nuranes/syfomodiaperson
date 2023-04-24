@@ -24,10 +24,10 @@ export const useFeatureToggles = (behandlerRef?: string) => {
     post<Toggles>(path, {
       toggles: Object.values(ToggleNames),
     });
-  const query = useQuery(
-    unleashQueryKeys.toggles(valgtEnhet, veilederIdent, behandlerRef),
-    fetchToggles
-  );
+  const query = useQuery({
+    queryKey: unleashQueryKeys.toggles(valgtEnhet, veilederIdent, behandlerRef),
+    queryFn: fetchToggles,
+  });
   const isFeatureEnabled = (toggle: ToggleNames): boolean => {
     return query.data ? query.data[toggle] : false;
   };
