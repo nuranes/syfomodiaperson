@@ -19,6 +19,7 @@ import { mockUnleash } from "./unleash/mockUnleash";
 import { mockIsdialogmelding } from "./isdialogmelding/mockIsdialogmelding";
 import { mockIsaktivitetskrav } from "./isaktivitetskrav/mockIsaktivitetskrav";
 import { mockIsbehandlerdialog } from "./isbehandlerdialog/mockIsbehandlerdialog";
+import { mockEsyfovarsel } from "./esyfovarsel/mockEsyfovarsel";
 
 const express = require("express");
 
@@ -28,6 +29,7 @@ const mockEndepunkter = (server: any) => {
 
   [
     mockEreg,
+    mockEsyfovarsel,
     mockFastlegerest,
     mockIsnarmesteleder,
     mockIsoppfolgingstilfelle,

@@ -71,6 +71,8 @@ spec:
         - application: sykepengesoknad-backend
           namespace: flex
         - application: syfomodiaperson-redis
+        - application: esyfovarsel
+          namespace: team-esyfo
   envFrom:
     - secret: syfomodiaperson-session-key
   ingresses:
@@ -164,4 +166,8 @@ spec:
       value: "dev-gcp.teamsykefravr.syfoveileder"
     - name: SYFOVEILEDER_HOST
       value: "http://syfoveileder"
+    - name: ESYFOVARSEL_AAD_APP_CLIENT_ID
+      value: "dev-gcp.team-esyfo.esyfovarsel"
+    - name: ESYFOVARSEL_HOST
+      value: "http://esyfovarsel.team-esyfo"
 

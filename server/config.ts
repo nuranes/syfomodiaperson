@@ -292,6 +292,16 @@ export const auth = {
       name: "SYFOVEILEDER_HOST",
     }),
   },
+  esyfovarsel: {
+    applicationName: "esyfovarsel",
+    clientId: envVar({
+      name: "ESYFOVARSEL_AAD_APP_CLIENT_ID",
+    }),
+    host: envVar({
+      name: "ESYFOVARSEL_HOST",
+    }),
+    removePathPrefix: true,
+  },
 };
 
 export const redis = {

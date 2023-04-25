@@ -429,6 +429,17 @@ export const setupProxy = (authClient: any) => {
   );
 
   router.use(
+    "/esyfovarsel/*",
+    (
+      req: express.Request,
+      res: express.Response,
+      next: express.NextFunction
+    ) => {
+      proxyOnBehalfOf(req, res, next, authClient, Config.auth.esyfovarsel);
+    }
+  );
+
+  router.use(
     "/internarbeidsflatedecorator",
     proxy(Config.auth.internarbeidsflatedecoratorHost, {
       https: true,
