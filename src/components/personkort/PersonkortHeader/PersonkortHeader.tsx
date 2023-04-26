@@ -20,6 +20,7 @@ import { Refresh } from "@navikt/ds-icons";
 import { Tooltip } from "@navikt/ds-react";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
+import { Maksdato } from "@/components/personkort/PersonkortHeader/Maksdato";
 
 const texts = {
   copied: "Kopiert!",
@@ -88,6 +89,7 @@ const PersonkortHeader = () => {
             <CopyButton message={texts.copied} value={personident} />
           </StyledFnr>
           <SyketilfelleSummary />
+          <Maksdato />
         </div>
       </div>
       {visEtiketter && (

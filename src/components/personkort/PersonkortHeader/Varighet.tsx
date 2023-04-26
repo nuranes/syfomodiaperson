@@ -1,24 +1,18 @@
 import React from "react";
-import styled from "styled-components";
 import {
   useStartOfLatestOppfolgingstilfelle,
   useEndOfLatestOppfolgingstilfelle,
 } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { getWeeksBetween, getEarliestDate } from "@/utils/datoUtils";
+import {
+  SyketilfelleInfoElement,
+  SyketilfelleInfoWrapper,
+} from "@/components/personkort/PersonkortHeader/SyketilfelleSummary";
 
 const texts = {
   varighet: "Varighet: ",
   uker: "uker",
 };
-
-const VarighetWrapper = styled.div`
-  font-weight: normal;
-  margin-left: 0.5em;
-`;
-
-const Weeks = styled.span`
-  font-weight: bold;
-`;
 
 export const Varighet = () => {
   const startDate = useStartOfLatestOppfolgingstilfelle();
@@ -30,10 +24,10 @@ export const Varighet = () => {
   return (
     <>
       {!!startDate && (
-        <VarighetWrapper>
+        <SyketilfelleInfoWrapper>
           <span> {texts.varighet} </span>
-          <Weeks>{`${weeks} ${texts.uker}`}</Weeks>
-        </VarighetWrapper>
+          <SyketilfelleInfoElement>{`${weeks} ${texts.uker}`}</SyketilfelleInfoElement>
+        </SyketilfelleInfoWrapper>
       )}
     </>
   );

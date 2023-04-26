@@ -12,6 +12,7 @@ import PersonkortHeader from "@/components/personkort/PersonkortHeader/Personkor
 import { expect } from "chai";
 import { queryClientWithAktivBruker } from "../../testQueryClient";
 import { ValgtEnhetProvider } from "@/context/ValgtEnhetContext";
+import { stubMaxdateApi } from "../../stubs/stubEsyfovarsel";
 
 let queryClient: any;
 let apiMockScope: any;
@@ -90,5 +91,13 @@ describe("PersonkortHeader", () => {
     await screen.findByText("Egenansatt");
 
     expect(screen.queryByText("Død")).not.to.exist;
+  });
+
+  it("viser maksdato fra API", async () => {
+    stubMaxdateApi(apiMockScope, new Date("2023-12-01"));
+    renderPersonkortHeader();
+
+    await screen.findByText("Maksdato:");
+    await screen.findByText("01.12.2023");
   });
 });

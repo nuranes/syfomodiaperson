@@ -7,6 +7,15 @@ import { Varighet } from "@/components/personkort/PersonkortHeader/Varighet";
 const StyledInfo = styled.div`
   display: flex;
   flex-direction: row;
+  gap: 0.75em;
+`;
+
+export const SyketilfelleInfoWrapper = styled.div`
+  font-weight: normal;
+`;
+
+export const SyketilfelleInfoElement = styled.span`
+  font-weight: bold;
 `;
 
 export const SyketilfelleSummary = () => {
