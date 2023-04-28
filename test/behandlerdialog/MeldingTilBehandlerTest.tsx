@@ -112,6 +112,8 @@ describe("MeldingTilBehandler", () => {
 
   describe("MeldingTilBehandler innsending", () => {
     const meldingTilBehandlerDTO: MeldingTilBehandlerDTO = {
+      behandlerIdent: behandlereDialogmeldingMock[0].fnr,
+      behandlerNavn: `${behandlereDialogmeldingMock[0].fornavn} ${behandlereDialogmeldingMock[0].mellomnavn} ${behandlereDialogmeldingMock[0].etternavn}`,
       behandlerRef: behandlereDialogmeldingMock[0].behandlerRef,
       tekst: enMeldingTekst,
       document: expectedMeldingTilBehandlerDocument(enMeldingTekst),

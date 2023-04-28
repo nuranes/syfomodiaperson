@@ -4,6 +4,8 @@ export interface MeldingTilBehandlerDTO {
   behandlerRef: string;
   tekst: string;
   document: DocumentComponentDto[];
+  behandlerIdent?: string;
+  behandlerNavn?: string;
 }
 
 export interface MeldingResponseDTO {

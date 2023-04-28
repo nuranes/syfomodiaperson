@@ -22,6 +22,7 @@ import { tilDatoMedManedNavnOgKlokkeslett } from "@/utils/datoUtils";
 import { FormApi } from "final-form";
 import { Forhandsvisning } from "@/components/Forhandsvisning";
 import { useMeldingTilBehandlerDocument } from "@/hooks/behandlerdialog/document/useMeldingTilBehandlerDocument";
+import { behandlerNavn } from "@/utils/behandlerUtils";
 
 const texts = {
   sendKnapp: "Send til behandler",
@@ -97,6 +98,10 @@ export const MeldingTilBehandlerSkjema = () => {
       behandlerRef: values.behandlerRef,
       tekst: values[meldingTekstField],
       document: getTilleggsOpplysningerPasientDocument(values),
+      behandlerIdent: selectedBehandler?.fnr,
+      behandlerNavn: selectedBehandler
+        ? behandlerNavn(selectedBehandler)
+        : undefined,
     };
     meldingTilBehandler.mutate(meldingTilBehandlerDTO, {
       onSuccess: () => form.reset(), // TODO: Reset for radiogruppe fungerer ikke

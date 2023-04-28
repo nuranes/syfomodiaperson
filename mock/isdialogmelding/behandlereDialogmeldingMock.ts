@@ -3,6 +3,7 @@ export const behandlerRefDoktorLegesen = "behandler-ref-annen-uuid";
 
 export const behandlerLegoLasLegesen = {
   type: "FASTLEGE",
+  fnr: "01010012345",
   behandlerRef: behandlerRefLegoLasLegesen,
   fornavn: "Lego",
   mellomnavn: "Las",
@@ -17,6 +18,7 @@ export const behandlerLegoLasLegesen = {
 
 export const behandlerDoktorLegesen = {
   type: "FASTLEGE",
+  fnr: "01010012346",
   behandlerRef: behandlerRefDoktorLegesen,
   fornavn: "Doktor",
   mellomnavn: undefined,
@@ -34,6 +36,7 @@ export const behandlereDialogmeldingMock = [behandlerLegoLasLegesen];
 export const behandlerSokDialogmeldingMock = [
   {
     type: null,
+    fnr: "01010012347",
     behandlerRef: "behandler-ref-uuid",
     fornavn: "Enda",
     mellomnavn: "Enny",
@@ -47,6 +50,7 @@ export const behandlerSokDialogmeldingMock = [
   },
   {
     type: null,
+    fnr: "01010012348",
     behandlerRef: "behandler-ref-uuid",
     fornavn: "Kake",
     mellomnavn: "Bake",
