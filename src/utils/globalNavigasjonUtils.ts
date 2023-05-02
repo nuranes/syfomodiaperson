@@ -11,8 +11,8 @@ import { OppfolgingsplanLPSMedPersonoppgave } from "@/data/oppfolgingsplan/types
 import { OppfolgingsplanDTO } from "@/data/oppfolgingsplan/types/OppfolgingsplanDTO";
 import { MotebehovVeilederDTO } from "@/data/motebehov/types/motebehovTypes";
 import {
-  hasUbehandletPersonOppgaveDialogmotesvar,
-  isBehandletOppgave,
+  hasUbehandletPersonoppgave,
+  numberOfUbehandledePersonOppgaver,
 } from "@/utils/personOppgaveUtils";
 import { Menypunkter } from "@/navigation/menypunkterTypes";
 import {
@@ -27,8 +27,12 @@ const getNumberOfMoteOppgaver = (
   const numberOfUbehandledeMotebehov = harUbehandletMotebehov(motebehov)
     ? 1
     : 0;
-  const numberOfUbehandledeDialogmotesvar =
-    hasUbehandletPersonOppgaveDialogmotesvar(personOppgaver) ? 1 : 0;
+  const numberOfUbehandledeDialogmotesvar = hasUbehandletPersonoppgave(
+    personOppgaver,
+    PersonOppgaveType.DIALOGMOTESVAR
+  )
+    ? 1
+    : 0;
   return numberOfUbehandledeMotebehov + numberOfUbehandledeDialogmotesvar;
 };
 
@@ -44,15 +48,6 @@ const numberOfActiveLPSOppfolgingsplaner = (
   return activeLPSOppfolgingsplaner(oppfolgingsplanerLps).length;
 };
 
-const numberOfUnprocessedPersonOppgaver = (
-  personOppgaver: PersonOppgave[],
-  type: string
-) => {
-  return personOppgaver.filter((personoppgave) => {
-    return personoppgave.type === type && !isBehandletOppgave(personoppgave);
-  }).length;
-};
-
 const getNumberOfAktivitetskravOppgaver = (
   aktivitetskrav: AktivitetskravDTO[]
 ) => {
@@ -61,6 +56,17 @@ const getNumberOfAktivitetskravOppgaver = (
   });
 
   return newAktivitetskrav ? 1 : 0;
+};
+
+const getNumberOfBehandlerDialogOppgaver = (
+  personOppgaver: PersonOppgave[]
+) => {
+  return hasUbehandletPersonoppgave(
+    personOppgaver,
+    PersonOppgaveType.BEHANDLERDIALOG_SVAR
+  )
+    ? 1
+    : 0;
 };
 
 export const numberOfTasks = (
@@ -78,14 +84,21 @@ export const numberOfTasks = (
       return (
         numberOfActiveOppfolgingsplaner(oppfolgingsplaner) +
         numberOfActiveLPSOppfolgingsplaner(oppfolgingsplanerlps) +
-        numberOfUnprocessedPersonOppgaver(
+        numberOfUbehandledePersonOppgaver(
           personOppgaver,
           PersonOppgaveType.OPPFOLGINGSPLANLPS
         )
       );
     case Menypunkter.AKTIVITETSKRAV:
       return getNumberOfAktivitetskravOppgaver(aktivitetskrav);
-    default:
+    case Menypunkter.BEHANDLERDIALOG:
+      return getNumberOfBehandlerDialogOppgaver(personOppgaver);
+    case Menypunkter.NOKKELINFORMASJON:
+    case Menypunkter.SYKEPENGESOKNADER:
+    case Menypunkter.SYKMELDINGER:
+    case Menypunkter.VEDTAK:
+    case Menypunkter.HISTORIKK: {
       return 0;
+    }
   }
 };

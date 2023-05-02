@@ -6,11 +6,15 @@ import { expect } from "chai";
 import { MemoryRouter } from "react-router-dom";
 import { oppfolgingsplanQueryKeys } from "@/data/oppfolgingsplan/oppfolgingsplanQueryHooks";
 import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQueryHooks";
-import { queryClientWithAktivBruker } from "../testQueryClient";
+import {
+  queryClientWithAktivBruker,
+  queryClientWithMockData,
+} from "../testQueryClient";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import { Menypunkter } from "@/navigation/menypunkterTypes";
 import { navEnhet } from "../dialogmote/testData";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
+import { personoppgaverMock } from "../../mock/ispersonoppgave/personoppgaveMock";
 
 const fnr = ARBEIDSTAKER_DEFAULT.personIdent;
 let queryClient: any;
@@ -69,5 +73,26 @@ describe("GlobalNavigasjon", () => {
       current: true,
     });
     expect(currentMenypunkt.textContent).to.equal("Nøkkelinformasjon");
+  });
+  it("viser rød prikk for menypunkt Dialogmøter når ubehandlet oppgave dialogmøte-svar", () => {
+    queryClient.setQueryData(personoppgaverQueryKeys.personoppgaver(fnr), () =>
+      personoppgaverMock()
+    );
+
+    renderGlobalNavigasjon();
+
+    expect(screen.getByRole("link", { name: "Dialogmøter 1" })).to.exist;
+  });
+
+  it("viser rød prikk for menypunkt Dialog med behandler når ubehandlet oppgave behandlerdialog-svar", () => {
+    queryClient = queryClientWithMockData();
+    queryClient.setQueryData(personoppgaverQueryKeys.personoppgaver(fnr), () =>
+      personoppgaverMock()
+    );
+
+    renderGlobalNavigasjon();
+
+    expect(screen.getByRole("link", { name: "Dialog med behandler 1" })).to
+      .exist;
   });
 });

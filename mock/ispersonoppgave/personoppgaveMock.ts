@@ -22,6 +22,23 @@ const personOppgaveUbehandletDialogmotesvar = {
   type: "DIALOGMOTESVAR",
 };
 
+const personOppgaveUbehandletBehandlerdialogSvar = {
+  ...personOppgaveUbehandletDialogmotesvar,
+  uuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd4",
+  referanseUuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd5",
+  type: "BEHANDLERDIALOG_SVAR",
+};
+
+const personOppgaveBehandletBehandlerdialogSvar = {
+  ...personOppgaveUbehandletBehandlerdialogSvar,
+  uuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd8",
+  referanseUuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd9",
+  behandletTidspunkt: new Date(
+    dayjs().subtract(1, "days").toJSON()
+  ).toDateString(),
+  behandletVeilederIdent: "Z991100",
+};
+
 const personOppgaveBehandletOppfolgingsplanLPS = {
   ...personOppgaveUbehandletOppfolgingsplanLPS,
   uuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd2",
@@ -61,5 +78,7 @@ export const personoppgaverMock = () => {
     personOppgaveUbehandletDialogmotesvar,
     personOppgaveBehandletOppfolgingsplanLPS,
     personOppgaveBehandletDialogmotesvar,
+    personOppgaveBehandletBehandlerdialogSvar,
+    personOppgaveUbehandletBehandlerdialogSvar,
   ];
 };
