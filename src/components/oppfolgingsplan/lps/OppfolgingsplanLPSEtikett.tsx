@@ -1,8 +1,8 @@
 import React from "react";
-import EtikettBase from "nav-frontend-etiketter";
+import { Tag } from "@navikt/ds-react";
 
 const OppfolgingsplanLPSEtikett = () => {
-  return <EtikettBase type="info">LPS</EtikettBase>;
+  return <Tag variant="info">LPS</Tag>;
 };
 
 export default OppfolgingsplanLPSEtikett;

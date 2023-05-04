@@ -1,12 +1,12 @@
 import React, { ReactNode } from "react";
 import styled from "styled-components";
-import EtikettBase from "nav-frontend-etiketter";
 import { formaterOrgnr } from "@/utils";
 import { lederHasActiveSykmelding } from "@/utils/ledereUtils";
 import kanskjeBooleanTilJaNeiKanskje from "../kanskjeBooleanTilJaNeiKanskje";
 import { FabrikkImage } from "../../../../img/ImageComponents";
 import navFarger from "nav-frontend-core";
 import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat";
+import { Tag } from "@navikt/ds-react";
 
 const texts = {
   activeSykmelding: "Sykmeldt nå",
@@ -77,12 +77,7 @@ const PersonKortVirksomhetHeader = (
           <FlexColumn>{forskutteringText}</FlexColumn>
           {activeSykmeldingText && (
             <FlexColumn>
-              <EtikettBase
-                className="personkortElement__tittelLabel"
-                type="info"
-              >
-                {activeSykmeldingText}
-              </EtikettBase>
+              <Tag variant="alt3">{activeSykmeldingText}</Tag>
             </FlexColumn>
           )}
         </GridRow>

@@ -1,5 +1,4 @@
 import React from "react";
-import EtikettBase from "nav-frontend-etiketter";
 import Lenke from "nav-frontend-lenker";
 import SykmeldingMotebehovVisning from "../motebehov/SykmeldingMotebehovVisning";
 import {
@@ -31,13 +30,13 @@ import { useSykmeldingerQuery } from "@/data/sykmelding/sykmeldingQueryHooks";
 import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { IconHeader } from "@/components/IconHeader";
+import { PapirsykmeldingTag } from "@/components/PapirsykmeldingTag";
 
 const tekster = {
   header: "Utdrag fra sykefraværet",
   sykmeldinger: {
     header: "Sykmeldinger",
     headerUtenArbeidsgiver: "Sykmeldinger uten arbeidsgiver",
-    papirLabelText: "Papir",
   },
   samtalereferat: {
     header: "Samtalereferat",
@@ -83,11 +82,7 @@ export const UtvidbarTittel = ({ sykmelding }: UtvidbarTittelProps) => {
             {`${sykmelding.diagnose.hoveddiagnose.diagnosekode} (${sykmelding.diagnose.hoveddiagnose.diagnose})`}
           </span>
         )}
-        {sykmelding.papirsykmelding && (
-          <EtikettBase className="utvidbarTittel__etikett" type="info">
-            {tekster.sykmeldinger.papirLabelText}
-          </EtikettBase>
-        )}
+        {sykmelding.papirsykmelding && <PapirsykmeldingTag />}
       </UtdragColumn>
       {erViktigInformasjon && (
         <div className="utvidbarTittel__erViktig">

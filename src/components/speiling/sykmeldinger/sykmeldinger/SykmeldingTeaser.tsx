@@ -1,6 +1,5 @@
 import React, { ReactElement, useState } from "react";
 import { Link } from "react-router-dom";
-import EtikettBase from "nav-frontend-etiketter";
 import SykmeldingPeriodeInfo from "./SykmeldingPeriodeInfo";
 import { tilLesbarPeriodeMedArstall } from "@/utils/datoUtils";
 import { senesteTom, tidligsteFom } from "@/utils/periodeUtils";
@@ -15,6 +14,7 @@ import {
   SykmeldingStatus,
 } from "@/data/sykmelding/types/SykmeldingOldFormat";
 import { BehandlingsutfallStatusDTO } from "@/data/sykmelding/types/BehandlingsutfallStatusDTO";
+import { PapirsykmeldingTag } from "@/components/PapirsykmeldingTag";
 
 const texts = {
   teaserTekst: "Sykmelding\n",
@@ -127,11 +127,7 @@ const SykmeldingTeaser = ({
                 {sykmelding.egenmeldt
                   ? texts.egenmeldtTeaserTekst
                   : texts.teaserTekst}
-                {showPapirLabel && (
-                  <EtikettBase className="inngangspanel__merkelapp" type="info">
-                    {texts.papirLabelText}
-                  </EtikettBase>
-                )}
+                {showPapirLabel && <PapirsykmeldingTag />}
               </span>
             </h3>
             {visStatus && (
