@@ -19,7 +19,7 @@ export const innkallingTexts = {
   },
   arbeidsgiver: {
     intro1:
-      "Velkommen til dialogmøte i regi av NAV. I møtet skal vi snakke om din ansattes arbeidssituasjon og mulighetene for å jobbe. Vi skal bli enige om en plan som kan hjelpe din ansatte videre.",
+      "Velkommen til dialogmøte mellom deg, arbeidstakeren din og en veileder fra NAV. I møtet skal vi snakke om din ansattes arbeidssituasjon og mulighetene for å jobbe. Vi skal bli enige om en plan som kan hjelpe din ansatte videre.",
     outroObligatorisk:
       "Det er obligatorisk å delta i dialogmøtet. Gi oss svar om tidspunktet passer eller ikke. Vi minner om at det ikke må sendes sensitive personopplysninger over e-post eller SMS.",
     outro1:
@@ -35,7 +35,7 @@ export const innkallingTexts = {
 
   behandler: {
     intro:
-      "Det er obligatorisk å delta i dialogmøtet. Gi oss svar om tidspunktet passer eller ikke.",
+      "Vi ønsker svar fra deg om du kan stille til møtet. Det er i utgangspunktet obligatorisk å delta i dialogmøtet, men tidspunktet kan endres eller møtet kan avlyses ved behov.",
     outro:
       "Vi minner om at det ikke må sendes sensitive personopplysninger over e-post eller SMS.",
   },
@@ -146,7 +146,7 @@ const referatStandardTekster: StandardTekst[] = [
   {
     key: StandardtekstKey.ARBEIDSRETTET_REHABILITERING,
     label: "Arbeidsrettet rehabilitering",
-    text: "Du kan få individuell veiledning om helse og livsstil og hjelp til å komme i form.  Det kan gjøre at du finner motivasjon og blir tryggere på deg selv. Slik blir mulighetene dine til å komme i jobb igjen styrket. Du vil få opplæring og får prøvd ut kontakten med arbeidslivet i trygge omgivelser.",
+    text: "Du kan få individuell veiledning tilpasset behovet ditt, for eksempel hjelp til å kartelegge helse, arbeidsplass og funksjon. Slik kan mulighetene dine til å komme i jobb igjen bli styrket.",
   },
   {
     key: StandardtekstKey.OPPLAERING_UTDANNING,
