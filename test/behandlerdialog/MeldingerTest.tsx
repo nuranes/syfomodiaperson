@@ -208,7 +208,7 @@ describe("Meldinger panel", () => {
     const accordions = screen.getAllByRole("button");
     accordions.forEach((accordion) => userEvent.click(accordion));
 
-    expect(screen.getByText("Venter på svar fra lege")).to.exist;
+    expect(screen.getByText("Venter på svar fra behandler")).to.exist;
   });
 
   it("viser ingen tags på samtale hvis det er melding fra behandler i samtalen og oppgaven for denne er behandlet", () => {
@@ -240,7 +240,7 @@ describe("Meldinger panel", () => {
     const accordions = screen.getAllByRole("button");
     accordions.forEach((accordion) => userEvent.click(accordion));
 
-    expect(screen.queryByText("Venter på svar fra lege")).to.not.exist;
+    expect(screen.queryByText("Venter på svar fra behandler")).to.not.exist;
     expect(screen.queryByText("Ny")).to.not.exist;
   });
 

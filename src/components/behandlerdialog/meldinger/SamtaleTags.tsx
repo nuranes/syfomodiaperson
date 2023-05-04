@@ -8,7 +8,7 @@ import { PersonOppgaveType } from "@/data/personoppgave/types/PersonOppgave";
 
 const texts = {
   ny: "Ny",
-  manglerSvar: "Venter på svar fra lege",
+  manglerSvar: "Venter på svar fra behandler",
 };
 
 const StyledWrapper = styled.div`
