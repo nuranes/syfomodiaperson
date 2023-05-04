@@ -55,6 +55,7 @@ const meldingtilBehandlerDocument = [
 ];
 
 export const defaultMelding = {
+  uuid: "5f1e2629-062b-443d-ac1f-3b08e9574cd5",
   behandlerRef: behandlerRefDoktorLegesen,
   behandlerNavn: null,
   tekst: defaultMeldingTekst,
@@ -70,6 +71,7 @@ const longMelding =
 const meldinger = [
   defaultMelding,
   {
+    uuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd5",
     tekst: longMelding,
     behandlerRef: behandlerRefLegoLasLegesen,
     behandlerNavn: `${behandlerLegoLasLegesen.fornavn} ${behandlerLegoLasLegesen.mellomnavn} ${behandlerLegoLasLegesen.etternavn}`,
@@ -80,6 +82,7 @@ const meldinger = [
   },
   {
     ...defaultMelding,
+    uuid: "5f1e2639-061b-243d-ac1f-3b08e9574cd5",
     behandlerNavn: `${behandlerDoktorLegesen.fornavn} ${behandlerDoktorLegesen.etternavn}`,
     innkommende: true,
     tidspunkt: "2023-01-03T12:00:00.000+01:00",

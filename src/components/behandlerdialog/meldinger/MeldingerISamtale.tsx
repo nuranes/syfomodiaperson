@@ -34,7 +34,7 @@ const MeldingFraBehandler = ({ melding }: MeldingInnholdProps) => {
   return (
     <StyledMeldingInnhold innkommende>
       <StyledImageWrapper innkommende>
-        <img src={StetoskopIkonBakgrunn} alt="Stetoskop ikon for behandler" />
+        <img src={StetoskopIkonBakgrunn} alt="Stetoskopikon for behandler" />
       </StyledImageWrapper>
       <MeldingInnholdPanel melding={melding} />
     </StyledMeldingInnhold>

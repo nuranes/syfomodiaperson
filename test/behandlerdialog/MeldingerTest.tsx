@@ -15,6 +15,11 @@ import {
 import { MeldingResponseDTO } from "@/data/behandlerdialog/behandlerdialogTypes";
 import userEvent from "@testing-library/user-event";
 import { clickButton } from "../testUtils";
+import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQueryHooks";
+import {
+  personOppgaveBehandletBehandlerdialogSvar,
+  personOppgaveUbehandletBehandlerdialogSvar,
+} from "../../mock/ispersonoppgave/personoppgaveMock";
 
 let queryClient: QueryClient;
 
@@ -31,6 +36,16 @@ const renderMeldinger = () => {
 };
 
 const seMeldingButtonTekst = "Se utfyllende melding";
+
+const meldingTilOgFraBehandler = (meldingFraBehandlerUuid: string) => [
+  defaultMelding,
+  {
+    ...defaultMelding,
+    uuid: meldingFraBehandlerUuid,
+    innkommende: true,
+    antallVedlegg: 1,
+  },
+];
 
 describe("Meldinger panel", () => {
   beforeEach(() => {
@@ -142,6 +157,91 @@ describe("Meldinger panel", () => {
         "Spørsmål om tilleggsopplysninger vedrørende pasient"
       )
     ).to.exist;
+  });
+
+  it("Viser ny-tag på samtale hvis det er en ny melding i samtalen", () => {
+    const innkommendeMeldingUuid = "456uio";
+    const meldingResponse = {
+      conversations: {
+        ["conversationRef000"]: meldingTilOgFraBehandler(
+          innkommendeMeldingUuid
+        ),
+      },
+    };
+    queryClient.setQueryData(
+      behandlerdialogQueryKeys.behandlerdialog(
+        ARBEIDSTAKER_DEFAULT.personIdent
+      ),
+      () => meldingResponse
+    );
+    queryClient.setQueryData(
+      personoppgaverQueryKeys.personoppgaver(ARBEIDSTAKER_DEFAULT.personIdent),
+      () => [
+        {
+          ...personOppgaveUbehandletBehandlerdialogSvar,
+          referanseUuid: innkommendeMeldingUuid,
+        },
+      ]
+    );
+
+    renderMeldinger();
+    const accordions = screen.getAllByRole("button");
+    accordions.forEach((accordion) => userEvent.click(accordion));
+
+    expect(screen.getByText("Ny")).to.exist;
+  });
+
+  it("Viser venter svar-tag på samtale hvis det mangler melding fra behandler i samtalen", () => {
+    const meldingResponse = {
+      conversations: {
+        ["conversationRef123"]: [defaultMelding],
+      },
+    };
+    queryClient.setQueryData(
+      behandlerdialogQueryKeys.behandlerdialog(
+        ARBEIDSTAKER_DEFAULT.personIdent
+      ),
+      () => meldingResponse
+    );
+
+    renderMeldinger();
+    const accordions = screen.getAllByRole("button");
+    accordions.forEach((accordion) => userEvent.click(accordion));
+
+    expect(screen.getByText("Venter på svar fra lege")).to.exist;
+  });
+
+  it("viser ingen tags på samtale hvis det er melding fra behandler i samtalen og oppgaven for denne er behandlet", () => {
+    const innkommendeMeldingUuid = "456uio";
+    const meldingResponse = {
+      conversations: {
+        ["conversationRef000"]: meldingTilOgFraBehandler(
+          innkommendeMeldingUuid
+        ),
+      },
+    };
+    queryClient.setQueryData(
+      behandlerdialogQueryKeys.behandlerdialog(
+        ARBEIDSTAKER_DEFAULT.personIdent
+      ),
+      () => meldingResponse
+    );
+    queryClient.setQueryData(
+      personoppgaverQueryKeys.personoppgaver(ARBEIDSTAKER_DEFAULT.personIdent),
+      () => [
+        {
+          ...personOppgaveBehandletBehandlerdialogSvar,
+          referanseUuid: innkommendeMeldingUuid,
+        },
+      ]
+    );
+
+    renderMeldinger();
+    const accordions = screen.getAllByRole("button");
+    accordions.forEach((accordion) => userEvent.click(accordion));
+
+    expect(screen.queryByText("Venter på svar fra lege")).to.not.exist;
+    expect(screen.queryByText("Ny")).to.not.exist;
   });
 
   it("Viser vedlegg-ikon og tekst for meldinger fra behandler med vedlegg", () => {

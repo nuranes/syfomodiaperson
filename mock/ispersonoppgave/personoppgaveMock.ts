@@ -22,14 +22,14 @@ const personOppgaveUbehandletDialogmotesvar = {
   type: "DIALOGMOTESVAR",
 };
 
-const personOppgaveUbehandletBehandlerdialogSvar = {
+export const personOppgaveUbehandletBehandlerdialogSvar = {
   ...personOppgaveUbehandletDialogmotesvar,
   uuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd4",
   referanseUuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd5",
   type: "BEHANDLERDIALOG_SVAR",
 };
 
-const personOppgaveBehandletBehandlerdialogSvar = {
+export const personOppgaveBehandletBehandlerdialogSvar = {
   ...personOppgaveUbehandletBehandlerdialogSvar,
   uuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd8",
   referanseUuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd9",

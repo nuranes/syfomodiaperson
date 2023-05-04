@@ -9,9 +9,16 @@ export const numberOfUbehandledePersonOppgaver = (
   personOppgaver: PersonOppgave[],
   type: string
 ): number => {
+  return ubehandledePersonOppgaver(personOppgaver, type).length;
+};
+
+export const ubehandledePersonOppgaver = (
+  personOppgaver: PersonOppgave[],
+  type: string
+): PersonOppgave[] => {
   return personOppgaver.filter((personoppgave) => {
     return personoppgave.type === type && !isBehandletOppgave(personoppgave);
-  }).length;
+  });
 };
 
 export const isBehandletOppgave = (personOppgave: PersonOppgave): boolean => {

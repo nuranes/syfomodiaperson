@@ -17,6 +17,7 @@ export interface Conversations {
 }
 
 export interface Melding {
+  uuid: string;
   behandlerRef: string;
   behandlerNavn: string | null;
   tekst: string;

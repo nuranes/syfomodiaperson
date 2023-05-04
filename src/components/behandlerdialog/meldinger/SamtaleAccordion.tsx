@@ -6,6 +6,9 @@ import { MeldingerISamtale } from "@/components/behandlerdialog/meldinger/Meldin
 import { StetoskopIkon } from "../../../../img/ImageComponents";
 import styled from "styled-components";
 import { useBehandlerNavn } from "@/hooks/behandler/useBehandlerNavn";
+import { SamtaleTags } from "@/components/behandlerdialog/meldinger/SamtaleTags";
+import { FlexRow } from "@/components/Layout";
+
 const StyledImage = styled.img`
   margin-right: 0.5em;
 `;
@@ -25,8 +28,14 @@ export const SamtaleAccordion = ({ meldinger }: SamtalerAccordionListProps) => {
     <Accordion>
       <Accordion.Item>
         <Accordion.Header>
-          <StyledImage src={StetoskopIkon} alt="Stetoskop ikon for behandler" />
-          {`${behandlerNavn} ${dateAndTimeForNewestMelding}`}
+          <FlexRow>
+            <StyledImage
+              src={StetoskopIkon}
+              alt="Stetoskopikon for behandler"
+            />
+            {`${behandlerNavn} ${dateAndTimeForNewestMelding}`}
+            <SamtaleTags meldinger={meldinger} />
+          </FlexRow>
         </Accordion.Header>
         <Accordion.Content>
           <MeldingerISamtale meldinger={meldinger} />
