@@ -51,7 +51,6 @@ spec:
         - host: "ereg-services.prod-fss-pub.nais.io"
         - host: "syfomotebehov.prod-fss-pub.nais.io"
         - host: "syfooppfolgingsplanservice.prod-fss-pub.nais.io"
-        - host: "syfo-tilgangskontroll.prod-fss-pub.nais.io"
       rules:
         - application: fastlegerest
         - application: isaktivitetskrav
@@ -63,6 +62,7 @@ spec:
         - application: isoppfolgingstilfelle
         - application: ispengestopp
         - application: ispersonoppgave
+        - application: syfo-tilgangskontroll
         - application: syfobehandlendeenhet
         - application: syfoperson
         - application: syfoveileder
@@ -159,9 +159,9 @@ spec:
     - name: SYKEPENGESOKNAD_BACKEND_HOST
       value: "http://sykepengesoknad-backend.flex"
     - name: SYFOTILGANGSKONTROLL_AAD_APP_CLIENT_ID
-      value: "prod-fss.teamsykefravr.syfo-tilgangskontroll"
+      value: "prod-gcp.teamsykefravr.syfo-tilgangskontroll"
     - name: SYFOTILGANGSKONTROLL_HOST
-      value: "https://syfo-tilgangskontroll.prod-fss-pub.nais.io"
+      value: "http://syfo-tilgangskontroll"
     - name: SYFOVEILEDER_AAD_APP_CLIENT_ID
       value: "prod-gcp.teamsykefravr.syfoveileder"
     - name: SYFOVEILEDER_HOST
