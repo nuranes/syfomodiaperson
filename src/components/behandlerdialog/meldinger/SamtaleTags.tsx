@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import { Melding } from "@/data/behandlerdialog/behandlerdialogTypes";
 import { usePersonoppgaverQuery } from "@/data/personoppgave/personoppgaveQueryHooks";
-import { ubehandledePersonOppgaver } from "@/utils/personOppgaveUtils";
+import { getAllUbehandledePersonOppgaver } from "@/utils/personOppgaveUtils";
 import { PersonOppgaveType } from "@/data/personoppgave/types/PersonOppgave";
 
 const texts = {
@@ -21,10 +21,11 @@ interface SamtaleTagsProps {
 
 export const SamtaleTags = ({ meldinger }: SamtaleTagsProps) => {
   const { data: oppgaver } = usePersonoppgaverQuery();
-  const ubehandledeBehandlerDialogSvarOppgaver = ubehandledePersonOppgaver(
-    oppgaver,
-    PersonOppgaveType.BEHANDLERDIALOG_SVAR
-  );
+  const ubehandledeBehandlerDialogSvarOppgaver =
+    getAllUbehandledePersonOppgaver(
+      oppgaver,
+      PersonOppgaveType.BEHANDLERDIALOG_SVAR
+    );
   const hasMeldingMedUbehandletOppgave = meldinger.some((melding) =>
     ubehandledeBehandlerDialogSvarOppgaver.some(
       (oppgave) => oppgave.referanseUuid === melding.uuid

@@ -9,10 +9,17 @@ import {
 import { toDatePrettyPrint } from "@/utils/datoUtils";
 import { MotebehovVeilederDTO } from "@/data/motebehov/types/motebehovTypes";
 import { useBehandleMotebehov } from "@/data/motebehov/useBehandleMotebehov";
+import navFarger from "nav-frontend-core";
+import { Panel } from "@navikt/ds-react";
+import styled from "styled-components";
 
 const texts = {
   fjernOppgave: "Jeg har vurdert behovet. Oppgaven kan fjernes fra oversikten.",
 };
+
+const CheckboxPanel = styled(Panel)`
+  border: 1px solid ${navFarger.navGra20};
+`;
 
 const behandleMotebehovKnappLabel = (
   erBehandlet: boolean,
@@ -38,24 +45,19 @@ const BehandleMotebehovKnapp = ({
   const behandleMotebehov = useBehandleMotebehov();
 
   return motebehovListe.length > 0 ? (
-    <div className="panel vurderBehovKnapp">
-      <div className="skjema__input">
-        <Checkbox
-          label={behandleMotebehovKnappLabel(
-            erBehandlet,
-            sistBehandletMotebehov
-          )}
-          onClick={() => {
-            if (harUbehandletMotebehov(motebehovListe)) {
-              behandleMotebehov.mutate();
-            }
-          }}
-          id="marker__utfoert"
-          disabled={erBehandlet || behandleMotebehov.isLoading}
-          defaultChecked={erBehandlet}
-        />
-      </div>
-    </div>
+    <CheckboxPanel>
+      <Checkbox
+        label={behandleMotebehovKnappLabel(erBehandlet, sistBehandletMotebehov)}
+        onClick={() => {
+          if (harUbehandletMotebehov(motebehovListe)) {
+            behandleMotebehov.mutate();
+          }
+        }}
+        id="marker__utfoert"
+        disabled={erBehandlet || behandleMotebehov.isLoading}
+        defaultChecked={erBehandlet}
+      />
+    </CheckboxPanel>
   ) : (
     <></>
   );

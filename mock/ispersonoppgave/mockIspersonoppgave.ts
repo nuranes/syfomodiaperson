@@ -7,6 +7,7 @@ import {
   makePersonOppgaveBehandlet,
   personoppgaverMock,
 } from "./personoppgaveMock";
+import { BehandlePersonoppgaveRequestDTO } from "@/data/personoppgave/types/BehandlePersonoppgaveRequestDTO";
 
 let personOppgaver = personoppgaverMock();
 
@@ -38,6 +39,30 @@ export const mockIspersonoppgave = (server: any) => {
           ...personOppgaver.filter((oppgave) => oppgave.uuid !== uuid),
         ];
       }
+      res.sendStatus(200);
+    }
+  );
+
+  server.post(
+    `${ISPERSONOPPGAVE_ROOT}/personoppgave/behandle`,
+    Auth.ensureAuthenticated(),
+    (req: express.Request, res: express.Response) => {
+      const body = req.body as BehandlePersonoppgaveRequestDTO;
+      const oppgaverForType = personOppgaver.filter(
+        (oppgave) => oppgave.type === body.personOppgaveType
+      );
+      const behandledeOppgaver = oppgaverForType.map((oppgave) =>
+        makePersonOppgaveBehandlet(oppgave)
+      );
+      const behandledeOppgaverUuid = behandledeOppgaver.map(
+        (oppgave) => oppgave.uuid
+      );
+      personOppgaver = [
+        ...behandledeOppgaver,
+        ...personOppgaver.filter(
+          (oppgave) => !behandledeOppgaverUuid.includes(oppgave.uuid)
+        ),
+      ];
       res.sendStatus(200);
     }
   );
