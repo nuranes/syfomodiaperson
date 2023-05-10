@@ -11,6 +11,7 @@ import {
 } from "@/data/leder/ledereTypes";
 import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat";
 import { capitalizeAllWords } from "@/utils/stringUtils";
+import { useVirksomhetQuery } from "@/data/virksomhet/virksomhetQueryHooks";
 
 const texts = {
   name: "Navn",
@@ -147,10 +148,13 @@ const PersonKortVirksomhetLedere = (
     personKortVirksomhetLedereProps;
   const currentLeder: NarmesteLederRelasjonDTO =
     virksomhetLederMap[virksomhetsnummer][0];
+
+  const { virksomhetsnavn } = useVirksomhetQuery(virksomhetsnummer);
+
   return (
     <PersonKortVirksomhetHeader
       arbeidsgiverForskutterer={currentLeder.arbeidsgiverForskutterer}
-      virksomhetsnavn={currentLeder.virksomhetsnavn}
+      virksomhetsnavn={virksomhetsnavn || ""}
       virksomhetsnummer={currentLeder.virksomhetsnummer}
       sykmeldinger={sykmeldinger}
     >
