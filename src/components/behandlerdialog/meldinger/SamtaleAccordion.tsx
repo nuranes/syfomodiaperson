@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Melding } from "@/data/behandlerdialog/behandlerdialogTypes";
 import { tilDatoMedManedNavnOgKlokkeslett } from "@/utils/datoUtils";
 import { Accordion } from "@navikt/ds-react";
@@ -18,16 +18,19 @@ interface SamtalerAccordionListProps {
 }
 
 export const SamtaleAccordion = ({ meldinger }: SamtalerAccordionListProps) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const behandlerNavn = useBehandlerNavn(meldinger[0].behandlerRef);
   const newestMelding = meldinger.slice(-1)[0];
   const dateAndTimeForNewestMelding = `${tilDatoMedManedNavnOgKlokkeslett(
     newestMelding.tidspunkt
   )}`;
 
+  const toggleIsOpen = () => setIsOpen(!isOpen);
+
   return (
     <Accordion>
-      <Accordion.Item>
-        <Accordion.Header>
+      <Accordion.Item open={isOpen}>
+        <Accordion.Header onClick={toggleIsOpen}>
           <FlexRow>
             <StyledImage
               src={StetoskopIkon}
@@ -38,7 +41,7 @@ export const SamtaleAccordion = ({ meldinger }: SamtalerAccordionListProps) => {
           </FlexRow>
         </Accordion.Header>
         <Accordion.Content>
-          <MeldingerISamtale meldinger={meldinger} />
+          <MeldingerISamtale meldinger={meldinger} skalHenteVedlegg={isOpen} />
         </Accordion.Content>
       </Accordion.Item>
     </Accordion>

@@ -2,7 +2,11 @@ import express = require("express");
 import { ISBEHANDLERDIALOG_ROOT } from "../../src/apiConstants";
 import Auth = require("../../server/auth");
 import { NAV_PERSONIDENT_HEADER } from "../util/requestUtil";
-import { behandlerdialogMock, defaultMelding } from "./behandlerdialogMock";
+import {
+  behandlerdialogMock,
+  behandlerdialogVedleggMock,
+  defaultMelding,
+} from "./behandlerdialogMock";
 import { MeldingTilBehandlerDTO } from "@/data/behandlerdialog/behandlerdialogTypes";
 
 let behandlerdialogMockdata = behandlerdialogMock;
@@ -16,6 +20,21 @@ export const mockIsbehandlerdialog = (server: any) => {
         res.send(JSON.stringify(behandlerdialogMockdata));
       } else {
         res.status(400).send("Did not find PersonIdent in headers");
+      }
+    }
+  );
+  server.get(
+    `${ISBEHANDLERDIALOG_ROOT}/melding/:uuid/:vedleggNumber/pdf`,
+    Auth.ensureAuthenticated(),
+    (req: express.Request, res: express.Response) => {
+      res.type("application/pdf");
+      const { vedleggNumber } = req.params;
+      if (vedleggNumber === "0") {
+        res.send(behandlerdialogVedleggMock[0]);
+      } else if (vedleggNumber === "1") {
+        res.send(behandlerdialogVedleggMock[1]);
+      } else {
+        res.status(204).send([]);
       }
     }
   );

@@ -1,6 +1,5 @@
 import path from "path";
 import MutationObserver from "@sheerun/mutationobserver-shim";
-import { Modal } from "@navikt/ds-react";
 
 const dotEnvPath = path.resolve(".env");
 

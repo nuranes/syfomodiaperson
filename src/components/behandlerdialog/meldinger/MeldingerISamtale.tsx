@@ -9,6 +9,7 @@ import {
 
 const StyledWrapper = styled.div`
   margin: 1em 0;
+
   > * {
     &:not(:last-child) {
       margin-bottom: 1em;
@@ -28,23 +29,32 @@ const StyledMeldingInnhold = styled.div<{ innkommende?: boolean }>`
 
 interface MeldingInnholdProps {
   melding: Melding;
+  skalHenteVedlegg: boolean;
 }
 
-const MeldingFraBehandler = ({ melding }: MeldingInnholdProps) => {
+const MeldingFraBehandler = ({
+  melding,
+  skalHenteVedlegg,
+}: MeldingInnholdProps) => {
   return (
     <StyledMeldingInnhold innkommende>
       <StyledImageWrapper innkommende>
         <img src={StetoskopIkonBakgrunn} alt="Stetoskopikon for behandler" />
       </StyledImageWrapper>
-      <MeldingInnholdPanel melding={melding} />
+      <MeldingInnholdPanel
+        melding={melding}
+        skalHenteVedlegg={skalHenteVedlegg}
+      />
     </StyledMeldingInnhold>
   );
 };
 
-const MeldingTilBehandler = ({ melding }: MeldingInnholdProps) => {
+const MeldingTilBehandler = ({
+  melding,
+}: Pick<MeldingInnholdProps, "melding">) => {
   return (
     <StyledMeldingInnhold>
-      <MeldingInnholdPanel melding={melding} />
+      <MeldingInnholdPanel melding={melding} skalHenteVedlegg={false} />
       <StyledImageWrapper>
         <img src={NavLogoRod} alt="Rød NAV-logo" />
       </StyledImageWrapper>
@@ -54,14 +64,22 @@ const MeldingTilBehandler = ({ melding }: MeldingInnholdProps) => {
 
 interface MeldingerISamtaleProps {
   meldinger: Melding[];
+  skalHenteVedlegg: boolean;
 }
 
-export const MeldingerISamtale = ({ meldinger }: MeldingerISamtaleProps) => {
+export const MeldingerISamtale = ({
+  meldinger,
+  skalHenteVedlegg,
+}: MeldingerISamtaleProps) => {
   return (
     <StyledWrapper>
       {meldinger.map((melding: Melding, index: number) => {
         return melding.innkommende ? (
-          <MeldingFraBehandler melding={melding} key={index} />
+          <MeldingFraBehandler
+            melding={melding}
+            skalHenteVedlegg={skalHenteVedlegg}
+            key={index}
+          />
         ) : (
           <MeldingTilBehandler melding={melding} key={index} />
         );

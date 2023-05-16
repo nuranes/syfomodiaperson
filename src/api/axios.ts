@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosRequestHeaders } from "axios";
+import axios, { AxiosError, AxiosRequestHeaders, ResponseType } from "axios";
 import {
   accessDeniedError,
   ApiErrorException,
@@ -15,10 +15,12 @@ export const NAV_PERSONIDENT_HEADER = "nav-personident";
 
 export const defaultRequestHeaders = (
   personIdent?: string,
-  addHeader?: { [p: string]: string | boolean | number }
+  addHeader?: { [p: string]: string | boolean | number },
+  responseType?: ResponseType,
+  contentType?: string
 ): AxiosRequestHeaders => {
   const headers = {
-    "Content-Type": "application/json",
+    "Content-Type": !!contentType ? contentType : "application/json",
     [NAV_CONSUMER_ID_HEADER]: NAV_CONSUMER_ID,
     [NAV_CALL_ID_HEADER]: `${NAV_CONSUMER_ID}-${generateUUID()}`,
   };
@@ -69,11 +71,19 @@ const handleAxiosError = (error: AxiosError) => {
 export const get = <ResponseData>(
   url: string,
   personIdent?: string,
-  addHeader?: { [p: string]: string | boolean | number }
+  addHeader?: { [p: string]: string | boolean | number },
+  responseType?: ResponseType,
+  contentType?: string
 ): Promise<ResponseData> => {
   return axios
     .get(url, {
-      headers: defaultRequestHeaders(personIdent, addHeader),
+      headers: defaultRequestHeaders(
+        personIdent,
+        addHeader,
+        responseType,
+        contentType
+      ),
+      responseType: !!responseType ? responseType : "json",
     })
     .then((response) => response.data)
     .catch((error) => {

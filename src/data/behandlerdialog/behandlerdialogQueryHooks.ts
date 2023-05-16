@@ -6,6 +6,11 @@ import { MeldingResponseDTO } from "@/data/behandlerdialog/behandlerdialogTypes"
 
 export const behandlerdialogQueryKeys = {
   behandlerdialog: (personident: string) => ["behandlerdialog", personident],
+  vedlegg: (meldingUuid: string, vedleggNumber: number) => [
+    "vedlegg",
+    meldingUuid,
+    vedleggNumber,
+  ],
 };
 
 export const useBehandlerdialogQuery = () => {
@@ -22,5 +27,32 @@ export const useBehandlerdialogQuery = () => {
   return {
     ...query,
     data: query.data,
+  };
+};
+
+export const useBehandlerdialogVedleggQuery = (
+  meldingUuid: string,
+  vedleggNumber: number,
+  skalHenteVedlegg: boolean
+) => {
+  const personident = useValgtPersonident();
+  const path = `${ISBEHANDLERDIALOG_ROOT}/melding/${meldingUuid}/${vedleggNumber}/pdf`;
+  const fetchBehandlerdialogVedlegg = () =>
+    get<ArrayBuffer>(
+      path,
+      personident,
+      undefined,
+      "arraybuffer",
+      "application/pdf"
+    );
+
+  const query = useQuery({
+    queryKey: behandlerdialogQueryKeys.vedlegg(meldingUuid, vedleggNumber),
+    queryFn: fetchBehandlerdialogVedlegg,
+    enabled: skalHenteVedlegg,
+  });
+
+  return {
+    ...query,
   };
 };

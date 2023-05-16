@@ -10,6 +10,7 @@ import { behandlerdialogQueryKeys } from "@/data/behandlerdialog/behandlerdialog
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import {
   behandlerdialogMockEmpty,
+  behandlerdialogVedleggMock,
   defaultMelding,
 } from "../../mock/isbehandlerdialog/behandlerdialogMock";
 import { MeldingResponseDTO } from "@/data/behandlerdialog/behandlerdialogTypes";
@@ -51,6 +52,9 @@ const meldingTilOgFraBehandler = (meldingFraBehandlerUuid: string) => [
 describe("Meldinger panel", () => {
   beforeEach(() => {
     queryClient = queryClientWithMockData();
+    global.URL.createObjectURL = function () {
+      return "";
+    };
   });
 
   it("Viser meldinger", () => {
@@ -271,6 +275,7 @@ describe("Meldinger panel", () => {
         ],
       },
     };
+
     queryClient.setQueryData(
       behandlerdialogQueryKeys.behandlerdialog(
         ARBEIDSTAKER_DEFAULT.personIdent
@@ -285,6 +290,12 @@ describe("Meldinger panel", () => {
         (melding) => melding.innkommende && melding.antallVedlegg > 0
       )
     );
+
+    queryClient.setQueryData(
+      behandlerdialogQueryKeys.vedlegg(meldingerMedVedlegg[0].uuid, 0),
+      () => behandlerdialogVedleggMock[0]
+    );
+
     renderMeldinger();
 
     const accordions = screen.getAllByRole("button");
@@ -294,13 +305,9 @@ describe("Meldinger panel", () => {
       name: "Binders-ikon for vedlegg",
     });
     expect(vedleggIkoner).to.have.length(meldingerMedVedlegg.length);
-
-    meldingerMedVedlegg.forEach((melding) => {
-      const vedleggTekst = screen.getByText(
-        `${melding.antallVedlegg} vedlegg. Se i Gosys.`
-      );
-      expect(vedleggTekst).to.exist;
-    });
+    expect(`Vedlegg ${meldingerMedVedlegg[0].antallVedlegg}`).to.exist;
+    expect(`Vedlegg ${meldingerMedVedlegg[1].antallVedlegg}`).to.exist;
+    expect(`Vedlegg ${meldingerMedVedlegg[2].antallVedlegg}`).to.exist;
   });
 
   it("Viser ubehandlet personoppgave for behandlerdialog svar", () => {

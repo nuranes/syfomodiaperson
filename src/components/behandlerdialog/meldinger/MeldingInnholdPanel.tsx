@@ -1,10 +1,11 @@
 import React from "react";
 import { Melding } from "@/data/behandlerdialog/behandlerdialogTypes";
-import { BodyLong, BodyShort, Detail, Panel } from "@navikt/ds-react";
+import { BodyLong, Detail, Panel } from "@navikt/ds-react";
 import { PaperclipIcon } from "@navikt/aksel-icons";
 import styled from "styled-components";
 import { tilDatoMedManedNavnOgKlokkeslett } from "@/utils/datoUtils";
 import { VisMelding } from "@/components/behandlerdialog/meldinger/VisMelding";
+import PdfVedleggLink from "@/components/behandlerdialog/meldinger/PdfVedleggLink";
 
 const StyledPanel = styled(Panel)`
   width: 80%;
@@ -33,6 +34,7 @@ const MeldingTidspunkt = styled(Detail)`
 const VedleggDetails = styled.div`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   margin-bottom: 0.75em;
 
   > * {
@@ -44,9 +46,13 @@ const VedleggDetails = styled.div`
 
 interface MeldingInnholdPanelProps {
   melding: Melding;
+  skalHenteVedlegg: boolean;
 }
 
-export const MeldingInnholdPanel = ({ melding }: MeldingInnholdPanelProps) => {
+export const MeldingInnholdPanel = ({
+  melding,
+  skalHenteVedlegg,
+}: MeldingInnholdPanelProps) => {
   const behandlerNavn = melding.behandlerNavn;
   return (
     <StyledPanel border>
@@ -54,9 +60,14 @@ export const MeldingInnholdPanel = ({ melding }: MeldingInnholdPanelProps) => {
       {melding.innkommende && melding.antallVedlegg > 0 && (
         <VedleggDetails>
           <PaperclipIcon title="Binders-ikon for vedlegg" fontSize="1.25em" />
-          <BodyShort>
-            {`${melding.antallVedlegg} vedlegg. Se i Gosys.`}
-          </BodyShort>
+          {[...Array(melding.antallVedlegg)].map((_, index) => (
+            <PdfVedleggLink
+              meldingUuid={melding.uuid}
+              vedleggNumber={index}
+              skalHenteVedlegg={skalHenteVedlegg}
+              key={index}
+            />
+          ))}
         </VedleggDetails>
       )}
       <MeldingDetails>
