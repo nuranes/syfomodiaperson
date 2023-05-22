@@ -46,13 +46,9 @@ const VedleggDetails = styled.div`
 
 interface MeldingInnholdPanelProps {
   melding: Melding;
-  skalHenteVedlegg: boolean;
 }
 
-export const MeldingInnholdPanel = ({
-  melding,
-  skalHenteVedlegg,
-}: MeldingInnholdPanelProps) => {
+export const MeldingInnholdPanel = ({ melding }: MeldingInnholdPanelProps) => {
   const behandlerNavn = melding.behandlerNavn;
   return (
     <StyledPanel border>
@@ -64,7 +60,6 @@ export const MeldingInnholdPanel = ({
             <PdfVedleggLink
               meldingUuid={melding.uuid}
               vedleggNumber={index}
-              skalHenteVedlegg={skalHenteVedlegg}
               key={index}
             />
           ))}

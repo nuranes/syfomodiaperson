@@ -24,9 +24,6 @@ const renderBehandlerdialogSide = () => {
 describe("BehandlerdialogSide", () => {
   beforeEach(() => {
     queryClient = queryClientWithMockData();
-    global.URL.createObjectURL = function () {
-      return "";
-    };
   });
 
   it("Viser behandlerdialogSide", () => {

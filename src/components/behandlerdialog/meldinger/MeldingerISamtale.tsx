@@ -29,32 +29,23 @@ const StyledMeldingInnhold = styled.div<{ innkommende?: boolean }>`
 
 interface MeldingInnholdProps {
   melding: Melding;
-  skalHenteVedlegg: boolean;
 }
 
-const MeldingFraBehandler = ({
-  melding,
-  skalHenteVedlegg,
-}: MeldingInnholdProps) => {
+const MeldingFraBehandler = ({ melding }: MeldingInnholdProps) => {
   return (
     <StyledMeldingInnhold innkommende>
       <StyledImageWrapper innkommende>
         <img src={StetoskopIkonBakgrunn} alt="Stetoskopikon for behandler" />
       </StyledImageWrapper>
-      <MeldingInnholdPanel
-        melding={melding}
-        skalHenteVedlegg={skalHenteVedlegg}
-      />
+      <MeldingInnholdPanel melding={melding} />
     </StyledMeldingInnhold>
   );
 };
 
-const MeldingTilBehandler = ({
-  melding,
-}: Pick<MeldingInnholdProps, "melding">) => {
+const MeldingTilBehandler = ({ melding }: MeldingInnholdProps) => {
   return (
     <StyledMeldingInnhold>
-      <MeldingInnholdPanel melding={melding} skalHenteVedlegg={false} />
+      <MeldingInnholdPanel melding={melding} />
       <StyledImageWrapper>
         <img src={NavLogoRod} alt="Rød NAV-logo" />
       </StyledImageWrapper>
@@ -64,22 +55,14 @@ const MeldingTilBehandler = ({
 
 interface MeldingerISamtaleProps {
   meldinger: Melding[];
-  skalHenteVedlegg: boolean;
 }
 
-export const MeldingerISamtale = ({
-  meldinger,
-  skalHenteVedlegg,
-}: MeldingerISamtaleProps) => {
+export const MeldingerISamtale = ({ meldinger }: MeldingerISamtaleProps) => {
   return (
     <StyledWrapper>
       {meldinger.map((melding: Melding, index: number) => {
         return melding.innkommende ? (
-          <MeldingFraBehandler
-            melding={melding}
-            skalHenteVedlegg={skalHenteVedlegg}
-            key={index}
-          />
+          <MeldingFraBehandler melding={melding} key={index} />
         ) : (
           <MeldingTilBehandler melding={melding} key={index} />
         );
