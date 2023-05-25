@@ -1,5 +1,5 @@
 import React from "react";
-import { Melding } from "@/data/behandlerdialog/behandlerdialogTypes";
+import { MeldingDTO } from "@/data/behandlerdialog/behandlerdialogTypes";
 import { tilDatoMedManedNavnOgKlokkeslett } from "@/utils/datoUtils";
 import { Accordion } from "@navikt/ds-react";
 import { MeldingerISamtale } from "@/components/behandlerdialog/meldinger/MeldingerISamtale";
@@ -14,7 +14,7 @@ const StyledImage = styled.img`
 `;
 
 interface SamtalerAccordionListProps {
-  meldinger: Melding[];
+  meldinger: MeldingDTO[];
 }
 
 export const SamtaleAccordion = ({ meldinger }: SamtalerAccordionListProps) => {

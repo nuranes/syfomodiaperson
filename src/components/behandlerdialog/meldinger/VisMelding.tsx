@@ -2,7 +2,7 @@ import { Button } from "@navikt/ds-react";
 import { EyeWithPupilIcon } from "@navikt/aksel-icons";
 import { Forhandsvisning } from "@/components/Forhandsvisning";
 import React, { useState } from "react";
-import { Melding } from "@/data/behandlerdialog/behandlerdialogTypes";
+import { MeldingDTO } from "@/data/behandlerdialog/behandlerdialogTypes";
 import styled from "styled-components";
 
 const texts = {
@@ -11,7 +11,7 @@ const texts = {
 };
 
 interface VisMeldingProps {
-  melding: Melding;
+  melding: MeldingDTO;
 }
 
 const VisMeldingButton = styled(Button)`

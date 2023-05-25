@@ -12,7 +12,10 @@ import {
   behandlerdialogMockEmpty,
   defaultMelding,
 } from "../../mock/isbehandlerdialog/behandlerdialogMock";
-import { MeldingResponseDTO } from "@/data/behandlerdialog/behandlerdialogTypes";
+import {
+  MeldingResponseDTO,
+  MeldingStatusType,
+} from "@/data/behandlerdialog/behandlerdialogTypes";
 import userEvent from "@testing-library/user-event";
 import { clickButton } from "../testUtils";
 import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQueryHooks";
@@ -62,11 +65,11 @@ describe("Meldinger panel", () => {
   it("Viser accordion med en samtale", () => {
     renderMeldinger();
 
-    const samtaleAccordion = screen.getByText("Doktor Legesen 3. januar", {
+    const samtaleAccordion = screen.getByText("Doktor Legesen 5. januar", {
       exact: false,
     });
     expect(samtaleAccordion).to.exist;
-    expect(screen.getAllByText("Dette er en melding")).to.have.length(4);
+    expect(screen.getAllByText("Dette er en melding")).to.have.length(6);
   });
 
   it("Meldinger sorteres i riktig rekkefølge med nyeste samtale først", () => {
@@ -74,7 +77,7 @@ describe("Meldinger panel", () => {
 
     const accordions = screen.getAllByRole("button");
     expect(accordions).to.have.length(3);
-    expect(accordions[0].textContent).to.contain("3. januar");
+    expect(accordions[0].textContent).to.contain("5. januar");
     expect(accordions[1].textContent).to.contain("2. januar");
     expect(accordions[2].textContent).to.contain("1. januar");
   });
@@ -138,14 +141,16 @@ describe("Meldinger panel", () => {
     const seMeldingButtons = screen.getAllByRole("button", {
       name: seMeldingButtonTekst,
     });
-    expect(seMeldingButtons).to.have.length(3);
+    expect(seMeldingButtons).to.have.length(5);
   });
 
   it("Viser melding til behandler ved klikk på 'Se melding'-knapp", () => {
     renderMeldinger();
 
     const accordions = screen.getAllByRole("button");
-    userEvent.click(accordions[0]);
+    expect(accordions).to.have.length(3);
+
+    userEvent.click(accordions[1]);
     clickButton(seMeldingButtonTekst);
 
     const seMeldingModal = screen.getByRole("dialog", {
@@ -210,6 +215,61 @@ describe("Meldinger panel", () => {
     accordions.forEach((accordion) => userEvent.click(accordion));
 
     expect(screen.getByText("Venter på svar fra behandler")).to.exist;
+  });
+
+  it("Viser 'Melding ikke levert'-tag på samtale hvis status for melding er avvist", () => {
+    const meldingResponse = {
+      conversations: {
+        ["conversationRef123"]: [
+          {
+            ...defaultMelding,
+            status: {
+              type: MeldingStatusType.AVVIST,
+              tekst: null,
+            },
+          },
+        ],
+      },
+    };
+    queryClient.setQueryData(
+      behandlerdialogQueryKeys.behandlerdialog(
+        ARBEIDSTAKER_DEFAULT.personIdent
+      ),
+      () => meldingResponse
+    );
+
+    renderMeldinger();
+    const accordions = screen.getAllByRole("button");
+    accordions.forEach((accordion) => userEvent.click(accordion));
+
+    expect(screen.getByText("Melding ikke levert")).to.exist;
+  });
+
+  it("Viser alert under melding dersom man har statusTekst for melding som er avvist", () => {
+    const meldingResponse = {
+      conversations: {
+        ["conversationRef123"]: [
+          {
+            ...defaultMelding,
+            status: {
+              type: MeldingStatusType.AVVIST,
+              tekst: "Statustekst",
+            },
+          },
+        ],
+      },
+    };
+    queryClient.setQueryData(
+      behandlerdialogQueryKeys.behandlerdialog(
+        ARBEIDSTAKER_DEFAULT.personIdent
+      ),
+      () => meldingResponse
+    );
+
+    renderMeldinger();
+    const accordions = screen.getAllByRole("button");
+    userEvent.click(accordions[0]);
+    expect(screen.getByText("Statustekst")).to.exist;
   });
 
   it("viser ingen tags på samtale hvis det er melding fra behandler i samtalen og oppgaven for denne er behandlet", () => {

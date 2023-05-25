@@ -11,6 +11,7 @@ import {
   VEILEDER_DEFAULT,
 } from "../common/mockConstants";
 import { tilleggsOpplysningerPasientTexts } from "../../src/data/behandlerdialog/behandlerMeldingTexts";
+import { MeldingStatusType } from "../../src/data/behandlerdialog/behandlerdialogTypes";
 
 const defaultMeldingTekst = "Dette er en melding";
 const meldingtilBehandlerDocument = [
@@ -54,6 +55,11 @@ const meldingtilBehandlerDocument = [
   },
 ];
 
+const defaultStatus = {
+  type: MeldingStatusType.OK,
+  tekst: null,
+};
+
 export const defaultMelding = {
   uuid: "5f1e2629-062b-443d-ac1f-3b08e9574cd5",
   behandlerRef: behandlerRefDoktorLegesen,
@@ -63,6 +69,7 @@ export const defaultMelding = {
   innkommende: false,
   document: meldingtilBehandlerDocument,
   antallVedlegg: 0,
+  status: defaultStatus,
 };
 
 const longMelding =
@@ -88,6 +95,24 @@ const meldinger = [
     tidspunkt: "2023-01-03T12:00:00.000+01:00",
     antallVedlegg: 1,
     document: [],
+  },
+  {
+    ...defaultMelding,
+    uuid: "9f1e2639-061b-243d-ac1f-3b08e9574cd5",
+    tidspunkt: "2023-01-04T12:00:00.000+01:00",
+    status: {
+      type: MeldingStatusType.AVVIST,
+      tekst: "Mottaker ikke funnet",
+    },
+  },
+  {
+    ...defaultMelding,
+    uuid: "2f1e2639-061b-243d-ac1f-3b08e9574cd5",
+    tidspunkt: "2023-01-05T12:00:00.000+01:00",
+    status: {
+      ...defaultStatus,
+      type: MeldingStatusType.AVVIST,
+    },
   },
 ];
 

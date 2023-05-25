@@ -13,10 +13,10 @@ export interface MeldingResponseDTO {
 }
 
 export interface Conversations {
-  [key: string]: Melding[];
+  [key: string]: MeldingDTO[];
 }
 
-export interface Melding {
+export interface MeldingDTO {
   uuid: string;
   behandlerRef: string;
   behandlerNavn: string | null;
@@ -25,4 +25,17 @@ export interface Melding {
   innkommende: boolean;
   document: DocumentComponentDto[];
   antallVedlegg: number;
+  status?: MeldingStatusDTO;
+}
+
+interface MeldingStatusDTO {
+  type: MeldingStatusType;
+  tekst: string | null;
+}
+
+export enum MeldingStatusType {
+  BESTILT = "BESTILT",
+  SENDT = "SENDT",
+  OK = "OK",
+  AVVIST = "AVVIST",
 }

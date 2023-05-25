@@ -1,15 +1,11 @@
 import React from "react";
-import { Melding } from "@/data/behandlerdialog/behandlerdialogTypes";
+import { MeldingDTO } from "@/data/behandlerdialog/behandlerdialogTypes";
 import { BodyLong, Detail, Panel } from "@navikt/ds-react";
 import { PaperclipIcon } from "@navikt/aksel-icons";
 import styled from "styled-components";
 import { tilDatoMedManedNavnOgKlokkeslett } from "@/utils/datoUtils";
 import { VisMelding } from "@/components/behandlerdialog/meldinger/VisMelding";
 import PdfVedleggLink from "@/components/behandlerdialog/meldinger/PdfVedleggLink";
-
-const StyledPanel = styled(Panel)`
-  width: 80%;
-`;
 
 const MeldingTekst = styled(BodyLong)`
   margin-bottom: 0.75em;
@@ -45,13 +41,13 @@ const VedleggDetails = styled.div`
 `;
 
 interface MeldingInnholdPanelProps {
-  melding: Melding;
+  melding: MeldingDTO;
 }
 
 export const MeldingInnholdPanel = ({ melding }: MeldingInnholdPanelProps) => {
   const behandlerNavn = melding.behandlerNavn;
   return (
-    <StyledPanel border>
+    <Panel border>
       <MeldingTekst>{melding.tekst}</MeldingTekst>
       {melding.innkommende && melding.antallVedlegg > 0 && (
         <VedleggDetails>
@@ -74,6 +70,6 @@ export const MeldingInnholdPanel = ({ melding }: MeldingInnholdPanelProps) => {
         )}
         {!melding.innkommende && <VisMelding melding={melding} />}
       </MeldingDetails>
-    </StyledPanel>
+    </Panel>
   );
 };

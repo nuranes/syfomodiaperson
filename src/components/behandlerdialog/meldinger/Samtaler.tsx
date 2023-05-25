@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { useBehandlerdialogQuery } from "@/data/behandlerdialog/behandlerdialogQueryHooks";
 import {
   Conversations,
-  Melding,
+  MeldingDTO,
 } from "@/data/behandlerdialog/behandlerdialogTypes";
 import { GuidePanel } from "@navikt/ds-react";
 import styled from "styled-components";
@@ -27,8 +27,8 @@ const StyledGuidePanel = styled(GuidePanel)`
 `;
 
 const sortMeldingerByTidspunkt = (
-  m1: Melding,
-  m2: Melding,
+  m1: MeldingDTO,
+  m2: MeldingDTO,
   order: "asc" | "desc" = "asc"
 ) => {
   return order === "desc"
@@ -38,13 +38,13 @@ const sortMeldingerByTidspunkt = (
 
 export const sortConversations = (
   conversations: Conversations
-): Melding[][] => {
+): MeldingDTO[][] => {
   const conversationRefs: string[] = Object.keys(conversations);
   conversationRefs.sort((a, b) => {
-    const aNewestMelding: Melding = conversations[a]
+    const aNewestMelding: MeldingDTO = conversations[a]
       .sort((m1, m2) => sortMeldingerByTidspunkt(m1, m2))
       .slice(-1)[0];
-    const bNewestMelding: Melding = conversations[b]
+    const bNewestMelding: MeldingDTO = conversations[b]
       .sort((m1, m2) => sortMeldingerByTidspunkt(m1, m2))
       .slice(-1)[0];
     return sortMeldingerByTidspunkt(aNewestMelding, bNewestMelding, "desc");
@@ -56,7 +56,7 @@ export const sortConversations = (
 export const Samtaler = () => {
   const { data, isInitialLoading } = useBehandlerdialogQuery();
 
-  const sortedConversations: Melding[][] = useMemo(() => {
+  const sortedConversations: MeldingDTO[][] = useMemo(() => {
     return data ? sortConversations(data.conversations) : [];
   }, [data]);
 
@@ -66,7 +66,7 @@ export const Samtaler = () => {
         <AppSpinner />
       ) : sortedConversations.length ? (
         <>
-          {sortedConversations.map((meldinger: Melding[], index: number) => (
+          {sortedConversations.map((meldinger: MeldingDTO[], index: number) => (
             <SamtaleAccordion meldinger={meldinger} key={index} />
           ))}
         </>

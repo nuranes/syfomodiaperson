@@ -1,7 +1,10 @@
 import { Tag } from "@navikt/ds-react";
 import React from "react";
 import styled from "styled-components";
-import { Melding } from "@/data/behandlerdialog/behandlerdialogTypes";
+import {
+  MeldingDTO,
+  MeldingStatusType,
+} from "@/data/behandlerdialog/behandlerdialogTypes";
 import { usePersonoppgaverQuery } from "@/data/personoppgave/personoppgaveQueryHooks";
 import { getAllUbehandledePersonOppgaver } from "@/utils/personOppgaveUtils";
 import { PersonOppgaveType } from "@/data/personoppgave/types/PersonOppgave";
@@ -9,6 +12,7 @@ import { PersonOppgaveType } from "@/data/personoppgave/types/PersonOppgave";
 const texts = {
   ny: "Ny",
   manglerSvar: "Venter på svar fra behandler",
+  avvist: "Melding ikke levert",
 };
 
 const StyledWrapper = styled.div`
@@ -16,7 +20,7 @@ const StyledWrapper = styled.div`
 `;
 
 interface SamtaleTagsProps {
-  meldinger: Melding[];
+  meldinger: MeldingDTO[];
 }
 
 export const SamtaleTags = ({ meldinger }: SamtaleTagsProps) => {
@@ -34,18 +38,29 @@ export const SamtaleTags = ({ meldinger }: SamtaleTagsProps) => {
   const manglerSvarFraBehandler = !meldinger.some(
     (melding) => melding.innkommende
   );
+  const harAvvistMelding = meldinger.some(
+    (melding) => melding.status?.type === MeldingStatusType.AVVIST
+  );
 
   return (
     <StyledWrapper>
-      {hasMeldingMedUbehandletOppgave && (
-        <Tag size="small" variant="info">
-          {texts.ny}
+      {harAvvistMelding ? (
+        <Tag size="small" variant="error">
+          {texts.avvist}
         </Tag>
-      )}
-      {manglerSvarFraBehandler && (
-        <Tag size="small" variant="warning">
-          {texts.manglerSvar}
-        </Tag>
+      ) : (
+        <>
+          {hasMeldingMedUbehandletOppgave && (
+            <Tag size="small" variant="info">
+              {texts.ny}
+            </Tag>
+          )}
+          {manglerSvarFraBehandler && (
+            <Tag size="small" variant="warning">
+              {texts.manglerSvar}
+            </Tag>
+          )}
+        </>
       )}
     </StyledWrapper>
   );
