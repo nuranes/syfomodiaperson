@@ -4,8 +4,17 @@ import { get } from "@/api/axios";
 import { useQuery } from "@tanstack/react-query";
 import { minutesToMillis } from "@/utils/timeUtils";
 
+interface MaksdatoDTO {
+  maxDate: Maksdato | null;
+}
+
 interface Maksdato {
-  maxDate: Date | null;
+  id: string;
+  fnr: string;
+  forelopig_beregnet_slutt: Date;
+  utbetalt_tom: Date;
+  gjenstaende_sykedager: string;
+  opprettet: Date;
 }
 
 const maksdatoQueryKeys = {
@@ -15,7 +24,7 @@ const maksdatoQueryKeys = {
 export const useMaksdatoQuery = () => {
   const fnr = useValgtPersonident();
   const path = `${ESYFOVARSEL_ROOT}/sykepenger/maxdate`;
-  const fetchMaksdato = () => get<Maksdato>(path, fnr);
+  const fetchMaksdato = () => get<MaksdatoDTO>(path, fnr);
 
   return useQuery({
     queryKey: maksdatoQueryKeys.maksdato(fnr),

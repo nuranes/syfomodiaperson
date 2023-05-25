@@ -14,7 +14,7 @@ import { SyketilfelleSummary } from "@/components/personkort/PersonkortHeader/Sy
 import { Refresh } from "@navikt/ds-icons";
 import { Tooltip } from "@navikt/ds-react";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
-import { Maksdato } from "@/components/personkort/PersonkortHeader/Maksdato";
+import { MaksdatoSummary } from "@/components/personkort/PersonkortHeader/MaksdatoSummary";
 import { PersonkortHeaderTags } from "@/components/personkort/PersonkortHeader/PersonkortHeaderTags";
 
 const texts = {
@@ -71,7 +71,7 @@ const PersonkortHeader = () => {
             <CopyButton message={texts.copied} value={personident} />
           </StyledFnr>
           <SyketilfelleSummary />
-          <Maksdato />
+          <MaksdatoSummary />
         </div>
       </div>
       <PersonkortHeaderTags />

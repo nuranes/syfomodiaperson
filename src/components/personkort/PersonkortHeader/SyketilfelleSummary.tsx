@@ -4,10 +4,11 @@ import { Diagnosekode } from "@/components/personkort/PersonkortHeader/Diagnosek
 import { TilfellePeriod } from "@/components/personkort/PersonkortHeader/TilfellePeriod";
 import { Varighet } from "@/components/personkort/PersonkortHeader/Varighet";
 
-const StyledInfo = styled.div`
+export const StyledInfo = styled.div`
   display: flex;
   flex-direction: row;
   gap: 0.75em;
+  align-items: center;
 `;
 
 export const SyketilfelleInfoWrapper = styled.div`

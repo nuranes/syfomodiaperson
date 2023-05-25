@@ -93,11 +93,13 @@ describe("PersonkortHeader", () => {
     expect(screen.queryByText("Død")).not.to.exist;
   });
 
-  it("viser maksdato fra API", async () => {
+  it("viser maksdato og utbetalt tom fra API", async () => {
     stubMaxdateApi(apiMockScope, new Date("2023-12-01"));
     renderPersonkortHeader();
 
     await screen.findByText("Maksdato:");
     await screen.findByText("01.12.2023");
+    await screen.findByText("Utbetalt tom:");
+    await screen.findByText("01.01.2024");
   });
 });
