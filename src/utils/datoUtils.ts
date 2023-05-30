@@ -23,21 +23,21 @@ const dager = [
   "Torsdag",
   "Fredag",
   "Lørdag",
-  "Søndag",
 ];
 
 const SKILLETEGN_PERIODE = "–";
 
 export const ANTALL_MS_DAG = 1000 * 60 * 60 * 24;
+const ONE_WEEK_MILLIS = 7 * ANTALL_MS_DAG;
 
-const pad = (int) => {
+const pad = (int: number): string | number => {
   if (int < 10) {
     return `0${int}`;
   }
   return int;
 };
 
-export const tilLesbarDatoUtenArstall = (datoArg) => {
+export const tilLesbarDatoUtenArstall = (datoArg): string | null => {
   if (datoArg) {
     const dato = new Date(datoArg);
     const dag = dato.getUTCDate();
@@ -48,7 +48,7 @@ export const tilLesbarDatoUtenArstall = (datoArg) => {
   return null;
 };
 
-export const tilLesbarDatoMedArstall = (datoArg) => {
+export const tilLesbarDatoMedArstall = (datoArg): string | undefined => {
   return datoArg
     ? `${tilLesbarDatoUtenArstall(new Date(datoArg))} ${new Date(
         datoArg
@@ -56,7 +56,7 @@ export const tilLesbarDatoMedArstall = (datoArg) => {
     : undefined;
 };
 
-export const tilLesbarPeriodeMedArstall = (fomArg, tomArg) => {
+export const tilLesbarPeriodeMedArstall = (fomArg, tomArg): string => {
   const fom = new Date(fomArg);
   const tom = new Date(tomArg);
   const erSammeAr = fom.getUTCFullYear() === tom.getUTCFullYear();
@@ -74,12 +74,12 @@ export const tilLesbarPeriodeMedArstall = (fomArg, tomArg) => {
       )} ${SKILLETEGN_PERIODE} ${tilLesbarDatoMedArstall(tom)}`;
 };
 
-export const visDato = (d) => {
+export const visDato = (d: Date): string => {
   const maned = maneder[d.getMonth()];
   return `${dager[d.getDay()]} ${d.getDate()}. ${maned} ${d.getFullYear()}`;
 };
 
-export const visKlokkeslett = (d) => {
+export const visKlokkeslett = (d: Date): string | null => {
   if (typeof d === "undefined" || d === null) {
     return null;
   }
@@ -88,7 +88,7 @@ export const visKlokkeslett = (d) => {
   return `${hour}.${minute}`;
 };
 
-export const showTimeIncludingSeconds = (d) => {
+export const showTimeIncludingSeconds = (d: Date): string | null => {
   if (typeof d === "undefined" || d === null) {
     return null;
   }
@@ -96,45 +96,6 @@ export const showTimeIncludingSeconds = (d) => {
   const minute = pad(d.getMinutes());
   const second = pad(d.getSeconds());
   return `${hour}:${minute}:${second}`;
-};
-
-export const lagJsDate = (dato) => {
-  if (dato) {
-    return new Date(dato);
-  }
-  return dato;
-};
-
-export const konverterTid = (mote) => {
-  return Object.assign({}, mote, {
-    opprettetTidspunkt: lagJsDate(mote.opprettetTidspunkt),
-    bekreftetAlternativ: mote.bekreftetAlternativ
-      ? Object.assign({}, mote.bekreftetAlternativ, {
-          tid: lagJsDate(mote.bekreftetAlternativ.tid),
-          created: lagJsDate(mote.bekreftetAlternativ.created),
-        })
-      : null,
-    bekreftetTidspunkt: mote.bekreftetTidspunkt
-      ? lagJsDate(mote.bekreftetTidspunkt)
-      : null,
-    deltakere: mote.deltakere.map((deltaker) => {
-      return Object.assign({}, deltaker, {
-        svartidspunkt: lagJsDate(deltaker.svartidspunkt),
-        svar: deltaker.svar.map((s) => {
-          return Object.assign({}, s, {
-            tid: lagJsDate(s.tid),
-            created: lagJsDate(s.created),
-          });
-        }),
-      });
-    }),
-    alternativer: mote.alternativer.map((alt) => {
-      return Object.assign({}, alt, {
-        tid: lagJsDate(alt.tid),
-        created: lagJsDate(alt.created),
-      });
-    }),
-  });
 };
 
 export const restdatoTildato = (restdato) => {
@@ -147,45 +108,21 @@ export const restdatoTilLesbarDato = (restdato) => {
   return tilLesbarDatoMedArstall(new Date(dato));
 };
 
-const maanedListe = [
-  "januar",
-  "februar",
-  "mars",
-  "april",
-  "mai",
-  "juni",
-  "juli",
-  "august",
-  "september",
-  "oktober",
-  "november",
-  "desember",
-];
-const ukedagListe = [
-  "søndag",
-  "mandag",
-  "tirsdag",
-  "onsdag",
-  "torsdag",
-  "fredag",
-  "lørdag",
-];
-
-export const tilDatoMedManedNavn = (dato) => {
+export const tilDatoMedManedNavn = (dato): string => {
   const { dag, maaned, aar } = getDatoKomponenter(dato);
   return `${dag}. ${maaned} ${aar}`;
 };
 
-export const tilDatoMedUkedagOgManedNavn = (dato) => {
+export const tilDatoMedUkedagOgManedNavn = (dato): string => {
   const { ukeDag, dag, maaned, aar } = getDatoKomponenter(dato);
   return `${ukeDag} ${dag}. ${maaned} ${aar}`;
 };
 
 export const getDatoKomponenter = (dato) => {
   const nyDato = new Date(dato);
-  const ukeDag = firstLetterToUpperCase(ukedagListe[nyDato.getDay()]);
+  const ukeDag = firstLetterToUpperCase(dager[nyDato.getDay()]);
   const dag = nyDato.getDate();
-  const maaned = maanedListe[nyDato.getMonth()];
+  const maaned = maneder[nyDato.getMonth()];
   const aar = nyDato.getFullYear();
   return {
     ukeDag,
@@ -195,32 +132,32 @@ export const getDatoKomponenter = (dato) => {
   };
 };
 
-export const tilDatoMedManedNavnOgKlokkeslettWithComma = (dato) => {
+export const tilDatoMedManedNavnOgKlokkeslettWithComma = (dato): string => {
   const newDate = new Date(dato);
   const date = tilDatoMedManedNavn(newDate);
   const time = visKlokkeslett(newDate);
   return `${date}, kl. ${time}`;
 };
 
-export const tilDatoMedManedNavnOgKlokkeslett = (dato) => {
+export const tilDatoMedManedNavnOgKlokkeslett = (dato): string => {
   const newDate = new Date(dato);
   const date = tilDatoMedManedNavn(newDate);
   const time = visKlokkeslett(newDate);
   return `${date} kl. ${time}`;
 };
 
-export const tilDatoMedUkedagOgManedNavnOgKlokkeslett = (dato) => {
+export const tilDatoMedUkedagOgManedNavnOgKlokkeslett = (dato): string => {
   const newDate = new Date(dato);
   const date = tilDatoMedUkedagOgManedNavn(newDate);
   const time = visKlokkeslett(newDate);
   return `${date} kl. ${time}`;
 };
 
-const dayOrMonthWithTwoDigits = (arg) => {
+const dayOrMonthWithTwoDigits = (arg): string => {
   return arg > 9 ? `${arg}` : `0${arg}`;
 };
 
-export const tilLesbarDatoMedArUtenManedNavn = (datoArg) => {
+export const tilLesbarDatoMedArUtenManedNavn = (datoArg): string => {
   const date = new Date(datoArg);
   const day = dayOrMonthWithTwoDigits(date.getDate());
   const month = dayOrMonthWithTwoDigits(date.getMonth() + 1);
@@ -228,13 +165,13 @@ export const tilLesbarDatoMedArUtenManedNavn = (datoArg) => {
   return `${day}.${month}.${year}`;
 };
 
-export const tilLesbarPeriodeMedArUtenManednavn = (fomArg, tomArg) => {
+export const tilLesbarPeriodeMedArUtenManednavn = (fomArg, tomArg): string => {
   return `${tilLesbarDatoMedArUtenManedNavn(
     fomArg
   )} - ${tilLesbarDatoMedArUtenManedNavn(tomArg)}`;
 };
 
-export const dagerMellomDatoer = (startDato, sluttDato) => {
+export const dagerMellomDatoer = (startDato, sluttDato): number => {
   return Math.round(
     Math.abs(
       (new Date(sluttDato).getTime() - new Date(startDato).getTime()) /
@@ -243,13 +180,13 @@ export const dagerMellomDatoer = (startDato, sluttDato) => {
   );
 };
 
-export const dagerMellomDatoerUtenAbs = (startDato, sluttDato) => {
+export const dagerMellomDatoerUtenAbs = (startDato, sluttDato): number => {
   return Math.round(
     (sluttDato.getTime() - startDato.getTime()) / ANTALL_MS_DAG
   );
 };
 
-export const erIdag = (dato) => {
+export const erIdag = (dato): boolean => {
   const idag = new Date();
   dato = new Date(dato);
   return (
@@ -259,15 +196,15 @@ export const erIdag = (dato) => {
   );
 };
 
-export const erIkkeIdag = (dato) => {
+export const erIkkeIdag = (dato): boolean => {
   return !erIdag(dato);
 };
 
-export const toDate = (dato) => {
+export const toDate = (dato): Date | undefined => {
   if (typeof dato === "undefined" || dato === null) {
     return undefined;
   } else if (
-    typeof date === "string" &&
+    typeof dato === "string" &&
     dato.includes("T") &&
     !dato.includes("Z")
   ) {
@@ -276,20 +213,18 @@ export const toDate = (dato) => {
   return new Date(dato);
 };
 
-//TODO: Convert this util file to typescript
-export const toDateWithoutNullCheck = (dato) => {
-  if (typeof date === "string" && dato.includes("T") && !dato.includes("Z")) {
+export const toDateWithoutNullCheck = (dato): Date => {
+  if (typeof dato === "string" && dato.includes("T") && !dato.includes("Z")) {
     return new Date(`${dato}Z`);
   }
   return new Date(dato);
 };
 
-export const toDatePrettyPrint = (dato) => {
-  if (typeof dato === "undefined" || dato === null) {
+export const toDatePrettyPrint = (dato): string | undefined => {
+  const _dato = toDate(dato);
+  if (typeof _dato === "undefined" || _dato === null) {
     return undefined;
   }
-
-  const _dato = toDate(dato);
 
   const days =
     _dato.getUTCDate() < 10
@@ -304,14 +239,18 @@ export const toDatePrettyPrint = (dato) => {
   return `${days}.${months}.${years}`;
 };
 
-export const getDuration = (from, to) => {
+export const getDuration = (from: Date, to: Date): number => {
   return (
-    Math.round(Math.floor(toDate(to) - toDate(from)) / (1000 * 60 * 60 * 24)) +
-    1
+    Math.round(
+      Math.floor(
+        toDateWithoutNullCheck(to).getTime() -
+          toDateWithoutNullCheck(from).getTime()
+      ) / ANTALL_MS_DAG
+    ) + 1
   );
 };
 
-export const manederMellomDatoer = (d1, d2) => {
+export const manederMellomDatoer = (d1, d2): number => {
   let months;
   months = (d2.getFullYear() - d1.getFullYear()) * 12;
   months -= d1.getMonth();
@@ -323,22 +262,15 @@ export const manederMellomDatoer = (d1, d2) => {
   return months <= 0 ? 0 : months;
 };
 
-export const addWeeks = (date, numberOfWeeks) => {
+export const addWeeks = (date: Date, numberOfWeeks: number): Date => {
   return dayjs(date, { utc: true }).add(numberOfWeeks, "weeks").toDate();
 };
 
-const ONE_WEEK_MILLIS = 7 * 24 * 60 * 60 * 1000;
-
-export const getEarliestDate = (date1, date2) => {
+export const getEarliestDate = (date1, date2): Date => {
   return new Date(date1) < new Date(date2) ? new Date(date1) : new Date(date2);
 };
 
-export const getWeeksSinceDate = (date) => {
-  const now = new Date();
-  return getWeeksBetween(new Date(date), now);
-};
-
-export const getWeeksBetween = (date1, date2) => {
+export const getWeeksBetween = (date1, date2): number => {
   return Math.round(
     Math.abs(new Date(date1).getTime() - new Date(date2).getTime()) /
       ONE_WEEK_MILLIS
