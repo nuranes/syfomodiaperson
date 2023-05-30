@@ -2,4 +2,5 @@ export enum SvartypeDTO {
   ARBEIDSSITUASJON = "ARBEIDSSITUASJON",
   PERIODER = "PERIODER",
   JA_NEI = "JA_NEI",
+  DAGER = "DAGER",
 }

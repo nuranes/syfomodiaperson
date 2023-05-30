@@ -1145,6 +1145,14 @@ export const sykmeldingerMock = [
             svar: "NAERINGSDRIVENDE",
           },
         },
+        {
+          tekst: "Velg dagene du brukte egenmelding",
+          shortName: "EGENMELDINGSDAGER",
+          svar: {
+            svarType: "DAGER",
+            svar: '["2023-03-06","2023-03-10","2023-03-07","2023-03-08","2023-03-11"]',
+          },
+        },
       ],
     },
     medisinskVurdering: {

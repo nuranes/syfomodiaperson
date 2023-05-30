@@ -9,6 +9,7 @@ import FlereOpplysninger from "./flereopplysninger/FlereOpplysninger";
 import { SykmeldingCheckboxForFelt } from "./SykmeldingCheckboxForFelt";
 import { SpeilingEkspanderbartPanel } from "@/components/speiling/ekspanderbar/SpeilingEkspanderbartPanel";
 import { SpeilingEkspanderbartPanelTittel } from "@/components/speiling/ekspanderbar/SpeilingEkspanderbartPanelTittel";
+import { Egenmeldingsdager } from "./Egenmeldingsdager";
 
 const texts = {
   dinSykmeldingTittel: "Sykmelding\n",
@@ -48,6 +49,7 @@ const DineSykmeldingOpplysninger = (
       </Overskrift>
       <div className="blokk-l side-innhold">
         <SykmeldingPerioder perioder={sykmelding.mulighetForArbeid.perioder} />
+        <Egenmeldingsdager sykmelding={sykmelding} />
         {sykmelding.diagnose.hoveddiagnose ? (
           <div className="hoveddiagnose">
             <div className="rad-container">

@@ -269,6 +269,14 @@ export const mockSykmeldingWithSporsmalOgSvarListe =
             },
             shortName: ShortNameDTO.NY_NARMESTE_LEDER,
           },
+          {
+            tekst: "Velg dagene du brukte egenmelding",
+            shortName: ShortNameDTO.EGENMELDINGSDAGER,
+            svar: {
+              svarType: SvartypeDTO.DAGER,
+              svar: '["2023-03-06","2023-03-10","2023-03-07","2023-03-08","2023-03-11"]',
+            },
+          },
         ],
       },
     };

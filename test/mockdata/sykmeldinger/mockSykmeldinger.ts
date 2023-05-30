@@ -189,6 +189,7 @@ export const mockOldSykmeldinger: SykmeldingOldFormat[] = [
       fravaersperioder: [],
       harAnnetFravaer: false,
       harForsikring: false,
+      egenmeldingsdager: [],
     },
     startLegemeldtFravaer: undefined,
     status: SykmeldingStatus.SENDT,

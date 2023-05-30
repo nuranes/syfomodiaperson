@@ -90,6 +90,7 @@ export interface SykmeldingOldFormat {
     arbeidssituasjon?: string;
     fravaersperioder?: Datospenn[];
     harAnnetFravaer?: boolean;
+    egenmeldingsdager?: string[];
   };
   pasient: {
     fnr?: string;

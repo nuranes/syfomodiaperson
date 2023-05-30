@@ -2,6 +2,7 @@ import React from "react";
 import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat";
 import SykmeldingNokkelOpplysning from "./SykmeldingNokkelOpplysning";
 import SykmeldingPerioder from "./SykmeldingPerioder";
+import { Egenmeldingsdager } from "./Egenmeldingsdager";
 
 const texts = {
   diagnose: "Diagnose",
@@ -22,6 +23,7 @@ const DineKoronaSykmeldingOpplysninger = (
       </h2>
       <div className="blokk-l side-innhold fjern-margin-bottom">
         <SykmeldingPerioder perioder={sykmelding.mulighetForArbeid.perioder} />
+        <Egenmeldingsdager sykmelding={sykmelding} />
         {sykmelding.diagnose.hoveddiagnose ? (
           <div className="hoveddiagnose">
             <div className="rad-container">

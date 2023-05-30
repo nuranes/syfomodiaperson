@@ -16,6 +16,7 @@ import { DiagnoseDTO } from "@/data/sykmelding/types/DiagnoseDTO";
 import { medisinskArsakTypeTekster } from "@/data/sykmelding/types/MedisinskArsakTypeDTO";
 import { arbeidsrelatertArsakTypetekster } from "@/data/sykmelding/types/ArbeidsrelatertArsakTypeDTO";
 import { behandlerNavn } from "@/utils/behandlerUtils";
+import { SvartypeDTO } from "@/data/sykmelding/types/SvartypeDTO";
 
 const mapArbeidsevne = (sykmelding: SykmeldingNewFormatDTO) => {
   return {
@@ -193,6 +194,13 @@ const sporsmalOfType = (
   );
 };
 
+const mapEgenmeldingsdager = (sporsmal: SporsmalDTO | undefined): string[] => {
+  if (!sporsmal?.svar?.svar || sporsmal.svar.svarType !== SvartypeDTO.DAGER) {
+    return [];
+  }
+  return JSON.parse(sporsmal.svar.svar);
+};
+
 const mapFravaersperioder = (
   sporsmal: SporsmalDTO | undefined
 ): Datospenn[] => {
@@ -223,11 +231,17 @@ const mapSporsmal = (sykmelding: SykmeldingNewFormatDTO) => {
     sporsmalOgSvarListe,
     ShortNameDTO.PERIODE
   );
+  const egenmeldingsDagerSporsmal = sporsmalOfType(
+    sporsmalOgSvarListe,
+    ShortNameDTO.EGENMELDINGSDAGER
+  );
+
   return {
     arbeidssituasjon: arbeidssituasjonSporsmal?.svar.svar,
     fravaersperioder: mapFravaersperioder(periodeSporsmal),
     harAnnetFravaer: fravaerSporsmal?.svar?.svar === "JA",
     harForsikring: forsikringSporsmal?.svar?.svar === "JA",
+    egenmeldingsdager: mapEgenmeldingsdager(egenmeldingsDagerSporsmal),
   };
 };
 

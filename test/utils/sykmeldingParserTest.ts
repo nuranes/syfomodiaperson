@@ -599,6 +599,13 @@ describe("sykmeldingParser", () => {
         ],
         harAnnetFravaer: true,
         harForsikring: false,
+        egenmeldingsdager: [
+          "2023-03-06",
+          "2023-03-10",
+          "2023-03-07",
+          "2023-03-08",
+          "2023-03-11",
+        ],
       };
 
       const outputSM = newSMFormat2OldFormat(
@@ -617,6 +624,7 @@ describe("sykmeldingParser", () => {
         fravaersperioder: [],
         harAnnetFravaer: false,
         harForsikring: false,
+        egenmeldingsdager: [],
       };
 
       const outputSM = newSMFormat2OldFormat(mockSM, sykmeldtFnr);
