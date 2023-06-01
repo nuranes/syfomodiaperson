@@ -84,19 +84,12 @@ export const unleashToggles = (toggles: any, valgtEnhet: any, userId: any) => {
         user: userId,
       }
     ),
-    "syfo.kandidat.unntaksstatistikk": unleash.isEnabled(
-      "syfo.kandidat.unntaksstatistikk",
-      {
-        valgtEnhet: valgtEnhet,
-        user: userId,
-      }
-    ),
     "syfo.behandlerdialog": unleash.isEnabled("syfo.behandlerdialog", {
       valgtEnhet: valgtEnhet,
       user: userId,
     }),
-    "syfo.gradgraf.diagnosekode": unleash.isEnabled(
-      "syfo.gradgraf.diagnosekode",
+    "syfo.behandlerdialog.paminnelse": unleash.isEnabled(
+      "syfo.behandlerdialog.paminnelse",
       {
         valgtEnhet: valgtEnhet,
         user: userId,

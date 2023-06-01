@@ -2,8 +2,6 @@ import React, { ReactElement } from "react";
 import { Field, useFormState } from "react-final-form";
 import { Radio, RadioGruppe } from "nav-frontend-skjema";
 import { UnntakArsak } from "@/data/dialogmotekandidat/types/dialogmoteunntakTypes";
-import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
-import { ToggleNames } from "@/data/unleash/unleash_types";
 import DialogmoteunntakSkjemaStatistikk from "@/components/dialogmoteunntak/DialogmoteunntakSkjemaStatistikk";
 import { DialogmoteunntakSkjemaValues } from "@/components/dialogmoteunntak/DialogmoteunntakSkjema";
 
@@ -51,10 +49,6 @@ const DialogmoteunntakSkjemaArsakVelger = (): ReactElement => {
     errors,
     values: { arsak },
   } = useFormState<DialogmoteunntakSkjemaValues>();
-  const { isFeatureEnabled } = useFeatureToggles();
-  const hasAccessToUnntakStatistikk = isFeatureEnabled(
-    ToggleNames.unntaksstatistikk
-  );
   const showUnntakStatistikk =
     arsak === UnntakArsak.FORVENTET_FRISKMELDING_INNEN_28UKER;
 
@@ -83,9 +77,7 @@ const DialogmoteunntakSkjemaArsakVelger = (): ReactElement => {
           )}
         </Field>
       ))}
-      {showUnntakStatistikk && hasAccessToUnntakStatistikk && (
-        <DialogmoteunntakSkjemaStatistikk />
-      )}
+      {showUnntakStatistikk && <DialogmoteunntakSkjemaStatistikk />}
     </RadioGruppe>
   );
 };

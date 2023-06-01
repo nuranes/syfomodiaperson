@@ -9,8 +9,6 @@ import {
   newAndActivatedSykmeldinger,
   sykmeldingerInnenforOppfolgingstilfelle,
 } from "@/utils/sykmeldinger/sykmeldingUtils";
-import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
-import { ToggleNames } from "@/data/unleash/unleash_types";
 import styled from "styled-components";
 import { HealthCase } from "@navikt/ds-icons";
 
@@ -40,9 +38,6 @@ export const SyketilfelleList = ({
 }: SyketilfelleListProps) => {
   const { tilfellerDescendingStart } = useOppfolgingstilfellePersonQuery();
   const { sykmeldinger } = useSykmeldingerQuery();
-
-  const { isFeatureEnabled } = useFeatureToggles();
-  const showDiagnosekode = isFeatureEnabled(ToggleNames.gradgrafDiagnosekode);
 
   const tenLatestTilfeller = tilfellerDescendingStart?.slice(0, 10);
 
@@ -80,12 +75,10 @@ export const SyketilfelleList = ({
                 <Radio key={index} value={tilfelle}>
                   {tilfelleText(tilfelle)}
                 </Radio>
-                {showDiagnosekode && (
-                  <>
-                    <DiagnoseIkon />
-                    <KodeSpan>{getDiagnosekode(tilfelle)}</KodeSpan>
-                  </>
-                )}
+                <>
+                  <DiagnoseIkon />
+                  <KodeSpan>{getDiagnosekode(tilfelle)}</KodeSpan>
+                </>
               </TilfelleBox>
             );
           }

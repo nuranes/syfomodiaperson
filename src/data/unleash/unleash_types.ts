@@ -5,7 +5,6 @@ export type Toggles = {
 // See https://unleash.nais.io/#/features (syfomodiaperson)
 export enum ToggleNames {
   virksomhetinput = "syfo.dialogmote.virksomhetinput",
-  unntaksstatistikk = "syfo.kandidat.unntaksstatistikk",
   behandlerdialog = "syfo.behandlerdialog",
-  gradgrafDiagnosekode = "syfo.gradgraf.diagnosekode",
+  behandlerdialogPaminnelse = "syfo.behandlerdialog.paminnelse",
 }
