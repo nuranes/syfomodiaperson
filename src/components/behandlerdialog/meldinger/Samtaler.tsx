@@ -10,8 +10,7 @@ import { SamtaleAccordion } from "@/components/behandlerdialog/meldinger/Samtale
 import AppSpinner from "@/components/AppSpinner";
 
 const texts = {
-  guidePanel:
-    "Her kommer meldingene som blir sendt til og fra behandler(e) som er knyttet til personen. ",
+  guidePanel: "Her kommer meldinger sendt til og fra behandler.",
 };
 
 const StyledSamtaler = styled.div`

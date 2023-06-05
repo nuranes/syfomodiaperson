@@ -43,7 +43,7 @@ const renderMeldinger = () => {
   );
 };
 
-const seMeldingButtonTekst = "Se utfyllende melding";
+const seMeldingButtonTekst = "Se hele meldingen";
 
 describe("Meldinger panel", () => {
   beforeEach(() => {
@@ -87,9 +87,7 @@ describe("Meldinger panel", () => {
       renderMeldinger();
 
       expect(
-        screen.getByText(
-          "Her kommer meldingene som blir sendt til og fra behandler(e) som er knyttet til personen."
-        )
+        screen.getByText("Her kommer meldinger sendt til og fra behandler.")
       ).to.exist;
     });
   });
@@ -197,7 +195,7 @@ describe("Meldinger panel", () => {
       const accordions = screen.getAllByRole("button");
       accordions.forEach((accordion) => userEvent.click(accordion));
 
-      expect(screen.getByText("Venter på svar fra behandler")).to.exist;
+      expect(screen.getByText("Venter på svar")).to.exist;
     });
 
     it("Viser 'Melding ikke levert'-tag på samtale hvis status for melding er avvist", () => {
@@ -261,7 +259,7 @@ describe("Meldinger panel", () => {
       const accordions = screen.getAllByRole("button");
       accordions.forEach((accordion) => userEvent.click(accordion));
 
-      expect(screen.queryByText("Venter på svar fra behandler")).to.not.exist;
+      expect(screen.queryByText("Venter på svar")).to.not.exist;
       expect(screen.queryByText("Ny")).to.not.exist;
     });
   });

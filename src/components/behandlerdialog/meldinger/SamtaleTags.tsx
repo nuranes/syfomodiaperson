@@ -11,7 +11,7 @@ import { PersonOppgaveType } from "@/data/personoppgave/types/PersonOppgave";
 
 const texts = {
   ny: "Ny",
-  manglerSvar: "Venter på svar fra behandler",
+  manglerSvar: "Venter på svar",
   avvist: "Melding ikke levert",
 };
 

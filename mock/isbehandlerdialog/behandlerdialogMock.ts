@@ -21,7 +21,7 @@ const meldingtilBehandlerDocument = [
   },
   {
     texts: [
-      `Gjelder pasient: ${ARBEIDSTAKER_DEFAULT_FULL_NAME}, ${ARBEIDSTAKER_DEFAULT.personIdent}`,
+      `Gjelder pasient: ${ARBEIDSTAKER_DEFAULT_FULL_NAME}, ${ARBEIDSTAKER_DEFAULT.personIdent}.`,
     ],
     type: DocumentComponentType.PARAGRAPH,
   },
@@ -73,7 +73,7 @@ export const defaultMelding = {
 };
 
 const longMelding =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec tincidunt sapien. Aliquam a velit nisl. Integer feugiat est et suscipit cursus. Morbi iaculis quam ut malesuada semper. In hac habitasse platea dictumst. Nam scelerisque neque at augue dictum pulvinar. Sed sed posuere mi. Duis ac quam at metus luctus hendrerit ac ut nulla. Ut eu laoreet arcu. Ut eget lacus sed nisi vestibulum volutpat a sit amet tellus.";
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec tincidunt sapien.\nAliquam a velit nisl. Integer feugiat est et suscipit cursus. Morbi iaculis quam ut malesuada semper.\nIn hac habitasse platea dictumst. Nam scelerisque neque at augue dictum pulvinar. Sed sed posuere mi.\n\nDuis ac quam at metus luctus hendrerit ac ut nulla.\nUt eu laoreet arcu. Ut eget lacus sed nisi vestibulum volutpat a sit amet tellus.";
 
 const meldinger = [
   defaultMelding,

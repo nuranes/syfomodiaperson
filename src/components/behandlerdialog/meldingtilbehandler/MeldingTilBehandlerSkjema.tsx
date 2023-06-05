@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { SkjemaFeiloppsummering } from "@/components/SkjemaFeiloppsummering";
-import { FlexRow } from "@/components/Layout";
+import { ButtonRow } from "@/components/Layout";
 import { Alert, Button } from "@navikt/ds-react";
 import { Form } from "react-final-form";
 import { VelgBehandler } from "@/components/behandlerdialog/meldingtilbehandler/VelgBehandler";
@@ -43,10 +43,6 @@ const StyledForm = styled.form`
       margin-bottom: 1.5em;
     }
   }
-`;
-
-const SendButton = styled(Button)`
-  margin-right: 0.5em;
 `;
 
 export interface MeldingTilBehandlerSkjemaValues
@@ -142,15 +138,15 @@ export const MeldingTilBehandlerSkjema = () => {
             {submitFailed && harIkkeUtbedretFeil && (
               <SkjemaFeiloppsummering errors={errors} />
             )}
-            <FlexRow>
-              <SendButton
-                variant={"primary"}
+            <ButtonRow>
+              <Button
+                variant="primary"
                 onClick={resetFeilUtbedret}
                 loading={meldingTilBehandler.isLoading}
-                type={"submit"}
+                type="submit"
               >
                 {texts.sendKnapp}
-              </SendButton>
+              </Button>
               <Button
                 variant="secondary"
                 type="button"
@@ -158,7 +154,7 @@ export const MeldingTilBehandlerSkjema = () => {
               >
                 {texts.previewKnapp}
               </Button>
-            </FlexRow>
+            </ButtonRow>
           </StyledForm>
         )}
       </Form>

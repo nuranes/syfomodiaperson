@@ -25,7 +25,7 @@ export const useMeldingTilBehandlerDocument = (): {
     ) => {
       const documentComponents = [
         createHeaderH1(tilleggsOpplysningerPasientTexts.header),
-        createParagraph(`Gjelder pasient: ${navBruker.navn}, ${personident}`),
+        createParagraph(`Gjelder pasient: ${navBruker.navn}, ${personident}.`),
         createParagraph(tilleggsOpplysningerPasientTexts.intro),
       ];
 

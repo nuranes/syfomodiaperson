@@ -9,6 +9,7 @@ import PdfVedleggLink from "@/components/behandlerdialog/meldinger/PdfVedleggLin
 
 const MeldingTekst = styled(BodyLong)`
   margin-bottom: 0.75em;
+  white-space: pre-wrap;
 `;
 
 const MeldingDetails = styled.div`

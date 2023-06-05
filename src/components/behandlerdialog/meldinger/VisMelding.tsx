@@ -6,7 +6,7 @@ import { MeldingDTO } from "@/data/behandlerdialog/behandlerdialogTypes";
 import styled from "styled-components";
 
 const texts = {
-  visButton: "Se utfyllende melding",
+  visButton: "Se hele meldingen",
   visContentLabel: "Vis melding",
 };
 
