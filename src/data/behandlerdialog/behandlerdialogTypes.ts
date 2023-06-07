@@ -8,6 +8,10 @@ export interface MeldingTilBehandlerDTO {
   behandlerNavn?: string;
 }
 
+export interface PaminnelseDTO {
+  document: DocumentComponentDto[];
+}
+
 export interface MeldingResponseDTO {
   conversations: Conversations;
 }

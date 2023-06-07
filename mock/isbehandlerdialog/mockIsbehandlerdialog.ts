@@ -60,4 +60,11 @@ export const mockIsbehandlerdialog = (server: any) => {
       };
     }
   );
+  server.post(
+    `${ISBEHANDLERDIALOG_ROOT}/melding/:uuid/paminnelse`,
+    Auth.ensureAuthenticated(),
+    (req: express.Request, res: express.Response) => {
+      res.sendStatus(200);
+    }
+  );
 };

@@ -61,6 +61,7 @@ const getNumberOfAktivitetskravOppgaver = (
 const getNumberOfBehandlerDialogOppgaver = (
   personOppgaver: PersonOppgave[]
 ) => {
+  // TODO: Sjekke på BEHANDLERDIALOG_MELDING_UBESVART her også?
   return hasUbehandletPersonoppgave(
     personOppgaver,
     PersonOppgaveType.BEHANDLERDIALOG_SVAR

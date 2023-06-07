@@ -72,6 +72,11 @@ export const defaultMelding = {
   status: defaultStatus,
 };
 
+const ubesvartMelding = {
+  ...defaultMelding,
+  uuid: "5f1e2639-032c-443d-ac1f-3b08e9574cd5",
+};
+
 const longMelding =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec tincidunt sapien.\nAliquam a velit nisl. Integer feugiat est et suscipit cursus. Morbi iaculis quam ut malesuada semper.\nIn hac habitasse platea dictumst. Nam scelerisque neque at augue dictum pulvinar. Sed sed posuere mi.\n\nDuis ac quam at metus luctus hendrerit ac ut nulla.\nUt eu laoreet arcu. Ut eget lacus sed nisi vestibulum volutpat a sit amet tellus.";
 
@@ -118,7 +123,7 @@ const meldinger = [
 
 export const behandlerdialogMock = {
   conversations: {
-    "conversationRef-123": meldinger.slice(0, 1),
+    "conversationRef-123": [ubesvartMelding],
     "conversationRef-456": meldinger.slice(0, 2),
     "conversationRef-789": meldinger,
   },

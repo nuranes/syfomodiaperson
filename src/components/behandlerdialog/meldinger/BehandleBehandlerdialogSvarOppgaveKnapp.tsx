@@ -27,6 +27,7 @@ const sortDateByTidspunkt = (d1: Date | null, d2: Date | null) => {
 const getSisteBehandledeBehandlerdialogSvarOppgave = (
   personOppgaver: PersonOppgave[]
 ): PersonOppgave | undefined => {
+  // TODO: Sjekke på BEHANDLERDIALOG_MELDING_UBESVART her også?
   return getAllBehandledePersonOppgaver(
     personOppgaver,
     PersonOppgaveType.BEHANDLERDIALOG_SVAR

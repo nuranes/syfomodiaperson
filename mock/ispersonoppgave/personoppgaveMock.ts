@@ -39,6 +39,23 @@ export const personOppgaveBehandletBehandlerdialogSvar = {
   behandletVeilederIdent: "Z991100",
 };
 
+export const personOppgaveUbehandletBehandlerdialogUbesvartMelding = {
+  ...personOppgaveUbehandletBehandlerdialogSvar,
+  uuid: "5f1e2629-062b-442d-ae1f-3b08e9234cd4",
+  referanseUuid: "5f1e2639-032c-443d-ac1f-3b08e9574cd5",
+  type: "BEHANDLERDIALOG_MELDING_UBESVART",
+};
+
+export const personOppgaveBehandletBehandlerdialogUbesvartMelding = {
+  ...personOppgaveUbehandletBehandlerdialogUbesvartMelding,
+  uuid: "5f1e2629-063b-442d-ae1g-3b08e9234cd4",
+  referanseUuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd9",
+  behandletTidspunkt: new Date(
+    dayjs().subtract(1, "days").toJSON()
+  ).toDateString(),
+  behandletVeilederIdent: "Z991100",
+};
+
 const personOppgaveBehandletOppfolgingsplanLPS = {
   ...personOppgaveUbehandletOppfolgingsplanLPS,
   uuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd2",
@@ -80,5 +97,7 @@ export const personoppgaverMock = () => {
     personOppgaveBehandletDialogmotesvar,
     personOppgaveBehandletBehandlerdialogSvar,
     personOppgaveUbehandletBehandlerdialogSvar,
+    personOppgaveUbehandletBehandlerdialogUbesvartMelding,
+    personOppgaveBehandletBehandlerdialogUbesvartMelding,
   ];
 };

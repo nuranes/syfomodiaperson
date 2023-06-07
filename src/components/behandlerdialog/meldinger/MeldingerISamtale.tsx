@@ -7,6 +7,9 @@ import {
   StetoskopIkonBakgrunn,
 } from "../../../../img/ImageComponents";
 import { Alert } from "@navikt/ds-react";
+import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
+import { ToggleNames } from "@/data/unleash/unleash_types";
+import { PaminnelseMelding } from "@/components/behandlerdialog/paminnelse/PaminnelseMelding";
 
 const StyledWrapper = styled.div`
   margin: 1em 0;
@@ -58,6 +61,11 @@ const MeldingFraBehandler = ({ melding }: MeldingInnholdProps) => {
 };
 
 const MeldingTilBehandler = ({ melding }: MeldingInnholdProps) => {
+  const { isFeatureEnabled } = useFeatureToggles();
+  const isPaminnelseEnabled = isFeatureEnabled(
+    ToggleNames.behandlerdialogPaminnelse
+  );
+
   return (
     <StyledMelding>
       <StyledInnhold>
@@ -65,6 +73,7 @@ const MeldingTilBehandler = ({ melding }: MeldingInnholdProps) => {
         {melding.status?.tekst && (
           <Alert variant="error">{melding.status?.tekst}</Alert>
         )}
+        {isPaminnelseEnabled && <PaminnelseMelding melding={melding} />}
       </StyledInnhold>
       <StyledImageWrapper>
         <img src={NavLogoRod} alt="Rød NAV-logo" />
