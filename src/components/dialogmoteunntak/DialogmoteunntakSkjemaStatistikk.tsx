@@ -6,6 +6,7 @@ import { Element, Normaltekst } from "nav-frontend-typografi";
 import { ARBEIDSGIVERPERIODE_DAYS } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { UnntaksstatistikkDTO } from "@/data/dialogmotekandidat/types/dialogmoteunntakTypes";
 import { useDialogmoteUnntaksstatistikkQuery } from "@/data/dialogmotekandidat/dialogmoteunntakQueryHooks";
+import { Skeleton } from "@navikt/ds-react";
 
 const texts = {
   header: "Din statistikk",
@@ -48,7 +49,12 @@ const statistikkTekst = (unntaksstatistikk: UnntaksstatistikkDTO[]): string => {
 };
 
 const DialogmoteunntakSkjemaStatistikk = () => {
-  const { data: unntaksstatistikk } = useDialogmoteUnntaksstatistikkQuery();
+  const { data: unntaksstatistikk, isInitialLoading } =
+    useDialogmoteUnntaksstatistikkQuery();
+
+  if (isInitialLoading) {
+    return <Skeleton variant="rectangle" width="70%" height={100} />;
+  }
 
   return (
     <>
