@@ -12,3 +12,15 @@ export const tilleggsOpplysningerPasientTexts = {
   klage2:
     "Klageadgangen gjelder kun lovligheten i pålegget. Fristen for å klage er tre dager etter at pålegget er mottatt. Klagen kan fremsettes muntlig eller skriftlig.",
 };
+
+export const paminnelseTexts = {
+  header: "Påminnelse om manglende svar vedrørerende pasient",
+  intro: {
+    part1: "Vi viser til tidligere forespørsel av",
+    part2: "angående din pasient.",
+  },
+  text1:
+    "Vi kan ikke se å ha mottatt svar på vår henvendelse og ber om at denne besvares snarest.",
+  text2:
+    "Hvis opplysningene er sendt oss i løpet av de siste dagene, kan du se bort fra denne meldingen.",
+};

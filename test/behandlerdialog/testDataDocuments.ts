@@ -7,6 +7,8 @@ import {
   ARBEIDSTAKER_DEFAULT_FULL_NAME,
   VEILEDER_DEFAULT,
 } from "../../mock/common/mockConstants";
+import { MeldingDTO } from "@/data/behandlerdialog/behandlerdialogTypes";
+import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
 
 export const expectedMeldingTilBehandlerDocument = (
   meldingTekst: string
@@ -46,6 +48,45 @@ export const expectedMeldingTilBehandlerDocument = (
     texts: [
       "Pålegget om utlevering av opplysninger kan påklages etter forvaltningsloven § 14.",
       "Klageadgangen gjelder kun lovligheten i pålegget. Fristen for å klage er tre dager etter at pålegget er mottatt. Klagen kan fremsettes muntlig eller skriftlig.",
+    ],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: ["Vennlig hilsen", VEILEDER_DEFAULT.navn, "NAV"],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+];
+
+export const expectedPaminnelseDocument = (
+  opprinneligMelding: MeldingDTO
+): DocumentComponentDto[] => [
+  {
+    texts: ["Påminnelse om manglende svar vedrørerende pasient"],
+    type: DocumentComponentType.HEADER_H1,
+  },
+  {
+    texts: [
+      `Gjelder ${ARBEIDSTAKER_DEFAULT_FULL_NAME}, f.nr. ${ARBEIDSTAKER_DEFAULT.personIdent}.`,
+    ],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: [
+      `Vi viser til tidligere forespørsel av ${tilLesbarDatoMedArUtenManedNavn(
+        opprinneligMelding.tidspunkt
+      )} angående din pasient.`,
+    ],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: [
+      "Vi kan ikke se å ha mottatt svar på vår henvendelse og ber om at denne besvares snarest.",
+    ],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: [
+      "Hvis opplysningene er sendt oss i løpet av de siste dagene, kan du se bort fra denne meldingen.",
     ],
     type: DocumentComponentType.PARAGRAPH,
   },

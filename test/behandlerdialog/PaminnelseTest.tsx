@@ -18,6 +18,7 @@ import {
   personOppgaveBehandletBehandlerdialogUbesvartMelding,
   personOppgaveUbehandletBehandlerdialogUbesvartMelding,
 } from "../../mock/ispersonoppgave/personoppgaveMock";
+import { expectedPaminnelseDocument } from "./testDataDocuments";
 
 let queryClient: QueryClient;
 
@@ -84,7 +85,9 @@ describe("Melding til behandler påminnelse", () => {
     expect(getButton(buttonText)).to.exist;
   });
   it("click button sends paminnelse with expected values", () => {
-    const expectedPaminnelseDTO: PaminnelseDTO = { document: [] };
+    const expectedPaminnelseDTO: PaminnelseDTO = {
+      document: expectedPaminnelseDocument(meldingTilBehandler),
+    };
 
     queryClient.setQueryData(
       personoppgaverQueryKeys.personoppgaver(ARBEIDSTAKER_DEFAULT.personIdent),

@@ -10,6 +10,7 @@ import { usePaminnelseTilBehandler } from "@/data/behandlerdialog/usePaminnelseT
 import { usePersonoppgaverQuery } from "@/data/personoppgave/personoppgaveQueryHooks";
 import { getAllUbehandledePersonOppgaver } from "@/utils/personOppgaveUtils";
 import { PersonOppgaveType } from "@/data/personoppgave/types/PersonOppgave";
+import { useMeldingTilBehandlerDocument } from "@/hooks/behandlerdialog/document/useMeldingTilBehandlerDocument";
 
 const texts = {
   button: "Send påminnelse til behandler",
@@ -33,10 +34,11 @@ export const PaminnelseMelding = ({ melding }: PaminnelseMeldingProps) => {
     (oppgave) => oppgave.referanseUuid === melding.uuid
   );
 
+  const { getPaminnelseDocument } = useMeldingTilBehandlerDocument();
   const paminnelseTilBehandler = usePaminnelseTilBehandler(melding.uuid);
   const handleSendPaminnelseClick = () => {
     const paminnelseDTO: PaminnelseDTO = {
-      document: [], // TODO: Add paminnelse document texts
+      document: getPaminnelseDocument(melding),
     };
     paminnelseTilBehandler.mutate(paminnelseDTO);
   };
