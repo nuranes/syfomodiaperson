@@ -1,9 +1,5 @@
 import { useField } from "react-final-form";
-import {
-  DateInputProps,
-  UNSAFE_DatePicker,
-  UNSAFE_useDatepicker,
-} from "@navikt/ds-react";
+import { DateInputProps, DatePicker, useDatepicker } from "@navikt/ds-react";
 import React from "react";
 import { DatePickerDefaultProps } from "@navikt/ds-react/src/date/datepicker/DatePicker";
 import dayjs from "dayjs";
@@ -27,7 +23,7 @@ export const DatePickerField = ({
   strategy,
 }: DatePickerFieldProps) => {
   const { input, meta } = useField<string>(fieldName, { validate });
-  const { datepickerProps, inputProps } = UNSAFE_useDatepicker({
+  const { datepickerProps, inputProps } = useDatepicker({
     onDateChange: (date: Date | undefined) => {
       input.onChange(date ? dayjs(date).format("YYYY-MM-DD") : undefined);
     },
@@ -37,14 +33,14 @@ export const DatePickerField = ({
   });
 
   return (
-    <UNSAFE_DatePicker {...datepickerProps} strategy={strategy}>
-      <UNSAFE_DatePicker.Input
+    <DatePicker {...datepickerProps} strategy={strategy}>
+      <DatePicker.Input
         size={size}
         id={fieldName}
         label={label}
         error={meta.submitFailed && meta.error}
         {...inputProps}
       />
-    </UNSAFE_DatePicker>
+    </DatePicker>
   );
 };

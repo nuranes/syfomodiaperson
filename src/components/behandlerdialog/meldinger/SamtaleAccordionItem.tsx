@@ -13,11 +13,13 @@ const StyledImage = styled.img`
   margin-right: 0.5em;
 `;
 
-interface SamtalerAccordionListProps {
+interface SamtaleAccordionItemProps {
   meldinger: MeldingDTO[];
 }
 
-export const SamtaleAccordion = ({ meldinger }: SamtalerAccordionListProps) => {
+export const SamtaleAccordionItem = ({
+  meldinger,
+}: SamtaleAccordionItemProps) => {
   const behandlerNavn = useBehandlerNavn(meldinger[0].behandlerRef);
   const newestMelding = meldinger.slice(-1)[0];
   const dateAndTimeForNewestMelding = `${tilDatoMedManedNavnOgKlokkeslett(
@@ -25,22 +27,17 @@ export const SamtaleAccordion = ({ meldinger }: SamtalerAccordionListProps) => {
   )}`;
 
   return (
-    <Accordion>
-      <Accordion.Item>
-        <Accordion.Header>
-          <FlexRow>
-            <StyledImage
-              src={StetoskopIkon}
-              alt="Stetoskopikon for behandler"
-            />
-            {`${behandlerNavn} ${dateAndTimeForNewestMelding}`}
-            <SamtaleTags meldinger={meldinger} />
-          </FlexRow>
-        </Accordion.Header>
-        <Accordion.Content>
-          <MeldingerISamtale meldinger={meldinger} />
-        </Accordion.Content>
-      </Accordion.Item>
-    </Accordion>
+    <Accordion.Item>
+      <Accordion.Header>
+        <FlexRow>
+          <StyledImage src={StetoskopIkon} alt="Stetoskopikon for behandler" />
+          {`${behandlerNavn} ${dateAndTimeForNewestMelding}`}
+          <SamtaleTags meldinger={meldinger} />
+        </FlexRow>
+      </Accordion.Header>
+      <Accordion.Content>
+        <MeldingerISamtale meldinger={meldinger} />
+      </Accordion.Content>
+    </Accordion.Item>
   );
 };

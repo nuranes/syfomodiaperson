@@ -14,7 +14,6 @@ import {
   MeldingStatusType,
 } from "@/data/behandlerdialog/behandlerdialogTypes";
 import userEvent from "@testing-library/user-event";
-import { clickButton } from "../testUtils";
 import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQueryHooks";
 import {
   personOppgaveBehandletBehandlerdialogSvar,
@@ -70,7 +69,9 @@ describe("Meldinger panel", () => {
     it("Meldinger sorteres i riktig rekkefølge med nyeste samtale først", () => {
       renderMeldinger();
 
-      const accordions = screen.getAllByRole("button");
+      const accordions = screen.getAllByRole("button", {
+        name: /januar/,
+      });
       expect(accordions).to.have.length(3);
       expect(accordions[0].textContent).to.contain("5. januar");
       expect(accordions[1].textContent).to.contain("2. januar");
@@ -122,7 +123,9 @@ describe("Meldinger panel", () => {
     it("Viser 'Se melding'-knapp for melding til behandler i alle samtaler", () => {
       renderMeldinger();
 
-      const accordions = screen.getAllByRole("button");
+      const accordions = screen.getAllByRole("button", {
+        name: /januar/,
+      });
       expect(accordions).to.have.length(3);
       accordions.forEach((accordion) => userEvent.click(accordion));
       const seMeldingButtons = screen.getAllByRole("button", {
@@ -134,11 +137,15 @@ describe("Meldinger panel", () => {
     it("Viser melding til behandler ved klikk på 'Se melding'-knapp", () => {
       renderMeldinger();
 
-      const accordions = screen.getAllByRole("button");
+      const accordions = screen.getAllByRole("button", {
+        name: /januar/,
+      });
       expect(accordions).to.have.length(3);
 
-      userEvent.click(accordions[1]);
-      clickButton(seMeldingButtonTekst);
+      const seMeldingButton = screen.getAllByRole("button", {
+        name: seMeldingButtonTekst,
+      })[0];
+      userEvent.click(seMeldingButton);
 
       const seMeldingModal = screen.getByRole("dialog", {
         name: "Vis melding",

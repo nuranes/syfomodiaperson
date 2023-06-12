@@ -98,10 +98,10 @@ describe("AktivitetskravHistorikk", () => {
     renderAktivitetskravHistorikk([unntakVurdering, oppfyltVurdering]);
 
     const vurderingButtons = screen.getAllByRole("button");
-    expect(vurderingButtons[0].textContent).to.equal(
+    expect(vurderingButtons[0].textContent).to.contain(
       `Oppfylt - ${tilDatoMedManedNavn(today)}`
     );
-    expect(vurderingButtons[1].textContent).to.equal(
+    expect(vurderingButtons[1].textContent).to.contain(
       `Unntak - ${tilDatoMedManedNavn(dayInThePast)}`
     );
   });

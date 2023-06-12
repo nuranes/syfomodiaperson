@@ -4,9 +4,9 @@ import {
   Conversations,
   MeldingDTO,
 } from "@/data/behandlerdialog/behandlerdialogTypes";
-import { GuidePanel } from "@navikt/ds-react";
+import { Accordion, GuidePanel } from "@navikt/ds-react";
 import styled from "styled-components";
-import { SamtaleAccordion } from "@/components/behandlerdialog/meldinger/SamtaleAccordion";
+import { SamtaleAccordionItem } from "@/components/behandlerdialog/meldinger/SamtaleAccordionItem";
 import AppSpinner from "@/components/AppSpinner";
 
 const texts = {
@@ -64,11 +64,11 @@ export const Samtaler = () => {
       {isInitialLoading ? (
         <AppSpinner />
       ) : sortedConversations.length ? (
-        <>
+        <Accordion>
           {sortedConversations.map((meldinger: MeldingDTO[], index: number) => (
-            <SamtaleAccordion meldinger={meldinger} key={index} />
+            <SamtaleAccordionItem meldinger={meldinger} key={index} />
           ))}
-        </>
+        </Accordion>
       ) : (
         <StyledGuidePanel>{texts.guidePanel}</StyledGuidePanel>
       )}

@@ -51,9 +51,11 @@ export const AktivitetskravHistorikk = () => {
           <BodyShort size="small">{texts.subHeader}</BodyShort>
         </FlexColumn>
       </FlexRow>
-      {vurderinger.sort(byCreatedAt).map((vurdering, index) => (
-        <HistorikkElement key={index} vurdering={vurdering} />
-      ))}
+      <Accordion>
+        {vurderinger.sort(byCreatedAt).map((vurdering, index) => (
+          <HistorikkElement key={index} vurdering={vurdering} />
+        ))}
+      </Accordion>
     </AktivitetskravPanel>
   );
 };
@@ -100,23 +102,21 @@ const HistorikkElement = ({ vurdering }: HistorikkElementProps) => {
   const arsak = vurdering.arsaker[0];
 
   return (
-    <Accordion>
-      <Accordion.Item>
-        <Accordion.Header>{header}</Accordion.Header>
-        <Accordion.Content>
-          {!!arsak && (
-            <Paragraph title={texts.arsakTitle} body={getArsakText(arsak)} />
-          )}
-          {!!vurdering.beskrivelse && (
-            <Paragraph
-              title={texts.beskrivelseTitle}
-              body={vurdering.beskrivelse}
-            />
-          )}
-          {veilederinfo?.navn}
-        </Accordion.Content>
-      </Accordion.Item>
-    </Accordion>
+    <Accordion.Item>
+      <Accordion.Header>{header}</Accordion.Header>
+      <Accordion.Content>
+        {!!arsak && (
+          <Paragraph title={texts.arsakTitle} body={getArsakText(arsak)} />
+        )}
+        {!!vurdering.beskrivelse && (
+          <Paragraph
+            title={texts.beskrivelseTitle}
+            body={vurdering.beskrivelse}
+          />
+        )}
+        {veilederinfo?.navn}
+      </Accordion.Content>
+    </Accordion.Item>
   );
 };
 
