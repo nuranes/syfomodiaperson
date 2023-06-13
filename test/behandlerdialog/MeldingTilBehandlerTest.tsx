@@ -33,15 +33,15 @@ describe("MeldingTilBehandler", () => {
     queryClient = queryClientWithMockData();
   });
 
-  it("Viser overskrift og info-alert", () => {
+  it("Viser overskrift og warning-alert", () => {
     renderMeldingTilBehandler();
 
     expect(screen.getByRole("heading", { name: "Skriv til behandler" })).to
       .exist;
-    expect(screen.getByRole("img", { name: "Informasjon" })).to.exist;
+    expect(screen.getByRole("img", { name: "Advarsel" })).to.exist;
     expect(
       screen.getByText(
-        "Her kan du be om tilleggsopplysninger vedrørende pasienten. Behandleren honoreres med takst L8."
+        "Her kan du kun be om tilleggsopplysninger med takst L8. Dialogmeldingen skal bare benyttes i sykefraværsoppfølgingen."
       )
     ).to.exist;
   });
