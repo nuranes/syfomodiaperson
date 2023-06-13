@@ -38,6 +38,10 @@ const getSisteBehandledeBehandlerdialogSvarOppgave = (
 
 const BehandleBehandlerdialogSvarOppgaveKnapp = () => {
   const { data: personOppgaver } = usePersonoppgaverQuery();
+  // TODO: Sjekke på BEHANDLERDIALOG_MELDING_UBESVART her også?
+  const hasBehandlerDialogSvarOppgaver = personOppgaver.some(
+    (p) => p.type === PersonOppgaveType.BEHANDLERDIALOG_SVAR
+  );
   const fnr = useValgtPersonident();
   const behandleAllPersonoppgaver = useBehandleAllPersonoppgaver();
   const isBehandlet = !hasUbehandletPersonoppgave(
@@ -53,7 +57,7 @@ const BehandleBehandlerdialogSvarOppgaveKnapp = () => {
 
   return (
     <FlexRow>
-      {personOppgaver.length > 0 && (
+      {hasBehandlerDialogSvarOppgaver && (
         <BehandlePersonOppgaveKnapp
           personOppgave={sisteBehandledeOppgave}
           isBehandlet={isBehandlet}

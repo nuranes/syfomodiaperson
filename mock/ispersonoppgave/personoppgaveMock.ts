@@ -67,7 +67,7 @@ const personOppgaveBehandletOppfolgingsplanLPS = {
   opprettet: new Date(dayjs().subtract(10, "days").toJSON()).toDateString(),
 };
 
-const personOppgaveBehandletDialogmotesvar = {
+export const personOppgaveBehandletDialogmotesvar = {
   ...personOppgaveUbehandletDialogmotesvar,
   uuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd3",
   referanseUuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd7",

@@ -17,6 +17,7 @@ import userEvent from "@testing-library/user-event";
 import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQueryHooks";
 import {
   personOppgaveBehandletBehandlerdialogSvar,
+  personOppgaveBehandletDialogmotesvar,
   personOppgaveUbehandletBehandlerdialogSvar,
 } from "../../mock/ispersonoppgave/personoppgaveMock";
 import dayjs from "dayjs";
@@ -368,6 +369,23 @@ describe("Meldinger panel", () => {
     });
 
     it("Viser ingen oppgave når ingen behandlerdialog-oppgaver", () => {
+      queryClient.setQueryData(
+        personoppgaverQueryKeys.personoppgaver(
+          ARBEIDSTAKER_DEFAULT.personIdent
+        ),
+        () => [{ ...personOppgaveBehandletDialogmotesvar }]
+      );
+
+      renderMeldinger();
+
+      expect(screen.queryByText("Ferdigbehandlet", { exact: false })).to.not
+        .exist;
+      expect(
+        screen.queryByText("Marker nye meldinger som lest", { exact: false })
+      ).to.not.exist;
+    });
+
+    it("Viser ingen oppgave når ingen oppgaver", () => {
       queryClient.setQueryData(
         personoppgaverQueryKeys.personoppgaver(
           ARBEIDSTAKER_DEFAULT.personIdent
