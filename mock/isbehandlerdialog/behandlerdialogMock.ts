@@ -10,8 +10,14 @@ import {
   ARBEIDSTAKER_DEFAULT_FULL_NAME,
   VEILEDER_DEFAULT,
 } from "../common/mockConstants";
-import { tilleggsOpplysningerPasientTexts } from "../../src/data/behandlerdialog/behandlerMeldingTexts";
-import { MeldingStatusType } from "../../src/data/behandlerdialog/behandlerdialogTypes";
+import {
+  paminnelseTexts,
+  tilleggsOpplysningerPasientTexts,
+} from "../../src/data/behandlerdialog/behandlerMeldingTexts";
+import {
+  MeldingStatusType,
+  MeldingType,
+} from "../../src/data/behandlerdialog/behandlerdialogTypes";
 
 const defaultMeldingTekst = "Dette er en melding";
 const meldingtilBehandlerDocument = [
@@ -54,6 +60,36 @@ const meldingtilBehandlerDocument = [
     type: DocumentComponentType.PARAGRAPH,
   },
 ];
+const paminnelseDocument = [
+  {
+    texts: [paminnelseTexts.header],
+    type: DocumentComponentType.HEADER_H1,
+  },
+  {
+    texts: [
+      `Gjelder ${ARBEIDSTAKER_DEFAULT_FULL_NAME}, f.nr. ${ARBEIDSTAKER_DEFAULT.personIdent}.`,
+    ],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: [
+      `${paminnelseTexts.intro.part1} 01.01.2023 ${paminnelseTexts.intro.part2}`,
+    ],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: [paminnelseTexts.text1],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: [paminnelseTexts.text2],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: ["Vennlig hilsen", VEILEDER_DEFAULT.navn, "NAV"],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+];
 
 const defaultStatus = {
   type: MeldingStatusType.OK,
@@ -67,9 +103,19 @@ export const defaultMelding = {
   tekst: defaultMeldingTekst,
   tidspunkt: "2023-01-01T12:00:00.000+01:00",
   innkommende: false,
+  type: MeldingType.FORESPORSEL_PASIENT,
   document: meldingtilBehandlerDocument,
   antallVedlegg: 0,
   status: defaultStatus,
+};
+
+export const paminnelseMelding = {
+  ...defaultMelding,
+  type: MeldingType.FORESPORSEL_PASIENT_PAMINNELSE,
+  tekst: "",
+  document: paminnelseDocument,
+  tidspunkt: "2023-01-06T12:00:00.000+01:00",
+  uuid: "5f1e2639-032c-443d-ac1f-3b18e1534cd5",
 };
 
 const ubesvartMelding = {
@@ -88,6 +134,7 @@ const meldinger = [
     behandlerRef: behandlerRefLegoLasLegesen,
     behandlerNavn: `${behandlerLegoLasLegesen.fornavn} ${behandlerLegoLasLegesen.mellomnavn} ${behandlerLegoLasLegesen.etternavn}`,
     innkommende: true,
+    type: MeldingType.FORESPORSEL_PASIENT,
     tidspunkt: "2023-01-02T12:00:00.000+01:00",
     antallVedlegg: 5,
     document: [],
@@ -126,6 +173,7 @@ export const behandlerdialogMock = {
     "conversationRef-123": [ubesvartMelding],
     "conversationRef-456": meldinger.slice(0, 2),
     "conversationRef-789": meldinger,
+    "conversationRef-981": [defaultMelding, paminnelseMelding],
   },
 };
 

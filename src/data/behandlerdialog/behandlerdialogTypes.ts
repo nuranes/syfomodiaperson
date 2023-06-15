@@ -27,6 +27,7 @@ export interface MeldingDTO {
   tekst: string;
   tidspunkt: Date;
   innkommende: boolean;
+  type: MeldingType;
   document: DocumentComponentDto[];
   antallVedlegg: number;
   status?: MeldingStatusDTO;
@@ -42,4 +43,9 @@ export enum MeldingStatusType {
   SENDT = "SENDT",
   OK = "OK",
   AVVIST = "AVVIST",
+}
+
+export enum MeldingType {
+  FORESPORSEL_PASIENT = "FORESPORSEL_PASIENT",
+  FORESPORSEL_PASIENT_PAMINNELSE = "FORESPORSEL_PASIENT_PAMINNELSE",
 }

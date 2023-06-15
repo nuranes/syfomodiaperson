@@ -1,14 +1,19 @@
-import React from "react";
-import { MeldingDTO } from "@/data/behandlerdialog/behandlerdialogTypes";
+import React, { ReactElement } from "react";
+import {
+  MeldingDTO,
+  MeldingType,
+} from "@/data/behandlerdialog/behandlerdialogTypes";
 import { BodyLong, Detail, Panel } from "@navikt/ds-react";
 import { PaperclipIcon } from "@navikt/aksel-icons";
 import styled from "styled-components";
 import { tilDatoMedManedNavnOgKlokkeslett } from "@/utils/datoUtils";
 import { VisMelding } from "@/components/behandlerdialog/meldinger/VisMelding";
 import PdfVedleggLink from "@/components/behandlerdialog/meldinger/PdfVedleggLink";
+import { DocumentComponentType } from "@/data/documentcomponent/documentComponentTypes";
+import { PaminnelseWarningIcon } from "@/components/behandlerdialog/paminnelse/PaminnelseWarningIcon";
+import { getHeaderText } from "@/utils/documentComponentUtils";
 
-const MeldingTekst = styled(BodyLong)`
-  margin-bottom: 0.75em;
+const MeldingTekstWrapper = styled(BodyLong)`
   white-space: pre-wrap;
 `;
 
@@ -41,6 +46,37 @@ const VedleggDetails = styled.div`
   }
 `;
 
+const MeldingTekstContainer = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  flex-flow: row wrap;
+  gap: 0.2em;
+  align-items: center;
+  margin-bottom: 0.75em;
+`;
+
+interface MeldingTekstProps {
+  melding: MeldingDTO;
+}
+
+const MeldingTekst = ({ melding }: MeldingTekstProps): ReactElement => {
+  const { tekst, type, innkommende, document } = melding;
+  const isPaminnelseTilBehandler =
+    type === MeldingType.FORESPORSEL_PASIENT_PAMINNELSE && !innkommende;
+
+  if (isPaminnelseTilBehandler) {
+    const headerText = getHeaderText(document, DocumentComponentType.HEADER_H1);
+    return (
+      <>
+        <MeldingTekstWrapper>{headerText}</MeldingTekstWrapper>
+        <PaminnelseWarningIcon />
+      </>
+    );
+  } else {
+    return <MeldingTekstWrapper>{tekst}</MeldingTekstWrapper>;
+  }
+};
+
 interface MeldingInnholdPanelProps {
   melding: MeldingDTO;
 }
@@ -49,7 +85,9 @@ export const MeldingInnholdPanel = ({ melding }: MeldingInnholdPanelProps) => {
   const behandlerNavn = melding.behandlerNavn;
   return (
     <Panel border>
-      <MeldingTekst>{melding.tekst}</MeldingTekst>
+      <MeldingTekstContainer>
+        <MeldingTekst melding={melding} />
+      </MeldingTekstContainer>
       {melding.innkommende && melding.antallVedlegg > 0 && (
         <VedleggDetails>
           <PaperclipIcon title="Binders-ikon for vedlegg" fontSize="1.25em" />

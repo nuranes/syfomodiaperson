@@ -23,8 +23,9 @@ import {
 import dayjs from "dayjs";
 import {
   defaultMeldingResponse,
-  meldingResponseMedVedlegg,
   meldingFraBehandlerUtenBehandlernavn,
+  meldingResponseMedPaminnelse,
+  meldingResponseMedVedlegg,
   meldingTilBehandlerMedMeldingStatus,
   meldingTilOgFraBehandler,
 } from "./meldingTestdataGenerator";
@@ -64,7 +65,7 @@ describe("Meldinger panel", () => {
         exact: false,
       });
       expect(samtaleAccordion).to.exist;
-      expect(screen.getAllByText("Dette er en melding")).to.have.length(6);
+      expect(screen.getAllByText("Dette er en melding")).to.have.length(7);
     });
 
     it("Meldinger sorteres i riktig rekkefølge med nyeste samtale først", () => {
@@ -73,10 +74,11 @@ describe("Meldinger panel", () => {
       const accordions = screen.getAllByRole("button", {
         name: /januar/,
       });
-      expect(accordions).to.have.length(3);
-      expect(accordions[0].textContent).to.contain("5. januar");
-      expect(accordions[1].textContent).to.contain("2. januar");
-      expect(accordions[2].textContent).to.contain("1. januar");
+      expect(accordions).to.have.length(4);
+      expect(accordions[0].textContent).to.contain("6. januar");
+      expect(accordions[1].textContent).to.contain("5. januar");
+      expect(accordions[2].textContent).to.contain("2. januar");
+      expect(accordions[3].textContent).to.contain("1. januar");
     });
 
     it("Viser GuidePanel når det ikke finnes dialogmeldinger på personen", () => {
@@ -127,12 +129,12 @@ describe("Meldinger panel", () => {
       const accordions = screen.getAllByRole("button", {
         name: /januar/,
       });
-      expect(accordions).to.have.length(3);
+      expect(accordions).to.have.length(4);
       accordions.forEach((accordion) => userEvent.click(accordion));
       const seMeldingButtons = screen.getAllByRole("button", {
         name: seMeldingButtonTekst,
       });
-      expect(seMeldingButtons).to.have.length(5);
+      expect(seMeldingButtons).to.have.length(7);
     });
 
     it("Viser melding til behandler ved klikk på 'Se melding'-knapp", () => {
@@ -141,7 +143,7 @@ describe("Meldinger panel", () => {
       const accordions = screen.getAllByRole("button", {
         name: /januar/,
       });
-      expect(accordions).to.have.length(3);
+      expect(accordions).to.have.length(4);
 
       const seMeldingButton = screen.getAllByRole("button", {
         name: seMeldingButtonTekst,
@@ -156,6 +158,49 @@ describe("Meldinger panel", () => {
       expect(
         within(seMeldingModal).getByText(
           "Spørsmål om tilleggsopplysninger vedrørende pasient"
+        )
+      ).to.exist;
+    });
+  });
+
+  describe("Visning av paminnelse i samtale og modal", () => {
+    beforeEach(() => {
+      queryClient.setQueryData(
+        behandlerdialogQueryKeys.behandlerdialog(
+          ARBEIDSTAKER_DEFAULT.personIdent
+        ),
+        () => meldingResponseMedPaminnelse
+      );
+    });
+    it("Viser overskrift for påminnelse i samtalen", () => {
+      renderMeldinger();
+
+      expect(
+        screen.getByText("Påminnelse om manglende svar vedrørerende pasient")
+      ).to.exist;
+      expect(
+        screen.getAllByRole("img", {
+          name: "Bjelle-ikon for påminnelse",
+        })
+      ).to.have.length(2);
+    });
+
+    it("Viser påminnelse ved klikk på 'Se melding'-knapp", () => {
+      renderMeldinger();
+
+      const seMeldingButton = screen.getAllByRole("button", {
+        name: seMeldingButtonTekst,
+      })[1];
+      userEvent.click(seMeldingButton);
+
+      const seMeldingModal = screen.getByRole("dialog", {
+        name: "Vis melding",
+      });
+      expect(seMeldingModal).to.exist;
+
+      expect(
+        within(seMeldingModal).getByText(
+          "Påminnelse om manglende svar vedrørerende pasient"
         )
       ).to.exist;
     });
@@ -190,13 +235,12 @@ describe("Meldinger panel", () => {
       expect(screen.getByText("Ny")).to.exist;
     });
 
-    it("Viser venter svar-tag på samtale hvis det mangler melding fra behandler i samtalen", () => {
-      const meldingResponse = defaultMeldingResponse;
+    it("Viser venter svar-tag på samtale hvis det mangler melding fra behandler og ingen påminnelse i samtalen", () => {
       queryClient.setQueryData(
         behandlerdialogQueryKeys.behandlerdialog(
           ARBEIDSTAKER_DEFAULT.personIdent
         ),
-        () => meldingResponse
+        () => defaultMeldingResponse
       );
 
       renderMeldinger();
@@ -204,6 +248,71 @@ describe("Meldinger panel", () => {
       accordions.forEach((accordion) => userEvent.click(accordion));
 
       expect(screen.getByText("Venter på svar")).to.exist;
+      expect(screen.queryByText("Påminnelse sendt")).to.not.exist;
+    });
+
+    it("Viser påminnelse sendt-tag på samtale hvis påminnelse sendt og det mangler melding fra behandler", () => {
+      queryClient.setQueryData(
+        behandlerdialogQueryKeys.behandlerdialog(
+          ARBEIDSTAKER_DEFAULT.personIdent
+        ),
+        () => meldingResponseMedPaminnelse
+      );
+
+      renderMeldinger();
+      const accordions = screen.getAllByRole("button");
+      accordions.forEach((accordion) => userEvent.click(accordion));
+
+      expect(screen.getByText("Påminnelse sendt")).to.exist;
+      expect(screen.queryByText("Venter på svar")).to.not.exist;
+    });
+
+    it("Viser ingen tags på samtale hvis det er melding til og fra behandler uten oppgave for ny melding", () => {
+      const meldingResponse = meldingTilOgFraBehandler("456uio");
+      queryClient.setQueryData(
+        behandlerdialogQueryKeys.behandlerdialog(
+          ARBEIDSTAKER_DEFAULT.personIdent
+        ),
+        () => meldingResponse
+      );
+      queryClient.setQueryData(
+        personoppgaverQueryKeys.personoppgaver(
+          ARBEIDSTAKER_DEFAULT.personIdent
+        ),
+        () => []
+      );
+
+      renderMeldinger();
+      const accordions = screen.getAllByRole("button");
+      accordions.forEach((accordion) => userEvent.click(accordion));
+
+      expect(screen.queryByText("Ny")).to.not.exist;
+      expect(screen.queryByText("Påminnelse sendt")).to.not.exist;
+      expect(screen.queryByText("Venter på svar")).to.not.exist;
+    });
+
+    it("Viser ingen tags på samtale hvis det er melding til og fra behandler (inkl påminnelse) uten oppgave for ny melding", () => {
+      const meldingResponse = meldingTilOgFraBehandler("456uio", true);
+      queryClient.setQueryData(
+        behandlerdialogQueryKeys.behandlerdialog(
+          ARBEIDSTAKER_DEFAULT.personIdent
+        ),
+        () => meldingResponse
+      );
+      queryClient.setQueryData(
+        personoppgaverQueryKeys.personoppgaver(
+          ARBEIDSTAKER_DEFAULT.personIdent
+        ),
+        () => []
+      );
+
+      renderMeldinger();
+      const accordions = screen.getAllByRole("button");
+      accordions.forEach((accordion) => userEvent.click(accordion));
+
+      expect(screen.queryByText("Ny")).to.not.exist;
+      expect(screen.queryByText("Påminnelse sendt")).to.not.exist;
+      expect(screen.queryByText("Venter på svar")).to.not.exist;
     });
 
     it("Viser 'Melding ikke levert'-tag på samtale hvis status for melding er avvist", () => {

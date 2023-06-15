@@ -1,14 +1,19 @@
 import {
   behandlerdialogMockEmpty,
   defaultMelding,
+  paminnelseMelding,
 } from "../../mock/isbehandlerdialog/behandlerdialogMock";
 import { MeldingStatusType } from "@/data/behandlerdialog/behandlerdialogTypes";
 
-export const meldingTilOgFraBehandler = (meldingFraBehandlerUuid: string) => {
+export const meldingTilOgFraBehandler = (
+  meldingFraBehandlerUuid: string,
+  withPaminnelse = false
+) => {
   return {
     conversations: {
       ["conversationRef000"]: [
         defaultMelding,
+        ...(withPaminnelse ? [paminnelseMelding] : []),
         {
           ...defaultMelding,
           uuid: meldingFraBehandlerUuid,
@@ -81,5 +86,11 @@ export const meldingResponseMedVedlegg = {
         antallVedlegg: 1,
       },
     ],
+  },
+};
+
+export const meldingResponseMedPaminnelse = {
+  conversations: {
+    ["conversationRef123"]: [defaultMelding, paminnelseMelding],
   },
 };
