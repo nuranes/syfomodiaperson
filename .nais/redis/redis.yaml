@@ -1,25 +1,24 @@
-apiVersion: nais.io/v1alpha1
-kind: Application
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
 metadata:
   labels:
     team: teamsykefravr
   annotations:
-    nais.io/read-only-file-system: "false"
-    nais.io/run-as-user: "999"
-  name: syfomodiaperson-redis
+    "nais.io/run-as-group": "0"
+    "nais.io/read-only-file-system": "false"
   namespace: teamsykefravr
+  name: syfomodiaperson-redis
 spec:
-  image: redis:5-alpine
+  image: bitnami/redis:6.0.12
   port: 6379
-  replicas: # A single Redis-app doesn't scale
+  replicas:
     min: 1
-    max: 1 # More replicas doesn't sync
-  resources: # you need to monitor the resource usage yourself
+    max: 1
+  resources:
     limits:
-      cpu: 200m
       memory: 128Mi
     requests:
-      cpu: 200m
+      cpu: 100m
       memory: 128Mi
   service:
     port: 6379
@@ -28,3 +27,6 @@ spec:
     inbound:
       rules:
         - application: syfomodiaperson
+        - application: syfomodiaperson-redisexporter
+  envFrom:
+    - secret: syfomodiaperson-redis-password

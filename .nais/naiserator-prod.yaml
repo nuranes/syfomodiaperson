@@ -28,7 +28,6 @@ spec:
     path: /actuator/metrics
   resources:
     limits:
-      cpu: 500m
       memory: 1Gi
     requests:
       cpu: 100m
@@ -75,6 +74,7 @@ spec:
           namespace: team-esyfo
   envFrom:
     - secret: syfomodiaperson-session-key
+    - secret: syfomodiaperson-redis-password
   ingresses:
     - "https://syfomodiaperson.intern.nav.no"
   env:
