@@ -22,6 +22,7 @@ const texts = {
 };
 
 const StyledWrapper = styled.div`
+  display: flex;
   margin-left: 1em;
 `;
 
