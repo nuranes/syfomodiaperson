@@ -62,6 +62,10 @@ export const queryClientWithMockData = (): QueryClient => {
     () => VEILEDER_DEFAULT
   );
   queryClient.setQueryData(
+    veilederinfoQueryKeys.veilederinfoByIdent(VEILEDER_IDENT_DEFAULT),
+    () => VEILEDER_DEFAULT
+  );
+  queryClient.setQueryData(
     behandlendeEnhetQueryKeys.behandlendeEnhet(
       ARBEIDSTAKER_DEFAULT.personIdent
     ),

@@ -12,6 +12,7 @@ import PdfVedleggLink from "@/components/behandlerdialog/meldinger/PdfVedleggLin
 import { DocumentComponentType } from "@/data/documentcomponent/documentComponentTypes";
 import { PaminnelseWarningIcon } from "@/components/behandlerdialog/paminnelse/PaminnelseWarningIcon";
 import { getHeaderText } from "@/utils/documentComponentUtils";
+import { useVeilederInfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
 
 const MeldingTekstWrapper = styled(BodyLong)`
   white-space: pre-wrap;
@@ -21,6 +22,7 @@ const MeldingDetails = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: start;
+  align-items: center;
 
   > * {
     &:not(:last-child) {
@@ -77,12 +79,26 @@ const MeldingTekst = ({ melding }: MeldingTekstProps): ReactElement => {
   }
 };
 
+interface AvsenderInfoProps {
+  melding: MeldingDTO;
+}
+
+const AvsenderInfo = ({ melding }: AvsenderInfoProps) => {
+  const { data: veilederInfo } = useVeilederInfoQuery(
+    melding.veilederIdent ?? ""
+  );
+  const avsender = melding.innkommende
+    ? melding.behandlerNavn
+    : veilederInfo?.navn;
+
+  return <>{avsender && <Detail>{`Skrevet av ${avsender}`}</Detail>}</>;
+};
+
 interface MeldingInnholdPanelProps {
   melding: MeldingDTO;
 }
 
 export const MeldingInnholdPanel = ({ melding }: MeldingInnholdPanelProps) => {
-  const behandlerNavn = melding.behandlerNavn;
   return (
     <Panel border>
       <MeldingTekstContainer>
@@ -104,9 +120,7 @@ export const MeldingInnholdPanel = ({ melding }: MeldingInnholdPanelProps) => {
         <MeldingTidspunkt>
           {tilDatoMedManedNavnOgKlokkeslett(melding.tidspunkt)}
         </MeldingTidspunkt>
-        {melding.innkommende && behandlerNavn && (
-          <Detail>{`Skrevet av ${behandlerNavn}`}</Detail>
-        )}
+        <AvsenderInfo melding={melding} />
         {!melding.innkommende && <VisMelding melding={melding} />}
       </MeldingDetails>
     </Panel>

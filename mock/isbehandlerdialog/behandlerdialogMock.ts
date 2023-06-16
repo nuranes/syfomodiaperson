@@ -9,6 +9,7 @@ import {
   ARBEIDSTAKER_DEFAULT,
   ARBEIDSTAKER_DEFAULT_FULL_NAME,
   VEILEDER_DEFAULT,
+  VEILEDER_IDENT_DEFAULT,
 } from "../common/mockConstants";
 import {
   paminnelseTexts,
@@ -107,6 +108,7 @@ export const defaultMelding = {
   document: meldingtilBehandlerDocument,
   antallVedlegg: 0,
   status: defaultStatus,
+  veilederIdent: VEILEDER_IDENT_DEFAULT,
 };
 
 export const paminnelseMelding = {
@@ -138,6 +140,7 @@ const meldinger = [
     tidspunkt: "2023-01-02T12:00:00.000+01:00",
     antallVedlegg: 5,
     document: [],
+    veilederIdent: null,
   },
   {
     ...defaultMelding,
@@ -147,6 +150,7 @@ const meldinger = [
     tidspunkt: "2023-01-03T12:00:00.000+01:00",
     antallVedlegg: 1,
     document: [],
+    veilederIdent: null,
   },
   {
     ...defaultMelding,

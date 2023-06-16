@@ -44,6 +44,8 @@ export const VEILEDER_IDENT_DEFAULT = "Z990000";
 export const VEILEDER_DEFAULT = {
   ident: VEILEDER_IDENT_DEFAULT,
   navn: "Vetle Veileder",
+  fornavn: "Vetle",
+  etternavn: "Veileder",
   epost: "vetle.veileder@nav.no",
   telefonnummer: "12345678",
 };

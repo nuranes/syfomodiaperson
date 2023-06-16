@@ -96,7 +96,7 @@ describe("Meldinger panel", () => {
     });
   });
 
-  describe("Visning av behandlernavn", () => {
+  describe("Visning av avsender", () => {
     it("Viser riktig behandlerNavn for behandlere", () => {
       renderMeldinger();
 
@@ -119,6 +119,14 @@ describe("Meldinger panel", () => {
       renderMeldinger();
 
       expect(screen.queryByText("Skrevet av", { exact: false })).to.not.exist;
+    });
+
+    it("Skal vise veileders navn på utgåene meldinger", () => {
+      renderMeldinger();
+
+      expect(screen.getAllByText("Skrevet av Vetle Veileder")).to.have.length(
+        7
+      );
     });
   });
 

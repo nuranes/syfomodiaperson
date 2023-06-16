@@ -31,6 +31,7 @@ export interface MeldingDTO {
   document: DocumentComponentDto[];
   antallVedlegg: number;
   status?: MeldingStatusDTO;
+  veilederIdent: string | null;
 }
 
 interface MeldingStatusDTO {
