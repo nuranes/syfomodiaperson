@@ -27,7 +27,6 @@ const sortDateByTidspunkt = (d1: Date | null, d2: Date | null) => {
 const getSisteBehandledeBehandlerdialogSvarOppgave = (
   personOppgaver: PersonOppgave[]
 ): PersonOppgave | undefined => {
-  // TODO: Sjekke på BEHANDLERDIALOG_MELDING_UBESVART her også?
   return getAllBehandledePersonOppgaver(
     personOppgaver,
     PersonOppgaveType.BEHANDLERDIALOG_SVAR
@@ -38,7 +37,6 @@ const getSisteBehandledeBehandlerdialogSvarOppgave = (
 
 const BehandleBehandlerdialogSvarOppgaveKnapp = () => {
   const { data: personOppgaver } = usePersonoppgaverQuery();
-  // TODO: Sjekke på BEHANDLERDIALOG_MELDING_UBESVART her også?
   const hasBehandlerDialogSvarOppgaver = personOppgaver.some(
     (p) => p.type === PersonOppgaveType.BEHANDLERDIALOG_SVAR
   );

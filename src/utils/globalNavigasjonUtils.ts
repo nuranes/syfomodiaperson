@@ -61,13 +61,23 @@ const getNumberOfAktivitetskravOppgaver = (
 const getNumberOfBehandlerDialogOppgaver = (
   personOppgaver: PersonOppgave[]
 ) => {
-  // TODO: Sjekke på BEHANDLERDIALOG_MELDING_UBESVART her også?
-  return hasUbehandletPersonoppgave(
+  const numberOfUbehandledeBehandlerDialogSvar = hasUbehandletPersonoppgave(
     personOppgaver,
     PersonOppgaveType.BEHANDLERDIALOG_SVAR
   )
     ? 1
     : 0;
+  const numberOfUbehandledeBehandlerDialogUbesvart = hasUbehandletPersonoppgave(
+    personOppgaver,
+    PersonOppgaveType.BEHANDLERDIALOG_MELDING_UBESVART
+  )
+    ? 1
+    : 0;
+
+  return (
+    numberOfUbehandledeBehandlerDialogSvar +
+    numberOfUbehandledeBehandlerDialogUbesvart
+  );
 };
 
 export const numberOfTasks = (

@@ -14,7 +14,11 @@ import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import { Menypunkter } from "@/navigation/menypunkterTypes";
 import { navEnhet } from "../dialogmote/testData";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
-import { personoppgaverMock } from "../../mock/ispersonoppgave/personoppgaveMock";
+import {
+  personoppgaverMock,
+  personOppgaveUbehandletBehandlerdialogSvar,
+  personOppgaveUbehandletBehandlerdialogUbesvartMelding,
+} from "../../mock/ispersonoppgave/personoppgaveMock";
 
 const fnr = ARBEIDSTAKER_DEFAULT.personIdent;
 let queryClient: any;
@@ -84,15 +88,46 @@ describe("GlobalNavigasjon", () => {
     expect(screen.getByRole("link", { name: "Dialogmøter 1" })).to.exist;
   });
 
-  it("viser rød prikk for menypunkt Dialog med behandler når ubehandlet oppgave behandlerdialog-svar", () => {
+  it("viser én rød prikk for menypunkt Dialog med behandler når ubehandlet oppgave behandlerdialog-svar", () => {
     queryClient = queryClientWithMockData();
-    queryClient.setQueryData(personoppgaverQueryKeys.personoppgaver(fnr), () =>
-      personoppgaverMock()
+    queryClient.setQueryData(
+      personoppgaverQueryKeys.personoppgaver(fnr),
+      () => [personOppgaveUbehandletBehandlerdialogSvar]
     );
 
     renderGlobalNavigasjon();
 
     expect(screen.getByRole("link", { name: "Dialog med behandler 1" })).to
+      .exist;
+  });
+
+  it("viser én rød prikk for menypunkt Dialog med behandler når ubehandlet oppgave ubesvart melding", () => {
+    queryClient = queryClientWithMockData();
+    queryClient.setQueryData(
+      personoppgaverQueryKeys.personoppgaver(fnr),
+      () => [personOppgaveUbehandletBehandlerdialogUbesvartMelding]
+    );
+
+    renderGlobalNavigasjon();
+
+    expect(screen.getByRole("link", { name: "Dialog med behandler 1" })).to
+      .exist;
+  });
+
+  // TODO: Avklare om dette er ønsket oppførsel
+  it("viser to røde prikker for menypunkt Dialog med behandler når ubehandlet oppgave ubesvart melding og ubehandlet oppgave behandlerdialog-svar", () => {
+    queryClient = queryClientWithMockData();
+    queryClient.setQueryData(
+      personoppgaverQueryKeys.personoppgaver(fnr),
+      () => [
+        personOppgaveUbehandletBehandlerdialogSvar,
+        personOppgaveUbehandletBehandlerdialogUbesvartMelding,
+      ]
+    );
+
+    renderGlobalNavigasjon();
+
+    expect(screen.getByRole("link", { name: "Dialog med behandler 2" })).to
       .exist;
   });
 });

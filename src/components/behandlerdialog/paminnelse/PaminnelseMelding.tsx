@@ -9,7 +9,10 @@ import {
 import { usePaminnelseTilBehandler } from "@/data/behandlerdialog/usePaminnelseTilBehandler";
 import { usePersonoppgaverQuery } from "@/data/personoppgave/personoppgaveQueryHooks";
 import { getAllUbehandledePersonOppgaver } from "@/utils/personOppgaveUtils";
-import { PersonOppgaveType } from "@/data/personoppgave/types/PersonOppgave";
+import {
+  PersonOppgave,
+  PersonOppgaveType,
+} from "@/data/personoppgave/types/PersonOppgave";
 import { useMeldingTilBehandlerDocument } from "@/hooks/behandlerdialog/document/useMeldingTilBehandlerDocument";
 import { DocumentComponentVisning } from "@/components/DocumentComponentVisning";
 import { ButtonRow, PaddingSize } from "@/components/Layout";
@@ -29,15 +32,24 @@ const ModalContent = styled(Modal.Content)`
   padding: 2em;
 `;
 
-const VisOgSendPaminnelse = ({ melding }: PaminnelseMeldingProps) => {
+interface VisOgSendPaminnelseProps extends PaminnelseMeldingProps {
+  oppgave: PersonOppgave;
+}
+
+const VisOgSendPaminnelse = ({
+  melding,
+  oppgave,
+}: VisOgSendPaminnelseProps) => {
   const [visPaminnelseModal, setVisPaminnelseModal] = useState(false);
 
   const { getPaminnelseDocument } = useMeldingTilBehandlerDocument();
-  const paminnelseTilBehandler = usePaminnelseTilBehandler(melding.uuid);
+  const paminnelseTilBehandler = usePaminnelseTilBehandler(
+    melding.uuid,
+    oppgave.uuid
+  );
   const paminnelseDocument = getPaminnelseDocument(melding);
 
   const handleSendPaminnelseClick = () => {
-    // TODO: Behandle oppgave on click ?
     const paminnelseDTO: PaminnelseDTO = {
       document: paminnelseDocument,
     };
@@ -103,12 +115,12 @@ export const PaminnelseMelding = ({ melding }: PaminnelseMeldingProps) => {
     oppgaver,
     PersonOppgaveType.BEHANDLERDIALOG_MELDING_UBESVART
   );
-  const hasUbesvartMeldingOppgave = ubehandledeUbesvartMeldingOppgaver.some(
+  const ubesvartMeldingOppgave = ubehandledeUbesvartMeldingOppgaver.find(
     (oppgave) => oppgave.referanseUuid === melding.uuid
   );
 
-  return hasUbesvartMeldingOppgave ? (
-    <VisOgSendPaminnelse melding={melding} />
+  return ubesvartMeldingOppgave ? (
+    <VisOgSendPaminnelse melding={melding} oppgave={ubesvartMeldingOppgave} />
   ) : (
     <></>
   );

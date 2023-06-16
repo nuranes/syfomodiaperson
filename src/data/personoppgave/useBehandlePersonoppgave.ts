@@ -5,11 +5,12 @@ import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQuery
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { BehandlePersonoppgaveRequestDTO } from "@/data/personoppgave/types/BehandlePersonoppgaveRequestDTO";
 
+export const postBehandlePersonoppgave = (uuid: string) =>
+  post(`${ISPERSONOPPGAVE_ROOT}/personoppgave/${uuid}/behandle`, {});
+
 export const useBehandlePersonoppgave = () => {
   const fnr = useValgtPersonident();
   const queryClient = useQueryClient();
-  const postBehandlePersonoppgave = (uuid: string) =>
-    post(`${ISPERSONOPPGAVE_ROOT}/personoppgave/${uuid}/behandle`, {});
   const personOppgaverQueryKey = personoppgaverQueryKeys.personoppgaver(fnr);
 
   return useMutation({
@@ -21,7 +22,7 @@ export const useBehandlePersonoppgave = () => {
 export const useBehandleAllPersonoppgaver = () => {
   const fnr = useValgtPersonident();
   const queryClient = useQueryClient();
-  const postBehandlePersonoppgave = (
+  const postBehandlePersonoppgaver = (
     behandlePersonoppgaverRequestDTO: BehandlePersonoppgaveRequestDTO
   ) =>
     post(
@@ -31,7 +32,7 @@ export const useBehandleAllPersonoppgaver = () => {
   const personOppgaverQueryKey = personoppgaverQueryKeys.personoppgaver(fnr);
 
   return useMutation({
-    mutationFn: postBehandlePersonoppgave,
+    mutationFn: postBehandlePersonoppgaver,
     onSettled: () => queryClient.invalidateQueries(personOppgaverQueryKey),
   });
 };

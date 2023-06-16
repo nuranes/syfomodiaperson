@@ -4,21 +4,35 @@ import { ISBEHANDLERDIALOG_ROOT } from "@/apiConstants";
 import { PaminnelseDTO } from "@/data/behandlerdialog/behandlerdialogTypes";
 import { post } from "@/api/axios";
 import { behandlerdialogQueryKeys } from "@/data/behandlerdialog/behandlerdialogQueryHooks";
+import { postBehandlePersonoppgave } from "@/data/personoppgave/useBehandlePersonoppgave";
+import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQueryHooks";
 
-export const usePaminnelseTilBehandler = (meldingUuid: string) => {
+export const usePaminnelseTilBehandler = (
+  meldingUuid: string,
+  oppgaveUuid: string
+) => {
   const personident = useValgtPersonident();
   const queryClient = useQueryClient();
   const path = `${ISBEHANDLERDIALOG_ROOT}/melding/${meldingUuid}/paminnelse`;
 
-  const postSendPaminnelse = (paminnelse: PaminnelseDTO) =>
-    post(path, paminnelse, personident);
+  const sendPaminnelseOgBehandleOppgave = async (paminnelse: PaminnelseDTO) => {
+    await post(path, paminnelse, personident);
+    await postBehandlePersonoppgave(oppgaveUuid);
+  };
 
   return useMutation({
-    mutationFn: postSendPaminnelse,
+    mutationFn: sendPaminnelseOgBehandleOppgave,
     onSuccess: () => {
-      queryClient.invalidateQueries(
-        behandlerdialogQueryKeys.behandlerdialog(personident)
-      );
+      // Returnerer Promise her slik at mutation er 'loading' til disse queryene er invalidert
+      return queryClient
+        .invalidateQueries(
+          behandlerdialogQueryKeys.behandlerdialog(personident)
+        )
+        .then(() => {
+          return queryClient.invalidateQueries(
+            personoppgaverQueryKeys.personoppgaver(personident)
+          );
+        });
     },
   });
 };
