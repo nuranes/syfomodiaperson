@@ -10,6 +10,8 @@ const SESSION_MAX_AGE_MILLIS = 12 * 60 * 60 * 1000;
 const SESSION_MAX_AGE_SECONDS = SESSION_MAX_AGE_MILLIS / 1000;
 
 const getRedisStore = () => {
+  if (Config.isDev) return undefined;
+
   const RedisStore = connectRedis(session);
 
   const redisClient = redis.createClient({

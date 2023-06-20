@@ -5,7 +5,7 @@ const express = require("express");
 const common = require("./webpack.common.ts");
 const path = require("path");
 
-import Auth = require("./server/auth");
+import * as Session from "./server/session";
 
 module.exports = merge(common, {
   mode: "development",
@@ -28,7 +28,7 @@ module.exports = merge(common, {
 const setupDev = async (devServer: any) => {
   const { app, compiler } = devServer;
 
-  await Auth.setupAuth(app);
+  await Session.setupSession(app);
 
   mockEndepunkter(app);
   app.use("/static", express.static(path.resolve(__dirname, "dist")));

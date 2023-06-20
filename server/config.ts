@@ -47,8 +47,6 @@ export const server = {
   logLevel: envVar({ name: "LOG_LEVEL", defaultValue: "info" }),
 };
 
-export const tokenSetSelf = "self";
-
 export interface ExternalAppConfig {
   applicationName: string;
   clientId: string;
@@ -63,6 +61,12 @@ export const auth = {
     name: "AZURE_APP_WELL_KNOWN_URL",
     defaultValue: {
       dev: `http://localhost:${server.mockOauthServerPort}/default`,
+    },
+  }),
+  jwksUri: envVar({
+    name: "AZURE_OPENID_CONFIG_JWKS_URI",
+    defaultValue: {
+      dev: `http://localhost:${server.mockOauthServerPort}/default/jwks`,
     },
   }),
   clientId: envVar({

@@ -40,7 +40,7 @@ const handleAxiosError = (error: AxiosError) => {
   if (error.response) {
     switch (error.response.status) {
       case 401: {
-        window.location.href = `/login?redirectTo=${window.location.pathname}`;
+        window.location.href = `/oauth2/login?redirectTo=${window.location.pathname}`;
         throw new ApiErrorException(
           loginRequiredError(error.message),
           error.response.status

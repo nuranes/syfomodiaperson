@@ -1,6 +1,5 @@
 import express = require("express");
 import { ISBEHANDLERDIALOG_ROOT } from "../../src/apiConstants";
-import Auth = require("../../server/auth");
 import { NAV_PERSONIDENT_HEADER } from "../util/requestUtil";
 import {
   behandlerdialogMock,
@@ -14,7 +13,6 @@ let behandlerdialogMockdata = behandlerdialogMock;
 export const mockIsbehandlerdialog = (server: any) => {
   server.get(
     `${ISBEHANDLERDIALOG_ROOT}/melding`,
-    Auth.ensureAuthenticated(),
     (req: express.Request, res: express.Response) => {
       if (req.headers[NAV_PERSONIDENT_HEADER]?.length === 11) {
         res.send(JSON.stringify(behandlerdialogMockdata));
@@ -25,7 +23,6 @@ export const mockIsbehandlerdialog = (server: any) => {
   );
   server.get(
     `${ISBEHANDLERDIALOG_ROOT}/melding/:uuid/:vedleggNumber/pdf`,
-    Auth.ensureAuthenticated(),
     (req: express.Request, res: express.Response) => {
       res.type("application/pdf");
       const { vedleggNumber } = req.params;
@@ -40,7 +37,6 @@ export const mockIsbehandlerdialog = (server: any) => {
   );
   server.post(
     `${ISBEHANDLERDIALOG_ROOT}/melding`,
-    Auth.ensureAuthenticated(),
     (req: express.Request, res: express.Response) => {
       res.sendStatus(200);
       const body = req.body as MeldingTilBehandlerDTO;
@@ -62,7 +58,6 @@ export const mockIsbehandlerdialog = (server: any) => {
   );
   server.post(
     `${ISBEHANDLERDIALOG_ROOT}/melding/:uuid/paminnelse`,
-    Auth.ensureAuthenticated(),
     (req: express.Request, res: express.Response) => {
       res.sendStatus(200);
     }

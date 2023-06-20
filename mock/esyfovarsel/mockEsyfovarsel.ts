@@ -1,5 +1,4 @@
 import express = require("express");
-import Auth = require("../../server/auth");
 import { ESYFOVARSEL_ROOT } from "../../src/apiConstants";
 import { ARBEIDSTAKER_DEFAULT } from "../common/mockConstants";
 
@@ -17,7 +16,6 @@ const maksdatoMock = {
 export const mockEsyfovarsel = (server: any) => {
   server.get(
     `${ESYFOVARSEL_ROOT}/sykepenger/maxdate`,
-    Auth.ensureAuthenticated(),
     (req: express.Request, res: express.Response) => {
       res.setHeader("Content-Type", "application/json");
       res.send(JSON.stringify(maksdatoMock));

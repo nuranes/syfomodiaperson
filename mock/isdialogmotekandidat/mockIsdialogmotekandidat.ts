@@ -7,12 +7,9 @@ import {
   unntaksstatistikk,
 } from "./dialogmoteunntakMock";
 
-import Auth = require("../../server/auth");
-
 export const mockIsdialogmotekandidat = (server: any) => {
   server.get(
     `${ISDIALOGMOTEKANDIDAT_ROOT}/kandidat/personident`,
-    Auth.ensureAuthenticated(),
     (req: express.Request, res: express.Response) => {
       if (req.headers[NAV_PERSONIDENT_HEADER]?.length === 11) {
         res.send(JSON.stringify(dialogmotekandidatMock));
@@ -23,7 +20,6 @@ export const mockIsdialogmotekandidat = (server: any) => {
   );
   server.get(
     `${ISDIALOGMOTEKANDIDAT_ROOT}/unntak/personident`,
-    Auth.ensureAuthenticated(),
     (req: express.Request, res: express.Response) => {
       if (req.headers[NAV_PERSONIDENT_HEADER]?.length === 11) {
         res.send(JSON.stringify(dialogmoteunntakMock));
@@ -34,14 +30,12 @@ export const mockIsdialogmotekandidat = (server: any) => {
   );
   server.post(
     `${ISDIALOGMOTEKANDIDAT_ROOT}/unntak/personident`,
-    Auth.ensureAuthenticated(),
     (req: express.Request, res: express.Response) => {
       res.sendStatus(200);
     }
   );
   server.get(
     `${ISDIALOGMOTEKANDIDAT_ROOT}/unntak/statistikk`,
-    Auth.ensureAuthenticated(),
     (req: express.Request, res: express.Response) => {
       res.send(JSON.stringify(unntaksstatistikk));
     }

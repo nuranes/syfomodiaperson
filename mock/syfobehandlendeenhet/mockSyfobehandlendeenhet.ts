@@ -7,7 +7,6 @@ import {
   personDTOMock,
 } from "./behandlendeEnhetMock";
 
-import Auth = require("../../server/auth");
 import { BehandlendeEnhet } from "@/data/behandlendeenhet/types/BehandlendeEnhet";
 
 let behandlendeEnhet: BehandlendeEnhet = behandlendeEnhetMock;
@@ -15,7 +14,6 @@ let behandlendeEnhet: BehandlendeEnhet = behandlendeEnhetMock;
 export const mockSyfobehandlendeenhet = (server: any) => {
   server.get(
     `${SYFOBEHANDLENDEENHET_ROOT}/personident`,
-    Auth.ensureAuthenticated(),
     (req: express.Request, res: express.Response) => {
       if (req.headers[NAV_PERSONIDENT_HEADER]?.length === 11) {
         res.setHeader("Content-Type", "application/json");
@@ -27,7 +25,6 @@ export const mockSyfobehandlendeenhet = (server: any) => {
   );
   server.post(
     `${SYFOBEHANDLENDEENHET_ROOT}/person`,
-    Auth.ensureAuthenticated(),
     (req: express.Request, res: express.Response) => {
       res.send(JSON.stringify(personDTOMock));
       behandlendeEnhet =

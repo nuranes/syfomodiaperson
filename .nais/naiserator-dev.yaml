@@ -33,6 +33,9 @@ spec:
       cpu: 100m
       memory: 128Mi
   azure:
+    sidecar:
+      enabled: true
+      autoLogin: true
     application:
       allowAllUsers: true
       enabled: true

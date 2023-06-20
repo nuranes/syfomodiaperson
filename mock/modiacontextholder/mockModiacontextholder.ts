@@ -7,8 +7,6 @@ import {
   VEILEDER_IDENT_DEFAULT,
 } from "../common/mockConstants";
 
-import Auth = require("../../server/auth");
-
 const saksbehandler = {
   ident: VEILEDER_IDENT_DEFAULT,
   navn: "Vetle Veileder",
@@ -39,7 +37,6 @@ const aktivEnhet = {
 export const mockModiacontextholder = (server: any) => {
   server.get(
     `${MODIACONTEXTHOLDER_ROOT}/decorator`,
-    Auth.ensureAuthenticated(),
     (req: express.Request, res: express.Response) => {
       res.setHeader("Content-Type", "application/json");
       res.send(JSON.stringify(saksbehandler));
@@ -48,7 +45,6 @@ export const mockModiacontextholder = (server: any) => {
 
   server.get(
     `${MODIACONTEXTHOLDER_ROOT}/context/aktivbruker`,
-    Auth.ensureAuthenticated(),
     (req: express.Request, res: express.Response) => {
       res.setHeader("Content-Type", "application/json");
       res.send(JSON.stringify(aktivBruker));
@@ -57,7 +53,6 @@ export const mockModiacontextholder = (server: any) => {
 
   server.get(
     `${MODIACONTEXTHOLDER_ROOT}/context/aktivenhet`,
-    Auth.ensureAuthenticated(),
     (req: express.Request, res: express.Response) => {
       res.setHeader("Content-Type", "application/json");
       res.send(JSON.stringify(aktivEnhet));
@@ -66,7 +61,6 @@ export const mockModiacontextholder = (server: any) => {
 
   server.post(
     `${MODIACONTEXTHOLDER_ROOT}/context`,
-    Auth.ensureAuthenticated(),
     (req: express.Request, res: express.Response) => {
       res.send().status(204);
     }

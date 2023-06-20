@@ -2,14 +2,11 @@ import express = require("express");
 import { ISPENGESTOPP_ROOT } from "../../src/apiConstants";
 import { createStatusList } from "./pengestoppStatusMock";
 
-import Auth = require("../../server/auth");
-
 export const mockIspengestopp = (server: any) => {
   let STATUSLIST: any;
 
   server.get(
     `${ISPENGESTOPP_ROOT}/person/status`,
-    Auth.ensureAuthenticated(),
     (req: express.Request, res: express.Response) => {
       res.setHeader("Content-Type", "application/json");
       if (!STATUSLIST) {
@@ -21,7 +18,6 @@ export const mockIspengestopp = (server: any) => {
   );
   server.post(
     `${ISPENGESTOPP_ROOT}/person/flagg`,
-    Auth.ensureAuthenticated(),
     (req: express.Request, res: express.Response) => {
       const body = req.body;
       STATUSLIST = createStatusList(new Date(), body);

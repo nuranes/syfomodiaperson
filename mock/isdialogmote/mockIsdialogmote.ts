@@ -3,12 +3,9 @@ import { NAV_PERSONIDENT_HEADER } from "../util/requestUtil";
 import { dialogmoterMock } from "./dialogmoterMock";
 import { ISDIALOGMOTE_ROOT } from "../../src/apiConstants";
 
-import Auth = require("../../server/auth");
-
 export const mockIsdialogmote = (server: any) => {
   server.post(
     `${ISDIALOGMOTE_ROOT}/dialogmote/personident`,
-    Auth.ensureAuthenticated(),
     (req: express.Request, res: express.Response) => {
       if (req.headers[NAV_PERSONIDENT_HEADER]?.length === 11) {
         res.sendStatus(200);
@@ -19,7 +16,6 @@ export const mockIsdialogmote = (server: any) => {
   );
   server.get(
     `${ISDIALOGMOTE_ROOT}/dialogmote/personident`,
-    Auth.ensureAuthenticated(),
     (req: express.Request, res: express.Response) => {
       res.setHeader("Content-Type", "application/json");
       res.send(JSON.stringify(dialogmoterMock));
@@ -28,7 +24,6 @@ export const mockIsdialogmote = (server: any) => {
 
   server.post(
     `${ISDIALOGMOTE_ROOT}/dialogmote/:moteuuid/avlys`,
-    Auth.ensureAuthenticated(),
     (req: express.Request, res: express.Response) => {
       const { moteuuid } = req.params;
       const dialogmoteToUpdate = dialogmoterMock.find(
@@ -41,7 +36,6 @@ export const mockIsdialogmote = (server: any) => {
 
   server.post(
     `${ISDIALOGMOTE_ROOT}/dialogmote/:moteuuid/tidsted`,
-    Auth.ensureAuthenticated(),
     (req: express.Request, res: express.Response) => {
       res.sendStatus(200);
     }
@@ -49,7 +43,6 @@ export const mockIsdialogmote = (server: any) => {
 
   server.post(
     `${ISDIALOGMOTE_ROOT}/dialogmote/:moteuuid/ferdigstill`,
-    Auth.ensureAuthenticated(),
     (req: express.Request, res: express.Response) => {
       const { moteuuid } = req.params;
       const dialogmoteToUpdate = dialogmoterMock.find(
@@ -62,7 +55,6 @@ export const mockIsdialogmote = (server: any) => {
 
   server.post(
     `${ISDIALOGMOTE_ROOT}/dialogmote/:moteuuid/endreferdigstilt`,
-    Auth.ensureAuthenticated(),
     (req: express.Request, res: express.Response) => {
       res.sendStatus(200);
     }

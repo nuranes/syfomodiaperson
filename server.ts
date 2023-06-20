@@ -3,9 +3,10 @@ import helmet = require("helmet");
 import path = require("path");
 import prometheus = require("prom-client");
 
-import Auth = require("./server/auth");
-
-import proxy = require("./server/proxy");
+import * as Config from "./server/config";
+import { getOpenIdClient, getOpenIdIssuer } from "./server/authUtils";
+import { setupProxy } from "./server/proxy";
+import { setupSession } from "./server/session";
 
 import unleashRoutes = require("./server/routes/unleashRoutes");
 
@@ -40,26 +41,44 @@ const nocache = (
   next();
 };
 
-const setupServer = async () => {
-  const authClient = await Auth.setupAuth(server);
+const redirectIfUnauthorized = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) => {
+  if (req.headers["authorization"]) {
+    next();
+  } else {
+    res.redirect(`/oauth2/login?redirect=${req.originalUrl}`);
+  }
+};
 
-  server.use(proxy.setupProxy(authClient));
+const setupServer = async () => {
+  setupSession(server);
+  const issuer = await getOpenIdIssuer();
+  const authClient = await getOpenIdClient(issuer);
+
+  server.use(setupProxy(authClient, issuer));
 
   const DIST_DIR = path.join(__dirname, "dist");
   const HTML_FILE = path.join(DIST_DIR, "index.html");
 
   server.use("/static", express.static(DIST_DIR));
 
-  server.post("/unleash/toggles", (req, res) => {
-    const toggles = req.body.toggles;
-    const unleashToggles = unleashRoutes.unleashToggles(
-      toggles,
-      req.query.valgtEnhet,
-      req.query.userId
-    );
+  server.post(
+    "/unleash/toggles",
+    redirectIfUnauthorized,
+    (req: express.Request, res: express.Response) => {
+      const toggles = req.body.toggles;
+      const unleashToggles = unleashRoutes.unleashToggles(
+        toggles,
+        req.query.valgtEnhet,
+        req.query.userId
+      );
 
-    res.status(200).send(unleashToggles);
-  });
+      res.status(200).send(unleashToggles);
+    }
+  );
 
   server.get(
     [
@@ -68,8 +87,8 @@ const setupServer = async () => {
       "/sykefravaer/*",
       /^\/sykefravaer\/(?!(resources)).*$/,
     ],
-    nocache,
-    (req, res) => {
+    [nocache, redirectIfUnauthorized],
+    (req: express.Request, res: express.Response) => {
       res.sendFile(HTML_FILE);
       httpRequestDurationMicroseconds.labels(req.route.path).observe(10);
     }

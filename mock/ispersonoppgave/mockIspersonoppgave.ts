@@ -2,7 +2,6 @@ import express = require("express");
 import { NAV_PERSONIDENT_HEADER } from "../util/requestUtil";
 import { ISPERSONOPPGAVE_ROOT } from "../../src/apiConstants";
 
-import Auth = require("../../server/auth");
 import {
   makePersonOppgaveBehandlet,
   personoppgaverMock,
@@ -14,7 +13,6 @@ let personOppgaver = personoppgaverMock();
 export const mockIspersonoppgave = (server: any) => {
   server.get(
     `${ISPERSONOPPGAVE_ROOT}/personoppgave/personident`,
-    Auth.ensureAuthenticated(),
     (req: express.Request, res: express.Response) => {
       if (req.headers[NAV_PERSONIDENT_HEADER]?.length === 11) {
         res.setHeader("Content-Type", "application/json");
@@ -27,7 +25,6 @@ export const mockIspersonoppgave = (server: any) => {
 
   server.post(
     `${ISPERSONOPPGAVE_ROOT}/personoppgave/:uuid/behandle`,
-    Auth.ensureAuthenticated(),
     (req: express.Request, res: express.Response) => {
       const { uuid } = req.params;
       const gjeldendeOppgave = personOppgaver.find(
@@ -45,7 +42,6 @@ export const mockIspersonoppgave = (server: any) => {
 
   server.post(
     `${ISPERSONOPPGAVE_ROOT}/personoppgave/behandle`,
-    Auth.ensureAuthenticated(),
     (req: express.Request, res: express.Response) => {
       const body = req.body as BehandlePersonoppgaveRequestDTO;
       const oppgaverForType = personOppgaver.filter(
