@@ -38,7 +38,7 @@ const meldingTilBehandler = {
   ...defaultMelding,
   tidspunkt: new Date(),
 };
-const paminnelseButtonText = "Send påminnelse til behandler";
+const paminnelseButtonText = "Vurder påminnelse til behandler";
 
 describe("Melding til behandler påminnelse", () => {
   beforeEach(() => {
@@ -116,9 +116,10 @@ describe("Melding til behandler påminnelse", () => {
         expect(within(previewModal).getByText(text)).to.exist;
       });
 
-      expect(within(previewModal).getByRole("button", { name: "Send" })).to
-        .exist;
-      expect(within(previewModal).getByRole("button", { name: "Avbryt" })).to
+      expect(
+        within(previewModal).getByRole("button", { name: "Send påminnelse" })
+      ).to.exist;
+      expect(within(previewModal).getByRole("button", { name: "Lukk" })).to
         .exist;
     });
     it("click cancel in preview closes preview", () => {
@@ -129,11 +130,12 @@ describe("Melding til behandler påminnelse", () => {
       const previewModal = screen.getByRole("dialog");
       expect(previewModal).to.exist;
 
-      clickButton("Avbryt");
+      clickButton("Lukk");
 
       expect(screen.queryByRole("dialog")).to.not.exist;
-      expect(screen.queryByRole("button", { name: "Send" })).to.not.exist;
-      expect(screen.queryByRole("button", { name: "Avbryt" })).to.not.exist;
+      expect(screen.queryByRole("button", { name: "Send påminnelse" })).to.not
+        .exist;
+      expect(screen.queryByRole("button", { name: "Lukk" })).to.not.exist;
     });
     it("click send in preview sends paminnelse with expected values", () => {
       const expectedPaminnelseDTO: PaminnelseDTO = {
@@ -144,7 +146,7 @@ describe("Melding til behandler påminnelse", () => {
 
       clickButton(paminnelseButtonText);
 
-      clickButton("Send");
+      clickButton("Send påminnelse");
 
       const paminnelseMutation = queryClient.getMutationCache().getAll()[0];
 

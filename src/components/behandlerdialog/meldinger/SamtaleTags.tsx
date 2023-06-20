@@ -18,7 +18,8 @@ const texts = {
   ny: "Ny",
   manglerSvar: "Venter på svar",
   avvist: "Melding ikke levert",
-  paminnelse: "Påminnelse sendt",
+  paminnelseSendt: "Påminnelse sendt",
+  vurderPaminnelse: "Vurder påminnelse",
 };
 
 const StyledWrapper = styled.div`
@@ -38,7 +39,13 @@ const SamtaleTag = (props: ComponentProps<typeof Tag>) => (
   </StyledWrapper>
 );
 
-type SamtaleTagStatus = "NY" | "AVVIST" | "PAMINNELSE" | "UBESVART" | "INGEN";
+type SamtaleTagStatus =
+  | "NY"
+  | "AVVIST"
+  | "PAMINNELSE_SENDT"
+  | "VURDER_PAMINNELSE"
+  | "UBESVART"
+  | "INGEN";
 
 const getSamtaleTagStatus = (
   meldinger: MeldingDTO[],
@@ -51,6 +58,15 @@ const getSamtaleTagStatus = (
     );
   const hasMeldingMedUbehandletSvarOppgave = meldinger.some((melding) =>
     ubehandledeBehandlerDialogSvarOppgaver.some(
+      (oppgave) => oppgave.referanseUuid === melding.uuid
+    )
+  );
+  const ubehandledePaminnelseOppgaver = getAllUbehandledePersonOppgaver(
+    oppgaver,
+    PersonOppgaveType.BEHANDLERDIALOG_MELDING_UBESVART
+  );
+  const hasMeldingMedUbehandletPaminnelseOppgave = meldinger.some((melding) =>
+    ubehandledePaminnelseOppgaver.some(
       (oppgave) => oppgave.referanseUuid === melding.uuid
     )
   );
@@ -68,8 +84,10 @@ const getSamtaleTagStatus = (
     return "AVVIST";
   } else if (hasMeldingMedUbehandletSvarOppgave) {
     return "NY";
+  } else if (hasMeldingMedUbehandletPaminnelseOppgave) {
+    return "VURDER_PAMINNELSE";
   } else if (manglerSvarFraBehandler) {
-    return harPaminnelseMelding ? "PAMINNELSE" : "UBESVART";
+    return harPaminnelseMelding ? "PAMINNELSE_SENDT" : "UBESVART";
   } else {
     return "INGEN";
   }
@@ -86,11 +104,14 @@ export const SamtaleTags = ({ meldinger }: SamtaleTagsProps) => {
     case "AVVIST": {
       return <SamtaleTag variant="error">{texts.avvist}</SamtaleTag>;
     }
-    case "PAMINNELSE": {
+    case "VURDER_PAMINNELSE": {
+      return <SamtaleTag variant={"info"}>{texts.vurderPaminnelse}</SamtaleTag>;
+    }
+    case "PAMINNELSE_SENDT": {
       return (
         <SamtaleTag variant="warning">
           <PaminnelseWarningIcon />
-          {texts.paminnelse}
+          {texts.paminnelseSendt}
         </SamtaleTag>
       );
     }

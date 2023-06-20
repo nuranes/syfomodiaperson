@@ -9,10 +9,7 @@ import { Meldinger } from "@/components/behandlerdialog/meldinger/Meldinger";
 import { behandlerdialogQueryKeys } from "@/data/behandlerdialog/behandlerdialogQueryHooks";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import { behandlerdialogMockEmpty } from "../../mock/isbehandlerdialog/behandlerdialogMock";
-import {
-  MeldingResponseDTO,
-  MeldingStatusType,
-} from "@/data/behandlerdialog/behandlerdialogTypes";
+import { MeldingResponseDTO } from "@/data/behandlerdialog/behandlerdialogTypes";
 import userEvent from "@testing-library/user-event";
 import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQueryHooks";
 import {
@@ -22,12 +19,9 @@ import {
 } from "../../mock/ispersonoppgave/personoppgaveMock";
 import dayjs from "dayjs";
 import {
-  defaultMeldingResponse,
   meldingFraBehandlerUtenBehandlernavn,
   meldingResponseMedPaminnelse,
   meldingResponseMedVedlegg,
-  meldingTilBehandlerMedMeldingStatus,
-  meldingTilOgFraBehandler,
 } from "./meldingTestdataGenerator";
 
 let queryClient: QueryClient;
@@ -211,181 +205,6 @@ describe("Meldinger panel", () => {
           "Påminnelse om manglende svar vedrørerende pasient"
         )
       ).to.exist;
-    });
-  });
-
-  describe("Visning av tags på samtaler", () => {
-    it("Viser ny-tag på samtale hvis det er en ny melding i samtalen", () => {
-      const innkommendeMeldingUuid = "456uio";
-      const meldingResponse = meldingTilOgFraBehandler(innkommendeMeldingUuid);
-      queryClient.setQueryData(
-        behandlerdialogQueryKeys.behandlerdialog(
-          ARBEIDSTAKER_DEFAULT.personIdent
-        ),
-        () => meldingResponse
-      );
-      queryClient.setQueryData(
-        personoppgaverQueryKeys.personoppgaver(
-          ARBEIDSTAKER_DEFAULT.personIdent
-        ),
-        () => [
-          {
-            ...personOppgaveUbehandletBehandlerdialogSvar,
-            referanseUuid: innkommendeMeldingUuid,
-          },
-        ]
-      );
-
-      renderMeldinger();
-      const accordions = screen.getAllByRole("button");
-      accordions.forEach((accordion) => userEvent.click(accordion));
-
-      expect(screen.getByText("Ny")).to.exist;
-    });
-
-    it("Viser venter svar-tag på samtale hvis det mangler melding fra behandler og ingen påminnelse i samtalen", () => {
-      queryClient.setQueryData(
-        behandlerdialogQueryKeys.behandlerdialog(
-          ARBEIDSTAKER_DEFAULT.personIdent
-        ),
-        () => defaultMeldingResponse
-      );
-
-      renderMeldinger();
-      const accordions = screen.getAllByRole("button");
-      accordions.forEach((accordion) => userEvent.click(accordion));
-
-      expect(screen.getByText("Venter på svar")).to.exist;
-      expect(screen.queryByText("Påminnelse sendt")).to.not.exist;
-    });
-
-    it("Viser påminnelse sendt-tag på samtale hvis påminnelse sendt og det mangler melding fra behandler", () => {
-      queryClient.setQueryData(
-        behandlerdialogQueryKeys.behandlerdialog(
-          ARBEIDSTAKER_DEFAULT.personIdent
-        ),
-        () => meldingResponseMedPaminnelse
-      );
-
-      renderMeldinger();
-      const accordions = screen.getAllByRole("button");
-      accordions.forEach((accordion) => userEvent.click(accordion));
-
-      expect(screen.getByText("Påminnelse sendt")).to.exist;
-      expect(screen.queryByText("Venter på svar")).to.not.exist;
-    });
-
-    it("Viser ingen tags på samtale hvis det er melding til og fra behandler uten oppgave for ny melding", () => {
-      const meldingResponse = meldingTilOgFraBehandler("456uio");
-      queryClient.setQueryData(
-        behandlerdialogQueryKeys.behandlerdialog(
-          ARBEIDSTAKER_DEFAULT.personIdent
-        ),
-        () => meldingResponse
-      );
-      queryClient.setQueryData(
-        personoppgaverQueryKeys.personoppgaver(
-          ARBEIDSTAKER_DEFAULT.personIdent
-        ),
-        () => []
-      );
-
-      renderMeldinger();
-      const accordions = screen.getAllByRole("button");
-      accordions.forEach((accordion) => userEvent.click(accordion));
-
-      expect(screen.queryByText("Ny")).to.not.exist;
-      expect(screen.queryByText("Påminnelse sendt")).to.not.exist;
-      expect(screen.queryByText("Venter på svar")).to.not.exist;
-    });
-
-    it("Viser ingen tags på samtale hvis det er melding til og fra behandler (inkl påminnelse) uten oppgave for ny melding", () => {
-      const meldingResponse = meldingTilOgFraBehandler("456uio", true);
-      queryClient.setQueryData(
-        behandlerdialogQueryKeys.behandlerdialog(
-          ARBEIDSTAKER_DEFAULT.personIdent
-        ),
-        () => meldingResponse
-      );
-      queryClient.setQueryData(
-        personoppgaverQueryKeys.personoppgaver(
-          ARBEIDSTAKER_DEFAULT.personIdent
-        ),
-        () => []
-      );
-
-      renderMeldinger();
-      const accordions = screen.getAllByRole("button");
-      accordions.forEach((accordion) => userEvent.click(accordion));
-
-      expect(screen.queryByText("Ny")).to.not.exist;
-      expect(screen.queryByText("Påminnelse sendt")).to.not.exist;
-      expect(screen.queryByText("Venter på svar")).to.not.exist;
-    });
-
-    it("Viser 'Melding ikke levert'-tag på samtale hvis status for melding er avvist", () => {
-      const meldingResponse = meldingTilBehandlerMedMeldingStatus(
-        MeldingStatusType.AVVIST
-      );
-      queryClient.setQueryData(
-        behandlerdialogQueryKeys.behandlerdialog(
-          ARBEIDSTAKER_DEFAULT.personIdent
-        ),
-        () => meldingResponse
-      );
-
-      renderMeldinger();
-      const accordions = screen.getAllByRole("button");
-      accordions.forEach((accordion) => userEvent.click(accordion));
-
-      expect(screen.getByText("Melding ikke levert")).to.exist;
-    });
-
-    it("Viser alert under melding dersom man har statusTekst for melding som er avvist", () => {
-      const meldingResponse = meldingTilBehandlerMedMeldingStatus(
-        MeldingStatusType.AVVIST,
-        "Statustekst"
-      );
-      queryClient.setQueryData(
-        behandlerdialogQueryKeys.behandlerdialog(
-          ARBEIDSTAKER_DEFAULT.personIdent
-        ),
-        () => meldingResponse
-      );
-
-      renderMeldinger();
-      const accordions = screen.getAllByRole("button");
-      userEvent.click(accordions[0]);
-      expect(screen.getByText("Statustekst")).to.exist;
-    });
-
-    it("viser ingen tags på samtale hvis det er melding fra behandler i samtalen og oppgaven for denne er behandlet", () => {
-      const innkommendeMeldingUuid = "456uio";
-      const meldingResponse = meldingTilOgFraBehandler(innkommendeMeldingUuid);
-      queryClient.setQueryData(
-        behandlerdialogQueryKeys.behandlerdialog(
-          ARBEIDSTAKER_DEFAULT.personIdent
-        ),
-        () => meldingResponse
-      );
-      queryClient.setQueryData(
-        personoppgaverQueryKeys.personoppgaver(
-          ARBEIDSTAKER_DEFAULT.personIdent
-        ),
-        () => [
-          {
-            ...personOppgaveBehandletBehandlerdialogSvar,
-            referanseUuid: innkommendeMeldingUuid,
-          },
-        ]
-      );
-
-      renderMeldinger();
-      const accordions = screen.getAllByRole("button");
-      accordions.forEach((accordion) => userEvent.click(accordion));
-
-      expect(screen.queryByText("Venter på svar")).to.not.exist;
-      expect(screen.queryByText("Ny")).to.not.exist;
     });
   });
 

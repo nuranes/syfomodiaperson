@@ -19,9 +19,9 @@ import { ButtonRow, PaddingSize } from "@/components/Layout";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 
 const texts = {
-  button: "Send påminnelse til behandler",
-  send: "Send",
-  cancel: "Avbryt",
+  button: "Vurder påminnelse til behandler",
+  send: "Send påminnelse",
+  cancel: "Lukk",
 };
 
 const StyledButton = styled(Button)`
