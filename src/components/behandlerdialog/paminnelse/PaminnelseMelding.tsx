@@ -6,7 +6,10 @@ import {
   MeldingDTO,
   PaminnelseDTO,
 } from "@/data/behandlerdialog/behandlerdialogTypes";
-import { usePaminnelseTilBehandler } from "@/data/behandlerdialog/usePaminnelseTilBehandler";
+import {
+  useBehandlePaminnelseOppgave,
+  usePaminnelseTilBehandler,
+} from "@/data/behandlerdialog/usePaminnelseTilBehandler";
 import { usePersonoppgaverQuery } from "@/data/personoppgave/personoppgaveQueryHooks";
 import { getAllUbehandledePersonOppgaver } from "@/utils/personOppgaveUtils";
 import {
@@ -21,6 +24,7 @@ import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 const texts = {
   button: "Vurder påminnelse til behandler",
   send: "Send påminnelse",
+  fjernOppgave: "Fjern oppgave uten å sende påminnelse",
   cancel: "Lukk",
 };
 
@@ -47,6 +51,7 @@ const VisOgSendPaminnelse = ({
     melding.uuid,
     oppgave.uuid
   );
+  const behandleOppgave = useBehandlePaminnelseOppgave();
   const paminnelseDocument = getPaminnelseDocument(melding);
 
   const handleSendPaminnelseClick = () => {
@@ -54,6 +59,11 @@ const VisOgSendPaminnelse = ({
       document: paminnelseDocument,
     };
     paminnelseTilBehandler.mutate(paminnelseDTO, {
+      onSuccess: () => setVisPaminnelseModal(false),
+    });
+  };
+  const handleFjernOppgaveClick = () => {
+    behandleOppgave.mutate(oppgave.uuid, {
       onSuccess: () => setVisPaminnelseModal(false),
     });
   };
@@ -65,6 +75,7 @@ const VisOgSendPaminnelse = ({
         onClick={() => {
           setVisPaminnelseModal(true);
           paminnelseTilBehandler.reset();
+          behandleOppgave.reset();
         }}
       >
         {texts.button}
@@ -81,19 +92,32 @@ const VisOgSendPaminnelse = ({
               key={index}
             />
           ))}
-          {paminnelseTilBehandler.isError && (
-            <SkjemaInnsendingFeil error={paminnelseTilBehandler.error} />
+          {(paminnelseTilBehandler.isError || behandleOppgave.isError) && (
+            <SkjemaInnsendingFeil
+              error={paminnelseTilBehandler.error || behandleOppgave.isError}
+            />
           )}
           <ButtonRow topPadding={PaddingSize.SM} bottomPadding={PaddingSize.SM}>
             <Button
+              disabled={behandleOppgave.isLoading}
               loading={paminnelseTilBehandler.isLoading}
               onClick={handleSendPaminnelseClick}
             >
               {texts.send}
             </Button>
             <Button
-              variant="tertiary"
+              variant="secondary"
               disabled={paminnelseTilBehandler.isLoading}
+              loading={behandleOppgave.isLoading}
+              onClick={handleFjernOppgaveClick}
+            >
+              {texts.fjernOppgave}
+            </Button>
+            <Button
+              variant="tertiary"
+              disabled={
+                paminnelseTilBehandler.isLoading || behandleOppgave.isLoading
+              }
               onClick={() => setVisPaminnelseModal(false)}
             >
               {texts.cancel}

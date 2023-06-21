@@ -39,6 +39,9 @@ const meldingTilBehandler = {
   tidspunkt: new Date(),
 };
 const paminnelseButtonText = "Vurder påminnelse til behandler";
+const sendButtonText = "Send påminnelse";
+const fjernOppgaveButtonText = "Fjern oppgave uten å sende påminnelse";
+const cancelButtonText = "Lukk";
 
 describe("Melding til behandler påminnelse", () => {
   beforeEach(() => {
@@ -101,7 +104,7 @@ describe("Melding til behandler påminnelse", () => {
         ]
       );
     });
-    it("click opens preview with send and cancel button", () => {
+    it("click opens preview with send, fjern oppgave and cancel button", () => {
       renderMeldingerISamtale([meldingTilBehandler]);
 
       clickButton(paminnelseButtonText);
@@ -116,11 +119,16 @@ describe("Melding til behandler påminnelse", () => {
         expect(within(previewModal).getByText(text)).to.exist;
       });
 
+      expect(within(previewModal).getByRole("button", { name: sendButtonText }))
+        .to.exist;
       expect(
-        within(previewModal).getByRole("button", { name: "Send påminnelse" })
+        within(previewModal).getByRole("button", {
+          name: fjernOppgaveButtonText,
+        })
       ).to.exist;
-      expect(within(previewModal).getByRole("button", { name: "Lukk" })).to
-        .exist;
+      expect(
+        within(previewModal).getByRole("button", { name: cancelButtonText })
+      ).to.exist;
     });
     it("click cancel in preview closes preview", () => {
       renderMeldingerISamtale([meldingTilBehandler]);
@@ -133,9 +141,10 @@ describe("Melding til behandler påminnelse", () => {
       clickButton("Lukk");
 
       expect(screen.queryByRole("dialog")).to.not.exist;
-      expect(screen.queryByRole("button", { name: "Send påminnelse" })).to.not
+      expect(screen.queryByRole("button", { name: sendButtonText })).to.not
         .exist;
-      expect(screen.queryByRole("button", { name: "Lukk" })).to.not.exist;
+      expect(screen.queryByRole("button", { name: cancelButtonText })).to.not
+        .exist;
     });
     it("click send in preview sends paminnelse with expected values", () => {
       const expectedPaminnelseDTO: PaminnelseDTO = {
@@ -146,12 +155,25 @@ describe("Melding til behandler påminnelse", () => {
 
       clickButton(paminnelseButtonText);
 
-      clickButton("Send påminnelse");
+      clickButton(sendButtonText);
 
       const paminnelseMutation = queryClient.getMutationCache().getAll()[0];
 
       expect(paminnelseMutation.options.variables).to.deep.equal(
         expectedPaminnelseDTO
+      );
+    });
+    it("click fjern oppgave in preview behandler oppgave", () => {
+      renderMeldingerISamtale([meldingTilBehandler]);
+
+      clickButton(paminnelseButtonText);
+
+      clickButton(fjernOppgaveButtonText);
+
+      const paminnelseMutation = queryClient.getMutationCache().getAll()[0];
+
+      expect(paminnelseMutation.options.variables).to.deep.equal(
+        personOppgaveUbehandletBehandlerdialogUbesvartMelding.uuid
       );
     });
   });

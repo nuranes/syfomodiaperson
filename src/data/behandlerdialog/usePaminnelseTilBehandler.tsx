@@ -36,3 +36,17 @@ export const usePaminnelseTilBehandler = (
     },
   });
 };
+
+export const useBehandlePaminnelseOppgave = () => {
+  const personident = useValgtPersonident();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: postBehandlePersonoppgave,
+    onSuccess: () => {
+      return queryClient.invalidateQueries(
+        personoppgaverQueryKeys.personoppgaver(personident)
+      );
+    },
+  });
+};
