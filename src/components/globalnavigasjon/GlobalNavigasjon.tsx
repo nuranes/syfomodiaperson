@@ -13,8 +13,6 @@ import { toOppfolgingsplanLPSMedPersonoppgave } from "@/utils/oppfolgingsplanerU
 import { VedtakMenypunkt } from "@/components/globalnavigasjon/VedtakMenypunkt";
 import { Menypunkt, Menypunkter } from "@/navigation/menypunkterTypes";
 import { useAktivitetskravQuery } from "@/data/aktivitetskrav/aktivitetskravQueryHooks";
-import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
-import { ToggleNames } from "@/data/unleash/unleash_types";
 
 const nokkelinformasjonMenypunkt = {
   navn: "Nøkkelinformasjon",
@@ -96,10 +94,6 @@ export const GlobalNavigasjon = ({
   const { data: oppfolgingsplanerLPS } = useOppfolgingsplanerLPSQuery();
   const { data: motebehov } = useMotebehovQuery();
   const { data: aktivitetskrav } = useAktivitetskravQuery();
-  const { isFeatureEnabled } = useFeatureToggles();
-  const showBehandlerdialogMenypunkt = isFeatureEnabled(
-    ToggleNames.behandlerdialog
-  );
 
   const oppfolgingsplanerLPSMedPersonOppgave = oppfolgingsplanerLPS.map(
     (oppfolgingsplanLPS) =>
@@ -154,12 +148,6 @@ export const GlobalNavigasjon = ({
         );
 
         const isVedtakMenypunkt = menypunkt === Menypunkter.VEDTAK;
-        const isBehandlerdialogMenypunkt =
-          menypunkt === Menypunkter.BEHANDLERDIALOG;
-
-        if (!showBehandlerdialogMenypunkt && isBehandlerdialogMenypunkt) {
-          return null;
-        }
 
         return (
           <React.Fragment key={index}>

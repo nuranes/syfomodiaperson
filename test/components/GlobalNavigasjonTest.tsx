@@ -57,6 +57,7 @@ describe("GlobalNavigasjon", () => {
     const navnMenypunkter = [
       "Nøkkelinformasjon",
       "Aktivitetskrav",
+      "Dialog med behandler",
       "Logg",
       "Sykmeldinger",
       "Søknader om sykepenger",
@@ -114,7 +115,6 @@ describe("GlobalNavigasjon", () => {
       .exist;
   });
 
-  // TODO: Avklare om dette er ønsket oppførsel
   it("viser to røde prikker for menypunkt Dialog med behandler når ubehandlet oppgave ubesvart melding og ubehandlet oppgave behandlerdialog-svar", () => {
     queryClient = queryClientWithMockData();
     queryClient.setQueryData(
