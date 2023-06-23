@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import sinon from "sinon";
-import { isEaster } from "@/utils/festiveUtils";
+import { isEaster, isPride } from "@/utils/festiveUtils";
 
 describe("festiveUtils", () => {
   let clock: any;
@@ -37,6 +37,36 @@ describe("festiveUtils", () => {
       clock = sinon.useFakeTimers(today.getTime());
 
       expect(isEaster()).to.equal(false);
+    });
+  });
+
+  describe("isPride", () => {
+    it("pride starts june 23", () => {
+      today = new Date("2023-06-23");
+      clock = sinon.useFakeTimers(today.getTime());
+
+      expect(isPride()).to.equal(true);
+    });
+
+    it("last day of pride is july 1", () => {
+      today = new Date("2023-07-01");
+      clock = sinon.useFakeTimers(today.getTime());
+
+      expect(isPride()).to.equal(true);
+    });
+
+    it("pride hasn't started june 22", () => {
+      today = new Date("2023-06-22");
+      clock = sinon.useFakeTimers(today.getTime());
+
+      expect(isPride()).to.equal(false);
+    });
+
+    it("no pride after july 1", () => {
+      today = new Date("2023-07-02");
+      clock = sinon.useFakeTimers(today.getTime());
+
+      expect(isPride()).to.equal(false);
     });
   });
 });

@@ -6,6 +6,8 @@ import {
 } from "../../img/ImageComponents";
 import Snowflakes from "magic-snowflakes";
 import dayjs from "dayjs";
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 
 enum Month {
   DECEMBER = 11,
@@ -105,8 +107,13 @@ export const isEaster = () => {
 };
 
 export const isPride = () => {
-  const prideStart = dayjs("2022-06-18");
-  const prideEnd = dayjs("2022-06-27");
+  dayjs.extend(isSameOrAfter);
+  dayjs.extend(isSameOrBefore);
+
+  const prideStart = dayjs("2023-06-23");
+  const prideEnd = dayjs("2023-07-01");
   const now = dayjs();
-  return now.isAfter(prideStart) && now.isBefore(prideEnd);
+  return (
+    now.isSameOrAfter(prideStart, "day") && now.isSameOrBefore(prideEnd, "day")
+  );
 };
