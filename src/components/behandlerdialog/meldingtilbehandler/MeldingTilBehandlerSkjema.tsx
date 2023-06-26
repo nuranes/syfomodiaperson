@@ -94,7 +94,7 @@ export const MeldingTilBehandlerSkjema = () => {
     form: FormApi<MeldingTilBehandlerSkjemaValues>
   ) => {
     const meldingTilBehandlerDTO: MeldingTilBehandlerDTO = {
-      type: MeldingType.FORESPORSEL_PASIENT,
+      type: MeldingType.FORESPORSEL_PASIENT_TILLEGGSOPPLYSNINGER,
       behandlerRef: values.behandlerRef,
       tekst: values[meldingTekstField],
       document: getTilleggsOpplysningerPasientDocument(values),
