@@ -1,6 +1,7 @@
 import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
 
 export interface MeldingTilBehandlerDTO {
+  type: MeldingType;
   behandlerRef: string;
   tekst: string;
   document: DocumentComponentDto[];

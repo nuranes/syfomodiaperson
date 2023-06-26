@@ -7,7 +7,10 @@ import { queryClientWithMockData } from "../testQueryClient";
 import { expect } from "chai";
 import { MeldingTilBehandler } from "@/components/behandlerdialog/meldingtilbehandler/MeldingTilBehandler";
 import { changeTextInput, clickButton, getTextInput } from "../testUtils";
-import { MeldingTilBehandlerDTO } from "@/data/behandlerdialog/behandlerdialogTypes";
+import {
+  MeldingTilBehandlerDTO,
+  MeldingType,
+} from "@/data/behandlerdialog/behandlerdialogTypes";
 import { behandlereDialogmeldingMock } from "../../mock/isdialogmelding/behandlereDialogmeldingMock";
 import userEvent from "@testing-library/user-event";
 import { expectedMeldingTilBehandlerDocument } from "./testDataDocuments";
@@ -111,7 +114,8 @@ describe("MeldingTilBehandler", () => {
   });
 
   describe("MeldingTilBehandler innsending", () => {
-    const meldingTilBehandlerDTO: MeldingTilBehandlerDTO = {
+    const expectedMeldingTilBehandlerDTO: MeldingTilBehandlerDTO = {
+      type: MeldingType.FORESPORSEL_PASIENT,
       behandlerIdent: behandlereDialogmeldingMock[0].fnr,
       behandlerNavn: `${behandlereDialogmeldingMock[0].fornavn} ${behandlereDialogmeldingMock[0].mellomnavn} ${behandlereDialogmeldingMock[0].etternavn}`,
       behandlerRef: behandlereDialogmeldingMock[0].behandlerRef,
@@ -128,7 +132,7 @@ describe("MeldingTilBehandler", () => {
       fireEvent.click(velgBehandlerRadioButton);
 
       const meldingInput = getTextInput("Skriv inn tekst");
-      changeTextInput(meldingInput, meldingTilBehandlerDTO.tekst);
+      changeTextInput(meldingInput, expectedMeldingTilBehandlerDTO.tekst);
 
       clickButton("Send til behandler");
 
@@ -137,7 +141,7 @@ describe("MeldingTilBehandler", () => {
         .getAll()[0];
 
       expect(meldingTilBehandlerMutation.options.variables).to.deep.equal(
-        meldingTilBehandlerDTO
+        expectedMeldingTilBehandlerDTO
       );
     });
   });

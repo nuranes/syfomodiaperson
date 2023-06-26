@@ -15,7 +15,10 @@ import {
   validerSkjemaTekster,
 } from "@/utils/valideringUtils";
 import { useFeilUtbedret } from "@/hooks/useFeilUtbedret";
-import { MeldingTilBehandlerDTO } from "@/data/behandlerdialog/behandlerdialogTypes";
+import {
+  MeldingTilBehandlerDTO,
+  MeldingType,
+} from "@/data/behandlerdialog/behandlerdialogTypes";
 import { useMeldingTilBehandler } from "@/data/behandlerdialog/useMeldingTilBehandler";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { tilDatoMedManedNavnOgKlokkeslett } from "@/utils/datoUtils";
@@ -91,6 +94,7 @@ export const MeldingTilBehandlerSkjema = () => {
     form: FormApi<MeldingTilBehandlerSkjemaValues>
   ) => {
     const meldingTilBehandlerDTO: MeldingTilBehandlerDTO = {
+      type: MeldingType.FORESPORSEL_PASIENT,
       behandlerRef: values.behandlerRef,
       tekst: values[meldingTekstField],
       document: getTilleggsOpplysningerPasientDocument(values),
