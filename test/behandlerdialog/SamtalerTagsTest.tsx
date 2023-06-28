@@ -16,12 +16,14 @@ import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQueryHooks";
 import {
   personOppgaveBehandletBehandlerdialogSvar,
+  personOppgaveBehandletBehandlerdialogUbesvartMelding,
   personOppgaveUbehandletBehandlerdialogSvar,
   personOppgaveUbehandletBehandlerdialogUbesvartMelding,
 } from "../../mock/ispersonoppgave/personoppgaveMock";
 import userEvent from "@testing-library/user-event";
 import { expect } from "chai";
 import { MeldingStatusType } from "@/data/behandlerdialog/behandlerdialogTypes";
+import { defaultMelding } from "../../mock/isbehandlerdialog/behandlerdialogMock";
 
 let queryClient: QueryClient;
 
@@ -71,7 +73,7 @@ describe("Samtaletags", () => {
       expect(screen.getByText("Ny")).to.exist;
     });
 
-    it("Viser venter svar-tag på samtale hvis det mangler melding fra behandler og ingen påminnelse i samtalen", () => {
+    it("Viser venter svar-tag på samtale hvis det mangler melding fra behandler og ingen ubesvart melding-oppgave", () => {
       queryClient.setQueryData(
         behandlerdialogQueryKeys.behandlerdialog(
           ARBEIDSTAKER_DEFAULT.personIdent
@@ -216,7 +218,7 @@ describe("Samtaletags", () => {
       expect(screen.queryByText("Ny")).to.not.exist;
     });
 
-    it("Viser vurder påminnelse tag når man har en ubesvart melding oppgave", () => {
+    it("Viser vurder påminnelse tag når man har en ubehandlet ubesvart melding oppgave", () => {
       queryClient.setQueryData(
         personoppgaverQueryKeys.personoppgaver(
           ARBEIDSTAKER_DEFAULT.personIdent
@@ -227,6 +229,33 @@ describe("Samtaletags", () => {
       renderSamtaler();
 
       expect(screen.getByText("Vurder påminnelse")).to.exist;
+    });
+
+    it("Viser ingen tags på samtale hvis det mangler melding fra behandler, ingen påminnelse sendt og ubesvart melding-oppgave behandlet", () => {
+      queryClient.setQueryData(
+        behandlerdialogQueryKeys.behandlerdialog(
+          ARBEIDSTAKER_DEFAULT.personIdent
+        ),
+        () => defaultMeldingResponse
+      );
+      queryClient.setQueryData(
+        personoppgaverQueryKeys.personoppgaver(
+          ARBEIDSTAKER_DEFAULT.personIdent
+        ),
+        () => [
+          {
+            ...personOppgaveBehandletBehandlerdialogUbesvartMelding,
+            referanseUuid: defaultMelding.uuid,
+          },
+        ]
+      );
+
+      renderSamtaler();
+
+      expect(screen.queryByText("Ny")).to.not.exist;
+      expect(screen.queryByText("Påminnelse sendt")).to.not.exist;
+      expect(screen.queryByText("Venter på svar")).to.not.exist;
+      expect(screen.queryByText("Vurder påminnelse")).to.not.exist;
     });
   });
 });

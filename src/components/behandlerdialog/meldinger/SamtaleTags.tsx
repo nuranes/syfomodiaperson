@@ -16,7 +16,7 @@ import { PaminnelseWarningIcon } from "@/components/behandlerdialog/paminnelse/P
 
 const texts = {
   ny: "Ny",
-  manglerSvar: "Venter på svar",
+  venterSvar: "Venter på svar",
   avvist: "Melding ikke levert",
   paminnelseSendt: "Påminnelse sendt",
   vurderPaminnelse: "Vurder påminnelse",
@@ -44,7 +44,7 @@ type SamtaleTagStatus =
   | "AVVIST"
   | "PAMINNELSE_SENDT"
   | "VURDER_PAMINNELSE"
-  | "UBESVART"
+  | "VENTER_SVAR"
   | "INGEN";
 
 const getSamtaleTagStatus = (
@@ -56,7 +56,7 @@ const getSamtaleTagStatus = (
       oppgaver,
       PersonOppgaveType.BEHANDLERDIALOG_SVAR
     );
-  const hasMeldingMedUbehandletSvarOppgave = meldinger.some((melding) =>
+  const harMeldingMedUbehandletSvarOppgave = meldinger.some((melding) =>
     ubehandledeBehandlerDialogSvarOppgaver.some(
       (oppgave) => oppgave.referanseUuid === melding.uuid
     )
@@ -65,11 +65,19 @@ const getSamtaleTagStatus = (
     oppgaver,
     PersonOppgaveType.BEHANDLERDIALOG_MELDING_UBESVART
   );
-  const hasMeldingMedUbehandletPaminnelseOppgave = meldinger.some((melding) =>
+  const harMeldingMedUbehandletPaminnelseOppgave = meldinger.some((melding) =>
     ubehandledePaminnelseOppgaver.some(
       (oppgave) => oppgave.referanseUuid === melding.uuid
     )
   );
+  const harIngenMeldingMedPaminnelseOppgave = !meldinger.some((melding) =>
+    oppgaver.some(
+      (oppgave) =>
+        oppgave.type === PersonOppgaveType.BEHANDLERDIALOG_MELDING_UBESVART &&
+        oppgave.referanseUuid === melding.uuid
+    )
+  );
+
   const harAvvistMelding = meldinger.some(
     (melding) => melding.status?.type === MeldingStatusType.AVVIST
   );
@@ -82,12 +90,14 @@ const getSamtaleTagStatus = (
 
   if (harAvvistMelding) {
     return "AVVIST";
-  } else if (hasMeldingMedUbehandletSvarOppgave) {
+  } else if (harMeldingMedUbehandletSvarOppgave) {
     return "NY";
-  } else if (hasMeldingMedUbehandletPaminnelseOppgave) {
+  } else if (harMeldingMedUbehandletPaminnelseOppgave) {
     return "VURDER_PAMINNELSE";
-  } else if (manglerSvarFraBehandler) {
-    return harPaminnelseMelding ? "PAMINNELSE_SENDT" : "UBESVART";
+  } else if (manglerSvarFraBehandler && harPaminnelseMelding) {
+    return "PAMINNELSE_SENDT";
+  } else if (manglerSvarFraBehandler && harIngenMeldingMedPaminnelseOppgave) {
+    return "VENTER_SVAR";
   } else {
     return "INGEN";
   }
@@ -115,8 +125,8 @@ export const SamtaleTags = ({ meldinger }: SamtaleTagsProps) => {
         </SamtaleTag>
       );
     }
-    case "UBESVART": {
-      return <SamtaleTag variant="warning">{texts.manglerSvar}</SamtaleTag>;
+    case "VENTER_SVAR": {
+      return <SamtaleTag variant="warning">{texts.venterSvar}</SamtaleTag>;
     }
     case "INGEN": {
       return <></>;
