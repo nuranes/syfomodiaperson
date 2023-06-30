@@ -7,6 +7,7 @@ import {
   createParagraphWithTitle,
 } from "@/utils/documentComponentUtils";
 import {
+  legeerklaringTexts,
   paminnelseTexts,
   tilleggsOpplysningerPasientTexts,
 } from "@/data/behandlerdialog/behandlerMeldingTexts";
@@ -20,6 +21,9 @@ export const useMeldingTilBehandlerDocument = (): {
     values: Partial<MeldingTilBehandlerSkjemaValues>
   ): DocumentComponentDto[];
   getPaminnelseDocument(opprinneligMelding: MeldingDTO): DocumentComponentDto[];
+  getLegeerklaringDocument(
+    values: Partial<MeldingTilBehandlerSkjemaValues>
+  ): DocumentComponentDto[];
 } => {
   const navBruker = useNavBrukerData();
   const personident = useValgtPersonident();
@@ -69,8 +73,36 @@ export const useMeldingTilBehandlerDocument = (): {
     ];
   };
 
+  const getLegeerklaringDocument = (
+    values: Partial<MeldingTilBehandlerSkjemaValues>
+  ) => {
+    const documentComponents = [
+      createHeaderH1(legeerklaringTexts.header),
+      createParagraph(`Gjelder pasient: ${navBruker.navn}, ${personident}.`),
+      createParagraph(legeerklaringTexts.intro),
+    ];
+
+    if (values.meldingTekst) {
+      documentComponents.push(createParagraph(values.meldingTekst));
+    }
+
+    documentComponents.push(
+      createParagraph(legeerklaringTexts.opplysninger),
+      createParagraph(legeerklaringTexts.takst),
+      createParagraphWithTitle(
+        legeerklaringTexts.lovhjemmel.title,
+        legeerklaringTexts.lovhjemmel.text
+      ),
+      createParagraph(legeerklaringTexts.klage),
+      getHilsen()
+    );
+
+    return documentComponents;
+  };
+
   return {
     getTilleggsOpplysningerPasientDocument,
     getPaminnelseDocument,
+    getLegeerklaringDocument,
   };
 };

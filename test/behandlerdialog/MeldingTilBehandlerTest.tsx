@@ -13,7 +13,7 @@ import {
 } from "@/data/behandlerdialog/behandlerdialogTypes";
 import { behandlereDialogmeldingMock } from "../../mock/isdialogmelding/behandlereDialogmeldingMock";
 import userEvent from "@testing-library/user-event";
-import { expectedMeldingTilBehandlerDocument } from "./testDataDocuments";
+import { expectedTilleggsopplysningerDocument } from "./testDataDocuments";
 
 let queryClient: QueryClient;
 
@@ -83,7 +83,7 @@ describe("MeldingTilBehandler", () => {
       });
       expect(previewModal).to.exist;
 
-      const expectedTexts = expectedMeldingTilBehandlerDocument(
+      const expectedTexts = expectedTilleggsopplysningerDocument(
         enMeldingTekst
       ).flatMap((documentComponent) => documentComponent.texts);
       expectedTexts.forEach((text) => {
@@ -120,7 +120,7 @@ describe("MeldingTilBehandler", () => {
       behandlerNavn: `${behandlereDialogmeldingMock[0].fornavn} ${behandlereDialogmeldingMock[0].mellomnavn} ${behandlereDialogmeldingMock[0].etternavn}`,
       behandlerRef: behandlereDialogmeldingMock[0].behandlerRef,
       tekst: enMeldingTekst,
-      document: expectedMeldingTilBehandlerDocument(enMeldingTekst),
+      document: expectedTilleggsopplysningerDocument(enMeldingTekst),
     };
 
     it("Send melding med verdier fra skjema", () => {

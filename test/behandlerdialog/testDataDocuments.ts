@@ -10,7 +10,7 @@ import {
 import { MeldingDTO } from "@/data/behandlerdialog/behandlerdialogTypes";
 import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
 
-export const expectedMeldingTilBehandlerDocument = (
+export const expectedTilleggsopplysningerDocument = (
   meldingTekst: string
 ): DocumentComponentDto[] => [
   {
@@ -87,6 +87,60 @@ export const expectedPaminnelseDocument = (
   {
     texts: [
       "Hvis opplysningene er sendt oss i løpet av de siste dagene, kan du se bort fra denne meldingen.",
+    ],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: ["Vennlig hilsen", VEILEDER_DEFAULT.navn, "NAV"],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+];
+
+export const expectedLegeerklaringDocument = (
+  meldingTekst: string
+): DocumentComponentDto[] => [
+  {
+    texts: ["Forespørsel om «Legeerklæring ved arbeidsuførhet»"],
+    type: DocumentComponentType.HEADER_H1,
+  },
+  {
+    texts: [
+      `Gjelder pasient: ${ARBEIDSTAKER_DEFAULT_FULL_NAME}, ${ARBEIDSTAKER_DEFAULT.personIdent}.`,
+    ],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: [
+      "Som et ledd i NAVs videre oppfølging av pasienten din har vi behov for informasjon fra deg.",
+    ],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: [meldingTekst],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: [
+      "Opplysninger som etter din vurdering faller utenfor formålet, kan du utelate i oversendelsen til NAV.",
+    ],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: [
+      "«Legeerklæring ved arbeidsuførhet» leveres på blankett NAV 08-07.08, og honoreres med takst L40.",
+    ],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    title: "Lovhjemmel",
+    texts: [
+      "Folketrygdloven § 21-4 andre ledd gir NAV rett til å innhente nødvendige opplysninger. Dette gjelder selv om opplysningene er taushetsbelagte, jf. § 21-4 sjette ledd.",
+    ],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: [
+      "Pålegget om utlevering av opplysninger kan påklages etter forvaltningsloven § 14. Klageadgangen gjelder kun lovligheten i pålegget. Fristen for å klage er tre dager etter at pålegget er mottatt. Klagen kan fremsettes muntlig eller skriftlig.",
     ],
     type: DocumentComponentType.PARAGRAPH,
   },
