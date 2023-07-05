@@ -29,16 +29,9 @@ $ cp .env.template .env # for å sette opp lokale miljøvariabler
 $ npm install # installerer avhengigheter
 ```
 
-Kjøre redis og mock-oauth2-server i docker-compose:
-
-```sh
-$ ./start-dev.sh # starter Redis og mock-oauth2-server (se under for mer info)
-```
-
 ## Redis Cache
 
-Brukes for å cache bruker-sessions.
-Lokalt oppsett ligger i `docker-compose.yml`, mens nais-oppsettet ligger i `redis.yaml`.
+Brukes for å cache bruker-sessions. Nais-oppsettet ligger i `redis.yaml`.
 Redis pod deployes automatisk ved endringer i workflow eller config i master, men kan også deployes manuelt i NAIS ved å kjøre følgdende kommando: `kubectl apply -f .nais/redis.yaml`.
 
 ## Logger
