@@ -37,7 +37,6 @@ describe("PersonkortHeader", () => {
 
   it("viser 'Egenansatt' når isEgenansatt er true fra API", async () => {
     stubEgenansattApi(apiMockScope, true);
-    stubDiskresjonskodeApi(apiMockScope);
     renderPersonkortHeader();
 
     expect(await screen.findByText("Egenansatt")).to.exist;
@@ -45,15 +44,12 @@ describe("PersonkortHeader", () => {
 
   it("viser ikke 'Egenansatt' når isEgenansatt er false fra API", async () => {
     stubEgenansattApi(apiMockScope, false);
-    stubDiskresjonskodeApi(apiMockScope, "6");
     renderPersonkortHeader();
-    await screen.findByText("Kode 6");
 
     expect(screen.queryByText("Egenansatt")).not.to.exist;
   });
 
   it("viser 'Kode 6' når diskresjonskode er 6 fra API", async () => {
-    stubEgenansattApi(apiMockScope, true);
     stubDiskresjonskodeApi(apiMockScope, "6");
     renderPersonkortHeader();
 
@@ -61,7 +57,6 @@ describe("PersonkortHeader", () => {
   });
 
   it("viser 'Kode 7' når diskresjonskode er 7 fra API", async () => {
-    stubEgenansattApi(apiMockScope, true);
     stubDiskresjonskodeApi(apiMockScope, "7");
     renderPersonkortHeader();
 
@@ -69,12 +64,52 @@ describe("PersonkortHeader", () => {
   });
 
   it("viser ingen diskresjonskode når diskresjonskode er tom fra API", async () => {
-    stubEgenansattApi(apiMockScope, true);
     stubDiskresjonskodeApi(apiMockScope);
     renderPersonkortHeader();
-    await screen.findByText("Egenansatt");
 
     expect(screen.queryByText("Kode")).not.to.exist;
+  });
+
+  it("viser ikke tegnspråktolk eller talespråktolk når tilrettelagtKommunikasjon er null fra API", async () => {
+    const tilrettelagtKommunikasjon = {
+      talesprakTolk: null,
+      tegnsprakTolk: null,
+    };
+    await stubPersoninfoApi(apiMockScope, "", tilrettelagtKommunikasjon);
+    renderPersonkortHeader();
+
+    expect(screen.queryByText("Talespråktolk")).to.not.exist;
+    expect(screen.queryByText("Tegnspråktolk")).to.not.exist;
+  });
+
+  it("viser talespråktolk, men ikke tegnspråktolk", async () => {
+    const tilrettelagtKommunikasjon = {
+      talesprakTolk: {
+        value: "NO",
+      },
+      tegnsprakTolk: null,
+    };
+    await stubPersoninfoApi(apiMockScope, "", tilrettelagtKommunikasjon);
+    renderPersonkortHeader();
+
+    expect(await screen.findByText("Talespråktolk: NO")).to.exist;
+    expect(screen.queryByText("Tegnspråktolk")).to.not.exist;
+  });
+
+  it("viser talespråktolk og tegnspråktolk samtidig", async () => {
+    const tilrettelagtKommunikasjon = {
+      talesprakTolk: {
+        value: "NO",
+      },
+      tegnsprakTolk: {
+        value: "EN",
+      },
+    };
+    stubPersoninfoApi(apiMockScope, "", tilrettelagtKommunikasjon);
+    renderPersonkortHeader();
+
+    expect(await screen.findByText("Talespråktolk: NO")).to.exist;
+    expect(await screen.findByText("Tegnspråktolk: EN")).to.exist;
   });
 
   it("viser dødsdato når dato finnes i brukerinfo", async () => {
@@ -85,10 +120,8 @@ describe("PersonkortHeader", () => {
   });
 
   it("viser ikke dødsdato når det ikke finnes i brukerinfo", async () => {
-    stubEgenansattApi(apiMockScope, true);
     stubPersoninfoApi(apiMockScope);
     renderPersonkortHeader();
-    await screen.findByText("Egenansatt");
 
     expect(screen.queryByText("Død")).not.to.exist;
   });

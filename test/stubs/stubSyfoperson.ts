@@ -21,10 +21,20 @@ export const stubPersonadresseApi = (scope: nock.Scope) =>
     .get(`${SYFOPERSON_ROOT}/person/adresse`)
     .reply(200, () => personAdresseMock);
 
-export const stubPersoninfoApi = (scope: nock.Scope, dodsdato?: string) => {
+interface TilrettelagtKommunikasjon {
+  talesprakTolk: { value: string | null } | null;
+  tegnsprakTolk: { value: string | null } | null;
+}
+
+export const stubPersoninfoApi = (
+  scope: nock.Scope,
+  dodsdato?: string,
+  tilrettelagtKommunikasjon?: TilrettelagtKommunikasjon
+) => {
   const brukerinfo = {
     ...brukerinfoMock,
     dodsdato: dodsdato || null,
+    tilrettelagtKommunikasjon: tilrettelagtKommunikasjon || null,
   };
   scope
     .get(`${SYFOPERSON_ROOT}/person/brukerinfo`)

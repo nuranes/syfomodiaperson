@@ -26,6 +26,10 @@ export const useBrukerinfoQuery = () => {
     kontaktinfo: undefined,
     arbeidssituasjon: "ARBEIDSTAKER",
     dodsdato: null,
+    tilrettelagtKommunikasjon: {
+      talesprakTolk: null,
+      tegnsprakTolk: null,
+    },
   };
 
   return {

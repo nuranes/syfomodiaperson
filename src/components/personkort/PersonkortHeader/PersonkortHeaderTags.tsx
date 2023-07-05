@@ -14,6 +14,8 @@ const texts = {
   kode6: "Kode 6",
   kode7: "Kode 7",
   egenansatt: "Egenansatt",
+  talesprakTolk: "Talespråktolk",
+  tegnsprakTolk: "Tegnspråktolk",
 };
 
 export const PersonkortHeaderTags = () => {
@@ -25,7 +27,17 @@ export const PersonkortHeaderTags = () => {
   const dateOfDeath = tilLesbarDatoMedArUtenManedNavn(navbruker.dodsdato);
   const isKode6 = diskresjonskode === "6";
   const isKode7 = diskresjonskode === "7";
-  const visEtiketter = isKode6 || isKode7 || isEgenAnsatt || isDead;
+  const talesprakTolkSprakkode =
+    navbruker.tilrettelagtKommunikasjon?.talesprakTolk?.value;
+  const tegnsprakTolkSprakkode =
+    navbruker.tilrettelagtKommunikasjon?.tegnsprakTolk?.value;
+  const visEtiketter =
+    isKode6 ||
+    isKode7 ||
+    isEgenAnsatt ||
+    isDead ||
+    !!talesprakTolkSprakkode ||
+    !!tegnsprakTolkSprakkode;
 
   return (
     <>
@@ -50,6 +62,16 @@ export const PersonkortHeaderTags = () => {
             {isEgenAnsatt && (
               <Tag variant="warning" size="small">
                 {texts.egenansatt}
+              </Tag>
+            )}
+            {talesprakTolkSprakkode && (
+              <Tag variant="warning" size="small">
+                {texts.talesprakTolk}: {talesprakTolkSprakkode}
+              </Tag>
+            )}
+            {tegnsprakTolkSprakkode && (
+              <Tag variant="warning" size="small">
+                {texts.tegnsprakTolk}: {tegnsprakTolkSprakkode}
               </Tag>
             )}
             {isDead && (

@@ -13,4 +13,5 @@ export const brukerinfoMock = {
   },
   arbeidssituasjon: "ARBEIDSTAKER",
   dodsdato: null,
+  tilrettelagtKommunikasjon: null,
 };
