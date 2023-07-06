@@ -12,7 +12,7 @@ import {
 } from "@/components/behandlerdialog/meldingtilbehandler/MeldingTekstfelt";
 import {
   behandlerRefValidationErrors,
-  validerSkjemaTekster,
+  validerTekst,
 } from "@/utils/valideringUtils";
 import { useFeilUtbedret } from "@/hooks/useFeilUtbedret";
 import {
@@ -32,7 +32,9 @@ const texts = {
   previewKnapp: "Forhåndsvisning",
   previewContentLabel: "Forhåndsvis melding til behandler",
   validation: {
-    missingMeldingTekst: "Innholdet i meldingen er tomt", // TODO: se nærmere på teksten
+    // TODO: se nærmere på tekstene
+    missingMeldingTekst: "Innholdet i meldingen er tomt",
+    missingTypeTekst: "Vennligst velg type melding",
   },
 };
 
@@ -51,18 +53,22 @@ const StyledForm = styled.form`
 export interface MeldingTilBehandlerSkjemaValues
   extends MeldingTilBehandlerSkjemaFritekstfelter {
   behandlerRef: string;
+  type: MeldingType;
 }
 
 interface MeldingTilBehandlerSkjemaFritekstfelter {
   [meldingTekstField]: string;
 }
 
+type MeldingTilBehandlerSkjemaFeil = {
+  [K in keyof MeldingTilBehandlerSkjemaValues]: string | undefined;
+};
+
 export const MAX_LENGTH_BEHANDLER_MELDING = 2000; // TODO: må bli enige om noe her
 
 export const MeldingTilBehandlerSkjema = () => {
   const [displayPreview, setDisplayPreview] = useState(false);
-  const { getTilleggsOpplysningerPasientDocument } =
-    useMeldingTilBehandlerDocument();
+  const { getMeldingTilBehandlerDocument } = useMeldingTilBehandlerDocument();
   const [selectedBehandler, setSelectedBehandler] = useState<BehandlerDTO>();
   const { harIkkeUtbedretFeil, resetFeilUtbedret, updateFeilUtbedret } =
     useFeilUtbedret();
@@ -71,18 +77,16 @@ export const MeldingTilBehandlerSkjema = () => {
 
   const validate = (
     values: Partial<MeldingTilBehandlerSkjemaValues>
-  ): Partial<MeldingTilBehandlerSkjemaValues> => {
-    const friteksterFeil =
-      validerSkjemaTekster<MeldingTilBehandlerSkjemaFritekstfelter>({
-        meldingTekst: {
-          maxLength: MAX_LENGTH_BEHANDLER_MELDING,
-          value: values.meldingTekst || "",
-          missingRequiredMessage: texts.validation.missingMeldingTekst,
-        },
-      });
-    const feilmeldinger: Partial<MeldingTilBehandlerSkjemaValues> = {
+  ): MeldingTilBehandlerSkjemaFeil => {
+    const meldingTilBehandlerSkjemaTekst = {
+      maxLength: MAX_LENGTH_BEHANDLER_MELDING,
+      value: values.meldingTekst || "",
+      missingRequiredMessage: texts.validation.missingMeldingTekst,
+    };
+    const feilmeldinger: MeldingTilBehandlerSkjemaFeil = {
       behandlerRef: behandlerRefValidationErrors(values.behandlerRef, false),
-      ...friteksterFeil,
+      type: values.type ? undefined : texts.validation.missingTypeTekst,
+      [meldingTekstField]: validerTekst(meldingTilBehandlerSkjemaTekst),
     };
 
     updateFeilUtbedret(feilmeldinger);
@@ -94,10 +98,10 @@ export const MeldingTilBehandlerSkjema = () => {
     form: FormApi<MeldingTilBehandlerSkjemaValues>
   ) => {
     const meldingTilBehandlerDTO: MeldingTilBehandlerDTO = {
-      type: MeldingType.FORESPORSEL_PASIENT_TILLEGGSOPPLYSNINGER,
+      type: values.type,
       behandlerRef: values.behandlerRef,
       tekst: values[meldingTekstField],
-      document: getTilleggsOpplysningerPasientDocument(values),
+      document: getMeldingTilBehandlerDocument(values),
       behandlerIdent: selectedBehandler?.fnr,
       behandlerNavn: selectedBehandler
         ? behandlerNavn(selectedBehandler)
@@ -110,7 +114,13 @@ export const MeldingTilBehandlerSkjema = () => {
 
   return (
     <MeldingTilBehandlerFormWrapper>
-      <Form onSubmit={submit} validate={validate}>
+      <Form
+        onSubmit={submit}
+        validate={validate}
+        initialValues={{
+          type: MeldingType.FORESPORSEL_PASIENT_TILLEGGSOPPLYSNINGER, //TODO: Fjernes for veiledere som kan velge meldingstype
+        }}
+      >
         {({ handleSubmit, submitFailed, errors, values }) => (
           <StyledForm onSubmit={handleSubmit}>
             {meldingTilBehandler.isSuccess && (
@@ -130,7 +140,7 @@ export const MeldingTilBehandlerSkjema = () => {
               isOpen={displayPreview}
               handleClose={() => setDisplayPreview(false)}
               getDocumentComponents={() =>
-                getTilleggsOpplysningerPasientDocument(values)
+                getMeldingTilBehandlerDocument(values)
               }
             />
             {meldingTilBehandler.isError && (

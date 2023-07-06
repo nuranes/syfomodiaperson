@@ -13,21 +13,36 @@ import {
 } from "@/data/behandlerdialog/behandlerMeldingTexts";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
-import { MeldingDTO } from "@/data/behandlerdialog/behandlerdialogTypes";
+import {
+  MeldingDTO,
+  MeldingType,
+} from "@/data/behandlerdialog/behandlerdialogTypes";
 import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
 
 export const useMeldingTilBehandlerDocument = (): {
-  getTilleggsOpplysningerPasientDocument(
-    values: Partial<MeldingTilBehandlerSkjemaValues>
-  ): DocumentComponentDto[];
   getPaminnelseDocument(opprinneligMelding: MeldingDTO): DocumentComponentDto[];
-  getLegeerklaringDocument(
+  getMeldingTilBehandlerDocument(
     values: Partial<MeldingTilBehandlerSkjemaValues>
   ): DocumentComponentDto[];
 } => {
   const navBruker = useNavBrukerData();
   const personident = useValgtPersonident();
   const { getHilsen } = useDocumentComponents();
+
+  const getMeldingTilBehandlerDocument = (
+    values: Partial<MeldingTilBehandlerSkjemaValues>
+  ): DocumentComponentDto[] => {
+    switch (values.type) {
+      case MeldingType.FORESPORSEL_PASIENT_TILLEGGSOPPLYSNINGER:
+        return getTilleggsOpplysningerPasientDocument(values);
+      case MeldingType.FORESPORSEL_PASIENT_LEGEERKLARING:
+        return getLegeerklaringDocument(values);
+      case MeldingType.FORESPORSEL_PASIENT_PAMINNELSE:
+        throw new Error("use getPaminnelseDocument");
+      default:
+        return [];
+    }
+  };
 
   const getTilleggsOpplysningerPasientDocument = (
     values: Partial<MeldingTilBehandlerSkjemaValues>
@@ -101,8 +116,7 @@ export const useMeldingTilBehandlerDocument = (): {
   };
 
   return {
-    getTilleggsOpplysningerPasientDocument,
     getPaminnelseDocument,
-    getLegeerklaringDocument,
+    getMeldingTilBehandlerDocument,
   };
 };
