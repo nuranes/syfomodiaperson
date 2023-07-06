@@ -3,16 +3,13 @@ import PersonkortSykmeldt from "@/components/personkort/PersonkortSykmeldt";
 import { expect } from "chai";
 import React from "react";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { apiMock } from "../../stubs/stubApi";
-import { stubPersonadresseApi } from "../../stubs/stubSyfoperson";
 import { vegadresse } from "../../../mock/syfoperson/personAdresseMock";
-import { queryClientWithAktivBruker } from "../../testQueryClient";
-import { brukerinfoQueryKeys } from "@/data/navbruker/navbrukerQueryHooks";
-import { ARBEIDSTAKER_DEFAULT } from "../../../mock/common/mockConstants";
-import { brukerinfoMock } from "../../../mock/syfoperson/brukerinfoMock";
+import {
+  queryClientWithAktivBruker,
+  setQueryDataWithPersonkortdata,
+} from "../../testQueryClient";
 
 let queryClient: any;
-let apiMockScope: any;
 
 const renderPersonkortSykmeldt = () =>
   render(
@@ -24,11 +21,7 @@ const renderPersonkortSykmeldt = () =>
 describe("PersonkortSykmeldt", () => {
   beforeEach(() => {
     queryClient = queryClientWithAktivBruker();
-    queryClient.setQueryData(
-      brukerinfoQueryKeys.brukerinfo(ARBEIDSTAKER_DEFAULT.personIdent),
-      () => brukerinfoMock
-    );
-    apiMockScope = apiMock();
+    setQueryDataWithPersonkortdata(queryClient);
   });
 
   it("Skal vise PersonkortElement", () => {
@@ -49,7 +42,6 @@ describe("PersonkortSykmeldt", () => {
   });
 
   it("Skal vise adresser", async () => {
-    stubPersonadresseApi(apiMockScope);
     renderPersonkortSykmeldt();
 
     const expectedAdresse = `${vegadresse.adressenavn} ${vegadresse.husnummer}`;

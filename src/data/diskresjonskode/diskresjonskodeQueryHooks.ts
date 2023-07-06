@@ -4,7 +4,7 @@ import { get } from "@/api/axios";
 import { useQuery } from "@tanstack/react-query";
 import { minutesToMillis } from "@/utils/timeUtils";
 
-const diskresjonskodeQueryKeys = {
+export const diskresjonskodeQueryKeys = {
   diskresjonskode: (fnr: string) => ["diskresjonskode", fnr],
 };
 

@@ -5,7 +5,7 @@ import { get } from "@/api/axios";
 import { useQuery } from "@tanstack/react-query";
 import { minutesToMillis } from "@/utils/timeUtils";
 
-const personinfoQueryKeys = {
+export const personinfoQueryKeys = {
   personadresse: (fnr: string) => ["personadresse", fnr],
 };
 

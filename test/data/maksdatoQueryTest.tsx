@@ -6,7 +6,7 @@ import { expect } from "chai";
 import { testQueryClient } from "../testQueryClient";
 import { stubMaxdateApi } from "../stubs/stubEsyfovarsel";
 import { useMaksdatoQuery } from "@/data/maksdato/useMaksdatoQuery";
-import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
+import { maksdatoMock } from "../../mock/syfoperson/persondataMock";
 
 let queryClient: any;
 let apiMockScope: any;
@@ -21,7 +21,7 @@ describe("maksdatoQuery", () => {
   });
 
   it("loads maksdatoDTO for valgt personident", async () => {
-    stubMaxdateApi(apiMockScope, new Date("2023-12-01"));
+    stubMaxdateApi(apiMockScope, "2023-12-01");
     const wrapper = queryHookWrapper(queryClient);
 
     const { result } = renderHook(() => useMaksdatoQuery(), {
@@ -30,15 +30,6 @@ describe("maksdatoQuery", () => {
 
     await waitFor(() => expect(result.current.isSuccess).to.be.true);
 
-    expect(result.current.data).to.deep.equal({
-      maxDate: {
-        id: "123",
-        fnr: ARBEIDSTAKER_DEFAULT.personIdent,
-        forelopig_beregnet_slutt: "2023-12-01",
-        utbetalt_tom: "2024-01-01",
-        gjenstaende_sykedager: "10",
-        opprettet: "2023-11-01T00:00:00.000Z",
-      },
-    });
+    expect(result.current.data).to.deep.equal(maksdatoMock);
   });
 });

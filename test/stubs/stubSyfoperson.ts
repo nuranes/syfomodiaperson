@@ -1,7 +1,7 @@
 import nock from "nock";
 import { SYFOPERSON_ROOT } from "@/apiConstants";
 import { personAdresseMock } from "../../mock/syfoperson/personAdresseMock";
-import { brukerinfoMock } from "../../mock/syfoperson/brukerinfoMock";
+import { brukerinfoMock } from "../../mock/syfoperson/persondataMock";
 
 export const stubEgenansattApi = (scope: nock.Scope, isEgenansatt: boolean) =>
   scope

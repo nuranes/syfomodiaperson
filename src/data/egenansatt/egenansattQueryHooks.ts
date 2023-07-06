@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { minutesToMillis } from "@/utils/timeUtils";
 
-const egenansattQueryKeys = {
+export const egenansattQueryKeys = {
   egenansatt: (fnr: string) => ["egenansatt", fnr],
 };
 

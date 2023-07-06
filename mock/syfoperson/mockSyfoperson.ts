@@ -1,8 +1,8 @@
 import express = require("express");
 import { NAV_PERSONIDENT_HEADER } from "../util/requestUtil";
 import { personAdresseMock } from "./personAdresseMock";
-import { brukerinfoMock } from "./brukerinfoMock";
 import { SYFOPERSON_ROOT } from "../../src/apiConstants";
+import { brukerinfoMock } from "./persondataMock";
 
 const diskresjonskode = "7";
 const isEgenAnsatt = true;

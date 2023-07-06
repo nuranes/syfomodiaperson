@@ -12,7 +12,7 @@ import { navEnhet } from "./testData";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { brukerinfoQueryKeys } from "@/data/navbruker/navbrukerQueryHooks";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
-import { brukerinfoMock } from "../../mock/syfoperson/brukerinfoMock";
+import { brukerinfoMock } from "../../mock/syfoperson/persondataMock";
 
 const queryClient = queryClientWithAktivBruker();
 

@@ -17,7 +17,7 @@ interface Maksdato {
   opprettet: Date;
 }
 
-const maksdatoQueryKeys = {
+export const maksdatoQueryKeys = {
   maksdato: (fnr: string) => ["maksdato", fnr],
 };
 

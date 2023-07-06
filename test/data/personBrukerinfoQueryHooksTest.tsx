@@ -5,8 +5,8 @@ import { expect } from "chai";
 import { queryHookWrapper } from "./queryHookTestUtils";
 import { stubPersoninfoApi } from "../stubs/stubSyfoperson";
 import { useBrukerinfoQuery } from "@/data/navbruker/navbrukerQueryHooks";
-import { brukerinfoMock } from "../../mock/syfoperson/brukerinfoMock";
 import { testQueryClient } from "../testQueryClient";
+import { brukerinfoMock } from "../../mock/syfoperson/persondataMock";
 
 let queryClient: any;
 let apiMockScope: any;

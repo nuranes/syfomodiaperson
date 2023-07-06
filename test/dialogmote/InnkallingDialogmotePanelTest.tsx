@@ -24,8 +24,8 @@ import {
   createDialogmote,
   createReferat,
 } from "../../mock/isdialogmote/dialogmoterMock";
-import { brukerinfoMock } from "../../mock/syfoperson/brukerinfoMock";
 import { brukerinfoQueryKeys } from "@/data/navbruker/navbrukerQueryHooks";
+import { brukerinfoMock } from "../../mock/syfoperson/persondataMock";
 
 let queryClient: QueryClient;
 

@@ -1,21 +1,20 @@
-import {
-  stubDiskresjonskodeApi,
-  stubEgenansattApi,
-  stubPersoninfoApi,
-} from "../../stubs/stubSyfoperson";
-import { apiMock } from "../../stubs/stubApi";
 import { QueryClientProvider } from "@tanstack/react-query";
-import nock from "nock";
 import { render, screen } from "@testing-library/react";
 import React from "react";
 import PersonkortHeader from "@/components/personkort/PersonkortHeader/PersonkortHeader";
 import { expect } from "chai";
-import { queryClientWithAktivBruker } from "../../testQueryClient";
+import {
+  queryClientWithAktivBruker,
+  setQueryDataWithPersonkortdata,
+} from "../../testQueryClient";
 import { ValgtEnhetProvider } from "@/context/ValgtEnhetContext";
-import { stubMaxdateApi } from "../../stubs/stubEsyfovarsel";
+import { egenansattQueryKeys } from "@/data/egenansatt/egenansattQueryHooks";
+import { ARBEIDSTAKER_DEFAULT } from "../../../mock/common/mockConstants";
+import { brukerinfoMock } from "../../../mock/syfoperson/persondataMock";
+import { diskresjonskodeQueryKeys } from "@/data/diskresjonskode/diskresjonskodeQueryHooks";
+import { brukerinfoQueryKeys } from "@/data/navbruker/navbrukerQueryHooks";
 
 let queryClient: any;
-let apiMockScope: any;
 
 const renderPersonkortHeader = () =>
   render(
@@ -29,74 +28,86 @@ const renderPersonkortHeader = () =>
 describe("PersonkortHeader", () => {
   beforeEach(() => {
     queryClient = queryClientWithAktivBruker();
-    apiMockScope = apiMock();
-  });
-  afterEach(() => {
-    nock.cleanAll();
+    setQueryDataWithPersonkortdata(queryClient);
   });
 
-  it("viser 'Egenansatt' når isEgenansatt er true fra API", async () => {
-    stubEgenansattApi(apiMockScope, true);
+  it("viser 'Egenansatt' når isEgenansatt er true fra API", () => {
+    queryClient.setQueryData(
+      egenansattQueryKeys.egenansatt(ARBEIDSTAKER_DEFAULT.personIdent),
+      () => true
+    );
     renderPersonkortHeader();
 
-    expect(await screen.findByText("Egenansatt")).to.exist;
+    expect(screen.getByText("Egenansatt")).to.exist;
   });
 
-  it("viser ikke 'Egenansatt' når isEgenansatt er false fra API", async () => {
-    stubEgenansattApi(apiMockScope, false);
+  it("viser ikke 'Egenansatt' når isEgenansatt er false fra API", () => {
     renderPersonkortHeader();
 
     expect(screen.queryByText("Egenansatt")).not.to.exist;
   });
 
-  it("viser 'Kode 6' når diskresjonskode er 6 fra API", async () => {
-    stubDiskresjonskodeApi(apiMockScope, "6");
+  it("viser 'Kode 6' når diskresjonskode er 6 fra API", () => {
+    queryClient.setQueryData(
+      diskresjonskodeQueryKeys.diskresjonskode(
+        ARBEIDSTAKER_DEFAULT.personIdent
+      ),
+      () => "6"
+    );
     renderPersonkortHeader();
 
-    expect(await screen.findByText("Kode 6")).to.exist;
+    expect(screen.getByText("Kode 6")).to.exist;
   });
 
-  it("viser 'Kode 7' når diskresjonskode er 7 fra API", async () => {
-    stubDiskresjonskodeApi(apiMockScope, "7");
+  it("viser 'Kode 7' når diskresjonskode er 7 fra API", () => {
+    queryClient.setQueryData(
+      diskresjonskodeQueryKeys.diskresjonskode(
+        ARBEIDSTAKER_DEFAULT.personIdent
+      ),
+      () => "7"
+    );
     renderPersonkortHeader();
 
-    expect(await screen.findByText("Kode 7")).to.exist;
+    expect(screen.getByText("Kode 7")).to.exist;
   });
 
-  it("viser ingen diskresjonskode når diskresjonskode er tom fra API", async () => {
-    stubDiskresjonskodeApi(apiMockScope);
+  it("viser ingen diskresjonskode når diskresjonskode er tom fra API", () => {
     renderPersonkortHeader();
 
     expect(screen.queryByText("Kode")).not.to.exist;
   });
 
-  it("viser ikke tegnspråktolk eller talespråktolk når tilrettelagtKommunikasjon er null fra API", async () => {
-    const tilrettelagtKommunikasjon = {
-      talesprakTolk: null,
-      tegnsprakTolk: null,
-    };
-    await stubPersoninfoApi(apiMockScope, "", tilrettelagtKommunikasjon);
+  it("viser ikke tegnspråktolk eller talespråktolk når tilrettelagtKommunikasjon er null fra API", () => {
     renderPersonkortHeader();
 
     expect(screen.queryByText("Talespråktolk")).to.not.exist;
     expect(screen.queryByText("Tegnspråktolk")).to.not.exist;
   });
 
-  it("viser talespråktolk, men ikke tegnspråktolk", async () => {
+  it("viser talespråktolk, men ikke tegnspråktolk", () => {
     const tilrettelagtKommunikasjon = {
       talesprakTolk: {
         value: "NO",
       },
       tegnsprakTolk: null,
     };
-    await stubPersoninfoApi(apiMockScope, "", tilrettelagtKommunikasjon);
+    queryClient.setQueryData(
+      brukerinfoQueryKeys.brukerinfo(ARBEIDSTAKER_DEFAULT.personIdent),
+      () => {
+        return {
+          ...brukerinfoMock,
+          tilrettelagtKommunikasjon,
+        };
+      }
+    );
+
     renderPersonkortHeader();
 
-    expect(await screen.findByText("Talespråktolk: NO")).to.exist;
+    expect(screen.getByText("Talespråktolk: NO")).to.exist;
     expect(screen.queryByText("Tegnspråktolk")).to.not.exist;
   });
 
-  it("viser talespråktolk og tegnspråktolk samtidig", async () => {
+  it("viser talespråktolk og tegnspråktolk samtidig", () => {
     const tilrettelagtKommunikasjon = {
       talesprakTolk: {
         value: "NO",
@@ -105,34 +116,49 @@ describe("PersonkortHeader", () => {
         value: "EN",
       },
     };
-    stubPersoninfoApi(apiMockScope, "", tilrettelagtKommunikasjon);
+    queryClient.setQueryData(
+      brukerinfoQueryKeys.brukerinfo(ARBEIDSTAKER_DEFAULT.personIdent),
+      () => {
+        return {
+          ...brukerinfoMock,
+          tilrettelagtKommunikasjon,
+        };
+      }
+    );
+
     renderPersonkortHeader();
 
-    expect(await screen.findByText("Talespråktolk: NO")).to.exist;
-    expect(await screen.findByText("Tegnspråktolk: EN")).to.exist;
+    expect(screen.getByText("Talespråktolk: NO")).to.exist;
+    expect(screen.getByText("Tegnspråktolk: EN")).to.exist;
   });
 
-  it("viser dødsdato når dato finnes i brukerinfo", async () => {
-    stubPersoninfoApi(apiMockScope, "2023-02-01");
+  it("viser dødsdato når dato finnes i brukerinfo", () => {
+    queryClient.setQueryData(
+      brukerinfoQueryKeys.brukerinfo(ARBEIDSTAKER_DEFAULT.personIdent),
+      () => {
+        return {
+          ...brukerinfoMock,
+          dodsdato: "2023-02-01",
+        };
+      }
+    );
     renderPersonkortHeader();
 
-    expect(await screen.findByText("Død 01.02.2023")).to.exist;
+    expect(screen.getByText("Død 01.02.2023")).to.exist;
   });
 
-  it("viser ikke dødsdato når det ikke finnes i brukerinfo", async () => {
-    stubPersoninfoApi(apiMockScope);
+  it("viser ikke dødsdato når det ikke finnes i brukerinfo", () => {
     renderPersonkortHeader();
 
     expect(screen.queryByText("Død")).not.to.exist;
   });
 
-  it("viser maksdato og utbetalt tom fra API", async () => {
-    stubMaxdateApi(apiMockScope, new Date("2023-12-01"));
+  it("viser maksdato og utbetalt tom fra API", () => {
     renderPersonkortHeader();
 
-    await screen.findByText("Maksdato:");
-    await screen.findByText("01.12.2023");
-    await screen.findByText("Utbetalt tom:");
-    await screen.findByText("01.01.2024");
+    expect(screen.getByText("Maksdato:")).to.exist;
+    expect(screen.getByText("01.12.2023")).to.exist;
+    expect(screen.getByText("Utbetalt tom:")).to.exist;
+    expect(screen.getByText("01.07.2024")).to.exist;
   });
 });

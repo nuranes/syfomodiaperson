@@ -18,7 +18,6 @@ import { oppfolgingstilfellePersonMock } from "../mock/isoppfolgingstilfelle/opp
 import { unleashQueryKeys } from "@/data/unleash/unleashQueryHooks";
 import { unleashMock } from "../mock/unleash/unleashMock";
 import { behandlerDeltaker } from "./dialogmote/testData";
-import { brukerinfoMock } from "../mock/syfoperson/brukerinfoMock";
 import { brukerinfoQueryKeys } from "@/data/navbruker/navbrukerQueryHooks";
 import { behandlereQueryKeys } from "@/data/behandler/behandlereQueryHooks";
 import {
@@ -28,6 +27,17 @@ import {
 } from "../mock/isdialogmelding/behandlereDialogmeldingMock";
 import { behandlerdialogQueryKeys } from "@/data/behandlerdialog/behandlerdialogQueryHooks";
 import { behandlerdialogMock } from "../mock/isbehandlerdialog/behandlerdialogMock";
+import {
+  brukerinfoMock,
+  diskresjonskodeMock,
+  isEgenansattMock,
+  maksdatoMock,
+} from "../mock/syfoperson/persondataMock";
+import { diskresjonskodeQueryKeys } from "@/data/diskresjonskode/diskresjonskodeQueryHooks";
+import { egenansattQueryKeys } from "@/data/egenansatt/egenansattQueryHooks";
+import { personinfoQueryKeys } from "@/data/personinfo/personAdresseQueryHooks";
+import { personAdresseMock } from "../mock/syfoperson/personAdresseMock";
+import { maksdatoQueryKeys } from "@/data/maksdato/useMaksdatoQuery";
 
 export const testQueryClient = (): QueryClient => {
   return new QueryClient({
@@ -51,12 +61,35 @@ export const queryClientWithAktivBruker = (): QueryClient => {
   return queryClient;
 };
 
-export const queryClientWithMockData = (): QueryClient => {
-  const queryClient = queryClientWithAktivBruker();
-  queryClient.setQueryData(
+export const setQueryDataWithPersonkortdata = (
+  existingClient: QueryClient
+): void => {
+  existingClient.setQueryData(
     brukerinfoQueryKeys.brukerinfo(ARBEIDSTAKER_DEFAULT.personIdent),
     () => brukerinfoMock
   );
+  existingClient.setQueryData(
+    diskresjonskodeQueryKeys.diskresjonskode(ARBEIDSTAKER_DEFAULT.personIdent),
+    () => diskresjonskodeMock
+  );
+  existingClient.setQueryData(
+    egenansattQueryKeys.egenansatt(ARBEIDSTAKER_DEFAULT.personIdent),
+    () => isEgenansattMock
+  );
+  existingClient.setQueryData(
+    personinfoQueryKeys.personadresse(ARBEIDSTAKER_DEFAULT.personIdent),
+    () => personAdresseMock
+  );
+  existingClient.setQueryData(
+    maksdatoQueryKeys.maksdato(ARBEIDSTAKER_DEFAULT.personIdent),
+    () => maksdatoMock
+  );
+};
+
+export const queryClientWithMockData = (): QueryClient => {
+  const queryClient = queryClientWithAktivBruker();
+  setQueryDataWithPersonkortdata(queryClient);
+
   queryClient.setQueryData(
     veilederinfoQueryKeys.veilederinfo,
     () => VEILEDER_DEFAULT
