@@ -11,10 +11,10 @@ Node-app som kjører på Naiserator, og bygges med GitHub Actions
 
 Applikasjonen har en mock som kan brukes lokalt. Her mockes diverse endepunkter, dog ikke alle.
 
-Du må ha Node installert.
+Du må ha Node v18 og npm v9 installert.
 
 - For å kjøre koden lokalt:
-  - `$ npm install`
+  - `$ npm install --legacy-peer-deps`
   - `$ npm start`
   - Eventuelt kan komandoene kjøres fra `package.json` i intellij.
 - Kjør tester med `npm test` eller `npm test:watch`
@@ -26,7 +26,7 @@ Ved første kjøring:
 
 ```sh
 $ cp .env.template .env # for å sette opp lokale miljøvariabler
-$ npm install # installerer avhengigheter
+$ npm install --legacy-peer-deps # installerer avhengigheter
 ```
 
 ## Redis Cache
