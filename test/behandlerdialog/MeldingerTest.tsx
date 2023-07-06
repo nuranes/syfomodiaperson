@@ -243,6 +243,8 @@ describe("Meldinger panel", () => {
   });
 
   describe("Behandling av personoppgave", () => {
+    const ubehandletCheckboxTekst =
+      "Marker nye svar som lest. Oppgaven vil da fjernes fra oversikten.";
     it("Viser ubehandlet personoppgave for behandlerdialog svar", () => {
       queryClient.setQueryData(
         personoppgaverQueryKeys.personoppgaver(
@@ -257,9 +259,8 @@ describe("Meldinger panel", () => {
       );
 
       renderMeldinger();
-      const checkboxTekst =
-        "Marker nye meldinger som lest. Oppgaven vil da fjernes fra oversikten.";
-      expect(screen.getByText(checkboxTekst)).to.exist;
+
+      expect(screen.getByText(ubehandletCheckboxTekst)).to.exist;
     });
 
     it("Viser behandlet personoppgave for behandlerdialog svar", () => {
@@ -275,7 +276,7 @@ describe("Meldinger panel", () => {
       );
       renderMeldinger();
 
-      expect(screen.getByText("Ferdigbehandlet", { exact: false })).to.exist;
+      expect(screen.getByText("Siste svar lest av", { exact: false })).to.exist;
     });
 
     it("Viser siste ferdigbehandlede personoppgave for behandlerdialog svar når alle oppgaver behandlet", () => {
@@ -298,7 +299,7 @@ describe("Meldinger panel", () => {
       );
       renderMeldinger();
 
-      const expectedFerdigbehandledText = `Ferdigbehandlet av Z991100 ${twoDaysAgo.format(
+      const expectedFerdigbehandledText = `Siste svar lest av Z991100 ${twoDaysAgo.format(
         "DD.MM.YYYY"
       )}`;
       expect(screen.getByText(expectedFerdigbehandledText)).to.exist;
@@ -314,11 +315,10 @@ describe("Meldinger panel", () => {
 
       renderMeldinger();
 
-      expect(screen.queryByText("Ferdigbehandlet", { exact: false })).to.not
+      expect(screen.queryByText("Siste svar lest av", { exact: false })).to.not
         .exist;
-      expect(
-        screen.queryByText("Marker nye meldinger som lest", { exact: false })
-      ).to.not.exist;
+      expect(screen.queryByText(ubehandletCheckboxTekst, { exact: false })).to
+        .not.exist;
     });
 
     it("Viser ingen oppgave når ingen oppgaver", () => {
@@ -331,11 +331,10 @@ describe("Meldinger panel", () => {
 
       renderMeldinger();
 
-      expect(screen.queryByText("Ferdigbehandlet", { exact: false })).to.not
+      expect(screen.queryByText("Siste svar lest av", { exact: false })).to.not
         .exist;
-      expect(
-        screen.queryByText("Marker nye meldinger som lest", { exact: false })
-      ).to.not.exist;
+      expect(screen.queryByText(ubehandletCheckboxTekst, { exact: false })).to
+        .not.exist;
     });
   });
 });

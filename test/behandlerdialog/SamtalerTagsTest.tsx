@@ -45,7 +45,13 @@ describe("Samtaletags", () => {
   });
 
   describe("Visning av tags på samtaler", () => {
-    it("Viser ny-tag på samtale hvis det er en ny melding i samtalen", () => {
+    const nyttSvarTagText = "Nytt svar";
+    const venterPaSvarTagText = "Venter på svar";
+    const paminnelseSendtTagText = "Påminnelse sendt";
+    const vurderPaminnelseTagText = "Vurder påminnelse";
+    const meldingStatusFeiletTagText = "Melding ikke levert";
+
+    it("Viser nytt-svar-tag på samtale hvis det er en ny melding i samtalen", () => {
       const innkommendeMeldingUuid = "456uio";
       const meldingResponse = meldingTilOgFraBehandler(innkommendeMeldingUuid);
       queryClient.setQueryData(
@@ -70,7 +76,7 @@ describe("Samtaletags", () => {
       const accordions = screen.getAllByRole("button");
       accordions.forEach((accordion) => userEvent.click(accordion));
 
-      expect(screen.getByText("Ny")).to.exist;
+      expect(screen.getByText(nyttSvarTagText)).to.exist;
     });
 
     it("Viser venter svar-tag på samtale hvis det mangler melding fra behandler og ingen ubesvart melding-oppgave", () => {
@@ -85,8 +91,8 @@ describe("Samtaletags", () => {
       const accordions = screen.getAllByRole("button");
       accordions.forEach((accordion) => userEvent.click(accordion));
 
-      expect(screen.getByText("Venter på svar")).to.exist;
-      expect(screen.queryByText("Påminnelse sendt")).to.not.exist;
+      expect(screen.getByText(venterPaSvarTagText)).to.exist;
+      expect(screen.queryByText(paminnelseSendtTagText)).to.not.exist;
     });
 
     it("Viser påminnelse sendt-tag på samtale hvis påminnelse sendt og det mangler melding fra behandler", () => {
@@ -101,8 +107,8 @@ describe("Samtaletags", () => {
       const accordions = screen.getAllByRole("button");
       accordions.forEach((accordion) => userEvent.click(accordion));
 
-      expect(screen.getByText("Påminnelse sendt")).to.exist;
-      expect(screen.queryByText("Venter på svar")).to.not.exist;
+      expect(screen.getByText(paminnelseSendtTagText)).to.exist;
+      expect(screen.queryByText(venterPaSvarTagText)).to.not.exist;
     });
 
     it("Viser ingen tags på samtale hvis det er melding til og fra behandler uten oppgave for ny melding", () => {
@@ -124,9 +130,9 @@ describe("Samtaletags", () => {
       const accordions = screen.getAllByRole("button");
       accordions.forEach((accordion) => userEvent.click(accordion));
 
-      expect(screen.queryByText("Ny")).to.not.exist;
-      expect(screen.queryByText("Påminnelse sendt")).to.not.exist;
-      expect(screen.queryByText("Venter på svar")).to.not.exist;
+      expect(screen.queryByText(nyttSvarTagText)).to.not.exist;
+      expect(screen.queryByText(paminnelseSendtTagText)).to.not.exist;
+      expect(screen.queryByText(venterPaSvarTagText)).to.not.exist;
     });
 
     it("Viser ingen tags på samtale hvis det er melding til og fra behandler (inkl påminnelse) uten oppgave for ny melding", () => {
@@ -148,9 +154,9 @@ describe("Samtaletags", () => {
       const accordions = screen.getAllByRole("button");
       accordions.forEach((accordion) => userEvent.click(accordion));
 
-      expect(screen.queryByText("Ny")).to.not.exist;
-      expect(screen.queryByText("Påminnelse sendt")).to.not.exist;
-      expect(screen.queryByText("Venter på svar")).to.not.exist;
+      expect(screen.queryByText(nyttSvarTagText)).to.not.exist;
+      expect(screen.queryByText(paminnelseSendtTagText)).to.not.exist;
+      expect(screen.queryByText(venterPaSvarTagText)).to.not.exist;
     });
 
     it("Viser 'Melding ikke levert'-tag på samtale hvis status for melding er avvist", () => {
@@ -168,7 +174,7 @@ describe("Samtaletags", () => {
       const accordions = screen.getAllByRole("button");
       accordions.forEach((accordion) => userEvent.click(accordion));
 
-      expect(screen.getByText("Melding ikke levert")).to.exist;
+      expect(screen.getByText(meldingStatusFeiletTagText)).to.exist;
     });
 
     it("Viser alert under melding dersom man har statusTekst for melding som er avvist", () => {
@@ -214,8 +220,8 @@ describe("Samtaletags", () => {
       const accordions = screen.getAllByRole("button");
       accordions.forEach((accordion) => userEvent.click(accordion));
 
-      expect(screen.queryByText("Venter på svar")).to.not.exist;
-      expect(screen.queryByText("Ny")).to.not.exist;
+      expect(screen.queryByText(venterPaSvarTagText)).to.not.exist;
+      expect(screen.queryByText(nyttSvarTagText)).to.not.exist;
     });
 
     it("Viser vurder påminnelse tag når man har en ubehandlet ubesvart melding oppgave", () => {
@@ -228,7 +234,7 @@ describe("Samtaletags", () => {
 
       renderSamtaler();
 
-      expect(screen.getByText("Vurder påminnelse")).to.exist;
+      expect(screen.getByText(vurderPaminnelseTagText)).to.exist;
     });
 
     it("Viser ingen tags på samtale hvis det mangler melding fra behandler, ingen påminnelse sendt og ubesvart melding-oppgave behandlet", () => {
@@ -252,10 +258,10 @@ describe("Samtaletags", () => {
 
       renderSamtaler();
 
-      expect(screen.queryByText("Ny")).to.not.exist;
-      expect(screen.queryByText("Påminnelse sendt")).to.not.exist;
-      expect(screen.queryByText("Venter på svar")).to.not.exist;
-      expect(screen.queryByText("Vurder påminnelse")).to.not.exist;
+      expect(screen.queryByText(nyttSvarTagText)).to.not.exist;
+      expect(screen.queryByText(paminnelseSendtTagText)).to.not.exist;
+      expect(screen.queryByText(venterPaSvarTagText)).to.not.exist;
+      expect(screen.queryByText(vurderPaminnelseTagText)).to.not.exist;
     });
   });
 });

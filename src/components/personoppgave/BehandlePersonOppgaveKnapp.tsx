@@ -1,5 +1,8 @@
 import React from "react";
-import { PersonOppgave } from "@/data/personoppgave/types/PersonOppgave";
+import {
+  PersonOppgave,
+  PersonOppgaveType,
+} from "@/data/personoppgave/types/PersonOppgave";
 import { toDatePrettyPrint } from "@/utils/datoUtils";
 import { Checkbox, Panel } from "@navikt/ds-react";
 import styled from "styled-components";
@@ -9,10 +12,23 @@ const CheckboxPanel = styled(Panel)`
   border: 1px solid ${navFarger.navGra20};
 `;
 
-const ferdigbehandletText = (personOppgave: PersonOppgave) =>
-  `Ferdigbehandlet av ${
+const getFerdigbehandletPrefixText = (personoppgaveType: PersonOppgaveType) => {
+  switch (personoppgaveType) {
+    case PersonOppgaveType.BEHANDLERDIALOG_SVAR:
+      return "Siste svar lest av";
+    default:
+      return "Ferdigbehandlet av";
+  }
+};
+
+const getFerdigbehandletText = (personOppgave: PersonOppgave) => {
+  const ferdigbehandletPrefixText = getFerdigbehandletPrefixText(
+    personOppgave.type
+  );
+  return `${ferdigbehandletPrefixText} ${
     personOppgave.behandletVeilederIdent
   } ${toDatePrettyPrint(personOppgave.behandletTidspunkt)}`;
+};
 
 interface BehandlePersonoppgaveKnappProps {
   personOppgave: PersonOppgave | undefined;
@@ -31,7 +47,7 @@ const BehandlePersonOppgaveKnapp = ({
 }: BehandlePersonoppgaveKnappProps) => {
   const oppgaveKnappText =
     isBehandlet && personOppgave
-      ? ferdigbehandletText(personOppgave)
+      ? getFerdigbehandletText(personOppgave)
       : behandleOppgaveText;
 
   return (

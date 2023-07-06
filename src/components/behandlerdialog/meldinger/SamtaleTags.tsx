@@ -15,7 +15,7 @@ import {
 import { PaminnelseWarningIcon } from "@/components/behandlerdialog/paminnelse/PaminnelseWarningIcon";
 
 const texts = {
-  ny: "Ny",
+  nyttSvar: "Nytt svar",
   venterSvar: "Venter på svar",
   avvist: "Melding ikke levert",
   paminnelseSendt: "Påminnelse sendt",
@@ -40,7 +40,7 @@ const SamtaleTag = (props: ComponentProps<typeof Tag>) => (
 );
 
 type SamtaleTagStatus =
-  | "NY"
+  | "NYTT_SVAR"
   | "AVVIST"
   | "PAMINNELSE_SENDT"
   | "VURDER_PAMINNELSE"
@@ -91,7 +91,7 @@ const getSamtaleTagStatus = (
   if (harAvvistMelding) {
     return "AVVIST";
   } else if (harMeldingMedUbehandletSvarOppgave) {
-    return "NY";
+    return "NYTT_SVAR";
   } else if (harMeldingMedUbehandletPaminnelseOppgave) {
     return "VURDER_PAMINNELSE";
   } else if (manglerSvarFraBehandler && harPaminnelseMelding) {
@@ -108,8 +108,8 @@ export const SamtaleTags = ({ meldinger }: SamtaleTagsProps) => {
   const samtaleTagStatus = getSamtaleTagStatus(meldinger, oppgaver);
 
   switch (samtaleTagStatus) {
-    case "NY": {
-      return <SamtaleTag variant="info">{texts.ny}</SamtaleTag>;
+    case "NYTT_SVAR": {
+      return <SamtaleTag variant="info">{texts.nyttSvar}</SamtaleTag>;
     }
     case "AVVIST": {
       return <SamtaleTag variant="error">{texts.avvist}</SamtaleTag>;
