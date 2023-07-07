@@ -1,5 +1,6 @@
 import {
   ARBEIDSTAKER_DEFAULT,
+  VEILEDER_IDENT_DEFAULT,
   VIRKSOMHET_PONTYPANDY,
 } from "../common/mockConstants";
 import dayjs from "dayjs";
@@ -36,7 +37,7 @@ export const personOppgaveBehandletBehandlerdialogSvar = {
   behandletTidspunkt: new Date(
     dayjs().subtract(1, "days").toJSON()
   ).toDateString(),
-  behandletVeilederIdent: "Z991100",
+  behandletVeilederIdent: VEILEDER_IDENT_DEFAULT,
 };
 
 export const personOppgaveUbehandletBehandlerdialogUbesvartMelding = {
@@ -53,7 +54,7 @@ export const personOppgaveBehandletBehandlerdialogUbesvartMelding = {
   behandletTidspunkt: new Date(
     dayjs().subtract(1, "days").toJSON()
   ).toDateString(),
-  behandletVeilederIdent: "Z991100",
+  behandletVeilederIdent: VEILEDER_IDENT_DEFAULT,
 };
 
 const personOppgaveBehandletOppfolgingsplanLPS = {
@@ -63,7 +64,7 @@ const personOppgaveBehandletOppfolgingsplanLPS = {
   behandletTidspunkt: new Date(
     dayjs().subtract(1, "days").toJSON()
   ).toDateString(),
-  behandletVeilederIdent: "Z991100",
+  behandletVeilederIdent: VEILEDER_IDENT_DEFAULT,
   opprettet: new Date(dayjs().subtract(10, "days").toJSON()).toDateString(),
 };
 
@@ -74,7 +75,7 @@ export const personOppgaveBehandletDialogmotesvar = {
   behandletTidspunkt: new Date(
     dayjs().subtract(1, "days").toJSON()
   ).toDateString(),
-  behandletVeilederIdent: "Z991100",
+  behandletVeilederIdent: VEILEDER_IDENT_DEFAULT,
   opprettet: new Date(dayjs().subtract(10, "days").toJSON()).toDateString(),
 };
 
@@ -84,7 +85,7 @@ export const makePersonOppgaveBehandlet = (ubehandletPersonOppgave) => {
     behandletTidspunkt: new Date(
       dayjs().subtract(1, "days").toJSON()
     ).toDateString(),
-    behandletVeilederIdent: "Z991100",
+    behandletVeilederIdent: VEILEDER_IDENT_DEFAULT,
     opprettet: new Date(dayjs().subtract(10, "days").toJSON()).toDateString(),
   };
 };

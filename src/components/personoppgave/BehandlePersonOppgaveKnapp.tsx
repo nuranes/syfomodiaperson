@@ -7,6 +7,7 @@ import { toDatePrettyPrint } from "@/utils/datoUtils";
 import { Checkbox, Panel } from "@navikt/ds-react";
 import styled from "styled-components";
 import navFarger from "nav-frontend-core";
+import { useVeilederInfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
 
 const CheckboxPanel = styled(Panel)`
   border: 1px solid ${navFarger.navGra20};
@@ -21,13 +22,18 @@ const getFerdigbehandletPrefixText = (personoppgaveType: PersonOppgaveType) => {
   }
 };
 
-const getFerdigbehandletText = (personOppgave: PersonOppgave) => {
+const getFerdigbehandletText = (
+  personOppgave: PersonOppgave,
+  veilederNavn: string | undefined
+) => {
   const ferdigbehandletPrefixText = getFerdigbehandletPrefixText(
     personOppgave.type
   );
-  return `${ferdigbehandletPrefixText} ${
-    personOppgave.behandletVeilederIdent
-  } ${toDatePrettyPrint(personOppgave.behandletTidspunkt)}`;
+  return `
+    ${ferdigbehandletPrefixText} 
+    ${veilederNavn} 
+    ${toDatePrettyPrint(personOppgave.behandletTidspunkt)}
+  `;
 };
 
 interface BehandlePersonoppgaveKnappProps {
@@ -45,9 +51,12 @@ const BehandlePersonOppgaveKnapp = ({
   isBehandleOppgaveLoading,
   behandleOppgaveText,
 }: BehandlePersonoppgaveKnappProps) => {
+  const { data: veilederInfo } = useVeilederInfoQuery(
+    personOppgave?.behandletVeilederIdent ?? ""
+  );
   const oppgaveKnappText =
     isBehandlet && personOppgave
-      ? getFerdigbehandletText(personOppgave)
+      ? getFerdigbehandletText(personOppgave, veilederInfo?.navn)
       : behandleOppgaveText;
 
   return (
