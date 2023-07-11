@@ -7,7 +7,7 @@ import {
 } from "@/utils/datoUtils";
 import { SoknaderImage } from "../../../../../img/ImageComponents";
 import {
-  SoknadstatusDTO,
+  Soknadstatus,
   SykepengesoknadDTO,
 } from "@/data/sykepengesoknad/types/SykepengesoknadDTO";
 import { Modal } from "@navikt/ds-react";
@@ -37,13 +37,13 @@ const textDatoFremtidig = (dato?: string) => {
   return `${texts.dato.fremtidig} ${dato}`;
 };
 
-const textSoknadStatus = (status: SoknadstatusDTO) => {
+const textSoknadStatus = (status: Soknadstatus) => {
   switch (status) {
-    case SoknadstatusDTO.FREMTIDIG:
+    case Soknadstatus.FREMTIDIG:
       return texts.status.fremtidig;
-    case SoknadstatusDTO.TIL_SENDING:
+    case Soknadstatus.TIL_SENDING:
       return texts.status.sender;
-    case SoknadstatusDTO.UTKAST_TIL_KORRIGERING:
+    case Soknadstatus.UTKAST_TIL_KORRIGERING:
       return texts.status.utkastTilKorrigering;
     default:
       return "";

@@ -726,7 +726,7 @@ export const sykmeldingerMock = [
       },
     ],
     sykmeldingStatus: {
-      statusEvent: "BEKREFTET",
+      statusEvent: "TIL_SENDING",
       timestamp: "2021-01-25T09:38:05.414834Z",
       arbeidsgiver: null,
       sporsmalOgSvarListe: null,

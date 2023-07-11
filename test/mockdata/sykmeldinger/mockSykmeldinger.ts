@@ -9,8 +9,8 @@ import {
 } from "@/data/sykmelding/types/SykmeldingOldFormat";
 import { toDate, toDateWithoutNullCheck } from "@/utils/datoUtils";
 import {
-  SoknadstatusDTO,
-  SoknadstypeDTO,
+  Soknadstatus,
+  Soknadstype,
   SykepengesoknadDTO,
 } from "@/data/sykepengesoknad/types/SykepengesoknadDTO";
 import { VIRKSOMHET_PONTYPANDY } from "../../../mock/common/mockConstants";
@@ -25,10 +25,10 @@ export const mockSykepengeSoknad: SykepengesoknadDTO = {
   fom: toDateWithoutNullCheck("2018-08-18"),
   id: "123test",
   opprettetDato: toDateWithoutNullCheck("2018-09-07"),
-  status: SoknadstatusDTO.NY,
+  status: Soknadstatus.NY,
   sykmeldingId: mockSykmeldingId,
   tom: toDateWithoutNullCheck("2018-08-31"),
-  soknadstype: SoknadstypeDTO.ARBEIDSTAKERE,
+  soknadstype: Soknadstype.ARBEIDSTAKERE,
   sporsmal: [],
 };
 

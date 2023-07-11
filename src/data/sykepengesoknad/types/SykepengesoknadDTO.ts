@@ -65,7 +65,7 @@ export interface SporsmalDTO {
   undersporsmal: SporsmalDTO[];
 }
 
-export enum SoknadstypeDTO {
+export enum Soknadstype {
   SELVSTENDIGE_OG_FRILANSERE = "SELVSTENDIGE_OG_FRILANSERE",
   OPPHOLD_UTLAND = "OPPHOLD_UTLAND",
   ARBEIDSTAKERE = "ARBEIDSTAKERE",
@@ -75,7 +75,7 @@ export enum SoknadstypeDTO {
   REISETILSKUDD = "REISETILSKUDD",
 }
 
-export enum SoknadstatusDTO {
+export enum Soknadstatus {
   NY = "NY",
   TIL_SENDING = "TIL_SENDING",
   SENDT = "SENDT",
@@ -90,13 +90,12 @@ export enum SoknadstatusDTO {
 export interface SykepengesoknadDTO {
   id: string;
   sykmeldingId?: string;
-  soknadstype: SoknadstypeDTO;
-  status: SoknadstatusDTO;
+  soknadstype: Soknadstype;
+  status: Soknadstatus;
   fom: Date;
   tom: Date;
   opprettetDato: Date;
   avbruttDato?: Date;
-  innsendtDato?: Date;
   sendtTilNAVDato?: Date;
   sendtTilArbeidsgiverDato?: Date;
   sporsmal: SporsmalDTO[];

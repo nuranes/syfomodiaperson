@@ -3,7 +3,7 @@ import Oppsummeringsvisning from "../soknad-felles-oppsummering/Oppsummeringsvis
 import SoknadSpeiling from "../soknad-felles/SoknadSpeiling";
 import { Brodsmule } from "../../Brodsmuler";
 import {
-  SoknadstatusDTO,
+  Soknadstatus,
   SykepengesoknadDTO,
 } from "@/data/sykepengesoknad/types/SykepengesoknadDTO";
 import { KorrigertAv } from "../soknad-arbeidstaker/KorrigertAv";
@@ -47,7 +47,7 @@ const SykepengesoknadReisetilskudd = ({
       brukernavn={brukernavn}
       brodsmuler={brodsmuler}
     >
-      {soknad.status === SoknadstatusDTO.KORRIGERT && (
+      {soknad.status === Soknadstatus.KORRIGERT && (
         <KorrigertAv soknadId={soknad.id} />
       )}
       <SykepengesoknadStatuspanel soknad={soknad} />

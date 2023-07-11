@@ -6,7 +6,7 @@ import SendtSoknadSelvstendigStatuspanel from "./SendtSoknadSelvstendigStatuspan
 import AvbruttSoknadSelvstendigStatuspanel from "./AvbruttSoknadSelvstendigStatuspanel";
 import SykmeldingUtdragForSelvstendige from "./SykmeldingutdragForSelvstendige";
 import {
-  SoknadstatusDTO,
+  Soknadstatus,
   SykepengesoknadDTO,
 } from "@/data/sykepengesoknad/types/SykepengesoknadDTO";
 import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat";
@@ -32,11 +32,11 @@ const SykepengesoknadSelvstendig = ({
   brukernavn,
 }: SykepengesoknadSelvstendigProps): ReactElement => {
   switch (soknad.status) {
-    case SoknadstatusDTO.NY:
-    case SoknadstatusDTO.FREMTIDIG: {
+    case Soknadstatus.NY:
+    case Soknadstatus.FREMTIDIG: {
       return <IkkeInnsendtSoknad />;
     }
-    case SoknadstatusDTO.AVBRUTT: {
+    case Soknadstatus.AVBRUTT: {
       return (
         <SoknadSpeiling brodsmuler={brodsmuler} brukernavn={brukernavn}>
           <AvbruttSoknadSelvstendigStatuspanel soknad={soknad} />

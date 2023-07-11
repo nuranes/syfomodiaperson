@@ -37,9 +37,6 @@ export const parseSoknad = (soknad: SykepengesoknadDTO): SykepengesoknadDTO => {
     fom: new Date(soknad.fom),
     tom: new Date(soknad.tom),
     opprettetDato: new Date(soknad.opprettetDato),
-    innsendtDato: soknad.innsendtDato
-      ? new Date(soknad.innsendtDato)
-      : undefined,
     sendtTilNAVDato: soknad.sendtTilNAVDato
       ? new Date(soknad.sendtTilNAVDato)
       : undefined,

@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import Hjelpetekst from "nav-frontend-hjelpetekst";
 import {
-  SoknadstatusDTO,
+  Soknadstatus,
   SykepengesoknadDTO,
 } from "@/data/sykepengesoknad/types/SykepengesoknadDTO";
 import { tilLesbarDatoMedArstall } from "@/utils/datoUtils";
@@ -19,7 +19,7 @@ const texts = {
   status: "Status",
 };
 
-const { SENDT, TIL_SENDING } = SoknadstatusDTO;
+const { SENDT, TIL_SENDING } = Soknadstatus;
 
 const getStatusTekst = (soknad: SykepengesoknadDTO) => {
   switch (soknad.status) {
@@ -43,7 +43,7 @@ const SendtDato = (sendtDatoProps: SendtDatoProps) => {
   const { soknad } = sendtDatoProps;
   return (
     <StatusNokkelopplysning tittel={texts.dato}>
-      <p>{tilLesbarDatoMedArstall(soknad.innsendtDato)}</p>
+      <p>{tilLesbarDatoMedArstall(soknad.sendtTilNAVDato)}</p>
     </StatusNokkelopplysning>
   );
 };

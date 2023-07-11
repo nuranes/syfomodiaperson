@@ -1,8 +1,8 @@
 import React, { ReactElement } from "react";
 import { StatusNokkelopplysning } from "../../Statuspanel";
-import hentSykepengetekst from "../../../../utils/soknad-felles/hentSykepengetekst";
-import hentSoknadStatustekst from "../../../../utils/soknad-felles/hentSoknadStatustekst";
+import Sykepengetekst from "../../../../utils/soknad-felles/Sykepengetekst";
 import { SykepengesoknadDTO } from "@/data/sykepengesoknad/types/SykepengesoknadDTO";
+import SoknadStatustekst from "@/utils/soknad-felles/SoknadStatustekst";
 
 const texts = {
   sendt: "Sendt til NAV",
@@ -23,12 +23,10 @@ const StatuspanelBehandlingsdager = ({
   return (
     <div className="panel panel--komprimert blokk statuspanel">
       <StatusNokkelopplysning tittel={texts.status}>
-        <p
-          dangerouslySetInnerHTML={{ __html: hentSoknadStatustekst(soknad) }}
-        />
+        <SoknadStatustekst soknad={soknad} />
       </StatusNokkelopplysning>
       <StatusNokkelopplysning tittel={texts.utbetaling}>
-        <p dangerouslySetInnerHTML={hentSykepengetekst(soknad)} />
+        <Sykepengetekst soknad={soknad} />
       </StatusNokkelopplysning>
     </div>
   );

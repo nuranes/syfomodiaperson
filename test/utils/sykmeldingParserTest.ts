@@ -33,8 +33,8 @@ import {
   mockSykmeldingWithTwoPerioder,
 } from "../mockdata/sykmeldinger/mockSykmeldingExtraInfo";
 import {
-  gamleSMStatuser,
-  nyeSMStatuser,
+  GamleSykmeldingStatuser,
+  NyeSykmeldingStatuser,
 } from "@/utils/sykmeldinger/sykmeldingstatuser";
 import { FriskmeldingDTO } from "@/data/sykmelding/types/SykmeldingOldFormat";
 import { medisinskArsakTypeTekster } from "@/data/sykmelding/types/MedisinskArsakTypeDTO";
@@ -639,12 +639,12 @@ describe("sykmeldingParser", () => {
 
       const outputSM = newSMFormat2OldFormat(mockSM, sykmeldtFnr);
 
-      expect(outputSM.status).to.deep.equal(gamleSMStatuser.SENDT);
+      expect(outputSM.status).to.deep.equal(GamleSykmeldingStatuser.SENDT);
     });
 
     it("Returns correct status when status is APEN", () => {
       const sykmeldingWithStatusApen = mockSykmeldingWithStatus(
-        nyeSMStatuser.APEN
+        NyeSykmeldingStatuser.APEN
       );
 
       const outputSM = newSMFormat2OldFormat(
@@ -652,12 +652,12 @@ describe("sykmeldingParser", () => {
         sykmeldtFnr
       );
 
-      expect(outputSM.status).to.deep.equal(gamleSMStatuser.NY);
+      expect(outputSM.status).to.deep.equal(GamleSykmeldingStatuser.NY);
     });
 
     it("Returns correct status when status is UTGATT", () => {
       const sykmeldingWithStatusApen = mockSykmeldingWithStatus(
-        nyeSMStatuser.UTGATT
+        NyeSykmeldingStatuser.UTGATT
       );
 
       const outputSM = newSMFormat2OldFormat(
@@ -665,7 +665,7 @@ describe("sykmeldingParser", () => {
         sykmeldtFnr
       );
 
-      expect(outputSM.status).to.deep.equal(gamleSMStatuser.UTGAATT);
+      expect(outputSM.status).to.deep.equal(GamleSykmeldingStatuser.UTGAATT);
     });
   });
 

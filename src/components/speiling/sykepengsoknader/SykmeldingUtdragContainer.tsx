@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import SykmeldingUtdrag from "./soknad-felles/SykmeldingUtdrag";
 import {
-  SoknadstypeDTO,
+  Soknadstype,
   SykepengesoknadDTO,
 } from "@/data/sykepengesoknad/types/SykepengesoknadDTO";
 import { useSykmeldingerQuery } from "@/data/sykmelding/sykmeldingQueryHooks";
@@ -21,7 +21,7 @@ export const SykmeldingUtdragContainer = ({
   return sykmelding &&
     soknad &&
     (!soknad.soknadstype ||
-      soknad.soknadstype === SoknadstypeDTO.ARBEIDSTAKERE) ? (
+      soknad.soknadstype === Soknadstype.ARBEIDSTAKERE) ? (
     <SykmeldingUtdrag sykmelding={sykmelding} />
   ) : (
     <></>

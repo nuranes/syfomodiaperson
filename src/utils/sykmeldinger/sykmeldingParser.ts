@@ -1,4 +1,4 @@
-import { nyeSMStatuser } from "./sykmeldingstatuser";
+import { NyeSykmeldingStatuser } from "./sykmeldingstatuser";
 import { SykmeldingNewFormatDTO } from "@/data/sykmelding/types/SykmeldingNewFormatDTO";
 import {
   Datospenn,
@@ -247,10 +247,10 @@ const mapSporsmal = (sykmelding: SykmeldingNewFormatDTO) => {
 
 const mapStatus = (sykmelding: SykmeldingNewFormatDTO): SykmeldingStatus => {
   switch (sykmelding.sykmeldingStatus.statusEvent) {
-    case nyeSMStatuser.APEN: {
+    case NyeSykmeldingStatuser.APEN: {
       return SykmeldingStatus.NY;
     }
-    case nyeSMStatuser.UTGATT: {
+    case NyeSykmeldingStatuser.UTGATT: {
       return SykmeldingStatus.UTGAATT;
     }
     default: {

@@ -16,8 +16,8 @@ import {
   SoknaderImage,
 } from "../../../../../img/ImageComponents";
 import {
-  SoknadstatusDTO,
-  SoknadstypeDTO,
+  Soknadstatus,
+  Soknadstype,
   SykepengesoknadDTO,
 } from "@/data/sykepengesoknad/types/SykepengesoknadDTO";
 
@@ -68,16 +68,16 @@ const SendtUlikt = ({ soknad }: TeaserComponentProps) => {
   );
 };
 
-const visIkon = (soknadstype: SoknadstypeDTO) => {
-  return soknadstype === SoknadstypeDTO.OPPHOLD_UTLAND ? (
+const visIkon = (soknadstype: Soknadstype) => {
+  return soknadstype === Soknadstype.OPPHOLD_UTLAND ? (
     <img alt="" className="js-ikon" src={GlobeImage} />
   ) : (
     <img alt="" className="js-ikon" src={SoknaderImage} />
   );
 };
 
-const visIkonHover = (soknadstype: SoknadstypeDTO) => {
-  return soknadstype === SoknadstypeDTO.OPPHOLD_UTLAND ? (
+const visIkonHover = (soknadstype: Soknadstype) => {
+  return soknadstype === Soknadstype.OPPHOLD_UTLAND ? (
     <img alt="" className="js-ikon" src={GlobeHoverImage} />
   ) : (
     <img alt="" className="js-ikon" src={SoknaderHoverImage} />
@@ -118,32 +118,32 @@ const textSoknadTeaserStatus = (
 const beregnUndertekst = (soknad: SykepengesoknadDTO) => {
   const sendtTilBeggeMenIkkeSamtidig = erSendtTilBeggeMenIkkeSamtidig(soknad);
 
-  if (soknad.status === SoknadstatusDTO.AVBRUTT) {
+  if (soknad.status === Soknadstatus.AVBRUTT) {
     return textAvbrutt(tilLesbarDatoMedArstall(soknad.avbruttDato));
   }
 
-  if (soknad.status === SoknadstatusDTO.FREMTIDIG) {
+  if (soknad.status === Soknadstatus.FREMTIDIG) {
     return texts.fremtidig;
   }
 
   switch (soknad.soknadstype) {
-    case SoknadstypeDTO.OPPHOLD_UTLAND:
-    case SoknadstypeDTO.ARBEIDSLEDIG:
-    case SoknadstypeDTO.ANNET_ARBEIDSFORHOLD:
-    case SoknadstypeDTO.SELVSTENDIGE_OG_FRILANSERE: {
-      return soknad.status === SoknadstatusDTO.SENDT && soknad.innsendtDato
-        ? textSendtTilNav(tilLesbarDatoMedArstall(soknad.innsendtDato))
+    case Soknadstype.OPPHOLD_UTLAND:
+    case Soknadstype.ARBEIDSLEDIG:
+    case Soknadstype.ANNET_ARBEIDSFORHOLD:
+    case Soknadstype.SELVSTENDIGE_OG_FRILANSERE: {
+      return soknad.status === Soknadstatus.SENDT && soknad.sendtTilNAVDato
+        ? textSendtTilNav(tilLesbarDatoMedArstall(soknad.sendtTilNAVDato))
         : "";
     }
-    case SoknadstypeDTO.BEHANDLINGSDAGER:
-    case SoknadstypeDTO.ARBEIDSTAKERE: {
+    case Soknadstype.BEHANDLINGSDAGER:
+    case Soknadstype.ARBEIDSTAKERE: {
       switch (soknad.status) {
-        case SoknadstatusDTO.UTKAST_TIL_KORRIGERING:
-        case SoknadstatusDTO.NY: {
+        case Soknadstatus.UTKAST_TIL_KORRIGERING:
+        case Soknadstatus.NY: {
           return soknad.arbeidsgiver?.navn ?? "";
         }
-        case SoknadstatusDTO.SENDT:
-        case SoknadstatusDTO.TIL_SENDING: {
+        case Soknadstatus.SENDT:
+        case Soknadstatus.TIL_SENDING: {
           return sendtTilBeggeMenIkkeSamtidig ? (
             <SendtUlikt soknad={soknad} />
           ) : (
@@ -165,8 +165,8 @@ const beregnUndertekst = (soknad: SykepengesoknadDTO) => {
     }
     default: {
       switch (soknad.status) {
-        case SoknadstatusDTO.SENDT:
-        case SoknadstatusDTO.TIL_SENDING: {
+        case Soknadstatus.SENDT:
+        case Soknadstatus.TIL_SENDING: {
           return sendtTilBeggeMenIkkeSamtidig ? (
             <SendtUlikt soknad={soknad} />
           ) : (
@@ -181,8 +181,8 @@ const beregnUndertekst = (soknad: SykepengesoknadDTO) => {
             )
           );
         }
-        case SoknadstatusDTO.NY:
-        case SoknadstatusDTO.UTKAST_TIL_KORRIGERING: {
+        case Soknadstatus.NY:
+        case Soknadstatus.UTKAST_TIL_KORRIGERING: {
           return soknad.arbeidsgiver ? soknad.arbeidsgiver.navn : "";
         }
         default: {
@@ -204,12 +204,12 @@ const TeaserStatus = ({ soknad }: TeaserComponentProps) => (
   </p>
 );
 
-const tittelFromSoknadstype = (soknadstype: SoknadstypeDTO) => {
+const tittelFromSoknadstype = (soknadstype: Soknadstype) => {
   switch (soknadstype) {
-    case SoknadstypeDTO.OPPHOLD_UTLAND: {
+    case Soknadstype.OPPHOLD_UTLAND: {
       return texts.utland;
     }
-    case SoknadstypeDTO.REISETILSKUDD: {
+    case Soknadstype.REISETILSKUDD: {
       return texts.reisetilskudd;
     }
     default: {
@@ -240,11 +240,9 @@ const SykepengesoknadTeaser = ({
 }: TeaserComponentProps): ReactElement => {
   const status = soknad.status ? soknad.status.toLowerCase() : "";
   const visStatus =
-    [
-      SoknadstatusDTO.NY,
-      SoknadstatusDTO.SENDT,
-      SoknadstatusDTO.AVBRUTT,
-    ].indexOf(soknad.status) === -1;
+    [Soknadstatus.NY, Soknadstatus.SENDT, Soknadstatus.AVBRUTT].indexOf(
+      soknad.status
+    ) === -1;
   const undertekst = beregnUndertekst(soknad);
   return (
     <article aria-labelledby={`soknader-header-${soknad.id}`}>
@@ -263,7 +261,7 @@ const SykepengesoknadTeaser = ({
             <TeaserTittel soknad={soknad} />
             {visStatus && <TeaserStatus soknad={soknad} />}
           </header>
-          {soknad.soknadstype !== SoknadstypeDTO.OPPHOLD_UTLAND && (
+          {soknad.soknadstype !== Soknadstype.OPPHOLD_UTLAND && (
             <TeaserPeriode soknad={soknad} />
           )}
           {undertekst && (

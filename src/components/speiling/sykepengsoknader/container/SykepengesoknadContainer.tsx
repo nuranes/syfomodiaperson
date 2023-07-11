@@ -10,8 +10,8 @@ import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import { useParams } from "react-router-dom";
 import SideLaster from "../../../SideLaster";
 import {
-  SoknadstatusDTO,
-  SoknadstypeDTO,
+  Soknadstatus,
+  Soknadstype,
 } from "@/data/sykepengesoknad/types/SykepengesoknadDTO";
 import SykepengesoknadReisetilskudd from "@/components/speiling/sykepengsoknader/soknad-reisetilskudd/SykepengesoknadReisetilskudd";
 import { useSykepengesoknaderQuery } from "@/data/sykepengesoknad/sykepengesoknadQueryHooks";
@@ -54,9 +54,9 @@ const SykepengesoknadContainer = (): ReactElement => {
     <SideLaster henter={henter} hentingFeilet={hentingFeilet}>
       {(() => {
         switch (soknad?.soknadstype) {
-          case SoknadstypeDTO.SELVSTENDIGE_OG_FRILANSERE:
-          case SoknadstypeDTO.ARBEIDSLEDIG:
-          case SoknadstypeDTO.ANNET_ARBEIDSFORHOLD: {
+          case Soknadstype.SELVSTENDIGE_OG_FRILANSERE:
+          case Soknadstype.ARBEIDSLEDIG:
+          case Soknadstype.ANNET_ARBEIDSFORHOLD: {
             return (
               <SykepengesoknadSelvstendig
                 brodsmuler={brodsmuler}
@@ -66,7 +66,7 @@ const SykepengesoknadContainer = (): ReactElement => {
               />
             );
           }
-          case SoknadstypeDTO.OPPHOLD_UTLAND: {
+          case Soknadstype.OPPHOLD_UTLAND: {
             return (
               <SykepengesoknadUtland
                 brodsmuler={brodsmuler}
@@ -75,10 +75,10 @@ const SykepengesoknadContainer = (): ReactElement => {
               />
             );
           }
-          case SoknadstypeDTO.ARBEIDSTAKERE: {
+          case Soknadstype.ARBEIDSTAKERE: {
             switch (soknad.status) {
-              case SoknadstatusDTO.SENDT:
-              case SoknadstatusDTO.KORRIGERT: {
+              case Soknadstatus.SENDT:
+              case Soknadstatus.KORRIGERT: {
                 return (
                   <SendtSoknadArbeidstakerNy
                     brodsmuler={brodsmuler}
@@ -87,7 +87,7 @@ const SykepengesoknadContainer = (): ReactElement => {
                   />
                 );
               }
-              case SoknadstatusDTO.AVBRUTT: {
+              case Soknadstatus.AVBRUTT: {
                 return (
                   <AvbruttSoknadArbeidtakerNy
                     brodsmuler={brodsmuler}
@@ -101,7 +101,7 @@ const SykepengesoknadContainer = (): ReactElement => {
               }
             }
           }
-          case SoknadstypeDTO.BEHANDLINGSDAGER: {
+          case Soknadstype.BEHANDLINGSDAGER: {
             return (
               <SykepengesoknadBehandlingsdager
                 brodsmuler={brodsmuler}
@@ -110,7 +110,7 @@ const SykepengesoknadContainer = (): ReactElement => {
               />
             );
           }
-          case SoknadstypeDTO.REISETILSKUDD: {
+          case Soknadstype.REISETILSKUDD: {
             return (
               <SykepengesoknadReisetilskudd
                 brodsmuler={brodsmuler}

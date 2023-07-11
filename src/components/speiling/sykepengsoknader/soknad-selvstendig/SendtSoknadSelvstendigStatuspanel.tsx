@@ -8,6 +8,7 @@ import { tilLesbarDatoMedArstall } from "@/utils/datoUtils";
 import SykmeldingNokkelOpplysning from "../../sykmeldinger/sykmelding/sykmeldingOpplysninger/SykmeldingNokkelOpplysning";
 import { SykepengesoknadDTO } from "@/data/sykepengesoknad/types/SykepengesoknadDTO";
 import { erOpprettetSisteAar } from "@/utils/sykepengesoknadUtils";
+import SykepengerOgSaksbehandlingstiderLink from "@/utils/soknad-felles/SykepengerOgSaksbehandlingstiderLink";
 
 const texts = {
   status: "Status",
@@ -15,10 +16,7 @@ const texts = {
   innsendt: "Dato sendt",
   tittel: "Utbetaling av sykepenger",
   endre: "Endre søknad",
-  tilNav: {
-    __html:
-      'Sykepenger utbetales etter at NAV har innvilget søknaden. <a href="https://www.nav.no/no/NAV+og+samfunn/Kontakt+NAV/Utbetalinger/Utbetalinger/Utbetalingsdatoer%2C+feriepenger+og+skattetrekk?kap=499628" target="_blank">Les om sykepenger og saksbehandlingstider.</a>',
-  },
+  tilNav: "Sykepenger utbetales etter at NAV har innvilget søknaden.",
 };
 
 interface SendtSoknadSelvstendigStatuspanelProps {
@@ -37,10 +35,10 @@ const SendtSoknadSelvstendigStatuspanel = ({
           <p>{texts.sendtTilNav}</p>
         </StatusNokkelopplysning>
         <StatusNokkelopplysning tittel={texts.innsendt}>
-          <p>{tilLesbarDatoMedArstall(soknad.innsendtDato)}</p>
+          <p>{tilLesbarDatoMedArstall(soknad.sendtTilNAVDato)}</p>
         </StatusNokkelopplysning>
         <SykmeldingNokkelOpplysning className="sist" tittel={texts.tittel}>
-          <p dangerouslySetInnerHTML={texts.tilNav} />
+          <SykepengerOgSaksbehandlingstiderLink tittel={texts.tilNav} />
         </SykmeldingNokkelOpplysning>
       </Statusopplysninger>
       {visEndreknapp && (

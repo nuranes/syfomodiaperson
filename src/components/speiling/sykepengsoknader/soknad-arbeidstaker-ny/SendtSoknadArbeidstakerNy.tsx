@@ -4,7 +4,7 @@ import SoknadSpeiling from "../soknad-felles/SoknadSpeiling";
 import SykepengesoknadStatuspanel from "./SykepengesoknadStatuspanel";
 import { Brodsmule } from "../../Brodsmuler";
 import {
-  SoknadstatusDTO,
+  Soknadstatus,
   SykepengesoknadDTO,
 } from "@/data/sykepengesoknad/types/SykepengesoknadDTO";
 import { KorrigertAv } from "../soknad-arbeidstaker/KorrigertAv";
@@ -47,7 +47,7 @@ const SendtSoknadArbeidstakerNy = ({
       brukernavn={brukernavn}
       brodsmuler={brodsmuler}
     >
-      {soknad.status === SoknadstatusDTO.KORRIGERT && (
+      {soknad.status === Soknadstatus.KORRIGERT && (
         <KorrigertAv soknadId={soknad.id} />
       )}
       <SykepengesoknadStatuspanel soknad={soknad} />
