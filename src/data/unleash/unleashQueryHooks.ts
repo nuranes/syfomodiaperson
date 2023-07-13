@@ -27,6 +27,7 @@ export const useFeatureToggles = (behandlerRef?: string) => {
   const query = useQuery({
     queryKey: unleashQueryKeys.toggles(valgtEnhet, veilederIdent, behandlerRef),
     queryFn: fetchToggles,
+    enabled: !!valgtEnhet || !!veilederIdent || !!behandlerRef,
   });
   const isFeatureEnabled = (toggle: ToggleNames): boolean => {
     return query.data ? query.data[toggle] : false;

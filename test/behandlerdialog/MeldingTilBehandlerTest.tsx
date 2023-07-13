@@ -14,6 +14,12 @@ import {
 import { behandlereDialogmeldingMock } from "../../mock/isdialogmelding/behandlereDialogmeldingMock";
 import userEvent from "@testing-library/user-event";
 import { expectedTilleggsopplysningerDocument } from "./testDataDocuments";
+import { unleashQueryKeys } from "@/data/unleash/unleashQueryHooks";
+import {
+  BEHANDLENDE_ENHET_DEFAULT,
+  VEILEDER_IDENT_DEFAULT,
+} from "../../mock/common/mockConstants";
+import { unleashMock } from "../../mock/unleash/unleashMock";
 
 let queryClient: QueryClient;
 
@@ -36,7 +42,20 @@ describe("MeldingTilBehandler", () => {
     queryClient = queryClientWithMockData();
   });
 
-  it("Viser overskrift og warning-alert", () => {
+  it("Viser overskrift og warning-alert hvis toggle for legeerklæring er av", () => {
+    queryClient.setQueryData(
+      unleashQueryKeys.toggles(
+        BEHANDLENDE_ENHET_DEFAULT.enhetId,
+        VEILEDER_IDENT_DEFAULT
+      ),
+      () => {
+        return {
+          ...unleashMock,
+          "syfo.behandlerdialog.legeerklaring": false,
+        };
+      }
+    );
+
     renderMeldingTilBehandler();
 
     expect(screen.getByRole("heading", { name: "Skriv til behandler" })).to
@@ -48,7 +67,53 @@ describe("MeldingTilBehandler", () => {
       )
     ).to.exist;
   });
+
+  const selectLabel = "Hvilken meldingstype ønsker du å sende";
+
   describe("MeldingTilBehandlerSkjema", () => {
+    it("Viser select komponent for valg av meldingstype", () => {
+      renderMeldingTilBehandler();
+
+      expect(screen.getByLabelText(selectLabel)).to.exist;
+
+      fireEvent.change(screen.getByLabelText(selectLabel), {
+        target: { value: MeldingType.FORESPORSEL_PASIENT_TILLEGGSOPPLYSNINGER },
+      });
+
+      const selectElement: HTMLSelectElement =
+        screen.getByLabelText(selectLabel);
+
+      expect(selectElement.value).to.equal(
+        MeldingType.FORESPORSEL_PASIENT_TILLEGGSOPPLYSNINGER
+      );
+      expect(selectElement.value).to.not.equal(
+        MeldingType.FORESPORSEL_PASIENT_LEGEERKLARING
+      );
+
+      fireEvent.change(screen.getByLabelText(selectLabel), {
+        target: { value: MeldingType.FORESPORSEL_PASIENT_LEGEERKLARING },
+      });
+
+      expect(selectElement.value).to.equal(
+        MeldingType.FORESPORSEL_PASIENT_LEGEERKLARING
+      );
+      expect(selectElement.value).to.not.equal(
+        MeldingType.FORESPORSEL_PASIENT_TILLEGGSOPPLYSNINGER
+      );
+    });
+    it("Viser informasjon om meldingstype legeerklaring hvis valgt", () => {
+      renderMeldingTilBehandler();
+
+      const legeerklaringText =
+        "Legeerklæring vedrørende pasienten. Behandleren honoreres med takst L40.";
+      expect(screen.queryByText(legeerklaringText)).to.not.exist;
+
+      fireEvent.change(screen.getByLabelText(selectLabel), {
+        target: { value: MeldingType.FORESPORSEL_PASIENT_LEGEERKLARING },
+      });
+
+      expect(screen.getByText(legeerklaringText)).to.exist;
+    });
     it("Viser radiobuttons med behandlervalg, der det ikke er mulig å velge 'Ingen behandler'", () => {
       renderMeldingTilBehandler();
 
@@ -69,6 +134,10 @@ describe("MeldingTilBehandler", () => {
     });
     it("Forhåndsviser melding til behandler ved klikk på Forhåndsvisning-knapp", () => {
       renderMeldingTilBehandler();
+
+      fireEvent.change(screen.getByLabelText(selectLabel), {
+        target: { value: MeldingType.FORESPORSEL_PASIENT_TILLEGGSOPPLYSNINGER },
+      });
 
       const meldingInput = getTextInput("Skriv inn tekst");
       changeTextInput(meldingInput, enMeldingTekst);
@@ -130,6 +199,10 @@ describe("MeldingTilBehandler", () => {
         exact: false,
       })[0];
       fireEvent.click(velgBehandlerRadioButton);
+
+      fireEvent.change(screen.getByLabelText(selectLabel), {
+        target: { value: MeldingType.FORESPORSEL_PASIENT_TILLEGGSOPPLYSNINGER },
+      });
 
       const meldingInput = getTextInput("Skriv inn tekst");
       changeTextInput(meldingInput, expectedMeldingTilBehandlerDTO.tekst);

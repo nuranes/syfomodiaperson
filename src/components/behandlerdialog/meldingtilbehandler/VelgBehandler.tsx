@@ -28,7 +28,7 @@ export const VelgBehandler = ({
     <Field<string> name={field}>
       {({ input, meta }) => {
         return (
-          <div>
+          <>
             {isInitialLoading ? (
               <AppSpinner />
             ) : (
@@ -45,7 +45,7 @@ export const VelgBehandler = ({
             <SkjemaelementFeilmelding>
               {meta.submitFailed && meta.error}
             </SkjemaelementFeilmelding>
-          </div>
+          </>
         );
       }}
     </Field>

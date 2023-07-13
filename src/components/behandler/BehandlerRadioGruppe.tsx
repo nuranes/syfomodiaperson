@@ -1,6 +1,5 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { Radio, RadioGruppe } from "nav-frontend-skjema";
-import styled from "styled-components";
 import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
 import { capitalizeWord } from "@/utils/stringUtils";
 import BehandlerSearch from "@/components/behandler/BehandlerSearch";
@@ -26,10 +25,6 @@ const behandlerOneliner = (behandler: BehandlerDTO): string => {
 
   return [typeAndName, office, phone].filter(Boolean).join(", ");
 };
-
-export const StyledRadioGruppe = styled(RadioGruppe)`
-  margin-bottom: 1em;
-`;
 
 interface BehandlerRadioGruppeProps {
   id: string;
@@ -73,7 +68,7 @@ const BehandlerRadioGruppe = ({
 
   return (
     <>
-      <StyledRadioGruppe
+      <RadioGruppe
         id={id}
         legend={behandlerRadioGruppeTexts.behandlerLegend}
         description={behandlerRadioGruppeTexts.behandlerDescription}
@@ -102,7 +97,7 @@ const BehandlerRadioGruppe = ({
             onChange={handleAddBehandlerRadioClick}
           />
         </>
-      </StyledRadioGruppe>
+      </RadioGruppe>
       {showBehandlerSearch && (
         <BehandlerSearch
           setSelectedBehandler={setSelectedBehandler}

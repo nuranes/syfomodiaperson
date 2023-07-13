@@ -13,6 +13,7 @@ import ArrowUpHoverHighContrastImage from "./svg/arrow-up_hover-highcontrast.svg
 import ArrowWithLineDownBlueImage from "./svg/arrow-with-line__down--blue.svg";
 import ArrowWithLineUpBlueImage from "./svg/arrow-with-line__up--blue.svg";
 import BlueDocumentImage from "./svg/bluedocument.svg";
+import BlyantImage from "./svg/blyant.svg";
 import CopyImage from "./svg/copy-1.svg";
 import DoctorImage from "./svg/doctor-2.svg";
 import DoctorHoverImage from "./svg/doctor-2_hover.svg";
@@ -88,6 +89,7 @@ export {
   ArrowWithLineDownBlueImage,
   ArrowWithLineUpBlueImage,
   BlueDocumentImage,
+  BlyantImage,
   CopyImage,
   DoctorImage,
   DoctorHoverImage,
