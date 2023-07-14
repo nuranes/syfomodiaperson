@@ -7,7 +7,7 @@ import {
 } from "../../../../img/ImageComponents";
 import { BodyShort } from "@navikt/ds-react";
 
-const text = {
+const texts = {
   tilleggsopplysinger:
     "Tilleggsopplysninger vedrørende pasienten. Behandleren honoreres med takst L8.",
   legeerklaring:
@@ -35,14 +35,14 @@ export const MeldingsTypeInfo = ({ meldingType }: Props) => {
         return (
           <>
             <Icon src={BlyantImage} />
-            <BodyShort size={"small"}>{text.tilleggsopplysinger}</BodyShort>
+            <BodyShort size={"small"}>{texts.tilleggsopplysinger}</BodyShort>
           </>
         );
       case MeldingType.FORESPORSEL_PASIENT_LEGEERKLARING:
         return (
           <>
             <Icon src={BlueDocumentImage} />
-            <BodyShort size={"small"}>{text.legeerklaring}</BodyShort>
+            <BodyShort size={"small"}>{texts.legeerklaring}</BodyShort>
           </>
         );
       case MeldingType.FORESPORSEL_PASIENT_PAMINNELSE:

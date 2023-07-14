@@ -6,13 +6,16 @@ import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
 import { ToggleNames } from "@/data/unleash/unleash_types";
 import AppSpinner from "@/components/AppSpinner";
 
-export const texts = {
+const texts = {
   header: "Skriv til behandler",
-  alert:
+  tilleggsopplysningerInfo:
     "Her kan du kun be om tilleggsopplysninger med takst L8. Dialogmeldingen skal bare benyttes i sykefraværsoppfølgingen.",
 };
 
 const MeldingTilBehandlerAlert = styled(Alert)`
+  max-width: fit-content;
+  margin-bottom: 1.5em;
+
   .navds-alert__wrapper {
     max-width: fit-content;
   }
@@ -35,7 +38,7 @@ export const MeldingTilBehandler = () => {
         <>
           {!isBehandlerdialogLegeerklaringEnabled && (
             <MeldingTilBehandlerAlert variant="warning" size="small">
-              {texts.alert}
+              {texts.tilleggsopplysningerInfo}
             </MeldingTilBehandlerAlert>
           )}
           <MeldingTilBehandlerSkjema
