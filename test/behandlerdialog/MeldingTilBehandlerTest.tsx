@@ -42,7 +42,7 @@ describe("MeldingTilBehandler", () => {
     queryClient = queryClientWithMockData();
   });
 
-  it("Viser overskrift og warning-alert hvis toggle for legeerklæring er av", () => {
+  it("Viser overskrift og warning-alert for bruk av tilleggsopplysninger hvis toggle for legeerklæring er av", () => {
     queryClient.setQueryData(
       unleashQueryKeys.toggles(
         BEHANDLENDE_ENHET_DEFAULT.enhetId,
@@ -58,14 +58,24 @@ describe("MeldingTilBehandler", () => {
 
     renderMeldingTilBehandler();
 
+    const tilleggsopplysningerInfoText =
+      "Her kan du kun be om tilleggsopplysninger med takst L8. Dialogmeldingen skal bare benyttes i sykefraværsoppfølgingen. Meldingen vises også til innbyggeren på Min side.";
+
     expect(screen.getByRole("heading", { name: "Skriv til behandler" })).to
       .exist;
     expect(screen.getByRole("img", { name: "Advarsel" })).to.exist;
-    expect(
-      screen.getByText(
-        "Her kan du kun be om tilleggsopplysninger med takst L8. Dialogmeldingen skal bare benyttes i sykefraværsoppfølgingen."
-      )
-    ).to.exist;
+    expect(screen.getByText(tilleggsopplysningerInfoText)).to.exist;
+  });
+
+  it("Viser overskrift og warning-alert for kopi til bruker hvis toggle for legeerklæring er på", () => {
+    renderMeldingTilBehandler();
+
+    const meldingenVisesText = "Meldingen vises til innbyggeren på Min side.";
+
+    expect(screen.getByRole("heading", { name: "Skriv til behandler" })).to
+      .exist;
+    expect(screen.getByRole("img", { name: "Advarsel" })).to.exist;
+    expect(screen.getByText(meldingenVisesText)).to.exist;
   });
 
   const selectLabel = "Hvilken meldingstype ønsker du å sende";

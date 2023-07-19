@@ -9,7 +9,8 @@ import AppSpinner from "@/components/AppSpinner";
 const texts = {
   header: "Skriv til behandler",
   tilleggsopplysningerInfo:
-    "Her kan du kun be om tilleggsopplysninger med takst L8. Dialogmeldingen skal bare benyttes i sykefraværsoppfølgingen.",
+    "Her kan du kun be om tilleggsopplysninger med takst L8. Dialogmeldingen skal bare benyttes i sykefraværsoppfølgingen. Meldingen vises også til innbyggeren på Min side.",
+  meldingVisesTilBruker: "Meldingen vises til innbyggeren på Min side.",
 };
 
 const MeldingTilBehandlerAlert = styled(Alert)`
@@ -36,11 +37,11 @@ export const MeldingTilBehandler = () => {
         <AppSpinner />
       ) : (
         <>
-          {!isBehandlerdialogLegeerklaringEnabled && (
-            <MeldingTilBehandlerAlert variant="warning" size="small">
-              {texts.tilleggsopplysningerInfo}
-            </MeldingTilBehandlerAlert>
-          )}
+          <MeldingTilBehandlerAlert variant="warning" size="small">
+            {isBehandlerdialogLegeerklaringEnabled
+              ? texts.meldingVisesTilBruker
+              : texts.tilleggsopplysningerInfo}
+          </MeldingTilBehandlerAlert>
           <MeldingTilBehandlerSkjema
             isBehandlerdialogLegeerklaringEnabled={
               isBehandlerdialogLegeerklaringEnabled
