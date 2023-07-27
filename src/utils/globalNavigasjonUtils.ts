@@ -74,9 +74,18 @@ const getNumberOfBehandlerDialogOppgaver = (
     ? 1
     : 0;
 
+  const numberOfUbehanldedeBehandlerDialogMeldingAvvist =
+    hasUbehandletPersonoppgave(
+      personOppgaver,
+      PersonOppgaveType.BEHANDLERDIALOG_MELDING_AVVIST
+    )
+      ? 1
+      : 0;
+
   return (
     numberOfUbehandledeBehandlerDialogSvar +
-    numberOfUbehandledeBehandlerDialogUbesvart
+    numberOfUbehandledeBehandlerDialogUbesvart +
+    numberOfUbehanldedeBehandlerDialogMeldingAvvist
   );
 };
 

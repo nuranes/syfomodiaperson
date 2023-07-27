@@ -50,7 +50,7 @@ class ByUserId extends Strategy {
   }
 }
 
-class ByEnvironment extends Strategy {
+class ByEnvironmentToggle extends Strategy {
   constructor() {
     super("byEnvironmentToggle");
   }
@@ -71,7 +71,7 @@ const unleash = initialize({
     new ByDevEnhet(),
     new ByUserId(),
     new ByProdEnhet(),
-    new ByEnvironment(),
+    new ByEnvironmentToggle(),
   ],
 });
 
@@ -86,6 +86,13 @@ export const unleashToggles = (toggles: any, valgtEnhet: any, userId: any) => {
     ),
     "syfo.behandlerdialog.legeerklaring": unleash.isEnabled(
       "syfo.behandlerdialog.legeerklaring",
+      {
+        valgtEnhet: valgtEnhet,
+        user: userId,
+      }
+    ),
+    "syfo.behandlerdialog.avvistmelding": unleash.isEnabled(
+      "syfo.behandlerdialog.avvistmelding",
       {
         valgtEnhet: valgtEnhet,
         user: userId,

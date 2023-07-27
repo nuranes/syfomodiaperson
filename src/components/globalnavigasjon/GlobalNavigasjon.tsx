@@ -13,6 +13,17 @@ import { toOppfolgingsplanLPSMedPersonoppgave } from "@/utils/oppfolgingsplanerU
 import { VedtakMenypunkt } from "@/components/globalnavigasjon/VedtakMenypunkt";
 import { Menypunkt, Menypunkter } from "@/navigation/menypunkterTypes";
 import { useAktivitetskravQuery } from "@/data/aktivitetskrav/aktivitetskravQueryHooks";
+import { BodyShort } from "@navikt/ds-react";
+import styled from "styled-components";
+
+const StyledLi = styled.li`
+  display: flex;
+`;
+
+const StyledLink = styled(Link)`
+  display: flex;
+  justify-content: space-between;
+`;
 
 const nokkelinformasjonMenypunkt = {
   navn: "Nøkkelinformasjon",
@@ -154,8 +165,8 @@ export const GlobalNavigasjon = ({
             {isVedtakMenypunkt ? (
               <VedtakMenypunkt index={index} navn={navn} />
             ) : (
-              <li className="navigasjon__element" aria-current={isAktiv}>
-                <Link
+              <StyledLi aria-current={isAktiv}>
+                <StyledLink
                   ref={(instance) => {
                     if (instance) {
                       refs.current[index] = instance;
@@ -170,15 +181,12 @@ export const GlobalNavigasjon = ({
                     handleKeyDown(e);
                   }}
                 >
-                  <span
-                    className="navigasjon__element__tekst"
-                    dangerouslySetInnerHTML={{ __html: navn }}
-                  />
+                  <BodyShort size="small">{navn}</BodyShort>
                   {tasks > 0 && (
                     <UnfinishedTasks tasks={tasks} menypunkt={menypunkt} />
                   )}
-                </Link>
-              </li>
+                </StyledLink>
+              </StyledLi>
             )}
           </React.Fragment>
         );

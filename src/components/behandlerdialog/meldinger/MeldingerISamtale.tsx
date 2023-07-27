@@ -1,13 +1,16 @@
 import React from "react";
-import { MeldingDTO } from "@/data/behandlerdialog/behandlerdialogTypes";
+import {
+  MeldingDTO,
+  MeldingStatusType,
+} from "@/data/behandlerdialog/behandlerdialogTypes";
 import { MeldingInnholdPanel } from "@/components/behandlerdialog/meldinger/MeldingInnholdPanel";
 import styled from "styled-components";
 import {
   NavLogoRod,
   StetoskopIkonBakgrunn,
 } from "../../../../img/ImageComponents";
-import { Alert } from "@navikt/ds-react";
 import { PaminnelseMelding } from "@/components/behandlerdialog/paminnelse/PaminnelseMelding";
+import { AvvistMelding } from "@/components/behandlerdialog/meldinger/AvvistMelding";
 
 const StyledWrapper = styled.div`
   margin: 1em 0;
@@ -63,8 +66,11 @@ const MeldingTilBehandler = ({ melding }: MeldingInnholdProps) => {
     <StyledMelding>
       <StyledInnhold>
         <MeldingInnholdPanel melding={melding} />
-        {melding.status?.tekst && (
-          <Alert variant="error">{melding.status?.tekst}</Alert>
+        {melding.status?.type === MeldingStatusType.AVVIST && (
+          <AvvistMelding
+            avvistMeldingStatusTekst={melding.status.tekst}
+            meldingUuid={melding.uuid}
+          />
         )}
         <PaminnelseMelding melding={melding} />
       </StyledInnhold>

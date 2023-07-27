@@ -17,7 +17,7 @@ const UnfinishedTasks = (unfinishedTasksProps: UnfinishedTasksProps) => {
   return menypunkt === Menypunkter.OPPFOELGINGSPLANER ? (
     <p className="antallNytt__oppfolgingsplan">{opActivePlanerText(tasks)}</p>
   ) : (
-    <i className="antallNytt">{tasks}</i>
+    <p className="antallNytt">{tasks}</p>
   );
 };
 

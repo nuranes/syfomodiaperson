@@ -35,7 +35,7 @@ export interface MeldingDTO {
   veilederIdent: string | null;
 }
 
-interface MeldingStatusDTO {
+export interface MeldingStatusDTO {
   type: MeldingStatusType;
   tekst: string | null;
 }

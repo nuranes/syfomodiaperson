@@ -16,6 +16,7 @@ import { navEnhet } from "../dialogmote/testData";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import {
   personoppgaverMock,
+  personOppgaveUbehandletBehandlerdialogAvvistMelding,
   personOppgaveUbehandletBehandlerdialogSvar,
   personOppgaveUbehandletBehandlerdialogUbesvartMelding,
 } from "../../mock/ispersonoppgave/personoppgaveMock";
@@ -115,19 +116,33 @@ describe("GlobalNavigasjon", () => {
       .exist;
   });
 
-  it("viser to røde prikker for menypunkt Dialog med behandler når ubehandlet oppgave ubesvart melding og ubehandlet oppgave behandlerdialog-svar", () => {
+  it("viser én rød prikk for menypunkt Dialog med behandler når ubehandlet oppgave avvist melding", () => {
+    queryClient = queryClientWithMockData();
+    queryClient.setQueryData(
+      personoppgaverQueryKeys.personoppgaver(fnr),
+      () => [personOppgaveUbehandletBehandlerdialogAvvistMelding]
+    );
+
+    renderGlobalNavigasjon();
+
+    expect(screen.getByRole("link", { name: "Dialog med behandler 1" })).to
+      .exist;
+  });
+
+  it("viser tre røde prikker for menypunkt Dialog med behandler når ubehandlet oppgave ubesvart melding, ubehandlet behandlerdialog-svar og ubehandlet avvist melding", () => {
     queryClient = queryClientWithMockData();
     queryClient.setQueryData(
       personoppgaverQueryKeys.personoppgaver(fnr),
       () => [
         personOppgaveUbehandletBehandlerdialogSvar,
         personOppgaveUbehandletBehandlerdialogUbesvartMelding,
+        personOppgaveUbehandletBehandlerdialogAvvistMelding,
       ]
     );
 
     renderGlobalNavigasjon();
 
-    expect(screen.getByRole("link", { name: "Dialog med behandler 2" })).to
+    expect(screen.getByRole("link", { name: "Dialog med behandler 3" })).to
       .exist;
   });
 });

@@ -4,6 +4,7 @@ import {
   VIRKSOMHET_PONTYPANDY,
 } from "../common/mockConstants";
 import dayjs from "dayjs";
+import { PersonOppgaveType } from "../../src/data/personoppgave/types/PersonOppgave";
 
 const personOppgaveUbehandletOppfolgingsplanLPS = {
   uuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd0",
@@ -21,6 +22,22 @@ const personOppgaveUbehandletDialogmotesvar = {
   uuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd1",
   referanseUuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd3",
   type: "DIALOGMOTESVAR",
+};
+
+export const personOppgaveUbehandletBehandlerdialogAvvistMelding = {
+  ...personOppgaveUbehandletOppfolgingsplanLPS,
+  uuid: "5f1e2629-062b-442d-ae1f-3b08e9574ca2",
+  referanseUuid: "9f1e2639-061b-243d-ac1f-3b08e9574cd5",
+  type: PersonOppgaveType.BEHANDLERDIALOG_MELDING_AVVIST,
+};
+
+export const personOppgaveBehandletBehandlerdialogAvvistMelding = {
+  ...personOppgaveUbehandletOppfolgingsplanLPS,
+  uuid: "5f1e2629-062b-442d-ae1f-3b08e9574ca2",
+  referanseUuid: "9f1e2639-061b-243d-ac1f-3b08e9574cd5",
+  type: PersonOppgaveType.BEHANDLERDIALOG_MELDING_AVVIST,
+  behandletTidspunkt: new Date().toDateString(),
+  behandletVeilederIdent: VEILEDER_IDENT_DEFAULT,
 };
 
 export const personOppgaveUbehandletBehandlerdialogSvar = {
@@ -100,5 +117,7 @@ export const personoppgaverMock = () => {
     personOppgaveUbehandletBehandlerdialogSvar,
     personOppgaveUbehandletBehandlerdialogUbesvartMelding,
     personOppgaveBehandletBehandlerdialogUbesvartMelding,
+    personOppgaveUbehandletBehandlerdialogAvvistMelding,
+    personOppgaveBehandletBehandlerdialogAvvistMelding,
   ];
 };
