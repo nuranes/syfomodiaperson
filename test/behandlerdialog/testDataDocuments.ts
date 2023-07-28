@@ -100,7 +100,7 @@ export const expectedLegeerklaringDocument = (
   meldingTekst: string
 ): DocumentComponentDto[] => [
   {
-    texts: ["Forespørsel om «Legeerklæring ved arbeidsuførhet»"],
+    texts: ["Forespørsel om legeerklæring ved arbeidsuførhet"],
     type: DocumentComponentType.HEADER_H1,
   },
   {
@@ -111,17 +111,7 @@ export const expectedLegeerklaringDocument = (
   },
   {
     texts: [
-      "Som et ledd i NAVs videre oppfølging av pasienten din har vi behov for informasjon fra deg.",
-    ],
-    type: DocumentComponentType.PARAGRAPH,
-  },
-  {
-    texts: [meldingTekst],
-    type: DocumentComponentType.PARAGRAPH,
-  },
-  {
-    texts: [
-      "Opplysninger som etter din vurdering faller utenfor formålet, kan du utelate i oversendelsen til NAV.",
+      "NAV trenger opplysninger fra deg vedrørende din pasient. Du kan utelate opplysninger som etter din vurdering faller utenfor formålet.",
     ],
     type: DocumentComponentType.PARAGRAPH,
   },
@@ -129,6 +119,10 @@ export const expectedLegeerklaringDocument = (
     texts: [
       "«Legeerklæring ved arbeidsuførhet» leveres på blankett NAV 08-07.08, og honoreres med takst L40.",
     ],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: [meldingTekst],
     type: DocumentComponentType.PARAGRAPH,
   },
   {
@@ -140,7 +134,13 @@ export const expectedLegeerklaringDocument = (
   },
   {
     texts: [
-      "Pålegget om utlevering av opplysninger kan påklages etter forvaltningsloven § 14. Klageadgangen gjelder kun lovligheten i pålegget. Fristen for å klage er tre dager etter at pålegget er mottatt. Klagen kan fremsettes muntlig eller skriftlig.",
+      "Pålegget om utlevering av opplysninger kan påklages etter forvaltningsloven § 14.",
+    ],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: [
+      "Klageadgangen gjelder kun lovligheten i pålegget. Fristen for å klage er tre dager etter at pålegget er mottatt. Klagen kan fremsettes muntlig eller skriftlig.",
     ],
     type: DocumentComponentType.PARAGRAPH,
   },

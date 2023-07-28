@@ -13,7 +13,10 @@ import {
 } from "@/data/behandlerdialog/behandlerdialogTypes";
 import { behandlereDialogmeldingMock } from "../../mock/isdialogmelding/behandlereDialogmeldingMock";
 import userEvent from "@testing-library/user-event";
-import { expectedTilleggsopplysningerDocument } from "./testDataDocuments";
+import {
+  expectedLegeerklaringDocument,
+  expectedTilleggsopplysningerDocument,
+} from "./testDataDocuments";
 import { unleashQueryKeys } from "@/data/unleash/unleashQueryHooks";
 import {
   BEHANDLENDE_ENHET_DEFAULT,
@@ -111,6 +114,7 @@ describe("MeldingTilBehandler", () => {
         MeldingType.FORESPORSEL_PASIENT_TILLEGGSOPPLYSNINGER
       );
     });
+
     it("Viser informasjon om meldingstype legeerklaring hvis valgt", () => {
       renderMeldingTilBehandler();
 
@@ -124,12 +128,14 @@ describe("MeldingTilBehandler", () => {
 
       expect(screen.getByText(legeerklaringText)).to.exist;
     });
+
     it("Viser radiobuttons med behandlervalg, der det ikke er mulig å velge 'Ingen behandler'", () => {
       renderMeldingTilBehandler();
 
       expect(screen.queryByText("Ingen behandler")).to.not.exist;
       expect(screen.getByText("Søk etter behandler")).to.exist;
     });
+
     it("Viser behandlersøk ved klikk på radiobutton 'Søk etter behandler'", () => {
       renderMeldingTilBehandler();
 
@@ -142,7 +148,8 @@ describe("MeldingTilBehandler", () => {
         })
       ).to.exist;
     });
-    it("Forhåndsviser melding til behandler ved klikk på Forhåndsvisning-knapp", () => {
+
+    it("Forhåndsviser tilleggsopplysninger-melding ved klikk på Forhåndsvisning-knapp", () => {
       renderMeldingTilBehandler();
 
       fireEvent.change(screen.getByLabelText(selectLabel), {
@@ -163,6 +170,34 @@ describe("MeldingTilBehandler", () => {
       expect(previewModal).to.exist;
 
       const expectedTexts = expectedTilleggsopplysningerDocument(
+        enMeldingTekst
+      ).flatMap((documentComponent) => documentComponent.texts);
+      expectedTexts.forEach((text) => {
+        expect(within(previewModal).getByText(text)).to.exist;
+      });
+    });
+
+    it("Forhåndsviser legeerklæring-melding ved klikk på Forhåndsvisning-knapp", () => {
+      renderMeldingTilBehandler();
+
+      fireEvent.change(screen.getByLabelText(selectLabel), {
+        target: { value: MeldingType.FORESPORSEL_PASIENT_LEGEERKLARING },
+      });
+
+      const meldingInput = getTextInput("Skriv inn tekst");
+      changeTextInput(meldingInput, enMeldingTekst);
+
+      const previewButton = screen.getByRole("button", {
+        name: "Forhåndsvisning",
+      });
+      userEvent.click(previewButton);
+
+      const previewModal = screen.getByRole("dialog", {
+        name: "Forhåndsvis melding til behandler",
+      });
+      expect(previewModal).to.exist;
+
+      const expectedTexts = expectedLegeerklaringDocument(
         enMeldingTekst
       ).flatMap((documentComponent) => documentComponent.texts);
       expectedTexts.forEach((text) => {

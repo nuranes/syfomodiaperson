@@ -26,17 +26,17 @@ export const paminnelseTexts = {
 };
 
 export const legeerklaringTexts = {
-  header: "Forespørsel om «Legeerklæring ved arbeidsuførhet»",
-  intro:
-    "Som et ledd i NAVs videre oppfølging av pasienten din har vi behov for informasjon fra deg.",
+  header: "Forespørsel om legeerklæring ved arbeidsuførhet",
   opplysninger:
-    "Opplysninger som etter din vurdering faller utenfor formålet, kan du utelate i oversendelsen til NAV.",
+    "NAV trenger opplysninger fra deg vedrørende din pasient. Du kan utelate opplysninger som etter din vurdering faller utenfor formålet.",
   takst:
     "«Legeerklæring ved arbeidsuførhet» leveres på blankett NAV 08-07.08, og honoreres med takst L40.",
   lovhjemmel: {
     title: "Lovhjemmel",
     text: "Folketrygdloven § 21-4 andre ledd gir NAV rett til å innhente nødvendige opplysninger. Dette gjelder selv om opplysningene er taushetsbelagte, jf. § 21-4 sjette ledd.",
   },
-  klage:
-    "Pålegget om utlevering av opplysninger kan påklages etter forvaltningsloven § 14. Klageadgangen gjelder kun lovligheten av pålegget. Fristen for å klage er tre dager etter at pålegget er mottatt. Klagen kan fremsettes muntlig eller skriftlig.",
+  klage1:
+    "Pålegget om utlevering av opplysninger kan påklages etter forvaltningsloven § 14.",
+  klage2:
+    "Klageadgangen gjelder kun lovligheten i pålegget. Fristen for å klage er tre dager etter at pålegget er mottatt. Klagen kan fremsettes muntlig eller skriftlig.",
 };

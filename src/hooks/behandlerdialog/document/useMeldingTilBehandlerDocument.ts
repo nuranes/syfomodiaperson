@@ -94,7 +94,8 @@ export const useMeldingTilBehandlerDocument = (): {
     const documentComponents = [
       createHeaderH1(legeerklaringTexts.header),
       createParagraph(`Gjelder pasient: ${navBruker.navn}, ${personident}.`),
-      createParagraph(legeerklaringTexts.intro),
+      createParagraph(legeerklaringTexts.opplysninger),
+      createParagraph(legeerklaringTexts.takst),
     ];
 
     if (values.meldingTekst) {
@@ -102,13 +103,12 @@ export const useMeldingTilBehandlerDocument = (): {
     }
 
     documentComponents.push(
-      createParagraph(legeerklaringTexts.opplysninger),
-      createParagraph(legeerklaringTexts.takst),
       createParagraphWithTitle(
         legeerklaringTexts.lovhjemmel.title,
         legeerklaringTexts.lovhjemmel.text
       ),
-      createParagraph(legeerklaringTexts.klage),
+      createParagraph(legeerklaringTexts.klage1),
+      createParagraph(legeerklaringTexts.klage2),
       getHilsen()
     );
 
