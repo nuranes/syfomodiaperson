@@ -146,7 +146,7 @@ export const MeldingTilBehandlerSkjema = ({
           )}
           {isBehandlerdialogLegeerklaringEnabled && (
             <MeldingsType>
-              <SelectMeldingType values={values} />
+              <SelectMeldingType />
               {values.type && <MeldingsTypeInfo meldingType={values.type} />}
             </MeldingsType>
           )}

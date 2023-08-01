@@ -1,6 +1,6 @@
 import { MeldingType } from "@/data/behandlerdialog/behandlerdialogTypes";
 import styled from "styled-components";
-import React from "react";
+import React, { ReactElement } from "react";
 import {
   BlueDocumentImage,
   BlyantImage,
@@ -28,7 +28,7 @@ interface Props {
   meldingType: MeldingType;
 }
 
-export const MeldingsTypeInfo = ({ meldingType }: Props) => {
+export const MeldingsTypeInfo = ({ meldingType }: Props): ReactElement => {
   const Info = () => {
     switch (meldingType) {
       case MeldingType.FORESPORSEL_PASIENT_TILLEGGSOPPLYSNINGER:
