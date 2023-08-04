@@ -8,7 +8,6 @@ import {
   erFriskmeldingInformasjon,
   erHensynPaaArbeidsplassenInformasjon,
   erMeldingTilArbeidsgiverInformasjon,
-  erMeldingTilNavInformasjon,
   erMulighetForArbeidInformasjon,
   finnAvventendeSykmeldingTekst,
   getDiagnosekodeFromLatestSykmelding,
@@ -374,33 +373,6 @@ describe("sykmeldingUtils", () => {
       };
 
       const erIkkeEkstraInfo = erBedringAvArbeidsevnenInformasjon(sykmelding);
-
-      expect(erIkkeEkstraInfo).to.equal(false);
-    });
-  });
-
-  describe("erMeldingTilNavInformasjon", () => {
-    it("skal returnere true dersom sykmeldingen inneholder informasjon om melding til nav", () => {
-      const sykmelding: SykmeldingOldFormat = {
-        ...baseSykmelding,
-        meldingTilNav: {
-          navBoerTaTakISaken: true,
-        },
-      };
-
-      const erEkstraInfo = erMeldingTilNavInformasjon(sykmelding);
-
-      expect(erEkstraInfo).to.equal(true);
-    });
-    it("skal returnere false dersom sykmeldingen ikke inneholder informasjon om melding til nav", () => {
-      const sykmelding: SykmeldingOldFormat = {
-        ...baseSykmelding,
-        meldingTilNav: {
-          navBoerTaTakISaken: false,
-        },
-      };
-
-      const erIkkeEkstraInfo = erMeldingTilNavInformasjon(sykmelding);
 
       expect(erIkkeEkstraInfo).to.equal(false);
     });

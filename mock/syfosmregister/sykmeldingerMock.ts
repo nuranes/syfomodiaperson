@@ -542,9 +542,12 @@ export const sykmeldingerMock = [
     },
     tiltakArbeidsplassen: "Fortsett som sist.",
     tiltakNAV:
-      "Pasienten har plager som er kommet tilbake etter operasjon. Det er nylig tatt MR bildet som viser forandringer i hånd som mulig må opereres. Venter på time. Det er mulig sykemledingen vil vare utover aktuell sm periode. ",
+      "Sende George på kostskole, han har plaget Pontypandy lenge nok nå",
     andreTiltak: null,
-    meldingTilNAV: null,
+    meldingTilNAV: {
+      bistandUmiddelbart: false,
+      beskrivBistand: "Mye røykskader pga jobben",
+    },
     meldingTilArbeidsgiver: null,
     kontaktMedPasient: {
       kontaktDato: null,
@@ -971,11 +974,14 @@ export const sykmeldingerMock = [
         },
       },
     },
-    tiltakArbeidsplassen: "Fortsett som sist.",
-    tiltakNAV:
-      "Pasienten har plager som er kommet tilbake etter operasjon. Det er nylig tatt MR bildet som viser forandringer i hånd som mulig må opereres. Venter på time. Det er mulig sykemledingen vil vare utover aktuell sm periode. ",
+    tiltakArbeidsplassen: "Sette phasers til stun.",
+    tiltakNAV: "Vedlikehold av holodeck",
     andreTiltak: null,
-    meldingTilNAV: null,
+    meldingTilNAV: {
+      bistandUmiddelbart: true,
+      beskrivBistand:
+        "Nav kan vise til egen forskning på faren med phaser blasts",
+    },
     meldingTilArbeidsgiver: null,
     kontaktMedPasient: {
       kontaktDato: null,

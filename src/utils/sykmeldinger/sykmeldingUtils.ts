@@ -100,7 +100,10 @@ export const erBedringAvArbeidsevnenInformasjon = (
 export const erMeldingTilNavInformasjon = (
   sykmelding: SykmeldingOldFormat
 ): boolean => {
-  return sykmelding.meldingTilNav.navBoerTaTakISaken || false;
+  return (
+    !!sykmelding.meldingTilNav.navBoerTaTakISaken ||
+    !!sykmelding.meldingTilNav.navBoerTaTakISakenBegrunnelse
+  );
 };
 
 export const erMeldingTilArbeidsgiverInformasjon = (
