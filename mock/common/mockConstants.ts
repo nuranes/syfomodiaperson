@@ -56,13 +56,23 @@ export const VIRKSOMHET_PONTYPANDY = {
 };
 
 export const VIRKSOMHET_UTEN_NARMESTE_LEDER = {
-  virksomhetsnavn: "Virksomhet uten leder",
+  virksomhetsnavn: "Virksomhet uten leder AS",
   virksomhetsnummer: "000999000",
 };
 
 export const VIRKSOMHET_BRANNOGBIL = {
   virksomhetsnavn: "BRANN OG BIL AS",
   virksomhetsnummer: "555666444",
+};
+
+export const VIRKSOMHET_ENTERPRISE = {
+  virksomhetsnavn: "USS Enterprise",
+  virksomhetsnummer: "333666999",
+};
+
+export const VIRKSOMHET_KONKURS = {
+  virksomhetsnavn: "KONKURS BEDRIFT OG VENNER AS",
+  virksomhetsnummer: "000000001",
 };
 
 export const NARMESTE_LEDER_DEFAULT = {

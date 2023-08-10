@@ -1,5 +1,6 @@
 import {
   ARBEIDSTAKER_DEFAULT,
+  VIRKSOMHET_BRANNOGBIL,
   VIRKSOMHET_PONTYPANDY,
   VIRKSOMHET_UTEN_NARMESTE_LEDER,
 } from "../common/mockConstants";
@@ -24,8 +25,7 @@ export const oppfolgingstilfellePersonMock = {
       end: "2030-12-10",
       virksomhetsnummerList: [
         VIRKSOMHET_PONTYPANDY.virksomhetsnummer,
-        "333666999",
-        "912345678",
+        VIRKSOMHET_BRANNOGBIL.virksomhetsnummer,
         VIRKSOMHET_UTEN_NARMESTE_LEDER.virksomhetsnummer,
       ],
     },

@@ -1,5 +1,7 @@
 import {
   VIRKSOMHET_BRANNOGBIL,
+  VIRKSOMHET_ENTERPRISE,
+  VIRKSOMHET_KONKURS,
   VIRKSOMHET_PONTYPANDY,
   VIRKSOMHET_UTEN_NARMESTE_LEDER,
 } from "../common/mockConstants";
@@ -23,6 +25,10 @@ export const virksomhetMock = (virksomhetsnummer?: string) => {
       return eregOrganisasjonResponse(
         VIRKSOMHET_UTEN_NARMESTE_LEDER.virksomhetsnavn
       );
+    case VIRKSOMHET_ENTERPRISE.virksomhetsnummer:
+      return eregOrganisasjonResponse(VIRKSOMHET_ENTERPRISE.virksomhetsnavn);
+    case VIRKSOMHET_KONKURS.virksomhetsnummer:
+      return eregOrganisasjonResponse(VIRKSOMHET_KONKURS.virksomhetsnavn);
     default:
       return null;
   }

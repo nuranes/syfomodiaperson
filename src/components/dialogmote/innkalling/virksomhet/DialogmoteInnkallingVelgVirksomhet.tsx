@@ -29,7 +29,17 @@ const VirksomhetTittel = styled(Innholdstittel)`
 const DialogmoteInnkallingVelgVirksomhet = () => {
   const { currentLedere } = useLedereQuery();
   const { latestOppfolgingstilfelle } = useOppfolgingstilfellePersonQuery();
-  const virksomheter = latestOppfolgingstilfelle?.virksomhetsnummerList || [];
+
+  const virksomheterFromTilfelle =
+    latestOppfolgingstilfelle?.virksomhetsnummerList || [];
+  const virksomheterFromCurentLedere = currentLedere.map(
+    (leder) => leder.virksomhetsnummer
+  );
+  const virksomheterWithDuplicates = virksomheterFromTilfelle.concat(
+    virksomheterFromCurentLedere
+  );
+  const virksomheter = [...new Set(virksomheterWithDuplicates)];
+
   const field = "arbeidsgiver";
 
   return (

@@ -26,6 +26,7 @@ import { renderWithRouter } from "../../testRouterUtils";
 import { oppfolgingstilfellePersonQueryKeys } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { OppfolgingstilfellePersonDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
 import { DocumentComponentType } from "@/data/documentcomponent/documentComponentTypes";
+import { ledereQueryKeys } from "@/data/leder/ledereQueryHooks";
 
 let queryClient: any;
 
@@ -157,7 +158,7 @@ describe("DialogmoteInnkallingSkjema", () => {
     expect(screen.queryByLabelText("Epost")).to.not.exist;
   });
 
-  it("viser ekstra radioknapp for virksomhet hvis det ikke finnes oppfølgingstilfelle", () => {
+  it("viser ekstra radioknapp for virksomhet hvis det ikke finnes oppfølgingstilfelle eller ledere", () => {
     const oppfolgingstilfellePerson: OppfolgingstilfellePersonDTO = {
       personIdent: arbeidstaker.personident,
       oppfolgingstilfelleList: [],
@@ -167,6 +168,10 @@ describe("DialogmoteInnkallingSkjema", () => {
         arbeidstaker.personident
       ),
       () => oppfolgingstilfellePerson
+    );
+    queryClient.setQueryData(
+      ledereQueryKeys.ledere(arbeidstaker.personident),
+      () => []
     );
     stubInnkallingApi(apiMock());
     renderDialogmoteInnkallingSkjema();

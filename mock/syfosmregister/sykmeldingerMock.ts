@@ -26,7 +26,7 @@ export const sykmeldingerMock = [
     },
     legekontorOrgnummer: "223456789",
     arbeidsgiver: {
-      navn: "VIRKSOMHETS SYKMELDING NO LEADER",
+      navn: "Virksomhet uten leder AS",
       stillingsprosent: 100,
     },
     sykmeldingsperioder: [
@@ -113,9 +113,9 @@ export const sykmeldingerMock = [
       statusEvent: "SENDT",
       timestamp: "2020-01-29T09:38:05.414834Z",
       arbeidsgiver: {
-        orgnummer: "912345678",
-        juridiskOrgnummer: "912345678",
-        orgNavn: "VIRKSOMHETS SYKMELDING NO LEADER",
+        orgnummer: "000999000",
+        juridiskOrgnummer: "000999000",
+        orgNavn: "Virksomhet uten leder AS",
       },
       sporsmalOgSvarListe: null,
     },
