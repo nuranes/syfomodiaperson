@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import { dagerMellomDatoer } from "./datoUtils";
 import { MotebehovVeilederDTO } from "@/data/motebehov/types/motebehovTypes";
 import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
+import { MotebehovTilbakemeldingDTO } from "@/data/motebehov/useBehandleMotebehovAndSendTilbakemelding";
 
 export const sorterMotebehovDataEtterDato = (
   a: MotebehovVeilederDTO,
@@ -119,6 +120,24 @@ export const hentSistBehandletMotebehov = (
     }
   )[0];
 
+export const fjernBehandledeMotebehov = (
+  motebehovListe: MotebehovVeilederDTO[]
+): MotebehovVeilederDTO[] =>
+  motebehovListe.filter(
+    (motebehov: MotebehovVeilederDTO) => !motebehov.behandletTidspunkt
+  );
+
+export function fjerneDuplikatInnsendereMotebehov(
+  motebehovListe: MotebehovVeilederDTO[]
+): MotebehovVeilederDTO[] {
+  return motebehovListe.filter((motebehov, index) => {
+    const funnetIndex = motebehovListe.findIndex((motebehovInner) => {
+      return motebehovInner.opprettetAv === motebehov.opprettetAv;
+    });
+    return funnetIndex >= index;
+  });
+}
+
 export const motebehovlisteMedKunJaSvar = (
   motebehovliste: MotebehovVeilederDTO[]
 ): MotebehovVeilederDTO[] => {
@@ -149,3 +168,17 @@ export const motebehovFromLatestActiveTilfelle = (
     return motebehovUbehandlet(sortertMotebehovListe);
   }
 };
+
+export const toMotebehovTilbakemeldingDTO = (
+  motebehovsvar: MotebehovVeilederDTO,
+  tilbakemelding: string
+): MotebehovTilbakemeldingDTO => {
+  return {
+    varseltekst: tilbakemelding,
+    motebehovId: motebehovsvar.id,
+  };
+};
+
+export function isSykmeldtSvar(motebehov) {
+  return motebehov.opprettetAv === motebehov.aktorId;
+}
