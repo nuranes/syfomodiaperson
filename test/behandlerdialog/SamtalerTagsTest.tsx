@@ -177,24 +177,6 @@ describe("Samtaletags", () => {
       expect(screen.getByText(meldingStatusFeiletTagText)).to.exist;
     });
 
-    it("Viser alert under melding dersom man har statusTekst for melding som er avvist", () => {
-      const meldingResponse = meldingTilBehandlerMedMeldingStatus(
-        MeldingStatusType.AVVIST,
-        "Statustekst"
-      );
-      queryClient.setQueryData(
-        behandlerdialogQueryKeys.behandlerdialog(
-          ARBEIDSTAKER_DEFAULT.personIdent
-        ),
-        () => meldingResponse
-      );
-
-      renderSamtaler();
-      const accordions = screen.getAllByRole("button");
-      userEvent.click(accordions[0]);
-      expect(screen.getByText("Statustekst")).to.exist;
-    });
-
     it("viser ingen tags på samtale hvis det er melding fra behandler i samtalen og oppgaven for denne er behandlet", () => {
       const innkommendeMeldingUuid = "456uio";
       const meldingResponse = meldingTilOgFraBehandler(innkommendeMeldingUuid);

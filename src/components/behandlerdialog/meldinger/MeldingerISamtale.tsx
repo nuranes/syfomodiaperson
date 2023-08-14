@@ -67,10 +67,7 @@ const MeldingTilBehandler = ({ melding }: MeldingInnholdProps) => {
       <StyledInnhold>
         <MeldingInnholdPanel melding={melding} />
         {melding.status?.type === MeldingStatusType.AVVIST && (
-          <AvvistMelding
-            avvistMeldingStatusTekst={melding.status.tekst}
-            meldingUuid={melding.uuid}
-          />
+          <AvvistMelding meldingUuid={melding.uuid} />
         )}
         <PaminnelseMelding melding={melding} />
       </StyledInnhold>

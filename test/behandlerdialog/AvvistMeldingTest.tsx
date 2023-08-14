@@ -17,19 +17,13 @@ import {
 
 let queryClient: QueryClient;
 
-const renderAvvistMelding = (
-  avvistMeldingStatusTekst: string | null,
-  meldingUuid: string
-) => {
+const renderAvvistMelding = (meldingUuid: string) => {
   render(
     <QueryClientProvider client={queryClient}>
       <ValgtEnhetContext.Provider
         value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
       >
-        <AvvistMelding
-          avvistMeldingStatusTekst={avvistMeldingStatusTekst}
-          meldingUuid={meldingUuid}
-        />
+        <AvvistMelding meldingUuid={meldingUuid} />
       </ValgtEnhetContext.Provider>
     </QueryClientProvider>
   );
@@ -46,7 +40,7 @@ describe("Avvist melding", () => {
   });
 
   const avvistOppgaveText =
-    "Jeg har registrert at meldingen ikke ble sendt og funnet andre måter å kontakte behandleren på.";
+    "Jeg har forstått at meldingen ikke ble levert. Oppgaven kan fjernes.";
   const statusTekst = "Mottaker finnes ikke";
   const avvistStatus = {
     type: MeldingStatusType.AVVIST,
@@ -58,22 +52,18 @@ describe("Avvist melding", () => {
   };
 
   it("render nothing when melding with meldingstatus OK", () => {
-    renderAvvistMelding(
-      meldingTilBehandler.status.tekst,
-      meldingTilBehandler.uuid
-    );
+    renderAvvistMelding(meldingTilBehandler.uuid);
 
     expect(screen.queryByRole("div")).to.not.exist;
   });
 
-  it("render alert with tekst when melding with meldingstatus AVVIST", () => {
-    renderAvvistMelding(avvistMelding.status.tekst, avvistMelding.uuid);
+  it("render nothing when AVVIST melding and no oppgave", () => {
+    renderAvvistMelding(avvistMelding.uuid);
 
-    expect(screen.getByText(statusTekst)).to.exist;
     expect(screen.queryByText(avvistOppgaveText)).to.not.exist;
   });
 
-  it("render alert with tekst and checkbox when melding with meldingstatus AVVIST and has personoppgave", () => {
+  it("render checkbox when melding with meldingstatus AVVIST and has personoppgave", () => {
     queryClient.setQueryData(
       personoppgaverQueryKeys.personoppgaver(ARBEIDSTAKER_DEFAULT.personIdent),
       () => [personOppgaveUbehandletBehandlerdialogAvvistMelding]
@@ -83,13 +73,12 @@ describe("Avvist melding", () => {
       ...avvistMelding,
       uuid: personOppgaveUbehandletBehandlerdialogAvvistMelding.referanseUuid,
     };
-    renderAvvistMelding(melding.status.tekst, melding.uuid);
+    renderAvvistMelding(melding.uuid);
 
-    expect(screen.getByText(statusTekst)).to.exist;
     expect(screen.getByText(avvistOppgaveText)).to.exist;
   });
 
-  it("render checkbox when melding with meldingstatus AVVIST and has personoppgave, but no alert when no text", () => {
+  it("render checkbox when melding with meldingstatus AVVIST and has personoppgave", () => {
     queryClient.setQueryData(
       personoppgaverQueryKeys.personoppgaver(ARBEIDSTAKER_DEFAULT.personIdent),
       () => [personOppgaveUbehandletBehandlerdialogAvvistMelding]
@@ -103,13 +92,12 @@ describe("Avvist melding", () => {
       },
       uuid: personOppgaveUbehandletBehandlerdialogAvvistMelding.referanseUuid,
     };
-    renderAvvistMelding(melding.status.tekst, melding.uuid);
+    renderAvvistMelding(melding.uuid);
 
-    expect(screen.queryByText(statusTekst)).to.not.exist;
     expect(screen.getByText(avvistOppgaveText)).to.exist;
   });
 
-  it("render alert with tekst and checkbox when melding with meldingstatus AVVIST and has behandlet personoppgave", () => {
+  it("render checkbox when melding with meldingstatus AVVIST and has behandlet personoppgave", () => {
     queryClient.setQueryData(
       personoppgaverQueryKeys.personoppgaver(ARBEIDSTAKER_DEFAULT.personIdent),
       () => [personOppgaveBehandletBehandlerdialogAvvistMelding]
@@ -119,9 +107,8 @@ describe("Avvist melding", () => {
       ...avvistMelding,
       uuid: personOppgaveBehandletBehandlerdialogAvvistMelding.referanseUuid,
     };
-    renderAvvistMelding(melding.status.tekst, melding.uuid);
+    renderAvvistMelding(melding.uuid);
 
-    expect(screen.getByText(statusTekst)).to.exist;
     expect(screen.getByText("Ferdigbehandlet av", { exact: false })).to.exist;
   });
 });
