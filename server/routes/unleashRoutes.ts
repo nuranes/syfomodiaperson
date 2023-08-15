@@ -91,13 +91,6 @@ export const unleashToggles = (toggles: any, valgtEnhet: any, userId: any) => {
         user: userId,
       }
     ),
-    "syfo.behandlerdialog.avvistmelding": unleash.isEnabled(
-      "syfo.behandlerdialog.avvistmelding",
-      {
-        valgtEnhet: valgtEnhet,
-        user: userId,
-      }
-    ),
     "syfo.motebehov.tilbakemelding": unleash.isEnabled(
       "syfo.motebehov.tilbakemelding",
       {

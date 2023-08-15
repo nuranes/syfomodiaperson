@@ -4,8 +4,6 @@ import { isBehandletOppgave } from "@/utils/personOppgaveUtils";
 import { PersonOppgaveType } from "@/data/personoppgave/types/PersonOppgave";
 import BehandlePersonOppgaveKnapp from "@/components/personoppgave/BehandlePersonOppgaveKnapp";
 import { useBehandlePersonoppgave } from "@/data/personoppgave/useBehandlePersonoppgave";
-import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
-import { ToggleNames } from "@/data/unleash/unleash_types";
 
 const texts = {
   behandleOppgaveText:
@@ -17,10 +15,6 @@ interface AvvistMeldingProps {
 }
 
 export const AvvistMelding = ({ meldingUuid }: AvvistMeldingProps) => {
-  const { isFeatureEnabled } = useFeatureToggles();
-  const isAvvistMeldingOppgaveEnabled = isFeatureEnabled(
-    ToggleNames.avvistMeldingOppgave
-  );
   const behandleOppgave = useBehandlePersonoppgave();
   const { data: oppgaver } = usePersonoppgaverQuery();
   const avvistOppgave = oppgaver
@@ -32,7 +26,7 @@ export const AvvistMelding = ({ meldingUuid }: AvvistMeldingProps) => {
 
   return (
     <>
-      {isAvvistMeldingOppgaveEnabled && avvistOppgave && (
+      {avvistOppgave && (
         <BehandlePersonOppgaveKnapp
           personOppgave={avvistOppgave}
           behandleOppgaveText={texts.behandleOppgaveText}

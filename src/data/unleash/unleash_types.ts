@@ -6,6 +6,5 @@ export type Toggles = {
 export enum ToggleNames {
   virksomhetinput = "syfo.dialogmote.virksomhetinput",
   behandlerdialogLegeerklaring = "syfo.behandlerdialog.legeerklaring",
-  avvistMeldingOppgave = "syfo.behandlerdialog.avvistmelding",
   vurderMotebehovTilbakemelding = "syfo.motebehov.tilbakemelding",
 }
