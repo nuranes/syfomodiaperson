@@ -81,7 +81,7 @@ describe("MeldingTilBehandler", () => {
     expect(screen.getByText(meldingenVisesText)).to.exist;
   });
 
-  const selectLabel = "Hvilken meldingstype ønsker du å sende";
+  const selectLabel = "Hvilken meldingstype ønsker du å sende?";
 
   describe("MeldingTilBehandlerSkjema", () => {
     it("Viser select komponent for valg av meldingstype", () => {

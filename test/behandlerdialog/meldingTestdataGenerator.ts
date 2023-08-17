@@ -1,6 +1,8 @@
 import {
   behandlerdialogMockEmpty,
   defaultMelding,
+  defaultMeldingInnkommendeLegeerklaring,
+  defaultMeldingLegeerklaring,
   paminnelseMelding,
 } from "../../mock/isbehandlerdialog/behandlerdialogMock";
 import { MeldingStatusType } from "@/data/behandlerdialog/behandlerdialogTypes";
@@ -92,5 +94,14 @@ export const meldingResponseMedVedlegg = {
 export const meldingResponseMedPaminnelse = {
   conversations: {
     ["conversationRef123"]: [defaultMelding, paminnelseMelding],
+  },
+};
+
+export const meldingResponseLegeerklaring = {
+  conversations: {
+    ["conversationRef567"]: [
+      defaultMeldingLegeerklaring,
+      defaultMeldingInnkommendeLegeerklaring,
+    ],
   },
 };

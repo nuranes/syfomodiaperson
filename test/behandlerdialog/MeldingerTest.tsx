@@ -12,7 +12,10 @@ import {
   VEILEDER_DEFAULT,
 } from "../../mock/common/mockConstants";
 import { behandlerdialogMockEmpty } from "../../mock/isbehandlerdialog/behandlerdialogMock";
-import { MeldingResponseDTO } from "@/data/behandlerdialog/behandlerdialogTypes";
+import {
+  MeldingResponseDTO,
+  MeldingType,
+} from "@/data/behandlerdialog/behandlerdialogTypes";
 import userEvent from "@testing-library/user-event";
 import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQueryHooks";
 import {
@@ -23,8 +26,10 @@ import {
 import dayjs from "dayjs";
 import {
   meldingFraBehandlerUtenBehandlernavn,
+  meldingResponseLegeerklaring,
   meldingResponseMedPaminnelse,
   meldingResponseMedVedlegg,
+  meldingTilOgFraBehandler,
 } from "./meldingTestdataGenerator";
 
 let queryClient: QueryClient;
@@ -118,11 +123,75 @@ describe("Meldinger panel", () => {
       expect(screen.queryByText("Skrevet av", { exact: false })).to.not.exist;
     });
 
-    it("Skal vise veileders navn på utgåene meldinger", () => {
+    it("Skal vise veileders navn på utgående meldinger", () => {
       renderMeldinger();
 
       expect(screen.getAllByText("Skrevet av Vetle Veileder")).to.have.length(
         7
+      );
+    });
+  });
+
+  describe("Visning av type melding", () => {
+    it("Viser type inkl takst på meldinger forespørsel og svar tilleggsopplysninger", () => {
+      const meldingResponse = meldingTilOgFraBehandler("123uid");
+      queryClient.setQueryData(
+        behandlerdialogQueryKeys.behandlerdialog(
+          ARBEIDSTAKER_DEFAULT.personIdent
+        ),
+        () => meldingResponse
+      );
+      const antallMeldinger = Object.values(
+        meldingResponse.conversations
+      ).flat().length;
+
+      renderMeldinger();
+
+      expect(screen.getAllByText("Tilleggsopplysninger L8")).to.have.length(
+        antallMeldinger
+      );
+    });
+
+    it("Viser type inkl takst på meldinger forespørsel og svar legeerklaring", () => {
+      const meldingResponse = meldingResponseLegeerklaring;
+      queryClient.setQueryData(
+        behandlerdialogQueryKeys.behandlerdialog(
+          ARBEIDSTAKER_DEFAULT.personIdent
+        ),
+        () => meldingResponse
+      );
+      const antallMeldinger = Object.values(
+        meldingResponse.conversations
+      ).flat().length;
+
+      renderMeldinger();
+
+      expect(screen.getAllByText("Legeerklæring L40")).to.have.length(
+        antallMeldinger
+      );
+    });
+
+    it("Viser type inkl takst på påminnelse-meldinger", () => {
+      const meldingResponse = meldingTilOgFraBehandler("123uid", true);
+      queryClient.setQueryData(
+        behandlerdialogQueryKeys.behandlerdialog(
+          ARBEIDSTAKER_DEFAULT.personIdent
+        ),
+        () => meldingResponse
+      );
+
+      const antallPaminnelseMeldinger = Object.values(
+        meldingResponse.conversations
+      )
+        .flat()
+        .filter(
+          (melding) =>
+            melding.type === MeldingType.FORESPORSEL_PASIENT_PAMINNELSE
+        ).length;
+      renderMeldinger();
+
+      expect(screen.getAllByText("Påminnelse")).to.have.length(
+        antallPaminnelseMeldinger
       );
     });
   });

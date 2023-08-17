@@ -13,6 +13,7 @@ import { DocumentComponentType } from "@/data/documentcomponent/documentComponen
 import { PaminnelseWarningIcon } from "@/components/behandlerdialog/paminnelse/PaminnelseWarningIcon";
 import { getHeaderText } from "@/utils/documentComponentUtils";
 import { useVeilederInfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
+import { meldingTypeTexts } from "@/data/behandlerdialog/behandlerdialogTexts";
 
 const MeldingTekstWrapper = styled(BodyLong)`
   white-space: pre-wrap;
@@ -31,7 +32,7 @@ const MeldingDetails = styled.div`
   }
 `;
 
-const MeldingTidspunkt = styled(Detail)`
+const DetailCentered = styled(Detail)`
   align-self: center;
 `;
 
@@ -117,9 +118,10 @@ export const MeldingInnholdPanel = ({ melding }: MeldingInnholdPanelProps) => {
         </VedleggDetails>
       )}
       <MeldingDetails>
-        <MeldingTidspunkt>
+        <DetailCentered>
           {tilDatoMedManedNavnOgKlokkeslett(melding.tidspunkt)}
-        </MeldingTidspunkt>
+        </DetailCentered>
+        <DetailCentered>{meldingTypeTexts[melding.type]}</DetailCentered>
         <AvsenderInfo melding={melding} />
         {!melding.innkommende && <VisMelding melding={melding} />}
       </MeldingDetails>

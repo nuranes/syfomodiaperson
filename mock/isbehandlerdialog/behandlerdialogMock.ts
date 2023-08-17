@@ -111,6 +111,20 @@ export const defaultMelding = {
   veilederIdent: VEILEDER_IDENT_DEFAULT,
 };
 
+export const defaultMeldingLegeerklaring = {
+  uuid: "5f1e2629-062b-443d-ad2f-3b08e9574cd5",
+  behandlerRef: behandlerRefDoktorLegesen,
+  behandlerNavn: null,
+  tekst: defaultMeldingTekst,
+  tidspunkt: "2023-01-01T12:00:00.000+01:00",
+  innkommende: false,
+  type: MeldingType.FORESPORSEL_PASIENT_LEGEERKLARING,
+  document: meldingtilBehandlerDocument,
+  antallVedlegg: 0,
+  status: defaultStatus,
+  veilederIdent: VEILEDER_IDENT_DEFAULT,
+};
+
 export const paminnelseMelding = {
   ...defaultMelding,
   type: MeldingType.FORESPORSEL_PASIENT_PAMINNELSE,
@@ -118,6 +132,28 @@ export const paminnelseMelding = {
   document: paminnelseDocument,
   tidspunkt: "2023-01-06T12:00:00.000+01:00",
   uuid: "5f1e2639-032c-443d-ac1f-3b18e1534cd5",
+};
+
+export const defaultMeldingInnkommende = {
+  ...defaultMelding,
+  uuid: "1f1e2639-061b-243d-ac1f-3b08e9574cd5",
+  behandlerNavn: `${behandlerDoktorLegesen.fornavn} ${behandlerDoktorLegesen.etternavn}`,
+  innkommende: true,
+  tidspunkt: "2023-01-03T12:00:00.000+01:00",
+  antallVedlegg: 1,
+  document: [],
+  veilederIdent: null,
+};
+
+export const defaultMeldingInnkommendeLegeerklaring = {
+  ...defaultMeldingLegeerklaring,
+  uuid: "1f1e2639-061b-245e-ac1f-3b08e9574cd5",
+  behandlerNavn: `${behandlerDoktorLegesen.fornavn} ${behandlerDoktorLegesen.etternavn}`,
+  innkommende: true,
+  tidspunkt: "2023-01-03T12:00:00.000+01:00",
+  antallVedlegg: 1,
+  document: [],
+  veilederIdent: null,
 };
 
 const ubesvartMelding = {
@@ -142,16 +178,7 @@ const meldinger = [
     document: [],
     veilederIdent: null,
   },
-  {
-    ...defaultMelding,
-    uuid: "1f1e2639-061b-243d-ac1f-3b08e9574cd5",
-    behandlerNavn: `${behandlerDoktorLegesen.fornavn} ${behandlerDoktorLegesen.etternavn}`,
-    innkommende: true,
-    tidspunkt: "2023-01-03T12:00:00.000+01:00",
-    antallVedlegg: 1,
-    document: [],
-    veilederIdent: null,
-  },
+  defaultMeldingInnkommende,
   {
     ...defaultMelding,
     uuid: "9f1e2639-061b-243d-ac1f-3b08e9574cd5",
