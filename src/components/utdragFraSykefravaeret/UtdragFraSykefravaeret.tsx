@@ -1,5 +1,4 @@
 import React from "react";
-import Lenke from "nav-frontend-lenker";
 import SykmeldingMotebehovVisning from "../motebehov/SykmeldingMotebehovVisning";
 import {
   arbeidsgivernavnEllerArbeidssituasjon,
@@ -22,7 +21,6 @@ import {
   MerInformasjonImage,
 } from "../../../img/ImageComponents";
 import { UtdragOppfolgingsplaner } from "./UtdragOppfolgingsplaner";
-import { Undertittel } from "nav-frontend-typografi";
 import { SpinnsynLenke } from "@/components/vedtak/SpinnsynLenke";
 import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
@@ -31,6 +29,7 @@ import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { IconHeader } from "@/components/IconHeader";
 import { PapirsykmeldingTag } from "@/components/PapirsykmeldingTag";
+import { Heading, Link } from "@navikt/ds-react";
 
 const tekster = {
   header: "Utdrag fra sykefraværet",
@@ -56,6 +55,10 @@ const UtdragColumn = styled.div`
   display: flex;
   flex: 1;
   justify-content: flex-start;
+`;
+
+const StyledDiv = styled.div`
+  margin-bottom: 2.5em;
 `;
 
 export const UtvidbarTittel = ({ sykmelding }: UtvidbarTittelProps) => {
@@ -140,16 +143,19 @@ export const Sykmeldinger = ({
   const sykmeldingerSortertPaaVirksomhet = sykmeldingerGruppertEtterVirksomhet(
     sykmeldingerSortertPaaUtstedelsesdato
   );
+
   return (
-    <div className="utdragFraSykefravaeret__sykmeldinger">
-      <Undertittel tag={"h3"}>{tekster.sykmeldinger.header}</Undertittel>
+    <StyledDiv>
+      <Heading size="small" level="3">
+        {tekster.sykmeldinger.header}
+      </Heading>
       {Object.keys(sykmeldingerSortertPaaVirksomhet).map((key, index) => (
         <SykmeldingerForVirksomhet
           key={index}
           sykmeldinger={sykmeldingerSortertPaaVirksomhet[key]}
         />
       ))}
-    </div>
+    </StyledDiv>
   );
 };
 
@@ -174,10 +180,10 @@ export const SykmeldingerUtenArbeidsgiver = ({
   return (
     <>
       {sykmeldingerSortertPaUtstedelsesdato?.length > 0 && (
-        <div className="utdragFraSykefravaeret__sykmeldinger">
-          <Undertittel tag={"h3"}>
+        <StyledDiv>
+          <Heading size="small" level="3">
             {tekster.sykmeldinger.headerUtenArbeidsgiver}
-          </Undertittel>
+          </Heading>
           {sykmeldingerSortertPaUtstedelsesdato.length > 0 &&
             sykmeldingerSortertPaUtstedelsesdato.map((sykmelding, index) => {
               return (
@@ -193,7 +199,7 @@ export const SykmeldingerUtenArbeidsgiver = ({
                 </div>
               );
             })}
-        </div>
+        </StyledDiv>
       )}
     </>
   );
@@ -207,14 +213,15 @@ export const Samtalereferat = () => {
   const fnr = useValgtPersonident();
   return (
     <SamtalereferatWrapper>
-      <Undertittel tag={"h3"}>{tekster.samtalereferat.header}</Undertittel>
-      <Lenke
-        className="lenke"
+      <Heading size="small" level="3">
+        {tekster.samtalereferat.header}
+      </Heading>
+      <Link
         href={`https://modapp${finnMiljoStreng()}.adeo.no/modiabrukerdialog/person/${fnr}#!meldinger`}
         target="_blank"
       >
         {tekster.samtalereferat.lenkeTekst}
-      </Lenke>
+      </Link>
     </SamtalereferatWrapper>
   );
 };
@@ -244,7 +251,9 @@ const UtdragFraSykefravaeret = () => {
         />
 
         <Samtalereferat />
-        <Undertittel tag={"h3"}>{tekster.vedtak.header}</Undertittel>
+        <Heading size="small" level="3">
+          {tekster.vedtak.header}
+        </Heading>
         <SpinnsynLenke />
       </div>
     </>

@@ -1,8 +1,6 @@
 import dayjs from "dayjs";
 import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 import React, { ReactElement, useState } from "react";
-import { Normaltekst, Systemtittel } from "nav-frontend-typografi";
-import Panel from "nav-frontend-paneler";
 import {
   sykmeldingerInnenforOppfolgingstilfelle,
   newAndActivatedSykmeldinger,
@@ -17,6 +15,7 @@ import { useSykmeldingerQuery } from "@/data/sykmelding/sykmeldingQueryHooks";
 import { SyketilfelleList } from "@/components/nokkelinformasjon/SyketilfelleList";
 import styled from "styled-components";
 import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
+import { BodyShort, Heading, Panel } from "@navikt/ds-react";
 
 const texts = {
   title: "Sykmeldingsgrad",
@@ -25,6 +24,10 @@ const texts = {
   xAxis: "X-akse: måned i tilfellet",
   yAxis: "Y-akse: sykmeldingsgrad",
 };
+
+const StyledPanel = styled(Panel)`
+  margin-bottom: 2em;
+`;
 
 const ChartAndTilfeller = styled.div`
   display: flex;
@@ -92,17 +95,19 @@ export const Sykmeldingsgrad = () => {
   };
 
   return (
-    <Panel className="blokk">
-      <Systemtittel>{texts.title}</Systemtittel>
-      <Normaltekst>{texts.subtitle}</Normaltekst>
+    <StyledPanel>
+      <Heading size="medium" level="2">
+        {texts.title}
+      </Heading>
+      <BodyShort size="small">{texts.subtitle}</BodyShort>
       {selectedOppfolgingstilfelle && perioderListSortert.length > 0 && (
-        <Normaltekst>
+        <BodyShort size="small">
           {texts.tilfelleVarighet}
           {tilLesbarPeriodeMedArstall(
             selectedOppfolgingstilfelle.start,
             selectedOppfolgingstilfelle.end
           )}
-        </Normaltekst>
+        </BodyShort>
       )}
 
       <ChartAndTilfeller>
@@ -129,8 +134,8 @@ export const Sykmeldingsgrad = () => {
         }
       </ChartAndTilfeller>
 
-      <Normaltekst>{texts.yAxis}</Normaltekst>
-      <Normaltekst>{texts.xAxis}</Normaltekst>
-    </Panel>
+      <BodyShort size="small">{texts.yAxis}</BodyShort>
+      <BodyShort size="small">{texts.xAxis}</BodyShort>
+    </StyledPanel>
   );
 };

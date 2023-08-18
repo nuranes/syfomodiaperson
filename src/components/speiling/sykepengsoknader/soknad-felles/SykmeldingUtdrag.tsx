@@ -25,7 +25,7 @@ const SykmeldingUtdrag = ({
     <div className="blokk">
       <SpeilingEkspanderbartPanel
         variant="lysebla"
-        visLukkLenke={!erApen}
+        showCloseButton={!erApen}
         defaultOpen={erApen}
         tittel={
           <SpeilingEkspanderbartPanelTittel icon="plaster">

@@ -3,6 +3,7 @@ import { EkspanderbartpanelBase } from "nav-frontend-ekspanderbartpanel";
 import styled from "styled-components";
 import navFarger from "nav-frontend-core";
 import { FlexRow, JustifyContentType, PaddingSize } from "@/components/Layout";
+import { Button } from "@navikt/ds-react";
 
 const texts = {
   close: "Lukk",
@@ -44,7 +45,7 @@ interface SpeilingEkspanderbartPanelProps
   extends StyledEkspanderbartpanelProps {
   children: ReactElement;
   tittel: ReactNode;
-  visLukkLenke?: boolean;
+  showCloseButton?: boolean;
   defaultOpen?: boolean;
 }
 
@@ -52,10 +53,19 @@ export const SpeilingEkspanderbartPanel = ({
   children,
   variant,
   tittel,
-  visLukkLenke = true,
+  showCloseButton = true,
   defaultOpen = false,
 }: SpeilingEkspanderbartPanelProps) => {
   const [open, setOpen] = useState(defaultOpen);
+
+  const CloseButton = () => {
+    return (
+      <Button variant="tertiary" size="small" onClick={() => setOpen(!open)}>
+        {texts.close}
+      </Button>
+    );
+  };
+
   return (
     <StyledEkspanderbartpanel
       variant={variant}
@@ -64,14 +74,12 @@ export const SpeilingEkspanderbartPanel = ({
       onClick={() => setOpen(!open)}
     >
       {children}
-      {visLukkLenke && (
+      {showCloseButton && (
         <FlexRow
           topPadding={PaddingSize.SM}
           justifyContent={JustifyContentType.CENTER}
         >
-          <button className="lenke" onClick={() => setOpen(!open)}>
-            {texts.close}
-          </button>
+          <CloseButton />
         </FlexRow>
       )}
     </StyledEkspanderbartpanel>

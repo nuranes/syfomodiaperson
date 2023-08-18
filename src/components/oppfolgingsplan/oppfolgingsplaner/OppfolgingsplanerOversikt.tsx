@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import Alertstripe from "nav-frontend-alertstriper";
 import Sidetopp from "../../Sidetopp";
@@ -15,6 +14,7 @@ import { useVirksomhetQuery } from "@/data/virksomhet/virksomhetQueryHooks";
 import { usePersonoppgaverQuery } from "@/data/personoppgave/personoppgaveQueryHooks";
 import { OppfolgingsplanDTO } from "@/data/oppfolgingsplan/types/OppfolgingsplanDTO";
 import { toOppfolgingsplanLPSMedPersonoppgave } from "@/utils/oppfolgingsplanerUtils";
+import { Heading, HeadingProps, LinkPanel } from "@navikt/ds-react";
 
 const texts = {
   titles: {
@@ -125,13 +125,39 @@ const OppfolgingsplanerOversikt = (
     );
   });
 
+  const SectionHeading = ({ children }: Pick<HeadingProps, "children">) => {
+    return (
+      <Heading spacing level="2" size="medium">
+        {children}
+      </Heading>
+    );
+  };
+
+  interface LinkToOppfolgningsplanProps {
+    dialog: OppfolgingsplanDTO;
+  }
+
+  const LinkToOppfolgningsplan = ({ dialog }: LinkToOppfolgningsplanProps) => {
+    return (
+      <LinkPanel href={`/sykefravaer/oppfoelgingsplaner/${dialog.id}`}>
+        <LinkPanel.Title>
+          <OppfolgingsplanVirksomhetTittel plan={dialog} />
+        </LinkPanel.Title>
+        <LinkPanel.Description>
+          <p>{durationText(dialog)}</p>
+          <p>{deltMedNavText(dialog)}</p>
+        </LinkPanel.Description>
+      </LinkPanel>
+    );
+  };
+
   return (
     <div>
       <Sidetopp tittel="Oppfølgingsplaner" />
       <div className="blokk--l">
-        <h2 className="typo-systemtittel blokk--xs">
+        <SectionHeading>
           {texts.titles.relevantOppfolgingsplaner}
-        </h2>
+        </SectionHeading>
         {aktivePlaner.length === 0 &&
           oppfolgingsplanerLPSUnprocessed.length === 0 && (
             <Alertstripe type="info">
@@ -147,29 +173,10 @@ const OppfolgingsplanerOversikt = (
           );
         })}
         {aktivePlaner.map((dialog, index) => {
-          return (
-            <Link
-              key={index}
-              className="navigasjonspanel navigasjonspanel--stor"
-              to={`/sykefravaer/oppfoelgingsplaner/${dialog.id}`}
-            >
-              <div className="navigasjonselement">
-                <OppfolgingsplanVirksomhetTittel plan={dialog} />
-                <p className="navigasjonselement__undertittel">
-                  {durationText(dialog)}
-                </p>
-                <p className="navigasjonselement__undertekst">
-                  {deltMedNavText(dialog)}
-                </p>
-              </div>
-            </Link>
-          );
+          return <LinkToOppfolgningsplan key={index} dialog={dialog} />;
         })}
       </div>
-
-      <h2 className="typo-systemtittel blokk--xs">
-        {texts.titles.inactiveOppfolgingsplaner}
-      </h2>
+      <SectionHeading>{texts.titles.inactiveOppfolgingsplaner}</SectionHeading>
       {inaktivePlaner.length === 0 &&
         oppfolgingsplanerLPSProcessed.length === 0 && (
           <Alertstripe type="info">
@@ -178,21 +185,18 @@ const OppfolgingsplanerOversikt = (
         )}
       {inaktivePlaner.map((dialog, index) => {
         return (
-          <Link
+          <LinkPanel
             key={index}
-            className="navigasjonspanel navigasjonspanel--stor"
-            to={`/sykefravaer/oppfoelgingsplaner/${dialog.id}`}
+            href={`/sykefravaer/oppfoelgingsplaner/${dialog.id}`}
           >
-            <div className="navigasjonselement">
+            <LinkPanel.Title>
               <OppfolgingsplanVirksomhetTittel plan={dialog} />
-              <p className="navigasjonselement__undertittel">
-                {durationText(dialog)}
-              </p>
-              <p className="navigasjonselement__undertekst">
-                {deltMedNavText(dialog)}
-              </p>
-            </div>
-          </Link>
+            </LinkPanel.Title>
+            <LinkPanel.Description>
+              <p>{durationText(dialog)}</p>
+              <p>{deltMedNavText(dialog)}</p>
+            </LinkPanel.Description>
+          </LinkPanel>
         );
       })}
       {oppfolgingsplanerLPSProcessed.map((planLPS, index) => {

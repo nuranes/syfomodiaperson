@@ -23,6 +23,7 @@ const StyledLi = styled.li`
 const StyledLink = styled(Link)`
   display: flex;
   justify-content: space-between;
+  text-decoration: none;
 `;
 
 const nokkelinformasjonMenypunkt = {

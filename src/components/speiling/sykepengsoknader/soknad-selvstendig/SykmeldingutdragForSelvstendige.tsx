@@ -71,7 +71,7 @@ const SykmeldingUtdragForSelvstendige = ({
   return (
     <SpeilingEkspanderbartPanel
       defaultOpen={erApen}
-      visLukkLenke={!erApen}
+      showCloseButton={!erApen}
       variant="lyselilla"
       tittel={
         <SpeilingEkspanderbartPanelTittel icon="plaster">

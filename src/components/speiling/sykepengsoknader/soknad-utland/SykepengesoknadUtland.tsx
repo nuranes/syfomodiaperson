@@ -4,6 +4,7 @@ import SoknadSpeiling from "../soknad-felles/SoknadSpeiling";
 import StatuspanelUtland from "./StatuspanelUtland";
 import { SykepengesoknadDTO } from "@/data/sykepengesoknad/types/SykepengesoknadDTO";
 import { Brodsmule } from "../../Brodsmuler";
+import { Heading, Panel } from "@navikt/ds-react";
 
 const texts = {
   tittel: "Søknad om sykepenger under opphold utenfor Norge",
@@ -16,10 +17,12 @@ interface OppsummeringPanelProps {
 
 const OppsummeringPanel = ({ soknad }: OppsummeringPanelProps) => {
   return (
-    <div className="panel blokk">
-      <h2 className="panel__tittel blokk--xs"> {texts.oppsummering}</h2>
+    <Panel>
+      <Heading spacing size="small">
+        {texts.oppsummering}
+      </Heading>
       <Oppsummeringsvisning soknad={soknad} />
-    </div>
+    </Panel>
   );
 };
 
