@@ -97,8 +97,17 @@ const defaultStatus = {
   tekst: null,
 };
 
+export const meldingUuids = {
+  tilleggsopplysningerUtgaaende: "5f1e2629-062b-443d-ac1f-3b08e9574cd5",
+  tilleggopplysningerInnkommende: "5f1e2629-062b-442d-ae1f-3b08e9574cd5",
+  legeerklaringInnkommende: "1f1e2639-061b-245e-ac1f-3b08e9574cd5",
+  ubesvartMelding: "5f1e2639-032c-443d-ac1f-3b08e9574cd5",
+  avvistMelding: "9f1e2639-061b-243d-ac1f-3b08e9574cd5",
+  avvistMelding2: "2f1e2639-061b-243d-ac1f-3b08e9574cd5",
+};
+
 export const defaultMelding = {
-  uuid: "5f1e2629-062b-443d-ac1f-3b08e9574cd5",
+  uuid: meldingUuids.tilleggsopplysningerUtgaaende,
   behandlerRef: behandlerRefDoktorLegesen,
   behandlerNavn: null,
   tekst: defaultMeldingTekst,
@@ -147,7 +156,7 @@ export const defaultMeldingInnkommende = {
 
 export const defaultMeldingInnkommendeLegeerklaring = {
   ...defaultMeldingLegeerklaring,
-  uuid: "1f1e2639-061b-245e-ac1f-3b08e9574cd5",
+  uuid: meldingUuids.legeerklaringInnkommende,
   behandlerNavn: `${behandlerDoktorLegesen.fornavn} ${behandlerDoktorLegesen.etternavn}`,
   innkommende: true,
   tidspunkt: "2023-01-03T12:00:00.000+01:00",
@@ -158,7 +167,7 @@ export const defaultMeldingInnkommendeLegeerklaring = {
 
 const ubesvartMelding = {
   ...defaultMelding,
-  uuid: "5f1e2639-032c-443d-ac1f-3b08e9574cd5",
+  uuid: meldingUuids.ubesvartMelding,
 };
 
 const longMelding =
@@ -167,7 +176,7 @@ const longMelding =
 const meldinger = [
   defaultMelding,
   {
-    uuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd5",
+    uuid: meldingUuids.tilleggopplysningerInnkommende,
     tekst: longMelding,
     behandlerRef: behandlerRefLegoLasLegesen,
     behandlerNavn: `${behandlerLegoLasLegesen.fornavn} ${behandlerLegoLasLegesen.mellomnavn} ${behandlerLegoLasLegesen.etternavn}`,
@@ -181,7 +190,7 @@ const meldinger = [
   defaultMeldingInnkommende,
   {
     ...defaultMelding,
-    uuid: "9f1e2639-061b-243d-ac1f-3b08e9574cd5",
+    uuid: meldingUuids.avvistMelding,
     tidspunkt: "2023-01-04T12:00:00.000+01:00",
     status: {
       type: MeldingStatusType.AVVIST,
@@ -190,7 +199,7 @@ const meldinger = [
   },
   {
     ...defaultMelding,
-    uuid: "2f1e2639-061b-243d-ac1f-3b08e9574cd5",
+    uuid: meldingUuids.avvistMelding2,
     tidspunkt: "2023-01-05T12:00:00.000+01:00",
     status: {
       ...defaultStatus,
@@ -205,6 +214,16 @@ export const behandlerdialogMock = {
     "conversationRef-456": meldinger.slice(0, 2),
     "conversationRef-789": meldinger,
     "conversationRef-981": [defaultMelding, paminnelseMelding],
+  },
+};
+
+export const behandlerdialogMockInclLegeerklaring = {
+  conversations: {
+    ...behandlerdialogMock.conversations,
+    "conversationRef-819": [
+      defaultMeldingLegeerklaring,
+      defaultMeldingInnkommendeLegeerklaring,
+    ],
   },
 };
 

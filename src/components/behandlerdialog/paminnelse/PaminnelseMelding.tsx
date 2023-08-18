@@ -20,6 +20,7 @@ import { useMeldingTilBehandlerDocument } from "@/hooks/behandlerdialog/document
 import { DocumentComponentVisning } from "@/components/DocumentComponentVisning";
 import { ButtonRow, PaddingSize } from "@/components/Layout";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
+import { MeldingActionButton } from "@/components/behandlerdialog/MeldingActionButton";
 
 const texts = {
   button: "Vurder påminnelse til behandler",
@@ -27,10 +28,6 @@ const texts = {
   fjernOppgave: "Fjern oppgave uten å sende påminnelse",
   cancel: "Lukk",
 };
-
-const StyledButton = styled(Button)`
-  align-self: flex-start;
-`;
 
 const ModalContent = styled(Modal.Content)`
   padding: 2em;
@@ -70,7 +67,7 @@ const VisOgSendPaminnelse = ({
 
   return (
     <>
-      <StyledButton
+      <MeldingActionButton
         icon={<BellIcon aria-hidden />}
         onClick={() => {
           setVisPaminnelseModal(true);
@@ -79,7 +76,7 @@ const VisOgSendPaminnelse = ({
         }}
       >
         {texts.button}
-      </StyledButton>
+      </MeldingActionButton>
       <Modal
         open={visPaminnelseModal}
         onClose={() => setVisPaminnelseModal(false)}
@@ -94,7 +91,7 @@ const VisOgSendPaminnelse = ({
           ))}
           {(paminnelseTilBehandler.isError || behandleOppgave.isError) && (
             <SkjemaInnsendingFeil
-              error={paminnelseTilBehandler.error || behandleOppgave.isError}
+              error={paminnelseTilBehandler.error || behandleOppgave.error}
             />
           )}
           <ButtonRow topPadding={PaddingSize.SM} bottomPadding={PaddingSize.SM}>

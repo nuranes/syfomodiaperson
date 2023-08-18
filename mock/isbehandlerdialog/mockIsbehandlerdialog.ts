@@ -2,13 +2,13 @@ import express = require("express");
 import { ISBEHANDLERDIALOG_ROOT } from "../../src/apiConstants";
 import { NAV_PERSONIDENT_HEADER } from "../util/requestUtil";
 import {
-  behandlerdialogMock,
+  behandlerdialogMockInclLegeerklaring,
   behandlerdialogVedleggMock,
   defaultMelding,
 } from "./behandlerdialogMock";
 import { MeldingTilBehandlerDTO } from "@/data/behandlerdialog/behandlerdialogTypes";
 
-let behandlerdialogMockdata = behandlerdialogMock;
+let behandlerdialogMockdata = behandlerdialogMockInclLegeerklaring;
 
 export const mockIsbehandlerdialog = (server: any) => {
   server.get(
