@@ -3,15 +3,9 @@ import {
   DocumentComponentDto,
   DocumentComponentType,
 } from "@/data/documentcomponent/documentComponentTypes";
-import {
-  Element,
-  Innholdstittel,
-  Normaltekst,
-  Systemtittel,
-} from "nav-frontend-typografi";
-import Lenke from "nav-frontend-lenker";
 import { FlexRow, PaddingSize } from "@/components/Layout";
 import styled from "styled-components";
+import { BodyLong, Heading, Label, Link } from "@navikt/ds-react";
 
 const Paragraph = styled.div`
   margin-bottom: 1em;
@@ -27,10 +21,11 @@ const DocumentComponentLink = (texts: string[], title?: string) => {
   const link = texts.length === 0 ? "" : texts[0];
   return (
     <TitledParagraph>
-      <Element>{title ?? ""}</Element>
-      <Lenke target="_blank" rel="noopener noreferrer" href={link}>
+      <Label size="small">{title ?? ""}</Label>
+      <br />
+      <Link target="_blank" rel="noopener noreferrer" href={link}>
         {link}
-      </Lenke>
+      </Link>
     </TitledParagraph>
   );
 };
@@ -39,7 +34,7 @@ const DocumentComponentHeaderH1 = (texts: string[]) => {
   const header = texts.length === 0 ? "" : texts[0];
   return (
     <FlexRow topPadding={PaddingSize.MD} bottomPadding={PaddingSize.MD}>
-      <Innholdstittel>{header}</Innholdstittel>
+      <Heading size="large">{header}</Heading>
     </FlexRow>
   );
 };
@@ -48,7 +43,7 @@ const DocumentComponentHeaderH2 = (texts: string[]) => {
   const header = texts.length === 0 ? "" : texts[0];
   return (
     <FlexRow topPadding={PaddingSize.SM}>
-      <Systemtittel>{header}</Systemtittel>
+      <Heading size="medium">{header}</Heading>
     </FlexRow>
   );
 };
@@ -57,17 +52,17 @@ const DocumentComponentParagraph = (texts: string[], title?: string) => {
   const paragraphText = (
     <>
       {texts.map((text, index) => (
-        <Normaltekst key={index}>
+        <BodyLong size="small" key={index}>
           {text}
           <br />
-        </Normaltekst>
+        </BodyLong>
       ))}
     </>
   );
 
   return title ? (
     <TitledParagraph>
-      <Element>{title}</Element>
+      <Label size="small">{title}</Label>
       {paragraphText}
     </TitledParagraph>
   ) : (

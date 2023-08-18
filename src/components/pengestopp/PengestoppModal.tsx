@@ -1,6 +1,5 @@
 import * as React from "react";
 import { ChangeEvent, useState } from "react";
-import ModalWrapper from "nav-frontend-modal";
 import { Knapp } from "nav-frontend-knapper";
 import { Feilmelding, Systemtittel } from "nav-frontend-typografi";
 import { Checkbox, CheckboxGruppe } from "nav-frontend-skjema";
@@ -16,6 +15,7 @@ import { AlertStripeInfo } from "nav-frontend-alertstriper";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { useFlaggPerson } from "@/data/pengestopp/useFlaggPerson";
 import { useValgtEnhet } from "@/context/ValgtEnhetContext";
+import { Modal } from "@navikt/ds-react";
 
 const texts = {
   notStoppedTittel:
@@ -72,7 +72,7 @@ export const sykepengestoppArsakTekstListe: SykepengestoppArsakTekst[] = [
   },
 ];
 
-const Modal = styled(ModalWrapper)`
+const StyledModal = styled(Modal)`
   padding: 2em 2.5em;
   max-width: 50em;
   width: 100%;
@@ -181,84 +181,82 @@ const PengestoppModal = ({
   };
 
   return (
-    <Modal
-      contentLabel={texts.stansSykepenger}
-      isOpen={isOpen}
-      closeButton={true}
-      ariaHideApp={false}
-      onRequestClose={() => {
-        handleCloseModal();
-      }}
+    <StyledModal
+      aria-label={texts.stansSykepenger}
+      open={isOpen}
+      onClose={handleCloseModal}
     >
-      <Systemtittel>{tittel(isSuccess)}</Systemtittel>
+      <Modal.Content>
+        <Systemtittel>{tittel(isSuccess)}</Systemtittel>
 
-      {!isSuccess ? (
-        <>
-          <Group>
-            <CheckboxGruppe
-              legend={texts.arbeidsgiver}
-              feil={employerError && texts.submitError}
-            >
-              {arbeidsgivere.map(
-                (arbeidsgiver: Arbeidsgiver, index: number) => {
+        {!isSuccess ? (
+          <>
+            <Group>
+              <CheckboxGruppe
+                legend={texts.arbeidsgiver}
+                feil={employerError && texts.submitError}
+              >
+                {arbeidsgivere.map(
+                  (arbeidsgiver: Arbeidsgiver, index: number) => {
+                    return (
+                      <Checkbox
+                        key={index}
+                        label={arbeidsgiver.navn}
+                        onChange={handleChangeVirksomhet}
+                        name={arbeidsgiver.orgnummer}
+                      />
+                    );
+                  }
+                )}
+              </CheckboxGruppe>
+            </Group>
+            <Group>
+              <CheckboxGruppe
+                legend={texts.arsak.title}
+                feil={aarsakError && texts.arsak.submitError}
+              >
+                {sykepengestoppArsakTekstListe.map((arsak, index: number) => {
                   return (
                     <Checkbox
                       key={index}
-                      label={arbeidsgiver.navn}
-                      onChange={handleChangeVirksomhet}
-                      name={arbeidsgiver.orgnummer}
+                      label={arsak.text}
+                      onChange={handleChangeArsak}
+                      name={arsak.type}
                     />
                   );
-                }
-              )}
-            </CheckboxGruppe>
-          </Group>
-          <Group>
-            <CheckboxGruppe
-              legend={texts.arsak.title}
-              feil={aarsakError && texts.arsak.submitError}
+                })}
+              </CheckboxGruppe>
+            </Group>
+            <Knapp type="flat" onClick={handleCloseModal}>
+              {texts.avbryt}
+            </Knapp>
+            <Knapp
+              type="hoved"
+              mini
+              spinner={isLoading}
+              autoDisableVedSpinner
+              onClick={submit}
             >
-              {sykepengestoppArsakTekstListe.map((arsak, index: number) => {
-                return (
-                  <Checkbox
-                    key={index}
-                    label={arsak.text}
-                    onChange={handleChangeArsak}
-                    name={arsak.type}
-                  />
-                );
-              })}
-            </CheckboxGruppe>
-          </Group>
-          <Knapp type="flat" onClick={handleCloseModal}>
-            {texts.avbryt}
-          </Knapp>
-          <Knapp
-            type="hoved"
-            mini
-            spinner={isLoading}
-            autoDisableVedSpinner
-            onClick={submit}
-          >
-            {texts.send}
-          </Knapp>
-        </>
-      ) : (
-        <>
-          <Group>
-            <AlertStripeInfo>
-              <p>{texts.stoppedInfo}</p>
-              <p>{texts.seServicerutinen}</p>
-            </AlertStripeInfo>
-          </Group>
-        </>
-      )}
-      {isError && (
-        <BottomGroup>
-          <Feilmelding>{texts.serverError}</Feilmelding>
-        </BottomGroup>
-      )}
-    </Modal>
+              {texts.send}
+            </Knapp>
+          </>
+        ) : (
+          <>
+            <Group>
+              <AlertStripeInfo>
+                <p>{texts.stoppedInfo}</p>
+                <p>{texts.seServicerutinen}</p>
+              </AlertStripeInfo>
+            </Group>
+          </>
+        )}
+        {isError && (
+          <BottomGroup>
+            <Feilmelding>{texts.serverError}</Feilmelding>
+          </BottomGroup>
+        )}
+      </Modal.Content>
+    </StyledModal>
   );
 };
 

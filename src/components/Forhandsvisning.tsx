@@ -1,23 +1,23 @@
-import ModalWrapper from "nav-frontend-modal";
-import {
-  FlexRow,
-  JustifyContentType,
-  ModalContentContainer,
-  PaddingSize,
-} from "./Layout";
-import { Sidetittel } from "nav-frontend-typografi";
+import { FlexRow, JustifyContentType, PaddingSize } from "./Layout";
 import React, { ReactElement } from "react";
 import styled from "styled-components";
-import { Hovedknapp } from "nav-frontend-knapper";
 import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
 import { DocumentComponentVisning } from "@/components/DocumentComponentVisning";
+import { Button, Heading, Modal } from "@navikt/ds-react";
 
 const texts = {
   close: "Lukk",
 };
 
-const ForhandsvisningModal = styled(ModalWrapper)`
+const ForhandsvisningModal = styled(Modal)`
   max-width: 50em;
+`;
+
+const ModalContent = styled(Modal.Content)`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 2em;
 `;
 
 interface ForhandsvisningProps {
@@ -38,25 +38,23 @@ export const Forhandsvisning = ({
   const documentComponents = isOpen ? getDocumentComponents() : [];
   return (
     <ForhandsvisningModal
-      isOpen={isOpen}
-      onRequestClose={handleClose}
-      closeButton={true}
-      contentLabel={contentLabel}
-      ariaHideApp={false}
+      open={isOpen}
+      aria-label={contentLabel}
+      onClose={handleClose}
     >
-      <ModalContentContainer data-cy="ForhåndsvisningModal">
+      <ModalContent>
         {title ? (
           <FlexRow justifyContent={JustifyContentType.CENTER}>
-            <Sidetittel>{title}</Sidetittel>
+            <Heading size="xlarge">{title}</Heading>
           </FlexRow>
         ) : null}
         {documentComponents.map((component, index) => (
           <DocumentComponentVisning key={index} documentComponent={component} />
         ))}
         <FlexRow topPadding={PaddingSize.MD}>
-          <Hovedknapp onClick={handleClose}>{texts.close}</Hovedknapp>
+          <Button onClick={handleClose}>{texts.close}</Button>
         </FlexRow>
-      </ModalContentContainer>
+      </ModalContent>
     </ForhandsvisningModal>
   );
 };
