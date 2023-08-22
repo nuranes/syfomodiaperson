@@ -1,11 +1,15 @@
 import {
   behandlerdialogMockEmpty,
   defaultMelding,
+  defaultMeldingInnkommende,
   defaultMeldingInnkommendeLegeerklaring,
   defaultMeldingLegeerklaring,
   paminnelseMelding,
 } from "../../mock/isbehandlerdialog/behandlerdialogMock";
-import { MeldingStatusType } from "@/data/behandlerdialog/behandlerdialogTypes";
+import {
+  MeldingDTO,
+  MeldingStatusType,
+} from "@/data/behandlerdialog/behandlerdialogTypes";
 
 export const meldingTilOgFraBehandler = (
   meldingFraBehandlerUuid: string,
@@ -104,4 +108,23 @@ export const meldingResponseLegeerklaring = {
       defaultMeldingInnkommendeLegeerklaring,
     ],
   },
+};
+
+export const foresporselPasientToBehandler: MeldingDTO = {
+  ...defaultMelding,
+  tidspunkt: new Date(),
+};
+
+export const foresporselPasientFraBehandler: MeldingDTO = {
+  ...defaultMeldingInnkommende,
+  tidspunkt: new Date(),
+};
+
+export const foresporselLegeerklaringTilBehandler: MeldingDTO = {
+  ...defaultMeldingLegeerklaring,
+  tidspunkt: new Date(),
+};
+export const foresporselLegeerklaringFraBehandler: MeldingDTO = {
+  ...defaultMeldingInnkommendeLegeerklaring,
+  tidspunkt: new Date(),
 };

@@ -62,4 +62,10 @@ export const mockIsbehandlerdialog = (server: any) => {
       res.sendStatus(200);
     }
   );
+  server.post(
+    `${ISBEHANDLERDIALOG_ROOT}/melding/:uuid/retur`,
+    (req: express.Request, res: express.Response) => {
+      res.sendStatus(200);
+    }
+  );
 };

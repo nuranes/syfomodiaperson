@@ -9,13 +9,13 @@ import {
   PaminnelseDTO,
 } from "@/data/behandlerdialog/behandlerdialogTypes";
 import { queryClientWithMockData } from "../testQueryClient";
-import { defaultMelding } from "../../mock/isbehandlerdialog/behandlerdialogMock";
 import { clickButton } from "../testUtils";
 import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQueryHooks";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import { personOppgaveUbehandletBehandlerdialogUbesvartMelding } from "../../mock/ispersonoppgave/personoppgaveMock";
 import { expectedPaminnelseDocument } from "./testDataDocuments";
 import { PaminnelseMelding } from "@/components/behandlerdialog/paminnelse/PaminnelseMelding";
+import { foresporselPasientToBehandler } from "./meldingTestdataGenerator";
 
 let queryClient: QueryClient;
 
@@ -31,10 +31,7 @@ const renderPaminnelseMelding = (melding: MeldingDTO) => {
   );
 };
 
-const meldingTilBehandler = {
-  ...defaultMelding,
-  tidspunkt: new Date(),
-};
+const meldingTilBehandler = foresporselPasientToBehandler;
 const paminnelseButtonText = "Vurder påminnelse til behandler";
 const sendButtonText = "Send påminnelse";
 const fjernOppgaveButtonText = "Fjern oppgave uten å sende påminnelse";

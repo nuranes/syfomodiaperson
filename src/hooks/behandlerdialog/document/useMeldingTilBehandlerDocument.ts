@@ -9,6 +9,7 @@ import {
 import {
   legeerklaringTexts,
   paminnelseTexts,
+  returLegeerklaringTexts,
   tilleggsOpplysningerPasientTexts,
 } from "@/data/behandlerdialog/behandlerMeldingTexts";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
@@ -21,6 +22,9 @@ import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
 
 export const useMeldingTilBehandlerDocument = (): {
   getPaminnelseDocument(opprinneligMelding: MeldingDTO): DocumentComponentDto[];
+  getReturLegeerklaringDocument(
+    begrunnelse: string | undefined
+  ): DocumentComponentDto[];
   getMeldingTilBehandlerDocument(
     values: Partial<MeldingTilBehandlerSkjemaValues>
   ): DocumentComponentDto[];
@@ -88,6 +92,19 @@ export const useMeldingTilBehandlerDocument = (): {
     ];
   };
 
+  const getReturLegeerklaringDocument = (begrunnelse: string | undefined) => {
+    return [
+      createHeaderH1(returLegeerklaringTexts.header),
+      createParagraph(`Gjelder ${navBruker.navn}, ${personident}.`),
+      createParagraph(returLegeerklaringTexts.intro.part1),
+      createParagraph(returLegeerklaringTexts.intro.part2),
+      createParagraph(begrunnelse || "(Obligatorisk begrunnelse)"),
+      createParagraph(returLegeerklaringTexts.outro.part1),
+      createParagraph(returLegeerklaringTexts.outro.part2),
+      getHilsen(),
+    ];
+  };
+
   const getLegeerklaringDocument = (
     values: Partial<MeldingTilBehandlerSkjemaValues>
   ) => {
@@ -118,5 +135,6 @@ export const useMeldingTilBehandlerDocument = (): {
   return {
     getPaminnelseDocument,
     getMeldingTilBehandlerDocument,
+    getReturLegeerklaringDocument,
   };
 };

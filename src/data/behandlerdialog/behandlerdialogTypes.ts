@@ -13,6 +13,11 @@ export interface PaminnelseDTO {
   document: DocumentComponentDto[];
 }
 
+export interface ReturLegeerklaringDTO {
+  document: DocumentComponentDto[];
+  tekst: string;
+}
+
 export interface MeldingResponseDTO {
   conversations: Conversations;
 }
@@ -51,4 +56,5 @@ export enum MeldingType {
   FORESPORSEL_PASIENT_TILLEGGSOPPLYSNINGER = "FORESPORSEL_PASIENT_TILLEGGSOPPLYSNINGER",
   FORESPORSEL_PASIENT_LEGEERKLARING = "FORESPORSEL_PASIENT_LEGEERKLARING",
   FORESPORSEL_PASIENT_PAMINNELSE = "FORESPORSEL_PASIENT_PAMINNELSE",
+  HENVENDELSE_RETUR_LEGEERKLARING = "HENVENDELSE_RETUR_LEGEERKLARING",
 }

@@ -46,6 +46,7 @@ export const MeldingsTypeInfo = ({ meldingType }: Props): ReactElement => {
           </>
         );
       case MeldingType.FORESPORSEL_PASIENT_PAMINNELSE:
+      case MeldingType.HENVENDELSE_RETUR_LEGEERKLARING:
         return <></>; // Not supported
     }
   };

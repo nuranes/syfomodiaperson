@@ -5,12 +5,6 @@ import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
 import { MeldingerISamtale } from "@/components/behandlerdialog/meldinger/MeldingerISamtale";
 import React from "react";
-import {
-  defaultMelding,
-  defaultMeldingInnkommende,
-  defaultMeldingInnkommendeLegeerklaring,
-  defaultMeldingLegeerklaring,
-} from "../../mock/isbehandlerdialog/behandlerdialogMock";
 import { queryClientWithMockData } from "../testQueryClient";
 import { expect } from "chai";
 import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQueryHooks";
@@ -20,6 +14,12 @@ import {
   personOppgaveUbehandletBehandlerdialogUbesvartMelding,
 } from "../../mock/ispersonoppgave/personoppgaveMock";
 import { getButton } from "../testUtils";
+import {
+  foresporselLegeerklaringFraBehandler,
+  foresporselLegeerklaringTilBehandler,
+  foresporselPasientFraBehandler,
+  foresporselPasientToBehandler,
+} from "./meldingTestdataGenerator";
 
 let queryClient: QueryClient;
 
@@ -33,23 +33,6 @@ const renderMeldingerISamtale = (meldinger: MeldingDTO[]) => {
       </ValgtEnhetContext.Provider>
     </QueryClientProvider>
   );
-};
-
-const meldingTilBehandler = {
-  ...defaultMelding,
-  tidspunkt: new Date(),
-};
-const meldingFraBehandler = {
-  ...defaultMeldingInnkommende,
-  tidspunkt: new Date(),
-};
-const foresporselLegeerklaringTilBehandler = {
-  ...defaultMeldingLegeerklaring,
-  tidspunkt: new Date(),
-};
-const legeerklaringFraBehandler = {
-  ...defaultMeldingInnkommendeLegeerklaring,
-  tidspunkt: new Date(),
 };
 
 const paminnelseButtonText = "Vurder påminnelse til behandler";
@@ -68,7 +51,7 @@ describe("MeldingerISamtale", () => {
         .not.exist;
     });
     it("render no paminnelse button when no ubesvart melding-oppgave", () => {
-      renderMeldingerISamtale([meldingTilBehandler]);
+      renderMeldingerISamtale([foresporselPasientToBehandler]);
 
       expect(screen.queryByRole("button", { name: paminnelseButtonText })).to
         .not.exist;
@@ -81,11 +64,11 @@ describe("MeldingerISamtale", () => {
         () => [
           {
             ...personOppgaveBehandletBehandlerdialogUbesvartMelding,
-            referanseUuid: meldingTilBehandler.uuid,
+            referanseUuid: foresporselPasientToBehandler.uuid,
           },
         ]
       );
-      renderMeldingerISamtale([meldingTilBehandler]);
+      renderMeldingerISamtale([foresporselPasientToBehandler]);
 
       expect(screen.queryByRole("button", { name: paminnelseButtonText })).to
         .not.exist;
@@ -98,12 +81,12 @@ describe("MeldingerISamtale", () => {
         () => [
           {
             ...personOppgaveUbehandletBehandlerdialogUbesvartMelding,
-            referanseUuid: meldingTilBehandler.uuid,
+            referanseUuid: foresporselPasientToBehandler.uuid,
           },
         ]
       );
 
-      renderMeldingerISamtale([meldingTilBehandler]);
+      renderMeldingerISamtale([foresporselPasientToBehandler]);
 
       expect(getButton(paminnelseButtonText)).to.exist;
     });
@@ -118,7 +101,10 @@ describe("MeldingerISamtale", () => {
       ).to.not.exist;
     });
     it("renders no retur legeeklæring button when no meldinger of type legeerklaring", () => {
-      renderMeldingerISamtale([meldingTilBehandler, meldingFraBehandler]);
+      renderMeldingerISamtale([
+        foresporselPasientToBehandler,
+        foresporselPasientFraBehandler,
+      ]);
 
       expect(
         screen.queryByRole("button", { name: returLegeerklaringButtonText })
@@ -134,7 +120,7 @@ describe("MeldingerISamtale", () => {
     it("renders retur legeeklæring button when melding fra behandler is legeerklæring", () => {
       renderMeldingerISamtale([
         foresporselLegeerklaringTilBehandler,
-        legeerklaringFraBehandler,
+        foresporselLegeerklaringFraBehandler,
       ]);
 
       expect(getButton(returLegeerklaringButtonText)).to.exist;

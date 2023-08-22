@@ -6,7 +6,6 @@ import React from "react";
 import { expect } from "chai";
 import { MeldingStatusType } from "@/data/behandlerdialog/behandlerdialogTypes";
 import { queryClientWithMockData } from "../testQueryClient";
-import { defaultMelding } from "../../mock/isbehandlerdialog/behandlerdialogMock";
 import { AvvistMelding } from "@/components/behandlerdialog/meldinger/AvvistMelding";
 import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQueryHooks";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
@@ -14,6 +13,7 @@ import {
   personOppgaveBehandletBehandlerdialogAvvistMelding,
   personOppgaveUbehandletBehandlerdialogAvvistMelding,
 } from "../../mock/ispersonoppgave/personoppgaveMock";
+import { foresporselPasientToBehandler } from "./meldingTestdataGenerator";
 
 let queryClient: QueryClient;
 
@@ -29,10 +29,7 @@ const renderAvvistMelding = (meldingUuid: string) => {
   );
 };
 
-const meldingTilBehandler = {
-  ...defaultMelding,
-  tidspunkt: new Date(),
-};
+const meldingTilBehandler = foresporselPasientToBehandler;
 
 describe("Avvist melding", () => {
   beforeEach(() => {

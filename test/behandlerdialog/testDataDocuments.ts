@@ -149,3 +149,50 @@ export const expectedLegeerklaringDocument = (
     type: DocumentComponentType.PARAGRAPH,
   },
 ];
+
+export const expectedReturLegeerklaringDocument = (
+  begrunnelse = "(Obligatorisk begrunnelse)"
+): DocumentComponentDto[] => [
+  {
+    texts: ["Retur av Legeerklæring ved arbeidsuførhet"],
+    type: DocumentComponentType.HEADER_H1,
+  },
+  {
+    texts: [
+      `Gjelder ${ARBEIDSTAKER_DEFAULT_FULL_NAME}, ${ARBEIDSTAKER_DEFAULT.personIdent}.`,
+    ],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: [
+      "Vi har mottatt Legeerklæring ved arbeidsuførhet (NAV 08-07.08). Vi ber om at du sender oss en ny legeerklæring snarest mulig.",
+    ],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: [
+      "Erklæringen kan ikke honoreres fordi den ikke inneholder tilstrekkelige opplysninger til bruk i den videre behandlingen av saken.",
+    ],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: [begrunnelse],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: [
+      'Hvis du har spørsmål til utfyllingen, henvises det til "Orientering til legen om bruk og utfylling av Legeerklæring ved arbeidsuførhet" (se nav.no).',
+    ],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: [
+      "Dersom du allerede har sendt inn regning for den mangelfulle erklæringen, forutsetter vi at det ikke blir sendt regning for ny utfylt Legeerklæring ved arbeidsuførhet.",
+    ],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: ["Vennlig hilsen", VEILEDER_DEFAULT.navn, "NAV"],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+];

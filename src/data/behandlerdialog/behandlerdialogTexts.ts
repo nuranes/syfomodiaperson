@@ -7,4 +7,5 @@ export const meldingTypeTexts: {
     "Tilleggsopplysninger L8",
   [MeldingType.FORESPORSEL_PASIENT_LEGEERKLARING]: "Legeerklæring L40",
   [MeldingType.FORESPORSEL_PASIENT_PAMINNELSE]: "Påminnelse",
+  [MeldingType.HENVENDELSE_RETUR_LEGEERKLARING]: "Retur av legeerklæring",
 };

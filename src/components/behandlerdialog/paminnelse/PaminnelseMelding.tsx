@@ -21,12 +21,12 @@ import { DocumentComponentVisning } from "@/components/DocumentComponentVisning"
 import { ButtonRow, PaddingSize } from "@/components/Layout";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { MeldingActionButton } from "@/components/behandlerdialog/MeldingActionButton";
+import { CloseButton } from "@/components/CloseButton";
 
 const texts = {
   button: "Vurder påminnelse til behandler",
   send: "Send påminnelse",
   fjernOppgave: "Fjern oppgave uten å sende påminnelse",
-  cancel: "Lukk",
 };
 
 const ModalContent = styled(Modal.Content)`
@@ -64,6 +64,7 @@ const VisOgSendPaminnelse = ({
       onSuccess: () => setVisPaminnelseModal(false),
     });
   };
+  const handleClose = () => setVisPaminnelseModal(false);
 
   return (
     <>
@@ -79,7 +80,7 @@ const VisOgSendPaminnelse = ({
       </MeldingActionButton>
       <Modal
         open={visPaminnelseModal}
-        onClose={() => setVisPaminnelseModal(false)}
+        onClose={handleClose}
         aria-labelledby="modal-heading"
       >
         <ModalContent>
@@ -110,15 +111,12 @@ const VisOgSendPaminnelse = ({
             >
               {texts.fjernOppgave}
             </Button>
-            <Button
-              variant="tertiary"
+            <CloseButton
+              onClick={handleClose}
               disabled={
                 paminnelseTilBehandler.isLoading || behandleOppgave.isLoading
               }
-              onClick={() => setVisPaminnelseModal(false)}
-            >
-              {texts.cancel}
-            </Button>
+            />
           </ButtonRow>
         </ModalContent>
       </Modal>
