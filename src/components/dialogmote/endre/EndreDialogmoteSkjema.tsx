@@ -169,7 +169,6 @@ const EndreDialogmoteSkjema = ({ dialogmote }: Props) => {
             )}
             <FlexRow>
               <SendButton
-                data-cy="sendEndringKnapp"
                 onClick={resetFeilUtbedret}
                 htmlType="submit"
                 spinner={endreTidStedDialogmote.isLoading}

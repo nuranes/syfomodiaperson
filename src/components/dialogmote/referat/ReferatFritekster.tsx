@@ -186,7 +186,6 @@ const ReferatTextareaFieldColumn = ({
     <Field<string> name={fieldName}>
       {({ input, meta }) => (
         <Fritekst
-          data-cy={fieldName + "TextArea"}
           size={size}
           feil={meta.submitFailed && meta.error}
           id={fieldName}

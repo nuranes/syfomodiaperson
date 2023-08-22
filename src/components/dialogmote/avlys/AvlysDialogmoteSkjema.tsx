@@ -199,7 +199,6 @@ const AvlysDialogmoteSkjema = ({
             )}
             <FlexRow>
               <SendButton
-                data-cy="sendAvlysningKnapp"
                 onClick={resetFeilUtbedret}
                 htmlType="submit"
                 spinner={avlysDialogmote.isLoading}

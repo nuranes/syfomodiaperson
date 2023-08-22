@@ -11,7 +11,7 @@ const texts = {
 export const DialogmoteunntakSkjemaLenke = (): ReactElement => {
   return (
     <Link to={dialogmoteUnntakRoutePath}>
-      <Knapp data-cy="settUnntakDialogmote">{texts.settUnntak}</Knapp>
+      <Knapp>{texts.settUnntak}</Knapp>
     </Link>
   );
 };

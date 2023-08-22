@@ -35,7 +35,6 @@ const FritekstSeksjon = ({
         <Field<string> name={fieldName}>
           {({ input, meta }) => (
             <Fritekst
-              data-cy={fieldName + "TextArea"}
               size="medium"
               maxLength={maxLength}
               label={label}
@@ -55,11 +54,7 @@ const FritekstSeksjon = ({
       </FlexRow>
     )}
     <FlexRow>
-      <Knapp
-        htmlType="button"
-        data-cy={fieldName + "Knapp"}
-        onClick={handlePreviewClick}
-      >
+      <Knapp htmlType="button" onClick={handlePreviewClick}>
         {texts.forhandsvisning}
       </Knapp>
     </FlexRow>

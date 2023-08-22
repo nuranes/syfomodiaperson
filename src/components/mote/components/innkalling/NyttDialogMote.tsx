@@ -11,7 +11,7 @@ const texts = {
 export const NyttDialogMote = (): ReactElement => {
   return (
     <Link to={dialogmoteRoutePath}>
-      <Hovedknapp data-cy="nyttDM2Mote">{texts.nyttMote}</Hovedknapp>
+      <Hovedknapp>{texts.nyttMote}</Hovedknapp>
     </Link>
   );
 };

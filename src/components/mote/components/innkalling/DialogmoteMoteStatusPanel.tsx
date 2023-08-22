@@ -121,15 +121,13 @@ export const DialogmoteMoteStatusPanel = ({ dialogmote }: Props) => {
 
       <FlexRow topPadding={PaddingSize.MD}>
         <Link to={`${dialogmoteRoutePath}/${dialogmote.uuid}/endre`}>
-          <Knapp data-cy="endreMoteKnapp">{texts.endreMote}</Knapp>
+          <Knapp>{texts.endreMote}</Knapp>
         </Link>
         <Link to={`${dialogmoteRoutePath}/${dialogmote.uuid}/avlys`}>
-          <Knapp data-cy="avlysMoteKnapp">{texts.avlysMote}</Knapp>
+          <Knapp>{texts.avlysMote}</Knapp>
         </Link>
         <Link to={`${dialogmoteRoutePath}/${dialogmote.uuid}/referat`}>
-          <Hovedknapp data-cy="skrivReferatKnapp">
-            {referatKnappText}
-          </Hovedknapp>
+          <Hovedknapp>{referatKnappText}</Hovedknapp>
         </Link>
       </FlexRow>
     </DialogmotePanel>

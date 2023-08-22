@@ -45,7 +45,6 @@ export const ForhandsvisDocumentButtonRow = ({
   return (
     <ButtonRow>
       <Flatknapp
-        data-cy={title}
         mini
         kompakt
         htmlType="button"
