@@ -43,7 +43,9 @@ export const useMeldingTilBehandlerDocument = (): {
         return getLegeerklaringDocument(values);
       case MeldingType.FORESPORSEL_PASIENT_PAMINNELSE:
         throw new Error("use getPaminnelseDocument");
-      default:
+      case MeldingType.HENVENDELSE_RETUR_LEGEERKLARING:
+        throw new Error("use getReturLegeerklaringDocument");
+      case undefined:
         return [];
     }
   };

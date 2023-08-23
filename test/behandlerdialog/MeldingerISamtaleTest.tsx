@@ -19,6 +19,7 @@ import {
   foresporselLegeerklaringTilBehandler,
   foresporselPasientFraBehandler,
   foresporselPasientToBehandler,
+  returLegeerklaring,
 } from "./meldingTestdataGenerator";
 
 let queryClient: QueryClient;
@@ -93,14 +94,14 @@ describe("MeldingerISamtale", () => {
   });
 
   describe("Retur legeerklæring button", () => {
-    it("renders no retur legeeklæring button when no meldinger", () => {
+    it("renders no retur legeerklæring button when no meldinger", () => {
       renderMeldingerISamtale([]);
 
       expect(
         screen.queryByRole("button", { name: returLegeerklaringButtonText })
       ).to.not.exist;
     });
-    it("renders no retur legeeklæring button when no meldinger of type legeerklaring", () => {
+    it("renders no retur legeerklæring button when no meldinger of type legeerklaring", () => {
       renderMeldingerISamtale([
         foresporselPasientToBehandler,
         foresporselPasientFraBehandler,
@@ -110,17 +111,43 @@ describe("MeldingerISamtale", () => {
         screen.queryByRole("button", { name: returLegeerklaringButtonText })
       ).to.not.exist;
     });
-    it("renders no retur legeeklæring button when no melding fra behandler legeerklaring", () => {
+    it("renders no retur legeerklæring button when no melding fra behandler legeerklaring", () => {
       renderMeldingerISamtale([foresporselLegeerklaringTilBehandler]);
 
       expect(
         screen.queryByRole("button", { name: returLegeerklaringButtonText })
       ).to.not.exist;
     });
-    it("renders retur legeeklæring button when melding fra behandler is legeerklæring", () => {
+    it("renders no retur legeerklæring button when retur already sent for legeerklæring fra behandler", () => {
       renderMeldingerISamtale([
         foresporselLegeerklaringTilBehandler,
         foresporselLegeerklaringFraBehandler,
+        returLegeerklaring,
+      ]);
+
+      expect(
+        screen.queryByRole("button", { name: returLegeerklaringButtonText })
+      ).to.not.exist;
+    });
+    it("renders retur legeerklæring button when melding fra behandler is legeerklæring", () => {
+      renderMeldingerISamtale([
+        foresporselLegeerklaringTilBehandler,
+        foresporselLegeerklaringFraBehandler,
+      ]);
+
+      expect(getButton(returLegeerklaringButtonText)).to.exist;
+    });
+    it("renders retur legeerklæring button when retur sent for legeerklaring fra behandler but received new legeerklaring", () => {
+      const newLegeerklaringFraBehandler = {
+        ...foresporselLegeerklaringFraBehandler,
+        uuid: "new-uuid",
+        parentRef: returLegeerklaring.uuid,
+      };
+      renderMeldingerISamtale([
+        foresporselLegeerklaringTilBehandler,
+        foresporselLegeerklaringFraBehandler,
+        returLegeerklaring,
+        newLegeerklaringFraBehandler,
       ]);
 
       expect(getButton(returLegeerklaringButtonText)).to.exist;

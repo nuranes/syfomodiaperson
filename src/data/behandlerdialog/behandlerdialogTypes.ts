@@ -28,6 +28,8 @@ export interface Conversations {
 
 export interface MeldingDTO {
   uuid: string;
+  conversationRef: string;
+  parentRef: string | null;
   behandlerRef: string;
   behandlerNavn: string | null;
   tekst: string;

@@ -108,6 +108,8 @@ export const meldingUuids = {
 
 export const defaultMelding = {
   uuid: meldingUuids.tilleggsopplysningerUtgaaende,
+  conversationRef: "59da3774-40bd-11ee-be56-0242ac120002 ",
+  parentRef: null,
   behandlerRef: behandlerRefDoktorLegesen,
   behandlerNavn: null,
   tekst: defaultMeldingTekst,
@@ -122,6 +124,8 @@ export const defaultMelding = {
 
 export const defaultMeldingLegeerklaring = {
   uuid: "5f1e2629-062b-443d-ad2f-3b08e9574cd5",
+  conversationRef: "64eb32f8-40bd-11ee-be56-0242ac120002",
+  parentRef: null,
   behandlerRef: behandlerRefDoktorLegesen,
   behandlerNavn: null,
   tekst: defaultMeldingTekst,
@@ -136,6 +140,8 @@ export const defaultMeldingLegeerklaring = {
 
 export const paminnelseMelding = {
   ...defaultMelding,
+  conversationRef: defaultMelding.conversationRef,
+  parentRef: defaultMelding.uuid,
   type: MeldingType.FORESPORSEL_PASIENT_PAMINNELSE,
   tekst: "",
   document: paminnelseDocument,
@@ -145,6 +151,8 @@ export const paminnelseMelding = {
 
 export const defaultMeldingInnkommende = {
   ...defaultMelding,
+  conversationRef: defaultMelding.conversationRef,
+  parentRef: defaultMelding.uuid,
   uuid: "1f1e2639-061b-243d-ac1f-3b08e9574cd5",
   behandlerNavn: `${behandlerDoktorLegesen.fornavn} ${behandlerDoktorLegesen.etternavn}`,
   innkommende: true,
@@ -156,6 +164,8 @@ export const defaultMeldingInnkommende = {
 
 export const defaultMeldingInnkommendeLegeerklaring = {
   ...defaultMeldingLegeerklaring,
+  conversationRef: defaultMeldingLegeerklaring.conversationRef,
+  parentRef: defaultMeldingLegeerklaring.uuid,
   uuid: meldingUuids.legeerklaringInnkommende,
   behandlerNavn: `${behandlerDoktorLegesen.fornavn} ${behandlerDoktorLegesen.etternavn}`,
   innkommende: true,

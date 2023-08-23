@@ -52,14 +52,29 @@ interface MeldingInnholdProps {
   melding: MeldingDTO;
 }
 
-const MeldingFraBehandler = ({ melding }: MeldingInnholdProps) => {
+interface MeldingFraBehandlerProps extends MeldingInnholdProps {
+  meldinger: MeldingDTO[];
+}
+
+const MeldingFraBehandler = ({
+  meldinger,
+  melding,
+}: MeldingFraBehandlerProps) => {
   const { isFeatureEnabled } = useFeatureToggles();
   const isReturLegeerklaringEnabled = isFeatureEnabled(
     ToggleNames.behandlerdialogReturLegeerklaring
   );
   const isLegeerklaring =
     melding.type === MeldingType.FORESPORSEL_PASIENT_LEGEERKLARING;
-  // TODO: Sjekk allerede sendt retur for melding
+  const sentReturForLegeerklaring = meldinger.some(
+    (m) =>
+      m.type === MeldingType.HENVENDELSE_RETUR_LEGEERKLARING &&
+      m.parentRef === melding.uuid
+  );
+  const showReturLegeerklaring =
+    isReturLegeerklaringEnabled &&
+    isLegeerklaring &&
+    !sentReturForLegeerklaring;
 
   return (
     <StyledMelding innkommende>
@@ -68,9 +83,7 @@ const MeldingFraBehandler = ({ melding }: MeldingInnholdProps) => {
       </StyledImageWrapper>
       <StyledInnhold>
         <MeldingInnholdPanel melding={melding} />
-        {isReturLegeerklaringEnabled && isLegeerklaring && (
-          <ReturLegeerklaring melding={melding} />
-        )}
+        {showReturLegeerklaring && <ReturLegeerklaring melding={melding} />}
       </StyledInnhold>
     </StyledMelding>
   );
@@ -102,7 +115,11 @@ export const MeldingerISamtale = ({ meldinger }: MeldingerISamtaleProps) => {
     <StyledWrapper>
       {meldinger.map((melding: MeldingDTO, index: number) => {
         return melding.innkommende ? (
-          <MeldingFraBehandler melding={melding} key={index} />
+          <MeldingFraBehandler
+            meldinger={meldinger}
+            melding={melding}
+            key={index}
+          />
         ) : (
           <MeldingTilBehandler melding={melding} key={index} />
         );
