@@ -3,13 +3,14 @@ import {
   defaultMelding,
   defaultMeldingInnkommende,
   defaultMeldingInnkommendeLegeerklaring,
+  defaultMeldingInnkommendeLegeerklaringNy,
   defaultMeldingLegeerklaring,
+  defaultReturLegeerklaring,
   paminnelseMelding,
 } from "../../mock/isbehandlerdialog/behandlerdialogMock";
 import {
   MeldingDTO,
   MeldingStatusType,
-  MeldingType,
 } from "@/data/behandlerdialog/behandlerdialogTypes";
 
 export const meldingTilOgFraBehandler = (
@@ -149,9 +150,40 @@ export const foresporselLegeerklaringFraBehandler: MeldingDTO = {
 };
 
 export const returLegeerklaring: MeldingDTO = {
-  ...defaultMeldingLegeerklaring,
+  ...defaultReturLegeerklaring,
   tidspunkt: new Date(),
-  type: MeldingType.HENVENDELSE_RETUR_LEGEERKLARING,
   conversationRef: foresporselLegeerklaringFraBehandler.conversationRef,
   parentRef: foresporselLegeerklaringFraBehandler.uuid,
+};
+
+export const meldingResponseLegeerklaringMedRetur = {
+  conversations: {
+    ["conversationRef567"]: [
+      defaultMeldingLegeerklaring,
+      defaultMeldingInnkommendeLegeerklaring,
+      returLegeerklaring,
+    ],
+  },
+};
+
+export const meldingResponseLegeerklaringMedReturOgPaminnelse = {
+  conversations: {
+    ["conversationRef567"]: [
+      defaultMeldingLegeerklaring,
+      defaultMeldingInnkommendeLegeerklaring,
+      returLegeerklaring,
+      paminnelseMelding,
+    ],
+  },
+};
+
+export const meldingResponseLegeerklaringMedReturOgNyLegeerklaring = {
+  conversations: {
+    ["conversationRef567"]: [
+      defaultMeldingLegeerklaring,
+      defaultMeldingInnkommendeLegeerklaring,
+      returLegeerklaring,
+      defaultMeldingInnkommendeLegeerklaringNy,
+    ],
+  },
 };

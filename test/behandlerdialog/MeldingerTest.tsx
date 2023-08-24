@@ -27,9 +27,11 @@ import dayjs from "dayjs";
 import {
   meldingFraBehandlerUtenBehandlernavn,
   meldingResponseLegeerklaring,
+  meldingResponseLegeerklaringMedRetur,
   meldingResponseMedPaminnelse,
   meldingResponseMedVedlegg,
   meldingTilOgFraBehandler,
+  returLegeerklaring,
 } from "./meldingTestdataGenerator";
 
 let queryClient: QueryClient;
@@ -277,6 +279,45 @@ describe("Meldinger panel", () => {
           "Påminnelse om manglende svar vedrørerende pasient"
         )
       ).to.exist;
+    });
+  });
+
+  describe("Visning av retur i samtale og modal", () => {
+    const expectedReturBegrunnelse = returLegeerklaring.tekst;
+    beforeEach(() => {
+      queryClient.setQueryData(
+        behandlerdialogQueryKeys.behandlerdialog(
+          ARBEIDSTAKER_DEFAULT.personIdent
+        ),
+        () => meldingResponseLegeerklaringMedRetur
+      );
+    });
+    it("Viser begrunnelse for retur i samtalen", () => {
+      renderMeldinger();
+
+      expect(screen.getByText(expectedReturBegrunnelse)).to.exist;
+      expect(
+        screen.getAllByRole("img", {
+          name: "Tilbakepil-ikon for retur",
+        })
+      ).to.have.length(2);
+    });
+
+    it("Viser retur ved klikk på 'Se melding'-knapp", () => {
+      renderMeldinger();
+
+      const seMeldingButton = screen.getAllByRole("button", {
+        name: seMeldingButtonTekst,
+      })[1];
+      userEvent.click(seMeldingButton);
+
+      const seMeldingModal = screen.getByRole("dialog", {
+        name: "Vis melding",
+      });
+      expect(seMeldingModal).to.exist;
+
+      expect(within(seMeldingModal).getByText(expectedReturBegrunnelse)).to
+        .exist;
     });
   });
 

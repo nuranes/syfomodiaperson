@@ -13,6 +13,7 @@ import {
 } from "../common/mockConstants";
 import {
   paminnelseTexts,
+  returLegeerklaringTexts,
   tilleggsOpplysningerPasientTexts,
 } from "../../src/data/behandlerdialog/behandlerMeldingTexts";
 import {
@@ -21,6 +22,7 @@ import {
 } from "../../src/data/behandlerdialog/behandlerdialogTypes";
 
 const defaultMeldingTekst = "Dette er en melding";
+const returLegeerklaringBegrunnelse = "Begrunnelse for retur";
 const meldingtilBehandlerDocument = [
   {
     texts: [tilleggsOpplysningerPasientTexts.header],
@@ -91,6 +93,42 @@ const paminnelseDocument = [
     type: DocumentComponentType.PARAGRAPH,
   },
 ];
+const returLegeerklaringDocument = [
+  {
+    texts: [returLegeerklaringTexts.header],
+    type: DocumentComponentType.HEADER_H1,
+  },
+  {
+    texts: [
+      `Gjelder ${ARBEIDSTAKER_DEFAULT_FULL_NAME}, ${ARBEIDSTAKER_DEFAULT.personIdent}.`,
+    ],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: [returLegeerklaringTexts.intro.part1],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: [returLegeerklaringTexts.intro.part2],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: [returLegeerklaringBegrunnelse],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: [returLegeerklaringTexts.outro.part1],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: [returLegeerklaringTexts.outro.part2],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: ["Vennlig hilsen", VEILEDER_DEFAULT.navn, "NAV"],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+];
 
 const defaultStatus = {
   type: MeldingStatusType.OK,
@@ -101,6 +139,7 @@ export const meldingUuids = {
   tilleggsopplysningerUtgaaende: "5f1e2629-062b-443d-ac1f-3b08e9574cd5",
   tilleggopplysningerInnkommende: "5f1e2629-062b-442d-ae1f-3b08e9574cd5",
   legeerklaringInnkommende: "1f1e2639-061b-245e-ac1f-3b08e9574cd5",
+  legeerklaringInnkommendeNy: "daae501e-417c-11ee-be56-0242ac120002",
   ubesvartMelding: "5f1e2639-032c-443d-ac1f-3b08e9574cd5",
   avvistMelding: "9f1e2639-061b-243d-ac1f-3b08e9574cd5",
   avvistMelding2: "2f1e2639-061b-243d-ac1f-3b08e9574cd5",
@@ -175,6 +214,21 @@ export const defaultMeldingInnkommendeLegeerklaring = {
   veilederIdent: null,
 };
 
+export const defaultReturLegeerklaring = {
+  ...defaultMeldingLegeerklaring,
+  type: MeldingType.HENVENDELSE_RETUR_LEGEERKLARING,
+  tekst: returLegeerklaringBegrunnelse,
+  tidspunkt: "2023-01-04T12:00:00.000+01:00",
+  document: returLegeerklaringDocument,
+  conversationRef: defaultMeldingLegeerklaring.conversationRef,
+  parentRef: defaultMeldingInnkommendeLegeerklaring.uuid,
+};
+
+export const defaultMeldingInnkommendeLegeerklaringNy = {
+  ...defaultMeldingInnkommendeLegeerklaring,
+  uuid: meldingUuids.legeerklaringInnkommendeNy,
+};
+
 const ubesvartMelding = {
   ...defaultMelding,
   uuid: meldingUuids.ubesvartMelding,
@@ -233,6 +287,11 @@ export const behandlerdialogMockInclLegeerklaring = {
     "conversationRef-819": [
       defaultMeldingLegeerklaring,
       defaultMeldingInnkommendeLegeerklaring,
+    ],
+    "conversationRef-929": [
+      defaultMeldingLegeerklaring,
+      defaultMeldingInnkommendeLegeerklaring,
+      defaultReturLegeerklaring,
     ],
   },
 };
