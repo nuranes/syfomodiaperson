@@ -118,7 +118,7 @@ export const MeldingInnholdPanel = ({ melding }: MeldingInnholdPanelProps) => {
           <PaperclipIcon title="Binders-ikon for vedlegg" fontSize="1.25em" />
           {[...Array(melding.antallVedlegg)].map((_, index) => (
             <PdfVedleggLink
-              meldingUuid={melding.uuid}
+              melding={melding}
               vedleggNumber={index}
               key={index}
             />

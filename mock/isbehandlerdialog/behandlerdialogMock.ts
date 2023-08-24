@@ -229,6 +229,11 @@ export const defaultMeldingInnkommendeLegeerklaringNy = {
   uuid: meldingUuids.legeerklaringInnkommendeNy,
 };
 
+export const defaultMeldingInnkommendeLegeerklaringMedTreVedlegg = {
+  ...defaultMeldingInnkommendeLegeerklaring,
+  antallVedlegg: 3,
+};
+
 const ubesvartMelding = {
   ...defaultMelding,
   uuid: meldingUuids.ubesvartMelding,

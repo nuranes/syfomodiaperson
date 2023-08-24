@@ -3,6 +3,7 @@ import {
   defaultMelding,
   defaultMeldingInnkommende,
   defaultMeldingInnkommendeLegeerklaring,
+  defaultMeldingInnkommendeLegeerklaringMedTreVedlegg,
   defaultMeldingInnkommendeLegeerklaringNy,
   defaultMeldingLegeerklaring,
   defaultReturLegeerklaring,
@@ -121,6 +122,15 @@ export const meldingResponseLegeerklaring = {
     ["conversationRef567"]: [
       defaultMeldingLegeerklaring,
       defaultMeldingInnkommendeLegeerklaring,
+    ],
+  },
+};
+
+export const meldingResponseLegeerklaringMedTreVedlegg = {
+  conversations: {
+    ["conversationRef567"]: [
+      defaultMeldingLegeerklaring,
+      defaultMeldingInnkommendeLegeerklaringMedTreVedlegg,
     ],
   },
 };

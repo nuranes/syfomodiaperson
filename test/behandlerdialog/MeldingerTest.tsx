@@ -27,6 +27,7 @@ import dayjs from "dayjs";
 import {
   meldingFraBehandlerUtenBehandlernavn,
   meldingResponseLegeerklaring,
+  meldingResponseLegeerklaringMedTreVedlegg,
   meldingResponseLegeerklaringMedRetur,
   meldingResponseMedPaminnelse,
   meldingResponseMedVedlegg,
@@ -322,36 +323,91 @@ describe("Meldinger panel", () => {
   });
 
   describe("Visning av vedlegg", () => {
-    it("Viser vedlegg-ikon og tekst for meldinger fra behandler med vedlegg", () => {
-      const meldingResponse = meldingResponseMedVedlegg;
+    describe("for meldinger fra behandler (tilleggsopplysninger)", () => {
+      it("Viser vedlegg-ikon og tekst med vedlegg-nummer", () => {
+        const meldingResponse = meldingResponseMedVedlegg;
 
-      queryClient.setQueryData(
-        behandlerdialogQueryKeys.behandlerdialog(
-          ARBEIDSTAKER_DEFAULT.personIdent
-        ),
-        () => meldingResponse
-      );
+        queryClient.setQueryData(
+          behandlerdialogQueryKeys.behandlerdialog(
+            ARBEIDSTAKER_DEFAULT.personIdent
+          ),
+          () => meldingResponse
+        );
 
-      const meldingerMedVedlegg = Object.values(
-        meldingResponse.conversations
-      ).flatMap((meldinger) =>
-        meldinger.filter(
-          (melding) => melding.innkommende && melding.antallVedlegg > 0
-        )
-      );
+        const meldingerMedVedlegg = Object.values(
+          meldingResponse.conversations
+        ).flatMap((meldinger) =>
+          meldinger.filter(
+            (melding) => melding.innkommende && melding.antallVedlegg > 0
+          )
+        );
 
-      renderMeldinger();
+        renderMeldinger();
 
-      const accordions = screen.getAllByRole("button");
-      accordions.forEach((accordion) => userEvent.click(accordion));
+        const accordions = screen.getAllByRole("button");
+        accordions.forEach((accordion) => userEvent.click(accordion));
 
-      const vedleggIkoner = screen.getAllByRole("img", {
-        name: "Binders-ikon for vedlegg",
+        const vedleggIkoner = screen.getAllByRole("img", {
+          name: "Binders-ikon for vedlegg",
+        });
+        expect(vedleggIkoner).to.have.length(meldingerMedVedlegg.length);
+        expect(
+          screen.getAllByRole("link", {
+            name: `Vedlegg ${meldingerMedVedlegg[0].antallVedlegg}`,
+          })
+        ).to.not.be.empty;
+        expect(
+          screen.getAllByRole("link", {
+            name: `Vedlegg ${meldingerMedVedlegg[1].antallVedlegg}`,
+          })
+        ).to.not.be.empty;
+        expect(
+          screen.getAllByRole("link", {
+            name: `Vedlegg ${meldingerMedVedlegg[2].antallVedlegg}`,
+          })
+        ).to.not.be.empty;
       });
-      expect(vedleggIkoner).to.have.length(meldingerMedVedlegg.length);
-      expect(`Vedlegg ${meldingerMedVedlegg[0].antallVedlegg}`).to.exist;
-      expect(`Vedlegg ${meldingerMedVedlegg[1].antallVedlegg}`).to.exist;
-      expect(`Vedlegg ${meldingerMedVedlegg[2].antallVedlegg}`).to.exist;
+    });
+    describe("for melding fra behandler (legeerklæring)", () => {
+      it("Viser vedlegg-ikon og tekst 'Legeerklæring' for første vedlegg", () => {
+        queryClient.setQueryData(
+          behandlerdialogQueryKeys.behandlerdialog(
+            ARBEIDSTAKER_DEFAULT.personIdent
+          ),
+          () => meldingResponseLegeerklaring
+        );
+
+        renderMeldinger();
+
+        const accordions = screen.getAllByRole("button");
+        accordions.forEach((accordion) => userEvent.click(accordion));
+
+        expect(screen.getByRole("img", { name: "Binders-ikon for vedlegg" })).to
+          .exist;
+        expect(screen.getByRole("link", { name: "Legeerklæring" })).to.exist;
+        expect(screen.queryByRole("link", { name: "Vedlegg 1" })).to.not.exist;
+      });
+      it("Viser vedlegg-ikon og tekst med vedlegg-nummer for andre vedlegg enn første", () => {
+        const meldingResponse = meldingResponseLegeerklaringMedTreVedlegg;
+
+        queryClient.setQueryData(
+          behandlerdialogQueryKeys.behandlerdialog(
+            ARBEIDSTAKER_DEFAULT.personIdent
+          ),
+          () => meldingResponse
+        );
+
+        renderMeldinger();
+
+        const accordions = screen.getAllByRole("button");
+        accordions.forEach((accordion) => userEvent.click(accordion));
+
+        expect(screen.getByRole("img", { name: "Binders-ikon for vedlegg" })).to
+          .exist;
+        expect(screen.getByRole("link", { name: "Legeerklæring" })).to.exist;
+        expect(screen.getByRole("link", { name: "Vedlegg 1" })).to.exist;
+        expect(screen.getByRole("link", { name: "Vedlegg 2" })).to.exist;
+      });
     });
   });
 
