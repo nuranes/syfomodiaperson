@@ -34,9 +34,12 @@ const OppsummeringSporsmal = (
     case SvarTypeDTO.DATOER: {
       return <OppsummeringDato {...props} />;
     }
+    case SvarTypeDTO.PERIODE:
     case SvarTypeDTO.PERIODER: {
       return <OppsummeringPerioder {...props} />;
     }
+    case SvarTypeDTO.COMBOBOX_SINGLE:
+    case SvarTypeDTO.COMBOBOX_MULTIPLE:
     case SvarTypeDTO.LAND:
     case SvarTypeDTO.FRITEKST: {
       return <OppsummeringFritekst {...props} />;
