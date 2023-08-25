@@ -1672,7 +1672,7 @@ export const soknaderMock = [
         id: "24317",
         tag: "MEDLEMSKAP_OPPHOLD_UTENFOR_NORGE",
         sporsmalstekst:
-            "Har du oppholdt deg utenfor Norge i løpet av de siste 12 månedene?",
+          "Har du oppholdt deg utenfor Norge i løpet av de siste 12 månedene?",
         undertekst: null,
         svartype: "JA_NEI",
         min: null,
