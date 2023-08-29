@@ -1,0 +1,14 @@
+apiVersion: unleash.nais.io/v1
+kind: ApiToken
+metadata:
+  name: syfomodiaperson
+  namespace: teamsykefravr
+  labels:
+    team: teamsykefravr
+spec:
+  unleashInstance:
+    apiVersion: unleash.nais.io/v1
+    kind: RemoteUnleash
+    name: teamsykefravr
+  secretName: syfomodiaperson-unleash-api-token
+  environment: production

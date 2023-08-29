@@ -48,6 +48,7 @@ spec:
       external:
         - host: "login.microsoftonline.com"
         - host: "unleash.nais.io"
+        - host: "teamsykefravr-unleash-api.nav.cloud.nais.io"
         - host: "internarbeidsflatedecorator.prod-fss-pub.nais.io"
         - host: "modiacontextholder.prod-fss-pub.nais.io"
         - host: "ereg-services.prod-fss-pub.nais.io"
@@ -78,6 +79,7 @@ spec:
   envFrom:
     - secret: syfomodiaperson-session-key
     - secret: syfomodiaperson-redis-password
+    - secret: syfomodiaperson-unleash-api-token
   ingresses:
     - "https://syfomodiaperson.intern.nav.no"
   env:

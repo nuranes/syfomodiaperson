@@ -16,7 +16,7 @@ import { modiacontextQueryKeys } from "@/data/modiacontext/modiacontextQueryHook
 import { oppfolgingstilfellePersonQueryKeys } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { oppfolgingstilfellePersonMock } from "../mock/isoppfolgingstilfelle/oppfolgingstilfellePersonMock";
 import { unleashQueryKeys } from "@/data/unleash/unleashQueryHooks";
-import { unleashMock } from "../mock/unleash/unleashMock";
+import { mockUnleashResponse } from "../mock/unleashMocks";
 import { brukerinfoQueryKeys } from "@/data/navbruker/navbrukerQueryHooks";
 import { behandlereQueryKeys } from "@/data/behandler/behandlereQueryHooks";
 import {
@@ -122,14 +122,7 @@ export const queryClientWithMockData = (): QueryClient => {
       BEHANDLENDE_ENHET_DEFAULT.enhetId,
       VEILEDER_IDENT_DEFAULT
     ),
-    () => unleashMock
-  );
-  queryClient.setQueryData(
-    unleashQueryKeys.toggles(
-      BEHANDLENDE_ENHET_DEFAULT.enhetId,
-      VEILEDER_IDENT_DEFAULT
-    ),
-    () => unleashMock
+    () => mockUnleashResponse
   );
 
   queryClient.setQueryData(

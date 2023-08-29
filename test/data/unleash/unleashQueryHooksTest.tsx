@@ -1,13 +1,13 @@
 import nock from "nock";
-import { expect } from "chai";
-import { renderHook, waitFor } from "@testing-library/react";
 import { apiMock } from "../../stubs/stubApi";
-import { queryHookWrapper } from "../queryHookTestUtils";
-import { unleashMock } from "../../../mock/unleash/unleashMock";
-import { stubFeatureTogglesApi } from "../../stubs/stubUnleash";
-import { stubAktivVeilederinfoApi } from "../../stubs/stubSyfoveileder";
-import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
 import { testQueryClient } from "../../testQueryClient";
+import { stubAktivVeilederinfoApi } from "../../stubs/stubSyfoveileder";
+import { stubFeatureTogglesApi } from "../../stubs/stubUnleash";
+import { queryHookWrapper } from "../queryHookTestUtils";
+import { renderHook, waitFor } from "@testing-library/react";
+import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
+import { expect } from "chai";
+import { mockUnleashResponse } from "../../../mock/unleashMocks";
 
 let queryClient: any;
 let apiMockScope: any;
@@ -32,7 +32,6 @@ describe("unleashQuery tests", () => {
     });
 
     await waitFor(() => expect(result.current.isSuccess).to.be.true);
-
-    expect(result.current.data).to.deep.equal(unleashMock);
+    expect(result.current.toggles).to.deep.equal(mockUnleashResponse);
   });
 });

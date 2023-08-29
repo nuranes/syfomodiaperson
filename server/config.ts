@@ -1,4 +1,5 @@
 import dotenv = require("dotenv");
+
 dotenv.config();
 
 const hasEnvVar = (name: any) => {
@@ -313,10 +314,16 @@ export const redis = {
   }),
 };
 
+export const unleash: { serverApiUrl: string; serverApiToken: string } = {
+  serverApiUrl: envVar({ name: "UNLEASH_SERVER_API_URL" }),
+  serverApiToken: envVar({ name: "UNLEASH_SERVER_API_TOKEN" }),
+};
+
 module.exports = {
   auth: auth,
   isDev: isDev,
   isProd: isProd,
   redis: redis,
+  unleash: unleash,
   server: server,
 };

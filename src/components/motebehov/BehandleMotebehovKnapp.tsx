@@ -17,7 +17,6 @@ import { Button, Panel, Radio, RadioGroup, ReadMore } from "@navikt/ds-react";
 import styled from "styled-components";
 import { FlexRow, PaddingSize } from "@/components/Layout";
 import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
-import { ToggleNames } from "@/data/unleash/unleash_types";
 import { useBehandleMotebehovAndSendTilbakemelding } from "@/data/motebehov/useBehandleMotebehovAndSendTilbakemelding";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 
@@ -64,15 +63,14 @@ const BehandleMotebehovKnapp = ({
   const behandleMotebehov = useBehandleMotebehov();
   const behandleMotebehovAndSendTilbakemelding =
     useBehandleMotebehovAndSendTilbakemelding();
-  const { isFeatureEnabled } = useFeatureToggles();
-  const juneathon = isFeatureEnabled(ToggleNames.vurderMotebehovTilbakemelding);
+  const { toggles } = useFeatureToggles();
   const [isTilbakemelding, setIsTilbakemelding] = useState(false);
 
   const tilbakemeldinger = unikeInnsendereUbehandledeMotebehov.map(
     (motebehov) => toMotebehovTilbakemeldingDTO(motebehov, texts.tilbakemelding)
   );
 
-  if (juneathon && !erBehandlet) {
+  if (toggles.isMotebehovTilbakemeldingEnabled && !erBehandlet) {
     return (
       <>
         <FlexRow bottomPadding={PaddingSize.SM}>

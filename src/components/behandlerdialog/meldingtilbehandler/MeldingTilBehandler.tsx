@@ -24,12 +24,10 @@ export const MeldingTilBehandler = () => {
       <Heading level="1" size="large" spacing>
         {texts.header}
       </Heading>
-      <>
-        <MeldingTilBehandlerAlert variant="warning" size="small">
-          {texts.alertInfo}
-        </MeldingTilBehandlerAlert>
-        <MeldingTilBehandlerSkjema />
-      </>
+      <MeldingTilBehandlerAlert variant="warning" size="small">
+        {texts.alertInfo}
+      </MeldingTilBehandlerAlert>
+      <MeldingTilBehandlerSkjema />
     </>
   );
 };

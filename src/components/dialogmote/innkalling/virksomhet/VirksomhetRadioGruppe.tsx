@@ -3,7 +3,6 @@ import React, { ReactElement } from "react";
 import { VirksomhetRadio } from "@/components/dialogmote/innkalling/virksomhet/VirksomhetRadio";
 import { VirksomhetInputRadio } from "@/components/dialogmote/innkalling/virksomhet/VirksomhetInputRadio";
 import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
-import { ToggleNames } from "@/data/unleash/unleash_types";
 
 interface VirksomhetRadioGruppeProps {
   velgVirksomhet(virksomhetsnummer: string): void;
@@ -22,10 +21,7 @@ export const VirksomhetRadioGruppe = ({
   label,
   name,
 }: VirksomhetRadioGruppeProps): ReactElement => {
-  const { isFeatureEnabled } = useFeatureToggles();
-  const hasAccessToVirksomhetInput = isFeatureEnabled(
-    ToggleNames.virksomhetinput
-  );
+  const { toggles } = useFeatureToggles();
   const removeInputAndChooseVirksomhet = (virksomhetsnummer: string) => {
     setShowInput(false);
     velgVirksomhet(virksomhetsnummer);
@@ -45,7 +41,7 @@ export const VirksomhetRadioGruppe = ({
           name={name}
         />
       ))}
-      {hasAccessToVirksomhetInput && (
+      {toggles.isVirksomhetsinputEnabled && (
         <VirksomhetInputRadio
           key={virksomheter.length}
           setShowFritekst={showInputAndRemoveChosenVirksomhet}

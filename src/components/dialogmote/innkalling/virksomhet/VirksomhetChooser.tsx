@@ -3,7 +3,6 @@ import { AlertstripeFullbredde } from "@/components/AlertstripeFullbredde";
 import { VirksomhetInput } from "@/components/dialogmote/innkalling/virksomhet/VirksomhetInput";
 import { VirksomhetRadioGruppe } from "@/components/dialogmote/innkalling/virksomhet/VirksomhetRadioGruppe";
 import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
-import { ToggleNames } from "@/data/unleash/unleash_types";
 
 const texts = {
   chooseArbeidsgiver: "Velg arbeidsgiver",
@@ -28,10 +27,7 @@ export const VirksomhetChooser = ({
   label,
   name,
 }: VirksomhetRadioGruppeProps): ReactElement => {
-  const { isFeatureEnabled } = useFeatureToggles();
-  const hasAccessToVirksomhetInput = isFeatureEnabled(
-    ToggleNames.virksomhetinput
-  );
+  const { toggles } = useFeatureToggles();
   const [showInput, setShowInput] = useState<boolean>(false);
 
   return (
@@ -47,7 +43,7 @@ export const VirksomhetChooser = ({
 
       {showInput && <VirksomhetInput velgVirksomhet={velgVirksomhet} />}
 
-      {virksomheter.length === 0 && !hasAccessToVirksomhetInput && (
+      {virksomheter.length === 0 && !toggles.isVirksomhetsinputEnabled && (
         <AlertstripeFullbredde type="advarsel" marginbottom="2em">
           {texts.noArbeidsgiver}
           <ul>

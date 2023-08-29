@@ -15,13 +15,13 @@ import { mockIspengestopp } from "./ispengestopp/mockIspengestopp";
 import { mockIsdialogmote } from "./isdialogmote/mockIsdialogmote";
 import { mockIsdialogmotekandidat } from "./isdialogmotekandidat/mockIsdialogmotekandidat";
 import { mockSyfoveileder } from "./syfoveileder/mockSyfoveileder";
-import { mockUnleash } from "./unleash/mockUnleash";
+import { mockUnleashEndpoint } from "./unleashMocks";
 import { mockIsdialogmelding } from "./isdialogmelding/mockIsdialogmelding";
 import { mockIsaktivitetskrav } from "./isaktivitetskrav/mockIsaktivitetskrav";
 import { mockIsbehandlerdialog } from "./isbehandlerdialog/mockIsbehandlerdialog";
 import { mockEsyfovarsel } from "./esyfovarsel/mockEsyfovarsel";
 
-const express = require("express");
+import express from "express";
 
 const mockEndepunkter = (server: any) => {
   server.use(express.json());
@@ -49,7 +49,7 @@ const mockEndepunkter = (server: any) => {
     mockIsdialogmotekandidat,
     mockIsdialogmelding,
     mockSyfoveileder,
-    mockUnleash,
+    mockUnleashEndpoint,
   ].forEach((func) => {
     func(server);
   });
