@@ -17,12 +17,6 @@ import {
   expectedLegeerklaringDocument,
   expectedTilleggsopplysningerDocument,
 } from "./testDataDocuments";
-import { unleashQueryKeys } from "@/data/unleash/unleashQueryHooks";
-import {
-  BEHANDLENDE_ENHET_DEFAULT,
-  VEILEDER_IDENT_DEFAULT,
-} from "../../mock/common/mockConstants";
-import { unleashMock } from "../../mock/unleash/unleashMock";
 
 let queryClient: QueryClient;
 
@@ -45,40 +39,16 @@ describe("MeldingTilBehandler", () => {
     queryClient = queryClientWithMockData();
   });
 
-  it("Viser overskrift og warning-alert for bruk av tilleggsopplysninger hvis toggle for legeerklæring er av", () => {
-    queryClient.setQueryData(
-      unleashQueryKeys.toggles(
-        BEHANDLENDE_ENHET_DEFAULT.enhetId,
-        VEILEDER_IDENT_DEFAULT
-      ),
-      () => {
-        return {
-          ...unleashMock,
-          "syfo.behandlerdialog.legeerklaring": false,
-        };
-      }
-    );
-
-    renderMeldingTilBehandler();
-
-    const tilleggsopplysningerInfoText =
-      "Her kan du kun be om tilleggsopplysninger med takst L8. Dialogmeldingen skal bare benyttes i sykefraværsoppfølgingen. Meldingen vises også til innbyggeren på Min side.";
-
-    expect(screen.getByRole("heading", { name: "Skriv til behandler" })).to
-      .exist;
-    expect(screen.getByRole("img", { name: "Advarsel" })).to.exist;
-    expect(screen.getByText(tilleggsopplysningerInfoText)).to.exist;
-  });
-
   it("Viser overskrift og warning-alert for kopi til bruker hvis toggle for legeerklæring er på", () => {
     renderMeldingTilBehandler();
 
-    const meldingenVisesText = "Meldingen vises til innbyggeren på Min side.";
+    const alertText =
+      "Dialogmeldingen skal bare benyttes i sykefraværsoppfølgingen. Meldingen vises til innbyggeren på Min side.";
 
     expect(screen.getByRole("heading", { name: "Skriv til behandler" })).to
       .exist;
     expect(screen.getByRole("img", { name: "Advarsel" })).to.exist;
-    expect(screen.getByText(meldingenVisesText)).to.exist;
+    expect(screen.getByText(alertText)).to.exist;
   });
 
   const selectLabel = "Hvilken meldingstype ønsker du å sende?";

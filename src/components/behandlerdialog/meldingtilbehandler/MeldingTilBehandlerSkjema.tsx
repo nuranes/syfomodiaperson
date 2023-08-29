@@ -74,13 +74,7 @@ type MeldingTilBehandlerSkjemaFeil = {
 
 export const MAX_LENGTH_BEHANDLER_MELDING = 2000; // TODO: må bli enige om noe her
 
-interface Props {
-  isBehandlerdialogLegeerklaringEnabled: boolean;
-}
-
-export const MeldingTilBehandlerSkjema = ({
-  isBehandlerdialogLegeerklaringEnabled,
-}: Props) => {
+export const MeldingTilBehandlerSkjema = () => {
   const [displayPreview, setDisplayPreview] = useState(false);
   const { getMeldingTilBehandlerDocument } = useMeldingTilBehandlerDocument();
   const [selectedBehandler, setSelectedBehandler] = useState<BehandlerDTO>();
@@ -128,15 +122,7 @@ export const MeldingTilBehandlerSkjema = ({
   };
 
   return (
-    <Form
-      onSubmit={submit}
-      validate={validate}
-      initialValues={{
-        type: isBehandlerdialogLegeerklaringEnabled
-          ? undefined
-          : MeldingType.FORESPORSEL_PASIENT_TILLEGGSOPPLYSNINGER,
-      }}
-    >
+    <Form onSubmit={submit} validate={validate}>
       {({ handleSubmit, submitFailed, errors, values }) => (
         <StyledForm onSubmit={handleSubmit}>
           {meldingTilBehandler.isSuccess && (
@@ -144,12 +130,10 @@ export const MeldingTilBehandlerSkjema = ({
               {`Meldingen ble sendt ${tilDatoMedManedNavnOgKlokkeslett(now)}`}
             </Alert>
           )}
-          {isBehandlerdialogLegeerklaringEnabled && (
-            <MeldingsType>
-              <SelectMeldingType />
-              {values.type && <MeldingsTypeInfo meldingType={values.type} />}
-            </MeldingsType>
-          )}
+          <MeldingsType>
+            <SelectMeldingType />
+            {values.type && <MeldingsTypeInfo meldingType={values.type} />}
+          </MeldingsType>
           <VelgBehandler
             selectedBehandler={selectedBehandler}
             setSelectedBehandler={
