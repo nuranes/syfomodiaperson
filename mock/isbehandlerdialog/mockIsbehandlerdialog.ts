@@ -2,20 +2,19 @@ import express = require("express");
 import { ISBEHANDLERDIALOG_ROOT } from "../../src/apiConstants";
 import { NAV_PERSONIDENT_HEADER } from "../util/requestUtil";
 import {
-  behandlerdialogMockInclLegeerklaring,
+  behandlerdialogMock,
   behandlerdialogVedleggMock,
   defaultMelding,
 } from "./behandlerdialogMock";
 import { MeldingTilBehandlerDTO } from "@/data/behandlerdialog/behandlerdialogTypes";
 
-let behandlerdialogMockdata = behandlerdialogMockInclLegeerklaring;
-
+let behandlerdialogMockData = behandlerdialogMock;
 export const mockIsbehandlerdialog = (server: any) => {
   server.get(
     `${ISBEHANDLERDIALOG_ROOT}/melding`,
     (req: express.Request, res: express.Response) => {
       if (req.headers[NAV_PERSONIDENT_HEADER]?.length === 11) {
-        res.send(JSON.stringify(behandlerdialogMockdata));
+        res.send(JSON.stringify(behandlerdialogMockData));
       } else {
         res.status(400).send("Did not find PersonIdent in headers");
       }
@@ -40,11 +39,9 @@ export const mockIsbehandlerdialog = (server: any) => {
     (req: express.Request, res: express.Response) => {
       res.sendStatus(200);
       const body = req.body as MeldingTilBehandlerDTO;
-      behandlerdialogMockdata = {
+      behandlerdialogMockData = {
         conversations: {
-          ...behandlerdialogMockdata.conversations,
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
+          ...behandlerdialogMock.conversations,
           [`${body.tekst}`]: [
             {
               ...defaultMelding,

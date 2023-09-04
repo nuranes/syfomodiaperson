@@ -33,6 +33,7 @@ import {
   meldingResponseMedVedlegg,
   meldingTilOgFraBehandler,
   returLegeerklaring,
+  meldingFraNAVConversation,
 } from "./meldingTestdataGenerator";
 
 let queryClient: QueryClient;
@@ -70,7 +71,7 @@ describe("Meldinger panel", () => {
         exact: false,
       });
       expect(samtaleAccordion).to.exist;
-      expect(screen.getAllByText("Dette er en melding")).to.have.length(7);
+      expect(screen.getAllByText("Dette er en melding")).to.have.length(11);
     });
 
     it("Meldinger sorteres i riktig rekkefølge med nyeste samtale først", () => {
@@ -79,11 +80,14 @@ describe("Meldinger panel", () => {
       const accordions = screen.getAllByRole("button", {
         name: /januar/,
       });
-      expect(accordions).to.have.length(4);
-      expect(accordions[0].textContent).to.contain("6. januar");
-      expect(accordions[1].textContent).to.contain("5. januar");
-      expect(accordions[2].textContent).to.contain("2. januar");
-      expect(accordions[3].textContent).to.contain("1. januar");
+      expect(accordions).to.have.length(7);
+      expect(accordions[0].textContent).to.contain("7. januar");
+      expect(accordions[1].textContent).to.contain("6. januar");
+      expect(accordions[2].textContent).to.contain("5. januar");
+      expect(accordions[3].textContent).to.contain("4. januar");
+      expect(accordions[4].textContent).to.contain("3. januar");
+      expect(accordions[5].textContent).to.contain("2. januar");
+      expect(accordions[6].textContent).to.contain("1. januar");
     });
 
     it("Viser GuidePanel når det ikke finnes dialogmeldinger på personen", () => {
@@ -108,7 +112,9 @@ describe("Meldinger panel", () => {
       expect(screen.getAllByText("Skrevet av Lego Las Legesen")).to.have.length(
         2
       );
-      expect(screen.getByText("Skrevet av Doktor Legesen")).to.exist;
+      expect(screen.getAllByText("Skrevet av Doktor Legesen")).to.have.length(
+        3
+      );
     });
 
     it("Skal ikke vise 'Skrevet av {navn}' hvis behandlerNavn på innkommende melding er null", () => {
@@ -130,7 +136,7 @@ describe("Meldinger panel", () => {
       renderMeldinger();
 
       expect(screen.getAllByText("Skrevet av Vetle Veileder")).to.have.length(
-        7
+        11
       );
     });
   });
@@ -174,6 +180,25 @@ describe("Meldinger panel", () => {
       );
     });
 
+    it("Viser at antall melding som finnes av meldingtype 'melding fra NAV', rendres", () => {
+      const meldingResponse = meldingFraNAVConversation;
+      queryClient.setQueryData(
+        behandlerdialogQueryKeys.behandlerdialog(
+          ARBEIDSTAKER_DEFAULT.personIdent
+        ),
+        () => meldingResponse
+      );
+      const antallMeldinger = Object.values(
+        meldingResponse.conversations
+      ).flat().length;
+
+      renderMeldinger();
+
+      expect(screen.getAllByText("Melding fra NAV")).to.have.length(
+        antallMeldinger
+      );
+    });
+
     it("Viser type inkl takst på påminnelse-meldinger", () => {
       const meldingResponse = meldingTilOgFraBehandler("123uid", true);
       queryClient.setQueryData(
@@ -200,18 +225,18 @@ describe("Meldinger panel", () => {
   });
 
   describe("Forhåndsvisning av sendt meldingenTilBehandler i modal", () => {
-    it("Viser 'Se melding'-knapp for melding til behandler i alle samtaler", () => {
+    it("Viser 'Se melding'-knapp for melding til behandler i alle samtaler", async () => {
       renderMeldinger();
 
       const accordions = screen.getAllByRole("button", {
         name: /januar/,
       });
-      expect(accordions).to.have.length(4);
+      expect(accordions).to.have.length(7);
       accordions.forEach((accordion) => userEvent.click(accordion));
       const seMeldingButtons = screen.getAllByRole("button", {
         name: seMeldingButtonTekst,
       });
-      expect(seMeldingButtons).to.have.length(7);
+      expect(seMeldingButtons).to.have.length(11);
     });
 
     it("Viser melding til behandler ved klikk på 'Se melding'-knapp", () => {
@@ -220,7 +245,7 @@ describe("Meldinger panel", () => {
       const accordions = screen.getAllByRole("button", {
         name: /januar/,
       });
-      expect(accordions).to.have.length(4);
+      expect(accordions).to.have.length(7);
 
       const seMeldingButton = screen.getAllByRole("button", {
         name: seMeldingButtonTekst,

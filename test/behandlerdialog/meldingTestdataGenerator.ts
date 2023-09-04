@@ -7,7 +7,9 @@ import {
   defaultMeldingInnkommendeLegeerklaringNy,
   defaultMeldingLegeerklaring,
   defaultReturLegeerklaring,
+  meldingFraNav,
   paminnelseMelding,
+  responsPaMeldingFraNAV,
 } from "../../mock/isbehandlerdialog/behandlerdialogMock";
 import {
   MeldingDTO,
@@ -195,5 +197,11 @@ export const meldingResponseLegeerklaringMedReturOgNyLegeerklaring = {
       returLegeerklaring,
       defaultMeldingInnkommendeLegeerklaringNy,
     ],
+  },
+};
+
+export const meldingFraNAVConversation = {
+  conversations: {
+    ["conversationRef567"]: [meldingFraNav, responsPaMeldingFraNAV],
   },
 };

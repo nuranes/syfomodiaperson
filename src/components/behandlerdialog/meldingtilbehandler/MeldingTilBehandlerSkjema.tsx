@@ -121,6 +121,18 @@ export const MeldingTilBehandlerSkjema = () => {
     });
   };
 
+  const PreviewButton = () => {
+    return (
+      <Button
+        variant="secondary"
+        type="button"
+        onClick={() => setDisplayPreview(true)}
+      >
+        {texts.previewKnapp}
+      </Button>
+    );
+  };
+
   return (
     <Form onSubmit={submit} validate={validate}>
       {({ handleSubmit, submitFailed, errors, values }) => (
@@ -165,13 +177,7 @@ export const MeldingTilBehandlerSkjema = () => {
             >
               {texts.sendKnapp}
             </Button>
-            <Button
-              variant="secondary"
-              type="button"
-              onClick={() => setDisplayPreview(true)}
-            >
-              {texts.previewKnapp}
-            </Button>
+            <PreviewButton />
           </ButtonRow>
         </StyledForm>
       )}

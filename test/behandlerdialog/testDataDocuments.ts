@@ -196,3 +196,26 @@ export const expectedReturLegeerklaringDocument = (
     type: DocumentComponentType.PARAGRAPH,
   },
 ];
+
+export const expectedMeldingFraNAVDocument = (
+  meldingTekst: string
+): DocumentComponentDto[] => [
+  {
+    texts: ["Melding fra NAV"],
+    type: DocumentComponentType.HEADER_H1,
+  },
+  {
+    texts: [
+      `Gjelder pasient: ${ARBEIDSTAKER_DEFAULT_FULL_NAME}, ${ARBEIDSTAKER_DEFAULT.personIdent}.`,
+    ],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: [meldingTekst],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+  {
+    texts: ["Vennlig hilsen", VEILEDER_DEFAULT.navn, "NAV"],
+    type: DocumentComponentType.PARAGRAPH,
+  },
+];

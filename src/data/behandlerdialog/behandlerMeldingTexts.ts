@@ -56,3 +56,7 @@ export const returLegeerklaringTexts = {
       "Dersom du allerede har sendt inn regning for den mangelfulle erklæringen, forutsetter vi at det ikke blir sendt regning for ny utfylt Legeerklæring ved arbeidsuførhet.",
   },
 };
+
+export const meldingFraNAVTexts = {
+  header: "Melding fra NAV",
+};

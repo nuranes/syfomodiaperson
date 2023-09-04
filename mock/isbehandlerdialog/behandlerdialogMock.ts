@@ -224,6 +224,21 @@ export const defaultReturLegeerklaring = {
   parentRef: defaultMeldingInnkommendeLegeerklaring.uuid,
 };
 
+export const meldingFraNav = {
+  ...defaultMelding,
+  type: MeldingType.HENVENDELSE_MELDING_FRA_NAV,
+  tekst: "Dette er en melding fra NAV til behandler der veileder lurer på noe.",
+  tidspunkt: "2023-01-07T12:00:00.000+01:00",
+};
+
+export const responsPaMeldingFraNAV = {
+  ...defaultMelding,
+  innkommende: true,
+  type: MeldingType.HENVENDELSE_MELDING_FRA_NAV,
+  tekst: "Melding fra behandler som svarer på melding fra NAV",
+  tidspunkt: "2023-01-07T12:00:00.000+01:00",
+};
+
 export const defaultMeldingInnkommendeLegeerklaringNy = {
   ...defaultMeldingInnkommendeLegeerklaring,
   uuid: meldingUuids.legeerklaringInnkommendeNy,
@@ -283,12 +298,7 @@ export const behandlerdialogMock = {
     "conversationRef-456": meldinger.slice(0, 2),
     "conversationRef-789": meldinger,
     "conversationRef-981": [defaultMelding, paminnelseMelding],
-  },
-};
-
-export const behandlerdialogMockInclLegeerklaring = {
-  conversations: {
-    ...behandlerdialogMock.conversations,
+    "conversationRef-999": [meldingFraNav, responsPaMeldingFraNAV],
     "conversationRef-819": [
       defaultMeldingLegeerklaring,
       defaultMeldingInnkommendeLegeerklaring,

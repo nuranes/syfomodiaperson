@@ -15,6 +15,7 @@ import { behandlereDialogmeldingMock } from "../../mock/isdialogmelding/behandle
 import userEvent from "@testing-library/user-event";
 import {
   expectedLegeerklaringDocument,
+  expectedMeldingFraNAVDocument,
   expectedTilleggsopplysningerDocument,
 } from "./testDataDocuments";
 
@@ -168,6 +169,33 @@ describe("MeldingTilBehandler", () => {
       expect(previewModal).to.exist;
 
       const expectedTexts = expectedLegeerklaringDocument(
+        enMeldingTekst
+      ).flatMap((documentComponent) => documentComponent.texts);
+      expectedTexts.forEach((text) => {
+        expect(within(previewModal).getByText(text)).to.exist;
+      });
+    });
+
+    it("Forhåndsviser melding fra NAV-melding ved klikk på Forhåndsvisning-knapp", () => {
+      renderMeldingTilBehandler();
+      fireEvent.change(screen.getByLabelText(selectLabel), {
+        target: { value: MeldingType.HENVENDELSE_MELDING_FRA_NAV },
+      });
+
+      const meldingInput = getTextInput("Skriv inn tekst");
+      changeTextInput(meldingInput, enMeldingTekst);
+
+      const previewButton = screen.getByRole("button", {
+        name: "Forhåndsvisning",
+      });
+      userEvent.click(previewButton);
+
+      const previewModal = screen.getByRole("dialog", {
+        name: "Forhåndsvis melding til behandler",
+      });
+      expect(previewModal).to.exist;
+
+      const expectedTexts = expectedMeldingFraNAVDocument(
         enMeldingTekst
       ).flatMap((documentComponent) => documentComponent.texts);
       expectedTexts.forEach((text) => {
