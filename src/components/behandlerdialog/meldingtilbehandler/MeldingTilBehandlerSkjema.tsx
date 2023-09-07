@@ -72,7 +72,7 @@ type MeldingTilBehandlerSkjemaFeil = {
   [K in keyof MeldingTilBehandlerSkjemaValues]: string | undefined;
 };
 
-export const MAX_LENGTH_BEHANDLER_MELDING = 2000; // TODO: må bli enige om noe her
+export const MAX_LENGTH_BEHANDLER_MELDING = 5000;
 
 export const MeldingTilBehandlerSkjema = () => {
   const [displayPreview, setDisplayPreview] = useState(false);
