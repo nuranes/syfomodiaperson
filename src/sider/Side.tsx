@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 import styled from "styled-components";
 import { Column, Container, Row } from "nav-frontend-grid";
 import Personkort from "../components/personkort/Personkort";
@@ -7,6 +7,7 @@ import { GlobalNavigasjon } from "@/components/globalnavigasjon/GlobalNavigasjon
 import { isEaster } from "@/utils/festiveUtils";
 import { Easter } from "@/components/Easter";
 import { Menypunkter } from "@/navigation/menypunkterTypes";
+import * as Amplitude from "@/utils/amplitude";
 
 const StyledContainer = styled(Container)`
   width: 95%;
@@ -19,6 +20,10 @@ interface SideProps {
 }
 
 const Side = (sideProps: SideProps) => {
+  useEffect(() => {
+    Amplitude.logPageVisit(window.location.href, sideProps.tittel);
+  }, [sideProps.tittel]);
+
   const { tittel, children, aktivtMenypunkt } = sideProps;
 
   return (
