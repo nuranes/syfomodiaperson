@@ -1,22 +1,30 @@
 import { fullNaisUrlIntern } from "@/utils/miljoUtil";
-import Lenke from "nav-frontend-lenker";
 import React, { ReactElement } from "react";
 import styled from "styled-components";
+import { Link } from "@navikt/ds-react";
 
 const texts = {
   oversikt: "Min oversikt",
   moter: "Mine møter",
+  enhetensOversikt: "Enhetens oversikt",
 };
 
-const MinOversiktLenke = styled(Lenke)`
-  margin-right: 2em;
+const StyledLenkeRad = styled.div`
+  > * {
+    &:not(:last-child) {
+      margin-right: 2em;
+    }
+  }
 `;
 
 export const OversiktLenker = (): ReactElement => (
-  <>
-    <MinOversiktLenke href={fullNaisUrlIntern("syfooversikt", "/minoversikt")}>
+  <StyledLenkeRad>
+    <Link href={fullNaisUrlIntern("syfooversikt", "/enhet")}>
+      {texts.enhetensOversikt}
+    </Link>
+    <Link href={fullNaisUrlIntern("syfooversikt", "/minoversikt")}>
       {texts.oversikt}
-    </MinOversiktLenke>
-    <Lenke href={fullNaisUrlIntern("syfomoteoversikt")}>{texts.moter}</Lenke>
-  </>
+    </Link>
+    <Link href={fullNaisUrlIntern("syfomoteoversikt")}>{texts.moter}</Link>
+  </StyledLenkeRad>
 );
