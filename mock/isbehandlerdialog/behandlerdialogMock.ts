@@ -159,6 +159,7 @@ export const defaultMelding = {
   antallVedlegg: 0,
   status: defaultStatus,
   veilederIdent: VEILEDER_IDENT_DEFAULT,
+  isFirstVedleggLegeerklaring: false,
 };
 
 export const defaultMeldingLegeerklaring = {
@@ -175,6 +176,7 @@ export const defaultMeldingLegeerklaring = {
   antallVedlegg: 0,
   status: defaultStatus,
   veilederIdent: VEILEDER_IDENT_DEFAULT,
+  isFirstVedleggLegeerklaring: false,
 };
 
 export const paminnelseMelding = {
@@ -212,6 +214,7 @@ export const defaultMeldingInnkommendeLegeerklaring = {
   antallVedlegg: 1,
   document: [],
   veilederIdent: null,
+  isFirstVedleggLegeerklaring: true,
 };
 
 export const defaultReturLegeerklaring = {

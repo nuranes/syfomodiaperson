@@ -40,6 +40,7 @@ export interface MeldingDTO {
   antallVedlegg: number;
   status?: MeldingStatusDTO;
   veilederIdent: string | null;
+  isFirstVedleggLegeerklaring: boolean;
 }
 
 export interface MeldingStatusDTO {
