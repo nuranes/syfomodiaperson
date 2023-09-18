@@ -55,6 +55,7 @@ export const buttonTexts = {
   [AktivitetskravStatus.FORHANDSVARSEL]: "Send forhåndsvarsel",
   [AktivitetskravStatus.IKKE_OPPFYLT]: "Ikke oppfylt",
   [AktivitetskravStatus.IKKE_AKTUELL]: "Ikke aktuell",
+  [AktivitetskravStatus.FORHANDSVARSEL]: "Send forhåndsvarsel",
 };
 
 const enBeskrivelse = "Her er en beskrivelse";

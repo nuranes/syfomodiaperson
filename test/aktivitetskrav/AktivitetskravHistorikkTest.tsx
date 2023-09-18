@@ -63,6 +63,12 @@ const stansVurdering = createAktivitetskravVurdering(
   AktivitetskravStatus.STANS,
   []
 );
+const forhandsvarselVurdering = createAktivitetskravVurdering(
+  AktivitetskravStatus.FORHANDSVARSEL,
+  [],
+  enBeskrivelse,
+  today
+);
 
 const renderAktivitetskravHistorikk = (
   vurderinger: AktivitetskravVurderingDTO[]
@@ -95,13 +101,20 @@ describe("AktivitetskravHistorikk", () => {
     );
   });
   it("viser klikkbar overskrift for hver vurdering, sortert etter dato - nyeste øverst", () => {
-    renderAktivitetskravHistorikk([unntakVurdering, oppfyltVurdering]);
+    renderAktivitetskravHistorikk([
+      forhandsvarselVurdering,
+      unntakVurdering,
+      oppfyltVurdering,
+    ]);
 
     const vurderingButtons = screen.getAllByRole("button");
     expect(vurderingButtons[0].textContent).to.contain(
-      `Oppfylt - ${tilDatoMedManedNavn(today)}`
+      `Forhåndsvarsel - ${tilDatoMedManedNavn(today)}`
     );
     expect(vurderingButtons[1].textContent).to.contain(
+      `Oppfylt - ${tilDatoMedManedNavn(today)}`
+    );
+    expect(vurderingButtons[2].textContent).to.contain(
       `Unntak - ${tilDatoMedManedNavn(dayInThePast)}`
     );
   });

@@ -1,4 +1,5 @@
 import {
+  AktivitetskravDTO,
   AktivitetskravStatus,
   AvventVurderingArsak,
   OppfyltVurderingArsak,
@@ -92,9 +93,28 @@ const aktivitetskravAutomatiskOppfylt = {
   vurderinger: [],
 };
 
+const aktivitetskravForhandsvarsel: AktivitetskravDTO = {
+  uuid: generateUUID(),
+  createdAt: daysFromToday(-11),
+  status: AktivitetskravStatus.FORHANDSVARSEL,
+  stoppunktAt: daysFromToday(40),
+  vurderinger: [
+    {
+      uuid: generateUUID(),
+      createdAt: daysFromToday(-2),
+      createdBy: VEILEDER_DEFAULT.ident,
+      status: AktivitetskravStatus.FORHANDSVARSEL,
+      beskrivelse: "En begrunnelse for hvorfor det er sendt forhåndsvarsel",
+      arsaker: [],
+      frist: daysFromToday(21),
+    },
+  ],
+};
+
 export const aktivitetskravMock = [
   aktivitetskravNy,
   aktivitetskravAutomatiskOppfylt,
   aktivitetskravOppfylt,
   aktivitetskravUnntak,
+  aktivitetskravForhandsvarsel,
 ];
