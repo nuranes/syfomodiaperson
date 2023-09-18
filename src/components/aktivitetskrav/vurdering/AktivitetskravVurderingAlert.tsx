@@ -82,6 +82,7 @@ export const AktivitetskravVurderingAlert = ({
       );
     }
     case AktivitetskravStatus.STANS:
+    case AktivitetskravStatus.FORHANDSVARSEL:
     case AktivitetskravStatus.AUTOMATISK_OPPFYLT:
     case AktivitetskravStatus.NY: {
       // Finnes ikke vurderinger med disse statusene

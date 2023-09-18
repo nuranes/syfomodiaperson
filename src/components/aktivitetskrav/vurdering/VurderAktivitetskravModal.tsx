@@ -7,6 +7,7 @@ import { AvventAktivitetskravSkjema } from "@/components/aktivitetskrav/vurderin
 import { IkkeOppfyltAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/IkkeOppfyltAktivitetskravSkjema";
 import { IkkeAktuellAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/IkkeAktuellAktivitetskravSkjema";
 import { Modal } from "@navikt/ds-react";
+import { SendForhandsvarselSkjema } from "@/components/aktivitetskrav/vurdering/SendForhandsvarselSkjema";
 
 const texts = {
   modalContentLabel: "Vurder aktivitetskrav",
@@ -75,6 +76,9 @@ const VurderAktivitetskravModalContent = ({
     }
     case "AVVENT": {
       return <AvventAktivitetskravSkjema {...rest} />;
+    }
+    case "FORHANDSVARSEL": {
+      return <SendForhandsvarselSkjema {...rest} />;
     }
     case "IKKE_OPPFYLT": {
       return <IkkeOppfyltAktivitetskravSkjema {...rest} />;

@@ -13,6 +13,7 @@ export enum ToggleNames {
   isVirksomhetsinputEnabled = "isVirksomhetsinputEnabled",
   isMeldingTypeMeldingFraNAVEnabled = "isMeldingTypeMeldingFraNAVEnabled",
   isMotebehovTilbakemeldingEnabled = "isMotebehovTilbakemeldingEnabled",
+  isSendingAvForhandsvarselEnabled = "isSendingAvForhandsvarselEnabled",
 }
 
 class VeilederIds extends Strategy {
@@ -58,6 +59,10 @@ export const getToggles = (veilederId, enhetId) => {
     ),
     isMotebehovTilbakemeldingEnabled: unleash.isEnabled(
       "isMotebehovTilbakemeldingEnabled",
+      context
+    ),
+    isSendingAvForhandsvarselEnabled: unleash.isEnabled(
+      "isSendingAvForhandsvarselEnabled",
       context
     ),
   };

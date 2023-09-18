@@ -1,9 +1,12 @@
+import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
+
 export enum AktivitetskravStatus {
   NY = "NY",
   AVVENT = "AVVENT",
   UNNTAK = "UNNTAK",
   OPPFYLT = "OPPFYLT",
   AUTOMATISK_OPPFYLT = "AUTOMATISK_OPPFYLT",
+  FORHANDSVARSEL = "FORHANDSVARSEL",
   STANS = "STANS",
   IKKE_OPPFYLT = "IKKE_OPPFYLT",
   IKKE_AKTUELL = "IKKE_AKTUELL",
@@ -55,4 +58,9 @@ export interface CreateAktivitetskravVurderingDTO {
   beskrivelse?: string;
   arsaker: VurderingArsak[];
   frist?: string;
+}
+
+export interface SendForhandsvarselDTO {
+  fritekst: string;
+  document: DocumentComponentDto[];
 }

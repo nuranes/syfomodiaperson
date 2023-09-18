@@ -10,7 +10,7 @@ import styled from "styled-components";
 import { BodyShort, Heading } from "@navikt/ds-react";
 
 export interface VurderAktivitetskravSkjemaProps {
-  setModalOpen: (modalOpen: boolean) => void;
+  setModalOpen: (isOpen: boolean) => void;
   aktivitetskravUuid: string | undefined;
 }
 

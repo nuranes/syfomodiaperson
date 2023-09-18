@@ -21,4 +21,10 @@ export const mockIsaktivitetskrav = (server: any) => {
       res.sendStatus(200);
     }
   );
+  server.post(
+    `${ISAKTIVITETSKRAV_ROOT}/aktivitetskrav/:aktivitetskravUuid/forhandsvarsel`,
+    (req: express.Request, res: express.Response) => {
+      res.sendStatus(201);
+    }
+  );
 };

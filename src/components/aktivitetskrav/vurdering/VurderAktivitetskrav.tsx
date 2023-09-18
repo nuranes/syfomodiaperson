@@ -61,6 +61,7 @@ export const VurderAktivitetskrav = ({
       )}
       <VurderAktivitetskravButtons
         onButtonClick={visVurderingAktivitetskravModalForType}
+        aktivitetskrav={aktivitetskrav}
       />
       <VurderAktivitetskravModal
         isOpen={visVurderAktivitetskravModal}

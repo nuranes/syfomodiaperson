@@ -78,6 +78,7 @@ const headerPrefix = (status: AktivitetskravStatus): string => {
     }
     case AktivitetskravStatus.NY:
     case AktivitetskravStatus.AUTOMATISK_OPPFYLT:
+    case AktivitetskravStatus.FORHANDSVARSEL:
     case AktivitetskravStatus.AVVENT:
     case AktivitetskravStatus.IKKE_AKTUELL: {
       // Ikke relevant for historikk
