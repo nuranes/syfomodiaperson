@@ -18,6 +18,7 @@ export type ModalType = `${Exclude<
   | AktivitetskravStatus.NY
   | AktivitetskravStatus.AUTOMATISK_OPPFYLT
   | AktivitetskravStatus.STANS
+  | AktivitetskravStatus.LUKKET
 >}`;
 
 interface VurderAktivitetskravModalProps {

@@ -10,6 +10,7 @@ export enum AktivitetskravStatus {
   STANS = "STANS",
   IKKE_OPPFYLT = "IKKE_OPPFYLT",
   IKKE_AKTUELL = "IKKE_AKTUELL",
+  LUKKET = "LUKKET",
 }
 
 export enum AvventVurderingArsak {
