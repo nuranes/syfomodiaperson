@@ -13,6 +13,7 @@ import {
   VurderingArsak,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { generateUUID } from "@/utils/uuidUtils";
+import { daysFromToday } from "./testUtils";
 
 export const generateOppfolgingstilfelle = (
   start: Date,
@@ -92,4 +93,11 @@ export const ikkeOppfyltVurdering = createAktivitetskravVurdering(
 export const ikkeAktuellVurdering = createAktivitetskravVurdering(
   AktivitetskravStatus.IKKE_AKTUELL,
   []
+);
+export const forhandsvarselVurdering = createAktivitetskravVurdering(
+  AktivitetskravStatus.FORHANDSVARSEL,
+  [],
+  "Begrunnelse for forhåndsvarsel",
+  new Date(),
+  daysFromToday(21)
 );

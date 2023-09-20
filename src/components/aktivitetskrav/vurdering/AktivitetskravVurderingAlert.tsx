@@ -20,7 +20,8 @@ type SuccessAktivitetskravStatus =
   | AktivitetskravStatus.OPPFYLT
   | AktivitetskravStatus.UNNTAK
   | AktivitetskravStatus.IKKE_OPPFYLT
-  | AktivitetskravStatus.IKKE_AKTUELL;
+  | AktivitetskravStatus.IKKE_AKTUELL
+  | AktivitetskravStatus.FORHANDSVARSEL;
 
 export const AktivitetskravVurderingAlert = ({
   vurdering,
@@ -45,6 +46,11 @@ export const AktivitetskravVurderingAlert = ({
       case AktivitetskravStatus.IKKE_AKTUELL: {
         return `Det er vurdert at aktivitetskravet ikke er aktuelt for ${brukersNavn} ${vurderingDatoMedArUtenMndNavn}`;
       }
+      case AktivitetskravStatus.FORHANDSVARSEL: {
+        return `Det er sendt forhåndsvarsel om stans av sykepenger for ${brukersNavn} ${vurderingDatoMedArUtenMndNavn}, med frist ${tilLesbarDatoMedArUtenManedNavn(
+          vurdering.frist
+        )}`;
+      }
     }
   };
 
@@ -52,7 +58,8 @@ export const AktivitetskravVurderingAlert = ({
     case AktivitetskravStatus.OPPFYLT:
     case AktivitetskravStatus.UNNTAK:
     case AktivitetskravStatus.IKKE_OPPFYLT:
-    case AktivitetskravStatus.IKKE_AKTUELL: {
+    case AktivitetskravStatus.IKKE_AKTUELL:
+    case AktivitetskravStatus.FORHANDSVARSEL: {
       return (
         <AktivitetskravAlertstripe variant="success">
           <BodyShort size="small">{successText(vurdering.status)}</BodyShort>
@@ -82,7 +89,6 @@ export const AktivitetskravVurderingAlert = ({
       );
     }
     case AktivitetskravStatus.STANS:
-    case AktivitetskravStatus.FORHANDSVARSEL:
     case AktivitetskravStatus.LUKKET:
     case AktivitetskravStatus.AUTOMATISK_OPPFYLT:
     case AktivitetskravStatus.NY: {

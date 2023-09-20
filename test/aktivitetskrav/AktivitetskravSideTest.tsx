@@ -18,6 +18,7 @@ import {
   avventVurderingUtenFrist,
   createAktivitetskrav,
   createAktivitetskravVurdering,
+  forhandsvarselVurdering,
   generateOppfolgingstilfelle,
   ikkeAktuellVurdering,
   ikkeOppfyltVurdering,
@@ -30,7 +31,10 @@ import {
   AvventVurderingArsak,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { aktivitetskravQueryKeys } from "@/data/aktivitetskrav/aktivitetskravQueryHooks";
-import { tilDatoMedManedNavn } from "@/utils/datoUtils";
+import {
+  tilDatoMedManedNavn,
+  tilLesbarDatoMedArUtenManedNavn,
+} from "@/utils/datoUtils";
 
 let queryClient: QueryClient;
 
@@ -333,6 +337,28 @@ describe("AktivitetskravSide", () => {
       expect(
         screen.getByText(/Det er vurdert at aktivitetskravet ikke er aktuelt/)
       ).to.exist;
+    });
+    it("viser suksess med frist når siste aktivitetskrav-vurdering er FORHANDSVARSEL", () => {
+      mockAktivitetskrav([
+        createAktivitetskrav(
+          daysFromToday(20),
+          AktivitetskravStatus.FORHANDSVARSEL,
+          [forhandsvarselVurdering]
+        ),
+      ]);
+      mockOppfolgingstilfellePerson([activeOppfolgingstilfelle]);
+      renderAktivitetskravSide();
+
+      expect(screen.getByRole("img", { name: "Suksess" })).to.exist;
+      expect(
+        screen.getByText(
+          `Det er sendt forhåndsvarsel om stans av sykepenger for Samuel Sam Jones ${tilLesbarDatoMedArUtenManedNavn(
+            forhandsvarselVurdering.createdAt
+          )}, med frist ${tilLesbarDatoMedArUtenManedNavn(
+            forhandsvarselVurdering.frist
+          )}`
+        )
+      );
     });
     it("viser ingen alert når ingen aktivitetskrav-vurdering", () => {
       mockAktivitetskrav([
