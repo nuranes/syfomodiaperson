@@ -15,8 +15,8 @@ export const sykepengesoknaderQueryKeys = {
 
 export const useSykepengesoknaderQuery = () => {
   const fnr = useValgtPersonident();
-  const path = `${SYKEPENGESOKNAD_BACKEND_ROOT}/veileder/soknader?fnr=${fnr}`;
-  const fetchSykepengesoknader = () => get<SykepengesoknadDTO[]>(path);
+  const path = `${SYKEPENGESOKNAD_BACKEND_ROOT}/veileder/soknader`;
+  const fetchSykepengesoknader = () => get<SykepengesoknadDTO[]>(path, fnr);
   const query = useQuery({
     queryKey: sykepengesoknaderQueryKeys.sykepengesoknader(fnr),
     queryFn: fetchSykepengesoknader,

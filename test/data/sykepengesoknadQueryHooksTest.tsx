@@ -10,7 +10,6 @@ import {
 import { soknaderMock } from "../../mock/sykepengesoknad/soknaderMock";
 import { stubSykepengesoknadBackendApi } from "../stubs/stubSykepengesoknadBackend";
 import { SykepengesoknadDTO } from "@/data/sykepengesoknad/types/SykepengesoknadDTO";
-import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import { testQueryClient } from "../testQueryClient";
 
 let queryClient: any;
@@ -26,10 +25,7 @@ describe("sykepengesoknadQueryHooks", () => {
   });
 
   it("loads sykepengesoknader", async () => {
-    stubSykepengesoknadBackendApi(
-      apiMockScope,
-      ARBEIDSTAKER_DEFAULT.personIdent
-    );
+    stubSykepengesoknadBackendApi(apiMockScope);
     const wrapper = queryHookWrapper(queryClient);
 
     const { result } = renderHook(() => useSykepengesoknaderQuery(), {
