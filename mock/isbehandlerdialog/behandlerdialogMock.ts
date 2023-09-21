@@ -59,7 +59,7 @@ const meldingtilBehandlerDocument = [
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: ["Vennlig hilsen", VEILEDER_DEFAULT.navn, "NAV"],
+    texts: ["Med vennlig hilsen", VEILEDER_DEFAULT.navn, "NAV"],
     type: DocumentComponentType.PARAGRAPH,
   },
 ];
@@ -89,7 +89,7 @@ const paminnelseDocument = [
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: ["Vennlig hilsen", VEILEDER_DEFAULT.navn, "NAV"],
+    texts: ["Med vennlig hilsen", VEILEDER_DEFAULT.navn, "NAV"],
     type: DocumentComponentType.PARAGRAPH,
   },
 ];
@@ -125,7 +125,7 @@ const returLegeerklaringDocument = [
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: ["Vennlig hilsen", VEILEDER_DEFAULT.navn, "NAV"],
+    texts: ["Med vennlig hilsen", VEILEDER_DEFAULT.navn, "NAV"],
     type: DocumentComponentType.PARAGRAPH,
   },
 ];

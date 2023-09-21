@@ -23,6 +23,14 @@ export const createParagraph = (...texts: string[]): DocumentComponentDto => ({
   type: DocumentComponentType.PARAGRAPH,
   texts,
 });
+
+export const createBulletPoints = (
+  ...texts: string[]
+): DocumentComponentDto => ({
+  type: DocumentComponentType.BULLET_POINTS,
+  texts,
+});
+
 export const createHeaderH1 = (text: string): DocumentComponentDto => ({
   type: DocumentComponentType.HEADER_H1,
   texts: [text],
@@ -33,12 +41,18 @@ export const createHeaderH2 = (text: string): DocumentComponentDto => ({
   texts: [text],
 });
 
+export const createHeaderH3 = (text: string): DocumentComponentDto => ({
+  type: DocumentComponentType.HEADER_H3,
+  texts: [text],
+});
+
 export const getHeaderText = (
   document: DocumentComponentDto[],
   type:
     | DocumentComponentType.HEADER
     | DocumentComponentType.HEADER_H1
     | DocumentComponentType.HEADER_H2
+    | DocumentComponentType.HEADER_H3
 ): string => {
   const header = document.find((component) => component.type === type);
   return header?.texts[0] ?? "";

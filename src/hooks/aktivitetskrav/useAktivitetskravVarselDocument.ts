@@ -1,7 +1,9 @@
 import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
 import { useDocumentComponents } from "@/hooks/useDocumentComponents";
 import {
-  createHeaderH2,
+  createBulletPoints,
+  createHeaderH1,
+  createHeaderH3,
   createParagraph,
 } from "@/utils/documentComponentUtils";
 import { sendForhandsvarselTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
@@ -12,19 +14,17 @@ export const useAktivitetskravVarselDocument = (): {
     fristDato: Date
   ): DocumentComponentDto[];
 } => {
-  const { getHilsen, getIntroHeiWithPersonIdent } = useDocumentComponents();
+  const { getHilsen } = useDocumentComponents();
 
   const getForhandsvarselDocument = (
     begrunnelse: string | undefined,
     fristDato: Date
   ) => {
     const documentComponents = [
-      getIntroHeiWithPersonIdent(),
-      createHeaderH2(sendForhandsvarselTexts.varselInfo.header),
+      createHeaderH1(sendForhandsvarselTexts.varselInfo.header),
       createParagraph(
         sendForhandsvarselTexts.varselInfo.introWithFristDate(fristDato)
       ),
-      createParagraph(sendForhandsvarselTexts.varselInfo.intro2),
     ];
 
     if (begrunnelse) {
@@ -32,20 +32,22 @@ export const useAktivitetskravVarselDocument = (): {
     }
 
     documentComponents.push(
-      createHeaderH2(sendForhandsvarselTexts.unngaStansInfo.header),
-      createParagraph(
+      createHeaderH3(sendForhandsvarselTexts.unngaStansInfo.header),
+      createBulletPoints(
         sendForhandsvarselTexts.unngaStansInfo.tiltak1,
         sendForhandsvarselTexts.unngaStansInfo.tiltak2,
         sendForhandsvarselTexts.unngaStansInfo.tiltak3
       ),
+
+      createHeaderH3(sendForhandsvarselTexts.giOssTilbakemelding.header),
       createParagraph(
-        sendForhandsvarselTexts.unngaStansInfo.tilbakemeldingWithFristDate(
+        sendForhandsvarselTexts.giOssTilbakemelding.tilbakemeldingWithFristDate(
           fristDato
         )
       ),
-      createParagraph(sendForhandsvarselTexts.unngaStansInfo.kontaktOss),
+      createParagraph(sendForhandsvarselTexts.giOssTilbakemelding.kontaktOss),
 
-      createHeaderH2(sendForhandsvarselTexts.lovhjemmel.header),
+      createHeaderH3(sendForhandsvarselTexts.lovhjemmel.header),
       createParagraph(sendForhandsvarselTexts.lovhjemmel.aktivitetsplikten),
       createParagraph(sendForhandsvarselTexts.lovhjemmel.pliktInfo),
 

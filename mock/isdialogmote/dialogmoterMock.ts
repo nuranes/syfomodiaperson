@@ -51,7 +51,7 @@ export const createDialogmote = (
             {
               type: "PARAGRAPH",
               title: null,
-              texts: ["Vennlig hilsen", "NAV Staden", "Kari Saksbehandler"],
+              texts: ["Med vennlig hilsen", "NAV Staden", "Kari Saksbehandler"],
             },
           ],
           svar: {

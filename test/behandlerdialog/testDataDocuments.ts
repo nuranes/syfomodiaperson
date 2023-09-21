@@ -52,7 +52,7 @@ export const expectedTilleggsopplysningerDocument = (
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: ["Vennlig hilsen", VEILEDER_DEFAULT.navn, "NAV"],
+    texts: ["Med vennlig hilsen", VEILEDER_DEFAULT.navn, "NAV"],
     type: DocumentComponentType.PARAGRAPH,
   },
 ];
@@ -91,7 +91,7 @@ export const expectedPaminnelseDocument = (
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: ["Vennlig hilsen", VEILEDER_DEFAULT.navn, "NAV"],
+    texts: ["Med vennlig hilsen", VEILEDER_DEFAULT.navn, "NAV"],
     type: DocumentComponentType.PARAGRAPH,
   },
 ];
@@ -145,7 +145,7 @@ export const expectedLegeerklaringDocument = (
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: ["Vennlig hilsen", VEILEDER_DEFAULT.navn, "NAV"],
+    texts: ["Med vennlig hilsen", VEILEDER_DEFAULT.navn, "NAV"],
     type: DocumentComponentType.PARAGRAPH,
   },
 ];
@@ -192,7 +192,7 @@ export const expectedReturLegeerklaringDocument = (
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: ["Vennlig hilsen", VEILEDER_DEFAULT.navn, "NAV"],
+    texts: ["Med vennlig hilsen", VEILEDER_DEFAULT.navn, "NAV"],
     type: DocumentComponentType.PARAGRAPH,
   },
 ];
@@ -215,7 +215,7 @@ export const expectedMeldingFraNAVDocument = (
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: ["Vennlig hilsen", VEILEDER_DEFAULT.navn, "NAV"],
+    texts: ["Med vennlig hilsen", VEILEDER_DEFAULT.navn, "NAV"],
     type: DocumentComponentType.PARAGRAPH,
   },
 ];
