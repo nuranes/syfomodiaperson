@@ -14,7 +14,7 @@ import { useAktivitetskravVarselDocument } from "@/hooks/aktivitetskrav/useAktiv
 import { addWeeks } from "@/utils/datoUtils";
 import { Form } from "react-final-form";
 import { FlexRow, PaddingSize } from "@/components/Layout";
-import { Heading, Label, Panel } from "@navikt/ds-react";
+import { Alert, Heading, Label, Panel } from "@navikt/ds-react";
 import { VurderAktivitetskravSkjemaButtons } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravSkjemaButtons";
 import styled from "styled-components";
 import { useSendForhandsvarsel } from "@/data/aktivitetskrav/useSendForhandsvarsel";
@@ -24,6 +24,8 @@ const texts = {
   title: "Send forhåndsvarsel",
   beskrivelseLabel: "Beskrivelse (obligatorisk)",
   forhandsvisning: "Forhåndsvisning",
+  warning:
+    "Husk å utrede saken tilstrekkelig før du sender forhåndsvarsel om stans av sykepengene.",
 };
 
 const VarselbrevContent = styled.div`
@@ -83,6 +85,7 @@ export const SendForhandsvarselSkjema = (
             </Heading>
           </FlexRow>
           <VarselbrevContent>
+            <Alert variant={"warning"}>{texts.warning}</Alert>
             <VurderAktivitetskravBeskrivelse label={texts.beskrivelseLabel} />
             <Label size="small">{texts.forhandsvisning}</Label>
             <Panel border>
