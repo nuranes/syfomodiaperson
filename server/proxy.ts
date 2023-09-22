@@ -460,7 +460,7 @@ export const setupProxy = (
   );
 
   router.use(
-    "/syfo-tilgangskontroll/*",
+    "/istilgangskontroll/*",
     (
       req: express.Request,
       res: express.Response,
@@ -472,7 +472,7 @@ export const setupProxy = (
         next,
         authClient,
         issuer,
-        Config.auth.syfotilgangskontroll
+        Config.auth.istilgangskontroll
       );
     }
   );

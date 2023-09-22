@@ -5,7 +5,7 @@ import mockSoknader from "../mockdata/mockSoknader";
 import { screen } from "@testing-library/react";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { tilgangQueryKeys } from "@/data/tilgang/tilgangQueryHooks";
-import { tilgangBrukerMock } from "../../mock/syfotilgangskontroll/tilgangtilbrukerMock";
+import { tilgangBrukerMock } from "../../mock/istilgangskontroll/tilgangtilbrukerMock";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import { sykepengesoknaderQueryKeys } from "@/data/sykepengesoknad/sykepengesoknadQueryHooks";
 import { sykmeldingerQueryKeys } from "@/data/sykmelding/sykmeldingQueryHooks";

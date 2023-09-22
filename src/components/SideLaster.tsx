@@ -24,7 +24,7 @@ const SideLaster = ({
     isError: hentingTilgangFeilet,
     data: tilgang,
   } = useTilgangQuery();
-  const harTilgang = tilgang?.harTilgang === true;
+  const harTilgang = tilgang?.erGodkjent === true;
 
   if (henter || henterTilgang) {
     return <AppSpinner />;

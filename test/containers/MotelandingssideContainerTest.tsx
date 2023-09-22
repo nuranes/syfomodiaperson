@@ -9,11 +9,11 @@ import {
   VEILEDER_IDENT_DEFAULT,
 } from "../../mock/common/mockConstants";
 import { render, screen } from "@testing-library/react";
-import { stubTilgangApi } from "../stubs/stubSyfotilgangskontroll";
+import { stubTilgangApi } from "../stubs/stubIstilgangskontroll";
 import { apiMock } from "../stubs/stubApi";
 import nock from "nock";
 import { tilgangQueryKeys } from "@/data/tilgang/tilgangQueryHooks";
-import { tilgangBrukerMock } from "../../mock/syfotilgangskontroll/tilgangtilbrukerMock";
+import { tilgangBrukerMock } from "../../mock/istilgangskontroll/tilgangtilbrukerMock";
 import { oppfolgingsplanQueryKeys } from "@/data/oppfolgingsplan/oppfolgingsplanQueryHooks";
 import { motebehovQueryKeys } from "@/data/motebehov/motebehovQueryHooks";
 import { ledereQueryKeys } from "@/data/leder/ledereQueryHooks";
@@ -101,7 +101,8 @@ describe("MotelandingssideContainer", () => {
 
     it("Skal vise feilmelding hvis ikke tilgang", async () => {
       stubTilgangApi(apiMockScope, {
-        harTilgang: false,
+        erGodkjent: false,
+        erAvslatt: true,
       });
       renderMotelandingsside();
 

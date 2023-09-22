@@ -275,14 +275,15 @@ export const auth = {
     }),
     removePathPrefix: true,
   },
-  syfotilgangskontroll: {
-    applicationName: "syfo-tilgangskontroll",
+  istilgangskontroll: {
+    applicationName: "istilgangskontroll",
     clientId: envVar({
-      name: "SYFOTILGANGSKONTROLL_AAD_APP_CLIENT_ID",
+      name: "ISTILGANGSKONTROLL_AAD_APP_CLIENT_ID",
     }),
     host: envVar({
-      name: "SYFOTILGANGSKONTROLL_HOST",
+      name: "ISTILGANGSKONTROLL_HOST",
     }),
+    removePathPrefix: true,
   },
   syfoveileder: {
     applicationName: "syfoveileder",

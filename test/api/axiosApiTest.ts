@@ -8,7 +8,7 @@ import { Tilgang } from "@/data/tilgang/tilgangTypes";
 describe("Axios API tests", () => {
   let stub: MockAdapter;
 
-  const tilgangDenied: Tilgang = { harTilgang: false };
+  const tilgangDenied: Tilgang = { erGodkjent: false, erAvslatt: true };
   const tilgangDeniedMessage = { message: "Denied!" };
   const happyCaseMessage = "Woop woop";
 

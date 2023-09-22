@@ -1,6 +1,6 @@
 import { QueryClient } from "@tanstack/react-query";
 import { tilgangQueryKeys } from "@/data/tilgang/tilgangQueryHooks";
-import { tilgangBrukerMock } from "../mock/syfotilgangskontroll/tilgangtilbrukerMock";
+import { tilgangBrukerMock } from "../mock/istilgangskontroll/tilgangtilbrukerMock";
 import { ledereQueryKeys } from "@/data/leder/ledereQueryHooks";
 import {
   AKTIV_BRUKER_DEFAULT,

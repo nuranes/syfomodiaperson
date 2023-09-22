@@ -3,9 +3,9 @@ import nock from "nock";
 import { renderHook, waitFor } from "@testing-library/react";
 import { expect } from "chai";
 import { queryHookWrapper } from "./queryHookTestUtils";
-import { stubTilgangApi } from "../stubs/stubSyfotilgangskontroll";
+import { stubTilgangApi } from "../stubs/stubIstilgangskontroll";
 import { useTilgangQuery } from "@/data/tilgang/tilgangQueryHooks";
-import { tilgangBrukerMock } from "../../mock/syfotilgangskontroll/tilgangtilbrukerMock";
+import { tilgangBrukerMock } from "../../mock/istilgangskontroll/tilgangtilbrukerMock";
 import { testQueryClient } from "../testQueryClient";
 
 let queryClient: any;

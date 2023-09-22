@@ -64,7 +64,7 @@ spec:
         - application: isoppfolgingstilfelle
         - application: ispengestopp
         - application: ispersonoppgave
-        - application: syfo-tilgangskontroll
+        - application: istilgangskontroll
         - application: syfobehandlendeenhet
         - application: syfoperson
         - application: syfoveileder
@@ -162,10 +162,10 @@ spec:
       value: "dev-gcp.flex.sykepengesoknad-backend"
     - name: SYKEPENGESOKNAD_BACKEND_HOST
       value: "http://sykepengesoknad-backend.flex"
-    - name: SYFOTILGANGSKONTROLL_AAD_APP_CLIENT_ID
-      value: "dev-gcp.teamsykefravr.syfo-tilgangskontroll"
-    - name: SYFOTILGANGSKONTROLL_HOST
-      value: "http://syfo-tilgangskontroll"
+    - name: ISTILGANGSKONTROLL_AAD_APP_CLIENT_ID
+      value: "dev-gcp.teamsykefravr.istilgangskontroll"
+    - name: ISTILGANGSKONTROLL_HOST
+      value: "http://istilgangskontroll"
     - name: SYFOVEILEDER_AAD_APP_CLIENT_ID
       value: "dev-gcp.teamsykefravr.syfoveileder"
     - name: SYFOVEILEDER_HOST

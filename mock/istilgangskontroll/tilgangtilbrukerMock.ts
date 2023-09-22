@@ -1,5 +1,6 @@
 import { Tilgang } from "../../src/data/tilgang/tilgangTypes";
 
 export const tilgangBrukerMock: Tilgang = {
-  harTilgang: true,
+  erGodkjent: true,
+  erAvslatt: false,
 };
