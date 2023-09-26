@@ -3,7 +3,6 @@ import {
   AktivitetskravStatus,
   SendForhandsvarselDTO,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
-import { VurderAktivitetskravSkjemaProps } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravSkjema";
 import { useAktivitetskravVurderingSkjema } from "@/hooks/aktivitetskrav/useAktivitetskravVurderingSkjema";
 import {
   VurderAktivitetskravBeskrivelse,
@@ -13,9 +12,8 @@ import { DocumentComponentVisning } from "@/components/DocumentComponentVisning"
 import { useAktivitetskravVarselDocument } from "@/hooks/aktivitetskrav/useAktivitetskravVarselDocument";
 import { addWeeks } from "@/utils/datoUtils";
 import { Form } from "react-final-form";
-import { FlexRow, PaddingSize } from "@/components/Layout";
-import { Alert, Heading, Label, Panel } from "@navikt/ds-react";
-import { VurderAktivitetskravSkjemaButtons } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravSkjemaButtons";
+import { ButtonRow, FlexRow, PaddingSize } from "@/components/Layout";
+import { Alert, Button, Heading, Label, Panel } from "@navikt/ds-react";
 import styled from "styled-components";
 import { useSendForhandsvarsel } from "@/data/aktivitetskrav/useSendForhandsvarsel";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
@@ -26,6 +24,8 @@ const texts = {
   forhandsvisning: "Forhåndsvisning",
   warning:
     "Husk å utrede saken tilstrekkelig før du sender forhåndsvarsel om stans av sykepengene.",
+  sendVarselButtonText: "Send",
+  avbrytButtonText: "Avbryt",
 };
 
 const VarselbrevContent = styled.div`
@@ -49,8 +49,13 @@ interface SendForhandsvarselSkjemaValues {
   [vurderAktivitetskravBeskrivelseFieldName]: string;
 }
 
+interface SendForhandsvarselSkjemaProps {
+  setModalOpen: (isOpen: boolean) => void;
+  aktivitetskravUuid: string | undefined;
+}
+
 export const SendForhandsvarselSkjema = (
-  props: VurderAktivitetskravSkjemaProps
+  props: SendForhandsvarselSkjemaProps
 ) => {
   const sendForhandsvarsel = useSendForhandsvarsel(props.aktivitetskravUuid);
   const { validateBeskrivelseField } = useAktivitetskravVurderingSkjema(
@@ -73,6 +78,22 @@ export const SendForhandsvarselSkjema = (
         onSuccess: () => props.setModalOpen(false),
       });
     }
+  };
+
+  const SendVarselButton = () => {
+    return (
+      <Button loading={sendForhandsvarsel.isLoading} type="submit">
+        {texts.sendVarselButtonText}
+      </Button>
+    );
+  };
+
+  const AvbrytButton = () => {
+    return (
+      <Button variant="tertiary" onClick={() => props.setModalOpen(false)}>
+        {texts.avbrytButtonText}
+      </Button>
+    );
   };
 
   return (
@@ -102,10 +123,10 @@ export const SendForhandsvarselSkjema = (
           {sendForhandsvarsel.isError && (
             <SkjemaInnsendingFeil error={sendForhandsvarsel.error} />
           )}
-          <VurderAktivitetskravSkjemaButtons
-            onAvbrytClick={() => props.setModalOpen(false)}
-            showLagreSpinner={sendForhandsvarsel.isLoading}
-          />
+          <ButtonRow>
+            <SendVarselButton />
+            <AvbrytButton />
+          </ButtonRow>
         </StyledForm>
       )}
     </Form>

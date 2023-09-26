@@ -1,13 +1,22 @@
-import { FlexColumn, FlexRow, PaddingSize } from "@/components/Layout";
+import {
+  ButtonRow,
+  FlexColumn,
+  FlexRow,
+  PaddingSize,
+} from "@/components/Layout";
 import React, { ReactNode } from "react";
 import { CreateAktivitetskravVurderingDTO } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
-import { VurderAktivitetskravSkjemaButtons } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravSkjemaButtons";
 import { Form } from "react-final-form";
 import { useVurderAktivitetskrav } from "@/data/aktivitetskrav/useVurderAktivitetskrav";
 import { ValidationErrors } from "final-form";
 import styled from "styled-components";
-import { BodyShort, Heading } from "@navikt/ds-react";
+import { BodyShort, Button, Heading } from "@navikt/ds-react";
+
+const texts = {
+  lagre: "Lagre",
+  avbryt: "Avbryt",
+};
 
 export interface VurderAktivitetskravSkjemaProps {
   setModalOpen: (isOpen: boolean) => void;
@@ -77,10 +86,14 @@ export const VurderAktivitetskravSkjema = <SkjemaValues extends object>({
           {vurderAktivitetskrav.isError && (
             <SkjemaInnsendingFeil error={vurderAktivitetskrav.error} />
           )}
-          <VurderAktivitetskravSkjemaButtons
-            onAvbrytClick={() => setModalOpen(false)}
-            showLagreSpinner={vurderAktivitetskrav.isLoading}
-          />
+          <ButtonRow>
+            <Button loading={vurderAktivitetskrav.isLoading} type="submit">
+              {texts.lagre}
+            </Button>
+            <Button variant="tertiary" onClick={() => setModalOpen(false)}>
+              {texts.avbryt}
+            </Button>
+          </ButtonRow>
         </form>
       )}
     </Form>
