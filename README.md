@@ -35,10 +35,6 @@ Brukes for å cache bruker-sessions. Nais-oppsettet ligger i `redis.yaml`.
 Redis pod deployes automatisk ved endringer i workflow eller config i master, men kan også deployes manuelt i NAIS ved å
 kjøre følgdende kommando: `kubectl apply -f .nais/redis.yaml`.
 
-## Logger
-
-- Feil-logger: https://sentry.gc.nav.no/nav/syfomodiaperson/
-
 ## Event tracking
 
 Vi bruker amplitude for event tracking, og har `ISyfo - dev` og `ISyfo - prod` projects og

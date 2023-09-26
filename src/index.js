@@ -2,19 +2,12 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import AppRouter from "./routers/AppRouter";
 import "./styles/styles.less";
-import * as Sentry from "@sentry/react";
-import { getEnvironmentAsString } from "./utils/miljoUtil";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { minutesToMillis } from "@/utils/timeUtils";
 import { ValgtEnhetProvider } from "@/context/ValgtEnhetContext";
 import { isClientError } from "@/api/errors";
 import { Modal } from "@navikt/ds-react";
-
-Sentry.init({
-  dsn: "https://8ea71ab742104cd5ad7d9d488023f28d@sentry.gc.nav.no/84",
-  environment: getEnvironmentAsString(),
-});
 
 const queryClient = new QueryClient({
   defaultOptions: {
