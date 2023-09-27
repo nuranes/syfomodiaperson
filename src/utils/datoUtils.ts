@@ -28,7 +28,6 @@ const dager = [
 const SKILLETEGN_PERIODE = "–";
 
 export const ANTALL_MS_DAG = 1000 * 60 * 60 * 24;
-const ONE_WEEK_MILLIS = 7 * ANTALL_MS_DAG;
 
 const pad = (int: number): string | number => {
   if (int < 10) {
@@ -271,8 +270,5 @@ export const getEarliestDate = (date1, date2): Date => {
 };
 
 export const getWeeksBetween = (date1, date2): number => {
-  return Math.round(
-    Math.abs(new Date(date1).getTime() - new Date(date2).getTime()) /
-      ONE_WEEK_MILLIS
-  );
+  return Math.abs(dayjs(date1).diff(date2, "week"));
 };
