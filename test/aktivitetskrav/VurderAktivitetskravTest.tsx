@@ -313,7 +313,7 @@ describe("VurderAktivitetskrav", () => {
       const beskrivelseInput = getTextInput(beskrivelseLabel);
       changeTextInput(beskrivelseInput, enBeskrivelse);
 
-      clickButton("Lagre");
+      clickButton("Send");
 
       const sendForhandsvarselMutation = queryClient
         .getMutationCache()
@@ -329,7 +329,7 @@ describe("VurderAktivitetskrav", () => {
     it("Fails to send forhåndsvarsel when no beskrivelse is filled in", () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
       clickButton(buttonTexts["FORHANDSVARSEL"]);
-      clickButton("Lagre");
+      clickButton("Send");
 
       expect(screen.queryByText("Vennligst angi beskrivelse")).to.exist;
     });
