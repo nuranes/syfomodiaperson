@@ -17,6 +17,7 @@ import { Alert, Button, Heading, Label, Panel } from "@navikt/ds-react";
 import styled from "styled-components";
 import { useSendForhandsvarsel } from "@/data/aktivitetskrav/useSendForhandsvarsel";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
+import { VurderAktivitetskravSkjemaProps } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravSkjema";
 
 const texts = {
   title: "Send forhåndsvarsel",
@@ -48,16 +49,11 @@ export const getFristForForhandsvarsel = (isFysiskUtsending = true) => {
 interface SendForhandsvarselSkjemaValues {
   [vurderAktivitetskravBeskrivelseFieldName]: string;
 }
-
-interface SendForhandsvarselSkjemaProps {
-  setModalOpen: (isOpen: boolean) => void;
-  aktivitetskravUuid: string | undefined;
-}
-
-export const SendForhandsvarselSkjema = (
-  props: SendForhandsvarselSkjemaProps
-) => {
-  const sendForhandsvarsel = useSendForhandsvarsel(props.aktivitetskravUuid);
+export const SendForhandsvarselSkjema = ({
+  aktivitetskravUuid,
+  setModalOpen,
+}: VurderAktivitetskravSkjemaProps) => {
+  const sendForhandsvarsel = useSendForhandsvarsel(aktivitetskravUuid);
   const { validateBeskrivelseField } = useAktivitetskravVurderingSkjema(
     AktivitetskravStatus.FORHANDSVARSEL
   );
@@ -73,9 +69,9 @@ export const SendForhandsvarselSkjema = (
       fritekst: values.beskrivelse,
       document: getForhandsvarselDocument(values.beskrivelse, frist),
     };
-    if (props.aktivitetskravUuid) {
+    if (aktivitetskravUuid) {
       sendForhandsvarsel.mutate(forhandsvarselDTO, {
-        onSuccess: () => props.setModalOpen(false),
+        onSuccess: () => setModalOpen(false),
       });
     }
   };
@@ -90,7 +86,7 @@ export const SendForhandsvarselSkjema = (
 
   const AvbrytButton = () => {
     return (
-      <Button variant="tertiary" onClick={() => props.setModalOpen(false)}>
+      <Button variant="tertiary" onClick={() => setModalOpen(false)}>
         {texts.avbrytButtonText}
       </Button>
     );
