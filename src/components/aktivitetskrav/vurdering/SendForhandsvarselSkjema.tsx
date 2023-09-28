@@ -76,22 +76,6 @@ export const SendForhandsvarselSkjema = ({
     }
   };
 
-  const SendVarselButton = () => {
-    return (
-      <Button loading={sendForhandsvarsel.isLoading} type="submit">
-        {texts.sendVarselButtonText}
-      </Button>
-    );
-  };
-
-  const AvbrytButton = () => {
-    return (
-      <Button variant="tertiary" onClick={() => setModalOpen(false)}>
-        {texts.avbrytButtonText}
-      </Button>
-    );
-  };
-
   return (
     <Form onSubmit={submit} validate={validate}>
       {({ handleSubmit, values }) => (
@@ -120,8 +104,12 @@ export const SendForhandsvarselSkjema = ({
             <SkjemaInnsendingFeil error={sendForhandsvarsel.error} />
           )}
           <ButtonRow>
-            <SendVarselButton />
-            <AvbrytButton />
+            <Button loading={sendForhandsvarsel.isLoading} type="submit">
+              {texts.sendVarselButtonText}
+            </Button>
+            <Button variant="tertiary" onClick={() => setModalOpen(false)}>
+              {texts.avbrytButtonText}
+            </Button>
           </ButtonRow>
         </StyledForm>
       )}
