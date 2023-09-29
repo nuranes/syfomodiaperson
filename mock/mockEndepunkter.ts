@@ -22,6 +22,7 @@ import { mockIsbehandlerdialog } from "./isbehandlerdialog/mockIsbehandlerdialog
 import { mockEsyfovarsel } from "./esyfovarsel/mockEsyfovarsel";
 
 import express from "express";
+import { mockIshuskelapp } from "./huskelapp/mockHuskelapp";
 
 const mockEndepunkter = (server: any) => {
   server.use(express.json());
@@ -43,6 +44,7 @@ const mockEndepunkter = (server: any) => {
     mockSyfoperson,
     mockSyfosmregister,
     mockIsaktivitetskrav,
+    mockIshuskelapp,
     mockIsbehandlerdialog,
     mockIspengestopp,
     mockIsdialogmote,

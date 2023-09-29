@@ -8,6 +8,8 @@ import { isEaster } from "@/utils/festiveUtils";
 import { Easter } from "@/components/Easter";
 import { Menypunkter } from "@/navigation/menypunkterTypes";
 import * as Amplitude from "@/utils/amplitude";
+import { OpenHuskelappModalButton } from "@/components/huskelapp/OpenHuskelappModalButton";
+import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
 
 const StyledContainer = styled(Container)`
   width: 95%;
@@ -23,6 +25,7 @@ const Side = (sideProps: SideProps) => {
   useEffect(() => {
     Amplitude.logPageVisit(window.location.href, sideProps.tittel);
   }, [sideProps.tittel]);
+  const { toggles } = useFeatureToggles();
 
   const { tittel, children, aktivtMenypunkt } = sideProps;
 
@@ -34,6 +37,7 @@ const Side = (sideProps: SideProps) => {
         <Row>
           <Column className="col-xs-12">
             <Personkort />
+            {toggles.isHuskelappEnabled && <OpenHuskelappModalButton />}
           </Column>
         </Row>
         <Row>

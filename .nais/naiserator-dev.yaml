@@ -60,6 +60,7 @@ spec:
         - application: isdialogmelding
         - application: isdialogmote
         - application: isdialogmotekandidat
+        - application: ishuskelapp
         - application: isnarmesteleder
         - application: isoppfolgingstilfelle
         - application: ispengestopp
@@ -116,6 +117,10 @@ spec:
       value: "dev-gcp.teamsykefravr.isdialogmotekandidat"
     - name: ISDIALOGMOTEKANDIDAT_HOST
       value: "http://isdialogmotekandidat"
+    - name: ISHUSKELAPP_AAD_APP_CLIENT_ID
+      value: "dev-gcp.teamsykefravr.ishuskelapp"
+    - name: ISHUSKELAPP_HOST
+      value: "http://ishuskelapp"
     - name: ISNARMESTELEDER_AAD_APP_CLIENT_ID
       value: "dev-gcp.teamsykefravr.isnarmesteleder"
     - name: ISNARMESTELEDER_HOST

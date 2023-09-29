@@ -162,6 +162,16 @@ export const auth = {
     }),
     removePathPrefix: true,
   },
+  ishuskelapp: {
+    applicationName: "ishuskelapp",
+    clientId: envVar({
+      name: "ISHUSKELAPP_AAD_APP_CLIENT_ID",
+    }),
+    host: envVar({
+      name: "ISHUSKELAPP_HOST",
+    }),
+    removePathPrefix: true,
+  },
   isnarmesteleder: {
     applicationName: "isnarmesteleder",
     clientId: envVar({

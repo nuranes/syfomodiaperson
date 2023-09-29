@@ -233,6 +233,24 @@ export const setupProxy = (
   );
 
   router.use(
+    "/ishuskelapp/*",
+    (
+      req: express.Request,
+      res: express.Response,
+      next: express.NextFunction
+    ) => {
+      proxyOnBehalfOf(
+        req,
+        res,
+        next,
+        authClient,
+        issuer,
+        Config.auth.ishuskelapp
+      );
+    }
+  );
+
+  router.use(
     "/isnarmesteleder/*",
     (
       req: express.Request,
