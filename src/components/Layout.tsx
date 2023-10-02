@@ -5,6 +5,7 @@ export enum JustifyContentType {
   CENTER = "center",
   FLEX_END = "flex-end",
   FLEX_START = "flex-start",
+  SPACE_BETWEEN = "space-between",
 }
 
 interface FlexColumnProps {

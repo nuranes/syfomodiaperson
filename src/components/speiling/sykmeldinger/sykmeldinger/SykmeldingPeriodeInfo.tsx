@@ -108,7 +108,7 @@ const SykmeldingPeriodeInfo = ({
 }: SykmeldingPeriodeInfoProps): ReactElement => {
   const text = sykmeldingPeriodeTekst(periode, arbeidsgiver);
 
-  return <Element className="js-periode">{text}</Element>;
+  return <Element>{text}</Element>;
 };
 
 export default SykmeldingPeriodeInfo;

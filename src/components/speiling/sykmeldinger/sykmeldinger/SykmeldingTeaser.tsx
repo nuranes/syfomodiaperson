@@ -15,6 +15,14 @@ import {
 } from "@/data/sykmelding/types/SykmeldingOldFormat";
 import { BehandlingsutfallStatusDTO } from "@/data/sykmelding/types/BehandlingsutfallStatusDTO";
 import { PapirsykmeldingTag } from "@/components/PapirsykmeldingTag";
+import { Heading, LinkPanel } from "@navikt/ds-react";
+import styled from "styled-components";
+import {
+  FlexColumn,
+  FlexGapSize,
+  FlexRow,
+  JustifyContentType,
+} from "@/components/Layout";
 
 const texts = {
   teaserTekst: "Sykmelding\n",
@@ -87,23 +95,32 @@ interface SykmeldingTeaserProps {
   sykmelding: SykmeldingOldFormat;
 }
 
+const StyledImg = styled.img`
+  margin-left: 1em;
+`;
+
+const StyledLinkPanel = styled(LinkPanel)`
+  margin-bottom: 0.1em;
+  .navds-link-panel__content {
+    width: 100%;
+  }
+`;
+
 const SykmeldingTeaser = ({
   sykmelding,
 }: SykmeldingTeaserProps): ReactElement => {
   const behandlingsutfallStatus = sykmelding.behandlingsutfall.status;
   const [ikon, setIkon] = useState(getIkon(behandlingsutfallStatus));
 
-  const antallPerioder = sykmelding.mulighetForArbeid.perioder.length;
   const visStatus =
     sykmelding.status !== SykmeldingStatus.NY ||
     behandlingsutfallStatus === BehandlingsutfallStatusDTO.INVALID;
   const showPapirLabel = !!sykmelding.papirsykmelding;
 
   return (
-    <article aria-labelledby={`sykmelding-header-${sykmelding.id}`}>
-      <Link
-        className="inngangspanel inngangspanel--sykmelding"
-        to={`/sykefravaer/sykmeldinger/${sykmelding.id}`}
+    <Link to={`/sykefravaer/sykmeldinger/${sykmelding.id}`}>
+      <StyledLinkPanel
+        border={false}
         onMouseEnter={() => {
           setIkon(getHoverIkon(behandlingsutfallStatus));
         }}
@@ -111,47 +128,37 @@ const SykmeldingTeaser = ({
           setIkon(getIkon(behandlingsutfallStatus));
         }}
       >
-        <span className="inngangspanel__ikon">
-          <img alt="" src={ikon} />
-        </span>
-        <div className="inngangspanel__innhold">
-          <header className="inngangspanel__header">
-            <h3 className="js-title" id={`sykmelding-header-${sykmelding.id}`}>
-              <small className="inngangspanel__meta">
-                {tilLesbarPeriodeMedArstall(
-                  tidligsteFom(sykmelding.mulighetForArbeid.perioder),
-                  senesteTom(sykmelding.mulighetForArbeid.perioder)
-                )}
-              </small>
-              <span className="inngangspanel__tittel">
-                {sykmelding.egenmeldt
-                  ? texts.egenmeldtTeaserTekst
-                  : texts.teaserTekst}
-                {showPapirLabel && <PapirsykmeldingTag />}
-              </span>
-            </h3>
-            {visStatus && (
-              <p className="inngangspanel__status">
-                {textStatus(sykmelding.status, behandlingsutfallStatus)}
-              </p>
+        <FlexRow
+          columnGap={FlexGapSize.SM}
+          justifyContent={JustifyContentType.SPACE_BETWEEN}
+        >
+          <FlexColumn flex={0}>
+            <StyledImg src={ikon} alt="Plaster-ikon" />
+          </FlexColumn>
+          <FlexColumn flex={1}>
+            {tilLesbarPeriodeMedArstall(
+              tidligsteFom(sykmelding.mulighetForArbeid.perioder),
+              senesteTom(sykmelding.mulighetForArbeid.perioder)
             )}
-          </header>
-          <div className="inngangspanel__tekst">
-            {antallPerioder === 1 ? (
-              <SykmeldingPeriodeInfo
-                periode={sykmelding.mulighetForArbeid.perioder[0]}
-                arbeidsgiver={sykmelding.innsendtArbeidsgivernavn}
-              />
-            ) : (
-              <PeriodeListe
-                perioder={sykmelding.mulighetForArbeid.perioder}
-                arbeidsgiver={sykmelding.innsendtArbeidsgivernavn}
-              />
-            )}
-          </div>
-        </div>
-      </Link>
-    </article>
+            <Heading size="small">
+              {sykmelding.egenmeldt
+                ? texts.egenmeldtTeaserTekst
+                : texts.teaserTekst}
+              {showPapirLabel && <PapirsykmeldingTag />}
+            </Heading>
+            <PeriodeListe
+              perioder={sykmelding.mulighetForArbeid.perioder}
+              arbeidsgiver={sykmelding.innsendtArbeidsgivernavn}
+            />
+          </FlexColumn>
+          {visStatus && (
+            <FlexColumn flex={0}>
+              {textStatus(sykmelding.status, behandlingsutfallStatus)}
+            </FlexColumn>
+          )}
+        </FlexRow>
+      </StyledLinkPanel>
+    </Link>
   );
 };
 
