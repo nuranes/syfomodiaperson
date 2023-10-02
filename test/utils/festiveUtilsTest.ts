@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import sinon from "sinon";
-import { isEaster, isPride } from "@/utils/festiveUtils";
+import { isEaster, isHalloween, isPride } from "@/utils/festiveUtils";
 
 describe("festiveUtils", () => {
   let clock: any;
@@ -67,6 +67,36 @@ describe("festiveUtils", () => {
       clock = sinon.useFakeTimers(today.getTime());
 
       expect(isPride()).to.equal(false);
+    });
+  });
+
+  describe("isHalloween", () => {
+    it("halloween starts october 24", () => {
+      today = new Date("2023-10-24");
+      clock = sinon.useFakeTimers(today.getTime());
+
+      expect(isHalloween()).to.equal(true);
+    });
+
+    it("last day of halloween is october 31", () => {
+      today = new Date("2023-10-31");
+      clock = sinon.useFakeTimers(today.getTime());
+
+      expect(isHalloween()).to.equal(true);
+    });
+
+    it("halloween hasn't started october 23", () => {
+      today = new Date("2023-10-23");
+      clock = sinon.useFakeTimers(today.getTime());
+
+      expect(isHalloween()).to.equal(false);
+    });
+
+    it("no halloween on november 1", () => {
+      today = new Date("2023-11-01");
+      clock = sinon.useFakeTimers(today.getTime());
+
+      expect(isHalloween()).to.equal(false);
     });
   });
 });

@@ -8,6 +8,7 @@ import Snowflakes from "magic-snowflakes";
 import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+import isBetweeen from "dayjs/plugin/isBetween";
 
 enum Month {
   DECEMBER = 11,
@@ -116,4 +117,13 @@ export const isPride = () => {
   return (
     now.isSameOrAfter(prideStart, "day") && now.isSameOrBefore(prideEnd, "day")
   );
+};
+
+export const isHalloween = () => {
+  dayjs.extend(isBetweeen);
+  const halloween = dayjs("2023-10-31");
+  const startHalloween = halloween.clone().subtract(7, "days");
+  const today = dayjs();
+
+  return today.isBetween(startHalloween, halloween, "day", "[]");
 };

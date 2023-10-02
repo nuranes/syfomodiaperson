@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { EasterRoll } from "../../img/ImageComponents";
+import { EasterRoll } from "../../../img/ImageComponents";
 import styled from "styled-components";
 
 const EasterGif = styled.img`

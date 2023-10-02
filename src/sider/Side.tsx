@@ -5,7 +5,7 @@ import Personkort from "../components/personkort/Personkort";
 import DocumentTitle from "react-document-title";
 import { GlobalNavigasjon } from "@/components/globalnavigasjon/GlobalNavigasjon";
 import { isEaster } from "@/utils/festiveUtils";
-import { Easter } from "@/components/Easter";
+import { Easter } from "@/components/festive/Easter";
 import { Menypunkter } from "@/navigation/menypunkterTypes";
 import * as Amplitude from "@/utils/amplitude";
 import { OpenHuskelappModalButton } from "@/components/huskelapp/OpenHuskelappModalButton";
