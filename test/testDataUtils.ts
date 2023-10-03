@@ -6,6 +6,7 @@ import {
 import {
   AktivitetskravDTO,
   AktivitetskravStatus,
+  AktivitetskravVarselDTO,
   AktivitetskravVurderingDTO,
   AvventVurderingArsak,
   OppfyltVurderingArsak,
@@ -46,7 +47,8 @@ export const createAktivitetskravVurdering = (
   arsaker: VurderingArsak[],
   beskrivelse: string | undefined = "",
   createdAt = new Date(),
-  frist?: Date
+  frist?: Date,
+  varsel?: AktivitetskravVarselDTO
 ): AktivitetskravVurderingDTO => {
   return {
     beskrivelse,
@@ -55,7 +57,8 @@ export const createAktivitetskravVurdering = (
     status,
     uuid: generateUUID(),
     arsaker,
-    frist: frist,
+    frist,
+    varsel,
   };
 };
 
@@ -99,5 +102,6 @@ export const forhandsvarselVurdering = createAktivitetskravVurdering(
   [],
   "Begrunnelse for forhåndsvarsel",
   new Date(),
-  daysFromToday(21)
+  undefined,
+  { uuid: generateUUID(), createdAt: new Date(), svarfrist: daysFromToday(21) }
 );

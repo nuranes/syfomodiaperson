@@ -106,7 +106,12 @@ const aktivitetskravForhandsvarsel: AktivitetskravDTO = {
       status: AktivitetskravStatus.FORHANDSVARSEL,
       beskrivelse: "En begrunnelse for hvorfor det er sendt forhåndsvarsel",
       arsaker: [],
-      frist: daysFromToday(21),
+      frist: undefined,
+      varsel: {
+        uuid: generateUUID(),
+        createdAt: daysFromToday(-2),
+        svarfrist: daysFromToday(19),
+      },
     },
   ],
 };

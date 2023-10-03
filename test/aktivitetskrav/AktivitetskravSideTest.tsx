@@ -355,7 +355,7 @@ describe("AktivitetskravSide", () => {
           `Det er sendt forhåndsvarsel om stans av sykepenger for Samuel Sam Jones ${tilLesbarDatoMedArUtenManedNavn(
             forhandsvarselVurdering.createdAt
           )}, med frist ${tilLesbarDatoMedArUtenManedNavn(
-            forhandsvarselVurdering.frist
+            forhandsvarselVurdering.varsel?.svarfrist
           )}`
         )
       );

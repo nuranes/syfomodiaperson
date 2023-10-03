@@ -48,7 +48,7 @@ export const AktivitetskravVurderingAlert = ({
       }
       case AktivitetskravStatus.FORHANDSVARSEL: {
         return `Det er sendt forhåndsvarsel om stans av sykepenger for ${brukersNavn} ${vurderingDatoMedArUtenMndNavn}, med frist ${tilLesbarDatoMedArUtenManedNavn(
-          vurdering.frist
+          vurdering.varsel?.svarfrist
         )}`;
       }
     }
