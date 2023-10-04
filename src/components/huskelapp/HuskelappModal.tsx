@@ -41,7 +41,7 @@ const StyledSkeleton = styled(Skeleton)`
 
 export const HuskelappModal = ({ isOpen, toggleOpen }: HuskelappModalProps) => {
   const { huskelapp, isLoading, isSuccess } = useGetHuskelappQuery();
-  const [tekst, setTekst] = useState<string>("");
+  const [tekst, setTekst] = useState<string>(huskelapp?.tekst ?? "");
   const oppdaterHuskelappQuery = useOppdaterHuskelapp();
 
   const oppdaterTekst = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
