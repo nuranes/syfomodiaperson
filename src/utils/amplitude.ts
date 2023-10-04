@@ -8,6 +8,7 @@ import { erProd } from "@/utils/miljoUtil";
 export enum EventType {
   PageView = "besøk",
   ButtonClick = "knapp trykket",
+  Navigation = "navigere",
 }
 
 type EventPageView = {
@@ -26,7 +27,15 @@ type EventButtonClick = {
   };
 };
 
-type Event = EventPageView | EventButtonClick;
+type Navigation = {
+  type: EventType.Navigation;
+  data: {
+    lenketekst: string;
+    destinasjon: string;
+  };
+};
+
+type Event = EventPageView | EventButtonClick | Navigation;
 
 export const logEvent = (event: Event) => {
   switch (event.type) {
@@ -40,6 +49,12 @@ export const logEvent = (event: Event) => {
       client.logEvent(EventType.PageView, {
         url: event.data.url,
         sidetittel: event.data.sideTittel,
+      });
+      break;
+    case EventType.Navigation:
+      client.logEvent(EventType.Navigation, {
+        destinasjon: event.data.destinasjon,
+        lenketekst: event.data.lenketekst,
       });
       break;
   }

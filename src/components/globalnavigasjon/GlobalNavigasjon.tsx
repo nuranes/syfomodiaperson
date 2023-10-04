@@ -15,6 +15,7 @@ import { Menypunkt, Menypunkter } from "@/navigation/menypunkterTypes";
 import { useAktivitetskravQuery } from "@/data/aktivitetskrav/aktivitetskravQueryHooks";
 import { BodyShort } from "@navikt/ds-react";
 import styled from "styled-components";
+import { EventType, logEvent } from "@/utils/amplitude";
 
 const StyledLi = styled.li`
   display: flex;
@@ -142,6 +143,16 @@ export const GlobalNavigasjon = ({
         break;
     }
   };
+  const handleOnClick = (lenketekst: string, destinasjon: string) => {
+    const destinationPath = window.location.href + "/sykefravaer" + destinasjon;
+    logEvent({
+      type: EventType.Navigation,
+      data: {
+        lenketekst: lenketekst,
+        destinasjon: destinationPath,
+      },
+    });
+  };
 
   return (
     <ul aria-label="Navigasjon" className="navigasjon">
@@ -178,6 +189,7 @@ export const GlobalNavigasjon = ({
                   onFocus={() => {
                     setFocusIndex(index);
                   }}
+                  onClick={() => handleOnClick(navn, sti)}
                   onKeyDown={(e) => {
                     handleKeyDown(e);
                   }}
