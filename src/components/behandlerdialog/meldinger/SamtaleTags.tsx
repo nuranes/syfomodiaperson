@@ -105,6 +105,11 @@ const getSamtaleTagStatus = (
     antallReturLegeerklaring >= antallInnkommendeLegeerklaringer;
   const manglerSvarFraBehandler =
     innkommende.length === 0 || manglerSvarPaaRetur;
+  const utgaendeMeldingForventerSvar = meldinger.some(
+    (melding) =>
+      !melding.innkommende &&
+      melding.type !== MeldingType.HENVENDELSE_MELDING_FRA_NAV
+  );
   const harPaminnelseMelding = hasMeldingOfType(
     meldinger,
     MeldingType.FORESPORSEL_PASIENT_PAMINNELSE
@@ -123,7 +128,11 @@ const getSamtaleTagStatus = (
     return "PAMINNELSE_SENDT";
   } else if (manglerSvarPaaRetur && harReturLegeerklaringMelding) {
     return "RETUR_SENDT";
-  } else if (manglerSvarFraBehandler && harIngenMeldingMedPaminnelseOppgave) {
+  } else if (
+    manglerSvarFraBehandler &&
+    harIngenMeldingMedPaminnelseOppgave &&
+    utgaendeMeldingForventerSvar
+  ) {
     return "VENTER_SVAR";
   } else {
     return "INGEN";

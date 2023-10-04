@@ -7,6 +7,7 @@ import { Samtaler } from "@/components/behandlerdialog/meldinger/Samtaler";
 import { queryClientWithMockData } from "../testQueryClient";
 import {
   defaultMeldingResponse,
+  meldingFraNAVConversation,
   meldingResponseLegeerklaringMedRetur,
   meldingResponseLegeerklaringMedReturOgNyLegeerklaring,
   meldingResponseLegeerklaringMedReturOgPaminnelse,
@@ -105,6 +106,19 @@ describe("Samtaletags", () => {
 
       expect(screen.getByText(venterPaSvarTagText)).to.exist;
       expect(screen.queryByText(paminnelseSendtTagText)).to.not.exist;
+    });
+
+    it("Viser ikke venter svar-tag på samtale hvis det mangler melding fra behandler, men er en 'melding fra NAV' som ikke nødvendigvis forventer svar", () => {
+      queryClient.setQueryData(
+        behandlerdialogQueryKeys.behandlerdialog(
+          ARBEIDSTAKER_DEFAULT.personIdent
+        ),
+        () => meldingFraNAVConversation
+      );
+
+      renderSamtaler();
+
+      expect(screen.queryByText(venterPaSvarTagText)).to.not.exist;
     });
 
     it("Viser påminnelse sendt-tag på samtale hvis påminnelse sendt og det mangler melding fra behandler", () => {

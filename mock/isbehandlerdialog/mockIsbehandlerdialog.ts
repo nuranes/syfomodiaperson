@@ -9,6 +9,18 @@ import {
 import { MeldingTilBehandlerDTO } from "@/data/behandlerdialog/behandlerdialogTypes";
 
 let behandlerdialogMockData = behandlerdialogMock;
+
+const replaceNumberInString = (originalString: string, searchValue: string) => {
+  const replaceValue = Math.round(Math.random() * 10).toString();
+
+  return originalString.replace(
+    searchValue,
+    replaceValue !== searchValue
+      ? replaceValue
+      : Math.round(Math.random() * 10).toString()
+  );
+};
+
 export const mockIsbehandlerdialog = (server: any) => {
   server.get(
     `${ISBEHANDLERDIALOG_ROOT}/melding`,
@@ -41,10 +53,12 @@ export const mockIsbehandlerdialog = (server: any) => {
       const body = req.body as MeldingTilBehandlerDTO;
       behandlerdialogMockData = {
         conversations: {
-          ...behandlerdialogMock.conversations,
+          ...behandlerdialogMockData.conversations,
           [`${body.tekst}`]: [
             {
               ...defaultMelding,
+              uuid: replaceNumberInString(defaultMelding.uuid, "5"),
+              type: body.type,
               tekst: body.tekst,
               tidspunkt: new Date(),
             },

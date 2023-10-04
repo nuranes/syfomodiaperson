@@ -33,7 +33,7 @@ import {
   meldingResponseMedVedlegg,
   meldingTilOgFraBehandler,
   returLegeerklaring,
-  meldingFraNAVConversation,
+  meldingFraNAVConversationMedSvar,
 } from "./meldingTestdataGenerator";
 
 let queryClient: QueryClient;
@@ -181,7 +181,7 @@ describe("Meldinger panel", () => {
     });
 
     it("Viser at antall melding som finnes av meldingtype 'melding fra NAV', rendres", () => {
-      const meldingResponse = meldingFraNAVConversation;
+      const meldingResponse = meldingFraNAVConversationMedSvar;
       queryClient.setQueryData(
         behandlerdialogQueryKeys.behandlerdialog(
           ARBEIDSTAKER_DEFAULT.personIdent
