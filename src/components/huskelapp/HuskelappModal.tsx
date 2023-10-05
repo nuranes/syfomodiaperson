@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useGetHuskelappQuery } from "@/data/huskelapp/useGetHuskelappQuery";
 import { useOppdaterHuskelapp } from "@/data/huskelapp/useOppdaterHuskelapp";
 import { HuskelappDTO } from "@/data/huskelapp/huskelappTypes";
+import { SkeletonShadowbox } from "@/components/SkeletonShadowbox";
 
 const texts = {
   header: "Huskelapp",
@@ -35,9 +36,19 @@ const RightAlignedButtons = styled.div`
   gap: 1em;
 `;
 
-const StyledSkeleton = styled(Skeleton)`
+const StyledSkeletonWrapper = styled(SkeletonShadowbox)`
   margin: 1em;
+  height: 5em;
 `;
+
+const HuskelappSkeleton = () => {
+  return (
+    <StyledSkeletonWrapper>
+      <Skeleton variant="text" width="80%" />
+      <Skeleton variant="text" width="30%" />
+    </StyledSkeletonWrapper>
+  );
+};
 
 export const HuskelappModal = ({ isOpen, toggleOpen }: HuskelappModalProps) => {
   const { huskelapp, isLoading, isSuccess } = useGetHuskelappQuery();
@@ -64,7 +75,7 @@ export const HuskelappModal = ({ isOpen, toggleOpen }: HuskelappModalProps) => {
       <Heading size="medium" as="h2">
         {texts.header}
       </Heading>
-      {isLoading && <StyledSkeleton height={90} variant="rounded" />}
+      {isLoading && <HuskelappSkeleton />}
       {isSuccess && (
         <ModalContent>
           <Textarea
@@ -83,6 +94,7 @@ export const HuskelappModal = ({ isOpen, toggleOpen }: HuskelappModalProps) => {
           variant="primary"
           onClick={oppdaterHuskelapp}
           loading={oppdaterHuskelappQuery.isLoading}
+          disabled={isLoading}
         >
           {texts.save}
         </Button>
