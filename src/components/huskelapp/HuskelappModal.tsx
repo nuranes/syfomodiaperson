@@ -3,8 +3,8 @@ import { Button, Heading, Modal, Skeleton, Textarea } from "@navikt/ds-react";
 import styled from "styled-components";
 import { useGetHuskelappQuery } from "@/data/huskelapp/useGetHuskelappQuery";
 import { useOppdaterHuskelapp } from "@/data/huskelapp/useOppdaterHuskelapp";
-import { HuskelappDTO } from "@/data/huskelapp/huskelappTypes";
 import { SkeletonShadowbox } from "@/components/SkeletonShadowbox";
+import { HuskelappRequestDTO } from "@/data/huskelapp/huskelappTypes";
 
 const texts = {
   header: "Huskelapp",
@@ -53,15 +53,15 @@ const HuskelappSkeleton = () => {
 export const HuskelappModal = ({ isOpen, toggleOpen }: HuskelappModalProps) => {
   const { huskelapp, isLoading, isSuccess } = useGetHuskelappQuery();
   const [tekst, setTekst] = useState<string>(huskelapp?.tekst ?? "");
-  const oppdaterHuskelappQuery = useOppdaterHuskelapp();
+  const oppdaterHuskelapp = useOppdaterHuskelapp();
 
   const oppdaterTekst = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTekst(e.target.value);
   };
 
-  const oppdaterHuskelapp = () => {
-    const huskelappDto: HuskelappDTO = { tekst: tekst };
-    oppdaterHuskelappQuery.mutate(huskelappDto, {
+  const handleOppdaterHuskelapp = () => {
+    const huskelappDto: HuskelappRequestDTO = { tekst: tekst };
+    oppdaterHuskelapp.mutate(huskelappDto, {
       onSuccess: () => toggleOpen(false),
     });
   };
@@ -92,8 +92,8 @@ export const HuskelappModal = ({ isOpen, toggleOpen }: HuskelappModalProps) => {
         </Button>
         <Button
           variant="primary"
-          onClick={oppdaterHuskelapp}
-          loading={oppdaterHuskelappQuery.isLoading}
+          onClick={handleOppdaterHuskelapp}
+          loading={oppdaterHuskelapp.isLoading}
           disabled={isLoading}
         >
           {texts.save}
