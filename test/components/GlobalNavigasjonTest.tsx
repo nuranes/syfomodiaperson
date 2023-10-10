@@ -145,4 +145,14 @@ describe("GlobalNavigasjon", () => {
     expect(screen.getByRole("link", { name: "Dialog med behandler 3" })).to
       .exist;
   });
+
+  it("viser rød prikk for menypunkt Aktivitetskrav når ubehandlet oppgave vurder stans", () => {
+    queryClient.setQueryData(personoppgaverQueryKeys.personoppgaver(fnr), () =>
+      personoppgaverMock()
+    );
+
+    renderGlobalNavigasjon();
+
+    expect(screen.getByRole("link", { name: "Aktivitetskrav 1" })).to.exist;
+  });
 });

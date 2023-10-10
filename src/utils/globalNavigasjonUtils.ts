@@ -49,13 +49,18 @@ const numberOfActiveLPSOppfolgingsplaner = (
 };
 
 const getNumberOfAktivitetskravOppgaver = (
-  aktivitetskrav: AktivitetskravDTO[]
+  aktivitetskrav: AktivitetskravDTO[],
+  personOppgaver: PersonOppgave[]
 ) => {
   const newAktivitetskrav = aktivitetskrav.find((krav) => {
     return krav.status === AktivitetskravStatus.NY;
   });
+  const hasUbehandletOppgaveVurderStans = hasUbehandletPersonoppgave(
+    personOppgaver,
+    PersonOppgaveType.AKTIVITETSKRAV_VURDER_STANS
+  );
 
-  return newAktivitetskrav ? 1 : 0;
+  return newAktivitetskrav || hasUbehandletOppgaveVurderStans ? 1 : 0;
 };
 
 const getNumberOfBehandlerDialogOppgaver = (
@@ -110,7 +115,7 @@ export const numberOfTasks = (
         )
       );
     case Menypunkter.AKTIVITETSKRAV:
-      return getNumberOfAktivitetskravOppgaver(aktivitetskrav);
+      return getNumberOfAktivitetskravOppgaver(aktivitetskrav, personOppgaver);
     case Menypunkter.BEHANDLERDIALOG:
       return getNumberOfBehandlerDialogOppgaver(personOppgaver);
     case Menypunkter.NOKKELINFORMASJON:

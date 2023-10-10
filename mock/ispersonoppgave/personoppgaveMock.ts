@@ -6,6 +6,7 @@ import {
 import dayjs from "dayjs";
 import { PersonOppgaveType } from "../../src/data/personoppgave/types/PersonOppgave";
 import { meldingUuids } from "../isbehandlerdialog/behandlerdialogMock";
+import { varselUuid } from "../isaktivitetskrav/aktivitetskravMock";
 
 const personOppgaveUbehandletOppfolgingsplanLPS = {
   uuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd0",
@@ -16,6 +17,13 @@ const personOppgaveUbehandletOppfolgingsplanLPS = {
   behandletTidspunkt: null,
   behandletVeilederIdent: null,
   opprettet: new Date().toDateString(),
+};
+
+const personOppgaveUbehandletVurderStans = {
+  ...personOppgaveUbehandletOppfolgingsplanLPS,
+  uuid: "5f1e2625-061b-443d-ae1f-3b08e9574cd1",
+  referanseUuid: varselUuid,
+  type: "AKTIVITETSKRAV_VURDER_STANS",
 };
 
 const personOppgaveUbehandletDialogmotesvar = {
@@ -120,5 +128,6 @@ export const personoppgaverMock = () => {
     personOppgaveBehandletBehandlerdialogUbesvartMelding,
     personOppgaveUbehandletBehandlerdialogAvvistMelding,
     personOppgaveBehandletBehandlerdialogAvvistMelding,
+    personOppgaveUbehandletVurderStans,
   ];
 };

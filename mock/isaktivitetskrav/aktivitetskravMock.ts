@@ -93,6 +93,8 @@ const aktivitetskravAutomatiskOppfylt = {
   vurderinger: [],
 };
 
+export const varselUuid = generateUUID();
+
 const aktivitetskravForhandsvarsel: AktivitetskravDTO = {
   uuid: generateUUID(),
   createdAt: daysFromToday(-11),
@@ -108,7 +110,7 @@ const aktivitetskravForhandsvarsel: AktivitetskravDTO = {
       arsaker: [],
       frist: undefined,
       varsel: {
-        uuid: generateUUID(),
+        uuid: varselUuid,
         createdAt: daysFromToday(-2),
         svarfrist: daysFromToday(19),
       },
