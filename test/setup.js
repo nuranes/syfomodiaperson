@@ -47,4 +47,12 @@ global.navigator = {
 global.cancelAnimationFrame = function () {};
 global.requestAnimationFrame = function () {};
 window.MutationObserver = MutationObserver;
+
+class ResizeObserver {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+global.ResizeObserver = ResizeObserver;
+
 copyProps(window, global);

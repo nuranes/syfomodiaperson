@@ -103,3 +103,21 @@ export const post = <ResponseData>(
       }
     });
 };
+
+export const deleteRequest = <ResponseData>(
+  url: string,
+  personIdent?: string
+): Promise<ResponseData> => {
+  return axios
+    .delete(url, {
+      headers: defaultRequestHeaders(personIdent),
+    })
+    .then((response) => response.data)
+    .catch((error) => {
+      if (axios.isAxiosError(error)) {
+        handleAxiosError(error);
+      } else {
+        throw new ApiErrorException(generalError(error.message), error.code);
+      }
+    });
+};
