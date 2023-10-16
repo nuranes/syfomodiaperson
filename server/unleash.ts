@@ -4,19 +4,6 @@ import Config = require("./config");
 
 const { initialize } = unleashClient;
 
-export type Toggles = {
-  [key in ToggleNames]: boolean;
-};
-
-// See toggles: https://teamsykefravr-unleash-web.nav.cloud.nais.io/features
-export enum ToggleNames {
-  isVirksomhetsinputEnabled = "isVirksomhetsinputEnabled",
-  isMeldingTypeMeldingFraNAVEnabled = "isMeldingTypeMeldingFraNAVEnabled",
-  isMotebehovTilbakemeldingEnabled = "isMotebehovTilbakemeldingEnabled",
-  isSendingAvForhandsvarselEnabled = "isSendingAvForhandsvarselEnabled",
-  isHuskelappEnabled = "isHuskelappEnabled",
-}
-
 class VeilederIds extends Strategy {
   constructor() {
     super("VeilederIds");

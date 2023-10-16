@@ -4,7 +4,6 @@ import { Select } from "@navikt/ds-react";
 import { MeldingType } from "@/data/behandlerdialog/behandlerdialogTypes";
 import { Field } from "react-final-form";
 import { meldingTypeTexts } from "@/data/behandlerdialog/behandlerdialogTexts";
-import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
 
 const text = {
   label: "Hvilken meldingstype ønsker du å sende?",
@@ -18,8 +17,6 @@ const MeldingTypeOption = ({ type }: { type: MeldingType }) => (
 );
 
 export const SelectMeldingType = () => {
-  const { toggles } = useFeatureToggles();
-
   return (
     <Field<string> name={field}>
       {({ input, meta }) => (
@@ -37,11 +34,7 @@ export const SelectMeldingType = () => {
             <MeldingTypeOption
               type={MeldingType.FORESPORSEL_PASIENT_LEGEERKLARING}
             />
-            {toggles.isMeldingTypeMeldingFraNAVEnabled && (
-              <MeldingTypeOption
-                type={MeldingType.HENVENDELSE_MELDING_FRA_NAV}
-              />
-            )}
+            <MeldingTypeOption type={MeldingType.HENVENDELSE_MELDING_FRA_NAV} />
           </Select>
           <SkjemaelementFeilmelding>
             {meta.submitFailed && meta.error}
