@@ -3,11 +3,11 @@ import { UnntakDTO } from "@/data/dialogmotekandidat/types/dialogmoteunntakTypes
 import { tilDatoMedManedNavn } from "@/utils/datoUtils";
 import { ForhandsvisDocumentButtonRow } from "@/components/dialogmote/motehistorikk/MotehistorikkPanel";
 
-import { unntakArsakTexts } from "@/components/dialogmoteunntak/DialogmoteunntakSkjemaArsakVelger";
 import {
   DocumentComponentDto,
   DocumentComponentType,
 } from "@/data/documentcomponent/documentComponentTypes";
+import { unntakArsakTexts } from "@/components/dialogmoteunntak/DialogmoteunntakSkjema";
 
 const texts = {
   unntakTitle: "Unntak fra dialogmøte",

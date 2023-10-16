@@ -25,6 +25,7 @@ const StatistikkWrapper = styled.div`
   padding: 1em;
   border-radius: 0.2em;
   width: 65%;
+  margin-bottom: 1em;
 `;
 
 const statistikkTekst = (unntaksstatistikk: UnntaksstatistikkDTO[]): string => {

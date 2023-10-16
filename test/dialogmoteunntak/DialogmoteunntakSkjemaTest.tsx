@@ -1,7 +1,7 @@
 import React from "react";
 import { expect } from "chai";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { fireEvent, screen } from "@testing-library/react";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
 import { dialogmoteUnntakRoutePath } from "@/routers/AppRouter";
 import { stubFeatureTogglesApi } from "../stubs/stubUnleash";
 import { apiMock } from "../stubs/stubApi";
@@ -11,25 +11,19 @@ import {
   clickButton,
   getTextInput,
   getTooLongText,
-  maxLengthErrorMessage,
 } from "../testUtils";
 import { queryClientWithMockData } from "../testQueryClient";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import DialogmoteunntakSkjema, {
+  dialogmoteunntakSkjemaBeskrivelseMaxLength,
   texts as unntakSkjemaTexts,
-} from "@/components/dialogmoteunntak/DialogmoteunntakSkjema";
-import { stubAktivVeilederinfoApi } from "../stubs/stubSyfoveileder";
-import {
   UnntakArsakText,
   unntakArsakTexts,
-} from "@/components/dialogmoteunntak/DialogmoteunntakSkjemaArsakVelger";
+} from "../../src/components/dialogmoteunntak/DialogmoteunntakSkjema";
+import { stubAktivVeilederinfoApi } from "../stubs/stubSyfoveileder";
 import { dialogmotekandidatQueryKeys } from "@/data/dialogmotekandidat/dialogmotekandidatQueryHooks";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import { dialogmotekandidatMock } from "../../mock/isdialogmotekandidat/dialogmotekandidatMock";
-import {
-  dialogmoteunntakSkjemaBeskrivelseMaxLength,
-  texts as beskrivelseTexts,
-} from "@/components/dialogmoteunntak/DialogmoteunntakSkjemaBeskrivelse";
 import { CreateUnntakDTO } from "@/data/dialogmotekandidat/types/dialogmoteunntakTypes";
 import { renderWithRouter } from "../testRouterUtils";
 import { dialogmoterQueryKeys } from "@/data/dialogmote/dialogmoteQueryHooks";
@@ -63,56 +57,59 @@ describe("DialogmoteunntakSkjema", () => {
       .empty;
   });
 
-  it("valideringsmeldinger forsvinner ved utbedring", () => {
+  it("valideringsmeldinger forsvinner ved utbedring", async () => {
     renderDialogmoteunntakSkjema();
     clickButton(submitButtonText);
 
-    const arsakErrorText = "Vennligst angi årsak";
-    expect(screen.getAllByText(arsakErrorText)).to.not.be.empty;
+    expect(await screen.findByText(unntakSkjemaTexts.arsakErrorMessage)).to.not
+      .be.empty;
 
     const tooLongBeskrivelse = getTooLongText(
       dialogmoteunntakSkjemaBeskrivelseMaxLength
     );
-    const beskrivelseInput = getTextInput(beskrivelseTexts.beskrivelseLabel);
+    const beskrivelseInput = getTextInput(unntakSkjemaTexts.beskrivelseLabel);
     changeTextInput(beskrivelseInput, tooLongBeskrivelse);
-    const maxLengthErrorMsg = maxLengthErrorMessage(
-      dialogmoteunntakSkjemaBeskrivelseMaxLength
-    );
+    const maxLengthErrorMsg = "1 tegn for mye";
     expect(screen.getAllByText(maxLengthErrorMsg)).to.not.be.empty;
 
     passSkjemaInput(unntakArsakTexts[0], "beskrivelse");
 
     // Feilmeldinger forsvinner
-    expect(screen.queryAllByText(arsakErrorText)).to.be.empty;
-    expect(screen.queryAllByText(maxLengthErrorMsg)).to.be.empty;
+    await waitFor(() => {
+      expect(screen.queryAllByText(unntakSkjemaTexts.arsakErrorMessage)).to.be
+        .empty;
+    });
+    await waitFor(() => {
+      expect(screen.queryAllByText(maxLengthErrorMsg)).to.be.empty;
+    });
 
     clickButton(submitButtonText);
   });
 
-  it("sett unntak med kun med obligatorisk verdier fra skjema", () => {
+  it("sett unntak med kun med obligatorisk verdier fra skjema", async () => {
     renderDialogmoteunntakSkjema();
 
     expect(screen.getAllByRole("radio")).to.have.length(6);
 
     const unntakArsakText = unntakArsakTexts[0];
-
     passSkjemaInput(unntakArsakText);
 
     clickButton(submitButtonText);
+    await waitFor(() => {
+      const unntakMutation = queryClient.getMutationCache().getAll()[0];
+      const expectedCreateUnntakDTO: CreateUnntakDTO = {
+        personIdent: arbeidstaker.personident,
+        arsak: unntakArsakText.arsak,
+        beskrivelse: "",
+      };
 
-    const unntakMutation = queryClient.getMutationCache().getAll()[0];
-    const expectedCreateUnntakDTO: CreateUnntakDTO = {
-      personIdent: arbeidstaker.personident,
-      arsak: unntakArsakText.arsak,
-      beskrivelse: undefined,
-    };
-
-    expect(unntakMutation.options.variables).to.deep.equal(
-      expectedCreateUnntakDTO
-    );
+      expect(unntakMutation.options.variables).to.deep.equal(
+        expectedCreateUnntakDTO
+      );
+    });
   });
 
-  it("sett unntak med alle verdier fra skjema", () => {
+  it("sett unntak med alle verdier fra skjema", async () => {
     renderDialogmoteunntakSkjema();
 
     expect(screen.getAllByRole("radio")).to.have.length(6);
@@ -124,16 +121,18 @@ describe("DialogmoteunntakSkjema", () => {
 
     clickButton(submitButtonText);
 
-    const unntakMutation = queryClient.getMutationCache().getAll()[0];
-    const expectedCreateUnntakDTO: CreateUnntakDTO = {
-      personIdent: arbeidstaker.personident,
-      arsak: unntakArsakText.arsak,
-      beskrivelse,
-    };
+    await waitFor(() => {
+      const unntakMutation = queryClient.getMutationCache().getAll()[0];
+      const expectedCreateUnntakDTO: CreateUnntakDTO = {
+        personIdent: arbeidstaker.personident,
+        arsak: unntakArsakText.arsak,
+        beskrivelse,
+      };
 
-    expect(unntakMutation.options.variables).to.deep.equal(
-      expectedCreateUnntakDTO
-    );
+      expect(unntakMutation.options.variables).to.deep.equal(
+        expectedCreateUnntakDTO
+      );
+    });
   });
 });
 
@@ -159,7 +158,7 @@ const passSkjemaInput = (
   fireEvent.click(arsakRadioButton);
 
   if (beskrivelse) {
-    const beskrivelseInput = getTextInput(beskrivelseTexts.beskrivelseLabel);
+    const beskrivelseInput = getTextInput(unntakSkjemaTexts.beskrivelseLabel);
     changeTextInput(beskrivelseInput, beskrivelse);
   }
 };

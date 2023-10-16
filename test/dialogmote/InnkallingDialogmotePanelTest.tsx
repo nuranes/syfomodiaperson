@@ -11,7 +11,7 @@ import userEvent from "@testing-library/user-event";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { createMellomlagretReferat, navEnhet } from "./testData";
 import { queryClientWithMockData } from "../testQueryClient";
-import { getButton, queryButton } from "../testUtils";
+import { queryButton } from "../testUtils";
 import { dialogmotekandidatQueryKeys } from "@/data/dialogmotekandidat/dialogmotekandidatQueryHooks";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import { dialogmotekandidatMock } from "../../mock/isdialogmotekandidat/dialogmotekandidatMock";
@@ -80,7 +80,7 @@ describe("InnkallingDialogmotePanel", () => {
     it("viser knapp til Dialogmoteinkalling når bruker ikke kan varsles", () => {
       renderInnkallingDialogmotePanel(brukerKanIkkeVarsles);
 
-      const button = getButton("Nytt dialogmøte");
+      const button = screen.getByRole("link", { name: "Nytt dialogmøte" });
       expect(button).to.exist;
       userEvent.click(button);
     });
@@ -94,7 +94,7 @@ describe("InnkallingDialogmotePanel", () => {
     it("viser knapp til Dialogmoteinkalling  når bruker kan varsles", () => {
       renderInnkallingDialogmotePanel(brukerKanVarsles);
 
-      const button = getButton("Nytt dialogmøte");
+      const button = screen.getByRole("link", { name: "Nytt dialogmøte" });
       expect(button).to.exist;
       userEvent.click(button);
     });
@@ -115,7 +115,7 @@ describe("InnkallingDialogmotePanel", () => {
 
       renderInnkallingDialogmotePanel(brukerKanVarsles);
 
-      const button = getButton("Sett unntak");
+      const button = screen.getByRole("link", { name: "Sett unntak" });
       expect(button).to.exist;
       userEvent.click(button);
     });
@@ -144,7 +144,7 @@ describe("InnkallingDialogmotePanel", () => {
 
       renderInnkallingDialogmotePanel(brukerKanVarsles);
 
-      const button = getButton("Sett unntak");
+      const button = screen.getByText("Sett unntak");
       expect(button).to.exist;
       userEvent.click(button);
     });
@@ -202,7 +202,7 @@ describe("InnkallingDialogmotePanel", () => {
 
       renderInnkallingDialogmotePanel(brukerKanVarsles);
 
-      const button = getButton("Sett unntak");
+      const button = screen.getByText("Sett unntak");
       expect(button).to.exist;
       userEvent.click(button);
     });

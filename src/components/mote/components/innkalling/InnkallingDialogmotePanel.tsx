@@ -1,16 +1,20 @@
 import React, { ReactElement } from "react";
 import { FlexGapSize, FlexRow } from "@/components/Layout";
-import { NyttDialogMote } from "./NyttDialogMote";
 import { MoteIkonBlaaImage } from "../../../../../img/ImageComponents";
 import { DialogmotePanel } from "../DialogmotePanel";
 import { DialogmoteMoteStatusPanel } from "./DialogmoteMoteStatusPanel";
 import { BrukerKanIkkeVarslesPapirpostAdvarsel } from "@/components/dialogmote/BrukerKanIkkeVarslesPapirpostAdvarsel";
 import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
-import { DialogmoteunntakSkjemaLenke } from "@/components/dialogmoteunntak/DialogmoteunntakSkjemaLenke";
 import { useDialogmotekandidat } from "@/data/dialogmotekandidat/dialogmotekandidatQueryHooks";
 import { useBrukerinfoQuery } from "@/data/navbruker/navbrukerQueryHooks";
 import { ArbeidstakerHarIkkeAktivSykmeldingAdvarsel } from "@/components/dialogmote/ArbeidstakerHarIkkeAktivSykmelding";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
+import { Button } from "@navikt/ds-react";
+import {
+  dialogmoteRoutePath,
+  dialogmoteUnntakRoutePath,
+} from "@/routers/AppRouter";
+import { Link } from "react-router-dom";
 
 export const texts = {
   bekreftetMote: "Bekreftet møte",
@@ -20,6 +24,8 @@ export const texts = {
   ingenMoterPlanlagt: "Ingen møter planlagt",
   dialogMote: "Dialogmøte",
   moteforesporselSendt: "Møteforespørsel sendt",
+  settUnntakButton: "Sett unntak",
+  nyttMote: "Nytt dialogmøte",
 };
 
 const dialogmotePanelHeaderText = (isKandidat: boolean): string => {
@@ -36,6 +42,22 @@ export const InnkallingDialogmotePanel = ({
   const { brukerKanIkkeVarslesDigitalt } = useBrukerinfoQuery();
   const { hasActiveOppfolgingstilfelle } = useOppfolgingstilfellePersonQuery();
   const { isKandidat } = useDialogmotekandidat();
+
+  const NyttDialogmoteButton = () => {
+    return (
+      <Button as={Link} to={dialogmoteRoutePath} variant={"primary"}>
+        {texts.nyttMote}
+      </Button>
+    );
+  };
+
+  const SettUnntakButton = () => {
+    return (
+      <Button as={Link} to={dialogmoteUnntakRoutePath} variant="secondary">
+        {texts.settUnntakButton}
+      </Button>
+    );
+  };
 
   if (aktivtDialogmote) {
     return <DialogmoteMoteStatusPanel dialogmote={aktivtDialogmote} />;
@@ -54,8 +76,8 @@ export const InnkallingDialogmotePanel = ({
         )}
 
         <FlexRow columnGap={FlexGapSize.MD}>
-          <NyttDialogMote />
-          {isKandidat && <DialogmoteunntakSkjemaLenke />}
+          <NyttDialogmoteButton />
+          {isKandidat && <SettUnntakButton />}
         </FlexRow>
       </DialogmotePanel>
     );
