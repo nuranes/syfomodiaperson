@@ -16,6 +16,8 @@ export enum AktivitetskravStatus {
 export enum AvventVurderingArsak {
   OPPFOLGINGSPLAN_ARBEIDSGIVER = "OPPFOLGINGSPLAN_ARBEIDSGIVER",
   INFORMASJON_BEHANDLER = "INFORMASJON_BEHANDLER",
+  FORELEGGES_ROL = "FORELEGGES_ROL",
+  TAS_OPP_I_SAKSDROFTINGVERKSTED = "Tas opp i saksdrøftingverksted",
   ANNET = "ANNET",
 }
 
