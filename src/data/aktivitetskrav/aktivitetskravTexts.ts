@@ -29,8 +29,8 @@ export const avventVurderingArsakTexts: VurderingArsakTexts = {
   [AvventVurderingArsak.INFORMASJON_BEHANDLER]:
     "Har bedt om mer informasjon fra behandler",
   [AvventVurderingArsak.FORELEGGES_ROL]: "Forelegges ROL",
-  [AvventVurderingArsak.TAS_OPP_I_SAKSDROFTINGVERKSTED]:
-    "Tas opp i saksdrøfting verksted",
+  [AvventVurderingArsak.SAKSDROFTINGSVERKSTED]:
+    "Tas opp i saksdrøftingsverksted",
   [AvventVurderingArsak.ANNET]: "Annet",
 };
 

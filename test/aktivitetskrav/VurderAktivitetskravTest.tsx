@@ -234,6 +234,13 @@ describe("VurderAktivitetskrav", () => {
         "Har bedt om mer informasjon fra behandler"
       );
       fireEvent.click(arsakBehandlerRadioButton);
+      const arsakForeleggesROLRadioButton = screen.getByText("Forelegges ROL");
+      fireEvent.click(arsakForeleggesROLRadioButton);
+      const arsakTasOppISaksdroftingverkstedRadioButton = screen.getByText(
+        "Tas opp i saksdrøftingsverksted"
+      );
+      fireEvent.click(arsakTasOppISaksdroftingverkstedRadioButton);
+
       const beskrivelseInput = getTextInput("Beskrivelse (obligatorisk)");
       changeTextInput(beskrivelseInput, enBeskrivelse);
 
@@ -250,6 +257,8 @@ describe("VurderAktivitetskrav", () => {
         arsaker: [
           AvventVurderingArsak.OPPFOLGINGSPLAN_ARBEIDSGIVER,
           AvventVurderingArsak.INFORMASJON_BEHANDLER,
+          AvventVurderingArsak.FORELEGGES_ROL,
+          AvventVurderingArsak.SAKSDROFTINGSVERKSTED,
         ],
         frist: today.format("YYYY-MM-DD"),
       };
