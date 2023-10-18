@@ -19,7 +19,7 @@ const personOppgaveUbehandletOppfolgingsplanLPS = {
   opprettet: new Date().toDateString(),
 };
 
-const personOppgaveUbehandletVurderStans = {
+export const personOppgaveUbehandletVurderStans = {
   ...personOppgaveUbehandletOppfolgingsplanLPS,
   uuid: "5f1e2625-061b-443d-ae1f-3b08e9574cd1",
   referanseUuid: varselUuid,
