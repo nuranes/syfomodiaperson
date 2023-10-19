@@ -72,6 +72,8 @@ describe("AktivitetskravVurderingAlert", () => {
       [
         AvventVurderingArsak.OPPFOLGINGSPLAN_ARBEIDSGIVER,
         AvventVurderingArsak.INFORMASJON_BEHANDLER,
+        AvventVurderingArsak.DROFTES_MED_ROL,
+        AvventVurderingArsak.DROFTES_INTERNT,
       ],
       beskrivelse
     );

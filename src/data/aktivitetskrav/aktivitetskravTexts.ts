@@ -28,9 +28,8 @@ export const avventVurderingArsakTexts: VurderingArsakTexts = {
     "Har bedt om oppfølgingsplan fra arbeidsgiver",
   [AvventVurderingArsak.INFORMASJON_BEHANDLER]:
     "Har bedt om mer informasjon fra behandler",
-  [AvventVurderingArsak.FORELEGGES_ROL]: "Forelegges ROL",
-  [AvventVurderingArsak.SAKSDROFTINGSVERKSTED]:
-    "Tas opp i saksdrøftingsverksted",
+  [AvventVurderingArsak.DROFTES_MED_ROL]: "Drøftes med ROL",
+  [AvventVurderingArsak.DROFTES_INTERNT]: "Drøftes internt",
   [AvventVurderingArsak.ANNET]: "Annet",
 };
 
