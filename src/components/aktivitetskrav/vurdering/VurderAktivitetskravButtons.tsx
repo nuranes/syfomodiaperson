@@ -48,9 +48,15 @@ export const VurderAktivitetskravButtons = ({
           {texts.forhandsvarsel}
         </Button>
       )}
-      <Button variant="secondary" onClick={() => onButtonClick("IKKE_OPPFYLT")}>
-        {texts.ikkeOppfylt}
-      </Button>
+      {aktivitetskrav?.status == "FORHANDSVARSEL" &&
+        toggles.isSendingAvForhandsvarselEnabled && (
+          <Button
+            variant="secondary"
+            onClick={() => onButtonClick("IKKE_OPPFYLT")}
+          >
+            {texts.ikkeOppfylt}
+          </Button>
+        )}
       <Button
         variant="secondary-neutral"
         onClick={() => onButtonClick("IKKE_AKTUELL")}
