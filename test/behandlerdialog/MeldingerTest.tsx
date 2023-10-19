@@ -80,14 +80,15 @@ describe("Meldinger panel", () => {
       const accordions = screen.getAllByRole("button", {
         name: /januar/,
       });
-      expect(accordions).to.have.length(7);
-      expect(accordions[0].textContent).to.contain("7. januar");
-      expect(accordions[1].textContent).to.contain("6. januar");
-      expect(accordions[2].textContent).to.contain("5. januar");
-      expect(accordions[3].textContent).to.contain("4. januar");
-      expect(accordions[4].textContent).to.contain("3. januar");
-      expect(accordions[5].textContent).to.contain("2. januar");
-      expect(accordions[6].textContent).to.contain("1. januar");
+      expect(accordions).to.have.length(8);
+      expect(accordions[0].textContent).to.contain("17. januar");
+      expect(accordions[1].textContent).to.contain("7. januar");
+      expect(accordions[2].textContent).to.contain("6. januar");
+      expect(accordions[3].textContent).to.contain("5. januar");
+      expect(accordions[4].textContent).to.contain("4. januar");
+      expect(accordions[5].textContent).to.contain("3. januar");
+      expect(accordions[6].textContent).to.contain("2. januar");
+      expect(accordions[7].textContent).to.contain("1. januar");
     });
 
     it("Viser GuidePanel når det ikke finnes dialogmeldinger på personen", () => {
@@ -113,7 +114,7 @@ describe("Meldinger panel", () => {
         2
       );
       expect(screen.getAllByText("Skrevet av Doktor Legesen")).to.have.length(
-        3
+        4
       );
     });
 
@@ -231,7 +232,7 @@ describe("Meldinger panel", () => {
       const accordions = screen.getAllByRole("button", {
         name: /januar/,
       });
-      expect(accordions).to.have.length(7);
+      expect(accordions).to.have.length(8);
       accordions.forEach((accordion) => userEvent.click(accordion));
       const seMeldingButtons = screen.getAllByRole("button", {
         name: seMeldingButtonTekst,
@@ -245,7 +246,7 @@ describe("Meldinger panel", () => {
       const accordions = screen.getAllByRole("button", {
         name: /januar/,
       });
-      expect(accordions).to.have.length(7);
+      expect(accordions).to.have.length(8);
 
       const seMeldingButton = screen.getAllByRole("button", {
         name: seMeldingButtonTekst,

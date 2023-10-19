@@ -48,6 +48,8 @@ export const useMeldingTilBehandlerDocument = (): {
         throw new Error("use getReturLegeerklaringDocument");
       case MeldingType.HENVENDELSE_MELDING_FRA_NAV:
         return meldingFraNavDocument(values);
+      case MeldingType.HENVENDELSE_MELDING_TIL_NAV:
+        throw new Error("not supported");
       case undefined:
         return [];
     }

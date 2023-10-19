@@ -234,6 +234,15 @@ export const meldingFraNav = {
   tidspunkt: "2023-01-07T12:00:00.000+01:00",
 };
 
+export const meldingTilNav = {
+  ...defaultMeldingInnkommende,
+  parentRef: null,
+  behandlerRef: null,
+  type: MeldingType.HENVENDELSE_MELDING_TIL_NAV,
+  tekst: "Melding fra behandler til NAV der behandler lurer på noe.",
+  tidspunkt: "2023-01-17T12:00:00.000+01:00",
+};
+
 export const responsPaMeldingFraNAV = {
   ...defaultMelding,
   innkommende: true,
@@ -311,6 +320,7 @@ export const behandlerdialogMock = {
       defaultMeldingInnkommendeLegeerklaring,
       defaultReturLegeerklaring,
     ],
+    "conversationRef-939": [meldingTilNav],
   },
 };
 

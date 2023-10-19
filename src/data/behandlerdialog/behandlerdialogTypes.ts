@@ -30,7 +30,7 @@ export interface MeldingDTO {
   uuid: string;
   conversationRef: string;
   parentRef: string | null;
-  behandlerRef: string;
+  behandlerRef: string | null;
   behandlerNavn: string | null;
   tekst: string;
   tidspunkt: Date;
@@ -61,4 +61,5 @@ export enum MeldingType {
   FORESPORSEL_PASIENT_PAMINNELSE = "FORESPORSEL_PASIENT_PAMINNELSE",
   HENVENDELSE_RETUR_LEGEERKLARING = "HENVENDELSE_RETUR_LEGEERKLARING",
   HENVENDELSE_MELDING_FRA_NAV = "HENVENDELSE_MELDING_FRA_NAV",
+  HENVENDELSE_MELDING_TIL_NAV = "HENVENDELSE_MELDING_TIL_NAV",
 }

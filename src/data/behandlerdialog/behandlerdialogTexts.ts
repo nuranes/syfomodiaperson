@@ -9,4 +9,5 @@ export const meldingTypeTexts: {
   [MeldingType.FORESPORSEL_PASIENT_PAMINNELSE]: "Påminnelse",
   [MeldingType.HENVENDELSE_RETUR_LEGEERKLARING]: "Retur av legeerklæring",
   [MeldingType.HENVENDELSE_MELDING_FRA_NAV]: "Melding fra NAV",
+  [MeldingType.HENVENDELSE_MELDING_TIL_NAV]: "Melding til NAV",
 };

@@ -17,10 +17,20 @@ interface SamtaleAccordionItemProps {
   meldinger: MeldingDTO[];
 }
 
+interface BehandlerNavnProps {
+  behandlerRef: string;
+}
+
+const BehandlerNavn = ({ behandlerRef }: BehandlerNavnProps) => {
+  const navn = useBehandlerNavn(behandlerRef);
+  return <>{navn}</>;
+};
+
 export const SamtaleAccordionItem = ({
   meldinger,
 }: SamtaleAccordionItemProps) => {
-  const behandlerNavn = useBehandlerNavn(meldinger[0].behandlerRef);
+  const firstMelding = meldinger[0];
+  const behandlerRef = firstMelding.behandlerRef;
   const newestMelding = meldinger.slice(-1)[0];
   const dateAndTimeForNewestMelding = `${tilDatoMedManedNavnOgKlokkeslett(
     newestMelding.tidspunkt
@@ -31,7 +41,14 @@ export const SamtaleAccordionItem = ({
       <Accordion.Header>
         <FlexRow>
           <StyledImage src={StetoskopIkon} alt="Stetoskopikon for behandler" />
-          {`${behandlerNavn} ${dateAndTimeForNewestMelding}`}
+          <>
+            {behandlerRef ? (
+              <BehandlerNavn behandlerRef={behandlerRef} />
+            ) : (
+              firstMelding.behandlerNavn
+            )}
+            {` ${dateAndTimeForNewestMelding}`}
+          </>
           <SamtaleTags meldinger={meldinger} />
         </FlexRow>
       </Accordion.Header>
