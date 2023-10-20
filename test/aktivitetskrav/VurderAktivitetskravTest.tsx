@@ -13,7 +13,6 @@ import {
   changeTextInput,
   clickButton,
   daysFromToday,
-  getButton,
   getTextInput,
   getTooLongText,
   maxLengthErrorMessage,
@@ -34,6 +33,9 @@ import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/
 import dayjs from "dayjs";
 import { Modal } from "@navikt/ds-react";
 import { getSendForhandsvarselDocument } from "./varselDocuments";
+import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQueryHooks";
+import { personOppgaveUbehandletVurderStans } from "../../mock/ispersonoppgave/personoppgaveMock";
+import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 
 let queryClient: QueryClient;
 
@@ -87,9 +89,14 @@ describe("VurderAktivitetskrav", () => {
   });
   it("renders buttons for vurdering av aktivitetskravet", () => {
     renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
-    Object.values(buttonTexts).forEach(
-      (text) => expect(getButton(text)).to.exist
-    );
+
+    expect(screen.queryByRole("button", { name: "Avventer" })).to.exist;
+    expect(screen.queryByRole("button", { name: "Sett unntak" })).to.exist;
+    expect(screen.queryByRole("button", { name: "Er i aktivitet" })).to.exist;
+    expect(screen.queryByRole("button", { name: "Send forhåndsvarsel" })).to
+      .exist;
+    expect(screen.queryByRole("button", { name: "Ikke oppfylt" })).to.not.exist;
+    expect(screen.queryByRole("button", { name: "Ikke aktuell" })).to.exist;
   });
   it("renders periode for oppfølgingstilfelle", () => {
     renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
@@ -271,34 +278,11 @@ describe("VurderAktivitetskrav", () => {
     });
   });
   describe("Ikke oppfylt", () => {
-    it("Lagre vurdering med verdier fra skjema", () => {
+    it("Is not showing when status is not FORHANDSVARSEL", () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
-      clickButton(buttonTexts["IKKE_OPPFYLT"]);
-
-      expect(
-        screen.getByRole("heading", {
-          name: "Ikke oppfylt",
-        })
-      ).to.exist;
-
-      expect(
-        screen.getByText(/Innstilling må skrives og sendes til NAY i Gosys/)
-      ).to.exist;
-      clickButton("Lagre");
-
-      const vurderIkkeOppfyltMutation = queryClient
-        .getMutationCache()
-        .getAll()[0];
-      const expectedVurdering: CreateAktivitetskravVurderingDTO = {
-        status: AktivitetskravStatus.IKKE_OPPFYLT,
-        arsaker: [],
-        beskrivelse: undefined,
-        frist: undefined,
-      };
-      expect(vurderIkkeOppfyltMutation.options.variables).to.deep.equal(
-        expectedVurdering
-      );
+      expect(screen.queryByRole("button", { name: "Ikke oppfylt" })).to.not
+        .exist;
     });
   });
   describe("Send forhåndsvarsel", () => {
@@ -348,6 +332,44 @@ describe("VurderAktivitetskrav", () => {
         document: getSendForhandsvarselDocument(enBeskrivelse),
       };
       expect(sendForhandsvarselMutation.options.variables).to.deep.equal(
+        expectedVurdering
+      );
+    });
+    it("IKKE_OPPFYLT is present when status is forhandsvarsel and it is expired", () => {
+      queryClient.setQueryData(
+        personoppgaverQueryKeys.personoppgaver(
+          ARBEIDSTAKER_DEFAULT.personIdent
+        ),
+        () => [personOppgaveUbehandletVurderStans]
+      );
+      renderVurderAktivitetskrav(
+        forhandsvarselAktivitetskrav,
+        oppfolgingstilfelle
+      );
+
+      clickButton(buttonTexts["IKKE_OPPFYLT"]);
+
+      expect(
+        screen.getByRole("heading", {
+          name: "Ikke oppfylt",
+        })
+      ).to.exist;
+
+      expect(
+        screen.getByText(/Innstilling må skrives og sendes til NAY i Gosys/)
+      ).to.exist;
+      clickButton("Lagre");
+
+      const vurderIkkeOppfyltMutation = queryClient
+        .getMutationCache()
+        .getAll()[0];
+      const expectedVurdering: CreateAktivitetskravVurderingDTO = {
+        status: AktivitetskravStatus.IKKE_OPPFYLT,
+        arsaker: [],
+        beskrivelse: undefined,
+        frist: undefined,
+      };
+      expect(vurderIkkeOppfyltMutation.options.variables).to.deep.equal(
         expectedVurdering
       );
     });
