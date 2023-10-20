@@ -35,6 +35,9 @@ export const VurderAktivitetskravButtons = ({
     oppgaver,
     PersonOppgaveType.AKTIVITETSKRAV_VURDER_STANS
   );
+  const isIkkeOppfyltButtonVisible =
+    hasUbehandletVurderStansOppgave ||
+    !toggles.isSendingAvForhandsvarselEnabled;
 
   return (
     <ButtonRow topPadding={PaddingSize.MD}>
@@ -57,15 +60,14 @@ export const VurderAktivitetskravButtons = ({
           {texts.forhandsvarsel}
         </Button>
       )}
-      {hasUbehandletVurderStansOppgave &&
-        toggles.isSendingAvForhandsvarselEnabled && (
-          <Button
-            variant="secondary"
-            onClick={() => onButtonClick("IKKE_OPPFYLT")}
-          >
-            {texts.ikkeOppfylt}
-          </Button>
-        )}
+      {isIkkeOppfyltButtonVisible && (
+        <Button
+          variant="secondary"
+          onClick={() => onButtonClick("IKKE_OPPFYLT")}
+        >
+          {texts.ikkeOppfylt}
+        </Button>
+      )}
       <Button
         variant="secondary-neutral"
         onClick={() => onButtonClick("IKKE_AKTUELL")}
