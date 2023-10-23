@@ -21,7 +21,7 @@ import { VurderAktivitetskravSkjemaProps } from "@/components/aktivitetskrav/vur
 
 const texts = {
   title: "Send forhåndsvarsel",
-  beskrivelseLabel: "Beskrivelse (obligatorisk)",
+  beskrivelseLabel: "Begrunnelse (obligatorisk)",
   forhandsvisning: "Forhåndsvisning",
   warning:
     "Husk å utrede saken tilstrekkelig før du sender forhåndsvarsel om stans av sykepengene.",

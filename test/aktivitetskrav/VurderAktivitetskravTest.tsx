@@ -131,7 +131,7 @@ describe("VurderAktivitetskrav", () => {
       const tooLongBeskrivelse = getTooLongText(
         vurderAktivitetskravBeskrivelseMaxLength
       );
-      const beskrivelseInput = getTextInput("Beskrivelse");
+      const beskrivelseInput = getTextInput("Begrunnelse");
       changeTextInput(beskrivelseInput, tooLongBeskrivelse);
       clickButton("Lagre");
 
@@ -151,7 +151,7 @@ describe("VurderAktivitetskrav", () => {
 
       const arsakRadioButton = screen.getByText("Friskmeldt");
       fireEvent.click(arsakRadioButton);
-      const beskrivelseInput = getTextInput("Beskrivelse");
+      const beskrivelseInput = getTextInput("Begrunnelse");
       changeTextInput(beskrivelseInput, enBeskrivelse);
       clickButton("Lagre");
 
@@ -175,7 +175,7 @@ describe("VurderAktivitetskrav", () => {
       const tooLongBeskrivelse = getTooLongText(
         vurderAktivitetskravBeskrivelseMaxLength
       );
-      const beskrivelseInput = getTextInput("Beskrivelse");
+      const beskrivelseInput = getTextInput("Begrunnelse");
       changeTextInput(beskrivelseInput, tooLongBeskrivelse);
       clickButton("Lagre");
 
@@ -199,7 +199,7 @@ describe("VurderAktivitetskrav", () => {
 
       const arsakRadioButton = screen.getByText("Tilrettelegging ikke mulig");
       fireEvent.click(arsakRadioButton);
-      const beskrivelseInput = getTextInput("Beskrivelse");
+      const beskrivelseInput = getTextInput("Begrunnelse");
       changeTextInput(beskrivelseInput, enBeskrivelse);
       clickButton("Lagre");
 
@@ -251,7 +251,7 @@ describe("VurderAktivitetskrav", () => {
         screen.getByText("Drøftes internt");
       fireEvent.click(arsakDroftesInterntRadioButton);
 
-      const beskrivelseInput = getTextInput("Beskrivelse (obligatorisk)");
+      const beskrivelseInput = getTextInput("Begrunnelse (obligatorisk)");
       changeTextInput(beskrivelseInput, enBeskrivelse);
 
       const today = dayjs();
@@ -302,7 +302,7 @@ describe("VurderAktivitetskrav", () => {
 
     it("Send forhåndsvarsel with beskrivelse filled in", () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
-      const beskrivelseLabel = "Beskrivelse (obligatorisk)";
+      const beskrivelseLabel = "Begrunnelse (obligatorisk)";
 
       clickButton(buttonTexts["FORHANDSVARSEL"]);
 
@@ -425,7 +425,7 @@ describe("VurderAktivitetskrav", () => {
 
       const arsakRadioButton = screen.getByText("Medisinske grunner");
       fireEvent.click(arsakRadioButton);
-      const beskrivelseInput = getTextInput("Beskrivelse");
+      const beskrivelseInput = getTextInput("Begrunnelse");
       changeTextInput(beskrivelseInput, enBeskrivelse);
       clickButton("Lagre");
 

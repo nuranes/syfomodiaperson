@@ -11,7 +11,7 @@ interface VurderAktivitetskravBeskrivelseProps {
 }
 
 export const VurderAktivitetskravBeskrivelse = ({
-  label = "Beskrivelse",
+  label = "Begrunnelse",
 }: VurderAktivitetskravBeskrivelseProps) => {
   return (
     <FlexColumn flex={1}>

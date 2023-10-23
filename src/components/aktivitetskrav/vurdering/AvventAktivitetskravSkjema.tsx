@@ -26,7 +26,7 @@ const texts = {
   subtitle1:
     "Informasjonen du oppgir her vil kun brukes til videre saksbehandling.",
   subtitle2: "Ingenting sendes videre til arbeidstaker eller arbeidsgiver.",
-  beskrivelseLabel: "Beskrivelse (obligatorisk)",
+  beskrivelseLabel: "Begrunnelse (obligatorisk)",
 };
 
 interface AvventAktivitetskravSkjemaValues {
