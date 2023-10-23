@@ -439,7 +439,7 @@ describe("Meldinger panel", () => {
 
   describe("Behandling av personoppgave", () => {
     const ubehandletCheckboxTekst =
-      "Marker nye svar som lest. Oppgaven vil da fjernes fra oversikten.";
+      "Marker nye meldinger som lest. Oppgaven vil da fjernes fra oversikten.";
     it("Viser ubehandlet personoppgave for behandlerdialog svar", () => {
       queryClient.setQueryData(
         personoppgaverQueryKeys.personoppgaver(
@@ -471,7 +471,8 @@ describe("Meldinger panel", () => {
       );
       renderMeldinger();
 
-      expect(screen.getByText("Siste svar lest av", { exact: false })).to.exist;
+      expect(screen.getByText("Siste melding lest av", { exact: false })).to
+        .exist;
     });
 
     it("Viser siste ferdigbehandlede personoppgave for behandlerdialog svar når alle oppgaver behandlet", () => {
@@ -494,7 +495,7 @@ describe("Meldinger panel", () => {
       );
       renderMeldinger();
 
-      const expectedFerdigbehandledText = `Siste svar lest av ${
+      const expectedFerdigbehandledText = `Siste melding lest av ${
         VEILEDER_DEFAULT.navn
       } ${twoDaysAgo.format("DD.MM.YYYY")}`;
       expect(screen.getByText(expectedFerdigbehandledText)).to.exist;
@@ -510,8 +511,8 @@ describe("Meldinger panel", () => {
 
       renderMeldinger();
 
-      expect(screen.queryByText("Siste svar lest av", { exact: false })).to.not
-        .exist;
+      expect(screen.queryByText("Siste melding lest av", { exact: false })).to
+        .not.exist;
       expect(screen.queryByText(ubehandletCheckboxTekst, { exact: false })).to
         .not.exist;
     });
@@ -526,8 +527,8 @@ describe("Meldinger panel", () => {
 
       renderMeldinger();
 
-      expect(screen.queryByText("Siste svar lest av", { exact: false })).to.not
-        .exist;
+      expect(screen.queryByText("Siste melding lest av", { exact: false })).to
+        .not.exist;
       expect(screen.queryByText(ubehandletCheckboxTekst, { exact: false })).to
         .not.exist;
     });

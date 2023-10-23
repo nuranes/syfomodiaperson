@@ -16,7 +16,7 @@ const CheckboxPanel = styled(Panel)`
 const getFerdigbehandletPrefixText = (personoppgaveType: PersonOppgaveType) => {
   switch (personoppgaveType) {
     case PersonOppgaveType.BEHANDLERDIALOG_SVAR:
-      return "Siste svar lest av";
+      return "Siste melding lest av";
     default:
       return "Ferdigbehandlet av";
   }

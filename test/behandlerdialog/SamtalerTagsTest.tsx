@@ -52,7 +52,7 @@ describe("Samtaletags", () => {
   });
 
   describe("Visning av tags på samtaler", () => {
-    const nyttSvarTagText = "Nytt svar";
+    const nyMeldingTagText = "Ny melding";
     const venterPaSvarTagText = "Venter på svar";
     const paminnelseSendtTagText = "Påminnelse sendt";
     const vurderPaminnelseTagText = "Vurder påminnelse";
@@ -60,7 +60,7 @@ describe("Samtaletags", () => {
     const returSendtTagText = "Retur sendt";
 
     const assertNoTags = () => {
-      expect(screen.queryByText(nyttSvarTagText)).to.not.exist;
+      expect(screen.queryByText(nyMeldingTagText)).to.not.exist;
       expect(screen.queryByText(paminnelseSendtTagText)).to.not.exist;
       expect(screen.queryByText(venterPaSvarTagText)).to.not.exist;
       expect(screen.queryByText(vurderPaminnelseTagText)).to.not.exist;
@@ -68,7 +68,7 @@ describe("Samtaletags", () => {
       expect(screen.queryByText(meldingStatusFeiletTagText)).to.not.exist;
     };
 
-    it("Viser nytt-svar-tag på samtale hvis det er en ny melding i samtalen med ubehandlet oppgave", () => {
+    it("Viser ny melding-tag på samtale hvis det er en ny melding i samtalen med ubehandlet oppgave", () => {
       const innkommendeMeldingUuid = "456uio";
       const meldingResponse = meldingTilOgFraBehandler(innkommendeMeldingUuid);
       queryClient.setQueryData(
@@ -91,7 +91,7 @@ describe("Samtaletags", () => {
 
       renderSamtaler();
 
-      expect(screen.getByText(nyttSvarTagText)).to.exist;
+      expect(screen.getByText(nyMeldingTagText)).to.exist;
     });
 
     it("Viser venter svar-tag på samtale hvis det mangler melding fra behandler og ingen ubesvart melding-oppgave", () => {
@@ -149,7 +149,7 @@ describe("Samtaletags", () => {
       expect(screen.queryByText(venterPaSvarTagText)).to.not.exist;
     });
 
-    it("Viser nytt svar-tag på samtale hvis retur sendt på legeerklæring, men fått ny legeerklæring fra behandler med ubehandlet oppgave", () => {
+    it("Viser ny melding-tag på samtale hvis retur sendt på legeerklæring, men fått ny legeerklæring fra behandler med ubehandlet oppgave", () => {
       queryClient.setQueryData(
         behandlerdialogQueryKeys.behandlerdialog(
           ARBEIDSTAKER_DEFAULT.personIdent
@@ -170,7 +170,7 @@ describe("Samtaletags", () => {
 
       renderSamtaler();
 
-      expect(screen.getByText(nyttSvarTagText)).to.exist;
+      expect(screen.getByText(nyMeldingTagText)).to.exist;
       expect(screen.queryByText(returSendtTagText)).to.not.exist;
     });
 

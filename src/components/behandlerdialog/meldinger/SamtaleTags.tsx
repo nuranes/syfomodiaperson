@@ -20,7 +20,7 @@ import {
 } from "../../../../test/utils/behandlerdialogUtils";
 
 const texts = {
-  nyttSvar: "Nytt svar",
+  nyMelding: "Ny melding",
   venterSvar: "Venter på svar",
   avvist: "Melding ikke levert",
   paminnelseSendt: "Påminnelse sendt",
@@ -50,7 +50,7 @@ const SamtaleTag = (props: ComponentProps<typeof Tag>) => (
 );
 
 type SamtaleTagStatus =
-  | "NYTT_SVAR"
+  | "NY_MELDING"
   | "AVVIST"
   | "PAMINNELSE_SENDT"
   | "RETUR_SENDT"
@@ -121,7 +121,7 @@ const getSamtaleTagStatus = (
   if (harAvvistMelding) {
     return "AVVIST";
   } else if (harMeldingMedUbehandletSvarOppgave) {
-    return "NYTT_SVAR";
+    return "NY_MELDING";
   } else if (harMeldingMedUbehandletPaminnelseOppgave) {
     return "VURDER_PAMINNELSE";
   } else if (manglerSvarFraBehandler && harPaminnelseMelding) {
@@ -146,8 +146,8 @@ export const SamtaleTags = ({
   const samtaleTagStatus = getSamtaleTagStatus(meldinger, oppgaver);
 
   switch (samtaleTagStatus) {
-    case "NYTT_SVAR": {
-      return <SamtaleTag variant="info">{texts.nyttSvar}</SamtaleTag>;
+    case "NY_MELDING": {
+      return <SamtaleTag variant="info">{texts.nyMelding}</SamtaleTag>;
     }
     case "AVVIST": {
       return <SamtaleTag variant="error">{texts.avvist}</SamtaleTag>;

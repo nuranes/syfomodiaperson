@@ -16,7 +16,7 @@ import { FlexRow } from "@/components/Layout";
 
 const texts = {
   fjernOppgave:
-    "Marker nye svar som lest. Oppgaven vil da fjernes fra oversikten.",
+    "Marker nye meldinger som lest. Oppgaven vil da fjernes fra oversikten.",
 };
 
 const sortDateByTidspunkt = (d1: Date | null, d2: Date | null) => {
