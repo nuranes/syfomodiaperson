@@ -3,12 +3,11 @@ import { PERSONKORTVISNING_TYPE } from "@/konstanter";
 import PersonkortHeader from "./PersonkortHeader/PersonkortHeader";
 import PersonkortVisning from "./PersonkortVisning";
 import SnowButton from "@/components/festive/SnowButton";
-import { isDecember, isHalloween, isPride } from "@/utils/festiveUtils";
+import { isDecember, isPride } from "@/utils/festiveUtils";
 import { FlexRow, PaddingSize } from "../Layout";
 import { OversiktLenker } from "@/components/personkort/OversiktLenker";
 import styled from "styled-components";
 import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
-import { SpiderButton } from "@/components/festive/spider/SpiderButton";
 
 const texts = {
   buttons: {
@@ -43,7 +42,6 @@ const Personkort = () => {
     <div className="personkort">
       <FlexRow topPadding={PaddingSize.SM} bottomPadding={PaddingSize.SM}>
         <OversiktLenker />
-        {isHalloween() && <SpiderButton />}
         {isDecember() && <SnowButton />}
       </FlexRow>
       {isPride() && <PrideFlexRow>&nbsp;</PrideFlexRow>}
