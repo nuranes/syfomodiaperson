@@ -1,8 +1,4 @@
-import {
-  AktivitetskravStatus,
-  CreateAktivitetskravVurderingDTO,
-  VurderingArsak,
-} from "@/data/aktivitetskrav/aktivitetskravTypes";
+import { VurderingArsak } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { vurderAktivitetskravArsakFieldName } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravArsakRadioGruppe";
 import {
   vurderAktivitetskravBeskrivelseFieldName,
@@ -20,21 +16,7 @@ const validateArsak = (arsak: VurderingArsak | undefined) => {
   return !arsak ? validationText.missingArsak : undefined;
 };
 
-export const useAktivitetskravVurderingSkjema = (
-  status: AktivitetskravStatus
-) => {
-  const createDto = (
-    arsaker: VurderingArsak[],
-    beskrivelse?: string,
-    frist?: string
-  ): CreateAktivitetskravVurderingDTO => {
-    return {
-      status,
-      beskrivelse,
-      arsaker,
-      frist,
-    };
-  };
+export const useAktivitetskravVurderingSkjema = () => {
   const validateArsakField = (arsak: VurderingArsak | undefined) => {
     return {
       [vurderAktivitetskravArsakFieldName]: validateArsak(arsak),
@@ -61,7 +43,6 @@ export const useAktivitetskravVurderingSkjema = (
   };
 
   return {
-    createDto,
     validateArsakField,
     validateArsakerField,
     validateBeskrivelseField,

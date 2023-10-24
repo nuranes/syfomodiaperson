@@ -2,11 +2,8 @@ import React from "react";
 import {
   AktivitetskravStatus,
   AvventVurderingArsak,
+  CreateAktivitetskravVurderingDTO,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
-import {
-  VurderAktivitetskravSkjema,
-  VurderAktivitetskravSkjemaProps,
-} from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravSkjema";
 import { useAktivitetskravVurderingSkjema } from "@/hooks/aktivitetskrav/useAktivitetskravVurderingSkjema";
 import {
   AvventArsakerCheckboxGruppe,
@@ -20,6 +17,13 @@ import {
   avventerFristDatoField,
   AvventFristDato,
 } from "@/components/aktivitetskrav/vurdering/AvventFristDato";
+import { Form } from "react-final-form";
+import { SkjemaHeading } from "@/components/aktivitetskrav/vurdering/SkjemaHeading";
+import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
+import { LagreAvbrytButtonRow } from "@/components/aktivitetskrav/vurdering/LagreAvbrytButtonRow";
+import { useVurderAktivitetskrav } from "@/data/aktivitetskrav/useVurderAktivitetskrav";
+import { VurderAktivitetskravSkjemaProps } from "@/components/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
+import { SkjemaFieldContainer } from "@/components/aktivitetskrav/vurdering/SkjemaFieldContainer";
 
 const texts = {
   title: "Avventer",
@@ -35,11 +39,24 @@ interface AvventAktivitetskravSkjemaValues {
   [avventerFristDatoField]?: string;
 }
 
-export const AvventAktivitetskravSkjema = (
-  props: VurderAktivitetskravSkjemaProps
-) => {
-  const { createDto, validateArsakerField, validateBeskrivelseField } =
-    useAktivitetskravVurderingSkjema(AktivitetskravStatus.AVVENT);
+export const AvventAktivitetskravSkjema = ({
+  aktivitetskravUuid,
+  setModalOpen,
+}: VurderAktivitetskravSkjemaProps) => {
+  const vurderAktivitetskrav = useVurderAktivitetskrav(aktivitetskravUuid);
+  const submit = (values: AvventAktivitetskravSkjemaValues) => {
+    const createAktivitetskravVurderingDTO: CreateAktivitetskravVurderingDTO = {
+      status: AktivitetskravStatus.AVVENT,
+      arsaker: values.arsaker,
+      beskrivelse: values.beskrivelse,
+      frist: values.fristDato,
+    };
+    vurderAktivitetskrav.mutate(createAktivitetskravVurderingDTO, {
+      onSuccess: () => setModalOpen(false),
+    });
+  };
+  const { validateArsakerField, validateBeskrivelseField } =
+    useAktivitetskravVurderingSkjema();
 
   const validate = (values: Partial<AvventAktivitetskravSkjemaValues>) => ({
     ...validateArsakerField(values.arsaker),
@@ -47,18 +64,27 @@ export const AvventAktivitetskravSkjema = (
   });
 
   return (
-    <VurderAktivitetskravSkjema<AvventAktivitetskravSkjemaValues>
-      title={texts.title}
-      subtitles={[texts.subtitle1, texts.subtitle2]}
-      toDto={(values) =>
-        createDto(values.arsaker, values.beskrivelse, values.fristDato)
-      }
-      validate={validate}
-      {...props}
-    >
-      <AvventArsakerCheckboxGruppe />
-      <VurderAktivitetskravBeskrivelse label={texts.beskrivelseLabel} />
-      <AvventFristDato />
-    </VurderAktivitetskravSkjema>
+    <Form onSubmit={submit} validate={validate}>
+      {({ handleSubmit }) => (
+        <form onSubmit={handleSubmit}>
+          <SkjemaHeading
+            title={texts.title}
+            subtitles={[texts.subtitle1, texts.subtitle2]}
+          />
+          <SkjemaFieldContainer>
+            <AvventArsakerCheckboxGruppe />
+            <VurderAktivitetskravBeskrivelse label={texts.beskrivelseLabel} />
+            <AvventFristDato />
+          </SkjemaFieldContainer>
+          {vurderAktivitetskrav.isError && (
+            <SkjemaInnsendingFeil error={vurderAktivitetskrav.error} />
+          )}
+          <LagreAvbrytButtonRow
+            isSubmitting={vurderAktivitetskrav.isLoading}
+            handleClose={() => setModalOpen(false)}
+          />
+        </form>
+      )}
+    </Form>
   );
 };

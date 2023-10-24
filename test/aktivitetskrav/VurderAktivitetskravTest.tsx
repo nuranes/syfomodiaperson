@@ -160,7 +160,6 @@ describe("VurderAktivitetskrav", () => {
         beskrivelse: enBeskrivelse,
         status: AktivitetskravStatus.OPPFYLT,
         arsaker: [OppfyltVurderingArsak.FRISKMELDT],
-        frist: undefined,
       };
       expect(vurderOppfyltMutation.options.variables).to.deep.equal(
         expectedVurdering
@@ -208,7 +207,6 @@ describe("VurderAktivitetskrav", () => {
         beskrivelse: enBeskrivelse,
         status: AktivitetskravStatus.UNNTAK,
         arsaker: [UnntakVurderingArsak.TILRETTELEGGING_IKKE_MULIG],
-        frist: undefined,
       };
       expect(vurderUnntakMutation.options.variables).to.deep.equal(
         expectedVurdering
@@ -367,8 +365,6 @@ describe("VurderAktivitetskrav", () => {
       const expectedVurdering: CreateAktivitetskravVurderingDTO = {
         status: AktivitetskravStatus.IKKE_OPPFYLT,
         arsaker: [],
-        beskrivelse: undefined,
-        frist: undefined,
       };
       expect(vurderIkkeOppfyltMutation.options.variables).to.deep.equal(
         expectedVurdering
@@ -407,8 +403,6 @@ describe("VurderAktivitetskrav", () => {
       const expectedVurdering: CreateAktivitetskravVurderingDTO = {
         status: AktivitetskravStatus.IKKE_AKTUELL,
         arsaker: [],
-        beskrivelse: undefined,
-        frist: undefined,
       };
       expect(vurderIkkeAktuellMutation.options.variables).to.deep.equal(
         expectedVurdering
@@ -434,7 +428,6 @@ describe("VurderAktivitetskrav", () => {
         beskrivelse: enBeskrivelse,
         status: AktivitetskravStatus.UNNTAK,
         arsaker: [UnntakVurderingArsak.MEDISINSKE_GRUNNER],
-        frist: undefined,
       };
       expect(vurderUnntakMutation.options.variables).to.deep.equal(
         expectedVurdering
