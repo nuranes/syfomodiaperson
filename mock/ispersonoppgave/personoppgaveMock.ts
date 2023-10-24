@@ -19,6 +19,20 @@ const personOppgaveUbehandletOppfolgingsplanLPS = {
   opprettet: new Date().toDateString(),
 };
 
+export const personOppgaveUbehandletBehandlerBerOmBistand = {
+  ...personOppgaveUbehandletOppfolgingsplanLPS,
+  type: "BEHANDLER_BER_OM_BISTAND",
+  uuid: "5f1e2625-061b-443d-ae1f-3c18e9574cd1",
+  referanseUuid: "5555a750-7f39-4974-9a06-fa1775f987c9",
+};
+
+export const personOppgaveUbehandletBehandlerBerOmBistand2 = {
+  ...personOppgaveUbehandletOppfolgingsplanLPS,
+  type: "BEHANDLER_BER_OM_BISTAND",
+  uuid: "5f1e2625-061b-443d-ae1f-3c18e9574cd2",
+  referanseUuid: "222248ba-4c3c-4b3f-b7a3-385b7e7c927d",
+};
+
 export const personOppgaveUbehandletVurderStans = {
   ...personOppgaveUbehandletOppfolgingsplanLPS,
   uuid: "5f1e2625-061b-443d-ae1f-3b08e9574cd1",
@@ -129,5 +143,7 @@ export const personoppgaverMock = () => {
     personOppgaveUbehandletBehandlerdialogAvvistMelding,
     personOppgaveBehandletBehandlerdialogAvvistMelding,
     personOppgaveUbehandletVurderStans,
+    personOppgaveUbehandletBehandlerBerOmBistand,
+    personOppgaveUbehandletBehandlerBerOmBistand2,
   ];
 };

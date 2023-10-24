@@ -28,7 +28,7 @@ export const texts = {
 };
 
 const Wrapper = styled(Panel)`
-  margin: 1em 0;
+  margin-bottom: 1em;
   padding: 1em;
 `;
 
