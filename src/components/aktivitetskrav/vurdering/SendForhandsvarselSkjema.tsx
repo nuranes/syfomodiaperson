@@ -1,10 +1,7 @@
 import React from "react";
 import { SendForhandsvarselDTO } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { useAktivitetskravVurderingSkjema } from "@/hooks/aktivitetskrav/useAktivitetskravVurderingSkjema";
-import {
-  VurderAktivitetskravBeskrivelse,
-  vurderAktivitetskravBeskrivelseFieldName,
-} from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravBeskrivelse";
+import { VurderAktivitetskravBeskrivelse } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravBeskrivelse";
 import { DocumentComponentVisning } from "@/components/DocumentComponentVisning";
 import { useAktivitetskravVarselDocument } from "@/hooks/aktivitetskrav/useAktivitetskravVarselDocument";
 import { addWeeks } from "@/utils/datoUtils";
@@ -14,7 +11,10 @@ import { Alert, Button, Heading, Label, Panel } from "@navikt/ds-react";
 import styled from "styled-components";
 import { useSendForhandsvarsel } from "@/data/aktivitetskrav/useSendForhandsvarsel";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
-import { VurderAktivitetskravSkjemaProps } from "@/components/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
+import {
+  AktivitetskravSkjemaValues,
+  VurderAktivitetskravSkjemaProps,
+} from "@/components/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
 
 const texts = {
   title: "Send forhåndsvarsel",
@@ -43,9 +43,6 @@ export const getFristForForhandsvarsel = (isFysiskUtsending = true) => {
   return isFysiskUtsending ? addWeeks(new Date(), 3) : addWeeks(new Date(), 2);
 };
 
-interface SendForhandsvarselSkjemaValues {
-  [vurderAktivitetskravBeskrivelseFieldName]: string;
-}
 export const SendForhandsvarselSkjema = ({
   aktivitetskravUuid,
   setModalOpen,
@@ -55,11 +52,11 @@ export const SendForhandsvarselSkjema = ({
   const { getForhandsvarselDocument } = useAktivitetskravVarselDocument();
   const frist = getFristForForhandsvarsel();
 
-  const validate = (values: Partial<SendForhandsvarselSkjemaValues>) => ({
+  const validate = (values: Partial<AktivitetskravSkjemaValues>) => ({
     ...validateBeskrivelseField(values.beskrivelse, true),
   });
 
-  const submit = (values: SendForhandsvarselSkjemaValues) => {
+  const submit = (values: AktivitetskravSkjemaValues) => {
     const forhandsvarselDTO: SendForhandsvarselDTO = {
       fritekst: values.beskrivelse,
       document: getForhandsvarselDocument(values.beskrivelse, frist),

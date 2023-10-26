@@ -1,28 +1,21 @@
 import React from "react";
 import {
   AktivitetskravStatus,
-  AvventVurderingArsak,
   CreateAktivitetskravVurderingDTO,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { useAktivitetskravVurderingSkjema } from "@/hooks/aktivitetskrav/useAktivitetskravVurderingSkjema";
-import {
-  AvventArsakerCheckboxGruppe,
-  vurderAktivitetskravArsakerFieldName,
-} from "@/components/aktivitetskrav/vurdering/AvventArsakerCheckboxGruppe";
-import {
-  VurderAktivitetskravBeskrivelse,
-  vurderAktivitetskravBeskrivelseFieldName,
-} from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravBeskrivelse";
-import {
-  avventerFristDatoField,
-  AvventFristDato,
-} from "@/components/aktivitetskrav/vurdering/AvventFristDato";
+import { AvventArsakerCheckboxGruppe } from "@/components/aktivitetskrav/vurdering/AvventArsakerCheckboxGruppe";
+import { VurderAktivitetskravBeskrivelse } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravBeskrivelse";
+import { AvventFristDato } from "@/components/aktivitetskrav/vurdering/AvventFristDato";
 import { Form } from "react-final-form";
 import { SkjemaHeading } from "@/components/aktivitetskrav/vurdering/SkjemaHeading";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { LagreAvbrytButtonRow } from "@/components/aktivitetskrav/vurdering/LagreAvbrytButtonRow";
 import { useVurderAktivitetskrav } from "@/data/aktivitetskrav/useVurderAktivitetskrav";
-import { VurderAktivitetskravSkjemaProps } from "@/components/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
+import {
+  AvventAktivitetskravSkjemaValues,
+  VurderAktivitetskravSkjemaProps,
+} from "@/components/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
 import { SkjemaFieldContainer } from "@/components/aktivitetskrav/vurdering/SkjemaFieldContainer";
 
 const texts = {
@@ -32,12 +25,6 @@ const texts = {
   subtitle2: "Ingenting sendes videre til arbeidstaker eller arbeidsgiver.",
   beskrivelseLabel: "Begrunnelse (obligatorisk)",
 };
-
-interface AvventAktivitetskravSkjemaValues {
-  [vurderAktivitetskravBeskrivelseFieldName]: string;
-  [vurderAktivitetskravArsakerFieldName]: AvventVurderingArsak[];
-  [avventerFristDatoField]?: string;
-}
 
 export const AvventAktivitetskravSkjema = ({
   aktivitetskravUuid,

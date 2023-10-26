@@ -2,39 +2,40 @@ import React from "react";
 import {
   AktivitetskravStatus,
   CreateAktivitetskravVurderingDTO,
-  OppfyltVurderingArsak,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { oppfyltVurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
-import {
-  vurderAktivitetskravArsakFieldName,
-  VurderAktivitetskravArsakRadioGruppe,
-} from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravArsakRadioGruppe";
-import { useAktivitetskravVurderingSkjema } from "@/hooks/aktivitetskrav/useAktivitetskravVurderingSkjema";
-import {
-  VurderAktivitetskravBeskrivelse,
-  vurderAktivitetskravBeskrivelseFieldName,
-} from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravBeskrivelse";
-import { Form } from "react-final-form";
 import { SkjemaHeading } from "@/components/aktivitetskrav/vurdering/SkjemaHeading";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { LagreAvbrytButtonRow } from "@/components/aktivitetskrav/vurdering/LagreAvbrytButtonRow";
 import { useVurderAktivitetskrav } from "@/data/aktivitetskrav/useVurderAktivitetskrav";
-import { VurderAktivitetskravSkjemaProps } from "@/components/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
+import {
+  OppfyltAktivitetskravSkjemaValues,
+  VurderAktivitetskravSkjemaProps,
+} from "@/components/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
 import { SkjemaFieldContainer } from "@/components/aktivitetskrav/vurdering/SkjemaFieldContainer";
+import { useForm } from "react-hook-form";
+import { Radio, RadioGroup } from "@navikt/ds-react";
+import BegrunnelseTextarea, {
+  begrunnelseMaxLength,
+} from "@/components/aktivitetskrav/vurdering/BegrunnelseTextarea";
 
 const texts = {
   title: "Er i aktivitet",
+  arsakLegend: "Årsak (obligatorisk)",
+  begrunnelseLabel: "Begrunnelse",
+  missingArsak: "Vennligst angi årsak",
 };
-
-interface OppfyltAktivitetskravSkjemaValues {
-  [vurderAktivitetskravBeskrivelseFieldName]: string;
-  [vurderAktivitetskravArsakFieldName]: OppfyltVurderingArsak;
-}
 
 export const OppfyltAktivitetskravSkjema = ({
   aktivitetskravUuid,
   setModalOpen,
 }: VurderAktivitetskravSkjemaProps) => {
+  const {
+    register,
+    watch,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<OppfyltAktivitetskravSkjemaValues>();
   const vurderAktivitetskrav = useVurderAktivitetskrav(aktivitetskravUuid);
 
   const submit = (values: OppfyltAktivitetskravSkjemaValues) => {
@@ -48,34 +49,43 @@ export const OppfyltAktivitetskravSkjema = ({
     });
   };
 
-  const { validateArsakField, validateBeskrivelseField } =
-    useAktivitetskravVurderingSkjema();
-
-  const validate = (values: Partial<OppfyltAktivitetskravSkjemaValues>) => ({
-    ...validateArsakField(values.arsak),
-    ...validateBeskrivelseField(values.beskrivelse, false),
-  });
-
   return (
-    <Form onSubmit={submit} validate={validate}>
-      {({ handleSubmit }) => (
-        <form onSubmit={handleSubmit}>
-          <SkjemaHeading title={texts.title} />
-          <SkjemaFieldContainer>
-            <VurderAktivitetskravArsakRadioGruppe
-              arsakTexts={oppfyltVurderingArsakTexts}
-            />
-            <VurderAktivitetskravBeskrivelse />
-          </SkjemaFieldContainer>
-          {vurderAktivitetskrav.isError && (
-            <SkjemaInnsendingFeil error={vurderAktivitetskrav.error} />
+    <form onSubmit={handleSubmit(submit)}>
+      <SkjemaHeading title={texts.title} />
+      <SkjemaFieldContainer>
+        <RadioGroup
+          name="arsak"
+          size="small"
+          legend={texts.arsakLegend}
+          error={errors.arsak && texts.missingArsak}
+        >
+          {Object.entries(oppfyltVurderingArsakTexts).map(
+            ([arsak, text], index) => (
+              <Radio
+                key={index}
+                value={arsak}
+                {...register("arsak", { required: true })}
+              >
+                {text}
+              </Radio>
+            )
           )}
-          <LagreAvbrytButtonRow
-            isSubmitting={vurderAktivitetskrav.isLoading}
-            handleClose={() => setModalOpen(false)}
-          />
-        </form>
+        </RadioGroup>
+        <BegrunnelseTextarea
+          {...register("beskrivelse", {
+            maxLength: begrunnelseMaxLength,
+          })}
+          value={watch("beskrivelse")}
+          label={texts.begrunnelseLabel}
+        />
+      </SkjemaFieldContainer>
+      {vurderAktivitetskrav.isError && (
+        <SkjemaInnsendingFeil error={vurderAktivitetskrav.error} />
       )}
-    </Form>
+      <LagreAvbrytButtonRow
+        isSubmitting={vurderAktivitetskrav.isLoading}
+        handleClose={() => setModalOpen(false)}
+      />
+    </form>
   );
 };

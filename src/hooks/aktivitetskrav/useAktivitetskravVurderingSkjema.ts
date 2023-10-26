@@ -1,5 +1,4 @@
 import { VurderingArsak } from "@/data/aktivitetskrav/aktivitetskravTypes";
-import { vurderAktivitetskravArsakFieldName } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravArsakRadioGruppe";
 import {
   vurderAktivitetskravBeskrivelseFieldName,
   vurderAktivitetskravBeskrivelseMaxLength,
@@ -17,11 +16,6 @@ const validateArsak = (arsak: VurderingArsak | undefined) => {
 };
 
 export const useAktivitetskravVurderingSkjema = () => {
-  const validateArsakField = (arsak: VurderingArsak | undefined) => {
-    return {
-      [vurderAktivitetskravArsakFieldName]: validateArsak(arsak),
-    };
-  };
   const validateArsakerField = (arsaker: VurderingArsak[] | undefined) => {
     return {
       [vurderAktivitetskravArsakerFieldName]: validateArsak(arsaker?.[0]),
@@ -43,7 +37,6 @@ export const useAktivitetskravVurderingSkjema = () => {
   };
 
   return {
-    validateArsakField,
     validateArsakerField,
     validateBeskrivelseField,
   };

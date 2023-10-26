@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
@@ -15,7 +15,6 @@ import {
   daysFromToday,
   getTextInput,
   getTooLongText,
-  maxLengthErrorMessage,
 } from "../testUtils";
 import {
   AktivitetskravDTO,
@@ -124,7 +123,7 @@ describe("VurderAktivitetskrav", () => {
     expect(screen.getByText(buttonTextsJoined, { exact: false })).to.exist;
   });
   describe("Oppfylt", () => {
-    it("Validerer årsak og maks tegn beskrivelse", () => {
+    it("Validerer årsak og maks tegn beskrivelse", async () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
       clickButton(buttonTexts["OPPFYLT"]);
@@ -135,14 +134,10 @@ describe("VurderAktivitetskrav", () => {
       changeTextInput(beskrivelseInput, tooLongBeskrivelse);
       clickButton("Lagre");
 
-      expect(screen.getByText("Vennligst angi årsak")).to.exist;
-      expect(
-        screen.getByText(
-          maxLengthErrorMessage(vurderAktivitetskravBeskrivelseMaxLength)
-        )
-      ).to.exist;
+      expect(await screen.findByText("Vennligst angi årsak")).to.exist;
+      expect(await screen.findByText("1 tegn for mye")).to.exist;
     });
-    it("Lagre vurdering med verdier fra skjema", () => {
+    it("Lagre vurdering med verdier fra skjema", async () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
       clickButton(buttonTexts["OPPFYLT"]);
@@ -155,19 +150,23 @@ describe("VurderAktivitetskrav", () => {
       changeTextInput(beskrivelseInput, enBeskrivelse);
       clickButton("Lagre");
 
-      const vurderOppfyltMutation = queryClient.getMutationCache().getAll()[0];
-      const expectedVurdering: CreateAktivitetskravVurderingDTO = {
-        beskrivelse: enBeskrivelse,
-        status: AktivitetskravStatus.OPPFYLT,
-        arsaker: [OppfyltVurderingArsak.FRISKMELDT],
-      };
-      expect(vurderOppfyltMutation.options.variables).to.deep.equal(
-        expectedVurdering
-      );
+      await waitFor(() => {
+        const vurderOppfyltMutation = queryClient
+          .getMutationCache()
+          .getAll()[0];
+        const expectedVurdering: CreateAktivitetskravVurderingDTO = {
+          beskrivelse: enBeskrivelse,
+          status: AktivitetskravStatus.OPPFYLT,
+          arsaker: [OppfyltVurderingArsak.FRISKMELDT],
+        };
+        expect(vurderOppfyltMutation.options.variables).to.deep.equal(
+          expectedVurdering
+        );
+      });
     });
   });
   describe("Unntak", () => {
-    it("Validerer årsak og maks tegn beskrivelse", () => {
+    it("Validerer årsak og maks tegn beskrivelse", async () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
       clickButton(buttonTexts["UNNTAK"]);
@@ -178,14 +177,10 @@ describe("VurderAktivitetskrav", () => {
       changeTextInput(beskrivelseInput, tooLongBeskrivelse);
       clickButton("Lagre");
 
-      expect(screen.getByText("Vennligst angi årsak")).to.exist;
-      expect(
-        screen.getByText(
-          maxLengthErrorMessage(vurderAktivitetskravBeskrivelseMaxLength)
-        )
-      ).to.exist;
+      expect(await screen.findByText("Vennligst angi årsak")).to.exist;
+      expect(await screen.findByText("1 tegn for mye")).to.exist;
     });
-    it("Lagre vurdering med verdier fra skjema", () => {
+    it("Lagre vurdering med verdier fra skjema", async () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
       clickButton(buttonTexts["UNNTAK"]);
@@ -202,15 +197,17 @@ describe("VurderAktivitetskrav", () => {
       changeTextInput(beskrivelseInput, enBeskrivelse);
       clickButton("Lagre");
 
-      const vurderUnntakMutation = queryClient.getMutationCache().getAll()[0];
-      const expectedVurdering: CreateAktivitetskravVurderingDTO = {
-        beskrivelse: enBeskrivelse,
-        status: AktivitetskravStatus.UNNTAK,
-        arsaker: [UnntakVurderingArsak.TILRETTELEGGING_IKKE_MULIG],
-      };
-      expect(vurderUnntakMutation.options.variables).to.deep.equal(
-        expectedVurdering
-      );
+      await waitFor(() => {
+        const vurderUnntakMutation = queryClient.getMutationCache().getAll()[0];
+        const expectedVurdering: CreateAktivitetskravVurderingDTO = {
+          beskrivelse: enBeskrivelse,
+          status: AktivitetskravStatus.UNNTAK,
+          arsaker: [UnntakVurderingArsak.TILRETTELEGGING_IKKE_MULIG],
+        };
+        expect(vurderUnntakMutation.options.variables).to.deep.equal(
+          expectedVurdering
+        );
+      });
     });
   });
   describe("Avvent", () => {
@@ -410,7 +407,7 @@ describe("VurderAktivitetskrav", () => {
     });
   });
   describe("Uten oppfølgingstilfelle med aktivitetskrav", () => {
-    it("Lagre vurdering med verdier fra skjema", () => {
+    it("Lagre vurdering med verdier fra skjema", async () => {
       renderVurderAktivitetskrav(undefined, undefined);
 
       expect(screen.queryByText(/Gjelder tilfelle/)).to.not.exist;
@@ -423,15 +420,17 @@ describe("VurderAktivitetskrav", () => {
       changeTextInput(beskrivelseInput, enBeskrivelse);
       clickButton("Lagre");
 
-      const vurderUnntakMutation = queryClient.getMutationCache().getAll()[0];
-      const expectedVurdering: CreateAktivitetskravVurderingDTO = {
-        beskrivelse: enBeskrivelse,
-        status: AktivitetskravStatus.UNNTAK,
-        arsaker: [UnntakVurderingArsak.MEDISINSKE_GRUNNER],
-      };
-      expect(vurderUnntakMutation.options.variables).to.deep.equal(
-        expectedVurdering
-      );
+      await waitFor(() => {
+        const vurderUnntakMutation = queryClient.getMutationCache().getAll()[0];
+        const expectedVurdering: CreateAktivitetskravVurderingDTO = {
+          beskrivelse: enBeskrivelse,
+          status: AktivitetskravStatus.UNNTAK,
+          arsaker: [UnntakVurderingArsak.MEDISINSKE_GRUNNER],
+        };
+        expect(vurderUnntakMutation.options.variables).to.deep.equal(
+          expectedVurdering
+        );
+      });
     });
   });
 });
