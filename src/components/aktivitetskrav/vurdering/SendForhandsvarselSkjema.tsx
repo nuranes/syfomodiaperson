@@ -1,11 +1,8 @@
 import React from "react";
 import { SendForhandsvarselDTO } from "@/data/aktivitetskrav/aktivitetskravTypes";
-import { useAktivitetskravVurderingSkjema } from "@/hooks/aktivitetskrav/useAktivitetskravVurderingSkjema";
-import { VurderAktivitetskravBeskrivelse } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravBeskrivelse";
 import { DocumentComponentVisning } from "@/components/DocumentComponentVisning";
 import { useAktivitetskravVarselDocument } from "@/hooks/aktivitetskrav/useAktivitetskravVarselDocument";
 import { addWeeks } from "@/utils/datoUtils";
-import { Form } from "react-final-form";
 import { ButtonRow, FlexRow, PaddingSize } from "@/components/Layout";
 import { Alert, Button, Heading, Label, Panel } from "@navikt/ds-react";
 import styled from "styled-components";
@@ -15,11 +12,16 @@ import {
   AktivitetskravSkjemaValues,
   VurderAktivitetskravSkjemaProps,
 } from "@/components/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
+import { useForm } from "react-hook-form";
+import BegrunnelseTextarea, {
+  begrunnelseMaxLength,
+} from "@/components/aktivitetskrav/vurdering/BegrunnelseTextarea";
 
 const texts = {
   title: "Send forhåndsvarsel",
   beskrivelseLabel: "Begrunnelse (obligatorisk)",
   forhandsvisning: "Forhåndsvisning",
+  missingBeskrivelse: "Vennligst angi beskrivelse",
   warning:
     "Husk å utrede saken tilstrekkelig før du sender forhåndsvarsel om stans av sykepengene.",
   sendVarselButtonText: "Send",
@@ -39,27 +41,29 @@ const VarselbrevContent = styled.div`
 const StyledForm = styled.form`
   max-width: 50em;
 `;
-export const getFristForForhandsvarsel = (isFysiskUtsending = true) => {
-  return isFysiskUtsending ? addWeeks(new Date(), 3) : addWeeks(new Date(), 2);
-};
+
+const forhandsvarselFrist = addWeeks(new Date(), 3);
 
 export const SendForhandsvarselSkjema = ({
   aktivitetskravUuid,
   setModalOpen,
 }: VurderAktivitetskravSkjemaProps) => {
   const sendForhandsvarsel = useSendForhandsvarsel(aktivitetskravUuid);
-  const { validateBeskrivelseField } = useAktivitetskravVurderingSkjema();
+  const {
+    register,
+    watch,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<AktivitetskravSkjemaValues>();
   const { getForhandsvarselDocument } = useAktivitetskravVarselDocument();
-  const frist = getFristForForhandsvarsel();
-
-  const validate = (values: Partial<AktivitetskravSkjemaValues>) => ({
-    ...validateBeskrivelseField(values.beskrivelse, true),
-  });
 
   const submit = (values: AktivitetskravSkjemaValues) => {
     const forhandsvarselDTO: SendForhandsvarselDTO = {
       fritekst: values.beskrivelse,
-      document: getForhandsvarselDocument(values.beskrivelse, frist),
+      document: getForhandsvarselDocument(
+        values.beskrivelse,
+        forhandsvarselFrist
+      ),
     };
     if (aktivitetskravUuid) {
       sendForhandsvarsel.mutate(forhandsvarselDTO, {
@@ -69,42 +73,47 @@ export const SendForhandsvarselSkjema = ({
   };
 
   return (
-    <Form onSubmit={submit} validate={validate}>
-      {({ handleSubmit, values }) => (
-        <StyledForm onSubmit={handleSubmit}>
-          <FlexRow bottomPadding={PaddingSize.MD}>
-            <Heading level="2" size="large">
-              {texts.title}
-            </Heading>
-          </FlexRow>
-          <VarselbrevContent>
-            <Alert variant={"warning"}>{texts.warning}</Alert>
-            <VurderAktivitetskravBeskrivelse label={texts.beskrivelseLabel} />
-            <Label size="small">{texts.forhandsvisning}</Label>
-            <Panel border>
-              {getForhandsvarselDocument(values.beskrivelse, frist).map(
-                (component, index) => (
-                  <DocumentComponentVisning
-                    documentComponent={component}
-                    key={index}
-                  />
-                )
-              )}
-            </Panel>
-          </VarselbrevContent>
-          {sendForhandsvarsel.isError && (
-            <SkjemaInnsendingFeil error={sendForhandsvarsel.error} />
-          )}
-          <ButtonRow>
-            <Button loading={sendForhandsvarsel.isLoading} type="submit">
-              {texts.sendVarselButtonText}
-            </Button>
-            <Button variant="tertiary" onClick={() => setModalOpen(false)}>
-              {texts.avbrytButtonText}
-            </Button>
-          </ButtonRow>
-        </StyledForm>
+    <StyledForm onSubmit={handleSubmit(submit)}>
+      <FlexRow bottomPadding={PaddingSize.MD}>
+        <Heading level="2" size="large">
+          {texts.title}
+        </Heading>
+      </FlexRow>
+      <VarselbrevContent>
+        <Alert variant={"warning"}>{texts.warning}</Alert>
+        <BegrunnelseTextarea
+          {...register("beskrivelse", {
+            maxLength: begrunnelseMaxLength,
+            required: true,
+          })}
+          value={watch("beskrivelse")}
+          label={texts.beskrivelseLabel}
+          error={errors.beskrivelse && texts.missingBeskrivelse}
+        />
+        <Label size="small">{texts.forhandsvisning}</Label>
+        <Panel border>
+          {getForhandsvarselDocument(
+            watch("beskrivelse"),
+            forhandsvarselFrist
+          ).map((component, index) => (
+            <DocumentComponentVisning
+              documentComponent={component}
+              key={index}
+            />
+          ))}
+        </Panel>
+      </VarselbrevContent>
+      {sendForhandsvarsel.isError && (
+        <SkjemaInnsendingFeil error={sendForhandsvarsel.error} />
       )}
-    </Form>
+      <ButtonRow>
+        <Button loading={sendForhandsvarsel.isLoading} type="submit">
+          {texts.sendVarselButtonText}
+        </Button>
+        <Button variant="tertiary" onClick={() => setModalOpen(false)}>
+          {texts.avbrytButtonText}
+        </Button>
+      </ButtonRow>
+    </StyledForm>
   );
 };

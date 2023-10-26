@@ -4,7 +4,9 @@ import {
 } from "@/data/documentcomponent/documentComponentTypes";
 import { sendForhandsvarselTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
 import { VEILEDER_DEFAULT } from "../../mock/common/mockConstants";
-import { getFristForForhandsvarsel } from "@/components/aktivitetskrav/vurdering/SendForhandsvarselSkjema";
+import { addWeeks } from "@/utils/datoUtils";
+
+const expectedFristDate = addWeeks(new Date(), 3);
 
 export const getSendForhandsvarselDocument = (
   beskrivelse: string
@@ -15,9 +17,7 @@ export const getSendForhandsvarselDocument = (
   },
   {
     texts: [
-      sendForhandsvarselTexts.varselInfo.introWithFristDate(
-        getFristForForhandsvarsel()
-      ),
+      sendForhandsvarselTexts.varselInfo.introWithFristDate(expectedFristDate),
     ],
     type: DocumentComponentType.PARAGRAPH,
   },
@@ -44,7 +44,7 @@ export const getSendForhandsvarselDocument = (
   {
     texts: [
       sendForhandsvarselTexts.giOssTilbakemelding.tilbakemeldingWithFristDate(
-        getFristForForhandsvarsel()
+        expectedFristDate
       ),
     ],
     type: DocumentComponentType.PARAGRAPH,

@@ -295,7 +295,7 @@ describe("VurderAktivitetskrav", () => {
       expect(screen.queryByRole("button", { name: "Avvent" })).to.not.exist;
     });
 
-    it("Send forhåndsvarsel with beskrivelse filled in", () => {
+    it("Send forhåndsvarsel with beskrivelse filled in", async () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
       const beskrivelseLabel = "Begrunnelse (obligatorisk)";
 
@@ -320,16 +320,18 @@ describe("VurderAktivitetskrav", () => {
 
       clickButton("Send");
 
-      const sendForhandsvarselMutation = queryClient
-        .getMutationCache()
-        .getAll()[0];
-      const expectedVurdering: SendForhandsvarselDTO = {
-        fritekst: enBeskrivelse,
-        document: getSendForhandsvarselDocument(enBeskrivelse),
-      };
-      expect(sendForhandsvarselMutation.options.variables).to.deep.equal(
-        expectedVurdering
-      );
+      await waitFor(() => {
+        const sendForhandsvarselMutation = queryClient
+          .getMutationCache()
+          .getAll()[0];
+        const expectedVurdering: SendForhandsvarselDTO = {
+          fritekst: enBeskrivelse,
+          document: getSendForhandsvarselDocument(enBeskrivelse),
+        };
+        expect(sendForhandsvarselMutation.options.variables).to.deep.equal(
+          expectedVurdering
+        );
+      });
     });
     it("IKKE_OPPFYLT is present when status is forhandsvarsel and it is expired", () => {
       queryClient.setQueryData(
@@ -367,12 +369,12 @@ describe("VurderAktivitetskrav", () => {
         expectedVurdering
       );
     });
-    it("Fails to send forhåndsvarsel when no beskrivelse is filled in", () => {
+    it("Fails to send forhåndsvarsel when no beskrivelse is filled in", async () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
       clickButton(buttonTexts["FORHANDSVARSEL"]);
       clickButton("Send");
 
-      expect(screen.queryByText("Vennligst angi beskrivelse")).to.exist;
+      expect(await screen.findByText("Vennligst angi beskrivelse")).to.exist;
     });
   });
   describe("Ikke aktuell", () => {
