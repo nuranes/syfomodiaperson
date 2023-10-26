@@ -1,6 +1,5 @@
 import Panel from "nav-frontend-paneler";
 import React, { ReactElement, useState } from "react";
-import styled from "styled-components";
 import { Link, Navigate } from "react-router-dom";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { FlexRow } from "../../Layout";
@@ -54,14 +53,6 @@ export interface AvlysDialogmoteSkjemaValues {
   begrunnelseArbeidsgiver: string;
   begrunnelseBehandler?: string;
 }
-
-const AvlysPanel = styled(Panel)`
-  padding: 1.75rem;
-`;
-
-const SendButton = styled(Hovedknapp)`
-  margin-right: 0.5rem;
-`;
 
 const AvlysDialogmoteSkjema = ({
   dialogmote,
@@ -128,7 +119,7 @@ const AvlysDialogmoteSkjema = ({
   }
 
   return (
-    <AvlysPanel>
+    <Panel className="p-7">
       <Form initialValues={{}} onSubmit={submit} validate={validate}>
         {({ handleSubmit, submitFailed, errors, values }) => (
           <form onSubmit={handleSubmit}>
@@ -198,14 +189,15 @@ const AvlysDialogmoteSkjema = ({
               <SkjemaFeiloppsummering errors={errors} />
             )}
             <FlexRow>
-              <SendButton
+              <Hovedknapp
                 onClick={resetFeilUtbedret}
                 htmlType="submit"
                 spinner={avlysDialogmote.isLoading}
                 autoDisableVedSpinner
+                className="mr-2"
               >
                 {texts.send}
-              </SendButton>
+              </Hovedknapp>
               <Link to={moteoversiktRoutePath}>
                 <Flatknapp htmlType="button">{texts.avbryt}</Flatknapp>
               </Link>
@@ -213,7 +205,7 @@ const AvlysDialogmoteSkjema = ({
           </form>
         )}
       </Form>
-    </AvlysPanel>
+    </Panel>
   );
 };
 

@@ -9,7 +9,6 @@ import {
 import { AktivitetskravDTO } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
 import { tilLesbarPeriodeMedArUtenManednavn } from "@/utils/datoUtils";
-import styled from "styled-components";
 import { BodyShort, Heading, HelpText } from "@navikt/ds-react";
 
 export const texts = {
@@ -17,10 +16,6 @@ export const texts = {
   helptext:
     "Vurderingen (Avventer, sett unntak, er i aktivitet, ikke oppfylt, ikke aktuell) gjøres i to trinn. Ved klikk legger du inn informasjon rundt vurderingen.",
 };
-
-const HjelpetekstColumn = styled(FlexColumn)`
-  margin-left: 0.5em;
-`;
 
 interface VurderAktivitetskravProps {
   aktivitetskrav: AktivitetskravDTO | undefined;
@@ -45,11 +40,11 @@ export const VurderAktivitetskrav = ({
         <Heading level="2" size="large">
           {texts.header}
         </Heading>
-        <HjelpetekstColumn justifyContent={JustifyContentType.CENTER}>
+        <FlexColumn className="ml-2" justifyContent={JustifyContentType.CENTER}>
           <HelpText placement="right">
             <BodyShort size="small">{texts.helptext}</BodyShort>
           </HelpText>
-        </HjelpetekstColumn>
+        </FlexColumn>
       </FlexRow>
       {oppfolgingstilfelle && (
         <FlexRow>

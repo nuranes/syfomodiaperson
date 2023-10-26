@@ -1,27 +1,23 @@
 import { Button } from "@navikt/ds-react";
 import React, { useState } from "react";
-import styled from "styled-components";
 import { HuskelappModal } from "@/components/huskelapp/HuskelappModal";
 
 const texts = {
   openModal: "Åpne huskelapp",
 };
 
-const StyledButton = styled(Button)`
-  margin-bottom: 0.5em;
-`;
-
 export const OpenHuskelappModalButton = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   return (
     <div>
-      <StyledButton
+      <Button
         variant="secondary"
         onClick={() => setModalIsOpen(!modalIsOpen)}
+        className="mb-2"
       >
         {texts.openModal}
-      </StyledButton>
+      </Button>
       {modalIsOpen && (
         <HuskelappModal isOpen={modalIsOpen} toggleOpen={setModalIsOpen} />
       )}
