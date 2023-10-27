@@ -19,11 +19,11 @@ const StyledLenkeRad = styled.div`
 
 export const OversiktLenker = (): ReactElement => (
   <StyledLenkeRad>
-    <Link href={fullNaisUrlIntern("syfooversikt", "/enhet")}>
-      {texts.enhetensOversikt}
-    </Link>
     <Link href={fullNaisUrlIntern("syfooversikt", "/minoversikt")}>
       {texts.oversikt}
+    </Link>
+    <Link href={fullNaisUrlIntern("syfooversikt", "/enhet")}>
+      {texts.enhetensOversikt}
     </Link>
     <Link href={fullNaisUrlIntern("syfomoteoversikt")}>{texts.moter}</Link>
   </StyledLenkeRad>
