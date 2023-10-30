@@ -59,9 +59,9 @@ export const SendForhandsvarselSkjema = ({
 
   const submit = (values: AktivitetskravSkjemaValues) => {
     const forhandsvarselDTO: SendForhandsvarselDTO = {
-      fritekst: values.beskrivelse,
+      fritekst: values.begrunnelse,
       document: getForhandsvarselDocument(
-        values.beskrivelse,
+        values.begrunnelse,
         forhandsvarselFrist
       ),
     };
@@ -82,18 +82,18 @@ export const SendForhandsvarselSkjema = ({
       <VarselbrevContent>
         <Alert variant={"warning"}>{texts.warning}</Alert>
         <BegrunnelseTextarea
-          {...register("beskrivelse", {
+          {...register("begrunnelse", {
             maxLength: begrunnelseMaxLength,
             required: true,
           })}
-          value={watch("beskrivelse")}
+          value={watch("begrunnelse")}
           label={texts.beskrivelseLabel}
-          error={errors.beskrivelse && texts.missingBeskrivelse}
+          error={errors.begrunnelse && texts.missingBeskrivelse}
         />
         <Label size="small">{texts.forhandsvisning}</Label>
         <Panel border>
           {getForhandsvarselDocument(
-            watch("beskrivelse"),
+            watch("begrunnelse"),
             forhandsvarselFrist
           ).map((component, index) => (
             <DocumentComponentVisning

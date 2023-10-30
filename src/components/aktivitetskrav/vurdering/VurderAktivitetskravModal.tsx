@@ -1,7 +1,6 @@
 import React, { ReactElement } from "react";
 import { AktivitetskravStatus } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { OppfyltAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/OppfyltAktivitetskravSkjema";
-import styled from "styled-components";
 import { UnntakAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/UnntakAktivitetskravSkjema";
 import { AvventAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/AvventAktivitetskravSkjema";
 import { IkkeOppfyltAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/IkkeOppfyltAktivitetskravSkjema";
@@ -41,13 +40,13 @@ export const VurderAktivitetskravModal = ({
       aria-labelledby={texts.modalContentLabel}
     >
       {modalType && (
-        <ModalContent>
+        <Modal.Content className={"min-w-[600px] p-8"}>
           <VurderAktivitetskravModalContent
             setModalOpen={setModalOpen}
             modalType={modalType}
             aktivitetskravUuid={aktivitetskravUuid}
           />
-        </ModalContent>
+        </Modal.Content>
       )}
     </Modal>
   );
@@ -58,11 +57,6 @@ interface VurderAktivitetskravModalContentProps {
   modalType: ModalType;
   aktivitetskravUuid: string | undefined;
 }
-
-export const ModalContent = styled(Modal.Content)`
-  padding: 2em;
-  min-width: 600px;
-`;
 
 const VurderAktivitetskravModalContent = ({
   modalType,

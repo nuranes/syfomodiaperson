@@ -4,5 +4,5 @@ export interface VurderAktivitetskravSkjemaProps {
 }
 
 export interface AktivitetskravSkjemaValues {
-  beskrivelse: string;
+  begrunnelse: string;
 }

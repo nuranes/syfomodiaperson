@@ -55,7 +55,7 @@ export const AvventAktivitetskravSkjema = ({
     const createAktivitetskravVurderingDTO: CreateAktivitetskravVurderingDTO = {
       status: AktivitetskravStatus.AVVENT,
       arsaker: values.arsaker,
-      beskrivelse: values.beskrivelse,
+      beskrivelse: values.begrunnelse,
       frist: values.fristDato,
     };
     vurderAktivitetskrav.mutate(createAktivitetskravVurderingDTO, {

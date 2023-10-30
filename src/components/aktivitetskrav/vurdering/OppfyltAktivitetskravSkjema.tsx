@@ -23,8 +23,9 @@ import BegrunnelseTextarea, {
 const texts = {
   title: "Er i aktivitet",
   arsakLegend: "Årsak (obligatorisk)",
-  begrunnelseLabel: "Begrunnelse",
+  begrunnelseLabel: "Begrunnelse (obligatorisk)",
   missingArsak: "Vennligst angi årsak",
+  missingBegrunnelse: "Vennligst angi begrunnelse",
 };
 
 export interface OppfyltAktivitetskravSkjemaValues
@@ -48,7 +49,7 @@ export const OppfyltAktivitetskravSkjema = ({
     const createAktivitetskravVurderingDTO: CreateAktivitetskravVurderingDTO = {
       status: AktivitetskravStatus.OPPFYLT,
       arsaker: [values.arsak],
-      beskrivelse: values.beskrivelse,
+      beskrivelse: values.begrunnelse,
     };
     vurderAktivitetskrav.mutate(createAktivitetskravVurderingDTO, {
       onSuccess: () => setModalOpen(false),
@@ -78,10 +79,12 @@ export const OppfyltAktivitetskravSkjema = ({
           )}
         </RadioGroup>
         <BegrunnelseTextarea
-          {...register("beskrivelse", {
+          {...register("begrunnelse", {
             maxLength: begrunnelseMaxLength,
+            required: true,
           })}
-          value={watch("beskrivelse")}
+          error={errors.begrunnelse && texts.missingBegrunnelse}
+          value={watch("begrunnelse")}
           label={texts.begrunnelseLabel}
         />
       </SkjemaFieldContainer>
