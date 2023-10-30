@@ -37,7 +37,7 @@ export const useMeldingTilBehandlerDocument = (): {
   const getMeldingTilBehandlerDocument = (
     values: Partial<MeldingTilBehandlerSkjemaValues>
   ): DocumentComponentDto[] => {
-    switch (values.type) {
+    switch (values.meldingsType) {
       case MeldingType.FORESPORSEL_PASIENT_TILLEGGSOPPLYSNINGER:
         return getTilleggsOpplysningerPasientDocument(values);
       case MeldingType.FORESPORSEL_PASIENT_LEGEERKLARING:
