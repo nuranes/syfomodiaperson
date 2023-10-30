@@ -26,7 +26,6 @@ import {
   UnntakVurderingArsak,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { expect } from "chai";
-import { vurderAktivitetskravBeskrivelseMaxLength } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravBeskrivelse";
 import { tilLesbarPeriodeMedArUtenManednavn } from "@/utils/datoUtils";
 import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
 import dayjs from "dayjs";
@@ -35,6 +34,7 @@ import { getSendForhandsvarselDocument } from "./varselDocuments";
 import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQueryHooks";
 import { personOppgaveUbehandletVurderStans } from "../../mock/ispersonoppgave/personoppgaveMock";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
+import { begrunnelseMaxLength } from "@/components/aktivitetskrav/vurdering/BegrunnelseTextarea";
 
 let queryClient: QueryClient;
 
@@ -127,9 +127,7 @@ describe("VurderAktivitetskrav", () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
       clickButton(buttonTexts["OPPFYLT"]);
-      const tooLongBeskrivelse = getTooLongText(
-        vurderAktivitetskravBeskrivelseMaxLength
-      );
+      const tooLongBeskrivelse = getTooLongText(begrunnelseMaxLength);
       const beskrivelseInput = getTextInput("Begrunnelse");
       changeTextInput(beskrivelseInput, tooLongBeskrivelse);
       clickButton("Lagre");
@@ -170,9 +168,7 @@ describe("VurderAktivitetskrav", () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
       clickButton(buttonTexts["UNNTAK"]);
-      const tooLongBeskrivelse = getTooLongText(
-        vurderAktivitetskravBeskrivelseMaxLength
-      );
+      const tooLongBeskrivelse = getTooLongText(begrunnelseMaxLength);
       const beskrivelseInput = getTextInput("Begrunnelse");
       changeTextInput(beskrivelseInput, tooLongBeskrivelse);
       clickButton("Lagre");
@@ -211,17 +207,17 @@ describe("VurderAktivitetskrav", () => {
     });
   });
   describe("Avvent", () => {
-    it("Validerer årsaker, beskrivelse og dato", () => {
+    it("Validerer årsaker, beskrivelse og dato", async () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
       clickButton(buttonTexts["AVVENT"]);
       clickButton("Lagre");
 
-      expect(screen.getByText("Vennligst angi beskrivelse")).to.exist;
-      expect(screen.getByText("Vennligst angi årsak")).to.exist;
-      expect(screen.getByText("Vennligst angi gyldig dato")).to.exist;
+      expect(await screen.findByText("Vennligst angi beskrivelse")).to.exist;
+      expect(await screen.findByText("Vennligst angi årsak")).to.exist;
+      expect(await screen.findByText(/Vennligst angi en gyldig dato/)).to.exist;
     });
-    it("Lagre vurdering med verdier fra skjema", () => {
+    it("Lagre vurdering med verdier fra skjema", async () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
       clickButton(buttonTexts["AVVENT"]);
@@ -255,21 +251,23 @@ describe("VurderAktivitetskrav", () => {
 
       clickButton("Lagre");
 
-      const vurderAvventMutation = queryClient.getMutationCache().getAll()[0];
-      const expectedVurdering: CreateAktivitetskravVurderingDTO = {
-        beskrivelse: enBeskrivelse,
-        status: AktivitetskravStatus.AVVENT,
-        arsaker: [
-          AvventVurderingArsak.OPPFOLGINGSPLAN_ARBEIDSGIVER,
-          AvventVurderingArsak.INFORMASJON_BEHANDLER,
-          AvventVurderingArsak.DROFTES_MED_ROL,
-          AvventVurderingArsak.DROFTES_INTERNT,
-        ],
-        frist: today.format("YYYY-MM-DD"),
-      };
-      expect(vurderAvventMutation.options.variables).to.deep.equal(
-        expectedVurdering
-      );
+      await waitFor(() => {
+        const vurderAvventMutation = queryClient.getMutationCache().getAll()[0];
+        const expectedVurdering: CreateAktivitetskravVurderingDTO = {
+          beskrivelse: enBeskrivelse,
+          status: AktivitetskravStatus.AVVENT,
+          arsaker: [
+            AvventVurderingArsak.OPPFOLGINGSPLAN_ARBEIDSGIVER,
+            AvventVurderingArsak.INFORMASJON_BEHANDLER,
+            AvventVurderingArsak.DROFTES_MED_ROL,
+            AvventVurderingArsak.DROFTES_INTERNT,
+          ],
+          frist: today.format("YYYY-MM-DD"),
+        };
+        expect(vurderAvventMutation.options.variables).to.deep.equal(
+          expectedVurdering
+        );
+      });
     });
   });
   describe("Ikke oppfylt", () => {

@@ -1,22 +1,25 @@
 import React from "react";
 import {
   AktivitetskravStatus,
+  AvventVurderingArsak,
   CreateAktivitetskravVurderingDTO,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
-import { useAktivitetskravVurderingSkjema } from "@/hooks/aktivitetskrav/useAktivitetskravVurderingSkjema";
-import { AvventArsakerCheckboxGruppe } from "@/components/aktivitetskrav/vurdering/AvventArsakerCheckboxGruppe";
-import { VurderAktivitetskravBeskrivelse } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravBeskrivelse";
 import { AvventFristDato } from "@/components/aktivitetskrav/vurdering/AvventFristDato";
-import { Form } from "react-final-form";
 import { SkjemaHeading } from "@/components/aktivitetskrav/vurdering/SkjemaHeading";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { LagreAvbrytButtonRow } from "@/components/aktivitetskrav/vurdering/LagreAvbrytButtonRow";
 import { useVurderAktivitetskrav } from "@/data/aktivitetskrav/useVurderAktivitetskrav";
 import {
-  AvventAktivitetskravSkjemaValues,
+  AktivitetskravSkjemaValues,
   VurderAktivitetskravSkjemaProps,
 } from "@/components/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
 import { SkjemaFieldContainer } from "@/components/aktivitetskrav/vurdering/SkjemaFieldContainer";
+import { FormProvider, useForm } from "react-hook-form";
+import { Checkbox, CheckboxGroup } from "@navikt/ds-react";
+import { avventVurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
+import BegrunnelseTextarea, {
+  begrunnelseMaxLength,
+} from "@/components/aktivitetskrav/vurdering/BegrunnelseTextarea";
 
 const texts = {
   title: "Avventer",
@@ -24,13 +27,30 @@ const texts = {
     "Informasjonen du oppgir her vil kun brukes til videre saksbehandling.",
   subtitle2: "Ingenting sendes videre til arbeidstaker eller arbeidsgiver.",
   beskrivelseLabel: "Begrunnelse (obligatorisk)",
+  arsakLegend: "Årsak (obligatorisk)",
+  missingArsak: "Vennligst angi årsak",
+  missingBeskrivelse: "Vennligst angi beskrivelse",
 };
+
+export interface AvventAktivitetskravSkjemaValues
+  extends AktivitetskravSkjemaValues {
+  arsaker: AvventVurderingArsak[];
+  fristDato?: string;
+}
 
 export const AvventAktivitetskravSkjema = ({
   aktivitetskravUuid,
   setModalOpen,
 }: VurderAktivitetskravSkjemaProps) => {
   const vurderAktivitetskrav = useVurderAktivitetskrav(aktivitetskravUuid);
+  const methods = useForm<AvventAktivitetskravSkjemaValues>();
+  const {
+    register,
+    watch,
+    formState: { errors },
+    handleSubmit,
+  } = methods;
+
   const submit = (values: AvventAktivitetskravSkjemaValues) => {
     const createAktivitetskravVurderingDTO: CreateAktivitetskravVurderingDTO = {
       status: AktivitetskravStatus.AVVENT,
@@ -42,36 +62,51 @@ export const AvventAktivitetskravSkjema = ({
       onSuccess: () => setModalOpen(false),
     });
   };
-  const { validateArsakerField, validateBeskrivelseField } =
-    useAktivitetskravVurderingSkjema();
-
-  const validate = (values: Partial<AvventAktivitetskravSkjemaValues>) => ({
-    ...validateArsakerField(values.arsaker),
-    ...validateBeskrivelseField(values.beskrivelse, true),
-  });
 
   return (
-    <Form onSubmit={submit} validate={validate}>
-      {({ handleSubmit }) => (
-        <form onSubmit={handleSubmit}>
-          <SkjemaHeading
-            title={texts.title}
-            subtitles={[texts.subtitle1, texts.subtitle2]}
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(submit)}>
+        <SkjemaHeading
+          title={texts.title}
+          subtitles={[texts.subtitle1, texts.subtitle2]}
+        />
+        <SkjemaFieldContainer>
+          <CheckboxGroup
+            size="small"
+            legend={texts.arsakLegend}
+            error={errors.arsaker && texts.missingArsak}
+          >
+            {Object.entries(avventVurderingArsakTexts).map(
+              ([arsak, text], index) => (
+                <Checkbox
+                  key={index}
+                  value={arsak}
+                  {...register("arsaker", { required: true })}
+                >
+                  {text}
+                </Checkbox>
+              )
+            )}
+          </CheckboxGroup>
+          <BegrunnelseTextarea
+            {...register("beskrivelse", {
+              maxLength: begrunnelseMaxLength,
+              required: true,
+            })}
+            value={watch("beskrivelse")}
+            label={texts.beskrivelseLabel}
+            error={errors.beskrivelse && texts.missingBeskrivelse}
           />
-          <SkjemaFieldContainer>
-            <AvventArsakerCheckboxGruppe />
-            <VurderAktivitetskravBeskrivelse label={texts.beskrivelseLabel} />
-            <AvventFristDato />
-          </SkjemaFieldContainer>
-          {vurderAktivitetskrav.isError && (
-            <SkjemaInnsendingFeil error={vurderAktivitetskrav.error} />
-          )}
-          <LagreAvbrytButtonRow
-            isSubmitting={vurderAktivitetskrav.isLoading}
-            handleClose={() => setModalOpen(false)}
-          />
-        </form>
-      )}
-    </Form>
+          <AvventFristDato />
+        </SkjemaFieldContainer>
+        {vurderAktivitetskrav.isError && (
+          <SkjemaInnsendingFeil error={vurderAktivitetskrav.error} />
+        )}
+        <LagreAvbrytButtonRow
+          isSubmitting={vurderAktivitetskrav.isLoading}
+          handleClose={() => setModalOpen(false)}
+        />
+      </form>
+    </FormProvider>
   );
 };

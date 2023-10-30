@@ -2,6 +2,7 @@ import React from "react";
 import {
   AktivitetskravStatus,
   CreateAktivitetskravVurderingDTO,
+  UnntakVurderingArsak,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { unntakVurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
 import { SkjemaHeading } from "@/components/aktivitetskrav/vurdering/SkjemaHeading";
@@ -9,7 +10,7 @@ import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { LagreAvbrytButtonRow } from "@/components/aktivitetskrav/vurdering/LagreAvbrytButtonRow";
 import { useVurderAktivitetskrav } from "@/data/aktivitetskrav/useVurderAktivitetskrav";
 import {
-  UnntakAktivitetskravSkjemaValues,
+  AktivitetskravSkjemaValues,
   VurderAktivitetskravSkjemaProps,
 } from "@/components/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
 import { SkjemaFieldContainer } from "@/components/aktivitetskrav/vurdering/SkjemaFieldContainer";
@@ -25,6 +26,11 @@ const texts = {
   begrunnelseLabel: "Begrunnelse",
   missingArsak: "Vennligst angi årsak",
 };
+
+export interface UnntakAktivitetskravSkjemaValues
+  extends AktivitetskravSkjemaValues {
+  arsak: UnntakVurderingArsak;
+}
 
 export const UnntakAktivitetskravSkjema = ({
   aktivitetskravUuid,
