@@ -21,7 +21,7 @@ const texts = {
   title: "Send forhåndsvarsel",
   beskrivelseLabel: "Begrunnelse (obligatorisk)",
   forhandsvisning: "Forhåndsvisning",
-  missingBeskrivelse: "Vennligst angi beskrivelse",
+  missingBeskrivelse: "Vennligst angi begrunnelse",
   warning:
     "Husk å utrede saken tilstrekkelig før du sender forhåndsvarsel om stans av sykepengene.",
   sendVarselButtonText: "Send",

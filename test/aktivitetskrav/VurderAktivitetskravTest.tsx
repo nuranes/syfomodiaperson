@@ -128,7 +128,7 @@ describe("VurderAktivitetskrav", () => {
 
       clickButton(buttonTexts["OPPFYLT"]);
       const tooLongBeskrivelse = getTooLongText(begrunnelseMaxLength);
-      const beskrivelseInput = getTextInput("Begrunnelse");
+      const beskrivelseInput = getTextInput("Begrunnelse (obligatorisk)");
       changeTextInput(beskrivelseInput, tooLongBeskrivelse);
       clickButton("Lagre");
 
@@ -144,7 +144,7 @@ describe("VurderAktivitetskrav", () => {
 
       const arsakRadioButton = screen.getByText("Friskmeldt");
       fireEvent.click(arsakRadioButton);
-      const beskrivelseInput = getTextInput("Begrunnelse");
+      const beskrivelseInput = getTextInput("Begrunnelse (obligatorisk)");
       changeTextInput(beskrivelseInput, enBeskrivelse);
       clickButton("Lagre");
 
@@ -169,7 +169,7 @@ describe("VurderAktivitetskrav", () => {
 
       clickButton(buttonTexts["UNNTAK"]);
       const tooLongBeskrivelse = getTooLongText(begrunnelseMaxLength);
-      const beskrivelseInput = getTextInput("Begrunnelse");
+      const beskrivelseInput = getTextInput("Begrunnelse (obligatorisk)");
       changeTextInput(beskrivelseInput, tooLongBeskrivelse);
       clickButton("Lagre");
 
@@ -189,7 +189,7 @@ describe("VurderAktivitetskrav", () => {
 
       const arsakRadioButton = screen.getByText("Tilrettelegging ikke mulig");
       fireEvent.click(arsakRadioButton);
-      const beskrivelseInput = getTextInput("Begrunnelse");
+      const beskrivelseInput = getTextInput("Begrunnelse (obligatorisk)");
       changeTextInput(beskrivelseInput, enBeskrivelse);
       clickButton("Lagre");
 
@@ -213,7 +213,7 @@ describe("VurderAktivitetskrav", () => {
       clickButton(buttonTexts["AVVENT"]);
       clickButton("Lagre");
 
-      expect(await screen.findByText("Vennligst angi beskrivelse")).to.exist;
+      expect(await screen.findByText("Vennligst angi begrunnelse")).to.exist;
       expect(await screen.findByText("Vennligst angi årsak")).to.exist;
       expect(await screen.findByText(/Vennligst angi en gyldig dato/)).to.exist;
     });
@@ -372,7 +372,7 @@ describe("VurderAktivitetskrav", () => {
       clickButton(buttonTexts["FORHANDSVARSEL"]);
       clickButton("Send");
 
-      expect(await screen.findByText("Vennligst angi beskrivelse")).to.exist;
+      expect(await screen.findByText("Vennligst angi begrunnelse")).to.exist;
     });
   });
   describe("Ikke aktuell", () => {
@@ -416,7 +416,7 @@ describe("VurderAktivitetskrav", () => {
 
       const arsakRadioButton = screen.getByText("Medisinske grunner");
       fireEvent.click(arsakRadioButton);
-      const beskrivelseInput = getTextInput("Begrunnelse");
+      const beskrivelseInput = getTextInput("Begrunnelse (obligatorisk)");
       changeTextInput(beskrivelseInput, enBeskrivelse);
       clickButton("Lagre");
 
