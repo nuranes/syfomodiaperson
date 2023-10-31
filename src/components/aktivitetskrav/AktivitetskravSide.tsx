@@ -6,12 +6,12 @@ import { AktivitetskravStatus } from "@/data/aktivitetskrav/aktivitetskravTypes"
 import { AktivitetskravVurderingAlert } from "@/components/aktivitetskrav/vurdering/AktivitetskravVurderingAlert";
 import UtdragFraSykefravaeret from "@/components/utdragFraSykefravaeret/UtdragFraSykefravaeret";
 import { AktivitetskravHistorikk } from "@/components/aktivitetskrav/historikk/AktivitetskravHistorikk";
-import { AktivitetskravPanel } from "@/components/aktivitetskrav/AktivitetskravPanel";
 import {
   aktivitetskravVurderingerForOppfolgingstilfelle,
   oppfolgingstilfelleForAktivitetskrav,
 } from "@/utils/aktivitetskravUtils";
 import { AktivitetskravAlertstripe } from "@/components/aktivitetskrav/AktivitetskravAlertstripe";
+import { Panel } from "@navikt/ds-react";
 
 const texts = {
   noTilfelle:
@@ -54,9 +54,9 @@ export const AktivitetskravSide = () => {
         aktivitetskrav={aktivitetskravTilVurdering}
         oppfolgingstilfelle={oppfolgingstilfelle}
       />
-      <AktivitetskravPanel>
+      <Panel className="mb-4 flex flex-col p-8">
         <UtdragFraSykefravaeret />
-      </AktivitetskravPanel>
+      </Panel>
       <AktivitetskravHistorikk />
     </>
   );

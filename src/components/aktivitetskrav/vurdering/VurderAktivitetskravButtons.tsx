@@ -2,21 +2,16 @@ import React from "react";
 import { ModalType } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravModal";
 import { Button } from "@navikt/ds-react";
 import { ButtonRow, PaddingSize } from "@/components/Layout";
-import {
-  AktivitetskravDTO,
-  AktivitetskravStatus,
-} from "@/data/aktivitetskrav/aktivitetskravTypes";
+import { AktivitetskravDTO } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
 import { hasUbehandletPersonoppgave } from "@/utils/personOppgaveUtils";
 import { PersonOppgaveType } from "@/data/personoppgave/types/PersonOppgave";
 import { usePersonoppgaverQuery } from "@/data/personoppgave/personoppgaveQueryHooks";
 
 const texts = {
-  avventer: "Avventer",
   oppfylt: "Er i aktivitet",
   unntak: "Sett unntak",
   ikkeOppfylt: "Ikke oppfylt",
-  ikkeAktuell: "Ikke aktuell",
   forhandsvarsel: "Send forhåndsvarsel",
 };
 
@@ -41,11 +36,6 @@ export const VurderAktivitetskravButtons = ({
 
   return (
     <ButtonRow topPadding={PaddingSize.MD}>
-      {aktivitetskrav?.status !== AktivitetskravStatus.FORHANDSVARSEL && (
-        <Button variant="secondary" onClick={() => onButtonClick("AVVENT")}>
-          {texts.avventer}
-        </Button>
-      )}
       <Button variant="secondary" onClick={() => onButtonClick("UNNTAK")}>
         {texts.unntak}
       </Button>
@@ -68,12 +58,6 @@ export const VurderAktivitetskravButtons = ({
           {texts.ikkeOppfylt}
         </Button>
       )}
-      <Button
-        variant="secondary-neutral"
-        onClick={() => onButtonClick("IKKE_AKTUELL")}
-      >
-        {texts.ikkeAktuell}
-      </Button>
     </ButtonRow>
   );
 };

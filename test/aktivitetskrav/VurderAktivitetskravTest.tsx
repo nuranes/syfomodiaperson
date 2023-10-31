@@ -54,7 +54,7 @@ const oppfolgingstilfelle = generateOppfolgingstilfelle(
 );
 
 export const buttonTexts = {
-  [AktivitetskravStatus.AVVENT]: "Avventer",
+  [AktivitetskravStatus.AVVENT]: "Avvent",
   [AktivitetskravStatus.UNNTAK]: "Sett unntak",
   [AktivitetskravStatus.OPPFYLT]: "Er i aktivitet",
   [AktivitetskravStatus.FORHANDSVARSEL]: "Send forhåndsvarsel",
@@ -89,7 +89,7 @@ describe("VurderAktivitetskrav", () => {
   it("renders buttons for vurdering av aktivitetskravet", () => {
     renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
-    expect(screen.queryByRole("button", { name: "Avventer" })).to.exist;
+    expect(screen.queryByRole("button", { name: "Avvent" })).to.exist;
     expect(screen.queryByRole("button", { name: "Sett unntak" })).to.exist;
     expect(screen.queryByRole("button", { name: "Er i aktivitet" })).to.exist;
     expect(screen.queryByRole("button", { name: "Send forhåndsvarsel" })).to
@@ -113,7 +113,7 @@ describe("VurderAktivitetskrav", () => {
     expect(tooltip).to.exist;
 
     const buttonTexts = [
-      "Avventer",
+      "Avvent",
       "Sett unntak",
       "Er i aktivitet",
       "Ikke oppfylt",
@@ -224,7 +224,7 @@ describe("VurderAktivitetskrav", () => {
 
       expect(
         screen.getByRole("heading", {
-          name: "Avventer",
+          name: "Avvent",
         })
       ).to.exist;
 

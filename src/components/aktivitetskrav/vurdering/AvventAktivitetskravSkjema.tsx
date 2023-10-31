@@ -22,7 +22,7 @@ import BegrunnelseTextarea, {
 } from "@/components/aktivitetskrav/vurdering/BegrunnelseTextarea";
 
 const texts = {
-  title: "Avventer",
+  title: "Avvent",
   subtitle1:
     "Informasjonen du oppgir her vil kun brukes til videre saksbehandling.",
   subtitle2: "Ingenting sendes videre til arbeidstaker eller arbeidsgiver.",

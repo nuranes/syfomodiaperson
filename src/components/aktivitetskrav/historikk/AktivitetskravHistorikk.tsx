@@ -1,4 +1,3 @@
-import { AktivitetskravPanel } from "@/components/aktivitetskrav/AktivitetskravPanel";
 import React from "react";
 import {
   AktivitetskravStatus,
@@ -6,7 +5,13 @@ import {
   VurderingArsak,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { FlexColumn, FlexRow, PaddingSize } from "@/components/Layout";
-import { Accordion, BodyLong, BodyShort, Heading } from "@navikt/ds-react";
+import {
+  Accordion,
+  BodyLong,
+  BodyShort,
+  Heading,
+  Panel,
+} from "@navikt/ds-react";
 import { capitalizeWord } from "@/utils/stringUtils";
 import { tilDatoMedManedNavn } from "@/utils/datoUtils";
 import { useVeilederInfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
@@ -43,7 +48,7 @@ export const AktivitetskravHistorikk = () => {
   );
 
   return (
-    <AktivitetskravPanel>
+    <Panel className="mb-4 flex flex-col p-8">
       <FlexRow bottomPadding={PaddingSize.MD}>
         <FlexColumn>
           <Heading level="2" size="large">
@@ -57,7 +62,7 @@ export const AktivitetskravHistorikk = () => {
           <HistorikkElement key={index} vurdering={vurdering} />
         ))}
       </Accordion>
-    </AktivitetskravPanel>
+    </Panel>
   );
 };
 
