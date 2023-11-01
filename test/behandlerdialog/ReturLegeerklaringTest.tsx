@@ -1,5 +1,5 @@
 import { changeTextInput, clickButton, getTextInput } from "../testUtils";
-import { render, screen, within } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import { expect } from "chai";
 import {
   MeldingDTO,
@@ -84,21 +84,23 @@ describe("ReturLegeerklaring", () => {
     // Vises i forhåndsvisning og i textarea
     expect(screen.getAllByText(enBegrunnelseTekst)).to.have.length(2);
   });
-  it("click send validates begrunnelse", () => {
+  it("click send validates begrunnelse", async () => {
     renderReturLegeerklaring(foresporselLegeerklaringFraBehandler);
 
     clickButton(returButtonText);
     clickButton(sendButtonText);
 
-    expect(screen.getByText("Vennligst angi begrunnelse")).to.exist;
+    expect(await screen.findByText("Vennligst angi begrunnelse")).to.exist;
 
     const begrunnelseInput = getTextInput("Begrunnelse");
     changeTextInput(begrunnelseInput, enBegrunnelseTekst);
     clickButton(sendButtonText);
 
-    expect(screen.queryByText("Vennligst angi begrunnelse")).to.not.exist;
+    await waitFor(() => {
+      expect(screen.queryByText("Vennligst angi begrunnelse")).to.not.exist;
+    });
   });
-  it("click send in preview sends retur with expected values", () => {
+  it("click send in preview sends retur with expected values", async () => {
     const expectedReturLegeerklaringDTO: ReturLegeerklaringDTO = {
       document: expectedReturLegeerklaringDocument(enBegrunnelseTekst),
       tekst: enBegrunnelseTekst,
@@ -113,12 +115,14 @@ describe("ReturLegeerklaring", () => {
 
     clickButton(sendButtonText);
 
-    const returLegeerklaringMutation = queryClient
-      .getMutationCache()
-      .getAll()[0];
+    await waitFor(() => {
+      const returLegeerklaringMutation = queryClient
+        .getMutationCache()
+        .getAll()[0];
 
-    expect(returLegeerklaringMutation.options.variables).to.deep.equal(
-      expectedReturLegeerklaringDTO
-    );
+      expect(returLegeerklaringMutation.options.variables).to.deep.equal(
+        expectedReturLegeerklaringDTO
+      );
+    });
   });
 });
