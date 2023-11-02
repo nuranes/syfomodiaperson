@@ -15,7 +15,7 @@ const SearchWrapper = styled.div`
 
 interface BehandlerSearchProps {
   setSelectedBehandler: (behandler?: BehandlerDTO) => void;
-  label: string;
+  label?: string;
 }
 
 const BehandlerSearch = ({
@@ -46,7 +46,7 @@ const BehandlerSearch = ({
           variant="simple"
           onChange={(searchText) => setSearchText(searchText)}
           clearButton={false}
-          hideLabel={false}
+          hideLabel={label === undefined}
           value={selectedSearchResult}
         />
         {popoverIsOpen && (

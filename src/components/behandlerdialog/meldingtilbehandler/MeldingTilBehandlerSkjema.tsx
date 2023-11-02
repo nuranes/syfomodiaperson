@@ -52,7 +52,6 @@ export const MeldingTilBehandlerSkjema = () => {
     reset,
     getValues,
     setError,
-    trigger,
   } = useForm<MeldingTilBehandlerSkjemaValues>();
 
   const now = new Date();
@@ -108,72 +107,68 @@ export const MeldingTilBehandlerSkjema = () => {
   );
 
   return (
-    <>
-      <form onSubmit={handleSubmit(submit)} className={"flex flex-col gap-4"}>
-        {meldingTilBehandler.isSuccess && (
-          <Alert variant="success" size="small">
-            {`Meldingen ble sendt ${tilDatoMedManedNavnOgKlokkeslett(now)}`}
-          </Alert>
-        )}
-        <Select
-          id="type"
-          className={"w-[23rem]"}
-          label={texts.meldingsType.label}
-          size="small"
-          {...register("meldingsType", { required: true })}
-          value={watch("meldingsType")}
-          error={errors.meldingsType && texts.meldingsType.missing}
+    <form onSubmit={handleSubmit(submit)} className={"flex flex-col gap-4"}>
+      {meldingTilBehandler.isSuccess && (
+        <Alert variant="success" size="small">
+          {`Meldingen ble sendt ${tilDatoMedManedNavnOgKlokkeslett(now)}`}
+        </Alert>
+      )}
+      <Select
+        id="type"
+        className={"w-[23rem]"}
+        label={texts.meldingsType.label}
+        size="small"
+        {...register("meldingsType", { required: true })}
+        value={watch("meldingsType")}
+        error={errors.meldingsType && texts.meldingsType.missing}
+      >
+        <option value="">{texts.meldingsType.defaultOption}</option>
+        <MeldingTypeOption
+          type={MeldingType.FORESPORSEL_PASIENT_TILLEGGSOPPLYSNINGER}
+        />
+        <MeldingTypeOption
+          type={MeldingType.FORESPORSEL_PASIENT_LEGEERKLARING}
+        />
+        <MeldingTypeOption type={MeldingType.HENVENDELSE_MELDING_FRA_NAV} />
+      </Select>
+      {watch("meldingsType") && (
+        <MeldingsTypeInfo meldingType={watch("meldingsType")} />
+      )}
+      <VelgBehandler
+        selectedBehandler={selectedBehandler}
+        setSelectedBehandler={setSelectedBehandler}
+        register={register}
+        setError={setError}
+        errors={errors}
+      />
+      <Textarea
+        label={texts.meldingsTekstLabel}
+        {...register("meldingTekst", {
+          required: true,
+          maxLength: MAX_LENGTH_BEHANDLER_MELDING,
+        })}
+        size="small"
+        error={errors.meldingTekst && texts.meldingsTekstErrorMessage}
+      />
+      <ForhandsvisningModal
+        contentLabel={texts.previewContentLabel}
+        isOpen={displayPreview}
+        handleClose={() => setDisplayPreview(false)}
+        getDocumentComponents={() =>
+          getMeldingTilBehandlerDocument(getValues()) ?? []
+        }
+      />
+      <ButtonRow>
+        <Button
+          variant="primary"
+          onClick={handleSubmit(submit)}
+          loading={meldingTilBehandler.isLoading}
+          type="submit"
         >
-          <option value="">{texts.meldingsType.defaultOption}</option>
-          <MeldingTypeOption
-            type={MeldingType.FORESPORSEL_PASIENT_TILLEGGSOPPLYSNINGER}
-          />
-          <MeldingTypeOption
-            type={MeldingType.FORESPORSEL_PASIENT_LEGEERKLARING}
-          />
-          <MeldingTypeOption type={MeldingType.HENVENDELSE_MELDING_FRA_NAV} />
-        </Select>
-        {watch("meldingsType") && (
-          <MeldingsTypeInfo meldingType={watch("meldingsType")} />
-        )}
-        <VelgBehandler
-          selectedBehandler={selectedBehandler}
-          setSelectedBehandler={setSelectedBehandler}
-          register={register}
-          watch={watch}
-          setError={setError}
-          trigger={trigger}
-          errors={errors}
-        />
-        <Textarea
-          label={texts.meldingsTekstLabel}
-          {...register("meldingTekst", {
-            required: true,
-            maxLength: MAX_LENGTH_BEHANDLER_MELDING,
-          })}
-          size="small"
-          error={errors.meldingTekst && texts.meldingsTekstErrorMessage}
-        />
-        <ForhandsvisningModal
-          contentLabel={texts.previewContentLabel}
-          isOpen={displayPreview}
-          handleClose={() => setDisplayPreview(false)}
-          getDocumentComponents={() =>
-            getMeldingTilBehandlerDocument(getValues()) ?? []
-          }
-        />
-        <ButtonRow>
-          <Button
-            variant="primary"
-            onClick={handleSubmit(submit)}
-            loading={meldingTilBehandler.isLoading}
-            type="submit"
-          >
-            {texts.sendKnapp}
-          </Button>
-          <PreviewButton />
-        </ButtonRow>
-      </form>
-    </>
+          {texts.sendKnapp}
+        </Button>
+        <PreviewButton />
+      </ButtonRow>
+    </form>
   );
 };

@@ -3,14 +3,13 @@ import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
 import AppSpinner from "@/components/AppSpinner";
 import { useBehandlereQuery } from "@/data/behandler/behandlereQueryHooks";
 import { Radio, RadioGroup } from "@navikt/ds-react";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { FieldErrors, UseFormRegister, UseFormSetError } from "react-hook-form";
 import { MeldingTilBehandlerSkjemaValues } from "@/components/behandlerdialog/meldingtilbehandler/MeldingTilBehandlerSkjema";
 import { capitalizeWord } from "@/utils/stringUtils";
 import BehandlerSearch from "@/components/behandler/BehandlerSearch";
 
 const texts = {
   behandlerLegend: "Velg behandler som skal motta meldingen",
-  noBehandler: "Ingen behandler",
   behandlersokTekst: "Søk etter behandler",
   missingBehandler: "Vennligst velg behandler",
 };
@@ -19,6 +18,7 @@ interface VelgBehandlerProps {
   selectedBehandler: BehandlerDTO | undefined;
   setSelectedBehandler: (behandler?: BehandlerDTO) => void;
   register: UseFormRegister<MeldingTilBehandlerSkjemaValues>;
+  setError: UseFormSetError<MeldingTilBehandlerSkjemaValues>;
   errors: FieldErrors<MeldingTilBehandlerSkjemaValues>;
 }
 
@@ -26,29 +26,12 @@ export const VelgBehandler = ({
   selectedBehandler,
   setSelectedBehandler,
   register,
+  setError,
   errors,
 }: VelgBehandlerProps) => {
   const { data: behandlere, isInitialLoading } = useBehandlereQuery();
   const [showBehandlerSearch, setShowBehandlerSearch] =
     useState<boolean>(false);
-
-  // useEffect(() => {
-  //   if (!showBehandlerSearch) {
-  //     input.onChange(selectedBehandler?.behandlerRef ?? "NONE");
-  //   } else {
-  //     input.onChange(selectedBehandler?.behandlerRef);
-  //   }
-  // }, [input, selectedBehandler?.behandlerRef, showBehandlerSearch]);
-
-  const updateBehandlerAndHideSearch = (behandler?: BehandlerDTO) => {
-    setShowBehandlerSearch(false);
-    setSelectedBehandler(behandler);
-  };
-
-  const handleAddBehandlerRadioClick = () => {
-    setShowBehandlerSearch(true);
-    setSelectedBehandler(undefined);
-  };
 
   const behandlerOneliner = (behandler: BehandlerDTO): string => {
     const name = [behandler.fornavn, behandler.mellomnavn, behandler.etternavn]
@@ -62,6 +45,21 @@ export const VelgBehandler = ({
     return [typeAndName, office, phone].filter(Boolean).join(", ");
   };
 
+  const sokEtterBehandlerRadioButtonChoice = "sokEtterBehandler";
+  const behandlerRefField = register("behandlerRef", {
+    required: true,
+    validate: (value) => {
+      if (
+        value === sokEtterBehandlerRadioButtonChoice &&
+        selectedBehandler === undefined
+      ) {
+        setError("behandlerRef", { type: "custom" });
+        return false;
+      }
+      return true;
+    },
+  });
+
   return (
     <>
       {isInitialLoading ? (
@@ -74,39 +72,36 @@ export const VelgBehandler = ({
             size="small"
             error={errors.behandlerRef && texts.missingBehandler}
           >
-            <Radio
-              key="ingenBehandler"
-              value="ingenBehandler"
-              {...register("behandlerRef", { required: true })}
-              onChange={() => updateBehandlerAndHideSearch(undefined)}
-            >
-              {texts.noBehandler}
-            </Radio>
             {behandlere.map((behandler, index) => (
               <Radio
                 key={index}
-                value={index}
-                {...register("behandlerRef", { required: true })}
-                onChange={() => updateBehandlerAndHideSearch(behandler)}
+                value={behandler.behandlerRef}
+                {...behandlerRefField}
+                onChange={(event) => {
+                  setShowBehandlerSearch(false);
+                  setSelectedBehandler(behandler);
+                  behandlerRefField.onChange(event);
+                }}
               >
                 {behandlerOneliner(behandler)}
               </Radio>
             ))}
             <Radio
-              key="-1"
-              value="-1"
-              {...register("behandlerRef", { required: true })}
-              onChange={handleAddBehandlerRadioClick}
+              value={sokEtterBehandlerRadioButtonChoice}
+              {...behandlerRefField}
+              onChange={(event) => {
+                setShowBehandlerSearch(true);
+                setSelectedBehandler(undefined);
+                behandlerRefField.onChange(event);
+              }}
             >
               {texts.behandlersokTekst}
+
+              {showBehandlerSearch && (
+                <BehandlerSearch setSelectedBehandler={setSelectedBehandler} />
+              )}
             </Radio>
           </RadioGroup>
-          {showBehandlerSearch && (
-            <BehandlerSearch
-              setSelectedBehandler={setSelectedBehandler}
-              label={texts.behandlersokTekst}
-            />
-          )}
         </>
       )}
     </>
