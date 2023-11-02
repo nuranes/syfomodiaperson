@@ -51,6 +51,7 @@ export const MeldingTilBehandlerSkjema = () => {
     formState: { errors },
     reset,
     getValues,
+    trigger,
     setError,
   } = useForm<MeldingTilBehandlerSkjemaValues>();
 
@@ -139,6 +140,8 @@ export const MeldingTilBehandlerSkjema = () => {
         setSelectedBehandler={setSelectedBehandler}
         register={register}
         setError={setError}
+        watch={watch}
+        trigger={trigger}
         errors={errors}
       />
       <Textarea

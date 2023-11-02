@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
 import AppSpinner from "@/components/AppSpinner";
 import { useBehandlereQuery } from "@/data/behandler/behandlereQueryHooks";
 import { Radio, RadioGroup } from "@navikt/ds-react";
-import { FieldErrors, UseFormRegister, UseFormSetError } from "react-hook-form";
+import {
+  FieldErrors,
+  UseFormRegister,
+  UseFormSetError,
+  UseFormTrigger,
+  UseFormWatch,
+} from "react-hook-form";
 import { MeldingTilBehandlerSkjemaValues } from "@/components/behandlerdialog/meldingtilbehandler/MeldingTilBehandlerSkjema";
 import { capitalizeWord } from "@/utils/stringUtils";
 import BehandlerSearch from "@/components/behandler/BehandlerSearch";
@@ -19,31 +25,35 @@ interface VelgBehandlerProps {
   setSelectedBehandler: (behandler?: BehandlerDTO) => void;
   register: UseFormRegister<MeldingTilBehandlerSkjemaValues>;
   setError: UseFormSetError<MeldingTilBehandlerSkjemaValues>;
+  watch: UseFormWatch<MeldingTilBehandlerSkjemaValues>;
+  trigger: UseFormTrigger<MeldingTilBehandlerSkjemaValues>;
   errors: FieldErrors<MeldingTilBehandlerSkjemaValues>;
 }
+
+const behandlerRadioButtonText = (behandler: BehandlerDTO): string => {
+  const name = [behandler.fornavn, behandler.mellomnavn, behandler.etternavn]
+    .filter(Boolean)
+    .join(" ");
+  const type = !!behandler.type ? `${capitalizeWord(behandler.type)}:` : "";
+  const typeAndName = `${type} ${name}`;
+  const office = !!behandler.kontor ? capitalizeWord(behandler.kontor) : "";
+  const phone = !!behandler.telefon ? `tlf ${behandler.telefon}` : "";
+
+  return [typeAndName, office, phone].filter(Boolean).join(", ");
+};
 
 export const VelgBehandler = ({
   selectedBehandler,
   setSelectedBehandler,
   register,
   setError,
+  watch,
+  trigger,
   errors,
 }: VelgBehandlerProps) => {
   const { data: behandlere, isInitialLoading } = useBehandlereQuery();
   const [showBehandlerSearch, setShowBehandlerSearch] =
     useState<boolean>(false);
-
-  const behandlerOneliner = (behandler: BehandlerDTO): string => {
-    const name = [behandler.fornavn, behandler.mellomnavn, behandler.etternavn]
-      .filter(Boolean)
-      .join(" ");
-    const type = !!behandler.type ? `${capitalizeWord(behandler.type)}:` : "";
-    const typeAndName = `${type} ${name}`;
-    const office = !!behandler.kontor ? capitalizeWord(behandler.kontor) : "";
-    const phone = !!behandler.telefon ? `tlf ${behandler.telefon}` : "";
-
-    return [typeAndName, office, phone].filter(Boolean).join(", ");
-  };
 
   const sokEtterBehandlerRadioButtonChoice = "sokEtterBehandler";
   const behandlerRefField = register("behandlerRef", {
@@ -59,6 +69,16 @@ export const VelgBehandler = ({
       return true;
     },
   });
+
+  const behandlerRefValue = watch("behandlerRef");
+  useEffect(() => {
+    if (
+      behandlerRefValue === sokEtterBehandlerRadioButtonChoice &&
+      selectedBehandler !== undefined
+    ) {
+      trigger("behandlerRef");
+    }
+  }, [behandlerRefValue, selectedBehandler, trigger]);
 
   return (
     <>
@@ -83,7 +103,7 @@ export const VelgBehandler = ({
                   behandlerRefField.onChange(event);
                 }}
               >
-                {behandlerOneliner(behandler)}
+                {behandlerRadioButtonText(behandler)}
               </Radio>
             ))}
             <Radio
