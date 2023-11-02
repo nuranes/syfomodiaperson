@@ -1,63 +1,63 @@
-import React from "react";
-import { ModalType } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravModal";
+import React, { useState } from "react";
+import {
+  AktivitetskravDTO,
+  AktivitetskravStatus,
+} from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { Button } from "@navikt/ds-react";
-import { ButtonRow, PaddingSize } from "@/components/Layout";
-import { AktivitetskravDTO } from "@/data/aktivitetskrav/aktivitetskravTypes";
-import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
-import { hasUbehandletPersonoppgave } from "@/utils/personOppgaveUtils";
-import { PersonOppgaveType } from "@/data/personoppgave/types/PersonOppgave";
-import { usePersonoppgaverQuery } from "@/data/personoppgave/personoppgaveQueryHooks";
+import { HourglassTopFilledIcon, XMarkIcon } from "@navikt/aksel-icons";
+import { ButtonRow } from "@/components/Layout";
+import {
+  ModalType,
+  VurderAktivitetskravModal,
+} from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravModal";
 
 const texts = {
-  oppfylt: "Er i aktivitet",
-  unntak: "Sett unntak",
-  ikkeOppfylt: "Ikke oppfylt",
-  forhandsvarsel: "Send forhåndsvarsel",
+  avvent: "Avvent",
+  ikkeAktuell: "Ikke aktuell",
 };
 
-interface VurderAktivitetskravButtonsProps {
-  onButtonClick: (modalType: ModalType) => void;
+interface StatusKnapperadProps {
   aktivitetskrav: AktivitetskravDTO | undefined;
 }
 
 export const VurderAktivitetskravButtons = ({
-  onButtonClick,
   aktivitetskrav,
-}: VurderAktivitetskravButtonsProps) => {
-  const { toggles } = useFeatureToggles();
-  const { data: oppgaver } = usePersonoppgaverQuery();
-  const hasUbehandletVurderStansOppgave = hasUbehandletPersonoppgave(
-    oppgaver,
-    PersonOppgaveType.AKTIVITETSKRAV_VURDER_STANS
-  );
-  const isIkkeOppfyltButtonVisible =
-    hasUbehandletVurderStansOppgave ||
-    !toggles.isSendingAvForhandsvarselEnabled;
-
+}: StatusKnapperadProps) => {
+  const [visVurderAktivitetskravModal, setVisVurderAktivitetskravModal] =
+    useState(false);
+  const [modalType, setModalType] = useState<ModalType>();
+  const visVurderingAktivitetskravModalForType = (modalType: ModalType) => {
+    setModalType(modalType);
+    setVisVurderAktivitetskravModal(true);
+  };
   return (
-    <ButtonRow topPadding={PaddingSize.MD}>
-      <Button variant="secondary" onClick={() => onButtonClick("UNNTAK")}>
-        {texts.unntak}
-      </Button>
-      <Button variant="secondary" onClick={() => onButtonClick("OPPFYLT")}>
-        {texts.oppfylt}
-      </Button>
-      {aktivitetskrav && toggles.isSendingAvForhandsvarselEnabled && (
+    <>
+      <ButtonRow className="ml-auto">
+        {aktivitetskrav?.status !== AktivitetskravStatus.FORHANDSVARSEL && (
+          <Button
+            icon={<HourglassTopFilledIcon aria-hidden />}
+            variant="secondary"
+            size="small"
+            onClick={() => visVurderingAktivitetskravModalForType("AVVENT")}
+          >
+            {texts.avvent}
+          </Button>
+        )}
         <Button
+          icon={<XMarkIcon aria-hidden />}
           variant="secondary"
-          onClick={() => onButtonClick("FORHANDSVARSEL")}
+          size="small"
+          onClick={() => visVurderingAktivitetskravModalForType("IKKE_AKTUELL")}
         >
-          {texts.forhandsvarsel}
+          {texts.ikkeAktuell}
         </Button>
-      )}
-      {isIkkeOppfyltButtonVisible && (
-        <Button
-          variant="secondary"
-          onClick={() => onButtonClick("IKKE_OPPFYLT")}
-        >
-          {texts.ikkeOppfylt}
-        </Button>
-      )}
-    </ButtonRow>
+      </ButtonRow>
+      <VurderAktivitetskravModal
+        isOpen={visVurderAktivitetskravModal}
+        setModalOpen={setVisVurderAktivitetskravModal}
+        modalType={modalType}
+        aktivitetskravUuid={aktivitetskrav?.uuid}
+      />
+    </>
   );
 };

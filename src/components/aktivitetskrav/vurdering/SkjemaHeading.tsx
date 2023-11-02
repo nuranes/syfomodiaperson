@@ -12,11 +12,11 @@ export const SkjemaHeading = ({
   subtitles,
 }: VurderAktivitetskravSkjemaHeadingProps) => (
   <>
-    <FlexRow bottomPadding={PaddingSize.MD}>
-      <Heading level="2" size="large">
+    <div className={"mt-4 mb-8"}>
+      <Heading level="2" size="small">
         {title}
       </Heading>
-    </FlexRow>
+    </div>
     {subtitles && (
       <FlexRow bottomPadding={PaddingSize.MD}>
         <FlexColumn>

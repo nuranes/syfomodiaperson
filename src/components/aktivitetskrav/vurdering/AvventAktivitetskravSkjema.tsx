@@ -7,7 +7,6 @@ import {
 import { AvventFristDato } from "@/components/aktivitetskrav/vurdering/AvventFristDato";
 import { SkjemaHeading } from "@/components/aktivitetskrav/vurdering/SkjemaHeading";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
-import { LagreAvbrytButtonRow } from "@/components/aktivitetskrav/vurdering/LagreAvbrytButtonRow";
 import { useVurderAktivitetskrav } from "@/data/aktivitetskrav/useVurderAktivitetskrav";
 import {
   AktivitetskravSkjemaValues,
@@ -15,11 +14,12 @@ import {
 } from "@/components/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
 import { SkjemaFieldContainer } from "@/components/aktivitetskrav/vurdering/SkjemaFieldContainer";
 import { FormProvider, useForm } from "react-hook-form";
-import { Checkbox, CheckboxGroup } from "@navikt/ds-react";
+import { Button, Checkbox, CheckboxGroup } from "@navikt/ds-react";
 import { avventVurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
 import BegrunnelseTextarea, {
   begrunnelseMaxLength,
 } from "@/components/aktivitetskrav/vurdering/BegrunnelseTextarea";
+import { ButtonRow } from "@/components/Layout";
 
 const texts = {
   title: "Avvent",
@@ -30,6 +30,8 @@ const texts = {
   arsakLegend: "Årsak (obligatorisk)",
   missingArsak: "Vennligst angi årsak",
   missingBegrunnelse: "Vennligst angi begrunnelse",
+  lagre: "Lagre",
+  avbryt: "Avbryt",
 };
 
 export interface AvventAktivitetskravSkjemaValues
@@ -38,10 +40,15 @@ export interface AvventAktivitetskravSkjemaValues
   fristDato?: string;
 }
 
+interface AvventAktivitetskravSkjemaProps
+  extends VurderAktivitetskravSkjemaProps {
+  setModalOpen: (isOpen: boolean) => void;
+}
+
 export const AvventAktivitetskravSkjema = ({
   aktivitetskravUuid,
   setModalOpen,
-}: VurderAktivitetskravSkjemaProps) => {
+}: AvventAktivitetskravSkjemaProps) => {
   const vurderAktivitetskrav = useVurderAktivitetskrav(aktivitetskravUuid);
   const methods = useForm<AvventAktivitetskravSkjemaValues>();
   const {
@@ -102,10 +109,14 @@ export const AvventAktivitetskravSkjema = ({
         {vurderAktivitetskrav.isError && (
           <SkjemaInnsendingFeil error={vurderAktivitetskrav.error} />
         )}
-        <LagreAvbrytButtonRow
-          isSubmitting={vurderAktivitetskrav.isLoading}
-          handleClose={() => setModalOpen(false)}
-        />
+        <ButtonRow>
+          <Button loading={vurderAktivitetskrav.isLoading} type="submit">
+            {texts.lagre}
+          </Button>
+          <Button variant="tertiary" onClick={() => setModalOpen(false)}>
+            {texts.avbryt}
+          </Button>
+        </ButtonRow>
       </form>
     </FormProvider>
   );

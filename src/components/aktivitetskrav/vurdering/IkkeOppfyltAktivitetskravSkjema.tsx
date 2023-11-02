@@ -20,7 +20,6 @@ const texts = {
 
 export const IkkeOppfyltAktivitetskravSkjema = ({
   aktivitetskravUuid,
-  setModalOpen,
 }: VurderAktivitetskravSkjemaProps) => {
   const vurderAktivitetskrav = useVurderAktivitetskrav(aktivitetskravUuid);
   const submit = () => {
@@ -28,9 +27,7 @@ export const IkkeOppfyltAktivitetskravSkjema = ({
       status: AktivitetskravStatus.IKKE_OPPFYLT,
       arsaker: [],
     };
-    vurderAktivitetskrav.mutate(createAktivitetskravVurderingDTO, {
-      onSuccess: () => setModalOpen(false),
-    });
+    vurderAktivitetskrav.mutate(createAktivitetskravVurderingDTO);
   };
 
   return (
@@ -42,9 +39,6 @@ export const IkkeOppfyltAktivitetskravSkjema = ({
       <ButtonRow>
         <Button loading={vurderAktivitetskrav.isLoading} onClick={submit}>
           {texts.lagre}
-        </Button>
-        <Button variant="tertiary" onClick={() => setModalOpen(false)}>
-          {texts.avbryt}
         </Button>
       </ButtonRow>
     </>

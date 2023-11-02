@@ -7,7 +7,6 @@ import {
 import { unntakVurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
 import { SkjemaHeading } from "@/components/aktivitetskrav/vurdering/SkjemaHeading";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
-import { LagreAvbrytButtonRow } from "@/components/aktivitetskrav/vurdering/LagreAvbrytButtonRow";
 import { useVurderAktivitetskrav } from "@/data/aktivitetskrav/useVurderAktivitetskrav";
 import {
   AktivitetskravSkjemaValues,
@@ -15,7 +14,7 @@ import {
 } from "@/components/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
 import { SkjemaFieldContainer } from "@/components/aktivitetskrav/vurdering/SkjemaFieldContainer";
 import { useForm } from "react-hook-form";
-import { Radio, RadioGroup } from "@navikt/ds-react";
+import { Button, Radio, RadioGroup } from "@navikt/ds-react";
 import BegrunnelseTextarea, {
   begrunnelseMaxLength,
 } from "@/components/aktivitetskrav/vurdering/BegrunnelseTextarea";
@@ -26,6 +25,7 @@ const texts = {
   begrunnelseLabel: "Begrunnelse (obligatorisk)",
   missingArsak: "Vennligst angi årsak",
   missingBegrunnelse: "Vennligst angi begrunnelse",
+  lagre: "Lagre",
 };
 
 export interface UnntakAktivitetskravSkjemaValues
@@ -35,7 +35,6 @@ export interface UnntakAktivitetskravSkjemaValues
 
 export const UnntakAktivitetskravSkjema = ({
   aktivitetskravUuid,
-  setModalOpen,
 }: VurderAktivitetskravSkjemaProps) => {
   const {
     register,
@@ -51,9 +50,7 @@ export const UnntakAktivitetskravSkjema = ({
       arsaker: [values.arsak],
       beskrivelse: values.begrunnelse,
     };
-    vurderAktivitetskrav.mutate(createAktivitetskravVurderingDTO, {
-      onSuccess: () => setModalOpen(false),
-    });
+    vurderAktivitetskrav.mutate(createAktivitetskravVurderingDTO);
   };
 
   return (
@@ -91,10 +88,9 @@ export const UnntakAktivitetskravSkjema = ({
       {vurderAktivitetskrav.isError && (
         <SkjemaInnsendingFeil error={vurderAktivitetskrav.error} />
       )}
-      <LagreAvbrytButtonRow
-        isSubmitting={vurderAktivitetskrav.isLoading}
-        handleClose={() => setModalOpen(false)}
-      />
+      <Button loading={vurderAktivitetskrav.isLoading} type="submit">
+        {texts.lagre}
+      </Button>
     </form>
   );
 };

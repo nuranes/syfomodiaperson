@@ -18,10 +18,15 @@ const texts = {
     "Aktivitetskravet skal ikke vurderes for denne personen. Ved å lagre fjerner du hendelsen fra oversikten.",
 };
 
+interface IkkeAktuellAktivitetskravSkjemaProps
+  extends VurderAktivitetskravSkjemaProps {
+  setModalOpen: (isOpen: boolean) => void;
+}
+
 export const IkkeAktuellAktivitetskravSkjema = ({
   aktivitetskravUuid,
   setModalOpen,
-}: VurderAktivitetskravSkjemaProps) => {
+}: IkkeAktuellAktivitetskravSkjemaProps) => {
   const vurderAktivitetskrav = useVurderAktivitetskrav(aktivitetskravUuid);
   const submit = () => {
     const createAktivitetskravVurderingDTO: CreateAktivitetskravVurderingDTO = {

@@ -8,6 +8,11 @@ export const clickButton = (buttonText: string) =>
 export const getButton = (buttonText: string) =>
   screen.getByRole("button", { name: buttonText });
 
+export const clickTab = (tabTitle: string) => userEvent.click(getTab(tabTitle));
+
+const getTab = (tabTitle: string) =>
+  screen.getByRole("tab", { name: tabTitle });
+
 export const queryButton = (buttonText: string) =>
   screen.queryByRole("button", { name: buttonText });
 

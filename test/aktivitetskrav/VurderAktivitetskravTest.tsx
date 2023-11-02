@@ -1,4 +1,10 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
@@ -12,6 +18,7 @@ import {
 import {
   changeTextInput,
   clickButton,
+  clickTab,
   daysFromToday,
   getTextInput,
   getTooLongText,
@@ -53,14 +60,16 @@ const oppfolgingstilfelle = generateOppfolgingstilfelle(
   tilfelleEnd
 );
 
-export const buttonTexts = {
+const buttonTexts = {
   [AktivitetskravStatus.AVVENT]: "Avvent",
+  [AktivitetskravStatus.IKKE_AKTUELL]: "Ikke aktuell",
+};
+
+const tabTexts = {
   [AktivitetskravStatus.UNNTAK]: "Sett unntak",
   [AktivitetskravStatus.OPPFYLT]: "Er i aktivitet",
   [AktivitetskravStatus.FORHANDSVARSEL]: "Send forhåndsvarsel",
   [AktivitetskravStatus.IKKE_OPPFYLT]: "Ikke oppfylt",
-  [AktivitetskravStatus.IKKE_AKTUELL]: "Ikke aktuell",
-  [AktivitetskravStatus.FORHANDSVARSEL]: "Send forhåndsvarsel",
 };
 
 const enBeskrivelse = "Her er en beskrivelse";
@@ -90,13 +99,32 @@ describe("VurderAktivitetskrav", () => {
     renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
     expect(screen.queryByRole("button", { name: "Avvent" })).to.exist;
-    expect(screen.queryByRole("button", { name: "Sett unntak" })).to.exist;
-    expect(screen.queryByRole("button", { name: "Er i aktivitet" })).to.exist;
-    expect(screen.queryByRole("button", { name: "Send forhåndsvarsel" })).to
-      .exist;
-    expect(screen.queryByRole("button", { name: "Ikke oppfylt" })).to.not.exist;
     expect(screen.queryByRole("button", { name: "Ikke aktuell" })).to.exist;
   });
+
+  it("renders tabs for vurdering av aktivitetskravet", () => {
+    renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
+
+    expect(screen.queryByRole("tab", { name: "Sett unntak" })).to.exist;
+    expect(screen.queryByRole("tab", { name: "Er i aktivitet" })).to.exist;
+    expect(screen.queryByRole("tab", { name: "Send forhåndsvarsel" })).to.exist;
+    expect(screen.queryByRole("tab", { name: "Ikke oppfylt" })).to.not.exist;
+  });
+
+  it("renders ikke-oppfylt when ubehandlet vurder-stans oppgave", () => {
+    queryClient.setQueryData(
+      personoppgaverQueryKeys.personoppgaver(ARBEIDSTAKER_DEFAULT.personIdent),
+      () => [personOppgaveUbehandletVurderStans]
+    );
+
+    renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
+
+    expect(screen.queryByRole("tab", { name: "Sett unntak" })).to.exist;
+    expect(screen.queryByRole("tab", { name: "Er i aktivitet" })).to.exist;
+    expect(screen.queryByRole("tab", { name: "Send forhåndsvarsel" })).to.exist;
+    expect(screen.queryByRole("tab", { name: "Ikke oppfylt" })).to.exist;
+  });
+
   it("renders periode for oppfølgingstilfelle", () => {
     renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
@@ -106,27 +134,12 @@ describe("VurderAktivitetskrav", () => {
     );
     expect(screen.getByText(`Gjelder tilfelle ${periodeText}`)).to.exist;
   });
-  it("renders helptext tooltip", () => {
-    renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
-    const tooltip = screen.getByRole("button", { name: /hjelp/ });
-    expect(tooltip).to.exist;
-
-    const buttonTexts = [
-      "Avvent",
-      "Sett unntak",
-      "Er i aktivitet",
-      "Ikke oppfylt",
-      "Ikke aktuell",
-    ];
-    const buttonTextsJoined = Object.values(buttonTexts).join(", ");
-    expect(screen.getByText(buttonTextsJoined, { exact: false })).to.exist;
-  });
   describe("Oppfylt", () => {
     it("Validerer årsak og maks tegn beskrivelse", async () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
-      clickButton(buttonTexts["OPPFYLT"]);
+      clickTab(tabTexts["OPPFYLT"]);
       const tooLongBeskrivelse = getTooLongText(begrunnelseMaxLength);
       const beskrivelseInput = getTextInput("Begrunnelse (obligatorisk)");
       changeTextInput(beskrivelseInput, tooLongBeskrivelse);
@@ -138,7 +151,7 @@ describe("VurderAktivitetskrav", () => {
     it("Lagre vurdering med verdier fra skjema", async () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
-      clickButton(buttonTexts["OPPFYLT"]);
+      clickTab(tabTexts["OPPFYLT"]);
 
       expect(screen.getByRole("heading", { name: "Er i aktivitet" })).to.exist;
 
@@ -167,7 +180,7 @@ describe("VurderAktivitetskrav", () => {
     it("Validerer årsak og maks tegn beskrivelse", async () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
-      clickButton(buttonTexts["UNNTAK"]);
+      clickTab(tabTexts["UNNTAK"]);
       const tooLongBeskrivelse = getTooLongText(begrunnelseMaxLength);
       const beskrivelseInput = getTextInput("Begrunnelse (obligatorisk)");
       changeTextInput(beskrivelseInput, tooLongBeskrivelse);
@@ -179,7 +192,7 @@ describe("VurderAktivitetskrav", () => {
     it("Lagre vurdering med verdier fra skjema", async () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
-      clickButton(buttonTexts["UNNTAK"]);
+      clickTab(tabTexts["UNNTAK"]);
 
       expect(
         screen.getByRole("heading", {
@@ -211,7 +224,11 @@ describe("VurderAktivitetskrav", () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
       clickButton(buttonTexts["AVVENT"]);
-      clickButton("Lagre");
+      const lagreButton = within(screen.getByRole("dialog")).getByRole(
+        "button",
+        { name: "Lagre" }
+      );
+      fireEvent.click(lagreButton);
 
       expect(await screen.findByText("Vennligst angi begrunnelse")).to.exist;
       expect(await screen.findByText("Vennligst angi årsak")).to.exist;
@@ -242,14 +259,20 @@ describe("VurderAktivitetskrav", () => {
         screen.getByText("Drøftes internt");
       fireEvent.click(arsakDroftesInterntRadioButton);
 
-      const beskrivelseInput = getTextInput("Begrunnelse (obligatorisk)");
-      changeTextInput(beskrivelseInput, enBeskrivelse);
+      const beskrivelseInputs = screen.getAllByRole("textbox", {
+        name: "Begrunnelse (obligatorisk)",
+      });
+      changeTextInput(beskrivelseInputs[1], enBeskrivelse);
 
       const today = dayjs();
       const datoInput = getTextInput("Avventer til");
       changeTextInput(datoInput, today.format("DD.MM.YYYY"));
 
-      clickButton("Lagre");
+      const lagreButton = within(screen.getByRole("dialog")).getByRole(
+        "button",
+        { name: "Lagre" }
+      );
+      fireEvent.click(lagreButton);
 
       await waitFor(() => {
         const vurderAvventMutation = queryClient.getMutationCache().getAll()[0];
@@ -285,11 +308,11 @@ describe("VurderAktivitetskrav", () => {
         oppfolgingstilfelle
       );
 
-      expect(screen.queryByRole("button", { name: "Sett unntak" })).to.exist;
-      expect(screen.queryByRole("button", { name: "Er i aktivitet" })).to.exist;
-      expect(screen.queryByRole("button", { name: "Ikke aktuell" })).to.exist;
-      expect(screen.queryByRole("button", { name: "Ikke oppfylt" })).to.not
+      expect(screen.queryByRole("tab", { name: "Sett unntak" })).to.exist;
+      expect(screen.queryByRole("tab", { name: "Er i aktivitet" })).to.exist;
+      expect(screen.queryByRole("tab", { name: "Send forhåndsvarsel" })).to
         .exist;
+      expect(screen.queryByRole("tab", { name: "Ikke oppfylt" })).to.not.exist;
       expect(screen.queryByRole("button", { name: "Avvent" })).to.not.exist;
     });
 
@@ -297,7 +320,7 @@ describe("VurderAktivitetskrav", () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
       const beskrivelseLabel = "Begrunnelse (obligatorisk)";
 
-      clickButton(buttonTexts["FORHANDSVARSEL"]);
+      clickTab(tabTexts["FORHANDSVARSEL"]);
 
       expect(
         screen.getByRole("heading", {
@@ -309,7 +332,7 @@ describe("VurderAktivitetskrav", () => {
       expect(screen.getByText("Forhåndsvisning")).to.exist;
       expect(
         screen.getByText(
-          "Husk å utrede saken tilstrekkelig før du sender forhåndsvarsel om stans av sykepengene."
+          "NB! Forhåndsvarsel skal ikke brukes til å hente mer informasjon om saken."
         )
       ).to.exist;
 
@@ -343,7 +366,7 @@ describe("VurderAktivitetskrav", () => {
         oppfolgingstilfelle
       );
 
-      clickButton(buttonTexts["IKKE_OPPFYLT"]);
+      clickTab(tabTexts["IKKE_OPPFYLT"]);
 
       expect(
         screen.getByRole("heading", {
@@ -369,7 +392,7 @@ describe("VurderAktivitetskrav", () => {
     });
     it("Fails to send forhåndsvarsel when no beskrivelse is filled in", async () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
-      clickButton(buttonTexts["FORHANDSVARSEL"]);
+      clickTab(tabTexts["FORHANDSVARSEL"]);
       clickButton("Send");
 
       expect(await screen.findByText("Vennligst angi begrunnelse")).to.exist;
@@ -381,18 +404,25 @@ describe("VurderAktivitetskrav", () => {
 
       clickButton(buttonTexts["IKKE_AKTUELL"]);
 
+      const ikkeAktuellModal = screen.getByRole("dialog");
+
+      expect(ikkeAktuellModal).to.exist;
       expect(
-        screen.getByRole("heading", {
+        within(ikkeAktuellModal).getByRole("heading", {
           name: "Ikke aktuell",
         })
       ).to.exist;
-
       expect(
-        screen.getByText(
+        within(ikkeAktuellModal).getByText(
           /Aktivitetskravet skal ikke vurderes for denne personen/
         )
       ).to.exist;
-      clickButton("Lagre");
+
+      const lagreButton = within(screen.getByRole("dialog")).getByRole(
+        "button",
+        { name: "Lagre" }
+      );
+      fireEvent.click(lagreButton);
 
       const vurderIkkeAktuellMutation = queryClient
         .getMutationCache()
@@ -412,7 +442,7 @@ describe("VurderAktivitetskrav", () => {
 
       expect(screen.queryByText(/Gjelder tilfelle/)).to.not.exist;
 
-      clickButton(buttonTexts["UNNTAK"]);
+      clickTab(tabTexts["UNNTAK"]);
 
       const arsakRadioButton = screen.getByText("Medisinske grunner");
       fireEvent.click(arsakRadioButton);

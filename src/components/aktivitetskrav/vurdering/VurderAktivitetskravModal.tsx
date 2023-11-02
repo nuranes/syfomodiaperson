@@ -1,23 +1,16 @@
 import React, { ReactElement } from "react";
 import { AktivitetskravStatus } from "@/data/aktivitetskrav/aktivitetskravTypes";
-import { OppfyltAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/OppfyltAktivitetskravSkjema";
-import { UnntakAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/UnntakAktivitetskravSkjema";
 import { AvventAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/AvventAktivitetskravSkjema";
-import { IkkeOppfyltAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/IkkeOppfyltAktivitetskravSkjema";
 import { IkkeAktuellAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/IkkeAktuellAktivitetskravSkjema";
 import { Modal } from "@navikt/ds-react";
-import { SendForhandsvarselSkjema } from "@/components/aktivitetskrav/vurdering/SendForhandsvarselSkjema";
 
 const texts = {
   modalContentLabel: "Vurder aktivitetskrav",
 };
 
-export type ModalType = `${Exclude<
+export type ModalType = `${Extract<
   AktivitetskravStatus,
-  | AktivitetskravStatus.NY
-  | AktivitetskravStatus.AUTOMATISK_OPPFYLT
-  | AktivitetskravStatus.STANS
-  | AktivitetskravStatus.LUKKET
+  AktivitetskravStatus.AVVENT | AktivitetskravStatus.IKKE_AKTUELL
 >}`;
 
 interface VurderAktivitetskravModalProps {
@@ -63,20 +56,8 @@ const VurderAktivitetskravModalContent = ({
   ...rest
 }: VurderAktivitetskravModalContentProps): ReactElement => {
   switch (modalType) {
-    case "OPPFYLT": {
-      return <OppfyltAktivitetskravSkjema {...rest} />;
-    }
-    case "UNNTAK": {
-      return <UnntakAktivitetskravSkjema {...rest} />;
-    }
     case "AVVENT": {
       return <AvventAktivitetskravSkjema {...rest} />;
-    }
-    case "FORHANDSVARSEL": {
-      return <SendForhandsvarselSkjema {...rest} />;
-    }
-    case "IKKE_OPPFYLT": {
-      return <IkkeOppfyltAktivitetskravSkjema {...rest} />;
     }
     case "IKKE_AKTUELL": {
       return <IkkeAktuellAktivitetskravSkjema {...rest} />;
