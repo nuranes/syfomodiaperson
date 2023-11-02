@@ -230,7 +230,6 @@ describe("VurderAktivitetskrav", () => {
       );
       fireEvent.click(lagreButton);
 
-      expect(await screen.findByText("Vennligst angi begrunnelse")).to.exist;
       expect(await screen.findByText("Vennligst angi årsak")).to.exist;
       expect(await screen.findByText(/Vennligst angi en gyldig dato/)).to.exist;
     });
@@ -259,10 +258,10 @@ describe("VurderAktivitetskrav", () => {
         screen.getByText("Drøftes internt");
       fireEvent.click(arsakDroftesInterntRadioButton);
 
-      const beskrivelseInputs = screen.getAllByRole("textbox", {
-        name: "Begrunnelse (obligatorisk)",
+      const beskrivelseInputs = screen.getByRole("textbox", {
+        name: "Begrunnelse",
       });
-      changeTextInput(beskrivelseInputs[1], enBeskrivelse);
+      changeTextInput(beskrivelseInputs, enBeskrivelse);
 
       const today = dayjs();
       const datoInput = getTextInput("Avventer til");

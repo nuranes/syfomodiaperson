@@ -26,10 +26,9 @@ const texts = {
   subtitle1:
     "Informasjonen du oppgir her vil kun brukes til videre saksbehandling.",
   subtitle2: "Ingenting sendes videre til arbeidstaker eller arbeidsgiver.",
-  begrunnelseLabel: "Begrunnelse (obligatorisk)",
+  begrunnelseLabel: "Begrunnelse",
   arsakLegend: "Årsak (obligatorisk)",
   missingArsak: "Vennligst angi årsak",
-  missingBegrunnelse: "Vennligst angi begrunnelse",
   lagre: "Lagre",
   avbryt: "Avbryt",
 };
@@ -98,11 +97,9 @@ export const AvventAktivitetskravSkjema = ({
           <BegrunnelseTextarea
             {...register("begrunnelse", {
               maxLength: begrunnelseMaxLength,
-              required: true,
             })}
             value={watch("begrunnelse")}
             label={texts.begrunnelseLabel}
-            error={errors.begrunnelse && texts.missingBegrunnelse}
           />
           <AvventFristDato />
         </SkjemaFieldContainer>
