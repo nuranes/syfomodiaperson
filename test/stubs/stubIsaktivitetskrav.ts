@@ -7,3 +7,19 @@ export const stubAktivitetskravApi = (scope: nock.Scope) => {
     .get(`${ISAKTIVITETSKRAV_ROOT}/aktivitetskrav/personident`)
     .reply(200, () => aktivitetskravMock);
 };
+
+export const stubVurderAktivitetskravApi = (scope: nock.Scope) => {
+  return scope
+    .post(new RegExp(`${ISAKTIVITETSKRAV_ROOT}/aktivitetskrav/.*/vurder`))
+    .reply(200);
+};
+
+export const stubVurderAktivitetskravForhandsvarselApi = (
+  scope: nock.Scope
+) => {
+  return scope
+    .post(
+      new RegExp(`${ISAKTIVITETSKRAV_ROOT}/aktivitetskrav/.*/forhandsvarsel`)
+    )
+    .reply(200);
+};

@@ -41,6 +41,7 @@ const VarselbrevContent = styled.div`
 `;
 
 const forhandsvarselFrist = addWeeks(new Date(), 3);
+const defaultValues = { begrunnelse: "", arsak: undefined };
 
 export const SendForhandsvarselSkjema = ({
   aktivitetskravUuid,
@@ -51,7 +52,8 @@ export const SendForhandsvarselSkjema = ({
     watch,
     formState: { errors },
     handleSubmit,
-  } = useForm<AktivitetskravSkjemaValues>();
+    reset,
+  } = useForm<AktivitetskravSkjemaValues>({ defaultValues });
   const { getForhandsvarselDocument } = useAktivitetskravVarselDocument();
   const [showForhandsvisning, setShowForhandsvisning] = useState(false);
 
@@ -64,7 +66,9 @@ export const SendForhandsvarselSkjema = ({
       ),
     };
     if (aktivitetskravUuid) {
-      sendForhandsvarsel.mutate(forhandsvarselDTO);
+      sendForhandsvarsel.mutate(forhandsvarselDTO, {
+        onSuccess: () => reset(),
+      });
     }
   };
 

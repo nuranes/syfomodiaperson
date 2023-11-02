@@ -28,6 +28,8 @@ const texts = {
   lagre: "Lagre",
 };
 
+const defaultValues = { begrunnelse: "", arsak: undefined };
+
 export interface UnntakAktivitetskravSkjemaValues
   extends AktivitetskravSkjemaValues {
   arsak: UnntakVurderingArsak;
@@ -41,7 +43,8 @@ export const UnntakAktivitetskravSkjema = ({
     watch,
     formState: { errors },
     handleSubmit,
-  } = useForm<UnntakAktivitetskravSkjemaValues>();
+    reset,
+  } = useForm<UnntakAktivitetskravSkjemaValues>({ defaultValues });
   const vurderAktivitetskrav = useVurderAktivitetskrav(aktivitetskravUuid);
 
   const submit = (values: UnntakAktivitetskravSkjemaValues) => {
@@ -50,7 +53,9 @@ export const UnntakAktivitetskravSkjema = ({
       arsaker: [values.arsak],
       beskrivelse: values.begrunnelse,
     };
-    vurderAktivitetskrav.mutate(createAktivitetskravVurderingDTO);
+    vurderAktivitetskrav.mutate(createAktivitetskravVurderingDTO, {
+      onSuccess: () => reset(),
+    });
   };
 
   return (

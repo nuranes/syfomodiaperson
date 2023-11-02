@@ -42,8 +42,15 @@ import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQuery
 import { personOppgaveUbehandletVurderStans } from "../../mock/ispersonoppgave/personoppgaveMock";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import { begrunnelseMaxLength } from "@/components/aktivitetskrav/vurdering/BegrunnelseTextarea";
+import { apiMock } from "../stubs/stubApi";
+import {
+  stubVurderAktivitetskravApi,
+  stubVurderAktivitetskravForhandsvarselApi,
+} from "../stubs/stubIsaktivitetskrav";
+import nock from "nock";
 
 let queryClient: QueryClient;
+let apiMockScope: any;
 
 const aktivitetskrav = createAktivitetskrav(
   daysFromToday(5),
@@ -94,7 +101,12 @@ describe("VurderAktivitetskrav", () => {
   Modal.setAppElement(document.createElement("div"));
   beforeEach(() => {
     queryClient = queryClientWithMockData();
+    apiMockScope = apiMock();
   });
+  afterEach(() => {
+    nock.cleanAll();
+  });
+
   it("renders buttons for vurdering av aktivitetskravet", () => {
     renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
 
@@ -148,8 +160,9 @@ describe("VurderAktivitetskrav", () => {
       expect(await screen.findByText("Vennligst angi årsak")).to.exist;
       expect(await screen.findByText("1 tegn for mye")).to.exist;
     });
-    it("Lagre vurdering med verdier fra skjema", async () => {
+    it("Lagre vurdering med verdier fra skjema, og reset skjema etter innsending", async () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
+      stubVurderAktivitetskravApi(apiMockScope);
 
       clickTab(tabTexts["OPPFYLT"]);
 
@@ -174,6 +187,8 @@ describe("VurderAktivitetskrav", () => {
           expectedVurdering
         );
       });
+
+      expect(screen.queryByText(enBeskrivelse)).to.not.exist;
     });
   });
   describe("Unntak", () => {
@@ -189,8 +204,9 @@ describe("VurderAktivitetskrav", () => {
       expect(await screen.findByText("Vennligst angi årsak")).to.exist;
       expect(await screen.findByText("1 tegn for mye")).to.exist;
     });
-    it("Lagre vurdering med verdier fra skjema", async () => {
+    it("Lagre vurdering med verdier fra skjema, og reset skjema etter innsending", async () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
+      stubVurderAktivitetskravApi(apiMockScope);
 
       clickTab(tabTexts["UNNTAK"]);
 
@@ -217,6 +233,8 @@ describe("VurderAktivitetskrav", () => {
           expectedVurdering
         );
       });
+
+      expect(screen.queryByText(enBeskrivelse)).to.not.exist;
     });
   });
   describe("Avvent", () => {
@@ -233,8 +251,9 @@ describe("VurderAktivitetskrav", () => {
       expect(await screen.findByText("Vennligst angi årsak")).to.exist;
       expect(await screen.findByText(/Vennligst angi en gyldig dato/)).to.exist;
     });
-    it("Lagre vurdering med verdier fra skjema", async () => {
+    it("Lagre vurdering med verdier fra skjema, og reset skjema etter innsending", async () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
+      stubVurderAktivitetskravApi(apiMockScope);
 
       clickButton(buttonTexts["AVVENT"]);
 
@@ -290,6 +309,8 @@ describe("VurderAktivitetskrav", () => {
           expectedVurdering
         );
       });
+
+      expect(screen.queryByText(enBeskrivelse)).to.not.exist;
     });
   });
   describe("Ikke oppfylt", () => {
@@ -315,8 +336,9 @@ describe("VurderAktivitetskrav", () => {
       expect(screen.queryByRole("button", { name: "Avvent" })).to.not.exist;
     });
 
-    it("Send forhåndsvarsel with beskrivelse filled in", async () => {
+    it("Send forhåndsvarsel with beskrivelse filled in, and reset form after submit", async () => {
       renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
+      stubVurderAktivitetskravForhandsvarselApi(apiMockScope);
       const beskrivelseLabel = "Begrunnelse (obligatorisk)";
 
       clickTab(tabTexts["FORHANDSVARSEL"]);
@@ -352,6 +374,8 @@ describe("VurderAktivitetskrav", () => {
           expectedVurdering
         );
       });
+
+      expect(screen.queryByText(enBeskrivelse)).to.not.exist;
     });
     it("IKKE_OPPFYLT is present when status is forhandsvarsel and it is expired", () => {
       queryClient.setQueryData(

@@ -33,6 +33,8 @@ export interface OppfyltAktivitetskravSkjemaValues
   arsak: OppfyltVurderingArsak;
 }
 
+const defaultValues = { begrunnelse: "", arsak: undefined };
+
 export const OppfyltAktivitetskravSkjema = ({
   aktivitetskravUuid,
 }: VurderAktivitetskravSkjemaProps) => {
@@ -41,7 +43,10 @@ export const OppfyltAktivitetskravSkjema = ({
     watch,
     formState: { errors },
     handleSubmit,
-  } = useForm<OppfyltAktivitetskravSkjemaValues>();
+    reset,
+  } = useForm<OppfyltAktivitetskravSkjemaValues>({
+    defaultValues,
+  });
   const vurderAktivitetskrav = useVurderAktivitetskrav(aktivitetskravUuid);
 
   const submit = (values: OppfyltAktivitetskravSkjemaValues) => {
@@ -50,7 +55,9 @@ export const OppfyltAktivitetskravSkjema = ({
       arsaker: [values.arsak],
       beskrivelse: values.begrunnelse,
     };
-    vurderAktivitetskrav.mutate(createAktivitetskravVurderingDTO);
+    vurderAktivitetskrav.mutate(createAktivitetskravVurderingDTO, {
+      onSuccess: () => reset(),
+    });
   };
 
   return (
