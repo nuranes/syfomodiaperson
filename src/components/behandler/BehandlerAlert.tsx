@@ -10,7 +10,7 @@ const texts = {
 };
 
 export const BehandlerAlert = () => (
-  <Alert variant="info" size="small" style={{ marginTop: "2em" }}>
+  <Alert variant="info" size="small" style={{ marginTop: "1em" }}>
     <p>
       {texts.searchCriteriaInfo} {texts.noSearchMatchInfo}
     </p>

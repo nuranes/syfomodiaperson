@@ -116,11 +116,10 @@ export const VelgBehandler = ({
               }}
             >
               {texts.behandlersokTekst}
-
-              {showBehandlerSearch && (
-                <BehandlerSearch setSelectedBehandler={setSelectedBehandler} />
-              )}
             </Radio>
+            {showBehandlerSearch && (
+              <BehandlerSearch setSelectedBehandler={setSelectedBehandler} />
+            )}
           </RadioGroup>
         </>
       )}
