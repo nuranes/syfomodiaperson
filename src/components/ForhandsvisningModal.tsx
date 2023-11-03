@@ -1,6 +1,5 @@
 import { FlexRow, JustifyContentType, PaddingSize } from "./Layout";
 import React, { ReactElement } from "react";
-import styled from "styled-components";
 import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
 import { DocumentComponentVisning } from "@/components/DocumentComponentVisning";
 import { Button, Heading, Modal } from "@navikt/ds-react";
