@@ -1,4 +1,10 @@
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
@@ -100,10 +106,12 @@ describe("MeldingTilBehandler", () => {
       expect(screen.getByText(legeerklaringText)).to.exist;
     });
 
-    it("Viser radiobuttons med behandlervalg, der det ikke er mulig å velge 'Ingen behandler'", () => {
+    it("Viser radiobuttons med behandlervalg, der det ikke er mulig å velge 'Ingen behandler'", async () => {
       renderMeldingTilBehandler();
 
-      expect(screen.queryByText("Ingen behandler")).to.not.exist;
+      await waitFor(
+        () => expect(screen.queryByText("Ingen behandler")).to.not.exist
+      );
       expect(screen.getByText("Søk etter behandler")).to.exist;
     });
 
@@ -127,7 +135,7 @@ describe("MeldingTilBehandler", () => {
         target: { value: MeldingType.FORESPORSEL_PASIENT_TILLEGGSOPPLYSNINGER },
       });
 
-      const meldingInput = getTextInput("Skriv inn tekst");
+      const meldingInput = getTextInput("Skriv inn meldingstekst");
       changeTextInput(meldingInput, enMeldingTekst);
 
       const previewButton = screen.getByRole("button", {
@@ -155,7 +163,7 @@ describe("MeldingTilBehandler", () => {
         target: { value: MeldingType.FORESPORSEL_PASIENT_LEGEERKLARING },
       });
 
-      const meldingInput = getTextInput("Skriv inn tekst");
+      const meldingInput = getTextInput("Skriv inn meldingstekst");
       changeTextInput(meldingInput, enMeldingTekst);
 
       const previewButton = screen.getByRole("button", {
@@ -182,7 +190,7 @@ describe("MeldingTilBehandler", () => {
         target: { value: MeldingType.HENVENDELSE_MELDING_FRA_NAV },
       });
 
-      const meldingInput = getTextInput("Skriv inn tekst");
+      const meldingInput = getTextInput("Skriv inn meldingstekst");
       changeTextInput(meldingInput, enMeldingTekst);
 
       const previewButton = screen.getByRole("button", {
@@ -203,25 +211,31 @@ describe("MeldingTilBehandler", () => {
       });
     });
 
-    it("Validerer MeldingTilBehandlerSkjema ved innsending", () => {
+    it("Validerer MeldingTilBehandlerSkjema ved innsending", async () => {
       renderMeldingTilBehandler();
 
       clickButton("Send til behandler");
 
-      expect(
-        screen.getAllByText("Innholdet i meldingen er tomt")
-      ).to.have.length(2);
-      expect(screen.getAllByText("Vennligst velg behandler")).to.have.length(2);
+      await waitFor(() => {
+        expect(screen.getByText("Vennligst angi meldingstekst")).to.exist;
+      });
+      await waitFor(() => {
+        expect(screen.getByText("Vennligst velg behandler")).to.exist;
+      });
 
-      const meldingInput = getTextInput("Skriv inn tekst");
+      const meldingInput = getTextInput("Skriv inn meldingstekst");
       changeTextInput(meldingInput, enMeldingTekst);
-      expect(screen.queryByText("Innholdet i meldingen er tomt")).to.not.exist;
+      await waitFor(() => {
+        expect(screen.queryByText("Vennligst angi meldingstekst")).to.not.exist;
+      });
 
       const velgBehandlerRadioButton = screen.getAllByText("Fastlege:", {
         exact: false,
       })[0];
       fireEvent.click(velgBehandlerRadioButton);
-      expect(screen.queryByText("Vennligst velg behandler")).to.not.exist;
+      await waitFor(() => {
+        expect(screen.queryByText("Vennligst velg behandler")).to.not.exist;
+      });
     });
   });
 
@@ -235,7 +249,7 @@ describe("MeldingTilBehandler", () => {
       document: expectedTilleggsopplysningerDocument(enMeldingTekst),
     };
 
-    it("Send melding med verdier fra skjema", () => {
+    it("Send melding med verdier fra skjema", async () => {
       renderMeldingTilBehandler();
 
       const velgBehandlerRadioButton = screen.getAllByText("Fastlege:", {
@@ -247,18 +261,20 @@ describe("MeldingTilBehandler", () => {
         target: { value: MeldingType.FORESPORSEL_PASIENT_TILLEGGSOPPLYSNINGER },
       });
 
-      const meldingInput = getTextInput("Skriv inn tekst");
+      const meldingInput = getTextInput("Skriv inn meldingstekst");
       changeTextInput(meldingInput, expectedMeldingTilBehandlerDTO.tekst);
 
       clickButton("Send til behandler");
 
-      const meldingTilBehandlerMutation = queryClient
-        .getMutationCache()
-        .getAll()[0];
+      await waitFor(() => {
+        const meldingTilBehandlerMutation = queryClient
+          .getMutationCache()
+          .getAll()[0];
 
-      expect(meldingTilBehandlerMutation.options.variables).to.deep.equal(
-        expectedMeldingTilBehandlerDTO
-      );
+        expect(meldingTilBehandlerMutation.options.variables).to.deep.equal(
+          expectedMeldingTilBehandlerDTO
+        );
+      });
     });
   });
 });
