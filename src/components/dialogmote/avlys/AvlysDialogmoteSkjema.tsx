@@ -13,7 +13,7 @@ import { SkjemaFeiloppsummering } from "../../SkjemaFeiloppsummering";
 import { useFeilUtbedret } from "@/hooks/useFeilUtbedret";
 import { validerBegrunnelser } from "@/utils/valideringUtils";
 import { useAvlysningDocument } from "@/hooks/dialogmote/document/useAvlysningDocument";
-import { Forhandsvisning } from "../../Forhandsvisning";
+import { ForhandsvisningModal } from "../../ForhandsvisningModal";
 import { moteoversiktRoutePath } from "@/routers/AppRouter";
 import { useAvlysDialogmote } from "@/data/dialogmote/useAvlysDialogmote";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
@@ -132,7 +132,7 @@ const AvlysDialogmoteSkjema = ({
               }
               maxLength={MAX_LENGTH_AVLYS_BEGRUNNELSE}
             />
-            <Forhandsvisning
+            <ForhandsvisningModal
               title={texts.forhandsvisningArbeidstakerTitle}
               contentLabel={texts.forhandsvisningArbeidstakerContentlabel}
               isOpen={displayAvlysningArbeidstakerPreview}
@@ -149,7 +149,7 @@ const AvlysDialogmoteSkjema = ({
               }
               maxLength={MAX_LENGTH_AVLYS_BEGRUNNELSE}
             />
-            <Forhandsvisning
+            <ForhandsvisningModal
               title={texts.forhandsvisningArbeidsgiverTitle}
               contentLabel={texts.forhandsvisningArbeidsgiverContentlabel}
               isOpen={displayAvlysningArbeidsgiverPreview}
@@ -168,7 +168,7 @@ const AvlysDialogmoteSkjema = ({
                   }
                   maxLength={MAX_LENGTH_AVLYS_BEGRUNNELSE}
                 />
-                <Forhandsvisning
+                <ForhandsvisningModal
                   title={texts.forhandsvisningBehandlerTitle}
                   contentLabel={texts.forhandsvisningBehandlerContentlabel}
                   isOpen={displayAvlysningBehandlerPreview}

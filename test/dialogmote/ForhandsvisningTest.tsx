@@ -1,5 +1,5 @@
 import React from "react";
-import { Forhandsvisning } from "@/components/Forhandsvisning";
+import { ForhandsvisningModal } from "@/components/ForhandsvisningModal";
 import { expect } from "chai";
 import { render, screen } from "@testing-library/react";
 import {
@@ -14,7 +14,7 @@ const doNothing = () => {
 describe("Forhandsvisning", () => {
   it("inneholder tittel, undertittel og knapper", () => {
     render(
-      <Forhandsvisning
+      <ForhandsvisningModal
         title={"Tittel her"}
         contentLabel={"Test"}
         isOpen={true}
@@ -47,7 +47,7 @@ describe("Forhandsvisning", () => {
       },
     ];
     render(
-      <Forhandsvisning
+      <ForhandsvisningModal
         title={"Tittel her"}
         contentLabel={"Test"}
         isOpen={true}

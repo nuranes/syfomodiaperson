@@ -118,7 +118,6 @@ export const MeldingTilBehandlerSkjema = () => {
         id="type"
         className={"w-[23rem]"}
         label={texts.meldingsType.label}
-        size="small"
         {...register("meldingsType", { required: true })}
         value={watch("meldingsType")}
         error={errors.meldingsType && texts.meldingsType.missing}
@@ -150,7 +149,6 @@ export const MeldingTilBehandlerSkjema = () => {
           required: true,
           maxLength: MAX_LENGTH_BEHANDLER_MELDING,
         })}
-        size="small"
         error={errors.meldingTekst && texts.meldingsTekstErrorMessage}
       />
       <ForhandsvisningModal

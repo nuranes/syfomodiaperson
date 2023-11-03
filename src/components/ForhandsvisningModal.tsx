@@ -9,17 +9,6 @@ const texts = {
   close: "Lukk",
 };
 
-const ForhandsvisningModal = styled(Modal)`
-  max-width: 50em;
-`;
-
-const ModalContent = styled(Modal.Content)`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  padding: 2em;
-`;
-
 interface ForhandsvisningProps {
   title?: string;
   contentLabel: string;
@@ -28,7 +17,7 @@ interface ForhandsvisningProps {
   getDocumentComponents: () => DocumentComponentDto[];
 }
 
-export const Forhandsvisning = ({
+export const ForhandsvisningModal = ({
   isOpen,
   handleClose,
   title,
@@ -37,12 +26,13 @@ export const Forhandsvisning = ({
 }: ForhandsvisningProps): ReactElement => {
   const documentComponents = isOpen ? getDocumentComponents() : [];
   return (
-    <ForhandsvisningModal
+    <Modal
+      className="max-w-[50rem]"
       open={isOpen}
       aria-label={contentLabel}
       onClose={handleClose}
     >
-      <ModalContent>
+      <Modal.Content className={"flex flex-col flex-1 p-8"}>
         {title ? (
           <FlexRow justifyContent={JustifyContentType.CENTER}>
             <Heading size="xlarge">{title}</Heading>
@@ -54,7 +44,7 @@ export const Forhandsvisning = ({
         <FlexRow topPadding={PaddingSize.MD}>
           <Button onClick={handleClose}>{texts.close}</Button>
         </FlexRow>
-      </ModalContent>
-    </ForhandsvisningModal>
+      </Modal.Content>
+    </Modal>
   );
 };

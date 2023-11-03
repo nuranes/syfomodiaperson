@@ -8,7 +8,7 @@ import {
   MotedeltakerVarselType,
 } from "@/data/dialogmote/types/dialogmoteTypes";
 import { tilDatoMedManedNavn } from "@/utils/datoUtils";
-import { Forhandsvisning } from "../../Forhandsvisning";
+import { ForhandsvisningModal } from "../../ForhandsvisningModal";
 import { useDialogmoteReferat } from "@/hooks/dialogmote/useDialogmoteReferat";
 import styled from "styled-components";
 import { UnntakDTO } from "@/data/dialogmotekandidat/types/dialogmoteunntakTypes";
@@ -54,7 +54,7 @@ export const ForhandsvisDocumentButtonRow = ({
       >
         {children}
       </Flatknapp>
-      <Forhandsvisning
+      <ForhandsvisningModal
         title={title}
         contentLabel={title}
         isOpen={modalIsOpen}

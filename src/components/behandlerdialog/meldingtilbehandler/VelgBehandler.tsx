@@ -89,7 +89,6 @@ export const VelgBehandler = ({
           <RadioGroup
             legend={texts.behandlerLegend}
             name="behandlerRef"
-            size="small"
             error={errors.behandlerRef && texts.missingBehandler}
           >
             {behandlere.map((behandler, index) => (

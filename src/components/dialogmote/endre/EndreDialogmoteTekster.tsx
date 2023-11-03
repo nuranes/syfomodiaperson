@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useFormState } from "react-final-form";
-import { Forhandsvisning } from "../../Forhandsvisning";
+import { ForhandsvisningModal } from "../../ForhandsvisningModal";
 import { EndreTidStedSkjemaValues } from "./EndreDialogmoteSkjema";
 import { useTidStedDocument } from "@/hooks/dialogmote/document/useTidStedDocument";
 import FritekstSeksjon from "@/components/dialogmote/FritekstSeksjon";
@@ -71,7 +71,7 @@ const EndreDialogmoteTekster = ({ dialogmote }: Props) => {
         handlePreviewClick={() => setDisplayEndringArbeidstakerPreview(true)}
         maxLength={MAX_LENGTH_ENDRE_BEGRUNNELSE}
       />
-      <Forhandsvisning
+      <ForhandsvisningModal
         title={texts.forhandsvisningArbeidstakerTitle}
         contentLabel={texts.forhandsvisningArbeidstakerContentLabel}
         isOpen={displayEndringArbeidstakerPreview}
@@ -86,7 +86,7 @@ const EndreDialogmoteTekster = ({ dialogmote }: Props) => {
         maxLength={MAX_LENGTH_ENDRE_BEGRUNNELSE}
         alertText={noNarmesteLeder ? texts.noNarmesteleder : undefined}
       />
-      <Forhandsvisning
+      <ForhandsvisningModal
         title={texts.forhandsvisningArbeidsgiverTitle}
         contentLabel={texts.forhandsvisningArbeidsgiverContentLabel}
         isOpen={displayEndringArbeidsgiverPreview}
@@ -101,7 +101,7 @@ const EndreDialogmoteTekster = ({ dialogmote }: Props) => {
             handlePreviewClick={() => setDisplayEndringBehandlerPreview(true)}
             maxLength={MAX_LENGTH_ENDRE_BEGRUNNELSE}
           />
-          <Forhandsvisning
+          <ForhandsvisningModal
             title={texts.forhandsvisningBehandlerTitle}
             contentLabel={texts.forhandsvisningBehandlerContentLabel}
             isOpen={displayEndringBehandlerPreview}

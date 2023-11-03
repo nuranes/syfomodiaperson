@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { Innholdstittel } from "nav-frontend-typografi";
 import { DialogmoteInnkallingSkjemaValues } from "./DialogmoteInnkallingSkjema";
 import { useInnkallingDocument } from "@/hooks/dialogmote/document/useInnkallingDocument";
-import { Forhandsvisning } from "../../Forhandsvisning";
+import { ForhandsvisningModal } from "../../ForhandsvisningModal";
 import FritekstSeksjon from "../FritekstSeksjon";
 import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
 import { AlertstripeFullbredde } from "@/components/AlertstripeFullbredde";
@@ -79,7 +79,7 @@ const DialogmoteInnkallingTekster = ({
         handlePreviewClick={() => setDisplayInnkallingArbeidstakerPreview(true)}
         maxLength={MAX_LENGTH_INNKALLING_FRITEKST}
       />
-      <Forhandsvisning
+      <ForhandsvisningModal
         title={texts.forhandsvisningArbeidstakerTitle}
         contentLabel={texts.forhandsvisningArbeidstakerContentLabel}
         isOpen={displayInnkallingArbeidstakerPreview}
@@ -94,7 +94,7 @@ const DialogmoteInnkallingTekster = ({
         handlePreviewClick={() => setDisplayInnkallingArbeidsgiverPreview(true)}
         maxLength={MAX_LENGTH_INNKALLING_FRITEKST}
       />
-      <Forhandsvisning
+      <ForhandsvisningModal
         title={texts.forhandsvisningArbeidsgiverTitle}
         contentLabel={texts.forhandsvisningArbeidsgiverContentLabel}
         isOpen={displayInnkallingArbeidsgiverPreview}
@@ -114,7 +114,7 @@ const DialogmoteInnkallingTekster = ({
             }
             maxLength={MAX_LENGTH_INNKALLING_FRITEKST}
           />
-          <Forhandsvisning
+          <ForhandsvisningModal
             title={texts.forhandsvisningBehandlerTitle}
             contentLabel={texts.forhandsvisningBehandlerContentLabel}
             isOpen={displayInnkallingBehandlerPreview}

@@ -20,7 +20,7 @@ import {
 import { useFeilUtbedret } from "@/hooks/useFeilUtbedret";
 import { SkjemaFeiloppsummering } from "../../SkjemaFeiloppsummering";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
-import { Forhandsvisning } from "../../Forhandsvisning";
+import { ForhandsvisningModal } from "../../ForhandsvisningModal";
 import { useReferatDocument } from "@/hooks/dialogmote/document/useReferatDocument";
 import { StandardTekst } from "@/data/dialogmote/dialogmoteTexts";
 import {
@@ -387,7 +387,7 @@ const Referat = ({
                 ferdigstillDialogmote.isLoading || endreReferat.isLoading
               }
             />
-            <Forhandsvisning
+            <ForhandsvisningModal
               contentLabel={texts.forhandsvisningContentLabel}
               isOpen={displayReferatPreview}
               handleClose={() => setDisplayReferatPreview(false)}

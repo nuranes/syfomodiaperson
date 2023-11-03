@@ -1,6 +1,6 @@
 import { Button } from "@navikt/ds-react";
 import { EyeWithPupilIcon } from "@navikt/aksel-icons";
-import { Forhandsvisning } from "@/components/Forhandsvisning";
+import { ForhandsvisningModal } from "@/components/ForhandsvisningModal";
 import React, { useState } from "react";
 import { MeldingDTO } from "@/data/behandlerdialog/behandlerdialogTypes";
 import styled from "styled-components";
@@ -30,7 +30,7 @@ export const VisMelding = ({ melding }: VisMeldingProps) => {
       >
         {texts.visButton}
       </VisMeldingButton>
-      <Forhandsvisning
+      <ForhandsvisningModal
         contentLabel={texts.visContentLabel}
         isOpen={visMelding}
         handleClose={() => setVisMelding(false)}

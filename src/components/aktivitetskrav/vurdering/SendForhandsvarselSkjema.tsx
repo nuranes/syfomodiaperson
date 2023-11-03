@@ -16,7 +16,7 @@ import BegrunnelseTextarea, {
   begrunnelseMaxLength,
 } from "@/components/aktivitetskrav/vurdering/BegrunnelseTextarea";
 import { SkjemaHeading } from "@/components/aktivitetskrav/vurdering/SkjemaHeading";
-import { Forhandsvisning } from "@/components/Forhandsvisning";
+import { ForhandsvisningModal } from "@/components/ForhandsvisningModal";
 import * as Amplitude from "@/utils/amplitude";
 import { EventType } from "@/utils/amplitude";
 
@@ -112,7 +112,7 @@ export const SendForhandsvarselSkjema = ({
           {texts.forhandsvisning}
         </Button>
       </ButtonRow>
-      <Forhandsvisning
+      <ForhandsvisningModal
         contentLabel={texts.forhandsvisningLabel}
         isOpen={showForhandsvisning}
         handleClose={() => setShowForhandsvisning(false)}
