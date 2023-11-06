@@ -111,6 +111,7 @@ export const AktivitetskravVurderingAlert = ({
     case AktivitetskravStatus.STANS:
     case AktivitetskravStatus.LUKKET:
     case AktivitetskravStatus.AUTOMATISK_OPPFYLT:
+    case AktivitetskravStatus.NY_VURDERING:
     case AktivitetskravStatus.NY: {
       // Finnes ikke vurderinger med disse statusene
       return <></>;

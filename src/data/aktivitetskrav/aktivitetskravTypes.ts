@@ -2,6 +2,7 @@ import { DocumentComponentDto } from "@/data/documentcomponent/documentComponent
 
 export enum AktivitetskravStatus {
   NY = "NY",
+  NY_VURDERING = "NY_VURDERING",
   AVVENT = "AVVENT",
   UNNTAK = "UNNTAK",
   OPPFYLT = "OPPFYLT",

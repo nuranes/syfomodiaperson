@@ -86,6 +86,7 @@ const headerPrefix = (status: AktivitetskravStatus): string => {
       return "Forhåndsvarsel";
     }
     case AktivitetskravStatus.NY:
+    case AktivitetskravStatus.NY_VURDERING:
     case AktivitetskravStatus.AUTOMATISK_OPPFYLT:
     case AktivitetskravStatus.AVVENT:
     case AktivitetskravStatus.LUKKET:
