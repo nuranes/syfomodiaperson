@@ -41,10 +41,6 @@ export const getToggles = (veilederId, enhetId) => {
       "isVirksomhetsinputEnabled",
       context
     ),
-    isMeldingTypeMeldingFraNAVEnabled: unleash.isEnabled(
-      "isMeldingTypeMeldingFraNAVEnabled",
-      context
-    ),
     isMotebehovTilbakemeldingEnabled: unleash.isEnabled(
       "isMotebehovTilbakemeldingEnabled",
       context
