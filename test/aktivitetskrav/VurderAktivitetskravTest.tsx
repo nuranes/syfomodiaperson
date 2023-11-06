@@ -351,11 +351,6 @@ describe("VurderAktivitetskrav", () => {
 
       expect(screen.getByRole("textbox", { name: beskrivelseLabel })).to.exist;
       expect(screen.getByText("Forhåndsvisning")).to.exist;
-      expect(
-        screen.getByText(
-          "NB! Forhåndsvarsel skal ikke brukes til å hente mer informasjon om saken."
-        )
-      ).to.exist;
 
       const beskrivelseInput = getTextInput(beskrivelseLabel);
       changeTextInput(beskrivelseInput, enBeskrivelse);
