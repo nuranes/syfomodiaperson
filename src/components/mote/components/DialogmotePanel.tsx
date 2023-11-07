@@ -13,7 +13,7 @@ export const DialogmotePanel = ({ children, ...rest }: Props): ReactElement => {
   return (
     <FlexPanel>
       <IconHeader altIcon="moteikon" {...rest} />
-      <>{children}</>
+      {children}
     </FlexPanel>
   );
 };

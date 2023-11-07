@@ -88,11 +88,11 @@ const MeldingTekst = ({ melding }: MeldingTekstProps): ReactElement => {
   }
 };
 
-interface AvsenderInfoProps {
+interface MeldingInnholdPanelProps {
   melding: MeldingDTO;
 }
 
-const AvsenderInfo = ({ melding }: AvsenderInfoProps) => {
+export const MeldingInnholdPanel = ({ melding }: MeldingInnholdPanelProps) => {
   const { data: veilederInfo } = useVeilederInfoQuery(
     melding.veilederIdent ?? ""
   );
@@ -100,14 +100,6 @@ const AvsenderInfo = ({ melding }: AvsenderInfoProps) => {
     ? melding.behandlerNavn
     : veilederInfo?.navn;
 
-  return <>{avsender && <Detail>{`Skrevet av ${avsender}`}</Detail>}</>;
-};
-
-interface MeldingInnholdPanelProps {
-  melding: MeldingDTO;
-}
-
-export const MeldingInnholdPanel = ({ melding }: MeldingInnholdPanelProps) => {
   return (
     <Panel border>
       <MeldingTekstContainer>
@@ -130,7 +122,7 @@ export const MeldingInnholdPanel = ({ melding }: MeldingInnholdPanelProps) => {
           {tilDatoMedManedNavnOgKlokkeslett(melding.tidspunkt)}
         </DetailCentered>
         <DetailCentered>{meldingTypeTexts[melding.type]}</DetailCentered>
-        <AvsenderInfo melding={melding} />
+        {avsender && <Detail>{`Skrevet av ${avsender}`}</Detail>}
         {!melding.innkommende && <VisMelding melding={melding} />}
       </MeldingDetails>
     </Panel>

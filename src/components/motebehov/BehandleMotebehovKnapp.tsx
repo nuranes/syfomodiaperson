@@ -135,9 +135,7 @@ const BehandleMotebehovKnapp = ({
         defaultChecked={erBehandlet}
       />
     </CheckboxPanel>
-  ) : (
-    <></>
-  );
+  ) : null;
 };
 
 export default BehandleMotebehovKnapp;

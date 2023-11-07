@@ -21,7 +21,7 @@ const getFeiloppsummeringFeil = (errors: SkjemaFeil): FeiloppsummeringFeil[] =>
 
 export const SkjemaFeiloppsummering = ({
   errors,
-}: SkjemaFeiloppsummeringProps): ReactElement => {
+}: SkjemaFeiloppsummeringProps): ReactElement | null => {
   const feiloppsummeringRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const { current } = feiloppsummeringRef;
@@ -40,7 +40,5 @@ export const SkjemaFeiloppsummering = ({
         />
       </FlexColumn>
     </FlexRow>
-  ) : (
-    <></>
-  );
+  ) : null;
 };

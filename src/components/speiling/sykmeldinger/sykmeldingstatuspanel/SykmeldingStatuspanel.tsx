@@ -18,7 +18,7 @@ interface NokkelopplysningerProps {
 
 export const Nokkelopplysninger = ({
   sykmelding,
-}: NokkelopplysningerProps): ReactElement => {
+}: NokkelopplysningerProps): ReactElement | null => {
   switch (sykmelding.status) {
     case SykmeldingStatus.SENDT:
     case SykmeldingStatus.TIL_SENDING: {
@@ -47,7 +47,7 @@ export const Nokkelopplysninger = ({
       );
     }
     default: {
-      return <></>;
+      return null;
     }
   }
 };

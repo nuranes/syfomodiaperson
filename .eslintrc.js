@@ -26,5 +26,6 @@ module.exports = {
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "react/no-string-refs": "off",
     "no-only-tests/no-only-tests": "error",
+    // "react/jsx-no-useless-fragment": 2,
   },
 };

@@ -45,32 +45,30 @@ const BehandlerSearchResult = ({
   };
 
   return (
-    <>
-      <ScrollablePopover
-        anchorEl={searchRef.current}
-        placement="bottom-start"
-        open={behandlere.length > 0 && searchText !== ""}
-        onClose={() => null}
-        arrow={false}
-        className="w-full"
-        offset={8}
-        tabIndex={0}
-      >
-        {behandlere.map((behandler, index) => {
-          const behandlerInfo = `${behandler.etternavn}, ${behandler.fornavn}: ${behandler.kontor}`;
-          return (
-            <PopoverContent key={index}>
-              <StyledButton
-                variant={"tertiary"}
-                onClick={() => updateSearch(behandler, behandlerInfo)}
-              >
-                {behandlerInfo}
-              </StyledButton>
-            </PopoverContent>
-          );
-        })}
-      </ScrollablePopover>
-    </>
+    <ScrollablePopover
+      anchorEl={searchRef.current}
+      placement="bottom-start"
+      open={behandlere.length > 0 && searchText !== ""}
+      onClose={() => null}
+      arrow={false}
+      className="w-full"
+      offset={8}
+      tabIndex={0}
+    >
+      {behandlere.map((behandler, index) => {
+        const behandlerInfo = `${behandler.etternavn}, ${behandler.fornavn}: ${behandler.kontor}`;
+        return (
+          <PopoverContent key={index}>
+            <StyledButton
+              variant={"tertiary"}
+              onClick={() => updateSearch(behandler, behandlerInfo)}
+            >
+              {behandlerInfo}
+            </StyledButton>
+          </PopoverContent>
+        );
+      })}
+    </ScrollablePopover>
   );
 };
 
