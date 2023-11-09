@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   AktivitetskravStatus,
+  AktivitetskravVarselDTO,
   AktivitetskravVurderingDTO,
   VurderingArsak,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
@@ -9,6 +10,7 @@ import {
   Accordion,
   BodyLong,
   BodyShort,
+  Button,
   Heading,
   Panel,
 } from "@navikt/ds-react";
@@ -20,13 +22,19 @@ import {
   oppfyltVurderingArsakTexts,
   unntakVurderingArsakTexts,
 } from "@/data/aktivitetskrav/aktivitetskravTexts";
-import styled from "styled-components";
+import { EyeWithPupilIcon } from "@navikt/aksel-icons";
+import { ForhandsvisningModal } from "@/components/ForhandsvisningModal";
+import * as Amplitude from "@/utils/amplitude";
+import { EventType } from "@/utils/amplitude";
 
 const texts = {
   header: "Historikk",
   subHeader: "Tidligere vurderinger av aktivitetskravet i Modia",
   arsakTitle: "Årsak",
-  beskrivelseTitle: "Beskrivelse",
+  beskrivelseTitle: "Begrunnelse",
+  visBrev: "Se hele brevet",
+  visBrevLabel: "Vis brevet",
+  vurdertAv: "Vurdert av",
 };
 
 const isRelevantForHistorikk = (vurdering: AktivitetskravVurderingDTO) =>
@@ -66,9 +74,41 @@ export const AktivitetskravHistorikk = () => {
   );
 };
 
-interface HistorikkElementProps {
-  vurdering: AktivitetskravVurderingDTO;
+interface VarselBrev {
+  varsel: AktivitetskravVarselDTO;
 }
+
+export const VarselBrev = ({ varsel }: VarselBrev) => {
+  const [visBrev, setVisBrev] = useState(false);
+
+  const handleButtonClick = () => {
+    setVisBrev(true);
+    Amplitude.logEvent({
+      type: EventType.ButtonClick,
+      data: { tekst: texts.visBrev, url: window.location.href },
+    });
+  };
+
+  return (
+    <>
+      <Button
+        className="mb-4"
+        onClick={handleButtonClick}
+        variant="secondary"
+        size="small"
+        icon={<EyeWithPupilIcon aria-hidden />}
+      >
+        {texts.visBrev}
+      </Button>
+      <ForhandsvisningModal
+        contentLabel={texts.visBrevLabel}
+        isOpen={visBrev}
+        handleClose={() => setVisBrev(false)}
+        getDocumentComponents={() => varsel.document}
+      />
+    </>
+  );
+};
 
 const headerPrefix = (status: AktivitetskravStatus): string => {
   switch (status) {
@@ -105,6 +145,10 @@ const getArsakText = (arsak: VurderingArsak) => {
   );
 };
 
+interface HistorikkElementProps {
+  vurdering: AktivitetskravVurderingDTO;
+}
+
 const HistorikkElement = ({ vurdering }: HistorikkElementProps) => {
   const { data: veilederinfo } = useVeilederInfoQuery(vurdering.createdBy);
   const header = `${headerPrefix(vurdering.status)} - ${tilDatoMedManedNavn(
@@ -125,7 +169,11 @@ const HistorikkElement = ({ vurdering }: HistorikkElementProps) => {
             body={vurdering.beskrivelse}
           />
         )}
-        {veilederinfo?.navn}
+        <Paragraph title={texts.vurdertAv} body={veilederinfo?.navn ?? ""} />
+        {vurdering.status === AktivitetskravStatus.FORHANDSVARSEL &&
+          vurdering.varsel?.document && (
+            <VarselBrev varsel={vurdering.varsel} />
+          )}
       </Accordion.Content>
     </Accordion.Item>
   );
@@ -136,15 +184,11 @@ interface ParagraphProps {
   body: string;
 }
 
-const ParagraphWrapper = styled.div`
-  padding-bottom: 1em;
-`;
-
 const Paragraph = ({ title, body }: ParagraphProps) => {
   return (
-    <ParagraphWrapper>
+    <div className="mb-4">
       <b>{title}</b>
       <BodyLong size="small">{body}</BodyLong>
-    </ParagraphWrapper>
+    </div>
   );
 };

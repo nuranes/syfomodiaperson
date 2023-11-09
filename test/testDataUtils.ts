@@ -103,5 +103,10 @@ export const forhandsvarselVurdering = createAktivitetskravVurdering(
   "Begrunnelse for forhåndsvarsel",
   new Date(),
   undefined,
-  { uuid: generateUUID(), createdAt: new Date(), svarfrist: daysFromToday(21) }
+  {
+    uuid: generateUUID(),
+    createdAt: new Date(),
+    svarfrist: daysFromToday(21),
+    document: [],
+  }
 );

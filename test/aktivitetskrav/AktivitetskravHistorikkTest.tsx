@@ -7,6 +7,7 @@ import React from "react";
 import { AktivitetskravHistorikk } from "@/components/aktivitetskrav/historikk/AktivitetskravHistorikk";
 import {
   AktivitetskravStatus,
+  AktivitetskravVarselDTO,
   AktivitetskravVurderingDTO,
   OppfyltVurderingArsak,
   UnntakVurderingArsak,
@@ -27,6 +28,7 @@ import {
   createAktivitetskrav,
   createAktivitetskravVurdering,
 } from "../testDataUtils";
+import { DocumentComponentType } from "@/data/documentcomponent/documentComponentTypes";
 
 let queryClient: QueryClient;
 
@@ -37,7 +39,9 @@ const enBeskrivelse = "Her er en beskrivelse";
 const friskmeldtBeskrivelse = "Arbeidstaker er friskmeldt";
 const friskmeldtArsak = "Friskmeldt";
 const arsakTitle = "Årsak";
-const beskrivelseTitle = "Beskrivelse";
+const beskrivelseTitle = "Begrunnelse";
+const vurdertAvTitle = "Vurdert av";
+
 const oppfyltVurdering = createAktivitetskravVurdering(
   AktivitetskravStatus.OPPFYLT,
   [OppfyltVurderingArsak.FRISKMELDT],
@@ -63,11 +67,25 @@ const stansVurdering = createAktivitetskravVurdering(
   AktivitetskravStatus.STANS,
   []
 );
+const varsel: AktivitetskravVarselDTO = {
+  uuid: "123",
+  createdAt: today,
+  svarfrist: daysFromToday(21),
+  document: [
+    {
+      type: DocumentComponentType.HEADER_H1,
+      texts: [enBeskrivelse],
+    },
+  ],
+};
+
 const forhandsvarselVurdering = createAktivitetskravVurdering(
   AktivitetskravStatus.FORHANDSVARSEL,
   [],
   enBeskrivelse,
-  today
+  today,
+  daysFromToday(21),
+  varsel
 );
 
 const renderAktivitetskravHistorikk = (
@@ -107,7 +125,10 @@ describe("AktivitetskravHistorikk", () => {
       oppfyltVurdering,
     ]);
 
-    const vurderingButtons = screen.getAllByRole("button");
+    const allButtons = screen.getAllByRole("button");
+    const vurderingButtons = allButtons.filter(
+      (button) => button.textContent !== "Se hele brevet"
+    );
     expect(vurderingButtons[0].textContent).to.contain(
       `Forhåndsvarsel - ${tilDatoMedManedNavn(today)}`
     );
@@ -128,6 +149,7 @@ describe("AktivitetskravHistorikk", () => {
     expect(screen.getByText(friskmeldtArsak)).to.exist;
     expect(screen.getByText(beskrivelseTitle)).to.exist;
     expect(screen.getByText(friskmeldtBeskrivelse)).to.exist;
+    expect(screen.getByText(vurdertAvTitle)).to.exist;
     expect(screen.getByText(VEILEDER_DEFAULT.navn)).to.exist;
   });
   it("klikk på overskrift viser årsak med tittel og veileder-navn, uten beskrivelse og tittel hvis beskrivelse mangler", () => {
@@ -140,6 +162,7 @@ describe("AktivitetskravHistorikk", () => {
     expect(screen.getByText(friskmeldtArsak)).to.exist;
     expect(screen.queryByText(beskrivelseTitle)).to.not.exist;
     expect(screen.queryByText(friskmeldtBeskrivelse)).to.not.exist;
+    expect(screen.getByText(vurdertAvTitle)).to.exist;
     expect(screen.getByText(VEILEDER_DEFAULT.navn)).to.exist;
   });
   it("klikk på overskrift viser kun veiledernavn hvis årsak og beskrivelse mangler", () => {
@@ -152,6 +175,7 @@ describe("AktivitetskravHistorikk", () => {
     expect(screen.queryByText(friskmeldtArsak)).to.not.exist;
     expect(screen.queryByText(beskrivelseTitle)).to.not.exist;
     expect(screen.queryByText(friskmeldtBeskrivelse)).to.not.exist;
+    expect(screen.getByText(vurdertAvTitle)).to.exist;
     expect(screen.getByText(VEILEDER_DEFAULT.navn)).to.exist;
   });
   it("viser riktig overskrift for STANS-vurdering", () => {
@@ -169,5 +193,20 @@ describe("AktivitetskravHistorikk", () => {
     renderAktivitetskravHistorikk([avventVurdering]);
 
     expect(screen.queryByText(/Avvent/)).to.not.exist;
+  });
+  it("Viser knapp for å se hele forhåndsvarsel-brevet dersom vurderingen var et forhåndsvarsel", () => {
+    renderAktivitetskravHistorikk([forhandsvarselVurdering]);
+
+    const button = screen.getByRole("button", { name: "Se hele brevet" });
+
+    expect(screen.getByText(beskrivelseTitle)).to.exist;
+    expect(screen.getByText(enBeskrivelse)).to.exist;
+    expect(screen.getByText(vurdertAvTitle)).to.exist;
+    expect(screen.getByText(VEILEDER_DEFAULT.navn)).to.exist;
+    expect(button).to.exist;
+
+    userEvent.click(button);
+
+    expect(screen.getByRole("heading", { name: enBeskrivelse })).to.exist;
   });
 });

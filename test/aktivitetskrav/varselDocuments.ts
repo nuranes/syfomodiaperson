@@ -2,9 +2,9 @@ import {
   DocumentComponentDto,
   DocumentComponentType,
 } from "@/data/documentcomponent/documentComponentTypes";
-import { sendForhandsvarselTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
 import { VEILEDER_DEFAULT } from "../../mock/common/mockConstants";
 import { addWeeks } from "@/utils/datoUtils";
+import { sendForhandsvarselTexts } from "@/data/aktivitetskrav/forhandsvarselTexts";
 
 const expectedFristDate = addWeeks(new Date(), 3);
 

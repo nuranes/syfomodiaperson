@@ -8,6 +8,8 @@ import {
 import { generateUUID } from "../../src/utils/uuidUtils";
 import { VEILEDER_DEFAULT } from "../common/mockConstants";
 import { daysFromToday } from "../../test/testUtils";
+import { DocumentComponentType } from "../../src/data/documentcomponent/documentComponentTypes";
+import { sendForhandsvarselTexts } from "../../src/data/aktivitetskrav/forhandsvarselTexts";
 
 const aktivitetskravNy = {
   uuid: generateUUID(),
@@ -93,7 +95,80 @@ const aktivitetskravAutomatiskOppfylt = {
   vurderinger: [],
 };
 
+const getForhandsvarselDocument = (
+  begrunnelse: string | undefined,
+  fristDato: Date
+) => {
+  const documentComponents = [
+    {
+      type: DocumentComponentType.HEADER_H1,
+      texts: [sendForhandsvarselTexts.varselInfo.header],
+    },
+    {
+      type: DocumentComponentType.PARAGRAPH,
+      texts: [sendForhandsvarselTexts.varselInfo.introWithFristDate(fristDato)],
+    },
+  ];
+
+  if (begrunnelse) {
+    documentComponents.push({
+      type: DocumentComponentType.PARAGRAPH,
+      texts: [begrunnelse],
+    });
+  }
+
+  documentComponents.push(
+    {
+      type: DocumentComponentType.HEADER_H3,
+      texts: [sendForhandsvarselTexts.unngaStansInfo.header],
+    },
+    {
+      type: DocumentComponentType.BULLET_POINTS,
+      texts: [
+        sendForhandsvarselTexts.unngaStansInfo.tiltak1,
+        sendForhandsvarselTexts.unngaStansInfo.tiltak2,
+        sendForhandsvarselTexts.unngaStansInfo.tiltak3,
+      ],
+    },
+    {
+      type: DocumentComponentType.HEADER_H3,
+      texts: [sendForhandsvarselTexts.giOssTilbakemelding.header],
+    },
+    {
+      type: DocumentComponentType.PARAGRAPH,
+      texts: [
+        sendForhandsvarselTexts.giOssTilbakemelding.tilbakemeldingWithFristDate(
+          fristDato
+        ),
+      ],
+    },
+    {
+      type: DocumentComponentType.PARAGRAPH,
+      texts: [sendForhandsvarselTexts.giOssTilbakemelding.kontaktOss],
+    },
+    {
+      type: DocumentComponentType.HEADER_H3,
+      texts: [sendForhandsvarselTexts.lovhjemmel.header],
+    },
+    {
+      type: DocumentComponentType.PARAGRAPH,
+      texts: [sendForhandsvarselTexts.lovhjemmel.aktivitetsplikten],
+    },
+    {
+      type: DocumentComponentType.PARAGRAPH,
+      texts: [sendForhandsvarselTexts.lovhjemmel.pliktInfo],
+    },
+    {
+      type: DocumentComponentType.PARAGRAPH,
+      texts: ["Med vennlig hilsen", VEILEDER_DEFAULT.navn, "NAV"],
+    }
+  );
+
+  return documentComponents;
+};
+
 export const varselUuid = generateUUID();
+const begrunnelse = "En begrunnelse for hvorfor det er sendt forhåndsvarsel";
 
 const aktivitetskravForhandsvarsel: AktivitetskravDTO = {
   uuid: generateUUID(),
@@ -106,13 +181,14 @@ const aktivitetskravForhandsvarsel: AktivitetskravDTO = {
       createdAt: daysFromToday(-2),
       createdBy: VEILEDER_DEFAULT.ident,
       status: AktivitetskravStatus.FORHANDSVARSEL,
-      beskrivelse: "En begrunnelse for hvorfor det er sendt forhåndsvarsel",
+      beskrivelse: begrunnelse,
       arsaker: [],
       frist: undefined,
       varsel: {
         uuid: varselUuid,
         createdAt: daysFromToday(-2),
         svarfrist: daysFromToday(19),
+        document: getForhandsvarselDocument(begrunnelse, daysFromToday(1)),
       },
     },
   ],

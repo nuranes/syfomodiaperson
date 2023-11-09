@@ -57,6 +57,7 @@ export interface AktivitetskravVarselDTO {
   uuid: string;
   createdAt: Date;
   svarfrist: Date;
+  document: DocumentComponentDto[];
 }
 
 export type VurderingArsak =

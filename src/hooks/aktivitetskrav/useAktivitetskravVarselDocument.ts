@@ -1,3 +1,4 @@
+import { sendForhandsvarselTexts } from "@/data/aktivitetskrav/forhandsvarselTexts";
 import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
 import { useDocumentComponents } from "@/hooks/useDocumentComponents";
 import {
@@ -6,7 +7,6 @@ import {
   createHeaderH3,
   createParagraph,
 } from "@/utils/documentComponentUtils";
-import { sendForhandsvarselTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
 
 export const useAktivitetskravVarselDocument = (): {
   getForhandsvarselDocument(
