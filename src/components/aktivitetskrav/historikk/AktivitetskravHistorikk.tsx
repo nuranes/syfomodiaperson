@@ -150,15 +150,32 @@ interface HistorikkElementProps {
 }
 
 const HistorikkElement = ({ vurdering }: HistorikkElementProps) => {
+  const [isOpen, setIsOpen] = useState(false);
   const { data: veilederinfo } = useVeilederInfoQuery(vurdering.createdBy);
   const header = `${headerPrefix(vurdering.status)} - ${tilDatoMedManedNavn(
     vurdering.createdAt
   )}`;
   const arsak = vurdering.arsaker[0];
 
+  const handleAccordionClick = () => {
+    if (!isOpen) {
+      // Vil bare logge klikk som åpner accordion
+      Amplitude.logEvent({
+        type: EventType.AccordionOpen,
+        data: {
+          tekst: `Åpne accordion aktivitetskrav historikk: ${header}`,
+          url: window.location.href,
+        },
+      });
+    }
+    setIsOpen(!isOpen);
+  };
+
   return (
-    <Accordion.Item>
-      <Accordion.Header>{header}</Accordion.Header>
+    <Accordion.Item open={isOpen}>
+      <Accordion.Header onClick={handleAccordionClick}>
+        {header}
+      </Accordion.Header>
       <Accordion.Content>
         {!!arsak && (
           <Paragraph title={texts.arsakTitle} body={getArsakText(arsak)} />

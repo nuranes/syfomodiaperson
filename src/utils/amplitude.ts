@@ -9,6 +9,7 @@ export enum EventType {
   PageView = "besøk",
   ButtonClick = "knapp trykket",
   Navigation = "navigere",
+  AccordionOpen = "accordion åpnet",
 }
 
 type EventPageView = {
@@ -35,7 +36,15 @@ type Navigation = {
   };
 };
 
-type Event = EventPageView | EventButtonClick | Navigation;
+type EventAccordionOpen = {
+  type: EventType.AccordionOpen;
+  data: {
+    url: string;
+    tekst: string;
+  };
+};
+
+type Event = EventPageView | EventButtonClick | Navigation | EventAccordionOpen;
 
 export const logEvent = (event: Event) => {
   switch (event.type) {
@@ -57,6 +66,11 @@ export const logEvent = (event: Event) => {
         lenketekst: event.data.lenketekst,
       });
       break;
+    case EventType.AccordionOpen:
+      client.logEvent(EventType.AccordionOpen, {
+        url: event.data.url,
+        tekst: event.data.tekst,
+      });
   }
 };
 
