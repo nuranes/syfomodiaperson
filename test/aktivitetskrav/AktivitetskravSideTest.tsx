@@ -85,8 +85,7 @@ describe("AktivitetskravSide", () => {
       .exist;
   });
   describe("Start ny vurdering", () => {
-    it("Vises når person har oppfølgingstilfelle uten aktivitetskrav", () => {
-      mockOppfolgingstilfellePerson([activeOppfolgingstilfelle]);
+    it("Vises når person ikke har aktivitetskrav", () => {
       mockAktivitetskrav([]);
 
       renderAktivitetskravSide();
@@ -121,7 +120,6 @@ describe("AktivitetskravSide", () => {
       expect(screen.getByText(noOppfolgingstilfelleAktivitetskravText)).to
         .exist;
     });
-
     it("Vises med advarsel når person har verken oppfølgingstilfelle eller aktivitetskrav", () => {
       mockOppfolgingstilfellePerson([]);
       mockAktivitetskrav([]);
@@ -140,8 +138,93 @@ describe("AktivitetskravSide", () => {
       expect(screen.getByText(noOppfolgingstilfelleAktivitetskravText)).to
         .exist;
     });
-    it("Vises når person har oppfølgingstilfelle med bare aktivitetskrav (AUTOMATISK_OPPFYLT)", () => {
-      mockOppfolgingstilfellePerson([activeOppfolgingstilfelle]);
+    it("Vises når person har aktivitetskrav LUKKET", () => {
+      mockAktivitetskrav([
+        createAktivitetskrav(daysFromToday(20), AktivitetskravStatus.LUKKET),
+      ]);
+
+      renderAktivitetskravSide();
+
+      expect(
+        screen.queryByRole("heading", { name: "Vurdere aktivitetskravet" })
+      ).to.not.exist;
+      expect(
+        screen.getByRole("heading", {
+          name: "Start ny aktivitetskrav-vurdering",
+        })
+      ).to.exist;
+    });
+    it("Vises når person har aktivitetskrav IKKE_OPPFYLT", () => {
+      mockAktivitetskrav([
+        createAktivitetskrav(
+          daysFromToday(20),
+          AktivitetskravStatus.IKKE_OPPFYLT
+        ),
+      ]);
+
+      renderAktivitetskravSide();
+
+      expect(
+        screen.queryByRole("heading", { name: "Vurdere aktivitetskravet" })
+      ).to.not.exist;
+      expect(
+        screen.getByRole("heading", {
+          name: "Start ny aktivitetskrav-vurdering",
+        })
+      ).to.exist;
+    });
+    it("Vises når person har aktivitetskrav IKKE_AKTUELL", () => {
+      mockAktivitetskrav([
+        createAktivitetskrav(
+          daysFromToday(20),
+          AktivitetskravStatus.IKKE_AKTUELL
+        ),
+      ]);
+
+      renderAktivitetskravSide();
+
+      expect(
+        screen.queryByRole("heading", { name: "Vurdere aktivitetskravet" })
+      ).to.not.exist;
+      expect(
+        screen.getByRole("heading", {
+          name: "Start ny aktivitetskrav-vurdering",
+        })
+      ).to.exist;
+    });
+    it("Vises når person har aktivitetskrav UNNTAK", () => {
+      mockAktivitetskrav([
+        createAktivitetskrav(daysFromToday(20), AktivitetskravStatus.UNNTAK),
+      ]);
+
+      renderAktivitetskravSide();
+
+      expect(
+        screen.queryByRole("heading", { name: "Vurdere aktivitetskravet" })
+      ).to.not.exist;
+      expect(
+        screen.getByRole("heading", {
+          name: "Start ny aktivitetskrav-vurdering",
+        })
+      ).to.exist;
+    });
+    it("Vises når person har aktivitetskrav OPPFYLT", () => {
+      mockAktivitetskrav([
+        createAktivitetskrav(daysFromToday(20), AktivitetskravStatus.OPPFYLT),
+      ]);
+
+      renderAktivitetskravSide();
+
+      expect(
+        screen.queryByRole("heading", { name: "Vurdere aktivitetskravet" })
+      ).to.not.exist;
+      expect(
+        screen.getByRole("heading", {
+          name: "Start ny aktivitetskrav-vurdering",
+        })
+      ).to.exist;
+    });
+    it("Vises når person har aktivitetskrav AUTOMATISK_OPPFYLT", () => {
       mockAktivitetskrav([
         createAktivitetskrav(
           daysFromToday(20),
@@ -159,15 +242,57 @@ describe("AktivitetskravSide", () => {
           name: "Start ny aktivitetskrav-vurdering",
         })
       ).to.exist;
-      expect(screen.queryByRole("img", { name: "Advarsel" })).to.not.exist;
-      expect(screen.queryByRole(noOppfolgingstilfelleAktivitetskravText)).to.not
-        .exist;
     });
-  });
+    it("Vises når person har aktivitetskrav STANS", () => {
+      mockAktivitetskrav([
+        createAktivitetskrav(daysFromToday(20), AktivitetskravStatus.STANS),
+      ]);
 
-  describe("Vurder aktivitetskravet", () => {
-    it("Vises når person har oppfølgingstilfelle med aktivitetskrav (NY)", () => {
-      mockOppfolgingstilfellePerson([activeOppfolgingstilfelle]);
+      renderAktivitetskravSide();
+
+      expect(
+        screen.queryByRole("heading", { name: "Vurdere aktivitetskravet" })
+      ).to.not.exist;
+      expect(
+        screen.getByRole("heading", {
+          name: "Start ny aktivitetskrav-vurdering",
+        })
+      ).to.exist;
+    });
+    it("Vises ikke når person har aktivitetskrav AVVENT", () => {
+      mockAktivitetskrav([
+        createAktivitetskrav(daysFromToday(20), AktivitetskravStatus.AVVENT),
+      ]);
+
+      renderAktivitetskravSide();
+
+      expect(screen.getByRole("heading", { name: "Vurdere aktivitetskravet" }))
+        .to.exist;
+      expect(
+        screen.queryByRole("heading", {
+          name: "Start ny aktivitetskrav-vurdering",
+        })
+      ).to.not.exist;
+    });
+    it("Vises ikke når person har aktivitetskrav FORHANDSVARSEL", () => {
+      mockAktivitetskrav([
+        createAktivitetskrav(
+          daysFromToday(20),
+          AktivitetskravStatus.FORHANDSVARSEL
+        ),
+      ]);
+
+      renderAktivitetskravSide();
+
+      expect(screen.getByRole("heading", { name: "Vurdere aktivitetskravet" }))
+        .to.exist;
+      expect(
+        screen.queryByRole("heading", {
+          name: "Start ny aktivitetskrav-vurdering",
+        })
+      ).to.not.exist;
+    });
+    it("Vises ikke når person har aktivitetskrav NY", () => {
       mockAktivitetskrav([
         createAktivitetskrav(daysFromToday(20), AktivitetskravStatus.NY),
       ]);
@@ -176,11 +301,80 @@ describe("AktivitetskravSide", () => {
 
       expect(screen.getByRole("heading", { name: "Vurdere aktivitetskravet" }))
         .to.exist;
-      expect(screen.queryByRole("img", { name: "Advarsel" })).to.not.exist;
-      expect(screen.queryByText(noOppfolgingstilfelleAktivitetskravText)).to.not
-        .exist;
+      expect(
+        screen.queryByRole("heading", {
+          name: "Start ny aktivitetskrav-vurdering",
+        })
+      ).to.not.exist;
     });
-    it("Vises med advarsel når person har inaktivt oppfølgingstilfelle med aktivitetskrav (NY)", () => {
+    it("Vises ikke når person har aktivitetskrav NY_VURDERING", () => {
+      mockAktivitetskrav([
+        createAktivitetskrav(
+          daysFromToday(20),
+          AktivitetskravStatus.NY_VURDERING
+        ),
+      ]);
+
+      renderAktivitetskravSide();
+
+      expect(screen.getByRole("heading", { name: "Vurdere aktivitetskravet" }))
+        .to.exist;
+      expect(
+        screen.queryByRole("heading", {
+          name: "Start ny aktivitetskrav-vurdering",
+        })
+      ).to.not.exist;
+    });
+  });
+
+  describe("Vurder aktivitetskravet", () => {
+    it("Vises når person har aktivitetskrav (NY)", () => {
+      mockAktivitetskrav([
+        createAktivitetskrav(daysFromToday(20), AktivitetskravStatus.NY),
+      ]);
+
+      renderAktivitetskravSide();
+
+      expect(screen.getByRole("heading", { name: "Vurdere aktivitetskravet" }))
+        .to.exist;
+    });
+    it("Vises når person har aktivitetskrav (NY_VURDERING)", () => {
+      mockAktivitetskrav([
+        createAktivitetskrav(
+          daysFromToday(20),
+          AktivitetskravStatus.NY_VURDERING
+        ),
+      ]);
+
+      renderAktivitetskravSide();
+
+      expect(screen.getByRole("heading", { name: "Vurdere aktivitetskravet" }))
+        .to.exist;
+    });
+    it("Vises når person har aktivitetskrav (AVVENT)", () => {
+      mockAktivitetskrav([
+        createAktivitetskrav(daysFromToday(20), AktivitetskravStatus.AVVENT),
+      ]);
+
+      renderAktivitetskravSide();
+
+      expect(screen.getByRole("heading", { name: "Vurdere aktivitetskravet" }))
+        .to.exist;
+    });
+    it("Vises når person har aktivitetskrav (FORHANDSVARSEL)", () => {
+      mockAktivitetskrav([
+        createAktivitetskrav(
+          daysFromToday(20),
+          AktivitetskravStatus.FORHANDSVARSEL
+        ),
+      ]);
+
+      renderAktivitetskravSide();
+
+      expect(screen.getByRole("heading", { name: "Vurdere aktivitetskravet" }))
+        .to.exist;
+    });
+    it("Vises med advarsel når person har inaktivt oppfølgingstilfelle", () => {
       mockOppfolgingstilfellePerson([
         generateOppfolgingstilfelle(daysFromToday(-30), daysFromToday(-20)),
       ]);
@@ -190,8 +384,6 @@ describe("AktivitetskravSide", () => {
 
       renderAktivitetskravSide();
 
-      expect(screen.getByRole("heading", { name: "Vurdere aktivitetskravet" }))
-        .to.exist;
       expect(screen.getByRole("img", { name: "Advarsel" })).to.exist;
       expect(screen.getByText(noOppfolgingstilfelleAktivitetskravText)).to
         .exist;

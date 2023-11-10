@@ -31,3 +31,9 @@ export const avventVurderingArsakTexts: VurderingArsakTexts = {
   [AvventVurderingArsak.DROFTES_INTERNT]: "Drøftes internt",
   [AvventVurderingArsak.ANNET]: "Annet",
 };
+
+export const vurderingArsakTexts: VurderingArsakTexts = {
+  ...oppfyltVurderingArsakTexts,
+  ...unntakVurderingArsakTexts,
+  ...avventVurderingArsakTexts,
+};

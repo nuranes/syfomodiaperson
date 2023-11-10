@@ -34,7 +34,6 @@ import {
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { expect } from "chai";
 import { tilLesbarPeriodeMedArUtenManednavn } from "@/utils/datoUtils";
-import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
 import dayjs from "dayjs";
 import { Modal } from "@navikt/ds-react";
 import { getSendForhandsvarselDocument } from "./varselDocuments";
@@ -48,10 +47,12 @@ import {
   stubVurderAktivitetskravForhandsvarselApi,
 } from "../stubs/stubIsaktivitetskrav";
 import nock from "nock";
+import { oppfolgingstilfellePersonQueryKeys } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 
 let queryClient: QueryClient;
 let apiMockScope: any;
 
+const fnr = ARBEIDSTAKER_DEFAULT.personIdent;
 const aktivitetskrav = createAktivitetskrav(
   daysFromToday(5),
   AktivitetskravStatus.NY
@@ -81,19 +82,13 @@ const tabTexts = {
 
 const enBeskrivelse = "Her er en beskrivelse";
 
-const renderVurderAktivitetskrav = (
-  aktivitetskravDto: AktivitetskravDTO,
-  oppfolgingstilfelleDto: OppfolgingstilfelleDTO | undefined
-) =>
+const renderVurderAktivitetskrav = (aktivitetskravDto: AktivitetskravDTO) =>
   render(
     <QueryClientProvider client={queryClient}>
       <ValgtEnhetContext.Provider
         value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
       >
-        <VurderAktivitetskrav
-          aktivitetskrav={aktivitetskravDto}
-          oppfolgingstilfelle={oppfolgingstilfelleDto}
-        />
+        <VurderAktivitetskrav aktivitetskrav={aktivitetskravDto} />
       </ValgtEnhetContext.Provider>
     </QueryClientProvider>
   );
@@ -108,14 +103,14 @@ describe("VurderAktivitetskrav", () => {
   });
 
   it("renders buttons for vurdering av aktivitetskravet", () => {
-    renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
+    renderVurderAktivitetskrav(aktivitetskrav);
 
     expect(screen.queryByRole("button", { name: "Avvent" })).to.exist;
     expect(screen.queryByRole("button", { name: "Ikke aktuell" })).to.exist;
   });
 
   it("renders tabs for vurdering av aktivitetskravet", () => {
-    renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
+    renderVurderAktivitetskrav(aktivitetskrav);
 
     expect(screen.queryByRole("tab", { name: "Sett unntak" })).to.exist;
     expect(screen.queryByRole("tab", { name: "Er i aktivitet" })).to.exist;
@@ -129,7 +124,7 @@ describe("VurderAktivitetskrav", () => {
       () => [personOppgaveUbehandletVurderStans]
     );
 
-    renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
+    renderVurderAktivitetskrav(aktivitetskrav);
 
     expect(screen.queryByRole("tab", { name: "Sett unntak" })).to.exist;
     expect(screen.queryByRole("tab", { name: "Er i aktivitet" })).to.exist;
@@ -138,7 +133,14 @@ describe("VurderAktivitetskrav", () => {
   });
 
   it("renders periode for oppfølgingstilfelle", () => {
-    renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
+    queryClient.setQueryData(
+      oppfolgingstilfellePersonQueryKeys.oppfolgingstilfelleperson(fnr),
+      () => ({
+        personIdent: fnr,
+        oppfolgingstilfelleList: [oppfolgingstilfelle],
+      })
+    );
+    renderVurderAktivitetskrav(aktivitetskrav);
 
     const periodeText = tilLesbarPeriodeMedArUtenManednavn(
       tilfelleStart,
@@ -149,7 +151,7 @@ describe("VurderAktivitetskrav", () => {
 
   describe("Oppfylt", () => {
     it("Validerer årsak og maks tegn beskrivelse", async () => {
-      renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
+      renderVurderAktivitetskrav(aktivitetskrav);
 
       clickTab(tabTexts["OPPFYLT"]);
       const tooLongBeskrivelse = getTooLongText(begrunnelseMaxLength);
@@ -161,7 +163,7 @@ describe("VurderAktivitetskrav", () => {
       expect(await screen.findByText("1 tegn for mye")).to.exist;
     });
     it("Lagre vurdering med verdier fra skjema, og reset skjema etter innsending", async () => {
-      renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
+      renderVurderAktivitetskrav(aktivitetskrav);
       stubVurderAktivitetskravApi(apiMockScope);
 
       clickTab(tabTexts["OPPFYLT"]);
@@ -195,7 +197,7 @@ describe("VurderAktivitetskrav", () => {
   });
   describe("Unntak", () => {
     it("Validerer årsak og maks tegn beskrivelse", async () => {
-      renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
+      renderVurderAktivitetskrav(aktivitetskrav);
 
       clickTab(tabTexts["UNNTAK"]);
       const tooLongBeskrivelse = getTooLongText(begrunnelseMaxLength);
@@ -207,7 +209,7 @@ describe("VurderAktivitetskrav", () => {
       expect(await screen.findByText("1 tegn for mye")).to.exist;
     });
     it("Lagre vurdering med verdier fra skjema, og reset skjema etter innsending", async () => {
-      renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
+      renderVurderAktivitetskrav(aktivitetskrav);
       stubVurderAktivitetskravApi(apiMockScope);
 
       clickTab(tabTexts["UNNTAK"]);
@@ -243,7 +245,7 @@ describe("VurderAktivitetskrav", () => {
   });
   describe("Avvent", () => {
     it("Validerer årsaker, beskrivelse og dato", async () => {
-      renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
+      renderVurderAktivitetskrav(aktivitetskrav);
 
       clickButton(buttonTexts["AVVENT"]);
       const lagreButton = within(screen.getByRole("dialog")).getByRole(
@@ -256,7 +258,7 @@ describe("VurderAktivitetskrav", () => {
       expect(await screen.findByText(/Vennligst angi en gyldig dato/)).to.exist;
     });
     it("Lagre vurdering med verdier fra skjema, og reset skjema etter innsending", async () => {
-      renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
+      renderVurderAktivitetskrav(aktivitetskrav);
       stubVurderAktivitetskravApi(apiMockScope);
 
       clickButton(buttonTexts["AVVENT"]);
@@ -321,7 +323,7 @@ describe("VurderAktivitetskrav", () => {
   });
   describe("Ikke oppfylt", () => {
     it("Is not showing when status is not FORHANDSVARSEL", () => {
-      renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
+      renderVurderAktivitetskrav(aktivitetskrav);
 
       expect(screen.queryByRole("button", { name: "Ikke oppfylt" })).to.not
         .exist;
@@ -329,10 +331,7 @@ describe("VurderAktivitetskrav", () => {
   });
   describe("Send forhåndsvarsel", () => {
     it("Does not show AVVENT or FORHANDSVARSEL choice when forhandsvarsel is sent", () => {
-      renderVurderAktivitetskrav(
-        forhandsvarselAktivitetskrav,
-        oppfolgingstilfelle
-      );
+      renderVurderAktivitetskrav(forhandsvarselAktivitetskrav);
 
       expect(screen.queryByRole("tab", { name: "Sett unntak" })).to.exist;
       expect(screen.queryByRole("tab", { name: "Er i aktivitet" })).to.exist;
@@ -343,7 +342,7 @@ describe("VurderAktivitetskrav", () => {
     });
 
     it("Send forhåndsvarsel with beskrivelse filled in, and reset form after submit", async () => {
-      renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
+      renderVurderAktivitetskrav(aktivitetskrav);
       stubVurderAktivitetskravForhandsvarselApi(apiMockScope);
       const beskrivelseLabel = "Begrunnelse (obligatorisk)";
 
@@ -387,10 +386,7 @@ describe("VurderAktivitetskrav", () => {
         ),
         () => [personOppgaveUbehandletVurderStans]
       );
-      renderVurderAktivitetskrav(
-        forhandsvarselAktivitetskrav,
-        oppfolgingstilfelle
-      );
+      renderVurderAktivitetskrav(forhandsvarselAktivitetskrav);
 
       clickTab(tabTexts["IKKE_OPPFYLT"]);
 
@@ -417,7 +413,7 @@ describe("VurderAktivitetskrav", () => {
       );
     });
     it("Fails to send forhåndsvarsel when no beskrivelse is filled in", async () => {
-      renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
+      renderVurderAktivitetskrav(aktivitetskrav);
       clickTab(tabTexts["FORHANDSVARSEL"]);
       clickButton("Send");
 
@@ -426,7 +422,7 @@ describe("VurderAktivitetskrav", () => {
   });
   describe("Ikke aktuell", () => {
     it("Lagre vurdering med verdier fra skjema", () => {
-      renderVurderAktivitetskrav(aktivitetskrav, oppfolgingstilfelle);
+      renderVurderAktivitetskrav(aktivitetskrav);
 
       clickButton(buttonTexts["IKKE_AKTUELL"]);
 

@@ -38,6 +38,7 @@ export interface AktivitetskravDTO {
   uuid: string;
   createdAt: Date;
   status: AktivitetskravStatus;
+  inFinalState: boolean;
   stoppunktAt: Date;
   vurderinger: AktivitetskravVurderingDTO[];
 }
@@ -75,4 +76,8 @@ export interface CreateAktivitetskravVurderingDTO {
 export interface SendForhandsvarselDTO {
   fritekst: string;
   document: DocumentComponentDto[];
+}
+
+export interface NewAktivitetskravDTO {
+  previousAktivitetskravUuid: string;
 }

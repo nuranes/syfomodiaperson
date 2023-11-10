@@ -35,6 +35,11 @@ export const createAktivitetskrav = (
 ): AktivitetskravDTO => {
   return {
     createdAt: new Date(),
+    inFinalState:
+      status !== AktivitetskravStatus.AVVENT &&
+      status !== AktivitetskravStatus.FORHANDSVARSEL &&
+      status !== AktivitetskravStatus.NY &&
+      status !== AktivitetskravStatus.NY_VURDERING,
     status,
     stoppunktAt,
     uuid: generateUUID(),

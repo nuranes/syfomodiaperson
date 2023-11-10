@@ -15,6 +15,7 @@ const aktivitetskravNy = {
   uuid: generateUUID(),
   createdAt: daysFromToday(-7),
   status: AktivitetskravStatus.NY,
+  inFinalState: false,
   stoppunktAt: daysFromToday(42),
   vurderinger: [],
 };
@@ -23,6 +24,7 @@ const aktivitetskravUnntak = {
   uuid: generateUUID(),
   createdAt: daysFromToday(-700),
   status: AktivitetskravStatus.UNNTAK,
+  inFinalState: true,
   stoppunktAt: daysFromToday(-400),
   vurderinger: [
     {
@@ -41,6 +43,7 @@ const aktivitetskravOppfylt = {
   uuid: generateUUID(),
   createdAt: daysFromToday(-400),
   status: AktivitetskravStatus.OPPFYLT,
+  inFinalState: true,
   stoppunktAt: daysFromToday(-400),
   vurderinger: [
     {
@@ -66,31 +69,11 @@ const aktivitetskravOppfylt = {
   ],
 };
 
-const aktivitetskravAvvent = {
-  uuid: generateUUID(),
-  createdAt: daysFromToday(-20),
-  status: AktivitetskravStatus.OPPFYLT,
-  stoppunktAt: daysFromToday(20),
-  vurderinger: [
-    {
-      uuid: generateUUID(),
-      createdAt: daysFromToday(-10),
-      createdBy: VEILEDER_DEFAULT.ident,
-      status: AktivitetskravStatus.AVVENT,
-      beskrivelse:
-        "Dette er tekst som forklarer hvorfor jeg avventer. Lorem ipsum! Jeg sendte epost til arbeidsgiver og ba om oppfølgingsplan. Jeg har også sendt forespørsel til behandler (men jeg skulle ønske jeg kunne sende dialogmeldinger fra modia!)",
-      arsaker: [
-        AvventVurderingArsak.OPPFOLGINGSPLAN_ARBEIDSGIVER,
-        AvventVurderingArsak.INFORMASJON_BEHANDLER,
-      ],
-    },
-  ],
-};
-
 const aktivitetskravAutomatiskOppfylt = {
   uuid: generateUUID(),
   createdAt: daysFromToday(-350),
   status: AktivitetskravStatus.AUTOMATISK_OPPFYLT,
+  inFinalState: true,
   stoppunktAt: daysFromToday(-400),
   vurderinger: [],
 };
@@ -174,6 +157,7 @@ const aktivitetskravForhandsvarsel: AktivitetskravDTO = {
   uuid: generateUUID(),
   createdAt: daysFromToday(-11),
   status: AktivitetskravStatus.FORHANDSVARSEL,
+  inFinalState: false,
   stoppunktAt: daysFromToday(40),
   vurderinger: [
     {

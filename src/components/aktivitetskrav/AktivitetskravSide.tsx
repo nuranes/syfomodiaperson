@@ -2,14 +2,9 @@ import React from "react";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { VurderAktivitetskrav } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskrav";
 import { useAktivitetskravQuery } from "@/data/aktivitetskrav/aktivitetskravQueryHooks";
-import { AktivitetskravStatus } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { AktivitetskravVurderingAlert } from "@/components/aktivitetskrav/vurdering/AktivitetskravVurderingAlert";
 import UtdragFraSykefravaeret from "@/components/utdragFraSykefravaeret/UtdragFraSykefravaeret";
 import { AktivitetskravHistorikk } from "@/components/aktivitetskrav/historikk/AktivitetskravHistorikk";
-import {
-  aktivitetskravVurderingerForOppfolgingstilfelle,
-  oppfolgingstilfelleForAktivitetskrav,
-} from "@/utils/aktivitetskravUtils";
 import { Panel } from "@navikt/ds-react";
 import { StartNyVurdering } from "./vurdering/StartNyVurdering";
 import { AktivitetskravAlertstripe } from "@/components/aktivitetskrav/AktivitetskravAlertstripe";
@@ -20,27 +15,12 @@ const texts = {
 };
 
 export const AktivitetskravSide = () => {
-  const { tilfellerDescendingStart, hasActiveOppfolgingstilfelle } =
-    useOppfolgingstilfellePersonQuery();
+  const { hasActiveOppfolgingstilfelle } = useOppfolgingstilfellePersonQuery();
   const { data } = useAktivitetskravQuery();
 
-  const aktivitetskravTilVurdering = data.find(
-    (aktivitetskrav) =>
-      aktivitetskrav.status !== AktivitetskravStatus.AUTOMATISK_OPPFYLT &&
-      aktivitetskrav.status !== AktivitetskravStatus.LUKKET
-  );
-  const oppfolgingstilfelle =
-    aktivitetskravTilVurdering &&
-    oppfolgingstilfelleForAktivitetskrav(
-      aktivitetskravTilVurdering,
-      tilfellerDescendingStart
-    );
-  const sisteVurdering = oppfolgingstilfelle
-    ? aktivitetskravVurderingerForOppfolgingstilfelle(
-        data,
-        oppfolgingstilfelle
-      )[0]
-    : aktivitetskravTilVurdering?.vurderinger[0];
+  const aktivitetskrav = data[0];
+  const sisteVurdering = aktivitetskrav?.vurderinger[0];
+  const showStartNyVurdering = !aktivitetskrav || aktivitetskrav.inFinalState;
 
   return (
     <>
@@ -52,13 +32,10 @@ export const AktivitetskravSide = () => {
       {sisteVurdering && (
         <AktivitetskravVurderingAlert vurdering={sisteVurdering} />
       )}
-      {aktivitetskravTilVurdering ? (
-        <VurderAktivitetskrav
-          aktivitetskrav={aktivitetskravTilVurdering}
-          oppfolgingstilfelle={oppfolgingstilfelle}
-        />
+      {showStartNyVurdering ? (
+        <StartNyVurdering aktivitetskrav={aktivitetskrav} />
       ) : (
-        <StartNyVurdering />
+        <VurderAktivitetskrav aktivitetskrav={aktivitetskrav} />
       )}
       <Panel className="mb-4 flex flex-col p-8">
         <UtdragFraSykefravaeret />

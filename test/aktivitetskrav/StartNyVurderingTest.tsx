@@ -7,10 +7,23 @@ import { StartNyVurdering } from "@/components/aktivitetskrav/vurdering/StartNyV
 import { expect } from "chai";
 import { queryClientWithMockData } from "../testQueryClient";
 import { oppfolgingstilfellePersonQueryKeys } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
-import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
-import { generateOppfolgingstilfelle } from "../testDataUtils";
+import {
+  ARBEIDSTAKER_DEFAULT,
+  ARBEIDSTAKER_DEFAULT_FULL_NAME,
+} from "../../mock/common/mockConstants";
+import {
+  createAktivitetskrav,
+  createAktivitetskravVurdering,
+  generateOppfolgingstilfelle,
+} from "../testDataUtils";
 import { clickButton, daysFromToday, getButton } from "../testUtils";
 import { tilLesbarPeriodeMedArUtenManednavn } from "@/utils/datoUtils";
+import {
+  AktivitetskravDTO,
+  AktivitetskravStatus,
+  UnntakVurderingArsak,
+} from "@/data/aktivitetskrav/aktivitetskravTypes";
+import { vurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
 
 let queryClient: QueryClient;
 
@@ -24,14 +37,42 @@ const oppfolgingstilfelle = generateOppfolgingstilfelle(
   tilfelleStart,
   tilfelleEnd
 );
+const unntakBeskrivelse = "Vurdering beskrivelse";
+const unntakArsak = UnntakVurderingArsak.MEDISINSKE_GRUNNER;
+const aktivitetskravUnntak = createAktivitetskrav(
+  daysFromToday(20),
+  AktivitetskravStatus.UNNTAK,
+  [
+    createAktivitetskravVurdering(
+      AktivitetskravStatus.UNNTAK,
+      [unntakArsak],
+      unntakBeskrivelse
+    ),
+  ]
+);
+const aktivitetskravIkkeAktuelt = createAktivitetskrav(
+  daysFromToday(20),
+  AktivitetskravStatus.IKKE_AKTUELL,
+  [
+    createAktivitetskravVurdering(
+      AktivitetskravStatus.IKKE_AKTUELL,
+      [],
+      undefined
+    ),
+  ]
+);
+const aktivitetskravAutomatiskOppfylt = createAktivitetskrav(
+  daysFromToday(20),
+  AktivitetskravStatus.AUTOMATISK_OPPFYLT
+);
 
-const renderStartNyVurdering = () => {
+const renderStartNyVurdering = (aktivitetskrav?: AktivitetskravDTO) => {
   render(
     <QueryClientProvider client={queryClient}>
       <ValgtEnhetContext.Provider
         value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
       >
-        <StartNyVurdering />
+        <StartNyVurdering aktivitetskrav={aktivitetskrav} />
       </ValgtEnhetContext.Provider>
     </QueryClientProvider>
   );
@@ -48,7 +89,7 @@ describe("StartNyVurdering", () => {
       })
     );
   });
-  it("renders panel to start ny vurdering", () => {
+  it("renders header, tilfelle-text and button to start ny vurdering", () => {
     renderStartNyVurdering();
 
     const periodeText = tilLesbarPeriodeMedArUtenManednavn(
@@ -56,18 +97,57 @@ describe("StartNyVurdering", () => {
       tilfelleEnd
     );
     expect(
-      screen.getByRole("heading", { name: "Start ny aktivitetskrav-vurdering" })
+      screen.getByRole("heading", {
+        name: "Start ny aktivitetskrav-vurdering",
+      })
     ).to.exist;
     expect(screen.getByText(`Gjelder tilfelle ${periodeText}`)).to.exist;
-    expect(screen.getByText(noAktivitetskravText)).to.exist;
     expect(getButton(buttonText)).to.exist;
   });
-  it("click button runs mutation", () => {
-    renderStartNyVurdering();
+  describe("Uten aktivitetskrav", () => {
+    it("renders no vurdering text", () => {
+      renderStartNyVurdering();
 
-    clickButton(buttonText);
+      expect(screen.getByText(noAktivitetskravText)).to.exist;
+    });
+    it("click button runs mutation with no aktivitetskrav uuid", () => {
+      renderStartNyVurdering();
 
-    const nyVurderingMutation = queryClient.getMutationCache().getAll()[0];
-    expect(nyVurderingMutation).to.exist;
+      clickButton(buttonText);
+
+      const nyVurderingMutation = queryClient.getMutationCache().getAll()[0];
+      expect(nyVurderingMutation.options.variables).to.be.undefined;
+    });
+  });
+  describe("Med aktivitetskrav i sluttilstand", () => {
+    it("renders no vurdering text when aktivitetskrav has no vurderinger", () => {
+      renderStartNyVurdering(aktivitetskravAutomatiskOppfylt);
+
+      expect(screen.getByText(noAktivitetskravText)).to.exist;
+    });
+    it("renders vurdering text when aktivitetskrav has vurdering", () => {
+      renderStartNyVurdering(aktivitetskravUnntak);
+
+      expect(screen.queryByText(noAktivitetskravText)).to.not.exist;
+      const expectedVurderingText = `Det ble vurdert unntak for ${ARBEIDSTAKER_DEFAULT_FULL_NAME}. Årsak: ${vurderingArsakTexts[unntakArsak]}, ${unntakBeskrivelse}. For å endre utfall må du starte en ny vurdering.`;
+      expect(screen.getByText(expectedVurderingText)).to.exist;
+    });
+    it("renders vurdering text when aktivitetskrav has vurdering but no arsak and beskrivelse", () => {
+      renderStartNyVurdering(aktivitetskravIkkeAktuelt);
+
+      expect(screen.queryByText(noAktivitetskravText)).to.not.exist;
+      const expectedVurderingText = `Det ble vurdert at aktivitetskravet ikke er aktuelt for ${ARBEIDSTAKER_DEFAULT_FULL_NAME}. For å endre utfall må du starte en ny vurdering.`;
+      expect(screen.getByText(expectedVurderingText)).to.exist;
+    });
+    it("click button runs mutation with aktivitetskrav uuid", () => {
+      renderStartNyVurdering(aktivitetskravUnntak);
+
+      clickButton(buttonText);
+
+      const nyVurderingMutation = queryClient.getMutationCache().getAll()[0];
+      expect(nyVurderingMutation.options.variables).to.deep.equal({
+        previousAktivitetskravUuid: aktivitetskravUnntak.uuid,
+      });
+    });
   });
 });
