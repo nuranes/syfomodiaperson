@@ -188,7 +188,9 @@ describe("VurderAktivitetskrav", () => {
         );
       });
 
-      expect(screen.queryByText(enBeskrivelse)).to.not.exist;
+      await waitFor(
+        () => expect(screen.queryByText(enBeskrivelse)).to.not.exist
+      );
     });
   });
   describe("Unntak", () => {
@@ -234,7 +236,9 @@ describe("VurderAktivitetskrav", () => {
         );
       });
 
-      expect(screen.queryByText(enBeskrivelse)).to.not.exist;
+      await waitFor(
+        () => expect(screen.queryByText(enBeskrivelse)).to.not.exist
+      );
     });
   });
   describe("Avvent", () => {
@@ -310,7 +314,9 @@ describe("VurderAktivitetskrav", () => {
         );
       });
 
-      expect(screen.queryByText(enBeskrivelse)).to.not.exist;
+      await waitFor(
+        () => expect(screen.queryByText(enBeskrivelse)).to.not.exist
+      );
     });
   });
   describe("Ikke oppfylt", () => {
@@ -322,7 +328,7 @@ describe("VurderAktivitetskrav", () => {
     });
   });
   describe("Send forhåndsvarsel", () => {
-    it("Does not show AVVENT choice when forhandsvarsel is sent", () => {
+    it("Does not show AVVENT or FORHANDSVARSEL choice when forhandsvarsel is sent", () => {
       renderVurderAktivitetskrav(
         forhandsvarselAktivitetskrav,
         oppfolgingstilfelle
@@ -330,7 +336,7 @@ describe("VurderAktivitetskrav", () => {
 
       expect(screen.queryByRole("tab", { name: "Sett unntak" })).to.exist;
       expect(screen.queryByRole("tab", { name: "Er i aktivitet" })).to.exist;
-      expect(screen.queryByRole("tab", { name: "Send forhåndsvarsel" })).to
+      expect(screen.queryByRole("tab", { name: "Send forhåndsvarsel" })).to.not
         .exist;
       expect(screen.queryByRole("tab", { name: "Ikke oppfylt" })).to.not.exist;
       expect(screen.queryByRole("button", { name: "Avvent" })).to.not.exist;
@@ -370,7 +376,9 @@ describe("VurderAktivitetskrav", () => {
         );
       });
 
-      expect(screen.queryByText(enBeskrivelse)).to.not.exist;
+      await waitFor(
+        () => expect(screen.queryByText(enBeskrivelse)).to.not.exist
+      );
     });
     it("IKKE_OPPFYLT is present when status is forhandsvarsel and it is expired", () => {
       queryClient.setQueryData(

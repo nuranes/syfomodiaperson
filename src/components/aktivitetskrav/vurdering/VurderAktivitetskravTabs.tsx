@@ -3,7 +3,10 @@ import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
 import { usePersonoppgaverQuery } from "@/data/personoppgave/personoppgaveQueryHooks";
 import { hasUbehandletPersonoppgave } from "@/utils/personOppgaveUtils";
 import { PersonOppgaveType } from "@/data/personoppgave/types/PersonOppgave";
-import { AktivitetskravDTO } from "@/data/aktivitetskrav/aktivitetskravTypes";
+import {
+  AktivitetskravDTO,
+  AktivitetskravStatus,
+} from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { Tabs } from "@navikt/ds-react";
 import { UnntakAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/UnntakAktivitetskravSkjema";
 import { OppfyltAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/OppfyltAktivitetskravSkjema";
@@ -34,6 +37,16 @@ enum Tab {
   IKKE_OPPFYLT = "IKKE_OPPFYLT",
 }
 
+const isValidStateForForhandsvarsel = (
+  aktivitetskravStatus: AktivitetskravStatus
+) => {
+  return (
+    aktivitetskravStatus === AktivitetskravStatus.NY ||
+    aktivitetskravStatus === AktivitetskravStatus.NY_VURDERING ||
+    aktivitetskravStatus === AktivitetskravStatus.AVVENT
+  );
+};
+
 interface VurderAktivitetskravTabsProps {
   aktivitetskrav: AktivitetskravDTO;
 }
@@ -50,6 +63,9 @@ export const VurderAktivitetskravTabs = ({
   const isIkkeOppfyltTabVisible =
     hasUbehandletVurderStansOppgave ||
     !toggles.isSendingAvForhandsvarselEnabled;
+  const isForhandsvarselTabVisible =
+    toggles.isSendingAvForhandsvarselEnabled &&
+    isValidStateForForhandsvarsel(aktivitetskrav.status);
 
   const aktivitetskravUuid = aktivitetskrav.uuid;
 
@@ -58,7 +74,7 @@ export const VurderAktivitetskravTabs = ({
       <Tabs.List>
         <Tabs.Tab value={Tab.UNNTAK} label={texts.unntak} />
         <Tabs.Tab value={Tab.OPPFYLT} label={texts.oppfylt} />
-        {toggles.isSendingAvForhandsvarselEnabled && (
+        {isForhandsvarselTabVisible && (
           <Tabs.Tab value={Tab.FORHANDSVARSEL} label={texts.forhandsvarsel} />
         )}
         {isIkkeOppfyltTabVisible && (
@@ -71,9 +87,11 @@ export const VurderAktivitetskravTabs = ({
       <Tabs.Panel value={Tab.OPPFYLT}>
         <OppfyltAktivitetskravSkjema aktivitetskravUuid={aktivitetskravUuid} />
       </Tabs.Panel>
-      <Tabs.Panel value={Tab.FORHANDSVARSEL}>
-        <SendForhandsvarselSkjema aktivitetskravUuid={aktivitetskravUuid} />
-      </Tabs.Panel>
+      {isForhandsvarselTabVisible && (
+        <Tabs.Panel value={Tab.FORHANDSVARSEL}>
+          <SendForhandsvarselSkjema aktivitetskravUuid={aktivitetskravUuid} />
+        </Tabs.Panel>
+      )}
       {isIkkeOppfyltTabVisible && (
         <Tabs.Panel value={Tab.IKKE_OPPFYLT}>
           <IkkeOppfyltAktivitetskravSkjema
