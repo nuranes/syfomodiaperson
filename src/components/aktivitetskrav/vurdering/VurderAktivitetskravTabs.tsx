@@ -35,7 +35,7 @@ enum Tab {
 }
 
 interface VurderAktivitetskravTabsProps {
-  aktivitetskrav: AktivitetskravDTO | undefined;
+  aktivitetskrav: AktivitetskravDTO;
 }
 
 export const VurderAktivitetskravTabs = ({
@@ -51,14 +51,14 @@ export const VurderAktivitetskravTabs = ({
     hasUbehandletVurderStansOppgave ||
     !toggles.isSendingAvForhandsvarselEnabled;
 
-  const aktivitetskravUuid = aktivitetskrav?.uuid;
+  const aktivitetskravUuid = aktivitetskrav.uuid;
 
   return (
     <StyledTabs defaultValue={Tab.UNNTAK}>
       <Tabs.List>
         <Tabs.Tab value={Tab.UNNTAK} label={texts.unntak} />
         <Tabs.Tab value={Tab.OPPFYLT} label={texts.oppfylt} />
-        {aktivitetskrav && toggles.isSendingAvForhandsvarselEnabled && (
+        {toggles.isSendingAvForhandsvarselEnabled && (
           <Tabs.Tab value={Tab.FORHANDSVARSEL} label={texts.forhandsvarsel} />
         )}
         {isIkkeOppfyltTabVisible && (

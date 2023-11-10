@@ -3,6 +3,7 @@ import { AktivitetskravStatus } from "@/data/aktivitetskrav/aktivitetskravTypes"
 import { AvventAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/AvventAktivitetskravSkjema";
 import { IkkeAktuellAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/IkkeAktuellAktivitetskravSkjema";
 import { Modal } from "@navikt/ds-react";
+import { VurderAktivitetskravSkjemaProps } from "@/components/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
 
 const texts = {
   modalContentLabel: "Vurder aktivitetskrav",
@@ -13,11 +14,11 @@ export type ModalType = `${Extract<
   AktivitetskravStatus.AVVENT | AktivitetskravStatus.IKKE_AKTUELL
 >}`;
 
-interface VurderAktivitetskravModalProps {
+interface VurderAktivitetskravModalProps
+  extends VurderAktivitetskravSkjemaProps {
   isOpen: boolean;
   setModalOpen: (modalOpen: boolean) => void;
   modalType: ModalType | undefined;
-  aktivitetskravUuid: string | undefined;
 }
 
 export const VurderAktivitetskravModal = ({
@@ -45,10 +46,12 @@ export const VurderAktivitetskravModal = ({
   );
 };
 
-interface VurderAktivitetskravModalContentProps {
-  setModalOpen: (modalOpen: boolean) => void;
+interface VurderAktivitetskravModalContentProps
+  extends Pick<
+    VurderAktivitetskravModalProps,
+    "setModalOpen" | "aktivitetskravUuid" | "modalType"
+  > {
   modalType: ModalType;
-  aktivitetskravUuid: string | undefined;
 }
 
 const VurderAktivitetskravModalContent = ({

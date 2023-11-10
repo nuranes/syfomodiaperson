@@ -82,7 +82,7 @@ const tabTexts = {
 const enBeskrivelse = "Her er en beskrivelse";
 
 const renderVurderAktivitetskrav = (
-  aktivitetskravDto: AktivitetskravDTO | undefined,
+  aktivitetskravDto: AktivitetskravDTO,
   oppfolgingstilfelleDto: OppfolgingstilfelleDTO | undefined
 ) =>
   render(
@@ -452,33 +452,6 @@ describe("VurderAktivitetskrav", () => {
       expect(vurderIkkeAktuellMutation.options.variables).to.deep.equal(
         expectedVurdering
       );
-    });
-  });
-  describe("Uten oppfølgingstilfelle med aktivitetskrav", () => {
-    it("Lagre vurdering med verdier fra skjema", async () => {
-      renderVurderAktivitetskrav(undefined, undefined);
-
-      expect(screen.queryByText(/Gjelder tilfelle/)).to.not.exist;
-
-      clickTab(tabTexts["UNNTAK"]);
-
-      const arsakRadioButton = screen.getByText("Medisinske grunner");
-      fireEvent.click(arsakRadioButton);
-      const beskrivelseInput = getTextInput("Begrunnelse (obligatorisk)");
-      changeTextInput(beskrivelseInput, enBeskrivelse);
-      clickButton("Lagre");
-
-      await waitFor(() => {
-        const vurderUnntakMutation = queryClient.getMutationCache().getAll()[0];
-        const expectedVurdering: CreateAktivitetskravVurderingDTO = {
-          beskrivelse: enBeskrivelse,
-          status: AktivitetskravStatus.UNNTAK,
-          arsaker: [UnntakVurderingArsak.MEDISINSKE_GRUNNER],
-        };
-        expect(vurderUnntakMutation.options.variables).to.deep.equal(
-          expectedVurdering
-        );
-      });
     });
   });
 });

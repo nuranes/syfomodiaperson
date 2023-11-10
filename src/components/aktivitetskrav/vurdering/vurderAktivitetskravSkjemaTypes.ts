@@ -1,5 +1,5 @@
 export interface VurderAktivitetskravSkjemaProps {
-  aktivitetskravUuid: string | undefined;
+  aktivitetskravUuid: string;
 }
 
 export interface AktivitetskravSkjemaValues {

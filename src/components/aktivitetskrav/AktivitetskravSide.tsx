@@ -10,8 +10,9 @@ import {
   aktivitetskravVurderingerForOppfolgingstilfelle,
   oppfolgingstilfelleForAktivitetskrav,
 } from "@/utils/aktivitetskravUtils";
-import { AktivitetskravAlertstripe } from "@/components/aktivitetskrav/AktivitetskravAlertstripe";
 import { Panel } from "@navikt/ds-react";
+import { StartNyVurdering } from "./vurdering/StartNyVurdering";
+import { AktivitetskravAlertstripe } from "@/components/aktivitetskrav/AktivitetskravAlertstripe";
 
 const texts = {
   noTilfelle:
@@ -25,7 +26,8 @@ export const AktivitetskravSide = () => {
 
   const aktivitetskravTilVurdering = data.find(
     (aktivitetskrav) =>
-      aktivitetskrav.status !== AktivitetskravStatus.AUTOMATISK_OPPFYLT
+      aktivitetskrav.status !== AktivitetskravStatus.AUTOMATISK_OPPFYLT &&
+      aktivitetskrav.status !== AktivitetskravStatus.LUKKET
   );
   const oppfolgingstilfelle =
     aktivitetskravTilVurdering &&
@@ -50,10 +52,14 @@ export const AktivitetskravSide = () => {
       {sisteVurdering && (
         <AktivitetskravVurderingAlert vurdering={sisteVurdering} />
       )}
-      <VurderAktivitetskrav
-        aktivitetskrav={aktivitetskravTilVurdering}
-        oppfolgingstilfelle={oppfolgingstilfelle}
-      />
+      {aktivitetskravTilVurdering ? (
+        <VurderAktivitetskrav
+          aktivitetskrav={aktivitetskravTilVurdering}
+          oppfolgingstilfelle={oppfolgingstilfelle}
+        />
+      ) : (
+        <StartNyVurdering />
+      )}
       <Panel className="mb-4 flex flex-col p-8">
         <UtdragFraSykefravaeret />
       </Panel>

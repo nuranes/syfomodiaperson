@@ -16,13 +16,13 @@ const texts = {
   ikkeAktuell: "Ikke aktuell",
 };
 
-interface StatusKnapperadProps {
-  aktivitetskrav: AktivitetskravDTO | undefined;
+interface VurderAktivitetskravButtonsProps {
+  aktivitetskrav: AktivitetskravDTO;
 }
 
 export const VurderAktivitetskravButtons = ({
   aktivitetskrav,
-}: StatusKnapperadProps) => {
+}: VurderAktivitetskravButtonsProps) => {
   const [visVurderAktivitetskravModal, setVisVurderAktivitetskravModal] =
     useState(false);
   const [modalType, setModalType] = useState<ModalType>();
