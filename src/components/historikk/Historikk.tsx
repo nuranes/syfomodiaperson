@@ -78,21 +78,13 @@ const Historikk = ({
     eventUtenforTilfelleList,
   }: UtenforTilfelleHendelserProps) => {
     return (
-      <>
-        {eventUtenforTilfelleList.length > 0 && (
-          <UtvidbarHistorikk
-            tittel={texts.utenforTilfelleHendelserUtvidbarTitle}
-          >
-            <ol className="historikkeventliste">
-              {eventUtenforTilfelleList
-                .sort(byTidspunkt())
-                .map((event, idx) => {
-                  return <HistorikkEventItem key={idx} event={event} />;
-                })}
-            </ol>
-          </UtvidbarHistorikk>
-        )}
-      </>
+      <UtvidbarHistorikk tittel={texts.utenforTilfelleHendelserUtvidbarTitle}>
+        <ol className="historikkeventliste">
+          {eventUtenforTilfelleList.sort(byTidspunkt()).map((event, idx) => {
+            return <HistorikkEventItem key={idx} event={event} />;
+          })}
+        </ol>
+      </UtvidbarHistorikk>
     );
   };
 
@@ -123,9 +115,11 @@ const Historikk = ({
           )}
         </div>
       )}
-      <UtenforTilfelleHendelser
-        eventUtenforTilfelleList={eventUtenforTilfelleList}
-      />
+      {eventUtenforTilfelleList.length > 0 && (
+        <UtenforTilfelleHendelser
+          eventUtenforTilfelleList={eventUtenforTilfelleList}
+        />
+      )}
     </>
   );
 };

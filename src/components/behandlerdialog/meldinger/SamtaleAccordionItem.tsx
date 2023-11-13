@@ -4,14 +4,9 @@ import { tilDatoMedManedNavnOgKlokkeslett } from "@/utils/datoUtils";
 import { Accordion } from "@navikt/ds-react";
 import { MeldingerISamtale } from "@/components/behandlerdialog/meldinger/MeldingerISamtale";
 import { StetoskopIkon } from "../../../../img/ImageComponents";
-import styled from "styled-components";
 import { useBehandlerNavn } from "@/hooks/behandler/useBehandlerNavn";
 import { SamtaleTags } from "@/components/behandlerdialog/meldinger/SamtaleTags";
 import { FlexRow } from "@/components/Layout";
-
-const StyledImage = styled.img`
-  margin-right: 0.5em;
-`;
 
 interface SamtaleAccordionItemProps {
   meldinger: MeldingDTO[];
@@ -40,7 +35,11 @@ export const SamtaleAccordionItem = ({
     <Accordion.Item>
       <Accordion.Header>
         <FlexRow>
-          <StyledImage src={StetoskopIkon} alt="Stetoskopikon for behandler" />
+          <img
+            className={"mr-2"}
+            src={StetoskopIkon}
+            alt="Stetoskopikon for behandler"
+          />
           <>
             {behandlerRef ? (
               <BehandlerNavn behandlerRef={behandlerRef} />

@@ -33,7 +33,7 @@ const AktivBrukerTilgangLaster = ({
   } else if (hentingTilgangFeilet) {
     visning = <Feilmelding />;
   } else {
-    visning = <>{children}</>;
+    visning = children;
   }
   return (
     <>

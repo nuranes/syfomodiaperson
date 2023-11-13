@@ -134,7 +134,7 @@ export const SykmeldingopplysningFravaersperioder = (
   sykmeldingopplysningFravaersperioderProps: SykmeldingopplysningFravaersperioderProps
 ): ReactElement => {
   const { sykmelding, className } = sykmeldingopplysningFravaersperioderProps;
-  return sykmelding.sporsmal.harAnnetFravaer !== null ? (
+  return (
     <SykmeldingNokkelOpplysning
       className={className}
       tittel={texts.egenmeldingPapir}
@@ -152,8 +152,6 @@ export const SykmeldingopplysningFravaersperioder = (
         <p>{texts.egenmeldingPapirNei}</p>
       )}
     </SykmeldingNokkelOpplysning>
-  ) : (
-    <></>
   );
 };
 
@@ -167,12 +165,10 @@ export const SykmeldingopplysningForsikring = (
 ): ReactElement => {
   const { sykmelding, className } = sykmeldingopplysningForsikringProps;
   const text = sykmelding.sporsmal.harForsikring ? texts.ja : texts.nei;
-  return sykmelding.sporsmal.harForsikring !== null ? (
+  return (
     <SykmeldingNokkelOpplysning className={className} tittel={texts.forsikring}>
       <p>{text}</p>
     </SykmeldingNokkelOpplysning>
-  ) : (
-    <></>
   );
 };
 
@@ -193,16 +189,20 @@ export const Frilansersporsmal = (
       }
       render={() => {
         return [
-          <SykmeldingopplysningFravaersperioder
-            key={`fravaersperioder-${sykmelding.id}`}
-            sykmelding={sykmelding}
-            className="nokkelopplysning--statusopplysning"
-          />,
-          <SykmeldingopplysningForsikring
-            key={`forsikring-${sykmelding.id}`}
-            sykmelding={sykmelding}
-            className="nokkelopplysning--statusopplysning"
-          />,
+          sykmelding.sporsmal.harAnnetFravaer !== null && (
+            <SykmeldingopplysningFravaersperioder
+              key={`fravaersperioder-${sykmelding.id}`}
+              sykmelding={sykmelding}
+              className="nokkelopplysning--statusopplysning"
+            />
+          ),
+          sykmelding.sporsmal.harForsikring !== null && (
+            <SykmeldingopplysningForsikring
+              key={`forsikring-${sykmelding.id}`}
+              sykmelding={sykmelding}
+              className="nokkelopplysning--statusopplysning"
+            />
+          ),
         ];
       }}
     />

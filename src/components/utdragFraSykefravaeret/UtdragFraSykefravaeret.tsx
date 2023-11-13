@@ -57,10 +57,6 @@ const UtdragColumn = styled.div`
   justify-content: flex-start;
 `;
 
-const StyledDiv = styled.div`
-  margin-bottom: 2.5em;
-`;
-
 export const UtvidbarTittel = ({ sykmelding }: UtvidbarTittelProps) => {
   const erViktigInformasjon = erEkstraInformasjonISykmeldingen(sykmelding);
   const sykmeldingPerioderSortertEtterDato =
@@ -145,7 +141,7 @@ export const Sykmeldinger = ({
   );
 
   return (
-    <StyledDiv>
+    <div className={"mb-10"}>
       <Heading size="small" level="3">
         {tekster.sykmeldinger.header}
       </Heading>
@@ -155,53 +151,37 @@ export const Sykmeldinger = ({
           sykmeldinger={sykmeldingerSortertPaaVirksomhet[key]}
         />
       ))}
-    </StyledDiv>
+    </div>
   );
 };
 
 interface SykmeldingerUtenArbeidsgiverProps {
-  latestOppfolgingstilfelle?: OppfolgingstilfelleDTO;
-  sykmeldinger: SykmeldingOldFormat[];
+  sykmeldingerSortertPaUtstedelsesdato: SykmeldingOldFormat[];
 }
 
 export const SykmeldingerUtenArbeidsgiver = ({
-  latestOppfolgingstilfelle,
-  sykmeldinger,
+  sykmeldingerSortertPaUtstedelsesdato,
 }: SykmeldingerUtenArbeidsgiverProps) => {
-  const innsendteSykmeldinger = sykmeldingerUtenArbeidsgiver(sykmeldinger);
-  const sykmeldingerIOppfolgingstilfellet =
-    sykmeldingerInnenforOppfolgingstilfelle(
-      innsendteSykmeldinger,
-      latestOppfolgingstilfelle
-    );
-  const sykmeldingerSortertPaUtstedelsesdato = sykmeldingerSortertNyestTilEldst(
-    sykmeldingerIOppfolgingstilfellet
-  );
   return (
-    <>
-      {sykmeldingerSortertPaUtstedelsesdato?.length > 0 && (
-        <StyledDiv>
-          <Heading size="small" level="3">
-            {tekster.sykmeldinger.headerUtenArbeidsgiver}
-          </Heading>
-          {sykmeldingerSortertPaUtstedelsesdato.length > 0 &&
-            sykmeldingerSortertPaUtstedelsesdato.map((sykmelding, index) => {
-              return (
-                <div
-                  className="utdragFraSykefravaeret__sykmeldingerForVirksomhet"
-                  key={index}
-                >
-                  <Ekspanderbartpanel
-                    tittel={<UtvidbarTittel sykmelding={sykmelding} />}
-                  >
-                    <SykmeldingMotebehovVisning sykmelding={sykmelding} />
-                  </Ekspanderbartpanel>
-                </div>
-              );
-            })}
-        </StyledDiv>
-      )}
-    </>
+    <div className={"mb-10"}>
+      <Heading size="small" level="3">
+        {tekster.sykmeldinger.headerUtenArbeidsgiver}
+      </Heading>
+      {sykmeldingerSortertPaUtstedelsesdato.map((sykmelding, index) => {
+        return (
+          <div
+            className="utdragFraSykefravaeret__sykmeldingerForVirksomhet"
+            key={index}
+          >
+            <Ekspanderbartpanel
+              tittel={<UtvidbarTittel sykmelding={sykmelding} />}
+            >
+              <SykmeldingMotebehovVisning sykmelding={sykmelding} />
+            </Ekspanderbartpanel>
+          </div>
+        );
+      })}
+    </div>
   );
 };
 
@@ -230,6 +210,16 @@ const UtdragFraSykefravaeret = () => {
   const { sykmeldinger } = useSykmeldingerQuery();
   const { latestOppfolgingstilfelle } = useOppfolgingstilfellePersonQuery();
 
+  const innsendteSykmeldinger = sykmeldingerUtenArbeidsgiver(sykmeldinger);
+  const sykmeldingerIOppfolgingstilfellet =
+    sykmeldingerInnenforOppfolgingstilfelle(
+      innsendteSykmeldinger,
+      latestOppfolgingstilfelle
+    );
+  const sykmeldingerSortertPaUtstedelsesdato = sykmeldingerSortertNyestTilEldst(
+    sykmeldingerIOppfolgingstilfellet
+  );
+
   return (
     <>
       <IconHeader
@@ -245,10 +235,13 @@ const UtdragFraSykefravaeret = () => {
           sykmeldinger={sykmeldinger}
         />
 
-        <SykmeldingerUtenArbeidsgiver
-          latestOppfolgingstilfelle={latestOppfolgingstilfelle}
-          sykmeldinger={sykmeldinger}
-        />
+        {sykmeldingerSortertPaUtstedelsesdato?.length > 0 && (
+          <SykmeldingerUtenArbeidsgiver
+            sykmeldingerSortertPaUtstedelsesdato={
+              sykmeldingerSortertPaUtstedelsesdato
+            }
+          />
+        )}
 
         <Samtalereferat />
         <Heading size="small" level="3">

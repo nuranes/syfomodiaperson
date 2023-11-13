@@ -29,7 +29,9 @@ interface Props {
   meldingType: MeldingType;
 }
 
-export const MeldingsTypeInfo = ({ meldingType }: Props): ReactElement => {
+export const MeldingsTypeInfo = ({
+  meldingType,
+}: Props): ReactElement | null => {
   const Info = () => {
     switch (meldingType) {
       case MeldingType.FORESPORSEL_PASIENT_TILLEGGSOPPLYSNINGER:
@@ -56,7 +58,7 @@ export const MeldingsTypeInfo = ({ meldingType }: Props): ReactElement => {
       case MeldingType.FORESPORSEL_PASIENT_PAMINNELSE:
       case MeldingType.HENVENDELSE_RETUR_LEGEERKLARING:
       case MeldingType.HENVENDELSE_MELDING_TIL_NAV:
-        return <></>; // Not supported
+        return null;
     }
   };
 

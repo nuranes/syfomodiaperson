@@ -16,6 +16,7 @@ import { Tooltip } from "@navikt/ds-react";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { MaksdatoSummary } from "@/components/personkort/PersonkortHeader/MaksdatoSummary";
 import { PersonkortHeaderTags } from "@/components/personkort/PersonkortHeader/PersonkortHeaderTags";
+import { useMaksdatoQuery } from "@/data/maksdato/useMaksdatoQuery";
 
 const texts = {
   copied: "Kopiert!",
@@ -44,6 +45,7 @@ const PersonkortHeader = () => {
   const navbruker = useNavBrukerData();
   const personident = useValgtPersonident();
   const { hasGjentakendeSykefravar } = useOppfolgingstilfellePersonQuery();
+  const { data: maksDato } = useMaksdatoQuery();
 
   return (
     <div className="personkortHeader">
@@ -71,7 +73,7 @@ const PersonkortHeader = () => {
             <CopyButton message={texts.copied} value={personident} />
           </StyledFnr>
           <SyketilfelleSummary />
-          <MaksdatoSummary />
+          {maksDato?.maxDate && <MaksdatoSummary maxDate={maksDato.maxDate} />}
         </div>
       </div>
       <PersonkortHeaderTags />

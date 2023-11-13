@@ -141,7 +141,7 @@ const getSamtaleTagStatus = (
 
 export const SamtaleTags = ({
   meldinger,
-}: SamtaleTagsProps): React.ReactElement => {
+}: SamtaleTagsProps): React.ReactElement | null => {
   const { data: oppgaver } = usePersonoppgaverQuery();
   const samtaleTagStatus = getSamtaleTagStatus(meldinger, oppgaver);
 
@@ -175,7 +175,7 @@ export const SamtaleTags = ({
       return <SamtaleTag variant="warning">{texts.venterSvar}</SamtaleTag>;
     }
     case "INGEN": {
-      return <></>;
+      return null;
     }
   }
 };

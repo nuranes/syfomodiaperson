@@ -37,7 +37,7 @@ const SideLaster = ({
   if (hentingFeilet || hentingTilgangFeilet) {
     return <Feilmelding />;
   }
-  return <>{children}</>;
+  return <div>{children}</div>;
 };
 
 export default SideLaster;

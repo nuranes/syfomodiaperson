@@ -120,9 +120,6 @@ export const MotehistorikkPanel = ({
   dialogmoteunntak,
   historiskeMoter,
 }: MotehistorikkPanelProps) => {
-  if (historiskeMoter.length === 0 && dialogmoteunntak.length === 0)
-    return <></>;
-
   return (
     <DialogmotePanel
       icon={FortidenImage}

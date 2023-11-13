@@ -8,7 +8,7 @@ interface MaksdatoDTO {
   maxDate: Maksdato | null;
 }
 
-interface Maksdato {
+export interface Maksdato {
   id: string;
   fnr: string;
   forelopig_beregnet_slutt: Date;

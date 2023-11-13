@@ -57,6 +57,9 @@ export const Motelandingsside = () => {
     henterDialogmoterFeilet ||
     henterDialogmoteunntakFeilet;
 
+  const isMotehistorikkVisible =
+    historiskeDialogmoter.length > 0 || dialogmoteunntak.length > 0;
+
   return (
     <SideLaster henter={henter} hentingFeilet={hentingFeilet}>
       <Sidetopp tittel={texts.dialogmoter} />
@@ -76,10 +79,12 @@ export const Motelandingsside = () => {
       <FlexPanel>
         <UtdragFraSykefravaeretPanel />
       </FlexPanel>
-      <MotehistorikkPanel
-        historiskeMoter={historiskeDialogmoter}
-        dialogmoteunntak={dialogmoteunntak}
-      />
+      {isMotehistorikkVisible && (
+        <MotehistorikkPanel
+          historiskeMoter={historiskeDialogmoter}
+          dialogmoteunntak={dialogmoteunntak}
+        />
+      )}
     </SideLaster>
   );
 };

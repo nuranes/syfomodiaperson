@@ -93,8 +93,12 @@ const SykmeldingUtdragForSelvstendige = ({
             )}
           </p>
         </SykmeldingNokkelOpplysning>
-        <SykmeldingopplysningFravaersperioder sykmelding={sykmelding} />
-        <SykmeldingopplysningForsikring sykmelding={sykmelding} />
+        {sykmelding.sporsmal.harAnnetFravaer !== null && (
+          <SykmeldingopplysningFravaersperioder sykmelding={sykmelding} />
+        )}
+        {sykmelding.sporsmal.harForsikring !== null && (
+          <SykmeldingopplysningForsikring sykmelding={sykmelding} />
+        )}
       </div>
     </SpeilingEkspanderbartPanel>
   );

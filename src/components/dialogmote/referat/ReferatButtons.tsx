@@ -33,29 +33,27 @@ const ReferatButtons = ({
   showSaveSpinner,
   showSendSpinner,
 }: ReferatButtonsProps): ReactElement => (
-  <>
-    <FlexRow topPadding={PaddingSize.LG}>
-      <LagreKnapp
-        htmlType="button"
-        onClick={onSaveClick}
-        autoDisableVedSpinner
-        spinner={showSaveSpinner}
-      >
-        {texts.save}
-      </LagreKnapp>
-      <HovedKnapp
-        htmlType="submit"
-        onClick={onSendClick}
-        autoDisableVedSpinner
-        spinner={showSendSpinner}
-      >
-        {texts.send}
-      </HovedKnapp>
-      <Link to={moteoversiktRoutePath}>
-        <Flatknapp htmlType="button">{texts.abort}</Flatknapp>
-      </Link>
-    </FlexRow>
-  </>
+  <FlexRow topPadding={PaddingSize.LG}>
+    <LagreKnapp
+      htmlType="button"
+      onClick={onSaveClick}
+      autoDisableVedSpinner
+      spinner={showSaveSpinner}
+    >
+      {texts.save}
+    </LagreKnapp>
+    <HovedKnapp
+      htmlType="submit"
+      onClick={onSendClick}
+      autoDisableVedSpinner
+      spinner={showSendSpinner}
+    >
+      {texts.send}
+    </HovedKnapp>
+    <Link to={moteoversiktRoutePath}>
+      <Flatknapp htmlType="button">{texts.abort}</Flatknapp>
+    </Link>
+  </FlexRow>
 );
 
 export default ReferatButtons;

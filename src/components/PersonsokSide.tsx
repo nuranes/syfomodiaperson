@@ -14,15 +14,13 @@ const InfoWrapper = styled.div`
 `;
 
 export const PersonsokSide = () => (
-  <>
-    <Container>
-      <Row>
-        <Column className="col-xs-12">
-          <InfoWrapper>
-            <Infomelding tittel={texts.title} melding={texts.melding} />
-          </InfoWrapper>
-        </Column>
-      </Row>
-    </Container>
-  </>
+  <Container>
+    <Row>
+      <Column className="col-xs-12">
+        <InfoWrapper>
+          <Infomelding tittel={texts.title} melding={texts.melding} />
+        </InfoWrapper>
+      </Column>
+    </Row>
+  </Container>
 );

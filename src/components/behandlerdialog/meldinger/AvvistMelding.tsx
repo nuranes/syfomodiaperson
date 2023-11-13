@@ -24,19 +24,13 @@ export const AvvistMelding = ({ meldingUuid }: AvvistMeldingProps) => {
     )
     .find((oppgave) => oppgave.referanseUuid === meldingUuid);
 
-  return (
-    <>
-      {avvistOppgave && (
-        <BehandlePersonOppgaveKnapp
-          personOppgave={avvistOppgave}
-          behandleOppgaveText={texts.behandleOppgaveText}
-          handleBehandleOppgave={() =>
-            behandleOppgave.mutate(avvistOppgave.uuid)
-          }
-          isBehandleOppgaveLoading={behandleOppgave.isLoading}
-          isBehandlet={isBehandletOppgave(avvistOppgave)}
-        />
-      )}
-    </>
-  );
+  return !!avvistOppgave ? (
+    <BehandlePersonOppgaveKnapp
+      personOppgave={avvistOppgave}
+      behandleOppgaveText={texts.behandleOppgaveText}
+      handleBehandleOppgave={() => behandleOppgave.mutate(avvistOppgave.uuid)}
+      isBehandleOppgaveLoading={behandleOppgave.isLoading}
+      isBehandlet={isBehandletOppgave(avvistOppgave)}
+    />
+  ) : null;
 };

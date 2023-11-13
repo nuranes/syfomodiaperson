@@ -1,5 +1,4 @@
 import React from "react";
-import { erBedringAvArbeidsevnenInformasjon } from "@/utils/sykmeldinger/sykmeldingUtils";
 import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat";
 
 const tekster = {
@@ -19,40 +18,36 @@ interface BedreArbeidsevnenProps {
 export const BedreArbeidsevnen = ({ sykmelding }: BedreArbeidsevnenProps) => {
   const arbeidsevne = sykmelding.arbeidsevne;
   return (
-    <>
-      {erBedringAvArbeidsevnenInformasjon(sykmelding) && (
-        <div className="sykmeldingMotebehovVisning__avsnitt">
-          <h5 className="undertittel">{tekster.bedreArbeidsevnen.header}</h5>
+    <div className="sykmeldingMotebehovVisning__avsnitt">
+      <h5 className="undertittel">{tekster.bedreArbeidsevnen.header}</h5>
 
-          {arbeidsevne.tilretteleggingArbeidsplass && (
-            <div>
-              <h6 className="sporsmal">
-                {tekster.bedreArbeidsevnen.tilretteleggingTittel}
-              </h6>
-              <p>{arbeidsevne.tilretteleggingArbeidsplass}</p>
-            </div>
-          )}
-
-          {arbeidsevne.tiltakNAV && (
-            <div>
-              <h6 className="sporsmal">
-                {tekster.bedreArbeidsevnen.tiltakNavTittel}
-              </h6>
-              <p>{arbeidsevne.tiltakNAV}</p>
-            </div>
-          )}
-
-          {arbeidsevne.tiltakAndre && (
-            <div>
-              <h6 className="sporsmal">
-                {tekster.bedreArbeidsevnen.tiltakAndreTittel}
-              </h6>
-              <p>{arbeidsevne.tiltakAndre}</p>
-            </div>
-          )}
+      {arbeidsevne.tilretteleggingArbeidsplass && (
+        <div>
+          <h6 className="sporsmal">
+            {tekster.bedreArbeidsevnen.tilretteleggingTittel}
+          </h6>
+          <p>{arbeidsevne.tilretteleggingArbeidsplass}</p>
         </div>
       )}
-    </>
+
+      {arbeidsevne.tiltakNAV && (
+        <div>
+          <h6 className="sporsmal">
+            {tekster.bedreArbeidsevnen.tiltakNavTittel}
+          </h6>
+          <p>{arbeidsevne.tiltakNAV}</p>
+        </div>
+      )}
+
+      {arbeidsevne.tiltakAndre && (
+        <div>
+          <h6 className="sporsmal">
+            {tekster.bedreArbeidsevnen.tiltakAndreTittel}
+          </h6>
+          <p>{arbeidsevne.tiltakAndre}</p>
+        </div>
+      )}
+    </div>
   );
 };
 

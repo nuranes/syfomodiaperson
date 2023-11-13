@@ -1,4 +1,3 @@
-import { useMaksdatoQuery } from "@/data/maksdato/useMaksdatoQuery";
 import React from "react";
 import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
 import {
@@ -6,6 +5,7 @@ import {
   SyketilfelleInfoElement,
   SyketilfelleInfoWrapper,
 } from "@/components/personkort/PersonkortHeader/SyketilfelleSummary";
+import { Maksdato } from "@/data/maksdato/useMaksdatoQuery";
 
 const texts = {
   maksdato: "Maksdato: ",
@@ -28,23 +28,17 @@ const DatoInfoElement = ({ tekst, dato }: DatoInfoElementProps) => {
   );
 };
 
-export const MaksdatoSummary = () => {
-  const { data } = useMaksdatoQuery();
-
+interface MaksdatoSummaryProps {
+  maxDate: Maksdato;
+}
+export const MaksdatoSummary = ({ maxDate }: MaksdatoSummaryProps) => {
   return (
-    <>
-      {data?.maxDate && (
-        <StyledInfo>
-          <DatoInfoElement
-            tekst={texts.maksdato}
-            dato={data.maxDate.forelopig_beregnet_slutt}
-          />
-          <DatoInfoElement
-            tekst={texts.utbetaltTom}
-            dato={data.maxDate.utbetalt_tom}
-          />
-        </StyledInfo>
-      )}
-    </>
+    <StyledInfo>
+      <DatoInfoElement
+        tekst={texts.maksdato}
+        dato={maxDate.forelopig_beregnet_slutt}
+      />
+      <DatoInfoElement tekst={texts.utbetaltTom} dato={maxDate.utbetalt_tom} />
+    </StyledInfo>
   );
 };
