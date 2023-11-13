@@ -17,7 +17,7 @@ import { PersonOppgaveType } from "@/data/personoppgave/types/PersonOppgave";
 
 const texts = {
   forhandsvarselInfoBody:
-    "Når fristen har passert vil det dukke opp en hendelse til deg i oversikten.",
+    "Når fristen er passert vil det dukke opp en hendelse i oversikten.",
   forhandsvarselWarningLabel: "Aktivitetskravet må vurderes",
   forhandsvarselWarningBody:
     "Fristen er gått ut og aktivitetskravet må vurderes.",
