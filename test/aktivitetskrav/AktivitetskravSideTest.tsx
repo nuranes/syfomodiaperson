@@ -16,6 +16,7 @@ import { expect } from "chai";
 import {
   avventVurdering,
   createAktivitetskrav,
+  forhandsvarselVurdering,
   generateOppfolgingstilfelle,
   oppfyltVurdering,
   unntakVurdering,
@@ -430,6 +431,49 @@ describe("AktivitetskravSide", () => {
       expect(screen.queryByRole("img", { name: "Suksess" })).to.not.exist;
       expect(screen.queryByText(/Det er vurdert/)).to.not.exist;
       expect(screen.queryByText(/Avventer - /)).to.not.exist;
+    });
+  });
+  describe("ForhandsvarselOppsummering", () => {
+    it("Viser oppsummering når forhåndsvarsel er sendt", () => {
+      mockAktivitetskrav([
+        createAktivitetskrav(
+          daysFromToday(20),
+          AktivitetskravStatus.FORHANDSVARSEL,
+          [forhandsvarselVurdering]
+        ),
+      ]);
+      renderAktivitetskravSide();
+
+      expect(
+        screen.getByRole("heading", {
+          name: "Oppsummering av forhåndsvarselet",
+        })
+      ).to.exist;
+      expect(screen.getByText("Frist: ", { exact: false })).to.exist;
+      expect(
+        screen.getByText(
+          "Husk å sjekke Gosys og Modia for mer informasjon før du vurderer."
+        )
+      ).to.exist;
+    });
+
+    it("Viser ikke oppsummering når forhåndsvarsel ikke er sendt", () => {
+      mockAktivitetskrav([
+        createAktivitetskrav(daysFromToday(20), AktivitetskravStatus.NY, []),
+      ]);
+      renderAktivitetskravSide();
+
+      expect(
+        screen.queryByRole("heading", {
+          name: "Oppsummering av forhåndsvarselet",
+        })
+      ).to.not.exist;
+      expect(screen.queryByText("Frist: ", { exact: false })).to.not.exist;
+      expect(
+        screen.queryByText(
+          "Husk å sjekke Gosys og Modia for mer informasjon før du vurderer."
+        )
+      ).to.not.exist;
     });
   });
 });

@@ -8,6 +8,7 @@ import { AktivitetskravHistorikk } from "@/components/aktivitetskrav/historikk/A
 import { Panel } from "@navikt/ds-react";
 import { StartNyVurdering } from "./vurdering/StartNyVurdering";
 import { AktivitetskravAlertstripe } from "@/components/aktivitetskrav/AktivitetskravAlertstripe";
+import { ForhandsvarselOppsummering } from "@/components/aktivitetskrav/vurdering/ForhandsvarselOppsummering";
 
 const texts = {
   noTilfelle:
@@ -31,6 +32,12 @@ export const AktivitetskravSide = () => {
       )}
       {sisteVurdering && (
         <AktivitetskravVurderingAlert vurdering={sisteVurdering} />
+      )}
+      {sisteVurdering?.varsel && (
+        <ForhandsvarselOppsummering
+          varsel={sisteVurdering.varsel}
+          beskrivelse={sisteVurdering.beskrivelse}
+        />
       )}
       {showStartNyVurdering ? (
         <StartNyVurdering aktivitetskrav={aktivitetskrav} />

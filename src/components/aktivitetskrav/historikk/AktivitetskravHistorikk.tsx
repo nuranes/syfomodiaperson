@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   AktivitetskravStatus,
-  AktivitetskravVarselDTO,
   AktivitetskravVurderingDTO,
   VurderingArsak,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
@@ -10,7 +9,6 @@ import {
   Accordion,
   BodyLong,
   BodyShort,
-  Button,
   Heading,
   Panel,
 } from "@navikt/ds-react";
@@ -22,10 +20,9 @@ import {
   oppfyltVurderingArsakTexts,
   unntakVurderingArsakTexts,
 } from "@/data/aktivitetskrav/aktivitetskravTexts";
-import { EyeWithPupilIcon } from "@navikt/aksel-icons";
-import { ForhandsvisningModal } from "@/components/ForhandsvisningModal";
 import * as Amplitude from "@/utils/amplitude";
 import { EventType } from "@/utils/amplitude";
+import { VarselBrev } from "@/components/aktivitetskrav/VarselBrev";
 
 const texts = {
   header: "Historikk",
@@ -71,42 +68,6 @@ export const AktivitetskravHistorikk = () => {
         ))}
       </Accordion>
     </Panel>
-  );
-};
-
-interface VarselBrev {
-  varsel: AktivitetskravVarselDTO;
-}
-
-export const VarselBrev = ({ varsel }: VarselBrev) => {
-  const [visBrev, setVisBrev] = useState(false);
-
-  const handleButtonClick = () => {
-    setVisBrev(true);
-    Amplitude.logEvent({
-      type: EventType.ButtonClick,
-      data: { tekst: texts.visBrev, url: window.location.href },
-    });
-  };
-
-  return (
-    <>
-      <Button
-        className="mb-4"
-        onClick={handleButtonClick}
-        variant="secondary"
-        size="small"
-        icon={<EyeWithPupilIcon aria-hidden />}
-      >
-        {texts.visBrev}
-      </Button>
-      <ForhandsvisningModal
-        contentLabel={texts.visBrevLabel}
-        isOpen={visBrev}
-        handleClose={() => setVisBrev(false)}
-        getDocumentComponents={() => varsel.document}
-      />
-    </>
   );
 };
 

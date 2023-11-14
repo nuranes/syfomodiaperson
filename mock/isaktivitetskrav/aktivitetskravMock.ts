@@ -11,7 +11,7 @@ import { daysFromToday } from "../../test/testUtils";
 import { DocumentComponentType } from "../../src/data/documentcomponent/documentComponentTypes";
 import { sendForhandsvarselTexts } from "../../src/data/aktivitetskrav/forhandsvarselTexts";
 
-const aktivitetskravNy = {
+const aktivitetskravNy: AktivitetskravDTO = {
   uuid: generateUUID(),
   createdAt: daysFromToday(-7),
   status: AktivitetskravStatus.NY,
@@ -20,7 +20,7 @@ const aktivitetskravNy = {
   vurderinger: [],
 };
 
-const aktivitetskravUnntak = {
+const aktivitetskravUnntak: AktivitetskravDTO = {
   uuid: generateUUID(),
   createdAt: daysFromToday(-700),
   status: AktivitetskravStatus.UNNTAK,
@@ -35,11 +35,13 @@ const aktivitetskravUnntak = {
       beskrivelse:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
       arsaker: [UnntakVurderingArsak.MEDISINSKE_GRUNNER],
+      frist: undefined,
+      varsel: undefined,
     },
   ],
 };
 
-const aktivitetskravOppfylt = {
+const aktivitetskravOppfylt: AktivitetskravDTO = {
   uuid: generateUUID(),
   createdAt: daysFromToday(-400),
   status: AktivitetskravStatus.OPPFYLT,
@@ -54,6 +56,8 @@ const aktivitetskravOppfylt = {
       beskrivelse:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
       arsaker: [OppfyltVurderingArsak.FRISKMELDT],
+      frist: undefined,
+      varsel: undefined,
     },
     {
       uuid: generateUUID(),
@@ -65,11 +69,13 @@ const aktivitetskravOppfylt = {
         AvventVurderingArsak.OPPFOLGINGSPLAN_ARBEIDSGIVER,
         AvventVurderingArsak.INFORMASJON_BEHANDLER,
       ],
+      frist: undefined,
+      varsel: undefined,
     },
   ],
 };
 
-const aktivitetskravAutomatiskOppfylt = {
+const aktivitetskravAutomatiskOppfylt: AktivitetskravDTO = {
   uuid: generateUUID(),
   createdAt: daysFromToday(-350),
   status: AktivitetskravStatus.AUTOMATISK_OPPFYLT,
