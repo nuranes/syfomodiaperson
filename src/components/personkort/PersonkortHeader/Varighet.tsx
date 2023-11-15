@@ -4,6 +4,7 @@ import {
   useStartOfLatestOppfolgingstilfelle,
 } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { getEarliestDate, getWeeksBetween } from "@/utils/datoUtils";
+import { SyketilfelleSummaryElement } from "@/components/personkort/PersonkortHeader/SyketilfelleSummary";
 
 const texts = {
   varighet: "Varighet: ",
@@ -18,9 +19,9 @@ export const Varighet = () => {
   const weeks = getWeeksBetween(startDate, earliest);
 
   return !!startDate ? (
-    <div className={"font-normal"}>
-      <span> {texts.varighet} </span>
-      <div className={"font-bold"}>{`${weeks} ${texts.uker}`}</div>
-    </div>
+    <SyketilfelleSummaryElement
+      keyword={texts.varighet}
+      value={`${weeks} ${texts.uker}`}
+    />
   ) : null;
 };
