@@ -29,7 +29,7 @@ export const ForhandsvarselOppsummering = ({
         <Tag variant="warning-moderate">{`Frist: ${fristDato}`}</Tag>
       </div>
       {beskrivelse && (
-        <Panel className="border-gray-400 rounded p-4 max-h-24 overflow-scroll">
+        <Panel className="border-gray-400 rounded p-4 max-h-24 overflow-y-auto">
           <BodyShort>{beskrivelse}</BodyShort>
         </Panel>
       )}
