@@ -1,6 +1,4 @@
 import React from "react";
-import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat";
-import { erUtdypendeOpplysninger } from "@/utils/sykmeldinger/sykmeldingUtils";
 import { SporsmalSvarDTO } from "@/data/sykmelding/types/SporsmalSvarDTO";
 
 const tekster = {
@@ -22,36 +20,24 @@ const OpplysningsGruppe = ({ opplysningGruppe }: OpplysningsGruppeProps) => {
       </div>
     )
   );
-  return <>{sporsmal}</>;
+  return <div>{sporsmal}</div>;
 };
 
 interface UtdypendeOpplysningerProps {
-  sykmelding: SykmeldingOldFormat;
+  utdypendeOpplysninger: Map<string, Map<string, SporsmalSvarDTO>>;
 }
 
 export const UtdypendeOpplysninger = ({
-  sykmelding,
+  utdypendeOpplysninger,
 }: UtdypendeOpplysningerProps) => {
-  const skalVise = sykmelding && erUtdypendeOpplysninger(sykmelding);
   return (
-    <>
-      {skalVise && (
-        <div className="sykmeldingMotebehovVisning__avsnitt">
-          <h5 className="undertittel">
-            {tekster.UtdypendeOpplysninger.header}
-          </h5>
+    <div className="sykmeldingMotebehovVisning__avsnitt">
+      <h5 className="undertittel">{tekster.UtdypendeOpplysninger.header}</h5>
 
-          {Object.entries(sykmelding.utdypendeOpplysninger).map(
-            ([key, opplysningGruppe]) => (
-              <OpplysningsGruppe
-                key={key}
-                opplysningGruppe={opplysningGruppe}
-              />
-            )
-          )}
-        </div>
-      )}
-    </>
+      {Object.entries(utdypendeOpplysninger).map(([key, opplysningGruppe]) => (
+        <OpplysningsGruppe key={key} opplysningGruppe={opplysningGruppe} />
+      ))}
+    </div>
   );
 };
 

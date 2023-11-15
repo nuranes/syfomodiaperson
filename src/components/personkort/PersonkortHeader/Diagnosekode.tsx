@@ -23,18 +23,14 @@ export const Diagnosekode = () => {
   const latestSykmelding = sortedSykmeldinger[0];
   const diagnosekode = latestSykmelding?.diagnose?.hoveddiagnose?.diagnosekode;
 
-  return (
-    <>
-      {diagnosekode && (
-        <DiagnosekodeWrapper>
-          <Tooltip content={texts.tooltip}>
-            <div>
-              <HealthCase />
-              <KodeSpan>{diagnosekode}</KodeSpan>
-            </div>
-          </Tooltip>
-        </DiagnosekodeWrapper>
-      )}
-    </>
-  );
+  return !!diagnosekode ? (
+    <DiagnosekodeWrapper>
+      <Tooltip content={texts.tooltip}>
+        <div>
+          <HealthCase />
+          <KodeSpan>{diagnosekode}</KodeSpan>
+        </div>
+      </Tooltip>
+    </DiagnosekodeWrapper>
+  ) : null;
 };

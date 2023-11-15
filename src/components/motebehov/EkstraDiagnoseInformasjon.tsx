@@ -1,8 +1,6 @@
 import React from "react";
 import { Checkbox } from "nav-frontend-skjema";
-import { erEkstraDiagnoseInformasjon } from "@/utils/sykmeldinger/sykmeldingUtils";
 import { tilDatoMedUkedagOgManedNavn } from "@/utils/datoUtils";
-import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat";
 
 const tekster = {
   ekstraDiagnoseInformasjon: {
@@ -73,41 +71,40 @@ const Yrkesskade = ({ dato }: YrkesskadeProps) => (
 );
 
 interface EkstraDiagnoseInformasjonProps {
-  sykmelding: SykmeldingOldFormat;
+  diagnose: {
+    fravaersgrunnLovfestet?: string;
+    fravaerBeskrivelse?: string;
+    svangerskap?: boolean;
+    yrkesskade?: boolean;
+    yrkesskadeDato?: Date;
+  };
 }
 
 const EkstraDiagnoseInformasjon = ({
-  sykmelding,
+  diagnose,
 }: EkstraDiagnoseInformasjonProps) => {
-  const diagnose = sykmelding.diagnose;
-  const skalVise = erEkstraDiagnoseInformasjon(sykmelding);
   return (
-    <>
-      {skalVise && (
-        <div className="sykmeldingMotebehovVisning__avsnitt">
-          {diagnose.fravaersgrunnLovfestet && (
-            <AnnenLovfestetFravaersgrunn
-              fravaersgrunn={diagnose.fravaersgrunnLovfestet}
-              fravaersBeskrivelse={diagnose.fravaerBeskrivelse}
-            />
-          )}
-
-          {diagnose.svangerskap && (
-            <Checkbox
-              className="sykmeldingMotebehovVisning__checkbox"
-              label={
-                tekster.ekstraDiagnoseInformasjon.svangerskap
-                  .svangerskapsrelatert
-              }
-              checked
-              disabled
-            />
-          )}
-
-          {diagnose.yrkesskade && <Yrkesskade dato={diagnose.yrkesskadeDato} />}
-        </div>
+    <div className="sykmeldingMotebehovVisning__avsnitt">
+      {diagnose.fravaersgrunnLovfestet && (
+        <AnnenLovfestetFravaersgrunn
+          fravaersgrunn={diagnose.fravaersgrunnLovfestet}
+          fravaersBeskrivelse={diagnose.fravaerBeskrivelse}
+        />
       )}
-    </>
+
+      {diagnose.svangerskap && (
+        <Checkbox
+          className="sykmeldingMotebehovVisning__checkbox"
+          label={
+            tekster.ekstraDiagnoseInformasjon.svangerskap.svangerskapsrelatert
+          }
+          checked
+          disabled
+        />
+      )}
+
+      {diagnose.yrkesskade && <Yrkesskade dato={diagnose.yrkesskadeDato} />}
+    </div>
   );
 };
 

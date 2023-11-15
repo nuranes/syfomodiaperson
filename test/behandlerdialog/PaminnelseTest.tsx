@@ -14,8 +14,8 @@ import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQuery
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import { personOppgaveUbehandletBehandlerdialogUbesvartMelding } from "../../mock/ispersonoppgave/personoppgaveMock";
 import { expectedPaminnelseDocument } from "./testDataDocuments";
-import { PaminnelseMelding } from "@/components/behandlerdialog/paminnelse/PaminnelseMelding";
 import { foresporselPasientToBehandler } from "./meldingTestdataGenerator";
+import { MeldingTilBehandler } from "@/components/behandlerdialog/meldinger/MeldingerISamtale";
 
 let queryClient: QueryClient;
 
@@ -25,7 +25,7 @@ const renderPaminnelseMelding = (melding: MeldingDTO) => {
       <ValgtEnhetContext.Provider
         value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
       >
-        <PaminnelseMelding melding={melding} />
+        <MeldingTilBehandler melding={melding} />
       </ValgtEnhetContext.Provider>
     </QueryClientProvider>
   );

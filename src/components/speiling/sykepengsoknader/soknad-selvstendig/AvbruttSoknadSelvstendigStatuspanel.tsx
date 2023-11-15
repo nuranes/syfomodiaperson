@@ -4,8 +4,9 @@ import Statuspanel, {
   Statusopplysninger,
 } from "../../Statuspanel";
 import { tilLesbarDatoMedArstall } from "@/utils/datoUtils";
-import VerktoylinjeGjenapneSoknad from "../soknad-felles/VerktoylinjeGjenapneSoknad";
 import { SykepengesoknadDTO } from "@/data/sykepengesoknad/types/SykepengesoknadDTO";
+import { erOpprettetSisteAar } from "@/utils/sykepengesoknadUtils";
+import VerktoylinjeGjenapne from "@/components/speiling/sykepengsoknader/soknad-felles/VerktoylinjeGjenapneSoknad";
 
 const texts = {
   tittel: "Dato avbrutt",
@@ -30,7 +31,7 @@ const AvbruttSoknadSelvstendigStatuspanel = ({
           <p>{tilLesbarDatoMedArstall(soknad.avbruttDato)}</p>
         </StatusNokkelopplysning>
       </Statusopplysninger>
-      <VerktoylinjeGjenapneSoknad soknad={soknad} />
+      {erOpprettetSisteAar(soknad) && <VerktoylinjeGjenapne />}
     </Statuspanel>
   );
 };

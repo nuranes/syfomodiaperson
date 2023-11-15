@@ -20,7 +20,7 @@ const OpplysningsGruppe = (opplysningsGruppeProps: OpplysningsGruppeProps) => {
       </SykmeldingOpplysning>
     )
   );
-  return <>{sporsmal}</>;
+  return <div>{sporsmal}</div>;
 };
 
 interface UtdypendeOpplysningerProps {
@@ -33,22 +33,17 @@ const UtdypendeOpplysninger = (
   const { sykmelding } = utdypendeOpplysningerProps;
   const utdypendeOpplysninger = sykmelding.utdypendeOpplysninger;
   return (
-    <>
-      {utdypendeOpplysninger && (
-        <div className="sykmeldingSeksjon">
-          <h4 className="sykmeldingSeksjon__tittel">{texts.title}</h4>
+    utdypendeOpplysninger && (
+      <div className="sykmeldingSeksjon">
+        <h4 className="sykmeldingSeksjon__tittel">{texts.title}</h4>
 
-          {Object.entries(utdypendeOpplysninger).map(
-            ([key, opplysningGruppe]) => (
-              <OpplysningsGruppe
-                key={key}
-                opplysningGruppe={opplysningGruppe}
-              />
-            )
-          )}
-        </div>
-      )}
-    </>
+        {Object.entries(utdypendeOpplysninger).map(
+          ([key, opplysningGruppe]) => (
+            <OpplysningsGruppe key={key} opplysningGruppe={opplysningGruppe} />
+          )
+        )}
+      </div>
+    )
   );
 };
 

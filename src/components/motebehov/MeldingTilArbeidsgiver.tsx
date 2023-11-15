@@ -1,6 +1,4 @@
 import React from "react";
-import { erMeldingTilArbeidsgiverInformasjon } from "@/utils/sykmeldinger/sykmeldingUtils";
-import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat";
 
 const tekster = {
   meldingTilArbeidsgiver: {
@@ -10,27 +8,20 @@ const tekster = {
 };
 
 interface MeldingTilArbeidsgiverProps {
-  sykmelding: SykmeldingOldFormat;
+  innspillTilArbeidsgiver?: string;
 }
 
 export const MeldingTilArbeidsgiver = ({
-  sykmelding,
+  innspillTilArbeidsgiver,
 }: MeldingTilArbeidsgiverProps) => {
-  const skalVise = erMeldingTilArbeidsgiverInformasjon(sykmelding);
   return (
-    <>
-      {skalVise && (
-        <div className="sykmeldingMotebehovVisning__avsnitt">
-          <h5 className="undertittel">
-            {tekster.meldingTilArbeidsgiver.header}
-          </h5>
-          <h6 className="sporsmal">
-            {tekster.meldingTilArbeidsgiver.innspillTittel}
-          </h6>
-          <p>{sykmelding.innspillTilArbeidsgiver}</p>
-        </div>
-      )}
-    </>
+    <div className="sykmeldingMotebehovVisning__avsnitt">
+      <h5 className="undertittel">{tekster.meldingTilArbeidsgiver.header}</h5>
+      <h6 className="sporsmal">
+        {tekster.meldingTilArbeidsgiver.innspillTittel}
+      </h6>
+      <p>{innspillTilArbeidsgiver}</p>
+    </div>
   );
 };
 

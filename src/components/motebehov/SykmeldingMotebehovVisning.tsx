@@ -10,6 +10,9 @@ import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat
 import {
   erBedringAvArbeidsevnenInformasjon,
   erFriskmeldingInformasjon,
+  erMeldingTilArbeidsgiverInformasjon,
+  erMeldingTilNavInformasjon,
+  erUtdypendeOpplysninger,
 } from "@/utils/sykmeldinger/sykmeldingUtils";
 
 interface SykmeldingMotebehovVisningProps {
@@ -18,20 +21,38 @@ interface SykmeldingMotebehovVisningProps {
 
 const SykmeldingMotebehovVisning = ({
   sykmelding,
-}: SykmeldingMotebehovVisningProps) => (
-  <div className="sykmeldingMotebehovVisning">
-    <GenerellSykmeldingInfo sykmelding={sykmelding} />
-    <MulighetForArbeid sykmelding={sykmelding} />
-    {erFriskmeldingInformasjon(sykmelding) && (
-      <TilbakeIArbeid sykmelding={sykmelding} />
-    )}
-    <UtdypendeOpplysninger sykmelding={sykmelding} />
-    {erBedringAvArbeidsevnenInformasjon(sykmelding) && (
-      <BedreArbeidsevnen sykmelding={sykmelding} />
-    )}
-    <MeldingTilNav sykmelding={sykmelding} />
-    <MeldingTilArbeidsgiver sykmelding={sykmelding} />
-  </div>
-);
+}: SykmeldingMotebehovVisningProps) => {
+  const isMeldingTilArbeidsgiverVisible =
+    erMeldingTilArbeidsgiverInformasjon(sykmelding);
+  const isMeldingTilNavVisible = erMeldingTilNavInformasjon(sykmelding);
+  const isUtdypendeOpplysningerVisible =
+    sykmelding && erUtdypendeOpplysninger(sykmelding);
+
+  return (
+    <div className="sykmeldingMotebehovVisning">
+      <GenerellSykmeldingInfo sykmelding={sykmelding} />
+      <MulighetForArbeid sykmelding={sykmelding} />
+      {erFriskmeldingInformasjon(sykmelding) && (
+        <TilbakeIArbeid sykmelding={sykmelding} />
+      )}
+      {isUtdypendeOpplysningerVisible && (
+        <UtdypendeOpplysninger
+          utdypendeOpplysninger={sykmelding.utdypendeOpplysninger}
+        />
+      )}
+      {erBedringAvArbeidsevnenInformasjon(sykmelding) && (
+        <BedreArbeidsevnen sykmelding={sykmelding} />
+      )}
+      {isMeldingTilNavVisible && (
+        <MeldingTilNav meldingTilNav={sykmelding.meldingTilNav} />
+      )}
+      {isMeldingTilArbeidsgiverVisible && (
+        <MeldingTilArbeidsgiver
+          innspillTilArbeidsgiver={sykmelding.innspillTilArbeidsgiver}
+        />
+      )}
+    </div>
+  );
+};
 
 export default SykmeldingMotebehovVisning;

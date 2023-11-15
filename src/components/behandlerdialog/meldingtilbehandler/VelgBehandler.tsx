@@ -80,48 +80,42 @@ export const VelgBehandler = ({
     }
   }, [behandlerRefValue, selectedBehandler, trigger]);
 
-  return (
-    <>
-      {isInitialLoading ? (
-        <AppSpinner />
-      ) : (
-        <>
-          <RadioGroup
-            legend={texts.behandlerLegend}
-            name="behandlerRef"
-            error={errors.behandlerRef && texts.missingBehandler}
-          >
-            {behandlere.map((behandler, index) => (
-              <Radio
-                key={index}
-                value={behandler.behandlerRef}
-                {...behandlerRefField}
-                onChange={(event) => {
-                  setShowBehandlerSearch(false);
-                  setSelectedBehandler(behandler);
-                  behandlerRefField.onChange(event);
-                }}
-              >
-                {behandlerRadioButtonText(behandler)}
-              </Radio>
-            ))}
-            <Radio
-              value={sokEtterBehandlerRadioButtonChoice}
-              {...behandlerRefField}
-              onChange={(event) => {
-                setShowBehandlerSearch(true);
-                setSelectedBehandler(undefined);
-                behandlerRefField.onChange(event);
-              }}
-            >
-              {texts.behandlersokTekst}
-            </Radio>
-            {showBehandlerSearch && (
-              <BehandlerSearch setSelectedBehandler={setSelectedBehandler} />
-            )}
-          </RadioGroup>
-        </>
+  return isInitialLoading ? (
+    <AppSpinner />
+  ) : (
+    <RadioGroup
+      legend={texts.behandlerLegend}
+      name="behandlerRef"
+      error={errors.behandlerRef && texts.missingBehandler}
+    >
+      {behandlere.map((behandler, index) => (
+        <Radio
+          key={index}
+          value={behandler.behandlerRef}
+          {...behandlerRefField}
+          onChange={(event) => {
+            setShowBehandlerSearch(false);
+            setSelectedBehandler(behandler);
+            behandlerRefField.onChange(event);
+          }}
+        >
+          {behandlerRadioButtonText(behandler)}
+        </Radio>
+      ))}
+      <Radio
+        value={sokEtterBehandlerRadioButtonChoice}
+        {...behandlerRefField}
+        onChange={(event) => {
+          setShowBehandlerSearch(true);
+          setSelectedBehandler(undefined);
+          behandlerRefField.onChange(event);
+        }}
+      >
+        {texts.behandlersokTekst}
+      </Radio>
+      {showBehandlerSearch && (
+        <BehandlerSearch setSelectedBehandler={setSelectedBehandler} />
       )}
-    </>
+    </RadioGroup>
   );
 };

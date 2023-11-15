@@ -24,7 +24,7 @@ const KoronaSykmeldingNy = (
 ) => {
   const { sykmelding } = koronaSykmeldingAvbruttProps;
   return (
-    <div>
+    <>
       <Undertittel style={{ marginBottom: "2.5rem", textAlign: "center" }}>
         {texts.pageSubtitle}
       </Undertittel>
@@ -53,7 +53,7 @@ const KoronaSykmeldingNy = (
           <DineKoronaSykmeldingOpplysninger sykmelding={sykmelding} />
         </div>
       </article>
-    </div>
+    </>
   );
 };
 

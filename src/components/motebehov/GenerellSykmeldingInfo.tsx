@@ -2,6 +2,7 @@ import React from "react";
 import { Checkbox } from "nav-frontend-skjema";
 import {
   erArbeidsforEtterPerioden,
+  erEkstraDiagnoseInformasjon,
   erHensynPaaArbeidsplassenInformasjon,
   sykmeldingperioderSortertEldstTilNyest,
 } from "@/utils/sykmeldinger/sykmeldingUtils";
@@ -36,13 +37,18 @@ export const GenerellSykmeldingInfo = ({
     sykmeldingperioderSortertEldstTilNyest(
       sykmelding.mulighetForArbeid.perioder
     );
+  const isEkstraDiagnoseInformasjonVisible =
+    erEkstraDiagnoseInformasjon(sykmelding);
+
   return (
     <div className="sykmeldingMotebehovVisning__avsnitt">
       <Perioder perioder={sykmeldingPerioderSortertEtterDato} />
 
       <Diagnoser hovedDiagnose={hovedDiagnose} biDiagnoser={biDiagnoser} />
 
-      <EkstraDiagnoseInformasjon sykmelding={sykmelding} />
+      {isEkstraDiagnoseInformasjonVisible && (
+        <EkstraDiagnoseInformasjon diagnose={sykmelding.diagnose} />
+      )}
 
       {erArbeidsforEtterPerioden(sykmelding) && (
         <Checkbox

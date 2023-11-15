@@ -24,7 +24,7 @@ const AvvistSykmelding = ({
       <div className="panel blokk">
         <DineSykmeldingOpplysninger sykmelding={sykmelding} />
       </div>
-      <BekreftAvvistSykmelding sykmelding={sykmelding} />
+      {sykmelding.status === SykmeldingStatus.NY && <BekreftAvvistSykmelding />}
     </>
   );
 };

@@ -14,11 +14,15 @@ interface SamtaleAccordionItemProps {
 
 interface BehandlerNavnProps {
   behandlerRef: string;
+  dateAndTimeForNewestMelding: string;
 }
 
-const BehandlerNavn = ({ behandlerRef }: BehandlerNavnProps) => {
+const BehandlerNavn = ({
+  behandlerRef,
+  dateAndTimeForNewestMelding,
+}: BehandlerNavnProps) => {
   const navn = useBehandlerNavn(behandlerRef);
-  return <>{navn}</>;
+  return <span>{`${navn} ${dateAndTimeForNewestMelding}`}</span>;
 };
 
 export const SamtaleAccordionItem = ({
@@ -40,14 +44,14 @@ export const SamtaleAccordionItem = ({
             src={StetoskopIkon}
             alt="Stetoskopikon for behandler"
           />
-          <>
-            {behandlerRef ? (
-              <BehandlerNavn behandlerRef={behandlerRef} />
-            ) : (
-              firstMelding.behandlerNavn
-            )}
-            {` ${dateAndTimeForNewestMelding}`}
-          </>
+          {behandlerRef ? (
+            <BehandlerNavn
+              behandlerRef={behandlerRef}
+              dateAndTimeForNewestMelding={dateAndTimeForNewestMelding}
+            />
+          ) : (
+            `${firstMelding.behandlerNavn} ${dateAndTimeForNewestMelding}`
+          )}
           <SamtaleTags meldinger={meldinger} />
         </FlexRow>
       </Accordion.Header>

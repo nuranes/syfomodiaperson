@@ -39,50 +39,44 @@ export const PersonkortHeaderTags = () => {
     !!talesprakTolkSprakkode ||
     !!tegnsprakTolkSprakkode;
 
-  return (
-    <>
-      {visEtiketter && (
-        <ErrorBoundary
-          apiError={
-            error instanceof ApiErrorException ? error.error : undefined
-          }
-          errorMessage={texts.fetchDiskresjonskodeFailed}
-        >
-          <FlexRow columnGap={FlexGapSize.SM}>
-            {isKode6 && (
-              <Tag variant="warning" size="small">
-                {texts.kode6}
-              </Tag>
-            )}
-            {isKode7 && (
-              <Tag variant="warning" size="small">
-                {texts.kode7}
-              </Tag>
-            )}
-            {isEgenAnsatt && (
-              <Tag variant="warning" size="small">
-                {texts.egenansatt}
-              </Tag>
-            )}
-            {talesprakTolkSprakkode && (
-              <Tag variant="warning" size="small">
-                {texts.talesprakTolk}: {talesprakTolkSprakkode}
-              </Tag>
-            )}
-            {tegnsprakTolkSprakkode && (
-              <Tag variant="warning" size="small">
-                {texts.tegnsprakTolk}: {tegnsprakTolkSprakkode}
-              </Tag>
-            )}
-            {isDead && (
-              <Tag
-                variant="error"
-                size="small"
-              >{`${texts.dod} ${dateOfDeath}`}</Tag>
-            )}
-          </FlexRow>
-        </ErrorBoundary>
-      )}
-    </>
-  );
+  return visEtiketter ? (
+    <ErrorBoundary
+      apiError={error instanceof ApiErrorException ? error.error : undefined}
+      errorMessage={texts.fetchDiskresjonskodeFailed}
+    >
+      <FlexRow columnGap={FlexGapSize.SM}>
+        {isKode6 && (
+          <Tag variant="warning" size="small">
+            {texts.kode6}
+          </Tag>
+        )}
+        {isKode7 && (
+          <Tag variant="warning" size="small">
+            {texts.kode7}
+          </Tag>
+        )}
+        {isEgenAnsatt && (
+          <Tag variant="warning" size="small">
+            {texts.egenansatt}
+          </Tag>
+        )}
+        {talesprakTolkSprakkode && (
+          <Tag variant="warning" size="small">
+            {texts.talesprakTolk}: {talesprakTolkSprakkode}
+          </Tag>
+        )}
+        {tegnsprakTolkSprakkode && (
+          <Tag variant="warning" size="small">
+            {texts.tegnsprakTolk}: {tegnsprakTolkSprakkode}
+          </Tag>
+        )}
+        {isDead && (
+          <Tag
+            variant="error"
+            size="small"
+          >{`${texts.dod} ${dateOfDeath}`}</Tag>
+        )}
+      </FlexRow>
+    </ErrorBoundary>
+  ) : null;
 };

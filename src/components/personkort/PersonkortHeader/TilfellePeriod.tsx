@@ -4,10 +4,6 @@ import {
 } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
 import React from "react";
-import {
-  SyketilfelleInfoElement,
-  SyketilfelleInfoWrapper,
-} from "@/components/personkort/PersonkortHeader/SyketilfelleSummary";
 
 const texts = {
   startDate: "Sykmeldt: ",
@@ -16,18 +12,12 @@ const texts = {
 export const TilfellePeriod = () => {
   const startDate = useStartOfLatestOppfolgingstilfelle();
   const endDate = useEndOfLatestOppfolgingstilfelle();
-  return (
-    <>
-      {!!startDate && !!endDate && (
-        <SyketilfelleInfoWrapper>
-          <span>{texts.startDate}</span>
-          <SyketilfelleInfoElement>{`${tilLesbarDatoMedArUtenManedNavn(
-            startDate
-          )} - ${tilLesbarDatoMedArUtenManedNavn(
-            endDate
-          )}`}</SyketilfelleInfoElement>
-        </SyketilfelleInfoWrapper>
-      )}
-    </>
-  );
+  return !!startDate && !!endDate ? (
+    <div className={"font-normal"}>
+      <span>{texts.startDate}</span>
+      <div className={"font-bold"}>{`${tilLesbarDatoMedArUtenManedNavn(
+        startDate
+      )} - ${tilLesbarDatoMedArUtenManedNavn(endDate)}`}</div>
+    </div>
+  ) : null;
 };

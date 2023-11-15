@@ -19,13 +19,13 @@ interface RelaterteSoknaderProps {
 
 export const RelaterteSoknader = ({
   soknad,
-}: RelaterteSoknaderProps): ReactElement => {
+}: RelaterteSoknaderProps): ReactElement | null => {
   const { data: sykepengesoknader } = useSykepengesoknaderQuery();
   const relaterteSoknader = sykepengesoknader
     .filter((s) => s.id === soknad.korrigerer)
     .reverse();
   if (relaterteSoknader.length === 0) {
-    return <></>;
+    return null;
   }
 
   return (

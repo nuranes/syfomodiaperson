@@ -16,6 +16,7 @@ const DineKoronaSykmeldingOpplysninger = (
   dineKoronaSykmeldingOpplysningerProps: DineKoronaSykmeldingOpplysningerProps
 ) => {
   const { sykmelding } = dineKoronaSykmeldingOpplysningerProps;
+
   return (
     <div className="dine-opplysninger">
       <h2 className="js-din-sykmelding-tittel typo-innholdstittel blokk-l">
@@ -23,7 +24,12 @@ const DineKoronaSykmeldingOpplysninger = (
       </h2>
       <div className="blokk-l side-innhold fjern-margin-bottom">
         <SykmeldingPerioder perioder={sykmelding.mulighetForArbeid.perioder} />
-        <Egenmeldingsdager sykmelding={sykmelding} />
+        {sykmelding.sporsmal.egenmeldingsdager &&
+          sykmelding.sporsmal.egenmeldingsdager.length > 0 && (
+            <Egenmeldingsdager
+              egenmeldingsdager={sykmelding.sporsmal.egenmeldingsdager}
+            />
+          )}
         {sykmelding.diagnose.hoveddiagnose ? (
           <div className="hoveddiagnose">
             <div className="rad-container">

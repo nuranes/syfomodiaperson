@@ -19,7 +19,16 @@ describe("Egenmeldingsdager", () => {
         egenmeldingsdager: [],
       },
     });
-    render(<Egenmeldingsdager sykmelding={sykmelding} />);
+    render(
+      sykmelding.sporsmal.egenmeldingsdager &&
+        sykmelding.sporsmal.egenmeldingsdager.length > 0 ? (
+        <Egenmeldingsdager
+          egenmeldingsdager={sykmelding.sporsmal.egenmeldingsdager}
+        />
+      ) : (
+        <div></div>
+      )
+    );
 
     expect(screen.queryByRole("heading", { name: headerText })).to.not.exist;
   });
@@ -29,7 +38,16 @@ describe("Egenmeldingsdager", () => {
         egenmeldingsdager: ["2020-01-02", "2020-01-01"],
       },
     });
-    render(<Egenmeldingsdager sykmelding={sykmelding} />);
+    render(
+      sykmelding.sporsmal.egenmeldingsdager &&
+        sykmelding.sporsmal.egenmeldingsdager.length > 0 ? (
+        <Egenmeldingsdager
+          egenmeldingsdager={sykmelding.sporsmal.egenmeldingsdager}
+        />
+      ) : (
+        <div></div>
+      )
+    );
 
     expect(screen.getByRole("heading", { name: headerText })).to.exist;
     const egenmeldingsdatoer = screen.getAllByText(/januar 2020/);
@@ -44,7 +62,16 @@ describe("Egenmeldingsdager", () => {
         egenmeldingsdager: ["2020-01-01"],
       },
     });
-    render(<Egenmeldingsdager sykmelding={sykmelding} />);
+    render(
+      sykmelding.sporsmal.egenmeldingsdager &&
+        sykmelding.sporsmal.egenmeldingsdager.length > 0 ? (
+        <Egenmeldingsdager
+          egenmeldingsdager={sykmelding.sporsmal.egenmeldingsdager}
+        />
+      ) : (
+        <div></div>
+      )
+    );
 
     expect(screen.getByRole("heading", { name: headerText })).to.exist;
     expect(screen.getByText("1. januar 2020")).to.exist;

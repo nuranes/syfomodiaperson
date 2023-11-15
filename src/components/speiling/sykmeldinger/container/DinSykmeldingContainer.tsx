@@ -77,18 +77,16 @@ const DinSykmeldingSide = (): ReactElement => {
       aktivtMenypunkt={Menypunkter.SYKMELDINGER}
     >
       <SideLaster henter={isInitialLoading} hentingFeilet={isError}>
-        <div>
-          <Speilingvarsel brukernavn={brukernavn} />
-          <div className="speiling">
-            <Brodsmuler brodsmuler={brodsmuler} />
-            <SidetoppSpeilet tittel={pageTitle(dinSykmelding)} />
-            <SykmeldingSide
-              dinSykmelding={dinSykmelding}
-              arbeidsgiversSykmelding={arbeidsgiversSykmelding}
-            />
-            {dinSykmelding?.papirsykmelding && <EndreSykmelding />}
-            <LenkeTilDineSykmeldinger />
-          </div>
+        <Speilingvarsel brukernavn={brukernavn} />
+        <div className="speiling">
+          <Brodsmuler brodsmuler={brodsmuler} />
+          <SidetoppSpeilet tittel={pageTitle(dinSykmelding)} />
+          <SykmeldingSide
+            dinSykmelding={dinSykmelding}
+            arbeidsgiversSykmelding={arbeidsgiversSykmelding}
+          />
+          {dinSykmelding?.papirsykmelding && <EndreSykmelding />}
+          <LenkeTilDineSykmeldinger />
         </div>
       </SideLaster>
     </Side>

@@ -1,4 +1,3 @@
-import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat";
 import React from "react";
 import SykmeldingNokkelOpplysning from "@/components/speiling/sykmeldinger/sykmelding/sykmeldingOpplysninger/SykmeldingNokkelOpplysning";
 import { tilLesbarDatoMedArstall } from "@/utils/datoUtils";
@@ -33,18 +32,15 @@ const EgenmeldingsdagerSummary = ({
 };
 
 interface EgenmeldingsdagerProps {
-  sykmelding: SykmeldingOldFormat;
+  egenmeldingsdager: string[];
 }
 
-export const Egenmeldingsdager = ({ sykmelding }: EgenmeldingsdagerProps) => {
-  return sykmelding.sporsmal.egenmeldingsdager &&
-    sykmelding.sporsmal.egenmeldingsdager.length > 0 ? (
+export const Egenmeldingsdager = ({
+  egenmeldingsdager,
+}: EgenmeldingsdagerProps) => {
+  return (
     <SykmeldingNokkelOpplysning tittel={texts.title}>
-      <EgenmeldingsdagerSummary
-        egenmeldingsdager={sykmelding.sporsmal.egenmeldingsdager}
-      />
+      <EgenmeldingsdagerSummary egenmeldingsdager={egenmeldingsdager} />
     </SykmeldingNokkelOpplysning>
-  ) : (
-    <></>
   );
 };

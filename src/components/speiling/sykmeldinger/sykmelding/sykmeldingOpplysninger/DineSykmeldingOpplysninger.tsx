@@ -49,7 +49,12 @@ const DineSykmeldingOpplysninger = (
       </Overskrift>
       <div className="blokk-l side-innhold">
         <SykmeldingPerioder perioder={sykmelding.mulighetForArbeid.perioder} />
-        <Egenmeldingsdager sykmelding={sykmelding} />
+        {sykmelding.sporsmal.egenmeldingsdager &&
+          sykmelding.sporsmal.egenmeldingsdager.length > 0 && (
+            <Egenmeldingsdager
+              egenmeldingsdager={sykmelding.sporsmal.egenmeldingsdager}
+            />
+          )}
         {sykmelding.diagnose.hoveddiagnose ? (
           <div className="hoveddiagnose">
             <div className="rad-container">

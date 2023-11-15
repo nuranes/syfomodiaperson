@@ -241,14 +241,12 @@ const PengestoppModal = ({
             </Knapp>
           </>
         ) : (
-          <>
-            <Group>
-              <AlertStripeInfo>
-                <p>{texts.stoppedInfo}</p>
-                <p>{texts.seServicerutinen}</p>
-              </AlertStripeInfo>
-            </Group>
-          </>
+          <Group>
+            <AlertStripeInfo>
+              <p>{texts.stoppedInfo}</p>
+              <p>{texts.seServicerutinen}</p>
+            </AlertStripeInfo>
+          </Group>
         )}
         {isError && (
           <BottomGroup>

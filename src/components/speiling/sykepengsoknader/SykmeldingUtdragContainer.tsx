@@ -12,18 +12,15 @@ interface SykmeldingUtdragContainerProps {
 
 export const SykmeldingUtdragContainer = ({
   soknad,
-}: SykmeldingUtdragContainerProps): ReactElement => {
+}: SykmeldingUtdragContainerProps): ReactElement | null => {
   const { sykmeldinger } = useSykmeldingerQuery();
   const sykmelding = sykmeldinger.find((s) => {
     return s.id === soknad.sykmeldingId;
   });
-
-  return sykmelding &&
+  const isVisible =
+    !!sykmelding &&
     soknad &&
-    (!soknad.soknadstype ||
-      soknad.soknadstype === Soknadstype.ARBEIDSTAKERE) ? (
-    <SykmeldingUtdrag sykmelding={sykmelding} />
-  ) : (
-    <></>
-  );
+    (!soknad.soknadstype || soknad.soknadstype === Soknadstype.ARBEIDSTAKERE);
+
+  return isVisible ? <SykmeldingUtdrag sykmelding={sykmelding} /> : null;
 };

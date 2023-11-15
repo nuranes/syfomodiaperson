@@ -23,7 +23,7 @@ interface AngreBekreftSykmeldingProps {
 
 const AngreBekreftSykmelding = ({
   sykmelding,
-}: AngreBekreftSykmeldingProps): ReactElement => {
+}: AngreBekreftSykmeldingProps): ReactElement | null => {
   const { data: sykepengeSoknader } = useSykepengesoknaderQuery();
 
   const FIRE_MANEDER_SIDEN = new Date();
@@ -31,19 +31,13 @@ const AngreBekreftSykmelding = ({
   const vis =
     new Date(sykmelding.sendtdato) > FIRE_MANEDER_SIDEN &&
     !sykmeldingHarSoknad(sykepengeSoknader, sykmelding.id);
-  return (
-    <>
-      {vis ? (
-        <div>
-          <div className="verktoylinje">
-            <Knapp type="standard" mini disabled>
-              {texts.angre}
-            </Knapp>
-          </div>
-        </div>
-      ) : null}
-    </>
-  );
+  return vis ? (
+    <div className="verktoylinje">
+      <Knapp type="standard" mini disabled>
+        {texts.angre}
+      </Knapp>
+    </div>
+  ) : null;
 };
 
 export default AngreBekreftSykmelding;

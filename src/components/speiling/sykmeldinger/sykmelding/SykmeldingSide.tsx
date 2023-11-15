@@ -32,34 +32,18 @@ const SykmeldingSide = ({
       dinSykmelding.behandlingsutfall.status ===
       BehandlingsutfallStatusDTO.INVALID
     ) {
-      return (
-        <div>
-          <AvvistSykmelding sykmelding={dinSykmelding} />
-        </div>
-      );
+      return <AvvistSykmelding sykmelding={dinSykmelding} />;
     }
     if (dinSykmelding.egenmeldt) {
       switch (dinSykmelding.status) {
         case SykmeldingStatus.BEKREFTET: {
-          return (
-            <div>
-              <KoronaSykmeldingBekreftet dinSykmelding={dinSykmelding} />
-            </div>
-          );
+          return <KoronaSykmeldingBekreftet dinSykmelding={dinSykmelding} />;
         }
         case SykmeldingStatus.NY: {
-          return (
-            <>
-              <KoronaSykmeldingNy sykmelding={dinSykmelding} />
-            </>
-          );
+          return <KoronaSykmeldingNy sykmelding={dinSykmelding} />;
         }
         case SykmeldingStatus.AVBRUTT: {
-          return (
-            <div>
-              <KoronaSykmeldingAvbrutt sykmelding={dinSykmelding} />
-            </div>
-          );
+          return <KoronaSykmeldingAvbrutt sykmelding={dinSykmelding} />;
         }
         default: {
           return <Feilmelding tittel="Egenmeldingen har ukjent status" />;
@@ -70,43 +54,27 @@ const SykmeldingSide = ({
       arbeidsgiversSykmelding
     ) {
       return (
-        <div>
-          <DinSendteSykmelding
-            dinSykmelding={dinSykmelding}
-            arbeidsgiversSykmelding={arbeidsgiversSykmelding}
-          />
-        </div>
+        <DinSendteSykmelding
+          dinSykmelding={dinSykmelding}
+          arbeidsgiversSykmelding={arbeidsgiversSykmelding}
+        />
       );
     } else if (
       arbeidsgiversSykmelding &&
       dinSykmelding.status === SykmeldingStatus.BEKREFTET
     ) {
       return (
-        <div>
-          <DinBekreftedeSykmelding
-            dinSykmelding={dinSykmelding}
-            arbeidsgiversSykmelding={arbeidsgiversSykmelding}
-          />
-        </div>
+        <DinBekreftedeSykmelding
+          dinSykmelding={dinSykmelding}
+          arbeidsgiversSykmelding={arbeidsgiversSykmelding}
+        />
       );
     } else if (dinSykmelding.status === SykmeldingStatus.UTGAATT) {
-      return (
-        <div>
-          <DinUtgaatteSykmelding sykmelding={dinSykmelding} />
-        </div>
-      );
+      return <DinUtgaatteSykmelding sykmelding={dinSykmelding} />;
     } else if (dinSykmelding.status === SykmeldingStatus.NY) {
-      return (
-        <div>
-          <DinSykmelding sykmelding={dinSykmelding} />
-        </div>
-      );
+      return <DinSykmelding sykmelding={dinSykmelding} />;
     } else if (dinSykmelding.status === SykmeldingStatus.AVBRUTT) {
-      return (
-        <div>
-          <DinAvbrutteSykmelding sykmelding={dinSykmelding} />
-        </div>
-      );
+      return <DinAvbrutteSykmelding sykmelding={dinSykmelding} />;
     }
     return <Feilmelding tittel="Sykmeldingen har ukjent status" />;
   })();

@@ -2,8 +2,8 @@ import dayjs from "dayjs";
 import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 import React, { ReactElement, useState } from "react";
 import {
-  sykmeldingerInnenforOppfolgingstilfelle,
   newAndActivatedSykmeldinger,
+  sykmeldingerInnenforOppfolgingstilfelle,
 } from "@/utils/sykmeldinger/sykmeldingUtils";
 import {
   dagerMellomDatoer,
@@ -13,7 +13,6 @@ import {
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { useSykmeldingerQuery } from "@/data/sykmelding/sykmeldingQueryHooks";
 import { SyketilfelleList } from "@/components/nokkelinformasjon/SyketilfelleList";
-import styled from "styled-components";
 import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
 import { BodyShort, Heading, Panel } from "@navikt/ds-react";
 
@@ -24,15 +23,6 @@ const texts = {
   xAxis: "X-akse: måned i tilfellet",
   yAxis: "Y-akse: sykmeldingsgrad",
 };
-
-const StyledPanel = styled(Panel)`
-  margin-bottom: 2em;
-`;
-
-const ChartAndTilfeller = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
 
 export const Sykmeldingsgrad = () => {
   const { sykmeldinger } = useSykmeldingerQuery();
@@ -78,7 +68,7 @@ export const Sykmeldingsgrad = () => {
     const { x, y, payload } = tickProps;
     const dayCount = payload.value;
     if (perioderListSortert == null || perioderListSortert.length < 1)
-      return <></>;
+      return <div></div>;
     const dayZero = perioderListSortert[0].fom;
     const currentDate = dayjs(dayZero).add(dayCount, "days").toDate();
     if (currentDate.getDate() === 1) {
@@ -91,11 +81,11 @@ export const Sykmeldingsgrad = () => {
         </text>
       );
     }
-    return <></>;
+    return <div></div>;
   };
 
   return (
-    <StyledPanel>
+    <Panel className={"mb-8"}>
       <Heading size="medium" level="2">
         {texts.title}
       </Heading>
@@ -110,7 +100,7 @@ export const Sykmeldingsgrad = () => {
         </BodyShort>
       )}
 
-      <ChartAndTilfeller>
+      <div className={"flex flex-row"}>
         <ResponsiveContainer width="70%" height={360}>
           <AreaChart
             data={dataBarChart}
@@ -132,10 +122,10 @@ export const Sykmeldingsgrad = () => {
             changeSelectedTilfelle={setSelectedOppfolgingstilfelle}
           />
         }
-      </ChartAndTilfeller>
+      </div>
 
       <BodyShort size="small">{texts.yAxis}</BodyShort>
       <BodyShort size="small">{texts.xAxis}</BodyShort>
-    </StyledPanel>
+    </Panel>
   );
 };

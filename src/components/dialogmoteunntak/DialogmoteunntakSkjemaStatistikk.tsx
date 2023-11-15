@@ -57,19 +57,15 @@ const DialogmoteunntakSkjemaStatistikk = () => {
     return <Skeleton variant="rectangle" width="70%" height={100} />;
   }
 
-  return (
-    <>
-      {unntaksstatistikk && (
-        <StatistikkWrapper>
-          <Icon src={Unntaksstatistikk} />
-          <div>
-            <Element>{texts.header}</Element>
-            <Normaltekst>{statistikkTekst(unntaksstatistikk)}</Normaltekst>
-          </div>
-        </StatistikkWrapper>
-      )}
-    </>
-  );
+  return !!unntaksstatistikk ? (
+    <StatistikkWrapper>
+      <Icon src={Unntaksstatistikk} />
+      <div>
+        <Element>{texts.header}</Element>
+        <Normaltekst>{statistikkTekst(unntaksstatistikk)}</Normaltekst>
+      </div>
+    </StatistikkWrapper>
+  ) : null;
 };
 
 export default DialogmoteunntakSkjemaStatistikk;

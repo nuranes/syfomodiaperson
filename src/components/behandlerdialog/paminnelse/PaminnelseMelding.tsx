@@ -1,7 +1,6 @@
 import { BellIcon } from "@navikt/aksel-icons";
 import { Button, Modal } from "@navikt/ds-react";
 import React, { useState } from "react";
-import styled from "styled-components";
 import {
   MeldingDTO,
   PaminnelseDTO,
@@ -10,12 +9,7 @@ import {
   useBehandlePaminnelseOppgave,
   usePaminnelseTilBehandler,
 } from "@/data/behandlerdialog/usePaminnelseTilBehandler";
-import { usePersonoppgaverQuery } from "@/data/personoppgave/personoppgaveQueryHooks";
-import { getAllUbehandledePersonOppgaver } from "@/utils/personOppgaveUtils";
-import {
-  PersonOppgave,
-  PersonOppgaveType,
-} from "@/data/personoppgave/types/PersonOppgave";
+import { PersonOppgave } from "@/data/personoppgave/types/PersonOppgave";
 import { useMeldingTilBehandlerDocument } from "@/hooks/behandlerdialog/document/useMeldingTilBehandlerDocument";
 import { DocumentComponentVisning } from "@/components/DocumentComponentVisning";
 import { ButtonRow, PaddingSize } from "@/components/Layout";
@@ -29,15 +23,12 @@ const texts = {
   fjernOppgave: "Fjern oppgave uten å sende påminnelse",
 };
 
-const ModalContent = styled(Modal.Content)`
-  padding: 2em;
-`;
-
-interface VisOgSendPaminnelseProps extends PaminnelseMeldingProps {
+interface VisOgSendPaminnelseProps {
+  melding: MeldingDTO;
   oppgave: PersonOppgave;
 }
 
-const VisOgSendPaminnelse = ({
+export const PaminnelseMelding = ({
   melding,
   oppgave,
 }: VisOgSendPaminnelseProps) => {
@@ -83,7 +74,7 @@ const VisOgSendPaminnelse = ({
         onClose={handleClose}
         aria-labelledby="modal-heading"
       >
-        <ModalContent>
+        <Modal.Content className={"p-8"}>
           {paminnelseDocument.map((component, index) => (
             <DocumentComponentVisning
               documentComponent={component}
@@ -118,29 +109,8 @@ const VisOgSendPaminnelse = ({
               }
             />
           </ButtonRow>
-        </ModalContent>
+        </Modal.Content>
       </Modal>
     </>
-  );
-};
-
-interface PaminnelseMeldingProps {
-  melding: MeldingDTO;
-}
-
-export const PaminnelseMelding = ({ melding }: PaminnelseMeldingProps) => {
-  const { data: oppgaver } = usePersonoppgaverQuery();
-  const ubehandledeUbesvartMeldingOppgaver = getAllUbehandledePersonOppgaver(
-    oppgaver,
-    PersonOppgaveType.BEHANDLERDIALOG_MELDING_UBESVART
-  );
-  const ubesvartMeldingOppgave = ubehandledeUbesvartMeldingOppgaver.find(
-    (oppgave) => oppgave.referanseUuid === melding.uuid
-  );
-
-  return ubesvartMeldingOppgave ? (
-    <VisOgSendPaminnelse melding={melding} oppgave={ubesvartMeldingOppgave} />
-  ) : (
-    <></>
   );
 };

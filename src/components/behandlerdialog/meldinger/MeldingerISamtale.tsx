@@ -13,6 +13,9 @@ import {
 import { PaminnelseMelding } from "@/components/behandlerdialog/paminnelse/PaminnelseMelding";
 import { AvvistMelding } from "@/components/behandlerdialog/meldinger/AvvistMelding";
 import { ReturLegeerklaring } from "@/components/behandlerdialog/legeerklaring/ReturLegeerklaring";
+import { usePersonoppgaverQuery } from "@/data/personoppgave/personoppgaveQueryHooks";
+import { getAllUbehandledePersonOppgaver } from "@/utils/personOppgaveUtils";
+import { PersonOppgaveType } from "@/data/personoppgave/types/PersonOppgave";
 
 const StyledWrapper = styled.div`
   margin: 1em 0;
@@ -80,7 +83,16 @@ const MeldingFraBehandler = ({
   );
 };
 
-const MeldingTilBehandler = ({ melding }: MeldingInnholdProps) => {
+export const MeldingTilBehandler = ({ melding }: MeldingInnholdProps) => {
+  const { data: oppgaver } = usePersonoppgaverQuery();
+  const ubehandledeUbesvartMeldingOppgaver = getAllUbehandledePersonOppgaver(
+    oppgaver,
+    PersonOppgaveType.BEHANDLERDIALOG_MELDING_UBESVART
+  );
+  const ubesvartMeldingOppgave = ubehandledeUbesvartMeldingOppgaver.find(
+    (oppgave) => oppgave.referanseUuid === melding.uuid
+  );
+
   return (
     <StyledMelding>
       <StyledInnhold>
@@ -88,7 +100,12 @@ const MeldingTilBehandler = ({ melding }: MeldingInnholdProps) => {
         {melding.status?.type === MeldingStatusType.AVVIST && (
           <AvvistMelding meldingUuid={melding.uuid} />
         )}
-        <PaminnelseMelding melding={melding} />
+        {!!ubesvartMeldingOppgave && (
+          <PaminnelseMelding
+            melding={melding}
+            oppgave={ubesvartMeldingOppgave}
+          />
+        )}
       </StyledInnhold>
       <StyledImageWrapper>
         <img src={NavLogoRod} alt="Rød NAV-logo" />

@@ -9,6 +9,7 @@ import VerktoylinjeGjenapne from "../soknad-felles/VerktoylinjeGjenapneSoknad";
 import { Brodsmule } from "../../Brodsmuler";
 import { SykepengesoknadDTO } from "@/data/sykepengesoknad/types/SykepengesoknadDTO";
 import { SykmeldingUtdragContainer } from "../SykmeldingUtdragContainer";
+import { erOpprettetSisteAar } from "@/utils/sykepengesoknadUtils";
 
 const texts = {
   tittel: "Søknad om sykepenger",
@@ -34,7 +35,7 @@ const AvbruttSoknadArbeidstakerStatuspanel = ({
           <p>{tilLesbarDatoMedArstall(soknad.avbruttDato)}</p>
         </StatusNokkelopplysning>
       </Statusopplysninger>
-      <VerktoylinjeGjenapne soknad={soknad} />
+      {erOpprettetSisteAar(soknad) && <VerktoylinjeGjenapne />}
     </Statuspanel>
   );
 };
