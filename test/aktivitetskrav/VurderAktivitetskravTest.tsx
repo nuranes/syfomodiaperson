@@ -115,7 +115,7 @@ describe("VurderAktivitetskrav", () => {
     expect(screen.queryByRole("tab", { name: "Sett unntak" })).to.exist;
     expect(screen.queryByRole("tab", { name: "Er i aktivitet" })).to.exist;
     expect(screen.queryByRole("tab", { name: "Send forhåndsvarsel" })).to.exist;
-    expect(screen.queryByRole("tab", { name: "Ikke oppfylt" })).to.not.exist;
+    expect(screen.queryByRole("tab", { name: "Ikke oppfylt" })).to.exist;
   });
 
   it("renders ikke-oppfylt when ubehandlet vurder-stans oppgave", () => {
@@ -337,7 +337,7 @@ describe("VurderAktivitetskrav", () => {
       expect(screen.queryByRole("tab", { name: "Er i aktivitet" })).to.exist;
       expect(screen.queryByRole("tab", { name: "Send forhåndsvarsel" })).to.not
         .exist;
-      expect(screen.queryByRole("tab", { name: "Ikke oppfylt" })).to.not.exist;
+      expect(screen.queryByRole("tab", { name: "Ikke oppfylt" })).to.exist;
       expect(screen.queryByRole("button", { name: "Avvent" })).to.not.exist;
     });
 

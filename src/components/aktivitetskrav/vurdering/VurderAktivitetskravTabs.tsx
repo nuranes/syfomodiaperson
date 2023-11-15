@@ -1,8 +1,5 @@
 import React from "react";
 import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
-import { usePersonoppgaverQuery } from "@/data/personoppgave/personoppgaveQueryHooks";
-import { hasUbehandletPersonoppgave } from "@/utils/personOppgaveUtils";
-import { PersonOppgaveType } from "@/data/personoppgave/types/PersonOppgave";
 import {
   AktivitetskravDTO,
   AktivitetskravStatus,
@@ -55,14 +52,6 @@ export const VurderAktivitetskravTabs = ({
   aktivitetskrav,
 }: VurderAktivitetskravTabsProps) => {
   const { toggles } = useFeatureToggles();
-  const { data: oppgaver } = usePersonoppgaverQuery();
-  const hasUbehandletVurderStansOppgave = hasUbehandletPersonoppgave(
-    oppgaver,
-    PersonOppgaveType.AKTIVITETSKRAV_VURDER_STANS
-  );
-  const isIkkeOppfyltTabVisible =
-    hasUbehandletVurderStansOppgave ||
-    !toggles.isSendingAvForhandsvarselEnabled;
   const isForhandsvarselTabVisible =
     toggles.isSendingAvForhandsvarselEnabled &&
     isValidStateForForhandsvarsel(aktivitetskrav.status);
@@ -77,9 +66,7 @@ export const VurderAktivitetskravTabs = ({
         {isForhandsvarselTabVisible && (
           <Tabs.Tab value={Tab.FORHANDSVARSEL} label={texts.forhandsvarsel} />
         )}
-        {isIkkeOppfyltTabVisible && (
-          <Tabs.Tab value={Tab.IKKE_OPPFYLT} label={texts.ikkeOppfylt} />
-        )}
+        <Tabs.Tab value={Tab.IKKE_OPPFYLT} label={texts.ikkeOppfylt} />
       </Tabs.List>
       <Tabs.Panel value={Tab.UNNTAK}>
         <UnntakAktivitetskravSkjema aktivitetskravUuid={aktivitetskravUuid} />
@@ -92,13 +79,11 @@ export const VurderAktivitetskravTabs = ({
           <SendForhandsvarselSkjema aktivitetskravUuid={aktivitetskravUuid} />
         </Tabs.Panel>
       )}
-      {isIkkeOppfyltTabVisible && (
-        <Tabs.Panel value={Tab.IKKE_OPPFYLT}>
-          <IkkeOppfyltAktivitetskravSkjema
-            aktivitetskravUuid={aktivitetskravUuid}
-          />
-        </Tabs.Panel>
-      )}
+      <Tabs.Panel value={Tab.IKKE_OPPFYLT}>
+        <IkkeOppfyltAktivitetskravSkjema
+          aktivitetskravUuid={aktivitetskravUuid}
+        />
+      </Tabs.Panel>
     </StyledTabs>
   );
 };
