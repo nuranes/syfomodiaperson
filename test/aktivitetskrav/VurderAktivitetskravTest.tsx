@@ -421,7 +421,7 @@ describe("VurderAktivitetskrav", () => {
     });
   });
   describe("Ikke aktuell", () => {
-    it("Lagre vurdering med verdier fra skjema", () => {
+    it("Lagre vurdering med verdier fra skjema", async () => {
       renderVurderAktivitetskrav(aktivitetskrav);
 
       clickButton(buttonTexts["IKKE_AKTUELL"]);
@@ -440,22 +440,27 @@ describe("VurderAktivitetskrav", () => {
         )
       ).to.exist;
 
+      const beskrivelseInput = getTextInput("Begrunnelse");
+      changeTextInput(beskrivelseInput, enBeskrivelse);
+
       const lagreButton = within(screen.getByRole("dialog")).getByRole(
         "button",
         { name: "Lagre" }
       );
       fireEvent.click(lagreButton);
-
-      const vurderIkkeAktuellMutation = queryClient
-        .getMutationCache()
-        .getAll()[0];
-      const expectedVurdering: CreateAktivitetskravVurderingDTO = {
-        status: AktivitetskravStatus.IKKE_AKTUELL,
-        arsaker: [],
-      };
-      expect(vurderIkkeAktuellMutation.options.variables).to.deep.equal(
-        expectedVurdering
-      );
+      await waitFor(() => {
+        const vurderIkkeAktuellMutation = queryClient
+          .getMutationCache()
+          .getAll()[0];
+        const expectedVurdering: CreateAktivitetskravVurderingDTO = {
+          status: AktivitetskravStatus.IKKE_AKTUELL,
+          beskrivelse: enBeskrivelse,
+          arsaker: [],
+        };
+        expect(vurderIkkeAktuellMutation.options.variables).to.deep.equal(
+          expectedVurdering
+        );
+      });
     });
   });
 });
