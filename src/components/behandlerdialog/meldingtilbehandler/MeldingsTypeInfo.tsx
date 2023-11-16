@@ -1,5 +1,4 @@
 import { MeldingType } from "@/data/behandlerdialog/behandlerdialogTypes";
-import styled from "styled-components";
 import React, { ReactElement } from "react";
 import {
   BlueDocumentImage,
@@ -15,46 +14,39 @@ const texts = {
   meldingFraNAV: "Melding fra NAV til behandler som ikke utløser takst.",
 };
 
-const Icon = styled.img`
-  margin-right: 1em;
-  width: 3em;
-`;
+interface InfoElementProps {
+  icon: string;
+  text: string;
+}
 
-const InfoPanel = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
+const InfoElement = ({ icon, text }: InfoElementProps) => {
+  return (
+    <>
+      <img src={icon} className="mr-4 w-12" alt="Ikon for meldingstypen" />
+      <BodyShort size={"small"}>{text}</BodyShort>
+    </>
+  );
+};
 
-interface Props {
+interface MeldingsTypeInfoProps {
   meldingType: MeldingType;
 }
 
 export const MeldingsTypeInfo = ({
   meldingType,
-}: Props): ReactElement | null => {
+}: MeldingsTypeInfoProps): ReactElement | null => {
   const Info = () => {
     switch (meldingType) {
       case MeldingType.FORESPORSEL_PASIENT_TILLEGGSOPPLYSNINGER:
         return (
-          <>
-            <Icon src={BlyantImage} />
-            <BodyShort size={"small"}>{texts.tilleggsopplysinger}</BodyShort>
-          </>
+          <InfoElement icon={BlyantImage} text={texts.tilleggsopplysinger} />
         );
       case MeldingType.FORESPORSEL_PASIENT_LEGEERKLARING:
         return (
-          <>
-            <Icon src={BlueDocumentImage} />
-            <BodyShort size={"small"}>{texts.legeerklaring}</BodyShort>
-          </>
+          <InfoElement icon={BlueDocumentImage} text={texts.legeerklaring} />
         );
       case MeldingType.HENVENDELSE_MELDING_FRA_NAV:
-        return (
-          <>
-            <Icon src={BlyantImage} />
-            <BodyShort size={"small"}>{texts.meldingFraNAV}</BodyShort>
-          </>
-        );
+        return <InfoElement icon={BlyantImage} text={texts.meldingFraNAV} />;
       case MeldingType.FORESPORSEL_PASIENT_PAMINNELSE:
       case MeldingType.HENVENDELSE_RETUR_LEGEERKLARING:
       case MeldingType.HENVENDELSE_MELDING_TIL_NAV:
@@ -63,8 +55,8 @@ export const MeldingsTypeInfo = ({
   };
 
   return (
-    <InfoPanel>
+    <div className="flex flex-row items-center">
       <Info />
-    </InfoPanel>
+    </div>
   );
 };

@@ -114,26 +114,28 @@ export const MeldingTilBehandlerSkjema = () => {
           {`Meldingen ble sendt ${tilDatoMedManedNavnOgKlokkeslett(now)}`}
         </Alert>
       )}
-      <Select
-        id="type"
-        className={"w-[23rem]"}
-        label={texts.meldingsType.label}
-        {...register("meldingsType", { required: true })}
-        value={watch("meldingsType")}
-        error={errors.meldingsType && texts.meldingsType.missing}
-      >
-        <option value="">{texts.meldingsType.defaultOption}</option>
-        <MeldingTypeOption
-          type={MeldingType.FORESPORSEL_PASIENT_TILLEGGSOPPLYSNINGER}
-        />
-        <MeldingTypeOption
-          type={MeldingType.FORESPORSEL_PASIENT_LEGEERKLARING}
-        />
-        <MeldingTypeOption type={MeldingType.HENVENDELSE_MELDING_FRA_NAV} />
-      </Select>
-      {watch("meldingsType") && (
-        <MeldingsTypeInfo meldingType={watch("meldingsType")} />
-      )}
+      <div className="max-w-[23rem]">
+        <Select
+          id="type"
+          className="mb-4"
+          label={texts.meldingsType.label}
+          {...register("meldingsType", { required: true })}
+          value={watch("meldingsType")}
+          error={errors.meldingsType && texts.meldingsType.missing}
+        >
+          <option value="">{texts.meldingsType.defaultOption}</option>
+          <MeldingTypeOption
+            type={MeldingType.FORESPORSEL_PASIENT_TILLEGGSOPPLYSNINGER}
+          />
+          <MeldingTypeOption
+            type={MeldingType.FORESPORSEL_PASIENT_LEGEERKLARING}
+          />
+          <MeldingTypeOption type={MeldingType.HENVENDELSE_MELDING_FRA_NAV} />
+        </Select>
+        {watch("meldingsType") && (
+          <MeldingsTypeInfo meldingType={watch("meldingsType")} />
+        )}
+      </div>
       <VelgBehandler
         selectedBehandler={selectedBehandler}
         setSelectedBehandler={setSelectedBehandler}
