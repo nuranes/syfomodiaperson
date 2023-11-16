@@ -1,5 +1,4 @@
 import React from "react";
-import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
 import {
   AktivitetskravDTO,
   AktivitetskravStatus,
@@ -51,10 +50,9 @@ interface VurderAktivitetskravTabsProps {
 export const VurderAktivitetskravTabs = ({
   aktivitetskrav,
 }: VurderAktivitetskravTabsProps) => {
-  const { toggles } = useFeatureToggles();
-  const isForhandsvarselTabVisible =
-    toggles.isSendingAvForhandsvarselEnabled &&
-    isValidStateForForhandsvarsel(aktivitetskrav.status);
+  const isForhandsvarselTabVisible = isValidStateForForhandsvarsel(
+    aktivitetskrav.status
+  );
 
   const aktivitetskravUuid = aktivitetskrav.uuid;
 

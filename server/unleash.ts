@@ -41,10 +41,6 @@ export const getToggles = (veilederId, enhetId) => {
       "isVirksomhetsinputEnabled",
       context
     ),
-    isSendingAvForhandsvarselEnabled: unleash.isEnabled(
-      "isSendingAvForhandsvarselEnabled",
-      context
-    ),
     isHuskelappEnabled: unleash.isEnabled("isHuskelappEnabled", context),
   };
 };
