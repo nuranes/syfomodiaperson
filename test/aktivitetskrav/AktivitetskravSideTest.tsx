@@ -14,18 +14,15 @@ import { navEnhet } from "../dialogmote/testData";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { expect } from "chai";
 import {
-  avventVurdering,
   createAktivitetskrav,
-  forhandsvarselVurdering,
   generateOppfolgingstilfelle,
-  oppfyltVurdering,
-  unntakVurdering,
 } from "../testDataUtils";
 import {
   AktivitetskravDTO,
   AktivitetskravStatus,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { aktivitetskravQueryKeys } from "@/data/aktivitetskrav/aktivitetskravQueryHooks";
+import { NotificationContext } from "@/context/notification/NotificationContext";
 
 let queryClient: QueryClient;
 
@@ -53,10 +50,6 @@ const mockAktivitetskrav = (aktivitetskrav: AktivitetskravDTO[]) => {
   );
 };
 
-const activeOppfolgingstilfelle = generateOppfolgingstilfelle(
-  daysFromToday(-30),
-  daysFromToday(30)
-);
 const inactiveOppfolgingstilfelle = generateOppfolgingstilfelle(
   daysFromToday(-100),
   daysFromToday(-50)
@@ -68,7 +61,11 @@ const renderAktivitetskravSide = () => {
       <ValgtEnhetContext.Provider
         value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
       >
-        <AktivitetskravSide />
+        <NotificationContext.Provider
+          value={{ notification: undefined, setNotification: () => void 0 }}
+        >
+          <AktivitetskravSide />
+        </NotificationContext.Provider>
       </ValgtEnhetContext.Provider>
     </QueryClientProvider>
   );
@@ -388,92 +385,6 @@ describe("AktivitetskravSide", () => {
       expect(screen.getByRole("img", { name: "Advarsel" })).to.exist;
       expect(screen.getByText(noOppfolgingstilfelleAktivitetskravText)).to
         .exist;
-    });
-  });
-  describe("Vurdering alert", () => {
-    it("viser siste aktivitetskrav-vurdering fra alle aktivitetskrav for oppfølgingstilfellet", () => {
-      mockAktivitetskrav([
-        createAktivitetskrav(daysFromToday(20), AktivitetskravStatus.OPPFYLT, [
-          oppfyltVurdering,
-          avventVurdering,
-        ]),
-        createAktivitetskrav(daysFromToday(20), AktivitetskravStatus.UNNTAK, [
-          unntakVurdering,
-        ]),
-      ]);
-      mockOppfolgingstilfellePerson([activeOppfolgingstilfelle]);
-      renderAktivitetskravSide();
-
-      expect(screen.getByRole("img", { name: "Suksess" })).to.exist;
-      expect(
-        screen.getByText(/Det er vurdert at Samuel Sam Jones er i aktivitet/)
-      ).to.exist;
-    });
-    it("viser siste aktivitetskrav-vurdering fra aktivitetskrav uten oppfølgingstilfelle", () => {
-      mockAktivitetskrav([
-        createAktivitetskrav(daysFromToday(20), AktivitetskravStatus.UNNTAK, [
-          unntakVurdering,
-        ]),
-      ]);
-      renderAktivitetskravSide();
-
-      expect(screen.getByRole("img", { name: "Suksess" })).to.exist;
-      expect(screen.getByText(/Det er vurdert unntak/)).to.exist;
-    });
-    it("viser ingen alert når ingen aktivitetskrav-vurdering", () => {
-      mockAktivitetskrav([
-        createAktivitetskrav(daysFromToday(20), AktivitetskravStatus.NY),
-      ]);
-      mockOppfolgingstilfellePerson([activeOppfolgingstilfelle]);
-      renderAktivitetskravSide();
-
-      expect(screen.queryByRole("img", { name: "Advarsel" })).to.not.exist;
-      expect(screen.queryByRole("img", { name: "Suksess" })).to.not.exist;
-      expect(screen.queryByText(/Det er vurdert/)).to.not.exist;
-      expect(screen.queryByText(/Avventer - /)).to.not.exist;
-    });
-  });
-  describe("ForhandsvarselOppsummering", () => {
-    it("Viser oppsummering når forhåndsvarsel er sendt", () => {
-      mockAktivitetskrav([
-        createAktivitetskrav(
-          daysFromToday(20),
-          AktivitetskravStatus.FORHANDSVARSEL,
-          [forhandsvarselVurdering]
-        ),
-      ]);
-      renderAktivitetskravSide();
-
-      expect(
-        screen.getByRole("heading", {
-          name: "Oppsummering av forhåndsvarselet",
-        })
-      ).to.exist;
-      expect(screen.getByText("Frist: ", { exact: false })).to.exist;
-      expect(
-        screen.getByText(
-          "Husk å sjekke Gosys og Modia for mer informasjon før du vurderer."
-        )
-      ).to.exist;
-    });
-
-    it("Viser ikke oppsummering når forhåndsvarsel ikke er sendt", () => {
-      mockAktivitetskrav([
-        createAktivitetskrav(daysFromToday(20), AktivitetskravStatus.NY, []),
-      ]);
-      renderAktivitetskravSide();
-
-      expect(
-        screen.queryByRole("heading", {
-          name: "Oppsummering av forhåndsvarselet",
-        })
-      ).to.not.exist;
-      expect(screen.queryByText("Frist: ", { exact: false })).to.not.exist;
-      expect(
-        screen.queryByText(
-          "Husk å sjekke Gosys og Modia for mer informasjon før du vurderer."
-        )
-      ).to.not.exist;
     });
   });
 });

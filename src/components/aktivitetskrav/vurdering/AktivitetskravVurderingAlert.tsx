@@ -2,7 +2,6 @@ import {
   AktivitetskravStatus,
   AktivitetskravVurderingDTO,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
-import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import {
   tilDatoMedManedNavn,
   tilLesbarDatoMedArUtenManedNavn,
@@ -27,51 +26,18 @@ interface AktivitetskravVurderingAlertProps {
   vurdering: AktivitetskravVurderingDTO;
 }
 
-type SuccessAktivitetskravStatus =
-  | AktivitetskravStatus.OPPFYLT
-  | AktivitetskravStatus.UNNTAK
-  | AktivitetskravStatus.IKKE_OPPFYLT
-  | AktivitetskravStatus.IKKE_AKTUELL;
-
 export const AktivitetskravVurderingAlert = ({
   vurdering,
 }: AktivitetskravVurderingAlertProps): ReactElement | null => {
-  const { navn: brukersNavn } = useNavBrukerData();
   const { data: oppgaver } = usePersonoppgaverQuery();
   const hasUbehandletVurderStansOppgave = hasUbehandletPersonoppgave(
     oppgaver,
     PersonOppgaveType.AKTIVITETSKRAV_VURDER_STANS
   );
-  const vurderingDato = tilLesbarDatoMedArUtenManedNavn(vurdering.createdAt);
+  const { status, beskrivelse, arsaker, frist, createdAt } = vurdering;
+  const vurderingDato = tilLesbarDatoMedArUtenManedNavn(createdAt);
 
-  const successText = (status: SuccessAktivitetskravStatus): string => {
-    switch (status) {
-      case AktivitetskravStatus.OPPFYLT: {
-        return `Det er vurdert at ${brukersNavn} er i aktivitet ${vurderingDato}`;
-      }
-      case AktivitetskravStatus.UNNTAK: {
-        return `Det er vurdert unntak for ${brukersNavn} ${vurderingDato}`;
-      }
-      case AktivitetskravStatus.IKKE_OPPFYLT: {
-        return `Det er vurdert at aktivitetskravet ikke er oppfylt for ${brukersNavn} ${vurderingDato}`;
-      }
-      case AktivitetskravStatus.IKKE_AKTUELL: {
-        return `Det er vurdert at aktivitetskravet ikke er aktuelt for ${brukersNavn} ${vurderingDato}`;
-      }
-    }
-  };
-
-  switch (vurdering.status) {
-    case AktivitetskravStatus.OPPFYLT:
-    case AktivitetskravStatus.UNNTAK:
-    case AktivitetskravStatus.IKKE_OPPFYLT:
-    case AktivitetskravStatus.IKKE_AKTUELL: {
-      return (
-        <AktivitetskravAlertstripe variant="success">
-          <BodyShort size="small">{successText(vurdering.status)}</BodyShort>
-        </AktivitetskravAlertstripe>
-      );
-    }
+  switch (status) {
     case AktivitetskravStatus.FORHANDSVARSEL: {
       return hasUbehandletVurderStansOppgave ? (
         <AktivitetskravAlertstripe variant="warning">
@@ -90,13 +56,11 @@ export const AktivitetskravVurderingAlert = ({
       return (
         <AktivitetskravAlertstripe variant="warning">
           <Label size="small">
-            {vurdering.frist
-              ? `Avventer til ${tilDatoMedManedNavn(vurdering.frist)}`
-              : "Avventer"}
+            {frist ? `Avventer til ${tilDatoMedManedNavn(frist)}` : "Avventer"}
           </Label>
-          <BodyLong size="small">{vurdering.beskrivelse}</BodyLong>
+          <BodyLong size="small">{beskrivelse}</BodyLong>
           <ul>
-            {vurdering.arsaker.map((arsak, index) => {
+            {arsaker.map((arsak, index) => {
               const avventArsakText = avventVurderingArsakTexts[arsak] || arsak;
               return (
                 <li key={index}>
@@ -108,13 +72,8 @@ export const AktivitetskravVurderingAlert = ({
         </AktivitetskravAlertstripe>
       );
     }
-    case AktivitetskravStatus.STANS:
-    case AktivitetskravStatus.LUKKET:
-    case AktivitetskravStatus.AUTOMATISK_OPPFYLT:
-    case AktivitetskravStatus.NY_VURDERING:
-    case AktivitetskravStatus.NY: {
-      // Finnes ikke vurderinger med disse statusene
-      return null;
+    default: {
+      throw new Error(`Not supported`);
     }
   }
 };

@@ -12,8 +12,11 @@ import React from "react";
 import { VurderAktivitetskrav } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskrav";
 import { queryClientWithMockData } from "../testQueryClient";
 import {
+  avventVurdering,
   createAktivitetskrav,
+  forhandsvarselVurdering,
   generateOppfolgingstilfelle,
+  oppfyltVurdering,
 } from "../testDataUtils";
 import {
   changeTextInput,
@@ -48,6 +51,7 @@ import {
 } from "../stubs/stubIsaktivitetskrav";
 import nock from "nock";
 import { oppfolgingstilfellePersonQueryKeys } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
+import { NotificationContext } from "@/context/notification/NotificationContext";
 
 let queryClient: QueryClient;
 let apiMockScope: any;
@@ -59,7 +63,8 @@ const aktivitetskrav = createAktivitetskrav(
 );
 const forhandsvarselAktivitetskrav = createAktivitetskrav(
   daysFromToday(5),
-  AktivitetskravStatus.FORHANDSVARSEL
+  AktivitetskravStatus.FORHANDSVARSEL,
+  [forhandsvarselVurdering]
 );
 const tilfelleStart = daysFromToday(-50);
 const tilfelleEnd = daysFromToday(50);
@@ -88,7 +93,11 @@ const renderVurderAktivitetskrav = (aktivitetskravDto: AktivitetskravDTO) =>
       <ValgtEnhetContext.Provider
         value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
       >
-        <VurderAktivitetskrav aktivitetskrav={aktivitetskravDto} />
+        <NotificationContext.Provider
+          value={{ notification: undefined, setNotification: () => void 0 }}
+        >
+          <VurderAktivitetskrav aktivitetskrav={aktivitetskravDto} />
+        </NotificationContext.Provider>
       </ValgtEnhetContext.Provider>
     </QueryClientProvider>
   );
@@ -461,6 +470,75 @@ describe("VurderAktivitetskrav", () => {
           expectedVurdering
         );
       });
+    });
+  });
+  describe("Vurdering alert", () => {
+    it("viser alert for aktivitetskrav med siste vurdering AVVENT", () => {
+      const aktivitetskravAvvent = createAktivitetskrav(
+        daysFromToday(20),
+        AktivitetskravStatus.AVVENT,
+        [avventVurdering]
+      );
+      renderVurderAktivitetskrav(aktivitetskravAvvent);
+
+      expect(screen.getByRole("img", { name: "Advarsel" })).to.exist;
+    });
+    it("viser alert for aktivitetskrav med siste vurdering FORHANDSVARSEL", () => {
+      renderVurderAktivitetskrav(forhandsvarselAktivitetskrav);
+
+      expect(screen.getByRole("img", { name: "Informasjon" })).to.exist;
+    });
+    it("viser ingen alert når aktivitetskrav har siste vurdering OPPFYLT", () => {
+      const aktivitetskravOppfylt = createAktivitetskrav(
+        daysFromToday(20),
+        AktivitetskravStatus.OPPFYLT,
+        [oppfyltVurdering]
+      );
+      renderVurderAktivitetskrav(aktivitetskravOppfylt);
+
+      expect(screen.queryByRole("img", { name: "Advarsel" })).to.not.exist;
+      expect(screen.queryByRole("img", { name: "Suksess" })).to.not.exist;
+      expect(screen.queryByRole("img", { name: "Info" })).to.not.exist;
+    });
+    it("viser ingen alert når aktivitetskrav har ingen vurdering", () => {
+      renderVurderAktivitetskrav(aktivitetskrav);
+
+      expect(screen.queryByRole("img", { name: "Advarsel" })).to.not.exist;
+      expect(screen.queryByRole("img", { name: "Suksess" })).to.not.exist;
+      expect(screen.queryByRole("img", { name: "Info" })).to.not.exist;
+    });
+  });
+  describe("ForhandsvarselOppsummering", () => {
+    it("Viser oppsummering når forhåndsvarsel er sendt", () => {
+      renderVurderAktivitetskrav(forhandsvarselAktivitetskrav);
+
+      expect(
+        screen.getByRole("heading", {
+          name: "Oppsummering av forhåndsvarselet",
+        })
+      ).to.exist;
+      expect(screen.getByText("Frist: ", { exact: false })).to.exist;
+      expect(
+        screen.getByText(
+          "Husk å sjekke Gosys og Modia for mer informasjon før du vurderer."
+        )
+      ).to.exist;
+    });
+
+    it("Viser ikke oppsummering når forhåndsvarsel ikke er sendt", () => {
+      renderVurderAktivitetskrav(aktivitetskrav);
+
+      expect(
+        screen.queryByRole("heading", {
+          name: "Oppsummering av forhåndsvarselet",
+        })
+      ).to.not.exist;
+      expect(screen.queryByText("Frist: ", { exact: false })).to.not.exist;
+      expect(
+        screen.queryByText(
+          "Husk å sjekke Gosys og Modia for mer informasjon før du vurderer."
+        )
+      ).to.not.exist;
     });
   });
 });

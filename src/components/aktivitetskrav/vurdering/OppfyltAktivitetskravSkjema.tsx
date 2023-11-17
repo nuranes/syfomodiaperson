@@ -18,6 +18,7 @@ import { Button, Radio, RadioGroup } from "@navikt/ds-react";
 import BegrunnelseTextarea, {
   begrunnelseMaxLength,
 } from "@/components/aktivitetskrav/vurdering/BegrunnelseTextarea";
+import { useAktivitetskravNotificationAlert } from "@/components/aktivitetskrav/useAktivitetskravNotificationAlert";
 
 const texts = {
   title: "Er i aktivitet",
@@ -48,15 +49,20 @@ export const OppfyltAktivitetskravSkjema = ({
     defaultValues,
   });
   const vurderAktivitetskrav = useVurderAktivitetskrav(aktivitetskravUuid);
+  const { displayNotification } = useAktivitetskravNotificationAlert();
 
   const submit = (values: OppfyltAktivitetskravSkjemaValues) => {
+    const status = AktivitetskravStatus.OPPFYLT;
     const createAktivitetskravVurderingDTO: CreateAktivitetskravVurderingDTO = {
-      status: AktivitetskravStatus.OPPFYLT,
+      status,
       arsaker: [values.arsak],
       beskrivelse: values.begrunnelse,
     };
     vurderAktivitetskrav.mutate(createAktivitetskravVurderingDTO, {
-      onSuccess: () => reset(),
+      onSuccess: () => {
+        reset();
+        displayNotification(status);
+      },
     });
   };
 

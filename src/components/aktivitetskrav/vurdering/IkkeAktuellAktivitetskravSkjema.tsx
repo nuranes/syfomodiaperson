@@ -8,6 +8,7 @@ import { SkjemaHeading } from "@/components/aktivitetskrav/vurdering/SkjemaHeadi
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { ButtonRow } from "@/components/Layout";
 import { Button } from "@navikt/ds-react";
+import { useAktivitetskravNotificationAlert } from "@/components/aktivitetskrav/useAktivitetskravNotificationAlert";
 import { useForm } from "react-hook-form";
 import { VurderAktivitetskravSkjemaProps } from "@/components/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
 import BegrunnelseTextarea, {
@@ -37,16 +38,22 @@ export const IkkeAktuellAktivitetskravSkjema = ({
   setModalOpen,
 }: IkkeAktuellAktivitetskravSkjemaProps) => {
   const vurderAktivitetskrav = useVurderAktivitetskrav(aktivitetskravUuid);
+  const { displayNotification } = useAktivitetskravNotificationAlert();
+
   const { handleSubmit, register, watch } = useForm<SkjemaValues>();
   const onSubmit = (values: SkjemaValues) => {
     const isBlank = values.begrunnelse?.trim() === "";
+    const status = AktivitetskravStatus.IKKE_AKTUELL;
     const createAktivitetskravVurderingDTO: CreateAktivitetskravVurderingDTO = {
-      status: AktivitetskravStatus.IKKE_AKTUELL,
+      status,
       beskrivelse: isBlank ? undefined : values.begrunnelse,
       arsaker: [],
     };
     vurderAktivitetskrav.mutate(createAktivitetskravVurderingDTO, {
-      onSuccess: () => setModalOpen(false),
+      onSuccess: () => {
+        setModalOpen(false);
+        displayNotification(status);
+      },
     });
   };
 

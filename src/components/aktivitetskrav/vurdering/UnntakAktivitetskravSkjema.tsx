@@ -18,6 +18,7 @@ import { Button, Radio, RadioGroup } from "@navikt/ds-react";
 import BegrunnelseTextarea, {
   begrunnelseMaxLength,
 } from "@/components/aktivitetskrav/vurdering/BegrunnelseTextarea";
+import { useAktivitetskravNotificationAlert } from "@/components/aktivitetskrav/useAktivitetskravNotificationAlert";
 
 const texts = {
   title: "Sett unntak fra aktivitetskravet",
@@ -46,15 +47,20 @@ export const UnntakAktivitetskravSkjema = ({
     reset,
   } = useForm<UnntakAktivitetskravSkjemaValues>({ defaultValues });
   const vurderAktivitetskrav = useVurderAktivitetskrav(aktivitetskravUuid);
+  const { displayNotification } = useAktivitetskravNotificationAlert();
 
   const submit = (values: UnntakAktivitetskravSkjemaValues) => {
+    const status = AktivitetskravStatus.UNNTAK;
     const createAktivitetskravVurderingDTO: CreateAktivitetskravVurderingDTO = {
-      status: AktivitetskravStatus.UNNTAK,
+      status,
       arsaker: [values.arsak],
       beskrivelse: values.begrunnelse,
     };
     vurderAktivitetskrav.mutate(createAktivitetskravVurderingDTO, {
-      onSuccess: () => reset(),
+      onSuccess: () => {
+        reset();
+        displayNotification(status);
+      },
     });
   };
 

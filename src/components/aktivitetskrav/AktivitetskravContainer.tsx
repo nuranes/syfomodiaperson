@@ -6,6 +6,7 @@ import { useAktivitetskravQuery } from "@/data/aktivitetskrav/aktivitetskravQuer
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import SideLaster from "@/components/SideLaster";
 import { AktivitetskravSide } from "@/components/aktivitetskrav/AktivitetskravSide";
+import { NotificationProvider } from "@/context/notification/NotificationContext";
 
 const texts = {
   title: "Aktivitetskrav",
@@ -30,7 +31,9 @@ export const AktivitetskravContainer = (): ReactElement => {
     <Side tittel={texts.title} aktivtMenypunkt={Menypunkter.AKTIVITETSKRAV}>
       <Sidetopp tittel={texts.title} />
       <SideLaster henter={henter} hentingFeilet={hentingFeilet}>
-        <AktivitetskravSide />
+        <NotificationProvider>
+          <AktivitetskravSide />
+        </NotificationProvider>
       </SideLaster>
     </Side>
   );

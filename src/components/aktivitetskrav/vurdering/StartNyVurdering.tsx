@@ -1,5 +1,5 @@
 import React from "react";
-import { BodyShort, Button, Heading, Panel } from "@navikt/ds-react";
+import { Alert, BodyShort, Button, Heading, Panel } from "@navikt/ds-react";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { useCreateAktivitetskrav } from "@/data/aktivitetskrav/useCreateAktivitetskrav";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
@@ -11,6 +11,7 @@ import {
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import { vurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
+import { useAktivitetskravNotificationAlert } from "@/components/aktivitetskrav/useAktivitetskravNotificationAlert";
 
 export const texts = {
   header: "Start ny aktivitetskrav-vurdering",
@@ -76,6 +77,8 @@ export const StartNyVurdering = ({ aktivitetskrav }: StartNyVurderingProps) => {
   const { hasActiveOppfolgingstilfelle, latestOppfolgingstilfelle } =
     useOppfolgingstilfellePersonQuery();
   const createAktivitetskrav = useCreateAktivitetskrav();
+  const { notification } = useAktivitetskravNotificationAlert();
+
   const handleStartNyVurdering = () => {
     const newAktivitetskrav = aktivitetskrav
       ? { previousAktivitetskravUuid: aktivitetskrav?.uuid }
@@ -85,31 +88,38 @@ export const StartNyVurdering = ({ aktivitetskrav }: StartNyVurderingProps) => {
   const sisteVurdering = aktivitetskrav?.vurderinger[0];
 
   return (
-    <Panel className="mb-4 flex flex-col p-8">
-      <Heading level="2" size="large" className="mb-1">
-        {texts.header}
-      </Heading>
-      {hasActiveOppfolgingstilfelle && (
-        <GjelderOppfolgingstilfelle
-          oppfolgingstilfelle={latestOppfolgingstilfelle}
-        />
+    <>
+      {notification && (
+        <Alert className="mb-4" variant="success">
+          {notification.message}
+        </Alert>
       )}
-      {sisteVurdering ? (
-        <VurderingText vurdering={sisteVurdering} />
-      ) : (
-        <BodyShort className="mb-4">{texts.noVurdering}</BodyShort>
-      )}
-      {createAktivitetskrav.isError && (
-        <SkjemaInnsendingFeil error={createAktivitetskrav.error} />
-      )}
-      <Button
-        variant="secondary"
-        className="mr-auto"
-        loading={createAktivitetskrav.isLoading}
-        onClick={handleStartNyVurdering}
-      >
-        {texts.button}
-      </Button>
-    </Panel>
+      <Panel className="mb-4 flex flex-col p-8">
+        <Heading level="2" size="large" className="mb-1">
+          {texts.header}
+        </Heading>
+        {hasActiveOppfolgingstilfelle && (
+          <GjelderOppfolgingstilfelle
+            oppfolgingstilfelle={latestOppfolgingstilfelle}
+          />
+        )}
+        {sisteVurdering ? (
+          <VurderingText vurdering={sisteVurdering} />
+        ) : (
+          <BodyShort className="mb-4">{texts.noVurdering}</BodyShort>
+        )}
+        {createAktivitetskrav.isError && (
+          <SkjemaInnsendingFeil error={createAktivitetskrav.error} />
+        )}
+        <Button
+          variant="secondary"
+          className="mr-auto"
+          loading={createAktivitetskrav.isLoading}
+          onClick={handleStartNyVurdering}
+        >
+          {texts.button}
+        </Button>
+      </Panel>
+    </>
   );
 };

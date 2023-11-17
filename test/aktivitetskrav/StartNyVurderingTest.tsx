@@ -24,6 +24,7 @@ import {
   UnntakVurderingArsak,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { vurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
+import { NotificationContext } from "@/context/notification/NotificationContext";
 
 let queryClient: QueryClient;
 
@@ -72,7 +73,11 @@ const renderStartNyVurdering = (aktivitetskrav?: AktivitetskravDTO) => {
       <ValgtEnhetContext.Provider
         value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
       >
-        <StartNyVurdering aktivitetskrav={aktivitetskrav} />
+        <NotificationContext.Provider
+          value={{ notification: undefined, setNotification: () => void 0 }}
+        >
+          <StartNyVurdering aktivitetskrav={aktivitetskrav} />
+        </NotificationContext.Provider>
       </ValgtEnhetContext.Provider>
     </QueryClientProvider>
   );

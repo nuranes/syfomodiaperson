@@ -6,6 +6,7 @@ import {
   AktivitetskravDTO,
   AktivitetskravStatus,
   AktivitetskravVurderingDTO,
+  CreateAktivitetskravVurderingDTO,
   SendForhandsvarselDTO,
 } from "../../src/data/aktivitetskrav/aktivitetskravTypes";
 import { daysFromToday } from "../../test/testUtils";
@@ -28,6 +29,29 @@ export const mockIsaktivitetskrav = (server: any) => {
   server.post(
     `${ISAKTIVITETSKRAV_ROOT}/aktivitetskrav/:aktivitetskravUuid/vurder`,
     (req: express.Request, res: express.Response) => {
+      const body: CreateAktivitetskravVurderingDTO = req.body;
+      const newVurdering: AktivitetskravVurderingDTO = {
+        uuid: generateUUID(),
+        status: body.status,
+        arsaker: [...body.arsaker],
+        beskrivelse: body.beskrivelse,
+        createdAt: new Date(),
+        createdBy: VEILEDER_DEFAULT.ident,
+        frist: undefined,
+        varsel: undefined,
+      };
+      let firstAktivitetskrav = mockAktivitetskrav.shift() as AktivitetskravDTO;
+      firstAktivitetskrav = {
+        ...firstAktivitetskrav,
+        status: body.status,
+        inFinalState:
+          body.status !== AktivitetskravStatus.AVVENT &&
+          body.status !== AktivitetskravStatus.FORHANDSVARSEL &&
+          body.status !== AktivitetskravStatus.NY &&
+          body.status !== AktivitetskravStatus.NY_VURDERING,
+        vurderinger: [newVurdering, ...firstAktivitetskrav.vurderinger],
+      };
+      mockAktivitetskrav = [firstAktivitetskrav, ...mockAktivitetskrav];
       res.sendStatus(200);
     }
   );
@@ -51,7 +75,7 @@ export const mockIsaktivitetskrav = (server: any) => {
         frist: daysFromToday(21),
         varsel: forhandsvarsel,
       };
-      let firstAktivitetskrav = mockAktivitetskrav[0];
+      let firstAktivitetskrav = mockAktivitetskrav.shift() as AktivitetskravDTO;
       firstAktivitetskrav = {
         ...firstAktivitetskrav,
         vurderinger: [

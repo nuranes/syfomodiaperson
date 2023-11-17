@@ -9,6 +9,7 @@ import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { VurderAktivitetskravSkjemaProps } from "@/components/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
 import { Button } from "@navikt/ds-react";
 import { ButtonRow } from "@/components/Layout";
+import { useAktivitetskravNotificationAlert } from "@/components/aktivitetskrav/useAktivitetskravNotificationAlert";
 
 const texts = {
   lagre: "Lagre",
@@ -22,12 +23,19 @@ export const IkkeOppfyltAktivitetskravSkjema = ({
   aktivitetskravUuid,
 }: VurderAktivitetskravSkjemaProps) => {
   const vurderAktivitetskrav = useVurderAktivitetskrav(aktivitetskravUuid);
+  const { displayNotification } = useAktivitetskravNotificationAlert();
+
   const submit = () => {
+    const status = AktivitetskravStatus.IKKE_OPPFYLT;
     const createAktivitetskravVurderingDTO: CreateAktivitetskravVurderingDTO = {
-      status: AktivitetskravStatus.IKKE_OPPFYLT,
+      status,
       arsaker: [],
     };
-    vurderAktivitetskrav.mutate(createAktivitetskravVurderingDTO);
+    vurderAktivitetskrav.mutate(createAktivitetskravVurderingDTO, {
+      onSuccess: () => {
+        displayNotification(status);
+      },
+    });
   };
 
   return (

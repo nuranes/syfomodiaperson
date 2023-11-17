@@ -3,10 +3,6 @@ import {
   avventVurderingUtenFrist,
   createAktivitetskravVurdering,
   forhandsvarselVurdering,
-  ikkeAktuellVurdering,
-  ikkeOppfyltVurdering,
-  oppfyltVurdering,
-  unntakVurdering,
 } from "../testDataUtils";
 import {
   AktivitetskravStatus,
@@ -84,36 +80,6 @@ describe("AktivitetskravVurderingAlert", () => {
       .exist;
     expect(screen.getByText("Har bedt om mer informasjon fra behandler")).to
       .exist;
-  });
-  it("viser suksess når siste aktivitetskrav-vurdering er OPPFYLT", () => {
-    renderAktivitetskravVurderingAlert(oppfyltVurdering);
-
-    expect(screen.getByRole("img", { name: "Suksess" })).to.exist;
-    expect(
-      screen.getByText(/Det er vurdert at Samuel Sam Jones er i aktivitet/)
-    ).to.exist;
-  });
-  it("viser suksess når siste aktivitetskrav-vurdering er UNNTAK", () => {
-    renderAktivitetskravVurderingAlert(unntakVurdering);
-
-    expect(screen.getByRole("img", { name: "Suksess" })).to.exist;
-    expect(screen.getByText(/Det er vurdert unntak/)).to.exist;
-  });
-  it("viser suksess når siste aktivitetskrav-vurdering er IKKE_OPPFYLT", () => {
-    renderAktivitetskravVurderingAlert(ikkeOppfyltVurdering);
-
-    expect(screen.getByRole("img", { name: "Suksess" })).to.exist;
-    expect(
-      screen.getByText(/Det er vurdert at aktivitetskravet ikke er oppfylt/)
-    ).to.exist;
-  });
-  it("viser suksess når siste aktivitetskrav-vurdering er IKKE_AKTUELL", () => {
-    renderAktivitetskravVurderingAlert(ikkeAktuellVurdering);
-
-    expect(screen.getByRole("img", { name: "Suksess" })).to.exist;
-    expect(
-      screen.getByText(/Det er vurdert at aktivitetskravet ikke er aktuelt/)
-    ).to.exist;
   });
   it("viser info når siste aktivitetskrav-vurdering er FORHANDSVARSEL uten vurder stans-oppgave", () => {
     renderAktivitetskravVurderingAlert(forhandsvarselVurdering);
