@@ -8,12 +8,14 @@ import {
   DocumentComponentType,
 } from "@/data/documentcomponent/documentComponentTypes";
 import { unntakArsakTexts } from "@/components/dialogmoteunntak/DialogmoteunntakSkjema";
+import { useVeilederInfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
 
 const texts = {
   unntakTitle: "Unntak fra dialogmøte",
   unntakLenke: "Unntak fra dialogmøte",
   arsakLabel: "Årsak til unntak",
   beskrivelseLabel: "Beskrivelse",
+  vurdertAvLabel: "Vurdert av",
 };
 
 export const unntakLenkeText = (unntakCreatedAt: Date) => {
@@ -21,12 +23,15 @@ export const unntakLenkeText = (unntakCreatedAt: Date) => {
   return `${texts.unntakLenke} ${unntakDatoTekst}`;
 };
 
-const createUnntakDocument = (unntak: UnntakDTO): DocumentComponentDto[] => {
+const createUnntakDocument = (
+  unntak: UnntakDTO,
+  veilederNavn: string | undefined
+): DocumentComponentDto[] => {
   const arsakText: string =
     unntakArsakTexts.find(
       (unntakArsakText) => unntakArsakText.arsak == unntak.arsak
     )?.text || unntak.arsak;
-  const componentList = [
+  const componentList: DocumentComponentDto[] = [
     {
       type: DocumentComponentType.PARAGRAPH,
       key: unntak.arsak,
@@ -35,14 +40,18 @@ const createUnntakDocument = (unntak: UnntakDTO): DocumentComponentDto[] => {
     },
   ];
   if (unntak.beskrivelse) {
-    return [
-      ...componentList,
-      {
-        type: DocumentComponentType.PARAGRAPH,
-        title: texts.beskrivelseLabel,
-        texts: [unntak.beskrivelse],
-      },
-    ];
+    componentList.push({
+      type: DocumentComponentType.PARAGRAPH,
+      title: texts.beskrivelseLabel,
+      texts: [unntak.beskrivelse],
+    });
+  }
+  if (veilederNavn) {
+    componentList.push({
+      type: DocumentComponentType.PARAGRAPH,
+      title: texts.vurdertAvLabel,
+      texts: [`${veilederNavn} (${unntak.createdBy})`],
+    });
   }
   return componentList;
 };
@@ -54,7 +63,8 @@ interface MoteHistorikkUnntakProps {
 export const MoteHistorikkUnntak = ({
   unntak,
 }: MoteHistorikkUnntakProps): ReactElement => {
-  const unntakDocument = createUnntakDocument(unntak);
+  const { data: veilederinfo } = useVeilederInfoQuery(unntak.createdBy);
+  const unntakDocument = createUnntakDocument(unntak, veilederinfo?.navn);
   return (
     <ForhandsvisDocumentButtonRow
       document={unntakDocument}

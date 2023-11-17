@@ -9,10 +9,11 @@ import { MotehistorikkPanel } from "@/components/dialogmote/motehistorikk/Motehi
 import { QueryClientProvider } from "@tanstack/react-query";
 import {
   ENHET_GRUNERLOKKA,
+  VEILEDER_DEFAULT,
   VEILEDER_IDENT_DEFAULT,
   VIRKSOMHET_PONTYPANDY,
 } from "../../mock/common/mockConstants";
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { createFerdigstiltReferat } from "./testData";
 import {
   dialogmoteunntakMedBeskrivelse,
@@ -20,6 +21,9 @@ import {
 } from "../../mock/isdialogmotekandidat/dialogmoteunntakMock";
 import { unntakLenkeText } from "@/components/dialogmote/motehistorikk/MoteHistorikkUnntak";
 import { testQueryClient } from "../testQueryClient";
+import { UnntakDTO } from "@/data/dialogmotekandidat/types/dialogmoteunntakTypes";
+import userEvent from "@testing-library/user-event";
+import { veilederinfoQueryKeys } from "@/data/veilederinfo/veilederinfoQueryHooks";
 
 let queryClient: any;
 const ferdigstiltMoteTid = "2021-01-15T11:52:13.539843";
@@ -109,19 +113,26 @@ const avlystMote = {
 };
 const dialogmoter: DialogmoteDTO[] = [ferdigstiltMote, avlystMote];
 
+const renderMotehistorikk = (
+  dialogmoteunntak: UnntakDTO[],
+  historiskeMoter: DialogmoteDTO[]
+) => {
+  render(
+    <QueryClientProvider client={queryClient}>
+      <MotehistorikkPanel
+        dialogmoteunntak={dialogmoteunntak}
+        historiskeMoter={historiskeMoter}
+      />
+    </QueryClientProvider>
+  );
+};
+
 describe("Historiske dialogmøter", () => {
   beforeEach(() => {
     queryClient = testQueryClient();
   });
   it("Fremviser avholdte og avlyste dialogmøter", () => {
-    render(
-      <QueryClientProvider client={queryClient}>
-        <MotehistorikkPanel
-          dialogmoteunntak={[]}
-          historiskeMoter={dialogmoter}
-        />
-      </QueryClientProvider>
-    );
+    renderMotehistorikk([], dialogmoter);
 
     expect(screen.getByText("Referat fra møte 15. januar 2021")).to.exist;
     expect(screen.getByText("Avlysning av møte 22. mars 2020")).to.exist;
@@ -136,14 +147,7 @@ describe("Historiske dialogmøter", () => {
         ],
       },
     ];
-    render(
-      <QueryClientProvider client={queryClient}>
-        <MotehistorikkPanel
-          dialogmoteunntak={[]}
-          historiskeMoter={historiskeMoter}
-        />
-      </QueryClientProvider>
-    );
+    renderMotehistorikk([], historiskeMoter);
 
     const buttons = screen.getAllByRole("button");
     expect(buttons).to.have.length(2);
@@ -163,18 +167,35 @@ describe("Historiske dialogmøter", () => {
         createdAt: new Date("2021-05-21T12:56:26.271381"),
       },
     ];
-    render(
-      <QueryClientProvider client={queryClient}>
-        <MotehistorikkPanel
-          dialogmoteunntak={dialogmoteunntakListe}
-          historiskeMoter={[]}
-        />
-      </QueryClientProvider>
-    );
+    renderMotehistorikk(dialogmoteunntakListe, []);
 
     dialogmoteunntakListe.forEach((dialogmoteunntak) => {
       expect(screen.getByText(unntakLenkeText(dialogmoteunntak.createdAt))).to
         .exist;
     });
+  });
+  it("Viser veiledernavn og ident på unntak for dialogmøte modal", () => {
+    const dialogmoteunntakListe = [
+      {
+        ...dialogmoteunntakMedBeskrivelse,
+        createdAt: new Date("2020-04-20T12:56:26.271381"),
+      },
+    ];
+    queryClient.setQueryData(
+      veilederinfoQueryKeys.veilederinfoByIdent(VEILEDER_IDENT_DEFAULT),
+      () => VEILEDER_DEFAULT
+    );
+    renderMotehistorikk(dialogmoteunntakListe, []);
+
+    const unntakButton = screen.getByRole("button", {
+      name: "Unntak fra dialogmøte 20. april 2020",
+    });
+    userEvent.click(unntakButton);
+    const unntakModal = screen.getByRole("dialog", {
+      name: "Unntak fra dialogmøte",
+    });
+
+    expect(within(unntakModal).getByText("Vurdert av")).to.exist;
+    expect(within(unntakModal).getByText("Vetle Veileder (Z990000)")).to.exist;
   });
 });
