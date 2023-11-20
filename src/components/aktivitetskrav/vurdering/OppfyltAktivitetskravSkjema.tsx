@@ -23,9 +23,8 @@ import { useAktivitetskravNotificationAlert } from "@/components/aktivitetskrav/
 const texts = {
   title: "Er i aktivitet",
   arsakLegend: "Årsak (obligatorisk)",
-  begrunnelseLabel: "Begrunnelse (obligatorisk)",
+  begrunnelseLabel: "Begrunnelse",
   missingArsak: "Vennligst angi årsak",
-  missingBegrunnelse: "Vennligst angi begrunnelse",
   lagre: "Lagre",
 };
 
@@ -91,9 +90,7 @@ export const OppfyltAktivitetskravSkjema = ({
         <BegrunnelseTextarea
           {...register("begrunnelse", {
             maxLength: begrunnelseMaxLength,
-            required: true,
           })}
-          error={errors.begrunnelse && texts.missingBegrunnelse}
           value={watch("begrunnelse")}
           label={texts.begrunnelseLabel}
         />

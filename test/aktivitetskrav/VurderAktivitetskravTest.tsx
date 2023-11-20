@@ -164,7 +164,7 @@ describe("VurderAktivitetskrav", () => {
 
       clickTab(tabTexts["OPPFYLT"]);
       const tooLongBeskrivelse = getTooLongText(begrunnelseMaxLength);
-      const beskrivelseInput = getTextInput("Begrunnelse (obligatorisk)");
+      const beskrivelseInput = getTextInput("Begrunnelse");
       changeTextInput(beskrivelseInput, tooLongBeskrivelse);
       clickButton("Lagre");
 
@@ -181,7 +181,7 @@ describe("VurderAktivitetskrav", () => {
 
       const arsakRadioButton = screen.getByText("Friskmeldt");
       fireEvent.click(arsakRadioButton);
-      const beskrivelseInput = getTextInput("Begrunnelse (obligatorisk)");
+      const beskrivelseInput = getTextInput("Begrunnelse");
       changeTextInput(beskrivelseInput, enBeskrivelse);
       clickButton("Lagre");
 
