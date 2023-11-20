@@ -91,7 +91,7 @@ describe("ReferatMellomlagreTest", () => {
   it("preutfyller referat-skjema behandler-deltakelse fra dialogmote", () => {
     renderReferat(dialogmoteMedMellomlagretReferatBehandlerIkkeDeltatt);
 
-    clickButton(`${behandlerDeltakerTekst}, deltok ikke`);
+    clickButton(`Medisinskrin-ikon ${behandlerDeltakerTekst}, deltok ikke`);
 
     expect(getCheckbox(deltakereSkjemaTexts.behandlerDeltokLabel, false)).to
       .exist;

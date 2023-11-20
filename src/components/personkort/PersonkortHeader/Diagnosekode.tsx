@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useSykmeldingerQuery } from "@/data/sykmelding/sykmeldingQueryHooks";
 import { sykmeldingerSortertNyestTilEldst } from "@/utils/sykmeldinger/sykmeldingUtils";
 import { Tooltip } from "@navikt/ds-react";
-import { HealthCase } from "@navikt/ds-icons";
+import { MedisinskrinImage } from "../../../../img/ImageComponents";
 
 const texts = {
   tooltip: "Siste kjente diagnosekode",
@@ -27,7 +27,7 @@ export const Diagnosekode = () => {
     <DiagnosekodeWrapper>
       <Tooltip content={texts.tooltip}>
         <div>
-          <HealthCase />
+          <img src={MedisinskrinImage} alt="Medisinskrin" />
           <KodeSpan>{diagnosekode}</KodeSpan>
         </div>
       </Tooltip>

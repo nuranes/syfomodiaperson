@@ -7,12 +7,6 @@ import {
   SvarType,
 } from "@/data/dialogmote/types/dialogmoteTypes";
 import { FlexColumn, FlexRow } from "@/components/Layout";
-import {
-  ErrorFilled,
-  MinusCircleFilled,
-  SuccessFilled,
-  WarningFilled,
-} from "@navikt/ds-icons";
 import navFarger from "nav-frontend-core";
 import React, { ReactElement } from "react";
 import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
@@ -22,6 +16,12 @@ import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
 import { capitalizeAllWords } from "@/utils/stringUtils";
+import {
+  CheckmarkCircleFillIcon,
+  ExclamationmarkTriangleFillIcon,
+  MinusCircleFillIcon,
+  XMarkOctagonFillIcon,
+} from "@navikt/aksel-icons";
 
 const texts = {
   naermesteLeder: "Nærmeste leder:",
@@ -94,38 +94,34 @@ const DeltakerSvarIcon = ({
   switch (svarType) {
     case SvarType.KOMMER:
       return (
-        <SuccessFilled
+        <CheckmarkCircleFillIcon
+          fontSize="1.5em"
           color={navFarger.navGronn}
-          aria-label="suksess-ikon"
-          role="img"
-          focusable="false"
+          title="suksess-ikon"
         />
       );
     case SvarType.NYTT_TID_STED:
       return (
-        <WarningFilled
+        <ExclamationmarkTriangleFillIcon
+          fontSize="1.5em"
           color={navFarger.navOransje}
-          aria-label="advarsel-ikon"
-          role="img"
-          focusable="false"
+          title="advarsel-ikon"
         />
       );
     case SvarType.KOMMER_IKKE:
       return (
-        <ErrorFilled
+        <XMarkOctagonFillIcon
+          fontSize="1.5em"
           color={navFarger.navRod}
-          aria-label="feil-ikon"
-          role="img"
-          focusable="false"
+          title="feil-ikon"
         />
       );
     default:
       return (
-        <MinusCircleFilled
+        <MinusCircleFillIcon
+          fontSize="1.5em"
           color={navFarger.navGra40}
-          aria-label="minus-sirkel-ikon"
-          role="img"
-          focusable="false"
+          title="minus-sirkel-ikon"
         />
       );
   }

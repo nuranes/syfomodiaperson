@@ -1,8 +1,8 @@
 import React from "react";
-import { ExternalLink } from "@navikt/ds-icons";
 import Lenke from "nav-frontend-lenker";
 import styled from "styled-components";
 import { spinnsynUrl } from "@/components/vedtak/SpinnsynLenke";
+import { ExternalLinkIcon } from "@navikt/aksel-icons";
 
 interface VedtakMenypunktProps {
   index: number;
@@ -23,7 +23,7 @@ export const VedtakMenypunkt = ({ index, navn }: VedtakMenypunktProps) => {
         rel="noopener noreferrer"
       >
         <span className="navigasjon__element__tekst">{navn}</span>
-        <ExternalLink />
+        <ExternalLinkIcon fontSize="1.5em" />
       </LenkeWithoutUnderlinedText>
     </li>
   );

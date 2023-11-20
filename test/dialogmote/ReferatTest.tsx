@@ -113,7 +113,7 @@ describe("ReferatTest", () => {
     expect(screen.getByRole("heading", { name: behandlerDeltakerTekst })).to
       .exist;
 
-    clickButton(behandlerDeltakerTekst);
+    clickButton(`Medisinskrin-ikon ${behandlerDeltakerTekst}`);
 
     expect(getCheckbox(deltakereSkjemaTexts.behandlerDeltokLabel, true)).to
       .exist;
@@ -125,7 +125,7 @@ describe("ReferatTest", () => {
     stubFerdigstillApi(apiMock(), dialogmoteMedBehandler.uuid);
     renderReferat(dialogmoteMedBehandler);
     passSkjemaTekstInput();
-    clickButton(behandlerDeltakerTekst);
+    clickButton(`Medisinskrin-ikon ${behandlerDeltakerTekst}`);
 
     // Fjern avkrysning på deltakelse og motta referat
     const behandlerDeltokCheckbox = getCheckbox(

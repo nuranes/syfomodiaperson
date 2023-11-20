@@ -118,47 +118,47 @@ const SykmeldingTeaser = ({
   const showPapirLabel = !!sykmelding.papirsykmelding;
 
   return (
-    <Link to={`/sykefravaer/sykmeldinger/${sykmelding.id}`}>
-      <StyledLinkPanel
-        border={false}
-        onMouseEnter={() => {
-          setIkon(getHoverIkon(behandlingsutfallStatus));
-        }}
-        onMouseLeave={() => {
-          setIkon(getIkon(behandlingsutfallStatus));
-        }}
+    <StyledLinkPanel
+      forwardedAs={Link}
+      to={`/sykefravaer/sykmeldinger/${sykmelding.id}`}
+      border={false}
+      onMouseEnter={() => {
+        setIkon(getHoverIkon(behandlingsutfallStatus));
+      }}
+      onMouseLeave={() => {
+        setIkon(getIkon(behandlingsutfallStatus));
+      }}
+    >
+      <FlexRow
+        columnGap={FlexGapSize.SM}
+        justifyContent={JustifyContentType.SPACE_BETWEEN}
       >
-        <FlexRow
-          columnGap={FlexGapSize.SM}
-          justifyContent={JustifyContentType.SPACE_BETWEEN}
-        >
-          <FlexColumn flex={0}>
-            <StyledImg src={ikon} alt="Plaster-ikon" />
-          </FlexColumn>
-          <FlexColumn flex={1}>
-            {tilLesbarPeriodeMedArstall(
-              tidligsteFom(sykmelding.mulighetForArbeid.perioder),
-              senesteTom(sykmelding.mulighetForArbeid.perioder)
-            )}
-            <Heading size="small">
-              {sykmelding.egenmeldt
-                ? texts.egenmeldtTeaserTekst
-                : texts.teaserTekst}
-              {showPapirLabel && <PapirsykmeldingTag />}
-            </Heading>
-            <PeriodeListe
-              perioder={sykmelding.mulighetForArbeid.perioder}
-              arbeidsgiver={sykmelding.innsendtArbeidsgivernavn}
-            />
-          </FlexColumn>
-          {visStatus && (
-            <FlexColumn flex={0}>
-              {textStatus(sykmelding.status, behandlingsutfallStatus)}
-            </FlexColumn>
+        <FlexColumn flex={0}>
+          <StyledImg src={ikon} alt="Plaster-ikon" />
+        </FlexColumn>
+        <FlexColumn flex={1}>
+          {tilLesbarPeriodeMedArstall(
+            tidligsteFom(sykmelding.mulighetForArbeid.perioder),
+            senesteTom(sykmelding.mulighetForArbeid.perioder)
           )}
-        </FlexRow>
-      </StyledLinkPanel>
-    </Link>
+          <Heading size="small">
+            {sykmelding.egenmeldt
+              ? texts.egenmeldtTeaserTekst
+              : texts.teaserTekst}
+            {showPapirLabel && <PapirsykmeldingTag />}
+          </Heading>
+          <PeriodeListe
+            perioder={sykmelding.mulighetForArbeid.perioder}
+            arbeidsgiver={sykmelding.innsendtArbeidsgivernavn}
+          />
+        </FlexColumn>
+        {visStatus && (
+          <FlexColumn flex={0}>
+            {textStatus(sykmelding.status, behandlingsutfallStatus)}
+          </FlexColumn>
+        )}
+      </FlexRow>
+    </StyledLinkPanel>
   );
 };
 

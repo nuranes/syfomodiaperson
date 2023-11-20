@@ -11,8 +11,13 @@ import { DialogmotedeltakerBehandlerDTO } from "@/data/dialogmote/types/dialogmo
 import { behandlerDeltokTekst } from "@/utils/behandlerUtils";
 import { EkspanderbartpanelBase } from "nav-frontend-ekspanderbartpanel";
 import navFarger from "nav-frontend-core";
-import { Caseworker, Employer, HealthCase, People } from "@navikt/ds-icons";
 import { ReferatSkjemaValues } from "@/components/dialogmote/referat/Referat";
+import {
+  PersonIcon,
+  PersonPencilIcon,
+  PersonSuitIcon,
+} from "@navikt/aksel-icons";
+import { MedisinskrinImage } from "../../../../img/ImageComponents";
 
 export const texts = {
   title: "Deltakere i møtet",
@@ -102,7 +107,11 @@ const DeltakerBehandler = ({ behandler }: DeltakerBehandlerProps) => {
     <DeltakerEkspanderbartPanel
       tittel={
         <FlexRow>
-          <HealthCase {...deltakerIconProps} />
+          <img
+            src={MedisinskrinImage}
+            alt="Medisinskrin-ikon"
+            {...deltakerIconProps}
+          />
           <DeltakerTekst>
             {behandlerDeltokTekst(behandler, behandlerDeltatt)}
           </DeltakerTekst>
@@ -145,7 +154,7 @@ const DeltakerArbeidsgiver = () => {
             harValideringsfeil={harValideringsfeil}
             tittel={
               <FlexRow>
-                <Employer {...deltakerIconProps} color={tittelFarge} />
+                <PersonSuitIcon {...deltakerIconProps} color={tittelFarge} />
                 <DeltakerTekst color={tittelFarge}>{`Fra arbeidsgiver: ${
                   input.value || ""
                 }`}</DeltakerTekst>
@@ -184,11 +193,11 @@ const Deltakere = ({ behandler }: DeltakereProps): ReactElement => {
     <DeltakereBoks>
       <Header>{texts.title}</Header>
       <FlexRow leftPadding={PaddingSize.SM} bottomPadding={PaddingSize.MD}>
-        <People {...deltakerIconProps} />
+        <PersonIcon {...deltakerIconProps} />
         <DeltakerTekst>{`Arbeidstaker: ${navbruker?.navn}`}</DeltakerTekst>
       </FlexRow>
       <FlexRow leftPadding={PaddingSize.SM} bottomPadding={PaddingSize.MD}>
-        <Caseworker {...deltakerIconProps} />
+        <PersonPencilIcon {...deltakerIconProps} />
         <DeltakerTekst>{`Fra NAV: ${veilederinfo?.navn}`}</DeltakerTekst>
       </FlexRow>
       <DeltakerArbeidsgiver />

@@ -10,7 +10,7 @@ import {
   sykmeldingerInnenforOppfolgingstilfelle,
 } from "@/utils/sykmeldinger/sykmeldingUtils";
 import styled from "styled-components";
-import { HealthCase } from "@navikt/ds-icons";
+import { MedisinskrinImage } from "../../../img/ImageComponents";
 
 const texts = {
   title: "Siste sykefravær",
@@ -27,10 +27,6 @@ const KodeSpan = styled.span`
 const TilfelleBox = styled.div`
   display: flex;
   align-items: center;
-`;
-
-const DiagnoseIkon = styled(HealthCase)`
-  margin-left: 0.5em;
 `;
 
 export const SyketilfelleList = ({
@@ -76,7 +72,9 @@ export const SyketilfelleList = ({
                   {tilfelleText(tilfelle)}
                 </Radio>
                 <>
-                  <DiagnoseIkon />
+                  <div className="ml-2">
+                    <img src={MedisinskrinImage} alt="Medisinskrin" />
+                  </div>
                   <KodeSpan>{getDiagnosekode(tilfelle)}</KodeSpan>
                 </>
               </TilfelleBox>

@@ -4,9 +4,9 @@ import {
   finnAvventendeSykmeldingTekst,
 } from "@/utils/sykmeldinger/sykmeldingUtils";
 import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat";
-import { SuccessFilled, SuccessStroke } from "@navikt/ds-icons";
 import { Heading, Label } from "@navikt/ds-react";
 import styled from "styled-components";
+import { CheckmarkCircleFillIcon, CheckmarkIcon } from "@navikt/aksel-icons";
 
 const tekster = {
   mulighetForArbeid: {
@@ -51,12 +51,12 @@ const AktivitetLabel = styled(Label)`
   margin-top: 1.5em;
 `;
 
-const StyledSuccessFilled = styled(SuccessFilled)`
+const StyledSuccessFilled = styled(CheckmarkCircleFillIcon)`
   margin-right: 0.5em;
   font-size: 1.5rem;
 `;
 
-const StyledSuccessStroke = styled(SuccessStroke)`
+const StyledSuccessStroke = styled(CheckmarkIcon)`
   margin-right: 0.2em;
   font-size: 1.5rem;
 `;

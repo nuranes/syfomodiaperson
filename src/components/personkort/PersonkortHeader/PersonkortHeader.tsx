@@ -11,10 +11,10 @@ import { getKvinneImage, getMannImage } from "@/utils/festiveUtils";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import { SyketilfelleSummary } from "@/components/personkort/PersonkortHeader/SyketilfelleSummary";
-import { Refresh } from "@navikt/ds-icons";
 import { Tooltip } from "@navikt/ds-react";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { PersonkortHeaderTags } from "@/components/personkort/PersonkortHeader/PersonkortHeaderTags";
+import { ArrowsCirclepathIcon } from "@navikt/aksel-icons";
 
 const texts = {
   copied: "Kopiert!",
@@ -35,10 +35,6 @@ const PersonkortH3 = styled.h3`
   align-items: center;
 `;
 
-const GjentagendeSykefravarRefresh = styled(Refresh)`
-  margin-left: 0.5em;
-`;
-
 const PersonkortHeader = () => {
   const navbruker = useNavBrukerData();
   const personident = useValgtPersonident();
@@ -48,6 +44,7 @@ const PersonkortHeader = () => {
     <div className="personkortHeader">
       <div className="personkortHeader__info">
         <img
+          className="mr-4"
           src={
             hentBrukersKjoennFraFnr(personident) === KJOENN.KVINNE
               ? getKvinneImage()
@@ -60,7 +57,7 @@ const PersonkortHeader = () => {
             {`${navbruker.navn} (${hentBrukersAlderFraFnr(personident)} år)`}
             {hasGjentakendeSykefravar && (
               <Tooltip content={"Gjentatt sykefravær"}>
-                <GjentagendeSykefravarRefresh />
+                <ArrowsCirclepathIcon className="ml-2" />
               </Tooltip>
             )}
           </PersonkortH3>
