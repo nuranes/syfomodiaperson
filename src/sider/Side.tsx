@@ -41,13 +41,13 @@ const Side = (sideProps: SideProps) => {
         <Row>
           <Column className="col-xs-12">
             <Personkort />
-            {toggles.isHuskelappEnabled && <OpenHuskelappModalButton />}
           </Column>
         </Row>
         <Row>
           <nav className="col-xs-12 col-sm-3">
             <GlobalNavigasjon aktivtMenypunkt={aktivtMenypunkt} />
             {isEaster() && <Easter />}
+            {toggles.isHuskelappEnabled && <OpenHuskelappModalButton />}
           </nav>
           <Column className="col-xs-12 col-sm-9">{children}</Column>
         </Row>
