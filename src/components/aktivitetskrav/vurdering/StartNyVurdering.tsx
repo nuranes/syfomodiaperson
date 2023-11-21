@@ -17,7 +17,9 @@ export const texts = {
   header: "Start ny aktivitetskrav-vurdering",
   noVurdering:
     "Aktivitetskravet er ikke tidligere vurdert i dette sykefraværet.",
-  changeUtfall: "For å endre utfall må du starte en ny vurdering.",
+  changeUtfall:
+    "Hvis situasjonen har endret seg kan du gjøre en ny vurdering av aktivitetskravet.",
+  arsak: (arsak: string) => `Årsak: ${arsak}`,
   button: "Start ny vurdering",
 };
 
@@ -49,23 +51,24 @@ const VurderingText = ({ vurdering }: VurderingTextProps) => {
     }
   };
 
-  const arsakText = () => {
-    if (arsaker.length === 0 && !beskrivelse) {
-      return "";
-    }
+  const arsakerText = `${arsaker
+    .map((arsak) => vurderingArsakTexts[arsak])
+    .join(", ")}`;
+  const isArsakBlank = arsakerText.trim() === "";
 
-    const arsakerText = `${arsaker
-      .map((arsak) => vurderingArsakTexts[arsak])
-      .join(", ")}`;
-    const beskrivelseText = beskrivelse ? `, ${beskrivelse}` : "";
-
-    return `Årsak: ${arsakerText}${beskrivelseText}.`;
-  };
+  const beskrivelseText = beskrivelse ? `${beskrivelse}` : "";
 
   return (
-    <BodyShort className="mb-4">{`${statusText()} ${arsakText()} ${
-      texts.changeUtfall
-    }`}</BodyShort>
+    <>
+      <BodyShort>{`${statusText()}`}</BodyShort>
+      <blockquote>
+        {isArsakBlank ? null : (
+          <BodyShort>{texts.arsak(arsakerText)}</BodyShort>
+        )}
+        <BodyShort>{beskrivelseText}</BodyShort>
+      </blockquote>
+      <BodyShort className={"mb-4"}>{texts.changeUtfall}</BodyShort>
+    </>
   );
 };
 

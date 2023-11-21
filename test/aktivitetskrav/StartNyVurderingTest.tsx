@@ -66,6 +66,8 @@ const aktivitetskravAutomatiskOppfylt = createAktivitetskrav(
   daysFromToday(20),
   AktivitetskravStatus.AUTOMATISK_OPPFYLT
 );
+const newVurderingText =
+  "Hvis situasjonen har endret seg kan du gjøre en ny vurdering av aktivitetskravet.";
 
 const renderStartNyVurdering = (aktivitetskrav?: AktivitetskravDTO) => {
   render(
@@ -134,15 +136,19 @@ describe("StartNyVurdering", () => {
       renderStartNyVurdering(aktivitetskravUnntak);
 
       expect(screen.queryByText(noAktivitetskravText)).to.not.exist;
-      const expectedVurderingText = `Det ble vurdert unntak for ${ARBEIDSTAKER_DEFAULT_FULL_NAME}. Årsak: ${vurderingArsakTexts[unntakArsak]}, ${unntakBeskrivelse}. For å endre utfall må du starte en ny vurdering.`;
+      const expectedVurderingText = `Det ble vurdert unntak for ${ARBEIDSTAKER_DEFAULT_FULL_NAME}.`;
+      const arsakText = `Årsak: ${vurderingArsakTexts[unntakArsak]}`;
       expect(screen.getByText(expectedVurderingText)).to.exist;
+      expect(screen.getByText(arsakText)).to.exist;
+      expect(screen.getByText(newVurderingText)).to.exist;
     });
     it("renders vurdering text when aktivitetskrav has vurdering but no arsak and beskrivelse", () => {
       renderStartNyVurdering(aktivitetskravIkkeAktuelt);
 
       expect(screen.queryByText(noAktivitetskravText)).to.not.exist;
-      const expectedVurderingText = `Det ble vurdert at aktivitetskravet ikke er aktuelt for ${ARBEIDSTAKER_DEFAULT_FULL_NAME}. For å endre utfall må du starte en ny vurdering.`;
+      const expectedVurderingText = `Det ble vurdert at aktivitetskravet ikke er aktuelt for ${ARBEIDSTAKER_DEFAULT_FULL_NAME}.`;
       expect(screen.getByText(expectedVurderingText)).to.exist;
+      expect(screen.getByText(newVurderingText)).to.exist;
     });
     it("click button runs mutation with aktivitetskrav uuid", () => {
       renderStartNyVurdering(aktivitetskravUnntak);
