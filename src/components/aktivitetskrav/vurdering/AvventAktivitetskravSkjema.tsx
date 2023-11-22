@@ -5,7 +5,6 @@ import {
   CreateAktivitetskravVurderingDTO,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { AvventFristDato } from "@/components/aktivitetskrav/vurdering/AvventFristDato";
-import { SkjemaHeading } from "@/components/aktivitetskrav/vurdering/SkjemaHeading";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { useVurderAktivitetskrav } from "@/data/aktivitetskrav/useVurderAktivitetskrav";
 import {
@@ -14,7 +13,7 @@ import {
 } from "@/components/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
 import { SkjemaFieldContainer } from "@/components/aktivitetskrav/vurdering/SkjemaFieldContainer";
 import { FormProvider, useForm } from "react-hook-form";
-import { Button, Checkbox, CheckboxGroup } from "@navikt/ds-react";
+import { BodyShort, Button, Checkbox, CheckboxGroup } from "@navikt/ds-react";
 import { avventVurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
 import BegrunnelseTextarea, {
   begrunnelseMaxLength,
@@ -22,10 +21,9 @@ import BegrunnelseTextarea, {
 import { ButtonRow } from "@/components/Layout";
 
 const texts = {
-  title: "Avvent",
-  subtitle1:
+  body1:
     "Informasjonen du oppgir her vil kun brukes til videre saksbehandling.",
-  subtitle2: "Ingenting sendes videre til arbeidstaker eller arbeidsgiver.",
+  body2: "Ingenting sendes videre til arbeidstaker eller arbeidsgiver.",
   begrunnelseLabel: "Begrunnelse",
   arsakLegend: "Årsak (obligatorisk)",
   missingArsak: "Vennligst angi årsak",
@@ -72,10 +70,10 @@ export const AvventAktivitetskravSkjema = ({
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(submit)}>
-        <SkjemaHeading
-          title={texts.title}
-          subtitles={[texts.subtitle1, texts.subtitle2]}
-        />
+        <div className="mb-8">
+          <BodyShort size="small">{texts.body1}</BodyShort>
+          <BodyShort size="small">{texts.body2}</BodyShort>
+        </div>
         <SkjemaFieldContainer>
           <CheckboxGroup
             size="small"

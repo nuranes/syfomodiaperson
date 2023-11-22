@@ -4,10 +4,9 @@ import {
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import React from "react";
 import { useVurderAktivitetskrav } from "@/data/aktivitetskrav/useVurderAktivitetskrav";
-import { SkjemaHeading } from "@/components/aktivitetskrav/vurdering/SkjemaHeading";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { ButtonRow } from "@/components/Layout";
-import { Button } from "@navikt/ds-react";
+import { BodyShort, Button } from "@navikt/ds-react";
 import { useAktivitetskravNotificationAlert } from "@/components/aktivitetskrav/useAktivitetskravNotificationAlert";
 import { useForm } from "react-hook-form";
 import { VurderAktivitetskravSkjemaProps } from "@/components/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
@@ -18,9 +17,7 @@ import BegrunnelseTextarea, {
 const texts = {
   lagre: "Lagre",
   avbryt: "Avbryt",
-  title: "Ikke aktuell",
-  subtitle1:
-    "Aktivitetskravet skal ikke vurderes for denne personen. Ved å lagre fjerner du hendelsen fra oversikten.",
+  body: "Aktivitetskravet skal ikke vurderes for denne personen. Ved å lagre fjerner du hendelsen fra oversikten.",
   begrunnelseLabel: "Begrunnelse",
 };
 
@@ -59,7 +56,9 @@ export const IkkeAktuellAktivitetskravSkjema = ({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <SkjemaHeading title={texts.title} subtitles={[texts.subtitle1]} />
+      <BodyShort className="mb-8" size="small">
+        {texts.body}
+      </BodyShort>
       <BegrunnelseTextarea
         className={"mb-4"}
         {...register("begrunnelse", {

@@ -6,6 +6,7 @@ import {
 import { FlexRow, PaddingSize } from "@/components/Layout";
 import styled from "styled-components";
 import { BodyLong, Heading, Label, Link } from "@navikt/ds-react";
+import { DocumentComponentHeaderH1 } from "@/components/document/DocumentComponentHeaderH1";
 
 const Paragraph = styled.div`
   margin-bottom: 1em;
@@ -27,15 +28,6 @@ const DocumentComponentLink = (texts: string[], title?: string) => {
         {link}
       </Link>
     </TitledParagraph>
-  );
-};
-
-const DocumentComponentHeaderH1 = (texts: string[]) => {
-  const header = texts.length === 0 ? "" : texts[0];
-  return (
-    <FlexRow topPadding={PaddingSize.SM} bottomPadding={PaddingSize.SM}>
-      <Heading size="large">{header}</Heading>
-    </FlexRow>
   );
 };
 
@@ -105,7 +97,7 @@ export const DocumentComponentVisning = ({
       return DocumentComponentHeaderH2(texts);
     }
     case DocumentComponentType.HEADER_H1: {
-      return DocumentComponentHeaderH1(texts);
+      return <DocumentComponentHeaderH1 text={texts[0] ?? ""} />;
     }
     case DocumentComponentType.HEADER_H2: {
       return DocumentComponentHeaderH2(texts);

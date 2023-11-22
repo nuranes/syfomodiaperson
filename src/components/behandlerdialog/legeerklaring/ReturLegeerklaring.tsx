@@ -6,13 +6,13 @@ import {
 import { ArrowUndoIcon } from "@navikt/aksel-icons";
 import { MeldingActionButton } from "@/components/behandlerdialog/MeldingActionButton";
 import { Button, Modal, Textarea } from "@navikt/ds-react";
-import { DocumentComponentVisning } from "@/components/DocumentComponentVisning";
-import { ButtonRow, PaddingSize } from "@/components/Layout";
+import { DocumentComponentVisning } from "@/components/document/DocumentComponentVisning";
 import { CloseButton } from "@/components/CloseButton";
 import { useReturLegeerklaring } from "@/data/behandlerdialog/useReturLegeerklaring";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { useMeldingTilBehandlerDocument } from "@/hooks/behandlerdialog/document/useMeldingTilBehandlerDocument";
 import { useForm } from "react-hook-form";
+import { DocumentComponentHeaderH1 } from "@/components/document/DocumentComponentHeaderH1";
 
 const texts = {
   button: "Vurder retur av legeerklæring",
@@ -43,9 +43,12 @@ export const ReturLegeerklaring = ({ melding }: ReturLegeerklaringProps) => {
     reset,
   } = useForm<ReturLegeerklaringSkjemaValues>();
 
+  const { documentHeader, documentBody, document } =
+    getReturLegeerklaringDocument(watch("begrunnelse"));
+
   const submit = (values: ReturLegeerklaringSkjemaValues) => {
     const returLegeerklaringDTO: ReturLegeerklaringDTO = {
-      document: getReturLegeerklaringDocument(values.begrunnelse),
+      document,
       tekst: values.begrunnelse,
     };
     returLegeerklaring.mutate(returLegeerklaringDTO, {
@@ -69,23 +72,23 @@ export const ReturLegeerklaring = ({ melding }: ReturLegeerklaringProps) => {
       >
         {texts.button}
       </MeldingActionButton>
-      <Modal
-        closeOnBackdropClick
-        open={visReturModal}
-        onClose={handleClose}
-        aria-labelledby="modal-heading"
-        header={{ heading: "" }}
-      >
-        <Modal.Body className="p-8">
-          <form onSubmit={handleSubmit(submit)}>
-            {getReturLegeerklaringDocument(watch("begrunnelse")).map(
-              (component, index) => (
-                <DocumentComponentVisning
-                  documentComponent={component}
-                  key={index}
-                />
-              )
-            )}
+      <form onSubmit={handleSubmit(submit)}>
+        <Modal
+          closeOnBackdropClick
+          open={visReturModal}
+          onClose={handleClose}
+          aria-labelledby="modal-heading"
+        >
+          <Modal.Header>
+            <DocumentComponentHeaderH1 text={documentHeader} />
+          </Modal.Header>
+          <Modal.Body className="p-8">
+            {documentBody.map((component, index) => (
+              <DocumentComponentVisning
+                documentComponent={component}
+                key={index}
+              />
+            ))}
             <Textarea
               className="pt-4 w-4/5"
               label={texts.begrunnelseLabel}
@@ -99,24 +102,21 @@ export const ReturLegeerklaring = ({ melding }: ReturLegeerklaringProps) => {
               minRows={4}
               maxLength={MAX_LENGTH_BERGUNNELSE}
             />
+          </Modal.Body>
+          <Modal.Footer>
             {returLegeerklaring.isError && (
               <SkjemaInnsendingFeil error={returLegeerklaring.error} />
             )}
-            <ButtonRow
-              topPadding={PaddingSize.MD}
-              bottomPadding={PaddingSize.SM}
-            >
-              <Button type="submit" loading={returLegeerklaring.isLoading}>
-                {texts.send}
-              </Button>
-              <CloseButton
-                onClick={handleClose}
-                disabled={returLegeerklaring.isLoading}
-              />
-            </ButtonRow>
-          </form>
-        </Modal.Body>
-      </Modal>
+            <Button type="submit" loading={returLegeerklaring.isLoading}>
+              {texts.send}
+            </Button>
+            <CloseButton
+              onClick={handleClose}
+              disabled={returLegeerklaring.isLoading}
+            />
+          </Modal.Footer>
+        </Modal>
+      </form>
     </>
   );
 };

@@ -7,6 +7,10 @@ import { VurderAktivitetskravSkjemaProps } from "@/components/aktivitetskrav/vur
 
 const texts = {
   modalContentLabel: "Vurder aktivitetskrav",
+  header: {
+    avvent: "Avvent",
+    ikkeAktuell: "Ikke aktuell",
+  },
 };
 
 export type ModalType = `${Extract<
@@ -27,13 +31,24 @@ export const VurderAktivitetskravModal = ({
   modalType,
   aktivitetskravUuid,
 }: VurderAktivitetskravModalProps) => {
+  const header = (): string => {
+    switch (modalType) {
+      case "AVVENT":
+        return texts.header.avvent;
+      case "IKKE_AKTUELL":
+        return texts.header.ikkeAktuell;
+      case undefined:
+        return "";
+    }
+  };
+
   return (
     <Modal
       closeOnBackdropClick
       onClose={() => setModalOpen(false)}
       open={isOpen}
       aria-labelledby={texts.modalContentLabel}
-      header={{ heading: "" }}
+      header={{ heading: header() }}
     >
       {modalType && (
         <Modal.Body className={"min-w-[600px] p-8"}>

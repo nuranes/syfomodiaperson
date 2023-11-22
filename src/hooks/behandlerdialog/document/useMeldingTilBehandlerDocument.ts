@@ -21,11 +21,19 @@ import {
 } from "@/data/behandlerdialog/behandlerdialogTypes";
 import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
 
+type MeldingTilBehandlerDocument = {
+  documentHeader: string;
+  documentBody: DocumentComponentDto[];
+  document: DocumentComponentDto[];
+};
+
 export const useMeldingTilBehandlerDocument = (): {
-  getPaminnelseDocument(opprinneligMelding: MeldingDTO): DocumentComponentDto[];
+  getPaminnelseDocument(
+    opprinneligMelding: MeldingDTO
+  ): MeldingTilBehandlerDocument;
   getReturLegeerklaringDocument(
     begrunnelse: string | undefined
-  ): DocumentComponentDto[];
+  ): MeldingTilBehandlerDocument;
   getMeldingTilBehandlerDocument(
     values: Partial<MeldingTilBehandlerSkjemaValues>
   ): DocumentComponentDto[];
@@ -85,8 +93,8 @@ export const useMeldingTilBehandlerDocument = (): {
   };
 
   const getPaminnelseDocument = (opprinneligMelding: MeldingDTO) => {
-    return [
-      createHeaderH1(paminnelseTexts.header),
+    const header = paminnelseTexts.header;
+    const body = [
       createParagraph(`Gjelder ${navBruker.navn}, f.nr. ${personident}.`),
       createParagraph(
         `${paminnelseTexts.intro.part1} ${tilLesbarDatoMedArUtenManedNavn(
@@ -97,11 +105,17 @@ export const useMeldingTilBehandlerDocument = (): {
       createParagraph(paminnelseTexts.text2),
       getHilsen(),
     ];
+
+    return {
+      documentHeader: header,
+      documentBody: body,
+      document: [createHeaderH1(header), ...body],
+    };
   };
 
   const getReturLegeerklaringDocument = (begrunnelse: string | undefined) => {
-    return [
-      createHeaderH1(returLegeerklaringTexts.header),
+    const header = returLegeerklaringTexts.header;
+    const body = [
       createParagraph(`Gjelder ${navBruker.navn}, ${personident}.`),
       createParagraph(returLegeerklaringTexts.intro.part1),
       createParagraph(returLegeerklaringTexts.intro.part2),
@@ -110,6 +124,12 @@ export const useMeldingTilBehandlerDocument = (): {
       createParagraph(returLegeerklaringTexts.outro.part2),
       getHilsen(),
     ];
+
+    return {
+      documentHeader: header,
+      documentBody: body,
+      document: [createHeaderH1(header), ...body],
+    };
   };
 
   const getLegeerklaringDocument = (

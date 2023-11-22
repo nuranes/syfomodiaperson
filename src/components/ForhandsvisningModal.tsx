@@ -1,7 +1,7 @@
 import { FlexRow, JustifyContentType } from "./Layout";
 import React, { ReactElement } from "react";
 import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
-import { DocumentComponentVisning } from "@/components/DocumentComponentVisning";
+import { DocumentComponentVisning } from "@/components/document/DocumentComponentVisning";
 import { Button, Heading, Modal } from "@navikt/ds-react";
 
 const texts = {

@@ -11,11 +11,11 @@ import {
 } from "@/data/behandlerdialog/usePaminnelseTilBehandler";
 import { PersonOppgave } from "@/data/personoppgave/types/PersonOppgave";
 import { useMeldingTilBehandlerDocument } from "@/hooks/behandlerdialog/document/useMeldingTilBehandlerDocument";
-import { DocumentComponentVisning } from "@/components/DocumentComponentVisning";
-import { ButtonRow, PaddingSize } from "@/components/Layout";
+import { DocumentComponentVisning } from "@/components/document/DocumentComponentVisning";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { MeldingActionButton } from "@/components/behandlerdialog/MeldingActionButton";
 import { CloseButton } from "@/components/CloseButton";
+import { DocumentComponentHeaderH1 } from "@/components/document/DocumentComponentHeaderH1";
 
 const texts = {
   button: "Vurder påminnelse til behandler",
@@ -40,11 +40,12 @@ export const PaminnelseMelding = ({
     oppgave.uuid
   );
   const behandleOppgave = useBehandlePaminnelseOppgave();
-  const paminnelseDocument = getPaminnelseDocument(melding);
+  const { documentHeader, documentBody, document } =
+    getPaminnelseDocument(melding);
 
   const handleSendPaminnelseClick = () => {
     const paminnelseDTO: PaminnelseDTO = {
-      document: paminnelseDocument,
+      document,
     };
     paminnelseTilBehandler.mutate(paminnelseDTO, {
       onSuccess: () => setVisPaminnelseModal(false),
@@ -70,48 +71,51 @@ export const PaminnelseMelding = ({
         {texts.button}
       </MeldingActionButton>
       <Modal
+        width="25%"
         closeOnBackdropClick
         open={visPaminnelseModal}
         onClose={handleClose}
         aria-labelledby="modal-heading"
-        header={{ heading: "" }}
       >
-        <Modal.Body className={"p-8"}>
-          {paminnelseDocument.map((component, index) => (
+        <Modal.Header>
+          <DocumentComponentHeaderH1 text={documentHeader} />
+        </Modal.Header>
+        <Modal.Body className="p-8">
+          {documentBody.map((component, index) => (
             <DocumentComponentVisning
               documentComponent={component}
               key={index}
             />
           ))}
+        </Modal.Body>
+        <Modal.Footer>
           {(paminnelseTilBehandler.isError || behandleOppgave.isError) && (
             <SkjemaInnsendingFeil
               error={paminnelseTilBehandler.error || behandleOppgave.error}
             />
           )}
-          <ButtonRow topPadding={PaddingSize.SM} bottomPadding={PaddingSize.SM}>
-            <Button
-              disabled={behandleOppgave.isLoading}
-              loading={paminnelseTilBehandler.isLoading}
-              onClick={handleSendPaminnelseClick}
-            >
-              {texts.send}
-            </Button>
-            <Button
-              variant="secondary"
-              disabled={paminnelseTilBehandler.isLoading}
-              loading={behandleOppgave.isLoading}
-              onClick={handleFjernOppgaveClick}
-            >
-              {texts.fjernOppgave}
-            </Button>
-            <CloseButton
-              onClick={handleClose}
-              disabled={
-                paminnelseTilBehandler.isLoading || behandleOppgave.isLoading
-              }
-            />
-          </ButtonRow>
-        </Modal.Body>
+          <Button
+            disabled={behandleOppgave.isLoading}
+            loading={paminnelseTilBehandler.isLoading}
+            onClick={handleSendPaminnelseClick}
+          >
+            {texts.send}
+          </Button>
+          <Button
+            variant="secondary"
+            disabled={paminnelseTilBehandler.isLoading}
+            loading={behandleOppgave.isLoading}
+            onClick={handleFjernOppgaveClick}
+          >
+            {texts.fjernOppgave}
+          </Button>
+          <CloseButton
+            onClick={handleClose}
+            disabled={
+              paminnelseTilBehandler.isLoading || behandleOppgave.isLoading
+            }
+          />
+        </Modal.Footer>
       </Modal>
     </>
   );
