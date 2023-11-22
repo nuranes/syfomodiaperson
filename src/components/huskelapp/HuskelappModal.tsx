@@ -1,19 +1,12 @@
 import React, { useState } from "react";
-import {
-  Button,
-  Heading,
-  Modal,
-  Skeleton,
-  Textarea,
-  Tooltip,
-} from "@navikt/ds-react";
+import { Button, Modal, Skeleton, Textarea, Tooltip } from "@navikt/ds-react";
 import { TrashIcon } from "@navikt/aksel-icons";
 import styled from "styled-components";
 import { useGetHuskelappQuery } from "@/data/huskelapp/useGetHuskelappQuery";
 import { useOppdaterHuskelapp } from "@/data/huskelapp/useOppdaterHuskelapp";
 import { SkeletonShadowbox } from "@/components/SkeletonShadowbox";
 import { HuskelappRequestDTO } from "@/data/huskelapp/huskelappTypes";
-import { ButtonRow, PaddingSize } from "@/components/Layout";
+import { PaddingSize } from "@/components/Layout";
 import { useRemoveHuskelapp } from "@/data/huskelapp/useRemoveHuskelapp";
 
 const texts = {
@@ -30,13 +23,7 @@ interface HuskelappModalProps {
   toggleOpen: (value: boolean) => void;
 }
 
-const StyledModal = styled(Modal)`
-  padding: 1em 1.5em;
-  max-width: 50em;
-  width: 100%;
-`;
-
-const ModalContent = styled(Modal.Content)`
+const ModalContent = styled(Modal.Body)`
   display: flex;
   flex-direction: column;
   > * {
@@ -49,10 +36,6 @@ const ModalContent = styled(Modal.Content)`
 const StyledSkeletonWrapper = styled(SkeletonShadowbox)`
   margin: 1em;
   height: 5em;
-`;
-
-const RemoveButton = styled(Button)`
-  margin-left: auto;
 `;
 
 const HuskelappSkeleton = () => {
@@ -88,15 +71,15 @@ export const HuskelappModal = ({ isOpen, toggleOpen }: HuskelappModalProps) => {
   };
 
   return (
-    <StyledModal
+    <Modal
+      closeOnBackdropClick
+      className="px-6 py-4 w-full max-w-[50rem]"
       aria-label={"huskelapp"}
       open={isOpen}
-      onClose={() => toggleOpen(!isOpen)}
+      onClose={() => toggleOpen(false)}
+      header={{ heading: texts.header }}
     >
       <ModalContent>
-        <Heading level="2" size="large">
-          {texts.header}
-        </Heading>
         {isLoading && <HuskelappSkeleton />}
         {isSuccess && (
           <Textarea
@@ -106,32 +89,32 @@ export const HuskelappModal = ({ isOpen, toggleOpen }: HuskelappModalProps) => {
             onChange={oppdaterTekst}
           />
         )}
-        <ButtonRow topPadding={PaddingSize.SM}>
-          <Button
-            variant="primary"
-            onClick={handleOppdaterHuskelapp}
-            loading={oppdaterHuskelapp.isLoading}
-            disabled={isLoading}
-          >
-            {texts.save}
-          </Button>
-          <Button variant="secondary" onClick={() => toggleOpen(false)}>
-            {texts.close}
-          </Button>
-          {huskelapp && (
-            <Tooltip content={texts.removeTooltip}>
-              <RemoveButton
-                icon={<TrashIcon aria-hidden />}
-                variant="danger"
-                onClick={() => handleRemoveHuskelapp(huskelapp.uuid)}
-                loading={removeHuskelapp.isLoading}
-              >
-                {texts.remove}
-              </RemoveButton>
-            </Tooltip>
-          )}
-        </ButtonRow>
       </ModalContent>
-    </StyledModal>
+      <Modal.Footer>
+        <Button
+          variant="primary"
+          onClick={handleOppdaterHuskelapp}
+          loading={oppdaterHuskelapp.isLoading}
+          disabled={isLoading}
+        >
+          {texts.save}
+        </Button>
+        <Button variant="secondary" onClick={() => toggleOpen(false)}>
+          {texts.close}
+        </Button>
+        {huskelapp && (
+          <Tooltip content={texts.removeTooltip}>
+            <Button
+              icon={<TrashIcon aria-hidden />}
+              variant="danger"
+              onClick={() => handleRemoveHuskelapp(huskelapp.uuid)}
+              loading={removeHuskelapp.isLoading}
+            >
+              {texts.remove}
+            </Button>
+          </Tooltip>
+        )}
+      </Modal.Footer>
+    </Modal>
   );
 };

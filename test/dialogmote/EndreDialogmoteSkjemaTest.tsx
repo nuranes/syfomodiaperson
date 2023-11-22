@@ -275,18 +275,20 @@ describe("EndreDialogmoteSkjemaTest", () => {
     expect(previewButtons).to.have.length(2);
     userEvent.click(previewButtons[0]);
 
-    const forhandsvisningEndringArbeidstaker = screen.getByRole("dialog", {
-      name: endringSkjemaTexts.forhandsvisningArbeidstakerContentLabel,
-    });
+    const forhandsvisningEndringArbeidstaker = screen.getAllByRole("dialog", {
+      hidden: true,
+    })[0];
 
     expect(
       within(forhandsvisningEndringArbeidstaker).getByRole("heading", {
         name: endringSkjemaTexts.forhandsvisningArbeidstakerTitle,
+        hidden: true,
       })
     ).to.exist;
     expect(
       within(forhandsvisningEndringArbeidstaker).getByRole("heading", {
         name: endringSkjemaTexts.forhandsvisningSubtitle,
+        hidden: true,
       })
     ).to.exist;
     expectedEndringDocuments
@@ -307,18 +309,20 @@ describe("EndreDialogmoteSkjemaTest", () => {
     expect(previewButtons).to.have.length(2);
     userEvent.click(previewButtons[1]);
 
-    const forhandsvisningEndringArbeidsgiver = screen.getByRole("dialog", {
-      name: endringSkjemaTexts.forhandsvisningArbeidsgiverContentLabel,
-    });
+    const forhandsvisningEndringArbeidsgiver = screen.getAllByRole("dialog", {
+      hidden: true,
+    })[1];
 
     expect(
       within(forhandsvisningEndringArbeidsgiver).getByRole("heading", {
         name: endringSkjemaTexts.forhandsvisningArbeidsgiverTitle,
+        hidden: true,
       })
     ).to.exist;
     expect(
       within(forhandsvisningEndringArbeidsgiver).getByRole("heading", {
         name: endringSkjemaTexts.forhandsvisningSubtitle,
+        hidden: true,
       })
     ).to.exist;
     expectedEndringDocuments
@@ -346,13 +350,14 @@ describe("EndreDialogmoteSkjemaTest", () => {
     expect(previewButtons).to.have.length(3);
     userEvent.click(previewButtons[2]);
 
-    const forhandsvisningEndringBehandler = screen.getByRole("dialog", {
-      name: endringSkjemaTexts.forhandsvisningBehandlerContentLabel,
-    });
+    const forhandsvisningEndringBehandler = screen.getAllByRole("dialog", {
+      hidden: true,
+    })[2];
 
     expect(
       within(forhandsvisningEndringBehandler).getByRole("heading", {
         name: endringSkjemaTexts.forhandsvisningBehandlerTitle,
+        hidden: true,
       })
     ).to.exist;
 

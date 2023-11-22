@@ -29,18 +29,20 @@ export const VurderAktivitetskravModal = ({
 }: VurderAktivitetskravModalProps) => {
   return (
     <Modal
+      closeOnBackdropClick
       onClose={() => setModalOpen(false)}
       open={isOpen}
       aria-labelledby={texts.modalContentLabel}
+      header={{ heading: "" }}
     >
       {modalType && (
-        <Modal.Content className={"min-w-[600px] p-8"}>
+        <Modal.Body className={"min-w-[600px] p-8"}>
           <VurderAktivitetskravModalContent
             setModalOpen={setModalOpen}
             modalType={modalType}
             aktivitetskravUuid={aktivitetskravUuid}
           />
-        </Modal.Content>
+        </Modal.Body>
       )}
     </Modal>
   );

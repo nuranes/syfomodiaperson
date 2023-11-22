@@ -247,15 +247,16 @@ describe("Meldinger panel", () => {
         name: /januar/,
       });
       expect(accordions).to.have.length(8);
+      accordions.forEach((accordion) => userEvent.click(accordion));
 
       const seMeldingButton = screen.getAllByRole("button", {
         name: seMeldingButtonTekst,
       })[0];
       userEvent.click(seMeldingButton);
 
-      const seMeldingModal = screen.getByRole("dialog", {
-        name: "Vis melding",
-      });
+      const seMeldingModal = screen.getAllByRole("dialog", {
+        hidden: true,
+      })[0];
       expect(seMeldingModal).to.exist;
 
       expect(
@@ -278,6 +279,11 @@ describe("Meldinger panel", () => {
     it("Viser overskrift for påminnelse i samtalen", () => {
       renderMeldinger();
 
+      const accordions = screen.getAllByRole("button", {
+        name: /januar/,
+      });
+      accordions.forEach((accordion) => userEvent.click(accordion));
+
       expect(
         screen.getByText("Påminnelse om manglende svar vedrørerende pasient")
       ).to.exist;
@@ -291,14 +297,19 @@ describe("Meldinger panel", () => {
     it("Viser påminnelse ved klikk på 'Se melding'-knapp", () => {
       renderMeldinger();
 
+      const accordions = screen.getAllByRole("button", {
+        name: /januar/,
+      });
+      accordions.forEach((accordion) => userEvent.click(accordion));
+
       const seMeldingButton = screen.getAllByRole("button", {
         name: seMeldingButtonTekst,
       })[1];
       userEvent.click(seMeldingButton);
 
-      const seMeldingModal = screen.getByRole("dialog", {
-        name: "Vis melding",
-      });
+      const seMeldingModal = screen.getAllByRole("dialog", {
+        hidden: true,
+      })[1];
       expect(seMeldingModal).to.exist;
 
       expect(
@@ -322,6 +333,11 @@ describe("Meldinger panel", () => {
     it("Viser begrunnelse for retur i samtalen", () => {
       renderMeldinger();
 
+      const accordions = screen.getAllByRole("button", {
+        name: /november/,
+      });
+      accordions.forEach((accordion) => userEvent.click(accordion));
+
       expect(screen.getByText(expectedReturBegrunnelse)).to.exist;
       expect(
         screen.getAllByRole("img", {
@@ -333,14 +349,19 @@ describe("Meldinger panel", () => {
     it("Viser retur ved klikk på 'Se melding'-knapp", () => {
       renderMeldinger();
 
+      const accordions = screen.getAllByRole("button", {
+        name: /november/,
+      });
+      accordions.forEach((accordion) => userEvent.click(accordion));
+
       const seMeldingButton = screen.getAllByRole("button", {
         name: seMeldingButtonTekst,
       })[1];
       userEvent.click(seMeldingButton);
 
-      const seMeldingModal = screen.getByRole("dialog", {
-        name: "Vis melding",
-      });
+      const seMeldingModal = screen.getAllByRole("dialog", {
+        hidden: true,
+      })[1];
       expect(seMeldingModal).to.exist;
 
       expect(within(seMeldingModal).getByText(expectedReturBegrunnelse)).to

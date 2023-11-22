@@ -70,11 +70,13 @@ export const PaminnelseMelding = ({
         {texts.button}
       </MeldingActionButton>
       <Modal
+        closeOnBackdropClick
         open={visPaminnelseModal}
         onClose={handleClose}
         aria-labelledby="modal-heading"
+        header={{ heading: "" }}
       >
-        <Modal.Content className={"p-8"}>
+        <Modal.Body className={"p-8"}>
           {paminnelseDocument.map((component, index) => (
             <DocumentComponentVisning
               documentComponent={component}
@@ -109,7 +111,7 @@ export const PaminnelseMelding = ({
               }
             />
           </ButtonRow>
-        </Modal.Content>
+        </Modal.Body>
       </Modal>
     </>
   );

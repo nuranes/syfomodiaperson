@@ -1,7 +1,6 @@
 import React from "react";
 import Referat, {
   ReferatMode,
-  texts as referatSkjemaTexts,
   valideringsTexts as referatSkjemaValideringsTexts,
 } from "../../src/components/dialogmote/referat/Referat";
 import { expect } from "chai";
@@ -92,8 +91,9 @@ describe("ReferatEndreTest", () => {
     passSkjemaInput();
 
     clickButton("Se forhåndsvisning");
+
     const forhandsvisningReferat = screen.getByRole("dialog", {
-      name: referatSkjemaTexts.forhandsvisningContentLabel,
+      hidden: true,
     });
 
     expect(within(forhandsvisningReferat).getByText(referatTexts.endretHeader))

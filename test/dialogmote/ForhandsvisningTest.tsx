@@ -22,8 +22,10 @@ describe("Forhandsvisning", () => {
         getDocumentComponents={() => []}
       />
     );
-    expect(screen.getByRole("heading", { name: "Tittel her" })).to.exist;
-    expect(screen.getAllByRole("button", { name: "Lukk" })).to.not.be.empty;
+    expect(screen.getByRole("heading", { name: "Tittel her", hidden: true })).to
+      .exist;
+    expect(screen.getAllByRole("button", { name: "Lukk", hidden: true })).to.not
+      .be.empty;
   });
   it("rendrer document components", () => {
     const documentComponents: DocumentComponentDto[] = [
@@ -55,8 +57,10 @@ describe("Forhandsvisning", () => {
         getDocumentComponents={() => documentComponents}
       />
     );
-    expect(screen.getByRole("heading", { name: "En overskrift" })).to.exist;
-    expect(screen.getByRole("link", { name: "www.test.no" })).to.exist;
+    expect(screen.getByRole("heading", { name: "En overskrift", hidden: true }))
+      .to.exist;
+    expect(screen.getByRole("link", { name: "www.test.no", hidden: true })).to
+      .exist;
     expect(screen.getByText("Her er en link")).to.exist;
     expect(screen.getByText("En paragraph")).to.exist;
     expect(screen.getByText("Paragraph title")).to.exist;

@@ -23,10 +23,6 @@ const texts = {
 
 const NAV_UTLAND = "0393";
 
-const StyledModal = styled(Modal)`
-  max-width: 638px;
-`;
-
 const ButtonGroup = styled.div`
   > * {
     margin-right: 1em;
@@ -69,21 +65,26 @@ const PersonkortChangeEnhet = ({
       <Button variant="secondary" onClick={() => setOpen(true)}>
         {heading}
       </Button>
-      <StyledModal
+      <Modal
+        closeOnBackdropClick
+        className="max-w-2xl"
         open={open}
         aria-label="Modal endre enhet"
         onClose={() => setOpen(false)}
-        closeButton={false}
         aria-labelledby="modal-heading"
       >
-        <Modal.Content>
+        <Modal.Header>
           <Heading spacing level="1" size="large" id="modal-heading">
             {heading}
           </Heading>
+        </Modal.Header>
+        <Modal.Body>
           <BodyLong as={"div"} spacing={true}>
             <p>{modalText1}</p>
             <p>{modalText2}</p>
           </BodyLong>
+        </Modal.Body>
+        <Modal.Footer>
           <ButtonGroup>
             <Button variant="danger" onClick={updateEnhet}>
               {heading}
@@ -92,8 +93,8 @@ const PersonkortChangeEnhet = ({
               Avbryt
             </Button>
           </ButtonGroup>
-        </Modal.Content>
-      </StyledModal>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

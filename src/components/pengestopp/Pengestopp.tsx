@@ -40,34 +40,21 @@ const Alert = styled(AlertStripe)`
   margin-bottom: 1em;
 `;
 
-interface KnappWithExplanationProps {
-  handleClick: () => void;
-}
-
 const StyledP = styled.p`
   padding: 1em 0;
 `;
-
-const KnappWithExplanation = ({ handleClick }: KnappWithExplanationProps) => {
-  return (
-    <>
-      <Knapp onClick={handleClick}>{texts.stansSykepenger}</Knapp>
-      <StyledP>{texts.explanation}</StyledP>
-    </>
-  );
-};
 
 const Pengestopp = ({ sykmeldinger }: IPengestoppProps) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const { data: statusEndringList, isError } = usePengestoppStatusQuery();
   const [sykmeldtNotEligible, setSykmeldtNotEligible] = useState(false);
 
-  const toggleModal = (arbeidsgivere: Arbeidsgiver[]) => {
+  const toggleModal = (isOpen: boolean, arbeidsgivere: Arbeidsgiver[]) => {
     if (arbeidsgivere.length === 0) {
       setSykmeldtNotEligible(true);
     } else {
       setSykmeldtNotEligible(false);
-      setModalIsOpen(!modalIsOpen);
+      setModalIsOpen(isOpen);
     }
   };
 
@@ -85,11 +72,14 @@ const Pengestopp = ({ sykmeldinger }: IPengestoppProps) => {
       {sykmeldtNotEligible && (
         <Alert type="feil">{texts.sykmeldtNotEligibleError}</Alert>
       )}
-      <KnappWithExplanation
-        handleClick={() => {
-          toggleModal(uniqueArbeidsgivereWithSykmeldingLast3Months);
-        }}
-      />
+      <Knapp
+        onClick={() =>
+          toggleModal(true, uniqueArbeidsgivereWithSykmeldingLast3Months)
+        }
+      >
+        {texts.stansSykepenger}
+      </Knapp>
+      <StyledP>{texts.explanation}</StyledP>
 
       {pengestopp?.status === Status.STOPP_AUTOMATIKK && (
         <PengestoppHistorikk
@@ -101,9 +91,9 @@ const Pengestopp = ({ sykmeldinger }: IPengestoppProps) => {
       <PengestoppModal
         arbeidsgivere={uniqueArbeidsgivereWithSykmeldingLast3Months}
         isOpen={modalIsOpen}
-        toggle={() => {
-          toggleModal(uniqueArbeidsgivereWithSykmeldingLast3Months);
-        }}
+        onModalClose={() =>
+          toggleModal(false, uniqueArbeidsgivereWithSykmeldingLast3Months)
+        }
       />
     </Wrapper>
   );

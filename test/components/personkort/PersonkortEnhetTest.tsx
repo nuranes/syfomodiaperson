@@ -62,7 +62,8 @@ describe("PersonkortEnhet", () => {
     stubChangeEnhetApi(apiMockScope, person);
     renderPersonkortEnhet();
 
-    expect(await screen.findByText("Endre til NAV utland")).to.exist;
+    expect(await screen.findByRole("button", { name: "Endre til NAV utland" }))
+      .to.exist;
   });
 
   it("viser endre enhet til geografisk enhet hvis allerede NAV utland", async () => {
@@ -71,6 +72,8 @@ describe("PersonkortEnhet", () => {
     stubChangeEnhetApi(apiMockScope, person);
     renderPersonkortEnhet();
 
-    expect(await screen.findByText("Endre til geografisk enhet")).to.exist;
+    expect(
+      await screen.findByRole("button", { name: "Endre til geografisk enhet" })
+    ).to.exist;
   });
 });

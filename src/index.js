@@ -8,7 +8,6 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { minutesToMillis } from "@/utils/timeUtils";
 import { ValgtEnhetProvider } from "@/context/ValgtEnhetContext";
 import { isClientError } from "@/api/errors";
-import { Modal } from "@navikt/ds-react";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,7 +32,6 @@ const queryClient = new QueryClient({
 
 const container =
   document.getElementById("maincontent") || new DocumentFragment();
-Modal.setAppElement(container);
 const root = createRoot(container);
 
 root.render(

@@ -1,9 +1,7 @@
 import * as React from "react";
 import { ChangeEvent, useState } from "react";
 import { Knapp } from "nav-frontend-knapper";
-import { Feilmelding, Systemtittel } from "nav-frontend-typografi";
 import { Checkbox, CheckboxGruppe } from "nav-frontend-skjema";
-import styled from "styled-components";
 import {
   Arbeidsgiver,
   StoppAutomatikk,
@@ -15,7 +13,7 @@ import { AlertStripeInfo } from "nav-frontend-alertstriper";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { useFlaggPerson } from "@/data/pengestopp/useFlaggPerson";
 import { useValgtEnhet } from "@/context/ValgtEnhetContext";
-import { Modal } from "@navikt/ds-react";
+import { ErrorMessage, Heading, Modal } from "@navikt/ds-react";
 
 const texts = {
   notStoppedTittel:
@@ -40,8 +38,7 @@ const texts = {
 interface IPengestoppModal {
   isOpen: boolean;
   arbeidsgivere: Arbeidsgiver[];
-
-  toggle(): void;
+  onModalClose(): void;
 }
 
 interface SykepengestoppArsakTekst {
@@ -72,20 +69,6 @@ export const sykepengestoppArsakTekstListe: SykepengestoppArsakTekst[] = [
   },
 ];
 
-const StyledModal = styled(Modal)`
-  padding: 2em 2.5em;
-  max-width: 50em;
-  width: 100%;
-`;
-
-const Group = styled.div`
-  margin: 1rem 0;
-`;
-
-const BottomGroup = styled.div`
-  margin-top: 1em;
-`;
-
 const tittel = (stopped: boolean) => {
   return stopped ? texts.stoppedTittel : texts.notStoppedTittel;
 };
@@ -93,7 +76,7 @@ const tittel = (stopped: boolean) => {
 const PengestoppModal = ({
   isOpen,
   arbeidsgivere,
-  toggle,
+  onModalClose,
 }: IPengestoppModal) => {
   const { valgtEnhet } = useValgtEnhet();
   const fnr = useValgtPersonident();
@@ -177,56 +160,57 @@ const PengestoppModal = ({
     setEmployerError(false);
     setAarsakError(false);
 
-    toggle();
+    onModalClose();
   };
 
   return (
-    <StyledModal
+    <Modal
+      closeOnBackdropClick
+      className="p-8 max-w-4xl w-full"
       aria-label={texts.stansSykepenger}
       open={isOpen}
       onClose={handleCloseModal}
     >
-      <Modal.Content>
-        <Systemtittel>{tittel(isSuccess)}</Systemtittel>
-
+      <Modal.Header>
+        <Heading size="medium">{tittel(isSuccess)}</Heading>
+      </Modal.Header>
+      <Modal.Body>
         {!isSuccess ? (
           <>
-            <Group>
-              <CheckboxGruppe
-                legend={texts.arbeidsgiver}
-                feil={employerError && texts.submitError}
-              >
-                {arbeidsgivere.map(
-                  (arbeidsgiver: Arbeidsgiver, index: number) => {
-                    return (
-                      <Checkbox
-                        key={index}
-                        label={arbeidsgiver.navn}
-                        onChange={handleChangeVirksomhet}
-                        name={arbeidsgiver.orgnummer}
-                      />
-                    );
-                  }
-                )}
-              </CheckboxGruppe>
-            </Group>
-            <Group>
-              <CheckboxGruppe
-                legend={texts.arsak.title}
-                feil={aarsakError && texts.arsak.submitError}
-              >
-                {sykepengestoppArsakTekstListe.map((arsak, index: number) => {
+            <CheckboxGruppe
+              className="my-4"
+              legend={texts.arbeidsgiver}
+              feil={employerError && texts.submitError}
+            >
+              {arbeidsgivere.map(
+                (arbeidsgiver: Arbeidsgiver, index: number) => {
                   return (
                     <Checkbox
                       key={index}
-                      label={arsak.text}
-                      onChange={handleChangeArsak}
-                      name={arsak.type}
+                      label={arbeidsgiver.navn}
+                      onChange={handleChangeVirksomhet}
+                      name={arbeidsgiver.orgnummer}
                     />
                   );
-                })}
-              </CheckboxGruppe>
-            </Group>
+                }
+              )}
+            </CheckboxGruppe>
+            <CheckboxGruppe
+              className="my-4"
+              legend={texts.arsak.title}
+              feil={aarsakError && texts.arsak.submitError}
+            >
+              {sykepengestoppArsakTekstListe.map((arsak, index: number) => {
+                return (
+                  <Checkbox
+                    key={index}
+                    label={arsak.text}
+                    onChange={handleChangeArsak}
+                    name={arsak.type}
+                  />
+                );
+              })}
+            </CheckboxGruppe>
             <Knapp type="flat" onClick={handleCloseModal}>
               {texts.avbryt}
             </Knapp>
@@ -241,20 +225,16 @@ const PengestoppModal = ({
             </Knapp>
           </>
         ) : (
-          <Group>
-            <AlertStripeInfo>
-              <p>{texts.stoppedInfo}</p>
-              <p>{texts.seServicerutinen}</p>
-            </AlertStripeInfo>
-          </Group>
+          <AlertStripeInfo className="my-4">
+            <p>{texts.stoppedInfo}</p>
+            <p>{texts.seServicerutinen}</p>
+          </AlertStripeInfo>
         )}
         {isError && (
-          <BottomGroup>
-            <Feilmelding>{texts.serverError}</Feilmelding>
-          </BottomGroup>
+          <ErrorMessage className="mt-4">{texts.serverError}</ErrorMessage>
         )}
-      </Modal.Content>
-    </StyledModal>
+      </Modal.Body>
+    </Modal>
   );
 };
 

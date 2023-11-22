@@ -106,12 +106,11 @@ const FremtidigSoknadTeaser = ({
         </div>
       </button>
       <ModalWrapper
+        closeOnBackdropClick
         aria-label="Modal planlagt søknad"
         aria-labelledby="modal-heading"
         open={vis}
         onClose={() => setVis(false)}
-        closeButton={false}
-        shouldCloseOnOverlayClick={false}
       >
         <h3 className="panel__tittel">{texts.dato.tittel}</h3>
         <p>

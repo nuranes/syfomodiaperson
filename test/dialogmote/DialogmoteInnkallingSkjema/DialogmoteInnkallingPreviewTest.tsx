@@ -50,18 +50,23 @@ describe("Dialogmoteinnkallingskjema", () => {
     });
     expect(previewButtons).to.have.length(2);
     userEvent.click(previewButtons[0]);
-    const forhandsvisningInnkallingArbeidstaker = screen.getByRole("dialog", {
-      name: innkallingSkjemaTexts.forhandsvisningArbeidstakerContentLabel,
-    });
+    const forhandsvisningInnkallingArbeidstaker = screen.getAllByRole(
+      "dialog",
+      {
+        hidden: true,
+      }
+    )[0];
 
     expect(
       within(forhandsvisningInnkallingArbeidstaker).getByRole("heading", {
         name: innkallingSkjemaTexts.forhandsvisningArbeidstakerTitle,
+        hidden: true,
       })
     ).to.exist;
     expect(
       within(forhandsvisningInnkallingArbeidstaker).getByRole("heading", {
         name: innkallingSkjemaTexts.forhandsvisningSubtitle,
+        hidden: true,
       })
     ).to.exist;
     expectedInnkallingDocuments
@@ -82,18 +87,23 @@ describe("Dialogmoteinnkallingskjema", () => {
     });
     expect(previewButtons).to.have.length(2);
     userEvent.click(previewButtons[1]);
-    const forhandsvisningInnkallingArbeidsgiver = screen.getByRole("dialog", {
-      name: innkallingSkjemaTexts.forhandsvisningArbeidsgiverContentLabel,
-    });
+    const forhandsvisningInnkallingArbeidsgiver = screen.getAllByRole(
+      "dialog",
+      {
+        hidden: true,
+      }
+    )[1];
 
     expect(
       within(forhandsvisningInnkallingArbeidsgiver).getByRole("heading", {
         name: innkallingSkjemaTexts.forhandsvisningSubtitle,
+        hidden: true,
       })
     ).to.exist;
     expect(
       within(forhandsvisningInnkallingArbeidsgiver).getByRole("heading", {
         name: innkallingSkjemaTexts.forhandsvisningArbeidsgiverTitle,
+        hidden: true,
       })
     ).to.exist;
     expectedInnkallingDocuments
@@ -126,13 +136,14 @@ describe("Dialogmoteinnkallingskjema", () => {
     });
     expect(previewButtons).to.have.length(3);
     userEvent.click(previewButtons[2]);
-    const forhandsvisningInnkallingBehandler = screen.getByRole("dialog", {
-      name: innkallingSkjemaTexts.forhandsvisningBehandlerContentLabel,
-    });
+    const forhandsvisningInnkallingBehandler = screen.getAllByRole("dialog", {
+      hidden: true,
+    })[2];
 
     expect(
       within(forhandsvisningInnkallingBehandler).getByRole("heading", {
         name: innkallingSkjemaTexts.forhandsvisningBehandlerTitle,
+        hidden: true,
       })
     ).to.exist;
 

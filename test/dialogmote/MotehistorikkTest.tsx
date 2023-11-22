@@ -192,7 +192,7 @@ describe("Historiske dialogmøter", () => {
     });
     userEvent.click(unntakButton);
     const unntakModal = screen.getByRole("dialog", {
-      name: "Unntak fra dialogmøte",
+      hidden: true,
     });
 
     expect(within(unntakModal).getByText("Vurdert av")).to.exist;

@@ -1,6 +1,6 @@
 import { queryClientWithMockData } from "../testQueryClient";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
 import React from "react";
@@ -197,6 +197,8 @@ describe("AktivitetskravHistorikk", () => {
   it("Viser knapp for å se hele forhåndsvarsel-brevet dersom vurderingen var et forhåndsvarsel", () => {
     renderAktivitetskravHistorikk([forhandsvarselVurdering]);
 
+    const vurderingAccordion = screen.getByRole("button");
+    userEvent.click(vurderingAccordion);
     const button = screen.getByRole("button", { name: "Se hele brevet" });
 
     expect(screen.getByText(beskrivelseTitle)).to.exist;
@@ -207,6 +209,13 @@ describe("AktivitetskravHistorikk", () => {
 
     userEvent.click(button);
 
-    expect(screen.getByRole("heading", { name: enBeskrivelse })).to.exist;
+    const previewModal = screen.getByRole("dialog", { hidden: true });
+
+    expect(
+      within(previewModal).getByRole("heading", {
+        name: enBeskrivelse,
+        hidden: true,
+      })
+    ).to.exist;
   });
 });

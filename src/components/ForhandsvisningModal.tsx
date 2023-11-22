@@ -1,4 +1,4 @@
-import { FlexRow, JustifyContentType, PaddingSize } from "./Layout";
+import { FlexRow, JustifyContentType } from "./Layout";
 import React, { ReactElement } from "react";
 import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
 import { DocumentComponentVisning } from "@/components/DocumentComponentVisning";
@@ -26,24 +26,29 @@ export const ForhandsvisningModal = ({
   const documentComponents = isOpen ? getDocumentComponents() : [];
   return (
     <Modal
+      closeOnBackdropClick
       className="max-w-[50rem]"
       open={isOpen}
       aria-label={contentLabel}
       onClose={handleClose}
     >
-      <Modal.Content className={"flex flex-col flex-1 p-8"}>
+      <Modal.Header>
         {title ? (
           <FlexRow justifyContent={JustifyContentType.CENTER}>
             <Heading size="xlarge">{title}</Heading>
           </FlexRow>
         ) : null}
+      </Modal.Header>
+      <Modal.Body className={"flex flex-col flex-1 p-8"}>
         {documentComponents.map((component, index) => (
           <DocumentComponentVisning key={index} documentComponent={component} />
         ))}
-        <FlexRow topPadding={PaddingSize.MD}>
-          <Button onClick={handleClose}>{texts.close}</Button>
-        </FlexRow>
-      </Modal.Content>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button type="button" onClick={handleClose}>
+          {texts.close}
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 };

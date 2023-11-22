@@ -144,7 +144,7 @@ describe("MeldingTilBehandler", () => {
       userEvent.click(previewButton);
 
       const previewModal = screen.getByRole("dialog", {
-        name: "Forhåndsvis melding til behandler",
+        hidden: true,
       });
       expect(previewModal).to.exist;
 
@@ -172,7 +172,7 @@ describe("MeldingTilBehandler", () => {
       userEvent.click(previewButton);
 
       const previewModal = screen.getByRole("dialog", {
-        name: "Forhåndsvis melding til behandler",
+        hidden: true,
       });
       expect(previewModal).to.exist;
 
@@ -199,7 +199,7 @@ describe("MeldingTilBehandler", () => {
       userEvent.click(previewButton);
 
       const previewModal = screen.getByRole("dialog", {
-        name: "Forhåndsvis melding til behandler",
+        hidden: true,
       });
       expect(previewModal).to.exist;
 

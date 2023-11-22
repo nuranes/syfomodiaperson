@@ -9,17 +9,12 @@ import {
   HuskelappResponseDTO,
 } from "@/data/huskelapp/huskelappTypes";
 import { generateUUID } from "@/utils/uuidUtils";
-import {
-  changeTextInput,
-  clickButton,
-  getButton,
-  queryButton,
-} from "../testUtils";
+import { changeTextInput } from "../testUtils";
 import { expect } from "chai";
-import { apiMock } from "../stubs/stubApi";
-import nock from "nock";
-import { stubHuskelappApi } from "../stubs/stubIshuskelapp";
 import userEvent from "@testing-library/user-event";
+import { stubHuskelappApi } from "../stubs/stubIshuskelapp";
+import nock from "nock";
+import { apiMock } from "../stubs/stubApi";
 
 let queryClient: QueryClient;
 let apiMockScope: any;
@@ -54,19 +49,34 @@ describe("HuskelappModal", () => {
     it("renders huskelapp-tekst with save, cancel and remove buttons", async () => {
       renderHuskelappModal();
 
-      const huskelappInput = await screen.findByRole("textbox");
+      const huskelappInput = (
+        await screen.findAllByRole("textbox", {
+          hidden: true,
+        })
+      )[0];
       expect(huskelappInput.textContent).to.equal(huskelappTekst);
-      expect(getButton("Lagre")).to.exist;
-      expect(getButton("Avbryt")).to.exist;
-      expect(getButton("Fjern")).to.exist;
+      expect(screen.getByRole("button", { hidden: true, name: "Lagre" })).to
+        .exist;
+      expect(screen.getByRole("button", { hidden: true, name: "Avbryt" })).to
+        .exist;
+      expect(screen.getByRole("button", { hidden: true, name: "Fjern" })).to
+        .exist;
     });
     it("save posts huskelapp with expected text", async () => {
       renderHuskelappModal();
 
-      const huskelappInput = await screen.findByRole("textbox");
+      const huskelappInput = (
+        await screen.findAllByRole("textbox", {
+          hidden: true,
+        })
+      )[0];
       changeTextInput(huskelappInput, "New note to self");
 
-      clickButton("Lagre");
+      const lagreButton = screen.getByRole("button", {
+        hidden: true,
+        name: "Lagre",
+      });
+      userEvent.click(lagreButton);
 
       const lagreHuskelappMutation = queryClient.getMutationCache().getAll()[0];
       const expectedHuskelapp: HuskelappRequestDTO = {
@@ -79,7 +89,10 @@ describe("HuskelappModal", () => {
     it("remove deletes huskelapp", async () => {
       renderHuskelappModal();
 
-      const removeButton = await screen.findByRole("button", { name: "Fjern" });
+      const removeButton = await screen.findByRole("button", {
+        hidden: true,
+        name: "Fjern",
+      });
       userEvent.click(removeButton);
 
       const fjernHuskelappMutation = queryClient.getMutationCache().getAll()[0];
@@ -95,11 +108,18 @@ describe("HuskelappModal", () => {
     it("renders huskelapp input with save and cancel buttons", async () => {
       renderHuskelappModal();
 
-      const huskelappInput = await screen.findByRole("textbox");
+      const huskelappInput = (
+        await screen.findAllByRole("textbox", {
+          hidden: true,
+        })
+      )[0];
       expect(huskelappInput.textContent).to.be.empty;
-      expect(getButton("Lagre")).to.exist;
-      expect(getButton("Avbryt")).to.exist;
-      expect(queryButton("Fjern")).to.not.exist;
+      expect(screen.getByRole("button", { hidden: true, name: "Lagre" })).to
+        .exist;
+      expect(screen.getByRole("button", { hidden: true, name: "Avbryt" })).to
+        .exist;
+      expect(screen.queryByRole("button", { hidden: true, name: "Fjern" })).to
+        .not.exist;
     });
   });
 });

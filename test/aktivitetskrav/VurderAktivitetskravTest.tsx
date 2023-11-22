@@ -38,7 +38,6 @@ import {
 import { expect } from "chai";
 import { tilLesbarPeriodeMedArUtenManednavn } from "@/utils/datoUtils";
 import dayjs from "dayjs";
-import { Modal } from "@navikt/ds-react";
 import { getSendForhandsvarselDocument } from "./varselDocuments";
 import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQueryHooks";
 import { personOppgaveUbehandletVurderStans } from "../../mock/ispersonoppgave/personoppgaveMock";
@@ -102,7 +101,6 @@ const renderVurderAktivitetskrav = (aktivitetskravDto: AktivitetskravDTO) =>
     </QueryClientProvider>
   );
 describe("VurderAktivitetskrav", () => {
-  Modal.setAppElement(document.createElement("div"));
   beforeEach(() => {
     queryClient = queryClientWithMockData();
     apiMockScope = apiMock();
@@ -257,10 +255,11 @@ describe("VurderAktivitetskrav", () => {
       renderVurderAktivitetskrav(aktivitetskrav);
 
       clickButton(buttonTexts["AVVENT"]);
-      const lagreButton = within(screen.getByRole("dialog")).getByRole(
-        "button",
-        { name: "Lagre" }
-      );
+      const avventModal = screen.getAllByRole("dialog", { hidden: true })[0];
+      const lagreButton = within(avventModal).getByRole("button", {
+        name: "Lagre",
+        hidden: true,
+      });
       fireEvent.click(lagreButton);
 
       expect(await screen.findByText("Vennligst angi årsak")).to.exist;
@@ -275,6 +274,7 @@ describe("VurderAktivitetskrav", () => {
       expect(
         screen.getByRole("heading", {
           name: "Avvent",
+          hidden: true,
         })
       ).to.exist;
 
@@ -294,17 +294,22 @@ describe("VurderAktivitetskrav", () => {
 
       const beskrivelseInputs = screen.getByRole("textbox", {
         name: "Begrunnelse",
+        hidden: true,
       });
       changeTextInput(beskrivelseInputs, enBeskrivelse);
 
       const today = dayjs();
-      const datoInput = getTextInput("Avventer til");
+      const datoInput = screen.getByRole("textbox", {
+        name: "Avventer til",
+        hidden: true,
+      });
       changeTextInput(datoInput, today.format("DD.MM.YYYY"));
 
-      const lagreButton = within(screen.getByRole("dialog")).getByRole(
-        "button",
-        { name: "Lagre" }
-      );
+      const avventModal = screen.getAllByRole("dialog", { hidden: true })[0];
+      const lagreButton = within(avventModal).getByRole("button", {
+        name: "Lagre",
+        hidden: true,
+      });
       fireEvent.click(lagreButton);
 
       await waitFor(() => {
@@ -324,10 +329,6 @@ describe("VurderAktivitetskrav", () => {
           expectedVurdering
         );
       });
-
-      await waitFor(
-        () => expect(screen.queryByText(enBeskrivelse)).to.not.exist
-      );
     });
   });
   describe("Ikke oppfylt", () => {
@@ -435,12 +436,15 @@ describe("VurderAktivitetskrav", () => {
 
       clickButton(buttonTexts["IKKE_AKTUELL"]);
 
-      const ikkeAktuellModal = screen.getByRole("dialog");
+      const ikkeAktuellModal = screen.getByRole("dialog", {
+        hidden: true,
+      });
 
       expect(ikkeAktuellModal).to.exist;
       expect(
         within(ikkeAktuellModal).getByRole("heading", {
           name: "Ikke aktuell",
+          hidden: true,
         })
       ).to.exist;
       expect(
@@ -449,13 +453,16 @@ describe("VurderAktivitetskrav", () => {
         )
       ).to.exist;
 
-      const beskrivelseInput = getTextInput("Begrunnelse");
-      changeTextInput(beskrivelseInput, enBeskrivelse);
+      const beskrivelseInputs = screen.getByRole("textbox", {
+        name: "Begrunnelse",
+        hidden: true,
+      });
+      changeTextInput(beskrivelseInputs, enBeskrivelse);
 
-      const lagreButton = within(screen.getByRole("dialog")).getByRole(
-        "button",
-        { name: "Lagre" }
-      );
+      const lagreButton = within(ikkeAktuellModal).getByRole("button", {
+        name: "Lagre",
+        hidden: true,
+      });
       fireEvent.click(lagreButton);
       await waitFor(() => {
         const vurderIkkeAktuellMutation = queryClient

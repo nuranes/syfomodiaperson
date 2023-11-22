@@ -46,7 +46,7 @@ global.navigator = {
 };
 global.cancelAnimationFrame = function () {};
 global.requestAnimationFrame = function () {};
-window.MutationObserver = MutationObserver;
+global.MutationObserver = MutationObserver;
 
 class ResizeObserver {
   observe() {}
@@ -54,5 +54,9 @@ class ResizeObserver {
   disconnect() {}
 }
 global.ResizeObserver = ResizeObserver;
+
+window.HTMLDialogElement.prototype.showModal = () => {};
+window.HTMLDialogElement.prototype.show = () => {};
+window.HTMLDialogElement.prototype.close = () => {};
 
 copyProps(window, global);

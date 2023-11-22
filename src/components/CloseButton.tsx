@@ -11,7 +11,12 @@ interface CloseButtonProps {
 }
 
 export const CloseButton = ({ onClick, disabled }: CloseButtonProps) => (
-  <Button variant="tertiary" disabled={disabled} onClick={onClick}>
+  <Button
+    type="button"
+    variant="tertiary"
+    disabled={disabled}
+    onClick={onClick}
+  >
     {texts.close}
   </Button>
 );

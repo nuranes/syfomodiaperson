@@ -1,4 +1,4 @@
-import { changeTextInput, clickButton, getTextInput } from "../testUtils";
+import { changeTextInput, clickButton } from "../testUtils";
 import { render, screen, waitFor, within } from "@testing-library/react";
 import { expect } from "chai";
 import {
@@ -13,6 +13,7 @@ import { ReturLegeerklaring } from "@/components/behandlerdialog/legeerklaring/R
 import { queryClientWithMockData } from "../testQueryClient";
 import { foresporselLegeerklaringFraBehandler } from "./meldingTestdataGenerator";
 import { expectedReturLegeerklaringDocument } from "./testDataDocuments";
+import userEvent from "@testing-library/user-event";
 
 let queryClient: QueryClient;
 
@@ -43,7 +44,7 @@ describe("ReturLegeerklaring", () => {
 
     clickButton(returButtonText);
 
-    const previewModal = screen.getByRole("dialog");
+    const previewModal = screen.getByRole("dialog", { hidden: true });
     expect(previewModal).to.exist;
 
     const expectedTexts = expectedReturLegeerklaringDocument().flatMap(
@@ -53,20 +54,32 @@ describe("ReturLegeerklaring", () => {
       expect(within(previewModal).getByText(text)).to.exist;
     });
 
-    expect(within(previewModal).getByRole("button", { name: sendButtonText }))
-      .to.exist;
-    expect(within(previewModal).getByRole("button", { name: cancelButtonText }))
-      .to.exist;
+    expect(
+      within(previewModal).getByRole("button", {
+        name: sendButtonText,
+        hidden: true,
+      })
+    ).to.exist;
+    expect(
+      within(previewModal).getByRole("button", {
+        name: cancelButtonText,
+        hidden: true,
+      })
+    ).to.exist;
   });
   it("click cancel in preview closes preview", () => {
     renderReturLegeerklaring(foresporselLegeerklaringFraBehandler);
 
     clickButton(returButtonText);
 
-    const previewModal = screen.getByRole("dialog");
+    const previewModal = screen.getByRole("dialog", { hidden: true });
     expect(previewModal).to.exist;
 
-    clickButton("Lukk");
+    const closeButton = screen.getByRole("button", {
+      name: cancelButtonText,
+      hidden: true,
+    });
+    userEvent.click(closeButton);
 
     expect(screen.queryByRole("dialog")).to.not.exist;
     expect(screen.queryByRole("button", { name: sendButtonText })).to.not.exist;
@@ -78,7 +91,10 @@ describe("ReturLegeerklaring", () => {
 
     clickButton(returButtonText);
 
-    const begrunnelseInput = getTextInput("Begrunnelse");
+    const begrunnelseInput = screen.getByRole("textbox", {
+      name: "Begrunnelse",
+      hidden: true,
+    });
     changeTextInput(begrunnelseInput, enBegrunnelseTekst);
 
     // Vises i forhåndsvisning og i textarea
@@ -88,13 +104,20 @@ describe("ReturLegeerklaring", () => {
     renderReturLegeerklaring(foresporselLegeerklaringFraBehandler);
 
     clickButton(returButtonText);
-    clickButton(sendButtonText);
+    const sendButton = screen.getByRole("button", {
+      name: sendButtonText,
+      hidden: true,
+    });
+    userEvent.click(sendButton);
 
     expect(await screen.findByText("Vennligst angi begrunnelse")).to.exist;
 
-    const begrunnelseInput = getTextInput("Begrunnelse");
+    const begrunnelseInput = screen.getByRole("textbox", {
+      name: "Begrunnelse",
+      hidden: true,
+    });
     changeTextInput(begrunnelseInput, enBegrunnelseTekst);
-    clickButton(sendButtonText);
+    userEvent.click(sendButton);
 
     await waitFor(() => {
       expect(screen.queryByText("Vennligst angi begrunnelse")).to.not.exist;
@@ -110,10 +133,17 @@ describe("ReturLegeerklaring", () => {
 
     clickButton(returButtonText);
 
-    const begrunnelseInput = getTextInput("Begrunnelse");
+    const begrunnelseInput = screen.getByRole("textbox", {
+      name: "Begrunnelse",
+      hidden: true,
+    });
     changeTextInput(begrunnelseInput, enBegrunnelseTekst);
 
-    clickButton(sendButtonText);
+    const sendButton = screen.getByRole("button", {
+      name: sendButtonText,
+      hidden: true,
+    });
+    userEvent.click(sendButton);
 
     await waitFor(() => {
       const returLegeerklaringMutation = queryClient

@@ -110,7 +110,11 @@ export const AvventAktivitetskravSkjema = ({
           <Button loading={vurderAktivitetskrav.isLoading} type="submit">
             {texts.lagre}
           </Button>
-          <Button variant="tertiary" onClick={() => setModalOpen(false)}>
+          <Button
+            type="button"
+            variant="tertiary"
+            onClick={() => setModalOpen(false)}
+          >
             {texts.avbryt}
           </Button>
         </ButtonRow>

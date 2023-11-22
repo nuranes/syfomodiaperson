@@ -16,6 +16,7 @@ import { personOppgaveUbehandletBehandlerdialogUbesvartMelding } from "../../moc
 import { expectedPaminnelseDocument } from "./testDataDocuments";
 import { foresporselPasientToBehandler } from "./meldingTestdataGenerator";
 import { MeldingTilBehandler } from "@/components/behandlerdialog/meldinger/MeldingerISamtale";
+import userEvent from "@testing-library/user-event";
 
 let queryClient: QueryClient;
 
@@ -56,7 +57,7 @@ describe("PåminnelseMelding", () => {
 
     clickButton(paminnelseButtonText);
 
-    const previewModal = screen.getByRole("dialog");
+    const previewModal = screen.getAllByRole("dialog", { hidden: true })[1];
     expect(previewModal).to.exist;
 
     const expectedTexts = expectedPaminnelseDocument(
@@ -66,25 +67,38 @@ describe("PåminnelseMelding", () => {
       expect(within(previewModal).getByText(text)).to.exist;
     });
 
-    expect(within(previewModal).getByRole("button", { name: sendButtonText }))
-      .to.exist;
+    expect(
+      within(previewModal).getByRole("button", {
+        name: sendButtonText,
+        hidden: true,
+      })
+    ).to.exist;
     expect(
       within(previewModal).getByRole("button", {
         name: fjernOppgaveButtonText,
+        hidden: true,
       })
     ).to.exist;
-    expect(within(previewModal).getByRole("button", { name: cancelButtonText }))
-      .to.exist;
+    expect(
+      within(previewModal).getByRole("button", {
+        name: cancelButtonText,
+        hidden: true,
+      })
+    ).to.exist;
   });
   it("click cancel in preview closes preview", () => {
     renderPaminnelseMelding(meldingTilBehandler);
 
     clickButton(paminnelseButtonText);
 
-    const previewModal = screen.getByRole("dialog");
+    const previewModal = screen.getAllByRole("dialog", { hidden: true })[1];
     expect(previewModal).to.exist;
 
-    clickButton("Lukk");
+    const closeButton = within(previewModal).getByRole("button", {
+      name: cancelButtonText,
+      hidden: true,
+    });
+    userEvent.click(closeButton);
 
     expect(screen.queryByRole("dialog")).to.not.exist;
     expect(screen.queryByRole("button", { name: sendButtonText })).to.not.exist;
@@ -100,7 +114,11 @@ describe("PåminnelseMelding", () => {
 
     clickButton(paminnelseButtonText);
 
-    clickButton(sendButtonText);
+    const sendButton = screen.getByRole("button", {
+      name: sendButtonText,
+      hidden: true,
+    });
+    userEvent.click(sendButton);
 
     const paminnelseMutation = queryClient.getMutationCache().getAll()[0];
 
@@ -113,7 +131,11 @@ describe("PåminnelseMelding", () => {
 
     clickButton(paminnelseButtonText);
 
-    clickButton(fjernOppgaveButtonText);
+    const fjernOppgaveButton = screen.getByRole("button", {
+      name: fjernOppgaveButtonText,
+      hidden: true,
+    });
+    userEvent.click(fjernOppgaveButton);
 
     const paminnelseMutation = queryClient.getMutationCache().getAll()[0];
 

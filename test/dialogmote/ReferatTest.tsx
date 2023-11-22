@@ -1,7 +1,6 @@
 import React from "react";
 import Referat, {
   ReferatMode,
-  texts as referatSkjemaTexts,
   valideringsTexts as referatSkjemaValideringsTexts,
 } from "../../src/components/dialogmote/referat/Referat";
 import { texts as deltakereSkjemaTexts } from "../../src/components/dialogmote/referat/Deltakere";
@@ -304,7 +303,7 @@ describe("ReferatTest", () => {
 
     clickButton("Se forhåndsvisning");
     const forhandsvisningReferat = screen.getByRole("dialog", {
-      name: referatSkjemaTexts.forhandsvisningContentLabel,
+      hidden: true,
     });
 
     expectedReferatDocument()

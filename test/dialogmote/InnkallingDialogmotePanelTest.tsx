@@ -80,7 +80,7 @@ describe("InnkallingDialogmotePanel", () => {
     it("viser knapp til Dialogmoteinkalling når bruker ikke kan varsles", () => {
       renderInnkallingDialogmotePanel(brukerKanIkkeVarsles);
 
-      const button = screen.getByRole("link", { name: "Nytt dialogmøte" });
+      const button = screen.getByRole("button", { name: "Nytt dialogmøte" });
       expect(button).to.exist;
       userEvent.click(button);
     });
@@ -94,7 +94,7 @@ describe("InnkallingDialogmotePanel", () => {
     it("viser knapp til Dialogmoteinkalling  når bruker kan varsles", () => {
       renderInnkallingDialogmotePanel(brukerKanVarsles);
 
-      const button = screen.getByRole("link", { name: "Nytt dialogmøte" });
+      const button = screen.getByRole("button", { name: "Nytt dialogmøte" });
       expect(button).to.exist;
       userEvent.click(button);
     });
@@ -115,7 +115,7 @@ describe("InnkallingDialogmotePanel", () => {
 
       renderInnkallingDialogmotePanel(brukerKanVarsles);
 
-      const button = screen.getByRole("link", { name: "Sett unntak" });
+      const button = screen.getByRole("button", { name: "Sett unntak" });
       expect(button).to.exist;
       userEvent.click(button);
     });

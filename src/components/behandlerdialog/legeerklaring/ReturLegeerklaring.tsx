@@ -70,11 +70,13 @@ export const ReturLegeerklaring = ({ melding }: ReturLegeerklaringProps) => {
         {texts.button}
       </MeldingActionButton>
       <Modal
+        closeOnBackdropClick
         open={visReturModal}
         onClose={handleClose}
         aria-labelledby="modal-heading"
+        header={{ heading: "" }}
       >
-        <Modal.Content className="p-8">
+        <Modal.Body className="p-8">
           <form onSubmit={handleSubmit(submit)}>
             {getReturLegeerklaringDocument(watch("begrunnelse")).map(
               (component, index) => (
@@ -113,7 +115,7 @@ export const ReturLegeerklaring = ({ melding }: ReturLegeerklaringProps) => {
               />
             </ButtonRow>
           </form>
-        </Modal.Content>
+        </Modal.Body>
       </Modal>
     </>
   );

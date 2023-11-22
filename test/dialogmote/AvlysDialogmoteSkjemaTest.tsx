@@ -234,7 +234,7 @@ describe("AvlysDialogmoteSkjemaTest", () => {
     };
     expect(avlysMutation.options.variables).to.deep.equal(expectedAvlysningDto);
   });
-  it("forhåndsviser avlysning til arbeidstaker", () => {
+  it("forhåndsviser avlysning til arbeidstaker", async () => {
     renderAvlysDialogmoteSkjema(dialogmote);
 
     const begrunnelseArbeidstakerInput = getTextInput(
@@ -258,17 +258,20 @@ describe("AvlysDialogmoteSkjemaTest", () => {
     expect(previewButtons).to.have.length(2);
     userEvent.click(previewButtons[0]);
 
-    const forhandsvisningAvlysningArbeidstaker = screen.getByRole("dialog", {
-      name: avlysningSkjemaTexts.forhandsvisningArbeidstakerContentlabel,
-    });
+    const forhandsvisningAvlysningArbeidstaker = screen.getAllByRole("dialog", {
+      hidden: true,
+    })[0];
+
     expect(
       within(forhandsvisningAvlysningArbeidstaker).getByRole("heading", {
         name: avlysningSkjemaTexts.forhandsvisningArbeidstakerTitle,
+        hidden: true,
       })
     ).to.exist;
     expect(
       within(forhandsvisningAvlysningArbeidstaker).getByRole("heading", {
         name: avlysningSkjemaTexts.forhandsvisningSubtitle,
+        hidden: true,
       })
     ).to.exist;
     expectedAvlysningDocuments
@@ -303,17 +306,19 @@ describe("AvlysDialogmoteSkjemaTest", () => {
     expect(previewButtons).to.have.length(2);
     userEvent.click(previewButtons[1]);
 
-    const forhandsvisningAvlysningArbeidsgiver = screen.getByRole("dialog", {
-      name: avlysningSkjemaTexts.forhandsvisningArbeidsgiverContentlabel,
-    });
+    const forhandsvisningAvlysningArbeidsgiver = screen.getAllByRole("dialog", {
+      hidden: true,
+    })[1];
     expect(
       within(forhandsvisningAvlysningArbeidsgiver).getByRole("heading", {
         name: avlysningSkjemaTexts.forhandsvisningArbeidsgiverTitle,
+        hidden: true,
       })
     ).to.exist;
     expect(
       within(forhandsvisningAvlysningArbeidsgiver).getByRole("heading", {
         name: avlysningSkjemaTexts.forhandsvisningSubtitle,
+        hidden: true,
       })
     ).to.exist;
     expectedAvlysningDocuments
@@ -353,17 +358,19 @@ describe("AvlysDialogmoteSkjemaTest", () => {
     expect(previewButtons).to.have.length(3);
     userEvent.click(previewButtons[2]);
 
-    const forhandsvisningAvlysningBehandler = screen.getByRole("dialog", {
-      name: avlysningSkjemaTexts.forhandsvisningBehandlerContentlabel,
-    });
+    const forhandsvisningAvlysningBehandler = screen.getAllByRole("dialog", {
+      hidden: true,
+    })[2];
     expect(
       within(forhandsvisningAvlysningBehandler).getByRole("heading", {
         name: avlysningSkjemaTexts.forhandsvisningBehandlerTitle,
+        hidden: true,
       })
     ).to.exist;
     expect(
       within(forhandsvisningAvlysningBehandler).getByRole("heading", {
         name: avlysningSkjemaTexts.forhandsvisningSubtitle,
+        hidden: true,
       })
     ).to.exist;
     expectedAvlysningDocuments
