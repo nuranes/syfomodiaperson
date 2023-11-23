@@ -52,7 +52,6 @@ export const GenerellSykmeldingInfo = ({
 
       {erArbeidsforEtterPerioden(sykmelding) && (
         <Checkbox
-          className="sykmeldingMotebehovVisning__checkbox"
           label={tekster.generellSykmeldingInfo.arbeidsforEtterPerioden.tittel}
           checked={sykmelding.friskmelding.arbeidsfoerEtterPerioden}
           disabled

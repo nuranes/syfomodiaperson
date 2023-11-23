@@ -41,10 +41,8 @@ const snowflakes = new Snowflakes({
 snowflakes.stop();
 
 export const startSnow = () => {
-  if (isDecember()) {
-    snowflakes.show();
-    snowflakes.start();
-  }
+  snowflakes.show();
+  snowflakes.start();
 };
 
 export const stopAndHideSnow = () => {

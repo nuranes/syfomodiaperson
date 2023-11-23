@@ -1,57 +1,65 @@
 import React, { ReactNode, useEffect } from "react";
-import styled from "styled-components";
-import { Column, Container, Row } from "nav-frontend-grid";
 import Personkort from "../components/personkort/Personkort";
 import DocumentTitle from "react-document-title";
 import { GlobalNavigasjon } from "@/components/globalnavigasjon/GlobalNavigasjon";
-import { isEaster } from "@/utils/festiveUtils";
+import { isDecember, isEaster, isPride } from "@/utils/festiveUtils";
 import { Easter } from "@/components/festive/Easter";
 import { Menypunkter } from "@/navigation/menypunkterTypes";
 import * as Amplitude from "@/utils/amplitude";
 import { OpenHuskelappModalButton } from "@/components/huskelapp/OpenHuskelappModalButton";
 import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
 import { EventType } from "@/utils/amplitude";
+import { OversiktLenker } from "@/components/personkort/OversiktLenker";
+import SnowButton from "@/components/festive/SnowButton";
+import { Pride } from "@/components/festive/Pride";
+import styled from "styled-components";
 
-const StyledContainer = styled(Container)`
-  width: 95%;
+const AdaptableRow = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  @media (max-width: 700px) {
+    flex-direction: column;
+  }
 `;
 
 interface SideProps {
   tittel: string;
-  children?: ReactNode;
   aktivtMenypunkt: Menypunkter;
+  children?: ReactNode;
 }
 
-const Side = (sideProps: SideProps) => {
+const Side = ({ tittel, aktivtMenypunkt, children }: SideProps) => {
   useEffect(() => {
     Amplitude.logEvent({
       type: EventType.PageView,
-      data: { url: window.location.href, sideTittel: sideProps.tittel },
+      data: { url: window.location.href, sideTittel: tittel },
     });
-  }, [sideProps.tittel]);
+  }, [tittel]);
   const { toggles } = useFeatureToggles();
-
-  const { tittel, children, aktivtMenypunkt } = sideProps;
 
   return (
     <DocumentTitle
       title={tittel + (tittel.length > 0 ? " - Sykefravær" : "Sykefravær")}
     >
-      <StyledContainer fluid>
-        <Row>
-          <Column className="col-xs-12">
-            <Personkort />
-          </Column>
-        </Row>
-        <Row>
-          <nav className="col-xs-12 col-sm-3">
+      <div className="mx-6">
+        <div className="flex flex-col">
+          <div className="flex flex-row mt-4 mb-2 w-full">
+            <OversiktLenker />
+            {isDecember() && <SnowButton />}
+          </div>
+          {isPride() && <Pride>&nbsp;</Pride>}
+          <Personkort />
+        </div>
+        <AdaptableRow>
+          <nav className="min-w-[15rem] mr-4">
             <GlobalNavigasjon aktivtMenypunkt={aktivtMenypunkt} />
             {isEaster() && <Easter />}
             {toggles.isHuskelappEnabled && <OpenHuskelappModalButton />}
           </nav>
-          <Column className="col-xs-12 col-sm-9">{children}</Column>
-        </Row>
-      </StyledContainer>
+          <div className="w-full flex flex-col">{children}</div>
+        </AdaptableRow>
+      </div>
     </DocumentTitle>
   );
 };

@@ -16,20 +16,15 @@ import { tilLesbarPeriodeMedArstall } from "@/utils/datoUtils";
 import { senesteTom, tidligsteFom } from "@/utils/periodeUtils";
 import styled from "styled-components";
 import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat";
-import {
-  GultDokumentImage,
-  MerInformasjonImage,
-} from "../../../img/ImageComponents";
+import { MerInformasjonImage } from "../../../img/ImageComponents";
 import { UtdragOppfolgingsplaner } from "./UtdragOppfolgingsplaner";
 import { SpinnsynLenke } from "@/components/vedtak/SpinnsynLenke";
 import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { useSykmeldingerQuery } from "@/data/sykmelding/sykmeldingQueryHooks";
-import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
-import { IconHeader } from "@/components/IconHeader";
 import { PapirsykmeldingTag } from "@/components/PapirsykmeldingTag";
-import { Heading, Link } from "@navikt/ds-react";
+import { ExpansionCard, Heading, Link, Panel } from "@navikt/ds-react";
 
 const tekster = {
   header: "Utdrag fra sykefraværet",
@@ -47,87 +42,86 @@ const tekster = {
   apneSykmelding: "Åpne sykmelding",
 };
 
+const StyledExpantionCardHeader = styled(ExpansionCard.Header)`
+  .navds-expansioncard__header-content {
+    width: 100%;
+  }
+`;
+
 interface UtvidbarTittelProps {
   sykmelding: SykmeldingOldFormat;
 }
 
-const UtdragColumn = styled.div`
-  display: flex;
-  flex: 1;
-  justify-content: flex-start;
-`;
-
-export const UtvidbarTittel = ({ sykmelding }: UtvidbarTittelProps) => {
-  const erViktigInformasjon = erEkstraInformasjonISykmeldingen(sykmelding);
+export const SykmeldingTittelbeskrivelse = ({
+  sykmelding,
+}: UtvidbarTittelProps) => {
   const sykmeldingPerioderSortertEtterDato =
     sykmeldingperioderSortertEldstTilNyest(
       sykmelding.mulighetForArbeid.perioder
     );
-  return (
-    <div className="utdragFraSykefravaeret__utvidbarTittel">
-      <UtdragColumn>
-        <span className="utvidbarTittel__periode">{`${tilLesbarPeriodeMedArstall(
-          tidligsteFom(sykmelding.mulighetForArbeid.perioder),
-          senesteTom(sykmelding.mulighetForArbeid.perioder)
-        )}: `}</span>
-        <span className="utvidbarTittel__grad">
-          {stringMedAlleGraderingerFraSykmeldingPerioder(
-            sykmeldingPerioderSortertEtterDato
-          )}
-        </span>
 
-        {sykmelding.diagnose.hoveddiagnose && (
-          <span className="utvidbarTittel__diagnose">
-            {`${sykmelding.diagnose.hoveddiagnose.diagnosekode} (${sykmelding.diagnose.hoveddiagnose.diagnose})`}
-          </span>
-        )}
-        {sykmelding.papirsykmelding && <PapirsykmeldingTag />}
-      </UtdragColumn>
-      {erViktigInformasjon && (
-        <div className="utvidbarTittel__erViktig">
-          <img alt="Mer" src={MerInformasjonImage} />
+  const periode = `${tilLesbarPeriodeMedArstall(
+    tidligsteFom(sykmelding.mulighetForArbeid.perioder),
+    senesteTom(sykmelding.mulighetForArbeid.perioder)
+  )}: `;
+  const graderinger = stringMedAlleGraderingerFraSykmeldingPerioder(
+    sykmeldingPerioderSortertEtterDato
+  );
+  const diagnose = `${sykmelding.diagnose.hoveddiagnose?.diagnosekode} (${sykmelding.diagnose.hoveddiagnose?.diagnose})`;
+
+  return (
+    <div className="w-full flex flex-col gap-1">
+      <div className="flex justify-between">
+        <div>
+          {periode}
+          {graderinger}
         </div>
+      </div>
+      {sykmelding.diagnose.hoveddiagnose && (
+        <div className="text-gray-500">{diagnose}</div>
       )}
+      {sykmelding.papirsykmelding && <PapirsykmeldingTag />}
     </div>
+  );
+};
+
+interface UtvidbarSykmeldingProps {
+  sykmelding: SykmeldingOldFormat;
+  label?: string;
+}
+
+const UtvidbarSykmelding = ({ sykmelding, label }: UtvidbarSykmeldingProps) => {
+  const title = label ? label : "Sykmelding uten arbeidsgiver";
+  const erViktigInformasjon = erEkstraInformasjonISykmeldingen(sykmelding);
+  return (
+    <ExpansionCard aria-label={title}>
+      <StyledExpantionCardHeader className="w-full">
+        <ExpansionCard.Title as="div" className="flex justify-between">
+          <Heading as="h4" size="xsmall">
+            {title}
+          </Heading>
+          {erViktigInformasjon && <img alt="Mer" src={MerInformasjonImage} />}
+        </ExpansionCard.Title>
+        <ExpansionCard.Description className="w-full text-base">
+          <SykmeldingTittelbeskrivelse sykmelding={sykmelding} />
+        </ExpansionCard.Description>
+      </StyledExpantionCardHeader>
+      <ExpansionCard.Content>
+        <SykmeldingMotebehovVisning sykmelding={sykmelding} />
+      </ExpansionCard.Content>
+    </ExpansionCard>
   );
 };
 
 interface SykmeldingerForVirksomhetProps {
-  sykmeldinger: SykmeldingOldFormat[];
-}
-
-export const SykmeldingerForVirksomhet = ({
-  sykmeldinger,
-}: SykmeldingerForVirksomhetProps) => {
-  return (
-    <div className="utdragFraSykefravaeret__sykmeldingerForVirksomhet">
-      <h4>
-        {arbeidsgivernavnEllerArbeidssituasjon(sykmeldinger[0]).toLowerCase()}
-      </h4>
-      {sykmeldinger.map((sykmelding, index) => {
-        return (
-          <div key={index}>
-            <Ekspanderbartpanel
-              tittel={<UtvidbarTittel sykmelding={sykmelding} />}
-            >
-              <SykmeldingMotebehovVisning sykmelding={sykmelding} />
-            </Ekspanderbartpanel>
-          </div>
-        );
-      })}
-    </div>
-  );
-};
-
-interface SykmeldingerProps {
   latestOppfolgingstilfelle?: OppfolgingstilfelleDTO;
   sykmeldinger: SykmeldingOldFormat[];
 }
 
-export const Sykmeldinger = ({
+export const SykmeldingerForVirksomhet = ({
   latestOppfolgingstilfelle,
   sykmeldinger,
-}: SykmeldingerProps) => {
+}: SykmeldingerForVirksomhetProps) => {
   const innsendteSykmeldinger = sykmeldingerMedStatusSendt(sykmeldinger);
   const sykmeldingerIOppfolgingstilfellet =
     sykmeldingerInnenforOppfolgingstilfelle(
@@ -141,16 +135,25 @@ export const Sykmeldinger = ({
   );
 
   return (
-    <div className={"mb-10"}>
+    <div className="mb-10 [&>*]:mb-4">
       <Heading size="small" level="3">
         {tekster.sykmeldinger.header}
       </Heading>
-      {Object.keys(sykmeldingerSortertPaaVirksomhet).map((key, index) => (
-        <SykmeldingerForVirksomhet
-          key={index}
-          sykmeldinger={sykmeldingerSortertPaaVirksomhet[key]}
-        />
-      ))}
+      {Object.keys(sykmeldingerSortertPaaVirksomhet).map((key) => {
+        return sykmeldingerSortertPaaVirksomhet[key].map(
+          (sykmelding, index) => {
+            const arbeidsgiverEllerSituasjon =
+              arbeidsgivernavnEllerArbeidssituasjon(sykmelding);
+            return (
+              <UtvidbarSykmelding
+                sykmelding={sykmelding}
+                label={arbeidsgiverEllerSituasjon}
+                key={index}
+              />
+            );
+          }
+        );
+      })}
     </div>
   );
 };
@@ -163,23 +166,12 @@ export const SykmeldingerUtenArbeidsgiver = ({
   sykmeldingerSortertPaUtstedelsesdato,
 }: SykmeldingerUtenArbeidsgiverProps) => {
   return (
-    <div className={"mb-10"}>
+    <div className="mb-10 [&>*]:mb-2">
       <Heading size="small" level="3">
         {tekster.sykmeldinger.headerUtenArbeidsgiver}
       </Heading>
       {sykmeldingerSortertPaUtstedelsesdato.map((sykmelding, index) => {
-        return (
-          <div
-            className="utdragFraSykefravaeret__sykmeldingerForVirksomhet"
-            key={index}
-          >
-            <Ekspanderbartpanel
-              tittel={<UtvidbarTittel sykmelding={sykmelding} />}
-            >
-              <SykmeldingMotebehovVisning sykmelding={sykmelding} />
-            </Ekspanderbartpanel>
-          </div>
-        );
+        return <UtvidbarSykmelding sykmelding={sykmelding} key={index} />;
       })}
     </div>
   );
@@ -210,10 +202,11 @@ const UtdragFraSykefravaeret = () => {
   const { sykmeldinger } = useSykmeldingerQuery();
   const { latestOppfolgingstilfelle } = useOppfolgingstilfellePersonQuery();
 
-  const innsendteSykmeldinger = sykmeldingerUtenArbeidsgiver(sykmeldinger);
+  const innsendteSykmeldingerUtenArbeidsgiver =
+    sykmeldingerUtenArbeidsgiver(sykmeldinger);
   const sykmeldingerIOppfolgingstilfellet =
     sykmeldingerInnenforOppfolgingstilfelle(
-      innsendteSykmeldinger,
+      innsendteSykmeldingerUtenArbeidsgiver,
       latestOppfolgingstilfelle
     );
   const sykmeldingerSortertPaUtstedelsesdato = sykmeldingerSortertNyestTilEldst(
@@ -221,35 +214,31 @@ const UtdragFraSykefravaeret = () => {
   );
 
   return (
-    <>
-      <IconHeader
-        icon={GultDokumentImage}
-        altIcon="Gult dokument"
-        header={tekster.header}
+    <Panel className="mb-4 h-min">
+      <Heading level="2" size="medium" className="mb-4">
+        {tekster.header}
+      </Heading>
+      <UtdragOppfolgingsplaner />
+
+      <SykmeldingerForVirksomhet
+        latestOppfolgingstilfelle={latestOppfolgingstilfelle}
+        sykmeldinger={sykmeldinger}
       />
-      <div className="utdragFraSykefravaeret">
-        <UtdragOppfolgingsplaner />
 
-        <Sykmeldinger
-          latestOppfolgingstilfelle={latestOppfolgingstilfelle}
-          sykmeldinger={sykmeldinger}
+      {sykmeldingerSortertPaUtstedelsesdato?.length > 0 && (
+        <SykmeldingerUtenArbeidsgiver
+          sykmeldingerSortertPaUtstedelsesdato={
+            sykmeldingerSortertPaUtstedelsesdato
+          }
         />
+      )}
 
-        {sykmeldingerSortertPaUtstedelsesdato?.length > 0 && (
-          <SykmeldingerUtenArbeidsgiver
-            sykmeldingerSortertPaUtstedelsesdato={
-              sykmeldingerSortertPaUtstedelsesdato
-            }
-          />
-        )}
-
-        <Samtalereferat />
-        <Heading size="small" level="3">
-          {tekster.vedtak.header}
-        </Heading>
-        <SpinnsynLenke />
-      </div>
-    </>
+      <Samtalereferat />
+      <Heading size="small" level="3">
+        {tekster.vedtak.header}
+      </Heading>
+      <SpinnsynLenke />
+    </Panel>
   );
 };
 

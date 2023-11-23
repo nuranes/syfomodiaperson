@@ -2,11 +2,6 @@ import React, { useState } from "react";
 import { PERSONKORTVISNING_TYPE } from "@/konstanter";
 import PersonkortHeader from "./PersonkortHeader/PersonkortHeader";
 import PersonkortVisning from "./PersonkortVisning";
-import SnowButton from "@/components/festive/SnowButton";
-import { isDecember, isPride } from "@/utils/festiveUtils";
-import { FlexRow, PaddingSize } from "../Layout";
-import { OversiktLenker } from "@/components/personkort/OversiktLenker";
-import styled from "styled-components";
 import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
 
 const texts = {
@@ -18,33 +13,11 @@ const texts = {
   },
 };
 
-const PrideFlexRow = styled(FlexRow)`
-  background: linear-gradient(
-    90deg,
-    rgba(255, 0, 0, 1) 0%,
-    rgba(255, 154, 0, 1) 10%,
-    rgba(208, 222, 33, 1) 20%,
-    rgba(79, 220, 74, 1) 30%,
-    rgba(63, 218, 216, 1) 40%,
-    rgba(47, 201, 226, 1) 50%,
-    rgba(28, 127, 238, 1) 60%,
-    rgba(95, 21, 242, 1) 70%,
-    rgba(186, 12, 248, 1) 80%,
-    rgba(251, 7, 217, 1) 90%,
-    rgba(255, 0, 0, 1) 100%
-  );
-`;
-
 const Personkort = () => {
   const [visning, setVisning] = useState(PERSONKORTVISNING_TYPE.SYKMELDT);
 
   return (
     <div className="personkort">
-      <FlexRow topPadding={PaddingSize.SM} bottomPadding={PaddingSize.SM}>
-        <OversiktLenker />
-        {isDecember() && <SnowButton />}
-      </FlexRow>
-      {isPride() && <PrideFlexRow>&nbsp;</PrideFlexRow>}
       <Ekspanderbartpanel tittel={<PersonkortHeader />}>
         <div>
           <ul>

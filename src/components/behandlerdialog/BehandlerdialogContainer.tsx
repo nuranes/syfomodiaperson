@@ -15,8 +15,8 @@ export const BehandlerdialogContainer = (): ReactElement => {
 
   return (
     <Side tittel={texts.title} aktivtMenypunkt={Menypunkter.BEHANDLERDIALOG}>
-      <Sidetopp tittel={texts.title} />
       <SideLaster henter={henter} hentingFeilet={hentingFeilet}>
+        <Sidetopp tittel={texts.title} />
         <BehandlerdialogSide />
       </SideLaster>
     </Side>

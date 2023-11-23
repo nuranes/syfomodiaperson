@@ -13,7 +13,6 @@ import { DialogmoteFerdigstilteReferatPanel } from "@/components/dialogmote/Dial
 import { DialogmoteStatus } from "@/data/dialogmote/types/dialogmoteTypes";
 import { useDialogmoteunntakQuery } from "@/data/dialogmotekandidat/dialogmoteunntakQueryHooks";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
-import { FlexPanel } from "@/components/Layout";
 
 const texts = {
   dialogmoter: "Dialogmøter",
@@ -76,9 +75,7 @@ export const Motelandingsside = () => {
           (mote) => mote.status === DialogmoteStatus.FERDIGSTILT
         )}
       />
-      <FlexPanel>
-        <UtdragFraSykefravaeretPanel />
-      </FlexPanel>
+      <UtdragFraSykefravaeretPanel />
       {isMotehistorikkVisible && (
         <MotehistorikkPanel
           historiskeMoter={historiskeDialogmoter}
