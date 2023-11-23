@@ -3,6 +3,7 @@ import { AktivitetskravVarselDTO } from "@/data/aktivitetskrav/aktivitetskravTyp
 import { BodyShort, Heading, Panel, Tag } from "@navikt/ds-react";
 import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
 import { VarselBrev } from "@/components/aktivitetskrav/VarselBrev";
+import { ExpandableBlockquote } from "@/components/ExpandableBlockquote";
 
 const texts = {
   title: "Oppsummering av forhåndsvarselet",
@@ -29,9 +30,9 @@ export const ForhandsvarselOppsummering = ({
         <Tag variant="warning-moderate">{`Frist: ${fristDato}`}</Tag>
       </div>
       {beskrivelse && (
-        <Panel className="border-gray-400 rounded p-4 max-h-24 overflow-y-auto">
-          <BodyShort>{beskrivelse}</BodyShort>
-        </Panel>
+        <ExpandableBlockquote className="border-gray-400 rounded p-4">
+          {beskrivelse}
+        </ExpandableBlockquote>
       )}
       <VarselBrev varsel={varsel} />
       <BodyShort>{texts.merInfo}</BodyShort>
