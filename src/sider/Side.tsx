@@ -23,6 +23,8 @@ const AdaptableRow = styled.div`
   }
 `;
 
+export const MODIA_HEADER_ID = "modia-header";
+
 interface SideProps {
   tittel: string;
   aktivtMenypunkt: Menypunkter;
@@ -43,7 +45,7 @@ const Side = ({ tittel, aktivtMenypunkt, children }: SideProps) => {
       title={tittel + (tittel.length > 0 ? " - Sykefravær" : "Sykefravær")}
     >
       <div className="mx-6">
-        <div className="flex flex-col">
+        <div className="flex flex-col" id={MODIA_HEADER_ID}>
           <div className="flex flex-row mt-4 mb-2 w-full">
             <OversiktLenker />
             {isDecember() && <SnowButton />}

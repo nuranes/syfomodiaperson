@@ -6,6 +6,7 @@ export const TredeltSide = styled.div`
 
   @media (max-width: 1300px) {
     flex-direction: column;
+    overflow-y: scroll;
     > * {
       margin-right: 0;
     }
@@ -27,3 +28,5 @@ export const TredeltSide = styled.div`
     }
   }
 `;
+
+export const TREDELING_BREAKING_POINT = 1300;

@@ -64,7 +64,7 @@ const renderAktivitetskravSide = () => {
         <NotificationContext.Provider
           value={{ notification: undefined, setNotification: () => void 0 }}
         >
-          <AktivitetskravSide />
+          <AktivitetskravSide heightStyling={"100vh"} screenWidth={2000} />
         </NotificationContext.Provider>
       </ValgtEnhetContext.Provider>
     </QueryClientProvider>

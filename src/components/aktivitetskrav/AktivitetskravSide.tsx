@@ -5,13 +5,22 @@ import { useAktivitetskravQuery } from "@/data/aktivitetskrav/aktivitetskravQuer
 import { AktivitetskravHistorikk } from "@/components/aktivitetskrav/historikk/AktivitetskravHistorikk";
 import { StartNyVurdering } from "./vurdering/StartNyVurdering";
 import { AktivitetskravAlertstripe } from "@/components/aktivitetskrav/AktivitetskravAlertstripe";
+import { TREDELING_BREAKING_POINT } from "@/sider/TredeltSide";
 
 const texts = {
   noTilfelle:
     "Vi finner ingen aktiv sykmelding på denne personen. Du kan likevel vurdere aktivitetskravet hvis det er behov for det.",
 };
 
-export const AktivitetskravSide = () => {
+interface AktivitetskravSideProps {
+  heightStyling: string;
+  screenWidth: number;
+}
+
+export const AktivitetskravSide = ({
+  heightStyling,
+  screenWidth,
+}: AktivitetskravSideProps) => {
   const { hasActiveOppfolgingstilfelle } = useOppfolgingstilfellePersonQuery();
   const { data } = useAktivitetskravQuery();
 
@@ -19,7 +28,17 @@ export const AktivitetskravSide = () => {
   const showStartNyVurdering = !aktivitetskrav || aktivitetskrav.inFinalState;
 
   return (
-    <div className="w-full">
+    <div
+      className="w-full"
+      style={
+        screenWidth > TREDELING_BREAKING_POINT
+          ? {
+              height: heightStyling,
+              overflowY: "scroll",
+            }
+          : { overflowY: "unset" }
+      }
+    >
       {!hasActiveOppfolgingstilfelle && (
         <AktivitetskravAlertstripe variant="warning" size="small">
           {texts.noTilfelle}
