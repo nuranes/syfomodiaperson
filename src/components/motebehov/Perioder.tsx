@@ -17,7 +17,7 @@ const kolonne2Tekst = (periode: SykmeldingPeriodeDTO) => {
   if (!!periode.avventende) {
     return "Avventende";
   }
-  return `${periode.grad}%`;
+  return periode.grad ? `${periode.grad}%` : "";
 };
 
 interface PeriodeBoksProps {

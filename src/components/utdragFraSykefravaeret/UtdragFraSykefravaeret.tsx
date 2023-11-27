@@ -68,6 +68,7 @@ export const SykmeldingTittelbeskrivelse = ({
     sykmeldingPerioderSortertEtterDato
   );
   const diagnose = `${sykmelding.diagnose.hoveddiagnose?.diagnosekode} (${sykmelding.diagnose.hoveddiagnose?.diagnose})`;
+  const erViktigInformasjon = erEkstraInformasjonISykmeldingen(sykmelding);
 
   return (
     <div className="w-full flex flex-col gap-1">
@@ -76,6 +77,9 @@ export const SykmeldingTittelbeskrivelse = ({
           {periode}
           {graderinger}
         </div>
+        {erViktigInformasjon && (
+          <img alt="Viktig informasjon" src={MerInformasjonImage} />
+        )}
       </div>
       {sykmelding.diagnose.hoveddiagnose && (
         <div className="text-gray-500">{diagnose}</div>
@@ -92,19 +96,15 @@ interface UtvidbarSykmeldingProps {
 
 const UtvidbarSykmelding = ({ sykmelding, label }: UtvidbarSykmeldingProps) => {
   const title = label ? label : "Sykmelding uten arbeidsgiver";
-  const erViktigInformasjon = erEkstraInformasjonISykmeldingen(sykmelding);
   return (
     <ExpansionCard aria-label={title}>
       <StyledExpantionCardHeader className="w-full">
-        <ExpansionCard.Title as="div" className="flex justify-between">
-          <Heading as="h4" size="xsmall">
-            {title}
-          </Heading>
-          {erViktigInformasjon && <img alt="Mer" src={MerInformasjonImage} />}
-        </ExpansionCard.Title>
-        <ExpansionCard.Description className="w-full text-base">
+        <ExpansionCard.Title
+          as="div"
+          className="flex justify-between m-0 text-base"
+        >
           <SykmeldingTittelbeskrivelse sykmelding={sykmelding} />
-        </ExpansionCard.Description>
+        </ExpansionCard.Title>
       </StyledExpantionCardHeader>
       <ExpansionCard.Content>
         <SykmeldingMotebehovVisning sykmelding={sykmelding} />

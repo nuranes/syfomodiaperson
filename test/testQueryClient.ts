@@ -37,6 +37,8 @@ import { egenansattQueryKeys } from "@/data/egenansatt/egenansattQueryHooks";
 import { personinfoQueryKeys } from "@/data/personinfo/personAdresseQueryHooks";
 import { personAdresseMock } from "../mock/syfoperson/personAdresseMock";
 import { maksdatoQueryKeys } from "@/data/maksdato/useMaksdatoQuery";
+import { sykmeldingerQueryKeys } from "@/data/sykmelding/sykmeldingQueryHooks";
+import { sykmeldingerMock } from "../mock/syfosmregister/sykmeldingerMock";
 
 export const testQueryClient = (): QueryClient => {
   return new QueryClient({
@@ -138,6 +140,11 @@ export const queryClientWithMockData = (): QueryClient => {
   queryClient.setQueryData(
     behandlereQueryKeys.behandlerRef(behandlerRefDoktorLegesen),
     () => behandlerByBehandlerRefMock
+  );
+
+  queryClient.setQueryData(
+    sykmeldingerQueryKeys.sykmeldinger(ARBEIDSTAKER_DEFAULT.personIdent),
+    () => sykmeldingerMock.slice(0, 2)
   );
 
   return queryClient;
