@@ -6,6 +6,7 @@ import { AktivitetskravHistorikk } from "@/components/aktivitetskrav/historikk/A
 import { StartNyVurdering } from "./vurdering/StartNyVurdering";
 import { AktivitetskravAlertstripe } from "@/components/aktivitetskrav/AktivitetskravAlertstripe";
 import { TREDELING_BREAKING_POINT } from "@/sider/TredeltSide";
+import { AktivitetskravStatus } from "@/data/aktivitetskrav/aktivitetskravTypes";
 
 const texts = {
   noTilfelle:
@@ -24,7 +25,11 @@ export const AktivitetskravSide = ({
   const { hasActiveOppfolgingstilfelle } = useOppfolgingstilfellePersonQuery();
   const { data } = useAktivitetskravQuery();
 
-  const aktivitetskrav = data[0];
+  const aktivitetskrav = data.find(
+    (aktivitetskrav) =>
+      aktivitetskrav.status !== AktivitetskravStatus.AUTOMATISK_OPPFYLT &&
+      aktivitetskrav.status !== AktivitetskravStatus.LUKKET
+  );
   const showStartNyVurdering = !aktivitetskrav || aktivitetskrav.inFinalState;
 
   return (
