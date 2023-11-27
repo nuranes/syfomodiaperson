@@ -35,7 +35,9 @@ describe("UtdragFraSykefravaeret", () => {
     renderUtdragFraSykefravaeret();
 
     const firstExpansionCard = screen.getAllByRole("region")[0];
+    expect(within(firstExpansionCard).getByText("Sykmelder:")).to.exist;
     expect(within(firstExpansionCard).getByText("Lego Las Legesen")).to.exist;
+    expect(within(firstExpansionCard).getByText("Arbeidsgiver:")).to.exist;
     expect(within(firstExpansionCard).getByText("BRANN OG BIL AS")).to.exist;
   });
 });

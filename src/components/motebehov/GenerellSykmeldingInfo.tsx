@@ -23,10 +23,16 @@ const tekster = {
   },
 };
 
-const KeyValueVisning = ({ key, value }: { key: string; value: string }) => {
+const KeyValueVisning = ({
+  keyword,
+  value,
+}: {
+  keyword: string;
+  value: string;
+}) => {
   return (
     <div className="text-base">
-      <b>{key}</b>
+      <b>{keyword}</b>
       <span>{value}</span>
     </div>
   );
@@ -53,9 +59,11 @@ export const GenerellSykmeldingInfo = ({
   const arbeidsgiver = arbeidsgivernavnEllerArbeidssituasjon(sykmelding);
   return (
     <div className="sykmeldingMotebehovVisning__avsnitt">
-      {sykmelder && <KeyValueVisning key={"Sykmelder: "} value={sykmelder} />}
+      {sykmelder && (
+        <KeyValueVisning keyword={"Sykmelder: "} value={sykmelder} />
+      )}
       {arbeidsgiver && (
-        <KeyValueVisning key={"Arbeidsgiver: "} value={arbeidsgiver} />
+        <KeyValueVisning keyword={"Arbeidsgiver: "} value={arbeidsgiver} />
       )}
       <Perioder perioder={sykmeldingPerioderSortertEtterDato} />
 
