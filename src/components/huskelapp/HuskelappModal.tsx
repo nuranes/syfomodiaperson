@@ -1,22 +1,65 @@
-import React, { useState } from "react";
-import { Button, Modal, Skeleton, Textarea, Tooltip } from "@navikt/ds-react";
+import React from "react";
+import {
+  BodyShort,
+  Button,
+  Modal,
+  Radio,
+  RadioGroup,
+  Skeleton,
+  Tooltip,
+} from "@navikt/ds-react";
 import { TrashIcon } from "@navikt/aksel-icons";
 import styled from "styled-components";
 import { useGetHuskelappQuery } from "@/data/huskelapp/useGetHuskelappQuery";
 import { useOppdaterHuskelapp } from "@/data/huskelapp/useOppdaterHuskelapp";
 import { SkeletonShadowbox } from "@/components/SkeletonShadowbox";
-import { HuskelappRequestDTO } from "@/data/huskelapp/huskelappTypes";
+import {
+  HuskelappRequestDTO,
+  Oppfolgingsgrunn,
+} from "@/data/huskelapp/huskelappTypes";
 import { PaddingSize } from "@/components/Layout";
 import { useRemoveHuskelapp } from "@/data/huskelapp/useRemoveHuskelapp";
+import { useForm } from "react-hook-form";
 
 const texts = {
   header: "Huskelapp",
-  textAreaLabel: "Huskelapp",
   save: "Lagre",
   close: "Avbryt",
   remove: "Fjern",
   removeTooltip: "Fjerner huskelappen og oppgaven fra oversikten",
+  missingOppfolgingsgrunn: "Vennligst angi oppfolgingsgrunn.",
+  oppfolgingsgrunn: {
+    label: "Velg oppfølgingsgrunn",
+    taKontaktSykmeldt: "Ta kontakt med den sykmeldte",
+    taKontaktArbeidsgiver: "Ta kontakt med arbeidsgiver",
+    taKontaktBehandler: "Ta kontakt med behandler",
+    vurderDialogmoteSenere: "Vurder dialogmøte på et senere tidspunkt",
+    folgOppEtterNesteSykmelding: "Følg opp etter neste sykmelding",
+    vurderTiltakBehov: "Vurder behov for tiltak",
+    annet:
+      "Annet (Gi tilbakemelding i Pilotgruppa på Teams hvilken avhukingsvalg du savner)",
+  },
 };
+
+const oppfolgingsgrunnToText = {
+  [Oppfolgingsgrunn.TA_KONTAKT_SYKEMELDT]:
+    texts.oppfolgingsgrunn.taKontaktSykmeldt,
+  [Oppfolgingsgrunn.TA_KONTAKT_ARBEIDSGIVER]:
+    texts.oppfolgingsgrunn.taKontaktArbeidsgiver,
+  [Oppfolgingsgrunn.TA_KONTAKT_BEHANDLER]:
+    texts.oppfolgingsgrunn.taKontaktBehandler,
+  [Oppfolgingsgrunn.VURDER_DIALOGMOTE_SENERE]:
+    texts.oppfolgingsgrunn.vurderDialogmoteSenere,
+  [Oppfolgingsgrunn.FOLG_OPP_ETTER_NESTE_SYKMELDING]:
+    texts.oppfolgingsgrunn.folgOppEtterNesteSykmelding,
+  [Oppfolgingsgrunn.VURDER_TILTAK_BEHOV]:
+    texts.oppfolgingsgrunn.vurderTiltakBehov,
+  [Oppfolgingsgrunn.ANNET]: texts.oppfolgingsgrunn.annet,
+};
+
+interface FormValues {
+  oppfolgingsgrunn: Oppfolgingsgrunn;
+}
 
 interface HuskelappModalProps {
   isOpen: boolean;
@@ -33,32 +76,29 @@ const ModalContent = styled(Modal.Body)`
   }
 `;
 
-const StyledSkeletonWrapper = styled(SkeletonShadowbox)`
-  margin: 1em;
-  height: 5em;
-`;
-
 const HuskelappSkeleton = () => {
   return (
-    <StyledSkeletonWrapper>
+    <SkeletonShadowbox className={"m-4 h-20"}>
       <Skeleton variant="text" width="80%" />
       <Skeleton variant="text" width="30%" />
-    </StyledSkeletonWrapper>
+    </SkeletonShadowbox>
   );
 };
 
 export const HuskelappModal = ({ isOpen, toggleOpen }: HuskelappModalProps) => {
   const { huskelapp, isLoading, isSuccess } = useGetHuskelappQuery();
-  const [tekst, setTekst] = useState<string>(huskelapp?.tekst ?? "");
   const oppdaterHuskelapp = useOppdaterHuskelapp();
   const removeHuskelapp = useRemoveHuskelapp();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<FormValues>();
 
-  const oppdaterTekst = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setTekst(e.target.value);
-  };
-
-  const handleOppdaterHuskelapp = () => {
-    const huskelappDto: HuskelappRequestDTO = { tekst: tekst };
+  const submit = (values: FormValues) => {
+    const huskelappDto: HuskelappRequestDTO = {
+      oppfolgingsgrunn: values.oppfolgingsgrunn,
+    };
     oppdaterHuskelapp.mutate(huskelappDto, {
       onSuccess: () => toggleOpen(false),
     });
@@ -69,52 +109,82 @@ export const HuskelappModal = ({ isOpen, toggleOpen }: HuskelappModalProps) => {
       onSuccess: () => toggleOpen(false),
     });
   };
+  const hasHuskelapp = !!huskelapp;
+  const existingHuskelappText = !!huskelapp?.tekst
+    ? huskelapp.tekst
+    : !!huskelapp?.oppfolgingsgrunn
+    ? oppfolgingsgrunnToText[huskelapp.oppfolgingsgrunn]
+    : null;
 
   return (
-    <Modal
-      closeOnBackdropClick
-      className="px-6 py-4 w-full max-w-[50rem]"
-      aria-label={"huskelapp"}
-      open={isOpen}
-      onClose={() => toggleOpen(false)}
-      header={{ heading: texts.header }}
-    >
-      <ModalContent>
-        {isLoading && <HuskelappSkeleton />}
-        {isSuccess && (
-          <Textarea
-            label={texts.textAreaLabel}
-            hideLabel
-            defaultValue={huskelapp?.tekst}
-            onChange={oppdaterTekst}
-          />
-        )}
-      </ModalContent>
-      <Modal.Footer>
-        <Button
-          variant="primary"
-          onClick={handleOppdaterHuskelapp}
-          loading={oppdaterHuskelapp.isLoading}
-          disabled={isLoading}
-        >
-          {texts.save}
-        </Button>
-        <Button variant="secondary" onClick={() => toggleOpen(false)}>
-          {texts.close}
-        </Button>
-        {huskelapp && (
-          <Tooltip content={texts.removeTooltip}>
+    <form onSubmit={handleSubmit(submit)}>
+      <Modal
+        closeOnBackdropClick
+        className="px-6 py-4 w-full max-w-[50rem]"
+        aria-label={"huskelapp"}
+        open={isOpen}
+        onClose={() => toggleOpen(false)}
+        header={{ heading: texts.header }}
+      >
+        <ModalContent>
+          {isLoading && <HuskelappSkeleton />}
+          {isSuccess &&
+            (hasHuskelapp ? (
+              <BodyShort>{existingHuskelappText}</BodyShort>
+            ) : (
+              <RadioGroup
+                legend={texts.oppfolgingsgrunn.label}
+                name="oppfolgingsgrunn"
+                size="small"
+                error={errors.oppfolgingsgrunn && texts.missingOppfolgingsgrunn}
+              >
+                {Object.values(Oppfolgingsgrunn).map(
+                  (oppfolgingsgrunn, index) => (
+                    <Radio
+                      key={index}
+                      {...register("oppfolgingsgrunn", { required: true })}
+                      value={oppfolgingsgrunn}
+                    >
+                      {oppfolgingsgrunnToText[oppfolgingsgrunn]}
+                    </Radio>
+                  )
+                )}
+              </RadioGroup>
+            ))}
+        </ModalContent>
+        <Modal.Footer>
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={() => toggleOpen(false)}
+          >
+            {texts.close}
+          </Button>
+          {hasHuskelapp ? (
+            <Tooltip content={texts.removeTooltip}>
+              <Button
+                type="button"
+                icon={<TrashIcon aria-hidden />}
+                variant="danger"
+                onClick={() => handleRemoveHuskelapp(huskelapp.uuid)}
+                loading={removeHuskelapp.isLoading}
+                className={"ml-auto"}
+              >
+                {texts.remove}
+              </Button>
+            </Tooltip>
+          ) : (
             <Button
-              icon={<TrashIcon aria-hidden />}
-              variant="danger"
-              onClick={() => handleRemoveHuskelapp(huskelapp.uuid)}
-              loading={removeHuskelapp.isLoading}
+              type="submit"
+              variant="primary"
+              loading={oppdaterHuskelapp.isLoading}
+              disabled={isLoading}
             >
-              {texts.remove}
+              {texts.save}
             </Button>
-          </Tooltip>
-        )}
-      </Modal.Footer>
-    </Modal>
+          )}
+        </Modal.Footer>
+      </Modal>
+    </form>
   );
 };

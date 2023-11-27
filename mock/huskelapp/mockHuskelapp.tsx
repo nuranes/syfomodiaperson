@@ -8,18 +8,16 @@ import {
 import { generateUUID } from "../../src/utils/uuidUtils";
 import { VEILEDER_IDENT_DEFAULT } from "../common/mockConstants";
 
-let huskelappMock: HuskelappResponseDTO = {
-  uuid: generateUUID(),
-  createdBy: VEILEDER_IDENT_DEFAULT,
-  tekst: "Dette er en veldig fin tekst",
-};
-
+let huskelappMock: HuskelappResponseDTO | undefined = undefined;
+const huskelappUuid = generateUUID();
 export const mockIshuskelapp = (server: any) => {
   server.get(
     `${ISHUSKELAPP_ROOT}/huskelapp`,
     (req: express.Request, res: express.Response) => {
       if (req.headers[NAV_PERSONIDENT_HEADER]?.length === 11) {
-        res.send(JSON.stringify(huskelappMock));
+        !!huskelappMock
+          ? res.send(JSON.stringify(huskelappMock))
+          : res.sendStatus(204);
       } else {
         res.status(400).send("Did not find PersonIdent in headers");
       }
@@ -30,10 +28,18 @@ export const mockIshuskelapp = (server: any) => {
     (req: express.Request, res: express.Response) => {
       const body = req.body as HuskelappRequestDTO;
       huskelappMock = {
-        ...huskelappMock,
-        tekst: body.tekst,
+        uuid: huskelappUuid,
+        createdBy: VEILEDER_IDENT_DEFAULT,
+        oppfolgingsgrunn: body.oppfolgingsgrunn,
       };
       res.sendStatus(200);
+    }
+  );
+  server.delete(
+    `${ISHUSKELAPP_ROOT}/huskelapp/:huskelappUuid`,
+    (req: express.Request, res: express.Response) => {
+      huskelappMock = undefined;
+      res.sendStatus(204);
     }
   );
 };
