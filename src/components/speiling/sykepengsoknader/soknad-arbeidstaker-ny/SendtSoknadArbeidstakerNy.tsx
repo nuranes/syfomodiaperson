@@ -10,7 +10,7 @@ import {
 import { KorrigertAv } from "../soknad-arbeidstaker/KorrigertAv";
 import { RelaterteSoknader } from "../soknad-arbeidstaker/RelaterteSoknader";
 import { SykmeldingUtdragContainer } from "../SykmeldingUtdragContainer";
-import { erVaerKlarOverAt } from "@/utils/sykepengesoknadUtils";
+import { erTilSlutt, erVaerKlarOverAt } from "@/utils/sykepengesoknadUtils";
 import { SpeilingEkspanderbartPanel } from "@/components/speiling/ekspanderbar/SpeilingEkspanderbartPanel";
 
 const texts = {
@@ -56,7 +56,7 @@ const SendtSoknadArbeidstakerNy = ({
         soknad={{
           ...soknad,
           sporsmal: soknad.sporsmal.filter(
-            (sporsmal) => !erVaerKlarOverAt(sporsmal)
+            (sporsmal) => !(erVaerKlarOverAt(sporsmal) || erTilSlutt(sporsmal))
           ),
         }}
       />
@@ -64,8 +64,8 @@ const SendtSoknadArbeidstakerNy = ({
         <Oppsummeringsvisning
           soknad={{
             ...soknad,
-            sporsmal: soknad.sporsmal.filter((sporsmal) =>
-              erVaerKlarOverAt(sporsmal)
+            sporsmal: soknad.sporsmal.filter(
+              (sporsmal) => erVaerKlarOverAt(sporsmal) || erTilSlutt(sporsmal)
             ),
           }}
         />

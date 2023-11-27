@@ -14,6 +14,7 @@ import {
   SvarTypeDTO,
 } from "@/data/sykepengesoknad/types/SykepengesoknadDTO";
 import OppsummeringKvittering from "@/components/speiling/sykepengsoknader/soknad-felles-oppsummering/OppsummeringKvittering";
+import OppsummeringBekreftelsespunkter from "@/components/speiling/sykepengsoknader/soknad-felles-oppsummering/OppsummeringBekreftelsespunkter";
 
 export interface OppsummeringSporsmalProps extends SporsmalDTO {
   overskriftsnivaa?: number;
@@ -67,6 +68,9 @@ const OppsummeringSporsmal = (
       return <OppsummeringGruppeRadioUkekalender {...props} />;
     case SvarTypeDTO.KVITTERING: {
       return <OppsummeringKvittering {...props} />;
+    }
+    case SvarTypeDTO.BEKREFTELSESPUNKTER: {
+      return <OppsummeringBekreftelsespunkter {...props} />;
     }
     default: {
       return null;
