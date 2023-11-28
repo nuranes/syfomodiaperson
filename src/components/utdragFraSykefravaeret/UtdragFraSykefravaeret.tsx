@@ -135,7 +135,7 @@ export const SykmeldingerForVirksomhet = ({
   );
 
   return (
-    <div className="mb-10 [&>*]:mb-4">
+    <div className="mb-10 [&>*]:mb-2">
       <Heading size="small" level="3">
         {tekster.sykmeldinger.header}
       </Heading>
