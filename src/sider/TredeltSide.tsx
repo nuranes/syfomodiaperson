@@ -14,16 +14,16 @@ export const TredeltSide = styled.div`
 
   > * {
     &:not(:last-child) {
-      margin-right: 1rem;
+      margin-right: 0.5rem;
     }
 
     @media (min-width: 1300px) {
       &:first-child {
-        flex: 2 1 0;
+        flex: 3 1 0;
       }
 
       &:last-child {
-        flex: 1 1 0;
+        flex: 2 1 0;
       }
     }
   }
