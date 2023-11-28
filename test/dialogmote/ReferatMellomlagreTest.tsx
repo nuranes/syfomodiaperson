@@ -10,7 +10,7 @@ import {
   getCheckbox,
   getTextInput,
 } from "../testUtils";
-import { QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { dialogmoteRoutePath } from "@/routers/AppRouter";
 import {
   annenDeltakerFunksjon,
@@ -32,7 +32,7 @@ import { queryClientWithMockData } from "../testQueryClient";
 import { texts as deltakereSkjemaTexts } from "@/components/dialogmote/referat/Deltakere";
 import { renderWithRouter } from "../testRouterUtils";
 
-let queryClient: any;
+let queryClient: QueryClient;
 
 describe("ReferatMellomlagreTest", () => {
   let clock: any;
@@ -69,9 +69,7 @@ describe("ReferatMellomlagreTest", () => {
         { funksjon: annenDeltakerFunksjon, navn: annenDeltakerNavn },
       ],
     };
-    expect(mellomlagreMutation.options.variables).to.deep.equal(
-      expectedReferat
-    );
+    expect(mellomlagreMutation?.state.variables).to.deep.equal(expectedReferat);
   });
 
   it("preutfyller referat-skjema fra dialogmote med mellomlagret referat", () => {

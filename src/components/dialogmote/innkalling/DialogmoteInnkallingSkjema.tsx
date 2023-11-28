@@ -219,7 +219,7 @@ const DialogmoteInnkallingSkjema = () => {
             <FlexRow>
               <Hovedknapp
                 onClick={resetFeilUtbedret}
-                spinner={opprettInnkalling.isLoading}
+                spinner={opprettInnkalling.isPending}
                 autoDisableVedSpinner
                 htmlType="submit"
               >

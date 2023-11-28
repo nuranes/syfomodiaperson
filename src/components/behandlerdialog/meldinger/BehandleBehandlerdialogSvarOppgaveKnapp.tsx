@@ -62,7 +62,7 @@ const BehandleBehandlerdialogSvarOppgaveKnapp = () => {
           handleBehandleOppgave={() =>
             behandleAllPersonoppgaver.mutate(behandlePersonOppgaveRequestDTO)
           }
-          isBehandleOppgaveLoading={behandleAllPersonoppgaver.isLoading}
+          isBehandleOppgaveLoading={behandleAllPersonoppgaver.isPending}
           behandleOppgaveText={texts.fjernOppgave}
         />
       )}

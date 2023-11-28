@@ -1,6 +1,6 @@
 import React from "react";
 import { expect } from "chai";
-import { QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { fireEvent, screen, waitFor } from "@testing-library/react";
 import { dialogmoteUnntakRoutePath } from "@/routers/AppRouter";
 import { stubFeatureTogglesApi } from "../stubs/stubUnleash";
@@ -28,7 +28,7 @@ import { CreateUnntakDTO } from "@/data/dialogmotekandidat/types/dialogmoteunnta
 import { renderWithRouter } from "../testRouterUtils";
 import { dialogmoterQueryKeys } from "@/data/dialogmote/dialogmoteQueryHooks";
 
-let queryClient: any;
+let queryClient: QueryClient;
 
 describe("DialogmoteunntakSkjema", () => {
   const apiMockScope = apiMock();
@@ -103,7 +103,7 @@ describe("DialogmoteunntakSkjema", () => {
         beskrivelse: "",
       };
 
-      expect(unntakMutation.options.variables).to.deep.equal(
+      expect(unntakMutation.state.variables).to.deep.equal(
         expectedCreateUnntakDTO
       );
     });
@@ -129,7 +129,7 @@ describe("DialogmoteunntakSkjema", () => {
         beskrivelse,
       };
 
-      expect(unntakMutation.options.variables).to.deep.equal(
+      expect(unntakMutation.state.variables).to.deep.equal(
         expectedCreateUnntakDTO
       );
     });

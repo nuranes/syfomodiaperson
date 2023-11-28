@@ -176,7 +176,7 @@ const Referat = ({
   const { getReferatDocument } = useReferatDocument(dialogmote, mode);
 
   const isSendingReferat = () => {
-    return ferdigstillDialogmote.isLoading || endreReferat.isLoading;
+    return ferdigstillDialogmote.isPending || endreReferat.isPending;
   };
 
   const validate = (values: Partial<ReferatSkjemaValues>) => {
@@ -382,9 +382,9 @@ const Referat = ({
               pageTitle={pageTitle}
               onSaveClick={() => handleLagreClick(values)}
               onSendClick={handleSendClick}
-              showSaveSpinner={mellomlagreReferat.isLoading}
+              showSaveSpinner={mellomlagreReferat.isPending}
               showSendSpinner={
-                ferdigstillDialogmote.isLoading || endreReferat.isLoading
+                ferdigstillDialogmote.isPending || endreReferat.isPending
               }
             />
             <ForhandsvisningModal

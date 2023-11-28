@@ -12,7 +12,7 @@ import {
   getTextInput,
   getTooLongText,
 } from "../testUtils";
-import { QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { dialogmoteRoutePath } from "@/routers/AppRouter";
 import {
   dialogmoteMedFerdigstiltReferat,
@@ -29,7 +29,7 @@ import { referatTexts } from "@/data/dialogmote/dialogmoteTexts";
 import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
 import { renderWithRouter } from "../testRouterUtils";
 
-let queryClient: any;
+let queryClient: QueryClient;
 
 describe("ReferatEndreTest", () => {
   let clock: any;
@@ -130,7 +130,7 @@ describe("ReferatEndreTest", () => {
       document: expectedEndretReferatDocument(),
       andreDeltakere: [],
     };
-    expect(endringFerdigstillMutation.options.variables).to.deep.equal(
+    expect(endringFerdigstillMutation?.state.variables).to.deep.equal(
       expectedEndringFerdigstilling
     );
   });

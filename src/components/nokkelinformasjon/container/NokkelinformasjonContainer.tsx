@@ -12,10 +12,9 @@ const texts = {
 };
 
 export const NokkelinformasjonSide = () => {
-  const { isInitialLoading: henterOppfolgingsplaner } =
-    useOppfolgingsplanerQuery();
+  const { isLoading: henterOppfolgingsplaner } = useOppfolgingsplanerQuery();
   const { isError: henterSykmeldingerFeilet } = useSykmeldingerQuery();
-  const { isInitialLoading: henterLedere, isError: henterLedereFeilet } =
+  const { isLoading: henterLedere, isError: henterLedereFeilet } =
     useLedereQuery();
 
   const henter = henterOppfolgingsplaner || henterLedere;

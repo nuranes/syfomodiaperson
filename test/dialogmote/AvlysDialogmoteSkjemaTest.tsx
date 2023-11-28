@@ -14,7 +14,7 @@ import {
   getTooLongText,
   maxLengthErrorMessage,
 } from "../testUtils";
-import { QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { dialogmoteRoutePath } from "@/routers/AppRouter";
 import { stubAvlysApi } from "../stubs/stubIsdialogmote";
 import { apiMock } from "../stubs/stubApi";
@@ -27,7 +27,7 @@ import sinon from "sinon";
 import { queryClientWithMockData } from "../testQueryClient";
 import { renderWithRouter } from "../testRouterUtils";
 
-let queryClient: any;
+let queryClient: QueryClient;
 
 describe("AvlysDialogmoteSkjemaTest", () => {
   let clock: any;
@@ -189,7 +189,7 @@ describe("AvlysDialogmoteSkjemaTest", () => {
         begrunnelse: moteTekster.fritekstTilArbeidstaker,
       },
     };
-    expect(avlysMutation.options.variables).to.deep.equal(expectedAvlysningDto);
+    expect(avlysMutation.state.variables).to.deep.equal(expectedAvlysningDto);
   });
   it("avlyser med behandler ved submit når behandler er med", () => {
     stubAvlysApi(apiMock(), dialogmote.uuid);
@@ -232,7 +232,7 @@ describe("AvlysDialogmoteSkjemaTest", () => {
         begrunnelse: moteTekster.fritekstTilBehandler,
       },
     };
-    expect(avlysMutation.options.variables).to.deep.equal(expectedAvlysningDto);
+    expect(avlysMutation.state.variables).to.deep.equal(expectedAvlysningDto);
   });
   it("forhåndsviser avlysning til arbeidstaker", async () => {
     renderAvlysDialogmoteSkjema(dialogmote);

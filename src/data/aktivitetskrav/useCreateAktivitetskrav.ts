@@ -15,9 +15,9 @@ export const useCreateAktivitetskrav = () => {
   return useMutation({
     mutationFn: postAktivitetskrav,
     onSuccess: () => {
-      return queryClient.invalidateQueries(
-        aktivitetskravQueryKeys.aktivitetskrav(personident)
-      );
+      return queryClient.invalidateQueries({
+        queryKey: aktivitetskravQueryKeys.aktivitetskrav(personident),
+      });
     },
   });
 };

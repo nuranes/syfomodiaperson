@@ -19,9 +19,9 @@ export const useReturLegeerklaring = (legeerklaringUuid: string) => {
   return useMutation({
     mutationFn: postReturLegeerklaring,
     onSuccess: () => {
-      return queryClient.invalidateQueries(
-        behandlerdialogQueryKeys.behandlerdialog(personident)
-      );
+      return queryClient.invalidateQueries({
+        queryKey: behandlerdialogQueryKeys.behandlerdialog(personident),
+      });
     },
   });
 };

@@ -15,7 +15,9 @@ export const useRemoveHuskelapp = () => {
   return useMutation({
     mutationFn: deleteHuskelapp,
     onSuccess: () => {
-      queryClient.invalidateQueries(huskelappQueryKeys.huskelapp(personident));
+      queryClient.invalidateQueries({
+        queryKey: huskelappQueryKeys.huskelapp(personident),
+      });
     },
   });
 };

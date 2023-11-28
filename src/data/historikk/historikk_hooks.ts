@@ -14,8 +14,8 @@ export const useHistorikk: () => {
   const oppfolgingsplanHistorikkQuery = useHistorikkOppfolgingsplan();
 
   const henterHistorikk =
-    oppfolgingsplanHistorikkQuery.isInitialLoading ||
-    motebehovHistorikkQuery.isInitialLoading;
+    oppfolgingsplanHistorikkQuery.isLoading ||
+    motebehovHistorikkQuery.isLoading;
 
   return {
     henterHistorikk,

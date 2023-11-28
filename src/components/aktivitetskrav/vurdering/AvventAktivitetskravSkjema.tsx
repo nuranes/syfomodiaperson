@@ -105,7 +105,7 @@ export const AvventAktivitetskravSkjema = ({
           <SkjemaInnsendingFeil error={vurderAktivitetskrav.error} />
         )}
         <ButtonRow>
-          <Button loading={vurderAktivitetskrav.isLoading} type="submit">
+          <Button loading={vurderAktivitetskrav.isPending} type="submit">
             {texts.lagre}
           </Button>
           <Button

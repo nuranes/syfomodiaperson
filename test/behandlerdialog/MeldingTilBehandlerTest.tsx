@@ -271,7 +271,7 @@ describe("MeldingTilBehandler", () => {
           .getMutationCache()
           .getAll()[0];
 
-        expect(meldingTilBehandlerMutation.options.variables).to.deep.equal(
+        expect(meldingTilBehandlerMutation.state.variables).to.deep.equal(
           expectedMeldingTilBehandlerDTO
         );
       });

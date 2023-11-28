@@ -80,7 +80,7 @@ const PengestoppModal = ({
 }: IPengestoppModal) => {
   const { valgtEnhet } = useValgtEnhet();
   const fnr = useValgtPersonident();
-  const { isLoading, isError, isSuccess, mutate } = useFlaggPerson();
+  const { isPending, isError, isSuccess, mutate } = useFlaggPerson();
 
   const stoppAutomatikkInitialState = {
     sykmeldtFnr: { value: fnr },
@@ -217,7 +217,7 @@ const PengestoppModal = ({
             <Knapp
               type="hoved"
               mini
-              spinner={isLoading}
+              spinner={isPending}
               autoDisableVedSpinner
               onClick={submit}
             >

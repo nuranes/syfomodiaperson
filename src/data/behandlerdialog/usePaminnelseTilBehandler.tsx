@@ -25,13 +25,13 @@ export const usePaminnelseTilBehandler = (
     onSuccess: () => {
       // Returnerer Promise her slik at mutation er 'loading' til disse queryene er invalidert
       return queryClient
-        .invalidateQueries(
-          behandlerdialogQueryKeys.behandlerdialog(personident)
-        )
+        .invalidateQueries({
+          queryKey: behandlerdialogQueryKeys.behandlerdialog(personident),
+        })
         .then(() => {
-          return queryClient.invalidateQueries(
-            personoppgaverQueryKeys.personoppgaver(personident)
-          );
+          return queryClient.invalidateQueries({
+            queryKey: personoppgaverQueryKeys.personoppgaver(personident),
+          });
         });
     },
   });
@@ -44,9 +44,9 @@ export const useBehandlePaminnelseOppgave = () => {
   return useMutation({
     mutationFn: postBehandlePersonoppgave,
     onSuccess: () => {
-      return queryClient.invalidateQueries(
-        personoppgaverQueryKeys.personoppgaver(personident)
-      );
+      return queryClient.invalidateQueries({
+        queryKey: personoppgaverQueryKeys.personoppgaver(personident),
+      });
     },
   });
 };

@@ -17,9 +17,9 @@ export const useSendForhandsvarsel = (
   return useMutation({
     mutationFn: postVurderAktivitetskrav,
     onSuccess: () => {
-      return queryClient.invalidateQueries(
-        aktivitetskravQueryKeys.aktivitetskrav(personident)
-      );
+      return queryClient.invalidateQueries({
+        queryKey: aktivitetskravQueryKeys.aktivitetskrav(personident),
+      });
     },
   });
 };

@@ -50,10 +50,10 @@ const statistikkTekst = (unntaksstatistikk: UnntaksstatistikkDTO[]): string => {
 };
 
 const DialogmoteunntakSkjemaStatistikk = () => {
-  const { data: unntaksstatistikk, isInitialLoading } =
+  const { data: unntaksstatistikk, isLoading } =
     useDialogmoteUnntaksstatistikkQuery();
 
-  if (isInitialLoading) {
+  if (isLoading) {
     return <Skeleton variant="rectangle" width="70%" height={100} />;
   }
 

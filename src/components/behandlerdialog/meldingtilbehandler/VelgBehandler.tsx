@@ -51,7 +51,7 @@ export const VelgBehandler = ({
   trigger,
   errors,
 }: VelgBehandlerProps) => {
-  const { data: behandlere, isInitialLoading } = useBehandlereQuery();
+  const { data: behandlere, isLoading } = useBehandlereQuery();
   const [showBehandlerSearch, setShowBehandlerSearch] =
     useState<boolean>(false);
 
@@ -80,7 +80,7 @@ export const VelgBehandler = ({
     }
   }, [behandlerRefValue, selectedBehandler, trigger]);
 
-  return isInitialLoading ? (
+  return isLoading ? (
     <AppSpinner />
   ) : (
     <RadioGroup

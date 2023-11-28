@@ -19,12 +19,10 @@ const texts = {
 };
 
 export const AktivitetskravContainer = (): ReactElement => {
+  const { isLoading: henterAktivitetskrav, isError: hentAktivitetskravFeilet } =
+    useAktivitetskravQuery();
   const {
-    isInitialLoading: henterAktivitetskrav,
-    isError: hentAktivitetskravFeilet,
-  } = useAktivitetskravQuery();
-  const {
-    isInitialLoading: henterOppfolgingstilfeller,
+    isLoading: henterOppfolgingstilfeller,
     isError: hentOppfolgingstilfellerFeilet,
   } = useOppfolgingstilfellePersonQuery();
 

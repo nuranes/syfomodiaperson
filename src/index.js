@@ -17,7 +17,7 @@ const queryClient = new QueryClient({
     queries: {
       networkMode: "offlineFirst",
       refetchOnWindowFocus: false,
-      cacheTime: minutesToMillis(60),
+      gcTime: minutesToMillis(60),
       staleTime: minutesToMillis(30),
       retry: (failureCount, error) => {
         if (isClientError(error)) {

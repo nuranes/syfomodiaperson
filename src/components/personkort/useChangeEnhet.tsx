@@ -16,6 +16,7 @@ export const useChangeEnhet = (fnr: string) => {
     onSuccess: (data: PersonDTO) => {
       queryClient.setQueryData(behandlendeEnhetQueryKey, data);
     },
-    onSettled: () => queryClient.invalidateQueries(behandlendeEnhetQueryKey),
+    onSettled: () =>
+      queryClient.invalidateQueries({ queryKey: behandlendeEnhetQueryKey }),
   });
 };

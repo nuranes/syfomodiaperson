@@ -13,7 +13,8 @@ export const useMellomlagreReferat = (fnr: string, dialogmoteUuid: string) => {
   return useMutation({
     mutationFn: postMellomlagreReferat,
     onSettled: () =>
-      queryClient.invalidateQueries(dialogmoterQueryKeys.dialogmoter(fnr), {
+      queryClient.invalidateQueries({
+        queryKey: dialogmoterQueryKeys.dialogmoter(fnr),
         refetchType: "none",
       }),
   });

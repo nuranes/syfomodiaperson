@@ -29,7 +29,7 @@ const BehandleOppfolgingsplanLPS = ({
         <Knapp
           autoDisableVedSpinner
           onClick={() => behandlePersonoppgave.mutate(personoppgave.uuid)}
-          spinner={behandlePersonoppgave.isLoading}
+          spinner={behandlePersonoppgave.isPending}
           id="behandle_personoppgave"
           mini
         >

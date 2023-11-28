@@ -123,7 +123,7 @@ describe("StartNyVurdering", () => {
       clickButton(buttonText);
 
       const nyVurderingMutation = queryClient.getMutationCache().getAll()[0];
-      expect(nyVurderingMutation.options.variables).to.be.undefined;
+      expect(nyVurderingMutation.state.variables).to.be.undefined;
     });
   });
   describe("Med aktivitetskrav i sluttilstand", () => {
@@ -156,7 +156,7 @@ describe("StartNyVurdering", () => {
       clickButton(buttonText);
 
       const nyVurderingMutation = queryClient.getMutationCache().getAll()[0];
-      expect(nyVurderingMutation.options.variables).to.deep.equal({
+      expect(nyVurderingMutation.state.variables).to.deep.equal({
         previousAktivitetskravUuid: aktivitetskravUnntak.uuid,
       });
     });

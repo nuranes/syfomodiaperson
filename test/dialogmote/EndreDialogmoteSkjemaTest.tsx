@@ -1,5 +1,5 @@
 import { dialogmoteRoutePath } from "@/routers/AppRouter";
-import { QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import { texts as valideringsTexts } from "@/utils/valideringUtils";
 import EndreDialogmoteSkjema from "@/components/dialogmote/endre/EndreDialogmoteSkjema";
@@ -39,7 +39,7 @@ import { stubAktivVeilederinfoApi } from "../stubs/stubSyfoveileder";
 import { queryClientWithMockData } from "../testQueryClient";
 import { DocumentComponentType } from "@/data/documentcomponent/documentComponentTypes";
 
-let queryClient: any;
+let queryClient: QueryClient;
 let apiMockScope;
 
 describe("EndreDialogmoteSkjemaTest", () => {
@@ -201,7 +201,7 @@ describe("EndreDialogmoteSkjemaTest", () => {
       sted: endretMote.sted,
       tid: endretMote.datoTid,
     };
-    expect(endreMutation.options.variables).to.deep.equal(expectedEndring);
+    expect(endreMutation.state.variables).to.deep.equal(expectedEndring);
   });
 
   it("trimmer videolenke i endring som sendes til api", () => {
@@ -217,8 +217,8 @@ describe("EndreDialogmoteSkjemaTest", () => {
     clickButton("Send");
 
     const endreMutation = queryClient.getMutationCache().getAll()[0];
-    const { videoLink, arbeidsgiver, arbeidstaker } = endreMutation.options
-      .variables as EndreTidStedDialogmoteDTO;
+    const { videoLink, arbeidsgiver, arbeidstaker } = endreMutation.state
+      .variables as unknown as EndreTidStedDialogmoteDTO;
 
     const linkDocumentComponents = [
       ...arbeidsgiver.endringsdokument,
@@ -263,7 +263,7 @@ describe("EndreDialogmoteSkjemaTest", () => {
       sted: endretMote.sted,
       tid: endretMote.datoTid,
     };
-    expect(endreMutation.options.variables).to.deep.equal(expectedEndring);
+    expect(endreMutation.state.variables).to.deep.equal(expectedEndring);
   });
   it("forhåndsviser endret tid og sted til arbeidstaker", () => {
     renderEndreDialogmoteSkjema(dialogmote);

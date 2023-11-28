@@ -171,7 +171,7 @@ const EndreDialogmoteSkjema = ({ dialogmote }: Props) => {
               <SendButton
                 onClick={resetFeilUtbedret}
                 htmlType="submit"
-                spinner={endreTidStedDialogmote.isLoading}
+                spinner={endreTidStedDialogmote.isPending}
                 autoDisableVedSpinner
               >
                 {texts.send}

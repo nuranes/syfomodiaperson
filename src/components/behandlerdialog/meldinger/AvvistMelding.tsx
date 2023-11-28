@@ -29,7 +29,7 @@ export const AvvistMelding = ({ meldingUuid }: AvvistMeldingProps) => {
       personOppgave={avvistOppgave}
       behandleOppgaveText={texts.behandleOppgaveText}
       handleBehandleOppgave={() => behandleOppgave.mutate(avvistOppgave.uuid)}
-      isBehandleOppgaveLoading={behandleOppgave.isLoading}
+      isBehandleOppgaveLoading={behandleOppgave.isPending}
       isBehandlet={isBehandletOppgave(avvistOppgave)}
     />
   ) : null;

@@ -53,7 +53,7 @@ export const sortConversations = (
 };
 
 export const Samtaler = () => {
-  const { data, isInitialLoading } = useBehandlerdialogQuery();
+  const { data, isLoading } = useBehandlerdialogQuery();
 
   const sortedConversations: MeldingDTO[][] = useMemo(() => {
     return data ? sortConversations(data.conversations) : [];
@@ -61,7 +61,7 @@ export const Samtaler = () => {
 
   return (
     <StyledSamtaler>
-      {isInitialLoading ? (
+      {isLoading ? (
         <AppSpinner />
       ) : sortedConversations.length ? (
         <Accordion>

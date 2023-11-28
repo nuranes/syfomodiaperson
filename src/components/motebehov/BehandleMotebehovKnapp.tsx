@@ -101,8 +101,8 @@ const BehandleMotebehovKnapp = ({
           )}
           <Button
             loading={
-              behandleMotebehovAndSendTilbakemelding.isLoading ||
-              behandleMotebehov.isLoading
+              behandleMotebehovAndSendTilbakemelding.isPending ||
+              behandleMotebehov.isPending
             }
             onClick={() => {
               if (isTilbakemelding) {
@@ -129,7 +129,7 @@ const BehandleMotebehovKnapp = ({
           }
         }}
         id="marker__utfoert"
-        disabled={erBehandlet || behandleMotebehov.isLoading}
+        disabled={erBehandlet || behandleMotebehov.isPending}
         defaultChecked={erBehandlet}
       />
     </CheckboxPanel>

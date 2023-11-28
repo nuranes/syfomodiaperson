@@ -26,7 +26,7 @@ const VurderOppgaveForDialogmotesvarKnapp = ({
       handleBehandleOppgave={() =>
         behandlePersonOppgave.mutate(personOppgave.uuid)
       }
-      isBehandleOppgaveLoading={behandlePersonOppgave.isLoading}
+      isBehandleOppgaveLoading={behandlePersonOppgave.isPending}
       behandleOppgaveText={texts.fjernOppgave}
     />
   );

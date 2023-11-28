@@ -13,6 +13,8 @@ export const useAvlysDialogmote = (fnr: string, dialogmoteUuid: string) => {
   return useMutation({
     mutationFn: postAvlysDialogmote,
     onSettled: () =>
-      queryClient.invalidateQueries(dialogmoterQueryKeys.dialogmoter(fnr)),
+      queryClient.invalidateQueries({
+        queryKey: dialogmoterQueryKeys.dialogmoter(fnr),
+      }),
   });
 };

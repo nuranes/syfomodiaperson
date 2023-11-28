@@ -45,7 +45,7 @@ export const IkkeOppfyltAktivitetskravSkjema = ({
         <SkjemaInnsendingFeil error={vurderAktivitetskrav.error} />
       )}
       <ButtonRow>
-        <Button loading={vurderAktivitetskrav.isLoading} onClick={submit}>
+        <Button loading={vurderAktivitetskrav.isPending} onClick={submit}>
           {texts.lagre}
         </Button>
       </ButtonRow>

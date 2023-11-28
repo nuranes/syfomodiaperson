@@ -73,7 +73,7 @@ describe("VurderBistandsbehov", () => {
 
     const behandleMutation = queryClient.getMutationCache().getAll()[0];
 
-    expect(behandleMutation.options.variables).to.deep.equal(
+    expect(behandleMutation.state.variables).to.deep.equal(
       personOppgaveUbehandletBehandlerBerOmBistand.uuid
     );
   });

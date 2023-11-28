@@ -16,6 +16,8 @@ export const useEndreTidStedDialogmote = (
   return useMutation({
     mutationFn: postEndreTidSted,
     onSettled: () =>
-      queryClient.invalidateQueries(dialogmoterQueryKeys.dialogmoter(fnr)),
+      queryClient.invalidateQueries({
+        queryKey: dialogmoterQueryKeys.dialogmoter(fnr),
+      }),
   });
 };

@@ -3,7 +3,7 @@ import { expect } from "chai";
 import DialogmoteInnkallingSkjema from "@/components/dialogmote/innkalling/DialogmoteInnkallingSkjema";
 import { texts as skjemaFeilOppsummeringTexts } from "@/components/SkjemaFeiloppsummering";
 import { texts as valideringsTexts } from "@/utils/valideringUtils";
-import { QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { dialogmoteRoutePath } from "@/routers/AppRouter";
 import { stubInnkallingApi } from "../../stubs/stubIsdialogmote";
 import { apiMock } from "../../stubs/stubApi";
@@ -28,7 +28,7 @@ import { OppfolgingstilfellePersonDTO } from "@/data/oppfolgingstilfelle/person/
 import { DocumentComponentType } from "@/data/documentcomponent/documentComponentTypes";
 import { ledereQueryKeys } from "@/data/leder/ledereQueryHooks";
 
-let queryClient: any;
+let queryClient: QueryClient;
 
 describe("DialogmoteInnkallingSkjema", () => {
   let clock: any;
@@ -133,7 +133,7 @@ describe("DialogmoteInnkallingSkjema", () => {
       },
     };
 
-    expect(innkallingMutation.options.variables).to.deep.equal(
+    expect(innkallingMutation.state.variables).to.deep.equal(
       expectedInnkallingDto
     );
 
@@ -205,7 +205,8 @@ describe("DialogmoteInnkallingSkjema", () => {
       tidSted: { videoLink },
       arbeidsgiver,
       arbeidstaker,
-    } = innkallingMutation.options.variables as DialogmoteInnkallingDTO;
+    } = innkallingMutation.state
+      .variables as unknown as DialogmoteInnkallingDTO;
 
     const linkDocumentComponents = [
       ...arbeidsgiver.innkalling,

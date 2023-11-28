@@ -99,7 +99,7 @@ export const UnntakAktivitetskravSkjema = ({
       {vurderAktivitetskrav.isError && (
         <SkjemaInnsendingFeil error={vurderAktivitetskrav.error} />
       )}
-      <Button loading={vurderAktivitetskrav.isLoading} type="submit">
+      <Button loading={vurderAktivitetskrav.isPending} type="submit">
         {texts.lagre}
       </Button>
     </form>

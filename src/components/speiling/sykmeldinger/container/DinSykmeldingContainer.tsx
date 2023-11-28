@@ -40,7 +40,7 @@ const DinSykmeldingSide = (): ReactElement => {
   const sykmeldingId = window.location.pathname.split("/")[3];
 
   const { navn: brukernavn } = useNavBrukerData();
-  const { isInitialLoading, isError, sykmeldinger, arbeidsgiverssykmeldinger } =
+  const { isLoading, isError, sykmeldinger, arbeidsgiverssykmeldinger } =
     useSykmeldingerQuery();
 
   const dinSykmelding = getSykmelding(sykmeldinger, sykmeldingId);
@@ -76,7 +76,7 @@ const DinSykmeldingSide = (): ReactElement => {
       tittel={texts.pageTitleSykmelding}
       aktivtMenypunkt={Menypunkter.SYKMELDINGER}
     >
-      <SideLaster henter={isInitialLoading} hentingFeilet={isError}>
+      <SideLaster henter={isLoading} hentingFeilet={isError}>
         <Speilingvarsel brukernavn={brukernavn} />
         <div className="speiling">
           <Brodsmuler brodsmuler={brodsmuler} />

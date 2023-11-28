@@ -1,6 +1,6 @@
 import React from "react";
 import { expect } from "chai";
-import { QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   arbeidsgiver,
   arbeidstaker,
@@ -32,7 +32,7 @@ import { behandlereQueryKeys } from "@/data/behandler/behandlereQueryHooks";
 import { renderWithRouter } from "../../testRouterUtils";
 import { stubFeatureTogglesApi } from "../../stubs/stubUnleash";
 
-let queryClient: any;
+let queryClient: QueryClient;
 let apiMockScope;
 
 describe("Dialogmoteinnkallingskjema", () => {
@@ -131,7 +131,7 @@ describe("Dialogmoteinnkallingskjema", () => {
       },
     };
 
-    expect(innkallingMutation.options.variables).to.deep.equal(
+    expect(innkallingMutation.state.variables).to.deep.equal(
       expectedInnkallingDto
     );
   });

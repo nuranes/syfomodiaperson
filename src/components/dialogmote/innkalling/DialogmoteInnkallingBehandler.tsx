@@ -36,7 +36,7 @@ const DialogmoteInnkallingBehandler = ({
   setSelectedBehandler,
   selectedbehandler,
 }: DialogmoteInnkallingBehandlerProps): ReactElement => {
-  const { data: behandlere, isInitialLoading } = useBehandlereQuery();
+  const { data: behandlere, isLoading } = useBehandlereQuery();
   const field = "behandlerRef";
 
   return (
@@ -46,7 +46,7 @@ const DialogmoteInnkallingBehandler = ({
         {({ input, meta }) => {
           return (
             <>
-              {isInitialLoading ? (
+              {isLoading ? (
                 <AppSpinner />
               ) : (
                 <BehandlerRadioGruppe

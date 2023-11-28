@@ -16,6 +16,8 @@ export const useFerdigstillDialogmote = (
   return useMutation({
     mutationFn: postFerdigstillDialogmote,
     onSettled: () =>
-      queryClient.invalidateQueries(dialogmoterQueryKeys.dialogmoter(fnr)),
+      queryClient.invalidateQueries({
+        queryKey: dialogmoterQueryKeys.dialogmoter(fnr),
+      }),
   });
 };

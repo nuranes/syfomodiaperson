@@ -192,7 +192,7 @@ describe("VurderAktivitetskrav", () => {
           status: AktivitetskravStatus.OPPFYLT,
           arsaker: [OppfyltVurderingArsak.FRISKMELDT],
         };
-        expect(vurderOppfyltMutation.options.variables).to.deep.equal(
+        expect(vurderOppfyltMutation.state.variables).to.deep.equal(
           expectedVurdering
         );
       });
@@ -240,7 +240,7 @@ describe("VurderAktivitetskrav", () => {
           status: AktivitetskravStatus.UNNTAK,
           arsaker: [UnntakVurderingArsak.TILRETTELEGGING_IKKE_MULIG],
         };
-        expect(vurderUnntakMutation.options.variables).to.deep.equal(
+        expect(vurderUnntakMutation.state.variables).to.deep.equal(
           expectedVurdering
         );
       });
@@ -325,7 +325,7 @@ describe("VurderAktivitetskrav", () => {
           ],
           frist: today.format("YYYY-MM-DD"),
         };
-        expect(vurderAvventMutation.options.variables).to.deep.equal(
+        expect(vurderAvventMutation.state.variables).to.deep.equal(
           expectedVurdering
         );
       });
@@ -380,7 +380,7 @@ describe("VurderAktivitetskrav", () => {
           fritekst: enBeskrivelse,
           document: getSendForhandsvarselDocument(enBeskrivelse),
         };
-        expect(sendForhandsvarselMutation.options.variables).to.deep.equal(
+        expect(sendForhandsvarselMutation.state.variables).to.deep.equal(
           expectedVurdering
         );
       });
@@ -418,7 +418,7 @@ describe("VurderAktivitetskrav", () => {
         status: AktivitetskravStatus.IKKE_OPPFYLT,
         arsaker: [],
       };
-      expect(vurderIkkeOppfyltMutation.options.variables).to.deep.equal(
+      expect(vurderIkkeOppfyltMutation.state.variables).to.deep.equal(
         expectedVurdering
       );
     });
@@ -473,7 +473,7 @@ describe("VurderAktivitetskrav", () => {
           beskrivelse: enBeskrivelse,
           arsaker: [],
         };
-        expect(vurderIkkeAktuellMutation.options.variables).to.deep.equal(
+        expect(vurderIkkeAktuellMutation.state.variables).to.deep.equal(
           expectedVurdering
         );
       });

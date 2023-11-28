@@ -41,15 +41,7 @@ import { sykmeldingerQueryKeys } from "@/data/sykmelding/sykmeldingQueryHooks";
 import { sykmeldingerMock } from "../mock/syfosmregister/sykmeldingerMock";
 
 export const testQueryClient = (): QueryClient => {
-  return new QueryClient({
-    logger: {
-      log: console.log,
-      warn: console.warn,
-      error: () => {
-        /*empty*/
-      },
-    },
-  });
+  return new QueryClient();
 };
 
 export const queryClientWithAktivBruker = (): QueryClient => {

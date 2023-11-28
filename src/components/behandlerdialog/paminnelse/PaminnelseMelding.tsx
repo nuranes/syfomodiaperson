@@ -95,16 +95,16 @@ export const PaminnelseMelding = ({
             />
           )}
           <Button
-            disabled={behandleOppgave.isLoading}
-            loading={paminnelseTilBehandler.isLoading}
+            disabled={behandleOppgave.isPending}
+            loading={paminnelseTilBehandler.isPending}
             onClick={handleSendPaminnelseClick}
           >
             {texts.send}
           </Button>
           <Button
             variant="secondary"
-            disabled={paminnelseTilBehandler.isLoading}
-            loading={behandleOppgave.isLoading}
+            disabled={paminnelseTilBehandler.isPending}
+            loading={behandleOppgave.isPending}
             onClick={handleFjernOppgaveClick}
           >
             {texts.fjernOppgave}
@@ -112,7 +112,7 @@ export const PaminnelseMelding = ({
           <CloseButton
             onClick={handleClose}
             disabled={
-              paminnelseTilBehandler.isLoading || behandleOppgave.isLoading
+              paminnelseTilBehandler.isPending || behandleOppgave.isPending
             }
           />
         </Modal.Footer>

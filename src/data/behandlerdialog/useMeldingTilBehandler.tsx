@@ -15,9 +15,9 @@ export const useMeldingTilBehandler = () => {
   return useMutation({
     mutationFn: postSendDialogmelding,
     onSuccess: () => {
-      queryClient.invalidateQueries(
-        behandlerdialogQueryKeys.behandlerdialog(personident)
-      );
+      queryClient.invalidateQueries({
+        queryKey: behandlerdialogQueryKeys.behandlerdialog(personident),
+      });
     },
   });
 };

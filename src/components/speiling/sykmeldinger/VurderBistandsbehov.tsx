@@ -54,7 +54,7 @@ const VurderBistandsbehov = ({ oppgave }: VurderBistandsbehovProps) => {
             variant="secondary"
             size="small"
             onClick={() => behandleOppgave.mutate(oppgave.uuid)}
-            loading={behandleOppgave.isLoading}
+            loading={behandleOppgave.isPending}
           >
             {texts.behandleOppgaveText}
           </Button>

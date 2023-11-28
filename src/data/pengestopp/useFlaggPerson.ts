@@ -31,7 +31,8 @@ export const useFlaggPerson = () => {
       ]);
     },
     onSettled: () =>
-      queryClient.invalidateQueries(pengestoppStatusQueryKey, {
+      queryClient.invalidateQueries({
+        queryKey: pengestoppStatusQueryKey,
         refetchType: "none",
       }),
   });

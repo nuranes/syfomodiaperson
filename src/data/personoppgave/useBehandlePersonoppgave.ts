@@ -15,7 +15,8 @@ export const useBehandlePersonoppgave = () => {
 
   return useMutation({
     mutationFn: postBehandlePersonoppgave,
-    onSettled: () => queryClient.invalidateQueries(personOppgaverQueryKey),
+    onSettled: () =>
+      queryClient.invalidateQueries({ queryKey: personOppgaverQueryKey }),
   });
 };
 
@@ -26,7 +27,8 @@ export const useBehandlePersonoppgaveWithoutRefetch = () => {
   return useMutation({
     mutationFn: postBehandlePersonoppgave,
     onSuccess: () =>
-      queryClient.invalidateQueries(personOppgaverQueryKey, {
+      queryClient.invalidateQueries({
+        queryKey: personOppgaverQueryKey,
         refetchType: "none",
       }),
   });
@@ -46,6 +48,7 @@ export const useBehandleAllPersonoppgaver = () => {
 
   return useMutation({
     mutationFn: postBehandlePersonoppgaver,
-    onSettled: () => queryClient.invalidateQueries(personOppgaverQueryKey),
+    onSettled: () =>
+      queryClient.invalidateQueries({ queryKey: personOppgaverQueryKey }),
   });
 };

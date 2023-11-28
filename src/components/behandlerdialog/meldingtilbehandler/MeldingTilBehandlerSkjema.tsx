@@ -165,7 +165,7 @@ export const MeldingTilBehandlerSkjema = () => {
         <Button
           variant="primary"
           onClick={handleSubmit(submit)}
-          loading={meldingTilBehandler.isLoading}
+          loading={meldingTilBehandler.isPending}
           type="submit"
         >
           {texts.sendKnapp}

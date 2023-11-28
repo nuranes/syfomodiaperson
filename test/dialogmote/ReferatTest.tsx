@@ -16,7 +16,7 @@ import {
   getTextInput,
   getTooLongText,
 } from "../testUtils";
-import { QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { dialogmoteRoutePath } from "@/routers/AppRouter";
 import { stubFerdigstillApi } from "../stubs/stubIsdialogmote";
 import { apiMock } from "../stubs/stubApi";
@@ -48,7 +48,7 @@ import { referatTexts } from "@/data/dialogmote/dialogmoteTexts";
 import { NewDialogmoteReferatDTO } from "@/data/dialogmote/types/dialogmoteReferatTypes";
 import { renderWithRouter } from "../testRouterUtils";
 
-let queryClient: any;
+let queryClient: QueryClient;
 
 describe("ReferatTest", () => {
   let clock: any;
@@ -142,8 +142,8 @@ describe("ReferatTest", () => {
 
     // Sjekk behandlers deltakelse-felter og brev
     const ferdigstillMutation = queryClient.getMutationCache().getAll().pop();
-    const newReferat: NewDialogmoteReferatDTO =
-      ferdigstillMutation.options.variables;
+    const newReferat = ferdigstillMutation?.state
+      .variables as unknown as NewDialogmoteReferatDTO;
     expect(newReferat).to.deep.include({
       behandlerDeltatt: false,
       behandlerMottarReferat: false,
@@ -286,7 +286,7 @@ describe("ReferatTest", () => {
         { funksjon: annenDeltakerFunksjon, navn: annenDeltakerNavn },
       ],
     };
-    expect(ferdigstillMutation.options.variables).to.deep.equal(
+    expect(ferdigstillMutation?.state.variables).to.deep.equal(
       expectedFerdigstilling
     );
   });

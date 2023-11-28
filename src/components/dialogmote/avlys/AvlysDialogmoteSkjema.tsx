@@ -192,7 +192,7 @@ const AvlysDialogmoteSkjema = ({
               <Hovedknapp
                 onClick={resetFeilUtbedret}
                 htmlType="submit"
-                spinner={avlysDialogmote.isLoading}
+                spinner={avlysDialogmote.isPending}
                 autoDisableVedSpinner
                 className="mr-2"
               >

@@ -15,11 +15,11 @@ const StyledHeading = styled(Heading)`
 `;
 
 const SykmeldingerSide = (): ReactElement => {
-  const { isInitialLoading, isError, sykmeldinger } = useSykmeldingerQuery();
+  const { isLoading, isError, sykmeldinger } = useSykmeldingerQuery();
 
   return (
     <Side tittel="Sykmeldinger" aktivtMenypunkt={Menypunkter.SYKMELDINGER}>
-      <SideLaster henter={isInitialLoading} hentingFeilet={isError}>
+      <SideLaster henter={isLoading} hentingFeilet={isError}>
         <div>
           <Pengestopp sykmeldinger={sykmeldinger} />
           <BistandsbehovOppgaver />

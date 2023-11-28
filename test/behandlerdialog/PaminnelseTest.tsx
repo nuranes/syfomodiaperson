@@ -122,7 +122,7 @@ describe("PåminnelseMelding", () => {
 
     const paminnelseMutation = queryClient.getMutationCache().getAll()[0];
 
-    expect(paminnelseMutation.options.variables).to.deep.equal(
+    expect(paminnelseMutation.state.variables).to.deep.equal(
       expectedPaminnelseDTO
     );
   });
@@ -139,7 +139,7 @@ describe("PåminnelseMelding", () => {
 
     const paminnelseMutation = queryClient.getMutationCache().getAll()[0];
 
-    expect(paminnelseMutation.options.variables).to.deep.equal(
+    expect(paminnelseMutation.state.variables).to.deep.equal(
       personOppgaveUbehandletBehandlerdialogUbesvartMelding.uuid
     );
   });

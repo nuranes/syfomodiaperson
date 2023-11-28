@@ -167,7 +167,7 @@ export const HuskelappModal = ({ isOpen, toggleOpen }: HuskelappModalProps) => {
                 icon={<TrashIcon aria-hidden />}
                 variant="danger"
                 onClick={() => handleRemoveHuskelapp(huskelapp.uuid)}
-                loading={removeHuskelapp.isLoading}
+                loading={removeHuskelapp.isPending}
                 className={"ml-auto"}
               >
                 {texts.remove}
@@ -177,7 +177,7 @@ export const HuskelappModal = ({ isOpen, toggleOpen }: HuskelappModalProps) => {
             <Button
               type="submit"
               variant="primary"
-              loading={oppdaterHuskelapp.isLoading}
+              loading={oppdaterHuskelapp.isPending}
               disabled={isLoading}
             >
               {texts.save}

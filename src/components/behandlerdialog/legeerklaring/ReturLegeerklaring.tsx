@@ -107,12 +107,12 @@ export const ReturLegeerklaring = ({ melding }: ReturLegeerklaringProps) => {
             {returLegeerklaring.isError && (
               <SkjemaInnsendingFeil error={returLegeerklaring.error} />
             )}
-            <Button type="submit" loading={returLegeerklaring.isLoading}>
+            <Button type="submit" loading={returLegeerklaring.isPending}>
               {texts.send}
             </Button>
             <CloseButton
               onClick={handleClose}
-              disabled={returLegeerklaring.isLoading}
+              disabled={returLegeerklaring.isPending}
             />
           </Modal.Footer>
         </Modal>

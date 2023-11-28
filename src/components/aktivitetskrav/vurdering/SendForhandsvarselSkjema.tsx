@@ -86,7 +86,7 @@ export const SendForhandsvarselSkjema = ({
         <SkjemaInnsendingFeil error={sendForhandsvarsel.error} />
       )}
       <ButtonRow>
-        <Button loading={sendForhandsvarsel.isLoading} type="submit">
+        <Button loading={sendForhandsvarsel.isPending} type="submit">
           {texts.sendVarselButtonText}
         </Button>
         <Button

@@ -117,7 +117,7 @@ export const StartNyVurdering = ({ aktivitetskrav }: StartNyVurderingProps) => {
         <Button
           variant="secondary"
           className="mr-auto"
-          loading={createAktivitetskrav.isLoading}
+          loading={createAktivitetskrav.isPending}
           onClick={handleStartNyVurdering}
         >
           {texts.button}

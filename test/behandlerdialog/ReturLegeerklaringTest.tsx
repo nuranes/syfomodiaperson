@@ -150,7 +150,7 @@ describe("ReturLegeerklaring", () => {
         .getMutationCache()
         .getAll()[0];
 
-      expect(returLegeerklaringMutation.options.variables).to.deep.equal(
+      expect(returLegeerklaringMutation.state.variables).to.deep.equal(
         expectedReturLegeerklaringDTO
       );
     });

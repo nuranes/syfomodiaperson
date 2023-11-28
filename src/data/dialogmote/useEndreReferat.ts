@@ -13,6 +13,8 @@ export const useEndreReferat = (fnr: string, dialogmoteUuid: string) => {
   return useMutation({
     mutationFn: postEndreFerdigstilt,
     onSettled: () =>
-      queryClient.invalidateQueries(dialogmoterQueryKeys.dialogmoter(fnr)),
+      queryClient.invalidateQueries({
+        queryKey: dialogmoterQueryKeys.dialogmoter(fnr),
+      }),
   });
 };

@@ -55,6 +55,8 @@ describe("HuskelappModal", () => {
         .exist;
       expect(await screen.findByRole("button", { hidden: true, name: "Fjern" }))
         .to.exist;
+      expect(screen.getByRole("button", { hidden: true, name: "Fjern" })).to
+        .exist;
     });
     it("remove deletes huskelapp", async () => {
       renderHuskelappModal();
@@ -66,7 +68,7 @@ describe("HuskelappModal", () => {
       userEvent.click(removeButton);
 
       const fjernHuskelappMutation = queryClient.getMutationCache().getAll()[0];
-      expect(fjernHuskelappMutation.options.variables).to.deep.equal(
+      expect(fjernHuskelappMutation.state.variables).to.deep.equal(
         huskelapp.uuid
       );
     });
@@ -104,7 +106,7 @@ describe("HuskelappModal", () => {
         const expectedHuskelapp: HuskelappRequestDTO = {
           oppfolgingsgrunn: Oppfolgingsgrunn.VURDER_DIALOGMOTE_SENERE,
         };
-        expect(lagreHuskelappMutation[0].options.variables).to.deep.equal(
+        expect(lagreHuskelappMutation[0].state.variables).to.deep.equal(
           expectedHuskelapp
         );
       });

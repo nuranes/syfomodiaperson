@@ -145,7 +145,7 @@ const DialogmoteunntakSkjema = () => {
         <SubmitButton
           type="submit"
           variant="primary"
-          loading={settDialogmoteunntak.isLoading}
+          loading={settDialogmoteunntak.isPending}
         >
           {texts.send}
         </SubmitButton>
