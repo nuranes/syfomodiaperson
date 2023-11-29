@@ -3,12 +3,11 @@ import OppsummeringSporsmalstekst from "./OppsummeringSporsmalstekst";
 import OppsummeringUndersporsmalsliste from "./OppsummeringUndersporsmalsliste";
 import { OppsummeringSporsmalProps } from "./OppsummeringSporsmal";
 
-const OppsummeringUndertekst = ({
+const OppsummeringBekreftelsespunkter = ({
   sporsmalstekst,
   id,
   svar,
   overskriftsnivaa,
-  undertekst,
   undersporsmal,
 }: OppsummeringSporsmalProps): ReactElement => (
   <div className="oppsummering__VisUndertekst" id={id}>
@@ -24,10 +23,6 @@ const OppsummeringUndertekst = ({
         />
       ))}
     </ul>
-    <div
-      className="redaksjonelt-innhold"
-      dangerouslySetInnerHTML={{ __html: undertekst ?? "" }}
-    />
     <OppsummeringUndersporsmalsliste
       sporsmalsliste={undersporsmal}
       overskriftsnivaa={overskriftsnivaa}
@@ -35,4 +30,4 @@ const OppsummeringUndertekst = ({
   </div>
 );
 
-export default OppsummeringUndertekst;
+export default OppsummeringBekreftelsespunkter;
