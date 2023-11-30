@@ -1,18 +1,14 @@
-import React, { ReactElement } from "react";
-import HistorikkEventItem from "./HistorikkEventItem";
-import { tilLesbarPeriodeMedArstall } from "@/utils/datoUtils";
-import { HistorikkEvent } from "@/data/historikk/types/historikkTypes";
+import React, { ReactElement, useState } from "react";
+import {
+  tilLesbarDatoMedArstall,
+  tilLesbarPeriodeMedArstall,
+} from "@/utils/datoUtils";
+import {
+  HistorikkEvent,
+  HistorikkEventType,
+} from "@/data/historikk/types/historikkTypes";
 import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
-import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
-import styled from "styled-components";
-
-const texts = {
-  errorMessage:
-    "Det skjedde en feil! Det er ikke sikkert du får all historikken som finnes.",
-  utenforTilfelleHendelserUtvidbarTitle: "Hendelser uten tilfelle",
-  laterEventsTitle: "Hendelser",
-  tilfellerTitle: "Sykefraværstilfeller",
-};
+import { Panel, Select, Table, Tag } from "@navikt/ds-react";
 
 const byTidspunkt: () => (h1: HistorikkEvent, h2: HistorikkEvent) => number =
   () => (h1: HistorikkEvent, h2: HistorikkEvent) => {
@@ -28,21 +24,6 @@ const isEventInTilfelle = (
     new Date(event.tidspunkt) < new Date(tilfelle.end)
   );
 };
-
-const hentTilfelleMedEvents = (
-  tilfelleliste: OppfolgingstilfelleDTO[],
-  eventliste: HistorikkEvent[]
-) => {
-  return tilfelleliste.filter((tilfelle: OppfolgingstilfelleDTO) => {
-    return eventliste.some((event: HistorikkEvent) =>
-      isEventInTilfelle(event, tilfelle)
-    );
-  });
-};
-
-interface UtenforTilfelleHendelserProps {
-  eventUtenforTilfelleList: HistorikkEvent[];
-}
 
 const hentEventUtenforTilfelleList = (
   tilfelleliste: OppfolgingstilfelleDTO[],
@@ -60,67 +41,85 @@ interface HistorikkProps {
   tilfeller: OppfolgingstilfelleDTO[];
 }
 
-const UtvidbarHistorikk = styled(Ekspanderbartpanel)`
-  margin-bottom: 1.25em;
-`;
+const tagFromKilde = (kilde: HistorikkEventType): ReactElement => {
+  switch (kilde) {
+    case "OPPFOLGINGSPLAN":
+      return <Tag variant="alt3">Oppfølgingsplan</Tag>;
+    case "LEDER":
+      return <Tag variant="alt2">Leder</Tag>;
+    case "AKTIVITETSKRAV":
+      return <Tag variant="alt1">Aktivitetskrav</Tag>;
+    case "MOTEBEHOV":
+    case "MOTER":
+      return <Tag variant="warning">Dialogmøte</Tag>;
+  }
+};
 
 const Historikk = ({
   historikkEvents,
   tilfeller,
 }: HistorikkProps): ReactElement => {
-  const tilfellerMedEvents = hentTilfelleMedEvents(tilfeller, historikkEvents);
+  const [selectedTilfelleIndex, setSelectedTilfelleIndex] = useState<number>(0);
   const eventUtenforTilfelleList = hentEventUtenforTilfelleList(
     tilfeller,
     historikkEvents
   );
 
-  const UtenforTilfelleHendelser = ({
-    eventUtenforTilfelleList,
-  }: UtenforTilfelleHendelserProps) => {
-    return (
-      <UtvidbarHistorikk tittel={texts.utenforTilfelleHendelserUtvidbarTitle}>
-        <ol className="historikkeventliste">
-          {eventUtenforTilfelleList.sort(byTidspunkt()).map((event, idx) => {
-            return <HistorikkEventItem key={idx} event={event} />;
-          })}
-        </ol>
-      </UtvidbarHistorikk>
-    );
+  const filteredEvents = () => {
+    if (selectedTilfelleIndex === -1) {
+      return eventUtenforTilfelleList;
+    } else {
+      return historikkEvents.filter((event) =>
+        isEventInTilfelle(event, tilfeller[selectedTilfelleIndex])
+      );
+    }
   };
 
   return (
-    <>
-      {tilfellerMedEvents.length > 0 && (
-        <div className="blokk--l">
-          <h2 className="panel__tittel">{texts.tilfellerTitle}</h2>
-          {tilfellerMedEvents.map(
-            (tilfelle: OppfolgingstilfelleDTO, index: number) => (
-              <UtvidbarHistorikk
-                key={index}
-                tittel={tilLesbarPeriodeMedArstall(
-                  tilfelle.start,
-                  tilfelle.end
-                )}
-              >
-                <ol className="historikkeventliste">
-                  {historikkEvents
-                    .filter((event) => isEventInTilfelle(event, tilfelle))
-                    .sort(byTidspunkt())
-                    .map((event, idx) => (
-                      <HistorikkEventItem key={idx} event={event} />
-                    ))}
-                </ol>
-              </UtvidbarHistorikk>
-            )
-          )}
-        </div>
-      )}
-      {eventUtenforTilfelleList.length > 0 && (
-        <UtenforTilfelleHendelser
-          eventUtenforTilfelleList={eventUtenforTilfelleList}
-        />
-      )}
-    </>
+    <div className="p-4">
+      <Select
+        className="w-fit mb-8"
+        label={"Sykefraværstilfelle"}
+        onChange={(event) =>
+          setSelectedTilfelleIndex(Number(event.target.value))
+        }
+      >
+        {tilfeller.map((tilfelle, index) => (
+          <option key={index} value={index}>
+            {tilLesbarPeriodeMedArstall(tilfelle.start, tilfelle.end)}
+          </option>
+        ))}
+        {eventUtenforTilfelleList.length > 0 && (
+          <option value={-1}>Utenfor sykefraværstilfelle</option>
+        )}
+      </Select>
+      <Panel>
+        <Table>
+          <Table.Header>
+            <Table.Row>
+              <Table.ColumnHeader scope="col">Dato</Table.ColumnHeader>
+              <Table.ColumnHeader scope="col">Beskrivelse</Table.ColumnHeader>
+              <Table.ColumnHeader scope="col">Type</Table.ColumnHeader>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {filteredEvents()
+              .sort(byTidspunkt())
+              .map((event, i) => {
+                return (
+                  <Table.Row key={i}>
+                    <Table.DataCell>
+                      {tilLesbarDatoMedArstall(event.tidspunkt)}
+                    </Table.DataCell>
+                    <Table.DataCell>{event.tekst}</Table.DataCell>
+                    <Table.DataCell>{tagFromKilde(event.kilde)}</Table.DataCell>
+                  </Table.Row>
+                );
+              })}
+          </Table.Body>
+        </Table>
+      </Panel>
+    </div>
   );
 };
 
