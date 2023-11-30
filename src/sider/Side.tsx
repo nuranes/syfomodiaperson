@@ -6,22 +6,12 @@ import { isDecember, isEaster, isPride } from "@/utils/festiveUtils";
 import { Easter } from "@/components/festive/Easter";
 import { Menypunkter } from "@/navigation/menypunkterTypes";
 import * as Amplitude from "@/utils/amplitude";
-import { OpenHuskelappModalButton } from "@/components/huskelapp/OpenHuskelappModalButton";
-import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
 import { EventType } from "@/utils/amplitude";
+import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
 import { OversiktLenker } from "@/components/personkort/OversiktLenker";
 import SnowButton from "@/components/festive/SnowButton";
 import { Pride } from "@/components/festive/Pride";
-import styled from "styled-components";
-
-const AdaptableRow = styled.div`
-  display: flex;
-  flex-direction: row;
-
-  @media (max-width: 700px) {
-    flex-direction: column;
-  }
-`;
+import { Huskelapp } from "@/components/huskelapp/Huskelapp";
 
 export const MODIA_HEADER_ID = "modia-header";
 
@@ -53,14 +43,14 @@ const Side = ({ tittel, aktivtMenypunkt, children }: SideProps) => {
           {isPride() && <Pride>&nbsp;</Pride>}
           <Personkort />
         </div>
-        <AdaptableRow>
-          <nav className="min-w-[15rem] mr-2">
+        <div className={"flex max-[700px]:flex-wrap"}>
+          <nav className="max-[700px]:w-full min-w-[15rem] w-[15rem] min-[700px]:mr-2">
             <GlobalNavigasjon aktivtMenypunkt={aktivtMenypunkt} />
             {isEaster() && <Easter />}
-            {toggles.isHuskelappEnabled && <OpenHuskelappModalButton />}
+            {toggles.isHuskelappEnabled && <Huskelapp />}
           </nav>
           <div className="w-full flex flex-col">{children}</div>
-        </AdaptableRow>
+        </div>
       </div>
     </DocumentTitle>
   );

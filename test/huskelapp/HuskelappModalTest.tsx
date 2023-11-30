@@ -2,7 +2,6 @@ import { queryClientWithMockData } from "../testQueryClient";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 import React from "react";
-import { HuskelappModal } from "@/components/huskelapp/HuskelappModal";
 import { VEILEDER_IDENT_DEFAULT } from "../../mock/common/mockConstants";
 import {
   HuskelappRequestDTO,
@@ -15,6 +14,7 @@ import userEvent from "@testing-library/user-event";
 import { stubHuskelappApi } from "../stubs/stubIshuskelapp";
 import nock from "nock";
 import { apiMock } from "../stubs/stubApi";
+import { Huskelapp } from "@/components/huskelapp/Huskelapp";
 
 let queryClient: QueryClient;
 let apiMockScope: nock.Scope;
@@ -27,10 +27,10 @@ const huskelapp: HuskelappResponseDTO = {
   oppfolgingsgrunn: huskelappOppfolgingsgrunn,
 };
 
-const renderHuskelappModal = () =>
+const renderHuskelapp = () =>
   render(
     <QueryClientProvider client={queryClient}>
-      <HuskelappModal isOpen={true} toggleOpen={() => void 0} />
+      <Huskelapp />
     </QueryClientProvider>
   );
 
@@ -48,18 +48,14 @@ describe("HuskelappModal", () => {
       stubHuskelappApi(apiMockScope, huskelapp);
     });
     it("renders huskelapp-tekst with save, cancel and remove buttons", async () => {
-      renderHuskelappModal();
+      renderHuskelapp();
 
       expect(await screen.findByText(huskelappOppfogingsgrunnText)).to.exist;
-      expect(screen.getByRole("button", { hidden: true, name: "Avbryt" })).to
-        .exist;
       expect(await screen.findByRole("button", { hidden: true, name: "Fjern" }))
         .to.exist;
-      expect(screen.getByRole("button", { hidden: true, name: "Fjern" })).to
-        .exist;
     });
     it("remove deletes huskelapp", async () => {
-      renderHuskelappModal();
+      renderHuskelapp();
 
       const removeButton = await screen.findByRole("button", {
         hidden: true,
@@ -78,18 +74,28 @@ describe("HuskelappModal", () => {
       stubHuskelappApi(apiMockScope, undefined);
     });
     it("renders huskelapp input with radio group and save and cancel buttons", async () => {
-      renderHuskelappModal();
+      renderHuskelapp();
+
+      const openModalButton = await screen.findByRole("button", {
+        hidden: true,
+        name: "Åpne huskelapp",
+      });
+      userEvent.click(openModalButton);
 
       expect(await screen.findByText("Velg oppfølgingsgrunn")).to.exist;
       expect(screen.getByRole("button", { hidden: true, name: "Lagre" })).to
         .exist;
       expect(screen.getByRole("button", { hidden: true, name: "Avbryt" })).to
         .exist;
-      expect(screen.queryByRole("button", { hidden: true, name: "Fjern" })).to
-        .not.exist;
     });
     it("save huskelapp with oppfolgingsgrunn", async () => {
-      renderHuskelappModal();
+      renderHuskelapp();
+
+      const openModalButton = await screen.findByRole("button", {
+        hidden: true,
+        name: "Åpne huskelapp",
+      });
+      userEvent.click(openModalButton);
 
       const oppfolgingsgrunnRadioButton = await screen.findByText(
         "Vurder dialogmøte på et senere tidspunkt"
