@@ -4,5 +4,5 @@ export interface HistorikkEvent {
   opprettetAv?: string;
   tekst: string;
   tidspunkt: Date;
-  kilde: HistorikkKilde | "LEDER";
+  kilde: HistorikkKilde | "LEDER" | "AKTIVITETSKRAV";
 }

@@ -43,6 +43,12 @@ export interface AktivitetskravDTO {
   vurderinger: AktivitetskravVurderingDTO[];
 }
 
+export interface AktivitetskravHistorikkDTO {
+  tidspunkt: Date;
+  status: AktivitetskravStatus;
+  vurdertAv: string | null;
+}
+
 export interface AktivitetskravVurderingDTO {
   uuid: string;
   createdAt: Date;

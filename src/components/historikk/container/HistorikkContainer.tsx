@@ -10,6 +10,13 @@ import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/pe
 import { NarmesteLederRelasjonDTO } from "@/data/leder/ledereTypes";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
 import { Menypunkter } from "@/navigation/menypunkterTypes";
+import {
+  AktivitetskravHistorikkDTO,
+  AktivitetskravStatus,
+} from "@/data/aktivitetskrav/aktivitetskravTypes";
+import { BrukerinfoDTO } from "@/data/navbruker/types/BrukerinfoDTO";
+import { useBrukerinfoQuery } from "@/data/navbruker/navbrukerQueryHooks";
+import { useAktivitetskravHistorikkQuery } from "@/data/aktivitetskrav/aktivitetskravQueryHooks";
 
 const texts = {
   topp: "Logg",
@@ -28,7 +35,53 @@ const createHistorikkEventsFromLedere = (
   }));
 };
 
+const getTextForHistorikk = (
+  historikk: AktivitetskravHistorikkDTO,
+  person: BrukerinfoDTO
+): string => {
+  switch (historikk.status) {
+    case AktivitetskravStatus.NY:
+      return `${person.navn} ble kandidat til aktivitetskravet`;
+    case AktivitetskravStatus.NY_VURDERING:
+      return `Det ble startet ny vurdering av aktivitetskravet`;
+    case AktivitetskravStatus.UNNTAK:
+    case AktivitetskravStatus.OPPFYLT:
+    case AktivitetskravStatus.STANS:
+    case AktivitetskravStatus.IKKE_AKTUELL:
+    case AktivitetskravStatus.IKKE_OPPFYLT:
+      return `${historikk.vurdertAv} vurderte ${historikk.status} for aktivitetskravet`;
+    case AktivitetskravStatus.FORHANDSVARSEL:
+      return `Det ble sendt et forhåndsvarsel for aktivitetskravet av ${historikk.vurdertAv}`;
+    case AktivitetskravStatus.LUKKET:
+      return `Vurderingen av aktivitetskravet ble lukket av systemet`;
+    case AktivitetskravStatus.AVVENT:
+    case AktivitetskravStatus.AUTOMATISK_OPPFYLT:
+      throw new Error("Not supported");
+  }
+};
+
+const createHistorikkEventsFromAktivitetskrav = (
+  aktivitietskravHistorikkDTO: AktivitetskravHistorikkDTO[],
+  person: BrukerinfoDTO
+): HistorikkEvent[] => {
+  return aktivitietskravHistorikkDTO
+    .filter(
+      (entry) =>
+        entry.status !== AktivitetskravStatus.AUTOMATISK_OPPFYLT &&
+        entry.status !== AktivitetskravStatus.AVVENT
+    )
+    .map((entry: AktivitetskravHistorikkDTO) => {
+      return {
+        opprettetAv: entry.vurdertAv ?? undefined,
+        tekst: getTextForHistorikk(entry, person),
+        tidspunkt: entry.tidspunkt,
+        kilde: "AKTIVITETSKRAV",
+      };
+    });
+};
+
 export const HistorikkContainer = (): ReactElement => {
+  const { brukerinfo: person } = useBrukerinfoQuery();
   const {
     henterHistorikk,
     hentingHistorikkFeilet,
@@ -49,9 +102,22 @@ export const HistorikkContainer = (): ReactElement => {
     isError: hentingTilfellerFeilet,
   } = useOppfolgingstilfellePersonQuery();
 
-  const henter = henterLedere || henterHistorikk || henterTilfeller;
+  const {
+    data: aktivitetskravHistorikk,
+    isLoading: henterAktivitetskravHistorikk,
+    isError: hentingAktivitetskravHistorikkFeilet,
+  } = useAktivitetskravHistorikkQuery();
+
+  const henter =
+    henterLedere ||
+    henterHistorikk ||
+    henterTilfeller ||
+    henterAktivitetskravHistorikk;
   const hentingFeilet =
-    hentingLedereFeilet || hentingHistorikkFeilet || hentingTilfellerFeilet;
+    hentingLedereFeilet ||
+    hentingHistorikkFeilet ||
+    hentingTilfellerFeilet ||
+    hentingAktivitetskravHistorikkFeilet;
 
   const allLedere = useMemo(
     () => [...currentLedere, ...formerLedere],
@@ -60,9 +126,14 @@ export const HistorikkContainer = (): ReactElement => {
 
   const tilfeller = oppfolgingstilfellePerson?.oppfolgingstilfelleList || [];
   const lederHistorikk = createHistorikkEventsFromLedere(allLedere);
+  const aktivitetskravHistorikkEvents = createHistorikkEventsFromAktivitetskrav(
+    aktivitetskravHistorikk || [],
+    person
+  );
   const historikkEvents = motebehovHistorikk
     .concat(oppfolgingsplanHistorikk)
-    .concat(lederHistorikk);
+    .concat(lederHistorikk)
+    .concat(aktivitetskravHistorikkEvents);
   const ingenHistorikk = tilfeller.length === 0 || historikkEvents.length === 0;
 
   return (

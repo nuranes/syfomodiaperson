@@ -17,10 +17,12 @@ export const useHistorikk: () => {
     oppfolgingsplanHistorikkQuery.isLoading ||
     motebehovHistorikkQuery.isLoading;
 
+  const hentingHistorikkFeilet =
+    motebehovHistorikkQuery.isError || oppfolgingsplanHistorikkQuery.isError;
+
   return {
     henterHistorikk,
-    hentingHistorikkFeilet:
-      motebehovHistorikkQuery.isError || oppfolgingsplanHistorikkQuery.isError,
+    hentingHistorikkFeilet: hentingHistorikkFeilet,
     motebehovHistorikk: motebehovHistorikkQuery.data,
     oppfolgingsplanHistorikk: oppfolgingsplanHistorikkQuery.data,
   };

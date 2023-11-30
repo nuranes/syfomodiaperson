@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { Normaltekst } from "nav-frontend-typografi";
 import navFarger from "nav-frontend-core";
 import { HistorikkEvent } from "@/data/historikk/types/historikkTypes";
+import { PersonIcon } from "@navikt/aksel-icons";
 
 const hentIkon = (event: HistorikkEvent) => {
   switch (event.kilde) {
@@ -20,6 +21,8 @@ const hentIkon = (event: HistorikkEvent) => {
     case "LEDER": {
       return <LederIkon />;
     }
+    case "AKTIVITETSKRAV":
+      return <PersonIcon />;
     default: {
       return null;
     }

@@ -4,6 +4,7 @@ import { NAV_PERSONIDENT_HEADER } from "../util/requestUtil";
 import { aktivitetskravMock } from "./aktivitetskravMock";
 import {
   AktivitetskravDTO,
+  AktivitetskravHistorikkDTO,
   AktivitetskravStatus,
   AktivitetskravVurderingDTO,
   CreateAktivitetskravVurderingDTO,
@@ -12,8 +13,11 @@ import {
 import { daysFromToday } from "../../test/testUtils";
 import { generateUUID } from "../../src/utils/uuidUtils";
 import { VEILEDER_DEFAULT } from "../common/mockConstants";
+import { aktivitetskravHistorikkMock } from "./aktivitetskravHistorikkMock";
 
 let mockAktivitetskrav: AktivitetskravDTO[] = aktivitetskravMock;
+let aktivitetskravHistorikk: AktivitetskravHistorikkDTO[] =
+  aktivitetskravHistorikkMock;
 
 export const mockIsaktivitetskrav = (server: any) => {
   server.get(
@@ -21,6 +25,16 @@ export const mockIsaktivitetskrav = (server: any) => {
     (req: express.Request, res: express.Response) => {
       if (req.headers[NAV_PERSONIDENT_HEADER]?.length === 11) {
         res.send(JSON.stringify(mockAktivitetskrav));
+      } else {
+        res.status(400).send("Did not find PersonIdent in headers");
+      }
+    }
+  );
+  server.get(
+    `${ISAKTIVITETSKRAV_ROOT}/aktivitetskrav/historikk`,
+    (req: express.Request, res: express.Response) => {
+      if (req.headers[NAV_PERSONIDENT_HEADER]?.length === 11) {
+        res.send(JSON.stringify(aktivitetskravHistorikk));
       } else {
         res.status(400).send("Did not find PersonIdent in headers");
       }
@@ -52,6 +66,14 @@ export const mockIsaktivitetskrav = (server: any) => {
         vurderinger: [newVurdering, ...firstAktivitetskrav.vurderinger],
       };
       mockAktivitetskrav = [firstAktivitetskrav, ...mockAktivitetskrav];
+      aktivitetskravHistorikk = [
+        {
+          tidspunkt: new Date(),
+          status: body.status,
+          vurdertAv: VEILEDER_DEFAULT.ident,
+        },
+        ...aktivitetskravHistorikk,
+      ];
       res.sendStatus(200);
     }
   );
@@ -84,6 +106,14 @@ export const mockIsaktivitetskrav = (server: any) => {
         ],
       };
       mockAktivitetskrav = [firstAktivitetskrav, ...mockAktivitetskrav];
+      aktivitetskravHistorikk = [
+        {
+          tidspunkt: new Date(),
+          status: newForhandsvarselVurdering.status,
+          vurdertAv: VEILEDER_DEFAULT.ident,
+        },
+        ...aktivitetskravHistorikk,
+      ];
       res.sendStatus(201);
     }
   );
