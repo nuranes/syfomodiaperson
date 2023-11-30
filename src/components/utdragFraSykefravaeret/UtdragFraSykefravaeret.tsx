@@ -1,5 +1,5 @@
 import React from "react";
-import SykmeldingMotebehovVisning from "../motebehov/SykmeldingMotebehovVisning";
+import SykmeldingUtdragFraSykefravaretVisning from "../motebehov/SykmeldingUtdragFraSykefravaretVisning";
 import {
   arbeidsgivernavnEllerArbeidssituasjon,
   erEkstraInformasjonISykmeldingen,
@@ -48,6 +48,15 @@ const StyledExpantionCardHeader = styled(ExpansionCard.Header)`
   }
 `;
 
+const Info = ({ label, text }: { label: string; text: string }) => {
+  return (
+    <div className="text-base font-normal">
+      <b>{label}</b>
+      <span>{text}</span>
+    </div>
+  );
+};
+
 interface UtvidbarTittelProps {
   sykmelding: SykmeldingOldFormat;
 }
@@ -69,9 +78,11 @@ export const SykmeldingTittelbeskrivelse = ({
   );
   const diagnose = `${sykmelding.diagnose.hoveddiagnose?.diagnosekode} (${sykmelding.diagnose.hoveddiagnose?.diagnose})`;
   const erViktigInformasjon = erEkstraInformasjonISykmeldingen(sykmelding);
+  const sykmelder = sykmelding.bekreftelse.sykmelder;
+  const arbeidsgiver = arbeidsgivernavnEllerArbeidssituasjon(sykmelding);
 
   return (
-    <div className="w-full flex flex-col gap-1">
+    <div className="w-full flex flex-col">
       <div className="flex justify-between">
         <div>
           {periode}
@@ -82,8 +93,10 @@ export const SykmeldingTittelbeskrivelse = ({
         )}
       </div>
       {sykmelding.diagnose.hoveddiagnose && (
-        <div className="text-gray-500">{diagnose}</div>
+        <Info label={"Diagnose: "} text={diagnose} />
       )}
+      {sykmelder && <Info label={"Sykmelder: "} text={sykmelder} />}
+      {arbeidsgiver && <Info label={"Arbeidsgiver: "} text={arbeidsgiver} />}
       {sykmelding.papirsykmelding && <PapirsykmeldingTag />}
     </div>
   );
@@ -107,7 +120,7 @@ const UtvidbarSykmelding = ({ sykmelding, label }: UtvidbarSykmeldingProps) => {
         </ExpansionCard.Title>
       </StyledExpantionCardHeader>
       <ExpansionCard.Content>
-        <SykmeldingMotebehovVisning sykmelding={sykmelding} />
+        <SykmeldingUtdragFraSykefravaretVisning sykmelding={sykmelding} />
       </ExpansionCard.Content>
     </ExpansionCard>
   );

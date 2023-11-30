@@ -1,7 +1,6 @@
 import React from "react";
 import { Checkbox } from "nav-frontend-skjema";
 import {
-  arbeidsgivernavnEllerArbeidssituasjon,
   erArbeidsforEtterPerioden,
   erEkstraDiagnoseInformasjon,
   erHensynPaaArbeidsplassenInformasjon,
@@ -23,21 +22,6 @@ const tekster = {
   },
 };
 
-const KeyValueVisning = ({
-  keyword,
-  value,
-}: {
-  keyword: string;
-  value: string;
-}) => {
-  return (
-    <div className="text-base">
-      <b>{keyword}</b>
-      <span>{value}</span>
-    </div>
-  );
-};
-
 interface GenerellSykmeldingInfoProps {
   sykmelding: SykmeldingOldFormat;
 }
@@ -55,24 +39,13 @@ export const GenerellSykmeldingInfo = ({
     );
   const isEkstraDiagnoseInformasjonVisible =
     erEkstraDiagnoseInformasjon(sykmelding);
-  const sykmelder = sykmelding.bekreftelse.sykmelder;
-  const arbeidsgiver = arbeidsgivernavnEllerArbeidssituasjon(sykmelding);
   return (
     <div className="sykmeldingMotebehovVisning__avsnitt">
-      {sykmelder && (
-        <KeyValueVisning keyword={"Sykmelder: "} value={sykmelder} />
-      )}
-      {arbeidsgiver && (
-        <KeyValueVisning keyword={"Arbeidsgiver: "} value={arbeidsgiver} />
-      )}
       <Perioder perioder={sykmeldingPerioderSortertEtterDato} />
-
       <Diagnoser hovedDiagnose={hovedDiagnose} biDiagnoser={biDiagnoser} />
-
       {isEkstraDiagnoseInformasjonVisible && (
         <EkstraDiagnoseInformasjon diagnose={sykmelding.diagnose} />
       )}
-
       {erArbeidsforEtterPerioden(sykmelding) && (
         <Checkbox
           label={tekster.generellSykmeldingInfo.arbeidsforEtterPerioden.tittel}

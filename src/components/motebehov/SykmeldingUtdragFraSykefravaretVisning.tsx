@@ -19,7 +19,7 @@ interface SykmeldingMotebehovVisningProps {
   sykmelding: SykmeldingOldFormat;
 }
 
-const SykmeldingMotebehovVisning = ({
+const SykmeldingUtdragFraSykefravaretVisning = ({
   sykmelding,
 }: SykmeldingMotebehovVisningProps) => {
   const isMeldingTilArbeidsgiverVisible =
@@ -55,4 +55,4 @@ const SykmeldingMotebehovVisning = ({
   );
 };
 
-export default SykmeldingMotebehovVisning;
+export default SykmeldingUtdragFraSykefravaretVisning;
