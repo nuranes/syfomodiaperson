@@ -35,6 +35,7 @@ import {
   returLegeerklaring,
   meldingFraNAVConversationMedSvar,
 } from "./meldingTestdataGenerator";
+import { getManedText } from "@/utils/datoUtils";
 
 let queryClient: QueryClient;
 
@@ -334,7 +335,7 @@ describe("Meldinger panel", () => {
       renderMeldinger();
 
       const accordions = screen.getAllByRole("button", {
-        name: /november/,
+        name: new RegExp(getManedText(new Date())),
       });
       accordions.forEach((accordion) => userEvent.click(accordion));
 
@@ -350,7 +351,7 @@ describe("Meldinger panel", () => {
       renderMeldinger();
 
       const accordions = screen.getAllByRole("button", {
-        name: /november/,
+        name: new RegExp(getManedText(new Date())),
       });
       accordions.forEach((accordion) => userEvent.click(accordion));
 

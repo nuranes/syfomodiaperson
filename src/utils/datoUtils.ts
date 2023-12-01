@@ -78,6 +78,10 @@ export const visDato = (d: Date): string => {
   return `${dager[d.getDay()]} ${d.getDate()}. ${maned} ${d.getFullYear()}`;
 };
 
+export const getManedText = (d: Date): string => {
+  return maneder[d.getMonth()];
+};
+
 export const visKlokkeslett = (d: Date): string | null => {
   if (typeof d === "undefined" || d === null) {
     return null;
