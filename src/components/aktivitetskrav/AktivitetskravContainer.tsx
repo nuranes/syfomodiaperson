@@ -9,8 +9,6 @@ import { AktivitetskravSide } from "@/components/aktivitetskrav/AktivitetskravSi
 import { NotificationProvider } from "@/context/notification/NotificationContext";
 import UtdragFraSykefravaeret from "@/components/utdragFraSykefravaeret/UtdragFraSykefravaeret";
 import { TREDELING_BREAKING_POINT, TredeltSide } from "@/sider/TredeltSide";
-import { Tredjekolonne } from "@/sider/Tredjekolonne";
-import { usePageHeight } from "@/hooks/tredeling/usePageHeight";
 import { useScreenWidth } from "@/hooks/tredeling/useScreenWidth";
 
 const texts = {
@@ -30,7 +28,6 @@ export const AktivitetskravContainer = (): ReactElement => {
   const hentingFeilet =
     hentAktivitetskravFeilet || hentOppfolgingstilfellerFeilet;
 
-  const { heightStyling } = usePageHeight(!henter);
   const screenWidth = useScreenWidth();
 
   return (
@@ -39,20 +36,14 @@ export const AktivitetskravContainer = (): ReactElement => {
       <SideLaster henter={henter} hentingFeilet={hentingFeilet}>
         <TredeltSide>
           <NotificationProvider>
-            <AktivitetskravSide
-              heightStyling={heightStyling}
-              screenWidth={screenWidth}
-            />
+            <AktivitetskravSide />
           </NotificationProvider>
           {screenWidth < TREDELING_BREAKING_POINT ? (
             <UtdragFraSykefravaeret />
           ) : (
-            <Tredjekolonne
-              heightStyling={heightStyling}
-              screenWidth={screenWidth}
-            >
+            <div className="h-screen overflow-y-scroll">
               <UtdragFraSykefravaeret />
-            </Tredjekolonne>
+            </div>
           )}
         </TredeltSide>
       </SideLaster>
