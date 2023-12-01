@@ -41,7 +41,7 @@ export const AktivitetskravContainer = (): ReactElement => {
           {screenWidth < TREDELING_BREAKING_POINT ? (
             <UtdragFraSykefravaeret />
           ) : (
-            <div className="h-screen overflow-y-scroll">
+            <div className="h-screen sticky top-2 overflow-y-scroll">
               <UtdragFraSykefravaeret />
             </div>
           )}
