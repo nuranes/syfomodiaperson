@@ -9,6 +9,8 @@ import {
 } from "@/data/huskelapp/huskelappTypes";
 import { PaddingSize } from "@/components/Layout";
 import { useForm } from "react-hook-form";
+import * as Amplitude from "@/utils/amplitude";
+import { EventType } from "@/utils/amplitude";
 
 const texts = {
   header: "Huskelapp",
@@ -50,7 +52,16 @@ export const HuskelappModal = ({ isOpen, toggleOpen }: HuskelappModalProps) => {
       oppfolgingsgrunn: values.oppfolgingsgrunn,
     };
     oppdaterHuskelapp.mutate(huskelappDto, {
-      onSuccess: () => toggleOpen(false),
+      onSuccess: () => {
+        Amplitude.logEvent({
+          type: EventType.OppfolgingsgrunnSendt,
+          data: {
+            url: window.location.href,
+            oppfolgingsgrunn: values.oppfolgingsgrunn,
+          },
+        });
+        toggleOpen(false);
+      },
     });
   };
 

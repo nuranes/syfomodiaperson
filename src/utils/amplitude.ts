@@ -1,5 +1,6 @@
 import amplitude from "amplitude-js";
 import { erProd } from "@/utils/miljoUtil";
+import { Oppfolgingsgrunn } from "@/data/huskelapp/huskelappTypes";
 
 /**
  See documentation for naming guidelines: https://github.com/navikt/analytics-taxonomy
@@ -10,6 +11,7 @@ export enum EventType {
   ButtonClick = "knapp trykket",
   Navigation = "navigere",
   AccordionOpen = "accordion åpnet",
+  OppfolgingsgrunnSendt = "oppfolgingsgrunn sendt",
 }
 
 type EventPageView = {
@@ -44,7 +46,20 @@ type EventAccordionOpen = {
   };
 };
 
-type Event = EventPageView | EventButtonClick | Navigation | EventAccordionOpen;
+type OppfolgingsgrunnSendt = {
+  type: EventType.OppfolgingsgrunnSendt;
+  data: {
+    url: string;
+    oppfolgingsgrunn: Oppfolgingsgrunn;
+  };
+};
+
+type Event =
+  | EventPageView
+  | EventButtonClick
+  | Navigation
+  | EventAccordionOpen
+  | OppfolgingsgrunnSendt;
 
 export const logEvent = (event: Event) => {
   switch (event.type) {
@@ -71,6 +86,13 @@ export const logEvent = (event: Event) => {
         url: event.data.url,
         tekst: event.data.tekst,
       });
+      break;
+    case EventType.OppfolgingsgrunnSendt:
+      client.logEvent(EventType.OppfolgingsgrunnSendt, {
+        url: event.data.url,
+        oppfolgingsgrunn: event.data.oppfolgingsgrunn,
+      });
+      break;
   }
 };
 
