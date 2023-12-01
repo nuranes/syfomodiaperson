@@ -31,6 +31,7 @@ export const mockIshuskelapp = (server: any) => {
         uuid: huskelappUuid,
         createdBy: VEILEDER_IDENT_DEFAULT,
         oppfolgingsgrunn: body.oppfolgingsgrunn,
+        frist: body.frist,
       };
       res.sendStatus(200);
     }

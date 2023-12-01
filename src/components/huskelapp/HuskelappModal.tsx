@@ -1,5 +1,12 @@
 import React from "react";
-import { Button, Modal, Radio, RadioGroup } from "@navikt/ds-react";
+import {
+  Button,
+  DatePicker,
+  Modal,
+  Radio,
+  RadioGroup,
+  useDatepicker,
+} from "@navikt/ds-react";
 import styled from "styled-components";
 import { useOppdaterHuskelapp } from "@/data/huskelapp/useOppdaterHuskelapp";
 import {
@@ -11,6 +18,7 @@ import { PaddingSize } from "@/components/Layout";
 import { useForm } from "react-hook-form";
 import * as Amplitude from "@/utils/amplitude";
 import { EventType } from "@/utils/amplitude";
+import dayjs from "dayjs";
 
 const texts = {
   header: "Huskelapp",
@@ -18,10 +26,12 @@ const texts = {
   close: "Avbryt",
   missingOppfolgingsgrunn: "Vennligst angi oppfolgingsgrunn.",
   oppfolgingsgrunnLabel: "Velg oppfølgingsgrunn",
+  datepickerLabel: "Frist",
 };
 
 interface FormValues {
   oppfolgingsgrunn: Oppfolgingsgrunn;
+  frist: string | null;
 }
 
 interface HuskelappModalProps {
@@ -32,6 +42,7 @@ interface HuskelappModalProps {
 const ModalContent = styled(Modal.Body)`
   display: flex;
   flex-direction: column;
+
   > * {
     &:not(:last-child) {
       padding-bottom: ${PaddingSize.SM};
@@ -45,11 +56,13 @@ export const HuskelappModal = ({ isOpen, toggleOpen }: HuskelappModalProps) => {
     register,
     formState: { errors },
     handleSubmit,
+    setValue,
   } = useForm<FormValues>();
 
   const submit = (values: FormValues) => {
     const huskelappDto: HuskelappRequestDTO = {
       oppfolgingsgrunn: values.oppfolgingsgrunn,
+      frist: values.frist,
     };
     oppdaterHuskelapp.mutate(huskelappDto, {
       onSuccess: () => {
@@ -64,6 +77,13 @@ export const HuskelappModal = ({ isOpen, toggleOpen }: HuskelappModalProps) => {
       },
     });
   };
+
+  const { datepickerProps, inputProps } = useDatepicker({
+    onDateChange: (date: Date | undefined) => {
+      setValue("frist", dayjs(date).format("YYYY-MM-DD") ?? null);
+    },
+    fromDate: new Date(),
+  });
 
   return (
     <form onSubmit={handleSubmit(submit)}>
@@ -92,6 +112,13 @@ export const HuskelappModal = ({ isOpen, toggleOpen }: HuskelappModalProps) => {
               </Radio>
             ))}
           </RadioGroup>
+          <DatePicker {...datepickerProps} strategy="fixed">
+            <DatePicker.Input
+              {...inputProps}
+              label={texts.datepickerLabel}
+              size="small"
+            />
+          </DatePicker>
         </ModalContent>
         <Modal.Footer>
           <Button

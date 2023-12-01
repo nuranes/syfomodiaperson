@@ -15,6 +15,8 @@ import { stubHuskelappApi } from "../stubs/stubIshuskelapp";
 import nock from "nock";
 import { apiMock } from "../stubs/stubApi";
 import { Huskelapp } from "@/components/huskelapp/Huskelapp";
+import { changeTextInput } from "../testUtils";
+import dayjs from "dayjs";
 
 let queryClient: QueryClient;
 let apiMockScope: nock.Scope;
@@ -25,6 +27,7 @@ const huskelapp: HuskelappResponseDTO = {
   createdBy: VEILEDER_IDENT_DEFAULT,
   uuid: generateUUID(),
   oppfolgingsgrunn: huskelappOppfolgingsgrunn,
+  frist: "2030-01-01",
 };
 
 const renderHuskelapp = () =>
@@ -73,7 +76,7 @@ describe("HuskelappModal", () => {
     beforeEach(() => {
       stubHuskelappApi(apiMockScope, undefined);
     });
-    it("renders huskelapp input with radio group and save and cancel buttons", async () => {
+    it("renders huskelapp input with radio group, datepicker and save and cancel buttons", async () => {
       renderHuskelapp();
 
       const openModalButton = await screen.findByRole("button", {
@@ -83,12 +86,14 @@ describe("HuskelappModal", () => {
       userEvent.click(openModalButton);
 
       expect(await screen.findByText("Velg oppfølgingsgrunn")).to.exist;
+      expect(screen.getByRole("textbox", { hidden: true, name: "Frist" })).to
+        .exist;
       expect(screen.getByRole("button", { hidden: true, name: "Lagre" })).to
         .exist;
       expect(screen.getByRole("button", { hidden: true, name: "Avbryt" })).to
         .exist;
     });
-    it("save huskelapp with oppfolgingsgrunn", async () => {
+    it("save huskelapp with oppfolgingsgrunn and frist", async () => {
       renderHuskelapp();
 
       const openModalButton = await screen.findByRole("button", {
@@ -101,6 +106,12 @@ describe("HuskelappModal", () => {
         "Vurder dialogmøte på et senere tidspunkt"
       );
       userEvent.click(oppfolgingsgrunnRadioButton);
+      const fristDateInput = screen.getByRole("textbox", {
+        hidden: true,
+        name: "Frist",
+      });
+      const fristDate = dayjs();
+      changeTextInput(fristDateInput, fristDate.format("DD-MM-YY"));
       const lagreButton = screen.getByRole("button", {
         hidden: true,
         name: "Lagre",
@@ -111,6 +122,7 @@ describe("HuskelappModal", () => {
         const lagreHuskelappMutation = queryClient.getMutationCache().getAll();
         const expectedHuskelapp: HuskelappRequestDTO = {
           oppfolgingsgrunn: Oppfolgingsgrunn.VURDER_DIALOGMOTE_SENERE,
+          frist: fristDate.format("YYYY-MM-DD"),
         };
         expect(lagreHuskelappMutation[0].state.variables).to.deep.equal(
           expectedHuskelapp

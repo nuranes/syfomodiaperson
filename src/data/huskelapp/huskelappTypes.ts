@@ -13,6 +13,7 @@ const texts = {
 
 export interface HuskelappRequestDTO {
   oppfolgingsgrunn: Oppfolgingsgrunn;
+  frist: string | null;
 }
 
 export interface HuskelappResponseDTO {
@@ -20,6 +21,7 @@ export interface HuskelappResponseDTO {
   createdBy: string;
   tekst?: string;
   oppfolgingsgrunn?: Oppfolgingsgrunn;
+  frist: string | null;
 }
 
 export enum Oppfolgingsgrunn {
