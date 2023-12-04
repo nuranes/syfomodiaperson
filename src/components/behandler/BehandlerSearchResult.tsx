@@ -2,24 +2,6 @@ import React, { ReactElement } from "react";
 import { Button, Popover } from "@navikt/ds-react";
 import { useSokBehandlereQuery } from "@/data/behandler/behandlereQueryHooks";
 import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
-import styled from "styled-components";
-
-const StyledButton = styled(Button)`
-  width: 100%;
-  display: flex;
-  justify-content: start;
-  text-align: start;
-  color: #262626;
-`;
-
-const ScrollablePopover = styled(Popover)`
-  overflow: auto;
-  max-height: 15em;
-`;
-
-const PopoverContent = styled(Popover.Content)`
-  padding: 0;
-`;
 
 interface BehandlerSearchResultProps {
   searchRef: React.MutableRefObject<any>;
@@ -45,30 +27,31 @@ const BehandlerSearchResult = ({
   };
 
   return (
-    <ScrollablePopover
+    <Popover
       anchorEl={searchRef.current}
       placement="bottom-start"
       open={behandlere.length > 0 && searchText !== ""}
       onClose={() => null}
       arrow={false}
-      className="w-full"
+      className="w-[30rem] overflow-auto max-h-60"
       offset={8}
       tabIndex={0}
     >
       {behandlere.map((behandler, index) => {
         const behandlerInfo = `${behandler.etternavn}, ${behandler.fornavn}: ${behandler.kontor}`;
         return (
-          <PopoverContent key={index}>
-            <StyledButton
-              variant={"tertiary"}
+          <Popover.Content key={index} className="p-0">
+            <Button
+              variant="tertiary"
               onClick={() => updateSearch(behandler, behandlerInfo)}
+              className="w-full flex justify-start text-start text-neutral-800"
             >
               {behandlerInfo}
-            </StyledButton>
-          </PopoverContent>
+            </Button>
+          </Popover.Content>
         );
       })}
-    </ScrollablePopover>
+    </Popover>
   );
 };
 

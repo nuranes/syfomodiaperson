@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
 import AppSpinner from "@/components/AppSpinner";
 import { useBehandlereQuery } from "@/data/behandler/behandlereQueryHooks";
-import { Radio, RadioGroup } from "@navikt/ds-react";
+import { HelpText, Radio, RadioGroup } from "@navikt/ds-react";
 import {
   FieldErrors,
   UseFormRegister,
@@ -17,6 +17,9 @@ import BehandlerSearch from "@/components/behandler/BehandlerSearch";
 const texts = {
   behandlerLegend: "Velg behandler som skal motta meldingen",
   behandlersokTekst: "Søk etter behandler",
+  sokEtterBehandlerHelpText:
+    "Du kan søke etter behandlerens fornavn, etternavn, kontornavn og organisasjonsnummeret til kontoret. Søk gjerne med flere av disse samtidig. Finner du ikke behandleren du leter etter? Da bør du melde det inn i Porten.",
+  sokEtterBehandlerHelpTextTitle: "Hva kan jeg søke etter her?",
   missingBehandler: "Vennligst velg behandler",
 };
 
@@ -114,7 +117,15 @@ export const VelgBehandler = ({
         {texts.behandlersokTekst}
       </Radio>
       {showBehandlerSearch && (
-        <BehandlerSearch setSelectedBehandler={setSelectedBehandler} />
+        <div className="flex flex-row items-center">
+          <BehandlerSearch setSelectedBehandler={setSelectedBehandler} />
+          <HelpText
+            title={texts.sokEtterBehandlerHelpTextTitle}
+            className="ml-1"
+          >
+            {texts.sokEtterBehandlerHelpText}
+          </HelpText>
+        </div>
       )}
     </RadioGroup>
   );
