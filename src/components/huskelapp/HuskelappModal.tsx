@@ -2,19 +2,19 @@ import React from "react";
 import {
   Button,
   DatePicker,
+  Heading,
+  HelpText,
   Modal,
   Radio,
   RadioGroup,
   useDatepicker,
 } from "@navikt/ds-react";
-import styled from "styled-components";
 import { useOppdaterHuskelapp } from "@/data/huskelapp/useOppdaterHuskelapp";
 import {
   HuskelappRequestDTO,
   Oppfolgingsgrunn,
   oppfolgingsgrunnToText,
 } from "@/data/huskelapp/huskelappTypes";
-import { PaddingSize } from "@/components/Layout";
 import { useForm } from "react-hook-form";
 import * as Amplitude from "@/utils/amplitude";
 import { EventType } from "@/utils/amplitude";
@@ -27,6 +27,9 @@ const texts = {
   missingOppfolgingsgrunn: "Vennligst angi oppfolgingsgrunn.",
   oppfolgingsgrunnLabel: "Velg oppfølgingsgrunn",
   datepickerLabel: "Frist",
+  huskelappHelpText:
+    "Her kan du opprette en oppfølgingsoppgave hvis du har behov for å følge opp den sykmeldte utenom de hendelsene Modia lager automatisk. Oppfølgingsbehovet må være hjemlet i folketrygdloven kapittel 8 og den sykmeldte kan kreve innsyn i disse oppgavene.",
+  huskelappTooltip: "Hva er huskelapp?",
 };
 
 interface FormValues {
@@ -38,17 +41,6 @@ interface HuskelappModalProps {
   isOpen: boolean;
   toggleOpen: (value: boolean) => void;
 }
-
-const ModalContent = styled(Modal.Body)`
-  display: flex;
-  flex-direction: column;
-
-  > * {
-    &:not(:last-child) {
-      padding-bottom: ${PaddingSize.SM};
-    }
-  }
-`;
 
 export const HuskelappModal = ({ isOpen, toggleOpen }: HuskelappModalProps) => {
   const oppdaterHuskelapp = useOppdaterHuskelapp();
@@ -93,9 +85,27 @@ export const HuskelappModal = ({ isOpen, toggleOpen }: HuskelappModalProps) => {
         aria-label={"huskelapp"}
         open={isOpen}
         onClose={() => toggleOpen(false)}
-        header={{ heading: texts.header }}
       >
-        <ModalContent>
+        <Modal.Header>
+          <div className={"flex items-center"}>
+            <Heading
+              level="1"
+              size="medium"
+              id="modal-heading"
+              className={"mr-2"}
+            >
+              {texts.header}
+            </Heading>
+            <HelpText
+              title={texts.huskelappTooltip}
+              placement="right"
+              className={"self-center"}
+            >
+              {texts.huskelappHelpText}
+            </HelpText>
+          </div>
+        </Modal.Header>
+        <Modal.Body className={"flex flex-col gap-4"}>
           <RadioGroup
             legend={texts.oppfolgingsgrunnLabel}
             name="oppfolgingsgrunn"
@@ -119,7 +129,7 @@ export const HuskelappModal = ({ isOpen, toggleOpen }: HuskelappModalProps) => {
               size="small"
             />
           </DatePicker>
-        </ModalContent>
+        </Modal.Body>
         <Modal.Footer>
           <Button
             type="button"
