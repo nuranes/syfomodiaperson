@@ -4,9 +4,13 @@ import {
   finnAvventendeSykmeldingTekst,
 } from "@/utils/sykmeldinger/sykmeldingUtils";
 import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat";
-import { Heading, Label } from "@navikt/ds-react";
+import { BodyShort, Heading } from "@navikt/ds-react";
 import styled from "styled-components";
-import { CheckmarkCircleFillIcon, CheckmarkIcon } from "@navikt/aksel-icons";
+import {
+  BriefcaseIcon,
+  CheckmarkIcon,
+  FirstAidKitIcon,
+} from "@navikt/aksel-icons";
 
 const tekster = {
   mulighetForArbeid: {
@@ -39,64 +43,73 @@ const AvventendeSykmelding = ({
   </div>
 );
 
-const AktivitetHeading = styled(Heading)`
-  display: flex;
-  align-items: center;
-`;
-
-const AktivitetLabel = styled(Label)`
-  display: flex;
-  align-items: center;
-  margin-left: 2em;
-  margin-top: 1.5em;
-`;
-
-const StyledSuccessFilled = styled(CheckmarkCircleFillIcon)`
-  margin-right: 0.5em;
-  font-size: 1.5rem;
-`;
-
 const StyledSuccessStroke = styled(CheckmarkIcon)`
   margin-right: 0.2em;
   font-size: 1.5rem;
 `;
 
-const StyledMulighetForArbeid = styled.div`
-  margin-top: 1em;
-`;
-
 interface AktivitetIkkeMuligProps {
   beskrivelse?: string;
   ikkeMuligListe: string[];
+  ikkeMuligGrunn: IkkeMuligGrunn;
   tittel: string;
 }
+
+export enum IkkeMuligGrunn {
+  MedisinskeArsaker,
+  ForholdPaArbeidsplassen,
+}
+
+const Icon = ({ ikkeMuligGrunn }: { ikkeMuligGrunn: IkkeMuligGrunn }) => {
+  switch (ikkeMuligGrunn) {
+    case IkkeMuligGrunn.MedisinskeArsaker:
+      return (
+        <FirstAidKitIcon
+          title="forstehjelpsutstyr-ikon"
+          fontSize="1.5rem"
+          className="mr-2"
+        />
+      );
+    case IkkeMuligGrunn.ForholdPaArbeidsplassen:
+      return (
+        <BriefcaseIcon
+          title="stresskoffert-ikon"
+          fontSize="1.5rem"
+          className="mr-2"
+        />
+      );
+  }
+};
 
 const AktivitetIkkeMulig = ({
   beskrivelse,
   ikkeMuligListe,
+  ikkeMuligGrunn,
   tittel,
 }: AktivitetIkkeMuligProps) => (
-  <StyledMulighetForArbeid>
-    <AktivitetHeading spacing size="medium" level="4">
-      <StyledSuccessFilled />
+  <div className="mt-4">
+    <Heading size="xsmall" level="4" className="flex items-center">
+      <Icon ikkeMuligGrunn={ikkeMuligGrunn} />
       {tittel}
-    </AktivitetHeading>
+    </Heading>
 
     {ikkeMuligListe.map((ikkeMuligTekst: string, index: number) => {
       return (
-        <AktivitetLabel key={index} spacing>
+        <div key={index} className="flex items-center ml-8">
           <StyledSuccessStroke key={index} />
           {ikkeMuligTekst}
-        </AktivitetLabel>
+        </div>
       );
     })}
-    {beskrivelse && [
-      <h6 key={0} className="sporsmal">
-        {tekster.mulighetForArbeid.beskrivelse}
-      </h6>,
-      <p key={1}>{beskrivelse}</p>,
-    ]}
-  </StyledMulighetForArbeid>
+    {beskrivelse && (
+      <div className="ml-8">
+        <BodyShort size="small" className="!font-bold">
+          {tekster.mulighetForArbeid.beskrivelse}
+        </BodyShort>
+        <BodyShort>{beskrivelse}</BodyShort>
+      </div>
+    )}
+  </div>
 );
 
 interface MulighetForArbeidProps {
@@ -125,6 +138,7 @@ const MulighetForArbeid = ({ sykmelding }: MulighetForArbeidProps) => {
             <AktivitetIkkeMulig
               beskrivelse={aarsakAktivitetIkkeMulig433}
               ikkeMuligListe={aktivitetIkkeMulig433}
+              ikkeMuligGrunn={IkkeMuligGrunn.MedisinskeArsaker}
               tittel={tekster.mulighetForArbeid.medisinskAarsak.tittel}
             />
           )}
@@ -132,6 +146,7 @@ const MulighetForArbeid = ({ sykmelding }: MulighetForArbeidProps) => {
             <AktivitetIkkeMulig
               beskrivelse={aarsakAktivitetIkkeMulig434}
               ikkeMuligListe={aktivitetIkkeMulig434}
+              ikkeMuligGrunn={IkkeMuligGrunn.ForholdPaArbeidsplassen}
               tittel={tekster.mulighetForArbeid.forholdPaaArbeidsplass.tittel}
             />
           )}
