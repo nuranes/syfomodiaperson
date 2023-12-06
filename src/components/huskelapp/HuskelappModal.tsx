@@ -21,7 +21,7 @@ import { EventType } from "@/utils/amplitude";
 import dayjs from "dayjs";
 
 const texts = {
-  header: "Huskelapp",
+  header: "Trenger oppfølging",
   save: "Lagre",
   close: "Avbryt",
   missingOppfolgingsgrunn: "Vennligst angi oppfolgingsgrunn.",

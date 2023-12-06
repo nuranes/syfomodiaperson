@@ -81,7 +81,7 @@ describe("HuskelappModal", () => {
 
       const openModalButton = await screen.findByRole("button", {
         hidden: true,
-        name: "Åpne huskelapp",
+        name: "Trenger oppfølging",
       });
       userEvent.click(openModalButton);
 
@@ -98,7 +98,7 @@ describe("HuskelappModal", () => {
 
       const openModalButton = await screen.findByRole("button", {
         hidden: true,
-        name: "Åpne huskelapp",
+        name: "Trenger oppfølging",
       });
       userEvent.click(openModalButton);
 
