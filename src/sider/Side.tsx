@@ -25,7 +25,7 @@ const Side = ({ tittel, aktivtMenypunkt, children }: SideProps) => {
   useEffect(() => {
     Amplitude.logEvent({
       type: EventType.PageView,
-      data: { url: window.location.href, sideTittel: tittel },
+      data: { url: window.location.href, sidetittel: tittel },
     });
   }, [tittel]);
   const { toggles } = useFeatureToggles();

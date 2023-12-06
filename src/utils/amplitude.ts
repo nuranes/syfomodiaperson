@@ -18,7 +18,7 @@ type EventPageView = {
   type: EventType.PageView;
   data: {
     url: string;
-    sideTittel: string;
+    sidetittel: string;
   };
 };
 
@@ -61,40 +61,8 @@ type Event =
   | EventAccordionOpen
   | OppfolgingsgrunnSendt;
 
-export const logEvent = (event: Event) => {
-  switch (event.type) {
-    case EventType.ButtonClick:
-      client.logEvent(EventType.ButtonClick, {
-        url: event.data.url,
-        tekst: event.data.tekst,
-      });
-      break;
-    case EventType.PageView:
-      client.logEvent(EventType.PageView, {
-        url: event.data.url,
-        sidetittel: event.data.sideTittel,
-      });
-      break;
-    case EventType.Navigation:
-      client.logEvent(EventType.Navigation, {
-        destinasjon: event.data.destinasjon,
-        lenketekst: event.data.lenketekst,
-      });
-      break;
-    case EventType.AccordionOpen:
-      client.logEvent(EventType.AccordionOpen, {
-        url: event.data.url,
-        tekst: event.data.tekst,
-      });
-      break;
-    case EventType.OppfolgingsgrunnSendt:
-      client.logEvent(EventType.OppfolgingsgrunnSendt, {
-        url: event.data.url,
-        oppfolgingsgrunn: event.data.oppfolgingsgrunn,
-      });
-      break;
-  }
-};
+export const logEvent = (event: Event) =>
+  client.logEvent(event.type, { ...event.data });
 
 const getApiKey = () => {
   return erProd()
