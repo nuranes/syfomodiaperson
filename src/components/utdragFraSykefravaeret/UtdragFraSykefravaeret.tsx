@@ -25,6 +25,8 @@ import { useSykmeldingerQuery } from "@/data/sykmelding/sykmeldingQueryHooks";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { PapirsykmeldingTag } from "@/components/PapirsykmeldingTag";
 import { ExpansionCard, Heading, Link, Panel } from "@navikt/ds-react";
+import * as Amplitude from "@/utils/amplitude";
+import { EventType } from "@/utils/amplitude";
 
 const tekster = {
   header: "Utdrag fra sykefraværet",
@@ -107,10 +109,22 @@ interface UtvidbarSykmeldingProps {
   label?: string;
 }
 
+function logAccordionOpened(isOpen: boolean) {
+  if (isOpen) {
+    Amplitude.logEvent({
+      type: EventType.AccordionOpen,
+      data: {
+        tekst: `Åpne sykmeldinger accordion`,
+        url: window.location.href,
+      },
+    });
+  }
+}
+
 const UtvidbarSykmelding = ({ sykmelding, label }: UtvidbarSykmeldingProps) => {
   const title = label ? label : "Sykmelding uten arbeidsgiver";
   return (
-    <ExpansionCard aria-label={title}>
+    <ExpansionCard aria-label={title} onToggle={logAccordionOpened}>
       <StyledExpantionCardHeader className="w-full">
         <ExpansionCard.Title
           as="div"
