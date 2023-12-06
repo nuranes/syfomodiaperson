@@ -13,16 +13,25 @@ import React from "react";
 import { OpenHuskelappModalButton } from "@/components/huskelapp/OpenHuskelappModalButton";
 import { useGetHuskelappQuery } from "@/data/huskelapp/useGetHuskelappQuery";
 import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
+import { useVeilederInfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
+import { VeilederinfoDTO } from "@/data/veilederinfo/types/VeilederinfoDTO";
 
 const texts = {
   title: "Trenger oppfølging",
   remove: "Fjern",
   removeTooltip: "Fjerner huskelappen og oppgaven fra oversikten",
+  createdBy: (veileder: VeilederinfoDTO, createdAt: Date) =>
+    `Opprettet av: ${veileder.navn} (${
+      veileder.ident
+    }), ${tilLesbarDatoMedArUtenManedNavn(createdAt)}`,
 };
 
 export const Huskelapp = () => {
   const removeHuskelapp = useRemoveHuskelapp();
   const { huskelapp } = useGetHuskelappQuery();
+  const { data: veilederinfo } = useVeilederInfoQuery(
+    huskelapp?.createdBy ?? ""
+  );
   const isExistingHuskelapp = !!huskelapp;
   const handleRemoveHuskelapp = (uuid: string) => {
     removeHuskelapp.mutate(uuid);
@@ -64,6 +73,11 @@ export const Huskelapp = () => {
           {texts.remove}
         </Button>
       </Tooltip>
+      {veilederinfo && (
+        <BodyShort size="small" textColor="subtle" className="mt-2 text-xs">
+          {texts.createdBy(veilederinfo, huskelapp.createdAt)}
+        </BodyShort>
+      )}
     </Box>
   ) : (
     <OpenHuskelappModalButton />

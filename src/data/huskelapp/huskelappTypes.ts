@@ -19,6 +19,8 @@ export interface HuskelappRequestDTO {
 export interface HuskelappResponseDTO {
   uuid: string;
   createdBy: string;
+  updatedAt: Date;
+  createdAt: Date;
   tekst?: string;
   oppfolgingsgrunn?: Oppfolgingsgrunn;
   frist: string | null;

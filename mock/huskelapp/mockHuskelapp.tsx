@@ -30,6 +30,8 @@ export const mockIshuskelapp = (server: any) => {
       huskelappMock = {
         uuid: huskelappUuid,
         createdBy: VEILEDER_IDENT_DEFAULT,
+        updatedAt: new Date(),
+        createdAt: new Date(),
         oppfolgingsgrunn: body.oppfolgingsgrunn,
         frist: body.frist,
       };

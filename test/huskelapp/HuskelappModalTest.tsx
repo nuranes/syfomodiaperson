@@ -2,7 +2,10 @@ import { queryClientWithMockData } from "../testQueryClient";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 import React from "react";
-import { VEILEDER_IDENT_DEFAULT } from "../../mock/common/mockConstants";
+import {
+  VEILEDER_DEFAULT,
+  VEILEDER_IDENT_DEFAULT,
+} from "../../mock/common/mockConstants";
 import {
   HuskelappRequestDTO,
   HuskelappResponseDTO,
@@ -17,6 +20,7 @@ import { apiMock } from "../stubs/stubApi";
 import { Huskelapp } from "@/components/huskelapp/Huskelapp";
 import { changeTextInput } from "../testUtils";
 import dayjs from "dayjs";
+import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
 
 let queryClient: QueryClient;
 let apiMockScope: nock.Scope;
@@ -27,6 +31,8 @@ const huskelapp: HuskelappResponseDTO = {
   createdBy: VEILEDER_IDENT_DEFAULT,
   uuid: generateUUID(),
   oppfolgingsgrunn: huskelappOppfolgingsgrunn,
+  updatedAt: new Date(),
+  createdAt: new Date(),
   frist: "2030-01-01",
 };
 
@@ -37,7 +43,7 @@ const renderHuskelapp = () =>
     </QueryClientProvider>
   );
 
-describe("HuskelappModal", () => {
+describe("Huskelapp", () => {
   beforeEach(() => {
     queryClient = queryClientWithMockData();
     apiMockScope = apiMock();
@@ -54,8 +60,16 @@ describe("HuskelappModal", () => {
       renderHuskelapp();
 
       expect(await screen.findByText(huskelappOppfogingsgrunnText)).to.exist;
+      expect(await screen.findByText("Frist: 01.01.2030")).to.exist;
       expect(await screen.findByRole("button", { hidden: true, name: "Fjern" }))
         .to.exist;
+      expect(
+        await screen.findByText(
+          `Opprettet av: ${VEILEDER_DEFAULT.navn} (${
+            VEILEDER_DEFAULT.ident
+          }), ${tilLesbarDatoMedArUtenManedNavn(new Date())}`
+        )
+      ).to.exist;
     });
     it("remove deletes huskelapp", async () => {
       renderHuskelapp();
@@ -72,7 +86,7 @@ describe("HuskelappModal", () => {
       );
     });
   });
-  describe("no huskelapp exists", () => {
+  describe("HuskelappModal: no huskelapp exists", () => {
     beforeEach(() => {
       stubHuskelappApi(apiMockScope, undefined);
     });
