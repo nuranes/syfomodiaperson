@@ -9,7 +9,10 @@ import { generateUUID } from "../../src/utils/uuidUtils";
 import { VEILEDER_DEFAULT } from "../common/mockConstants";
 import { daysFromToday } from "../../test/testUtils";
 import { DocumentComponentType } from "../../src/data/documentcomponent/documentComponentTypes";
-import { sendForhandsvarselTexts } from "../../src/data/aktivitetskrav/forhandsvarselTexts";
+import {
+  Brevmal,
+  getForhandsvarselTexts,
+} from "../../src/data/aktivitetskrav/forhandsvarselTexts";
 
 const aktivitetskravNy: AktivitetskravDTO = {
   uuid: generateUUID(),
@@ -86,8 +89,12 @@ const aktivitetskravAutomatiskOppfylt: AktivitetskravDTO = {
 
 const getForhandsvarselDocument = (
   begrunnelse: string | undefined,
-  fristDato: Date
+  frist: Date
 ) => {
+  const sendForhandsvarselTexts = getForhandsvarselTexts({
+    frist,
+    mal: Brevmal.MED_ARBEIDSGIVER,
+  });
   const documentComponents = [
     {
       type: DocumentComponentType.HEADER_H1,
@@ -95,7 +102,7 @@ const getForhandsvarselDocument = (
     },
     {
       type: DocumentComponentType.PARAGRAPH,
-      texts: [sendForhandsvarselTexts.varselInfo.introWithFristDate(fristDato)],
+      texts: [sendForhandsvarselTexts.varselInfo.introWithFristDate],
     },
   ];
 
@@ -126,9 +133,7 @@ const getForhandsvarselDocument = (
     {
       type: DocumentComponentType.PARAGRAPH,
       texts: [
-        sendForhandsvarselTexts.giOssTilbakemelding.tilbakemeldingWithFristDate(
-          fristDato
-        ),
+        sendForhandsvarselTexts.giOssTilbakemelding.tilbakemeldingWithFristDate,
       ],
     },
     {

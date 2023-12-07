@@ -12,7 +12,7 @@ export const SkjemaHeading = ({
   subtitles,
 }: VurderAktivitetskravSkjemaHeadingProps) => (
   <>
-    <div className={"mt-4 mb-8"}>
+    <div className={"mt-4 mb-4"}>
       <Heading level="2" size="small">
         {title}
       </Heading>

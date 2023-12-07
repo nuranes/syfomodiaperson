@@ -1,4 +1,3 @@
-import { sendForhandsvarselTexts } from "@/data/aktivitetskrav/forhandsvarselTexts";
 import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
 import { useDocumentComponents } from "@/hooks/useDocumentComponents";
 import {
@@ -7,24 +6,34 @@ import {
   createHeaderH3,
   createParagraph,
 } from "@/utils/documentComponentUtils";
+import {
+  Brevmal,
+  getForhandsvarselTexts,
+} from "@/data/aktivitetskrav/forhandsvarselTexts";
+
+type ForhandsvarselDocumentValues = {
+  begrunnelse: string;
+  frist: Date;
+  mal: Brevmal;
+};
 
 export const useAktivitetskravVarselDocument = (): {
   getForhandsvarselDocument(
-    begrunnelse: string,
-    fristDato: Date
+    values: ForhandsvarselDocumentValues
   ): DocumentComponentDto[];
 } => {
   const { getHilsen } = useDocumentComponents();
 
-  const getForhandsvarselDocument = (
-    begrunnelse: string | undefined,
-    fristDato: Date
-  ) => {
+  const getForhandsvarselDocument = (values: ForhandsvarselDocumentValues) => {
+    const { mal, begrunnelse, frist } = values;
+    const sendForhandsvarselTexts = getForhandsvarselTexts({
+      mal,
+      frist,
+    });
+
     const documentComponents = [
       createHeaderH1(sendForhandsvarselTexts.varselInfo.header),
-      createParagraph(
-        sendForhandsvarselTexts.varselInfo.introWithFristDate(fristDato)
-      ),
+      createParagraph(sendForhandsvarselTexts.varselInfo.introWithFristDate),
     ];
 
     if (begrunnelse) {
@@ -41,9 +50,7 @@ export const useAktivitetskravVarselDocument = (): {
 
       createHeaderH3(sendForhandsvarselTexts.giOssTilbakemelding.header),
       createParagraph(
-        sendForhandsvarselTexts.giOssTilbakemelding.tilbakemeldingWithFristDate(
-          fristDato
-        )
+        sendForhandsvarselTexts.giOssTilbakemelding.tilbakemeldingWithFristDate
       ),
       createParagraph(sendForhandsvarselTexts.giOssTilbakemelding.kontaktOss),
 
