@@ -7,5 +7,6 @@ export interface OppfolgingstilfelleDTO {
   arbeidstakerAtTilfelleEnd: boolean;
   start: Date;
   end: Date;
+  varighetUker: number;
   virksomhetsnummerList: string[];
 }

@@ -105,12 +105,14 @@ describe("OppfolgingstilfelleUtils", () => {
           arbeidstakerAtTilfelleEnd: true,
           start: earliestStart,
           end: new Date("2023-02-01"),
+          varighetUker: 4,
           virksomhetsnummerList: [VIRKSOMHET_BRANNOGBIL.virksomhetsnummer],
         },
         {
           arbeidstakerAtTilfelleEnd: true,
           start: latestStart,
           end: new Date("2023-03-01"),
+          varighetUker: 8,
           virksomhetsnummerList: [VIRKSOMHET_BRANNOGBIL.virksomhetsnummer],
         },
       ];
@@ -123,18 +125,22 @@ describe("OppfolgingstilfelleUtils", () => {
     it("return list with tilfelle with latest end first if both tilfeller start at the same date", () => {
       const start = new Date("2023-01-01");
       const earliestEnd = new Date("2023-02-01");
+      const earliestVarighet = 4;
       const latestEnd = new Date("2023-03-02");
+      const latestVarighet = 8;
       const tilfeller: OppfolgingstilfelleDTO[] = [
         {
           arbeidstakerAtTilfelleEnd: true,
           start: start,
           end: latestEnd,
+          varighetUker: latestVarighet,
           virksomhetsnummerList: [VIRKSOMHET_BRANNOGBIL.virksomhetsnummer],
         },
         {
           arbeidstakerAtTilfelleEnd: true,
           start: start,
           end: earliestEnd,
+          varighetUker: earliestVarighet,
           virksomhetsnummerList: [VIRKSOMHET_BRANNOGBIL.virksomhetsnummer],
         },
       ];
