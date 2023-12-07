@@ -23,6 +23,7 @@ import DialogmoteunntakSkjemaContainer from "@/components/dialogmoteunntak/Dialo
 import { PersonsokSide } from "@/components/PersonsokSide";
 import { AktivitetskravContainer } from "@/components/aktivitetskrav/AktivitetskravContainer";
 import { BehandlerdialogContainer } from "@/components/behandlerdialog/BehandlerdialogContainer";
+import * as Amplitude from "@/utils/amplitude";
 
 export const appRoutePath = "/sykefravaer";
 
@@ -31,6 +32,8 @@ export const dialogmoteUnntakRoutePath = `${appRoutePath}/dialogmoteunntak`;
 export const moteoversiktRoutePath = `${appRoutePath}/moteoversikt`;
 
 const AktivBrukerRouter = (): ReactElement => {
+  Amplitude.logViewportAndScreenSize();
+
   return (
     <AktivBrukerTilgangLaster>
       <BrowserRouter>

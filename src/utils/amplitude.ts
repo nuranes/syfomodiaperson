@@ -12,6 +12,7 @@ export enum EventType {
   Navigation = "navigere",
   AccordionOpen = "accordion åpnet",
   OppfolgingsgrunnSendt = "oppfolgingsgrunn sendt",
+  ViewPortAndScreenResolution = "viewport og skjermstørrelse",
 }
 
 type EventPageView = {
@@ -54,15 +55,43 @@ type OppfolgingsgrunnSendt = {
   };
 };
 
+type ViewPortAndScreenResolution = {
+  type: EventType.ViewPortAndScreenResolution;
+  data: {
+    viewport: {
+      width: number;
+      height: number;
+    };
+    screenResolution: {
+      width: number;
+      height: number;
+    };
+  };
+};
+
 type Event =
   | EventPageView
   | EventButtonClick
   | Navigation
   | EventAccordionOpen
-  | OppfolgingsgrunnSendt;
+  | OppfolgingsgrunnSendt
+  | ViewPortAndScreenResolution;
 
 export const logEvent = (event: Event) =>
   client.logEvent(event.type, { ...event.data });
+
+export function logViewportAndScreenSize() {
+  client.logEvent(EventType.ViewPortAndScreenResolution, {
+    viewport: {
+      width: window.innerWidth,
+      height: window.innerHeight,
+    },
+    screenResolution: {
+      width: screen.width,
+      height: screen.height,
+    },
+  });
+}
 
 const getApiKey = () => {
   return erProd()
