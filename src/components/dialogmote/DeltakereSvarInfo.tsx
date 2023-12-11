@@ -6,13 +6,8 @@ import {
   MotedeltakerVarselType,
   SvarType,
 } from "@/data/dialogmote/types/dialogmoteTypes";
-import { FlexColumn, FlexRow } from "@/components/Layout";
-import navFarger from "nav-frontend-core";
 import React, { ReactElement } from "react";
 import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
-import styled from "styled-components";
-import { Element, Normaltekst } from "nav-frontend-typografi";
-import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
 import { capitalizeAllWords } from "@/utils/stringUtils";
@@ -22,6 +17,7 @@ import {
   MinusCircleFillIcon,
   XMarkOctagonFillIcon,
 } from "@navikt/aksel-icons";
+import { BodyLong, BodyShort, ExpansionCard, Label } from "@navikt/ds-react";
 
 const texts = {
   naermesteLeder: "Nærmeste leder:",
@@ -96,7 +92,7 @@ const DeltakerSvarIcon = ({
       return (
         <CheckmarkCircleFillIcon
           fontSize="1.5em"
-          color={navFarger.navGronn}
+          color="var(--a-icon-success)"
           title="suksess-ikon"
         />
       );
@@ -104,7 +100,7 @@ const DeltakerSvarIcon = ({
       return (
         <ExclamationmarkTriangleFillIcon
           fontSize="1.5em"
-          color={navFarger.navOransje}
+          color="var(--a-icon-warning)"
           title="advarsel-ikon"
         />
       );
@@ -112,7 +108,7 @@ const DeltakerSvarIcon = ({
       return (
         <XMarkOctagonFillIcon
           fontSize="1.5em"
-          color={navFarger.navRod}
+          color="var(--a-icon-danger)"
           title="feil-ikon"
         />
       );
@@ -120,7 +116,7 @@ const DeltakerSvarIcon = ({
       return (
         <MinusCircleFillIcon
           fontSize="1.5em"
-          color={navFarger.navGra40}
+          color="var(--a-gray-600)"
           title="minus-sirkel-ikon"
         />
       );
@@ -133,10 +129,10 @@ interface SvarDetaljerTekstProps {
 }
 
 const SvarDetaljerTekst = ({ header, tekst }: SvarDetaljerTekstProps) => (
-  <DetaljerTekst>
-    <Element>{header}</Element>
-    <Normaltekst>{tekst}</Normaltekst>
-  </DetaljerTekst>
+  <>
+    <Label size="small">{header}</Label>
+    <BodyLong size="small">{tekst}</BodyLong>
+  </>
 );
 
 interface DeltakerBehandlerSvarDetaljerProps {
@@ -154,7 +150,7 @@ const DeltakerBehandlerSvarDetaljer = ({
     )}`;
 
   if (svarList.length === 0) {
-    return <DetaljerTekst>{texts.harIkkeBegrunnelse}</DetaljerTekst>;
+    return <BodyLong size="small">{texts.harIkkeBegrunnelse}</BodyLong>;
   }
 
   if (svarList.length === 1) {
@@ -165,7 +161,7 @@ const DeltakerBehandlerSvarDetaljer = ({
         tekst={svar.tekst}
       />
     ) : (
-      <DetaljerTekst>{texts.harIkkeBegrunnelse}</DetaljerTekst>
+      <BodyLong size="small">{texts.harIkkeBegrunnelse}</BodyLong>
     );
   }
 
@@ -209,19 +205,6 @@ const DeltakerBehandlerSvarPanel = ({
   );
 };
 
-const DeltakerLabel = styled(Element)`
-  margin-left: 0.5em;
-`;
-
-const TittelTekst = styled(Normaltekst)`
-  margin-left: 0.5em;
-`;
-
-const StyledEkspanderbartpanel = styled(Ekspanderbartpanel)`
-  margin-bottom: 1em;
-  border: 1px solid ${navFarger.navGra60};
-`;
-
 interface EkspanderbartSvarPanelProps {
   deltaker: string;
   tittel: string;
@@ -235,23 +218,19 @@ const EkspanderbartSvarPanel = ({
   tittel,
   children,
 }: EkspanderbartSvarPanelProps) => (
-  <StyledEkspanderbartpanel
-    renderContentWhenClosed
-    tittel={
-      <FlexRow>
-        {icon}
-        <DeltakerLabel>{deltaker}</DeltakerLabel>
-        <TittelTekst>{tittel}</TittelTekst>
-      </FlexRow>
-    }
-  >
-    {children}
-  </StyledEkspanderbartpanel>
+  <ExpansionCard size="small" aria-label={tittel} className="mb-4">
+    <ExpansionCard.Header>
+      <ExpansionCard.Title size="small">
+        <div className="flex gap-1 items-center">
+          {icon}
+          <Label size="small">{deltaker}</Label>
+          <BodyShort size="small">{tittel}</BodyShort>
+        </div>
+      </ExpansionCard.Title>
+    </ExpansionCard.Header>
+    <ExpansionCard.Content>{children}</ExpansionCard.Content>
+  </ExpansionCard>
 );
-
-const DetaljerTekst = styled.div`
-  margin-top: 0.5em;
-`;
 
 interface DeltakerSvarPanelProps {
   deltakerLabel: string;
@@ -287,15 +266,11 @@ const DeltakerSvarPanel = ({
           tekst={svar.svarTekst}
         />
       ) : (
-        <DetaljerTekst>{texts.harIkkeBegrunnelse}</DetaljerTekst>
+        <BodyLong size="small">{texts.harIkkeBegrunnelse}</BodyLong>
       )}
     </EkspanderbartSvarPanel>
   );
 };
-
-const StyledColumn = styled(FlexColumn)`
-  width: 100%;
-`;
 
 interface DeltakereSvarInfoProps {
   dialogmote: DialogmoteDTO;
@@ -312,7 +287,7 @@ export const DeltakereSvarInfo = ({ dialogmote }: DeltakereSvarInfoProps) => {
   const customTitle = noNarmesteLeder ? texts.noNarmesteleder : undefined;
 
   return (
-    <StyledColumn>
+    <div className="flex flex-col w-full">
       <DeltakerSvarPanel
         deltakerLabel={texts.naermesteLeder}
         deltakerNavn={narmesteLederNavn ?? ""}
@@ -327,6 +302,6 @@ export const DeltakereSvarInfo = ({ dialogmote }: DeltakereSvarInfoProps) => {
       {dialogmote.behandler && (
         <DeltakerBehandlerSvarPanel behandler={dialogmote.behandler} />
       )}
-    </StyledColumn>
+    </div>
   );
 };

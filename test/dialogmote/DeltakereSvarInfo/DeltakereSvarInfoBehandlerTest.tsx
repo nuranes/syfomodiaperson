@@ -1,4 +1,4 @@
-import { QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   DialogmotedeltakerBehandlerVarselSvarDTO,
   DialogmoteDTO,
@@ -10,7 +10,7 @@ import {
   dialogmote,
   dialogmoteMedBehandler,
 } from "../testData";
-import { render, screen, within } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { DeltakereSvarInfo } from "@/components/dialogmote/DeltakereSvarInfo";
 import React from "react";
 import { expect } from "chai";
@@ -19,7 +19,7 @@ import {
   testQueryClient,
 } from "../../testQueryClient";
 
-let queryClient: any;
+let queryClient: QueryClient;
 
 const dialogmoteBehandlerMedSvar = (
   svarList: Pick<
@@ -44,16 +44,6 @@ const dialogmoteBehandlerMedSvar = (
 });
 
 const ingenDetaljerTekst = "Ingen detaljer er tilgjengelig.";
-
-const getBehandlerExpandableButton = () =>
-  screen.getByRole("button", {
-    name: /Behandleren/,
-  });
-
-const getBehandlerExpanded = () =>
-  screen.getByRole("region", {
-    name: /Behandleren/,
-  });
 
 const renderDeltakereSvarInfo = (dialogmote: DialogmoteDTO) =>
   render(
@@ -92,18 +82,18 @@ describe("DeltakereSvarInfo med behandler", () => {
       const expectedText = `${behandlerDeltaker.behandlerNavn}, har ikke gitt svar`;
       renderDeltakereSvarInfo(dialogmoteMedUbesvartVarsel);
 
-      const behandlerExpandableButon = getBehandlerExpandableButton();
-      const behandlerExpanded = getBehandlerExpanded();
-
+      expect(screen.getAllByRole("button", { name: "Vis mer" })).to.have.length(
+        3
+      );
       expect(screen.getByText("Behandleren:", { exact: false })).to.exist;
       expect(screen.getByText(expectedText, { exact: false })).to.exist;
       expect(
-        within(behandlerExpandableButon).getByRole("img", {
+        screen.getAllByRole("img", {
           name: "minus-sirkel-ikon",
         })
-      ).to.exist;
-      expect(within(behandlerExpanded).getByText(ingenDetaljerTekst)).to.exist;
-      expect(within(behandlerExpanded).queryByText("Begrunnelse")).to.not.exist;
+      ).to.have.length(3);
+      expect(screen.getAllByText(ingenDetaljerTekst)).to.have.length(3);
+      expect(screen.queryByText("Begrunnelse")).to.not.exist;
     });
   });
   describe("behandler har svart kommer uten begrunnelse", () => {
@@ -118,18 +108,18 @@ describe("DeltakereSvarInfo med behandler", () => {
       const expectedText = `${behandlerDeltaker.behandlerNavn}, kommer - Svar mottatt 07.12.2021`;
       renderDeltakereSvarInfo(dialogmoteMedSvar);
 
-      const behandlerExpandableButton = getBehandlerExpandableButton();
-      const behandlerExpanded = getBehandlerExpanded();
-
+      expect(screen.getAllByRole("button", { name: "Vis mer" })).to.have.length(
+        3
+      );
       expect(screen.getByText("Behandleren:", { exact: false })).to.exist;
       expect(screen.getByText(expectedText, { exact: false })).to.exist;
       expect(
-        within(behandlerExpandableButton).getByRole("img", {
+        screen.getByRole("img", {
           name: "suksess-ikon",
         })
       ).to.exist;
-      expect(within(behandlerExpanded).getByText(ingenDetaljerTekst)).to.exist;
-      expect(within(behandlerExpanded).queryByText("Begrunnelse")).to.not.exist;
+      expect(screen.getAllByText(ingenDetaljerTekst)).to.have.length(3);
+      expect(screen.queryByText("Begrunnelse")).to.not.exist;
     });
   });
   describe("behandler har svart 'kommer ikke' med begrunnelse", () => {
@@ -145,23 +135,23 @@ describe("DeltakereSvarInfo med behandler", () => {
       const expectedText = `${behandlerDeltaker.behandlerNavn}, ønsker å avlyse - Svar mottatt 08.12.2021`;
       renderDeltakereSvarInfo(dialogmoteMedSvar);
 
-      const behandlerExpandableButton = getBehandlerExpandableButton();
-      const behandlerExpanded = getBehandlerExpanded();
-
+      expect(screen.getAllByRole("button", { name: "Vis mer" })).to.have.length(
+        3
+      );
       expect(screen.getByText("Behandleren:", { exact: false })).to.exist;
       expect(screen.getByText(expectedText, { exact: false })).to.exist;
       expect(
-        within(behandlerExpandableButton).getByRole("img", {
+        screen.getByRole("img", {
           name: "feil-ikon",
         })
       ).to.exist;
       expect(
-        within(behandlerExpanded).getByText("Begrunnelse mottatt 08.12.2021", {
+        screen.getByText("Begrunnelse mottatt 08.12.2021", {
           exact: false,
         })
       ).to.exist;
       expect(
-        within(behandlerExpanded).getByText("Jeg kan ikke komme", {
+        screen.getByText("Jeg kan ikke komme", {
           exact: false,
         })
       ).to.exist;
@@ -185,39 +175,37 @@ describe("DeltakereSvarInfo med behandler", () => {
       const expectedText = `${behandlerDeltaker.behandlerNavn}, ønsker å endre tidspunkt eller sted - Oppdatering mottatt 08.12.2021`;
       renderDeltakereSvarInfo(dialogmoteMedSvar);
 
-      const behandlerExpandableButton = getBehandlerExpandableButton();
-      const behandlerExpanded = getBehandlerExpanded();
-
+      expect(screen.getAllByRole("button", { name: "Vis mer" })).to.have.length(
+        3
+      );
       expect(screen.getByText("Behandleren:", { exact: false })).to.exist;
       expect(screen.getByText(expectedText, { exact: false })).to.exist;
       expect(
-        within(behandlerExpandableButton).getByRole("img", {
+        screen.getByRole("img", {
           name: "advarsel-ikon",
         })
       ).to.exist;
       expect(
-        within(behandlerExpanded).getByText("Begrunnelse mottatt 08.12.2021", {
+        screen.getByText("Begrunnelse mottatt 08.12.2021", {
           exact: false,
         })
       ).to.exist;
       expect(
-        within(behandlerExpanded).getByText("Tidspunktet passer ikke likevel", {
+        screen.getByText("Tidspunktet passer ikke likevel", {
           exact: false,
         })
       ).to.exist;
       expect(
-        within(behandlerExpanded).getByText("Begrunnelse mottatt 07.12.2021", {
+        screen.getByText("Begrunnelse mottatt 07.12.2021", {
           exact: false,
         })
       ).to.exist;
+      expect(screen.getByText("Jeg kommer", { exact: false })).to.exist;
       expect(
-        within(behandlerExpanded).getByText("Jeg kommer", { exact: false })
-      ).to.exist;
-      expect(
-        within(behandlerExpanded).queryByText(ingenDetaljerTekst, {
+        screen.getAllByText(ingenDetaljerTekst, {
           exact: false,
         })
-      ).to.not.exist;
+      ).to.have.length(2);
     });
   });
   describe("behandler har svart 'kommer ikke' med begrunnelse etter 'kommer' uten begrunnelse", () => {
@@ -237,31 +225,31 @@ describe("DeltakereSvarInfo med behandler", () => {
       const expectedText = `${behandlerDeltaker.behandlerNavn}, ønsker å avlyse - Oppdatering mottatt 08.12.2021`;
       renderDeltakereSvarInfo(dialogmoteMedSvar);
 
-      const behandlerExpandableButton = getBehandlerExpandableButton();
-      const behandlerExpanded = getBehandlerExpanded();
-
+      expect(screen.getAllByRole("button", { name: "Vis mer" })).to.have.length(
+        3
+      );
       expect(screen.getByText("Behandleren:", { exact: false })).to.exist;
       expect(screen.getByText(expectedText, { exact: false })).to.exist;
       expect(
-        within(behandlerExpandableButton).getByRole("img", {
+        screen.getByRole("img", {
           name: "feil-ikon",
         })
       ).to.exist;
       expect(
-        within(behandlerExpanded).getByText("Begrunnelse mottatt 08.12.2021", {
+        screen.getByText("Begrunnelse mottatt 08.12.2021", {
           exact: false,
         })
       ).to.exist;
       expect(
-        within(behandlerExpanded).getByText("Kommer ikke likevel", {
+        screen.getByText("Kommer ikke likevel", {
           exact: false,
         })
       ).to.exist;
       expect(
-        within(behandlerExpanded).queryByText(ingenDetaljerTekst, {
+        screen.getAllByText(ingenDetaljerTekst, {
           exact: false,
         })
-      ).to.not.exist;
+      ).to.have.length(2);
     });
   });
 });
