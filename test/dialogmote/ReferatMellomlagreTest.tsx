@@ -4,18 +4,12 @@ import Referat, {
 } from "../../src/components/dialogmote/referat/Referat";
 import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
 import { expect } from "chai";
-import {
-  changeTextInput,
-  clickButton,
-  getCheckbox,
-  getTextInput,
-} from "../testUtils";
+import { changeTextInput, clickButton, getTextInput } from "../testUtils";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { dialogmoteRoutePath } from "@/routers/AppRouter";
 import {
   annenDeltakerFunksjon,
   annenDeltakerNavn,
-  behandlerDeltakerTekst,
   dialogmoteMedBehandler,
   dialogmoteMedMellomlagretReferat,
   dialogmoteMedMellomlagretReferatBehandlerIkkeDeltatt,
@@ -82,19 +76,24 @@ describe("ReferatMellomlagreTest", () => {
     expect(screen.getByDisplayValue(moteTekster.konklusjonTekst)).to.exist;
     expect(screen.getByDisplayValue(annenDeltakerNavn)).to.exist;
     expect(screen.getByDisplayValue(annenDeltakerFunksjon)).to.exist;
-    const checkedStandardtekst = getCheckbox(referatStandardTekst.label, true);
+    const checkedStandardtekst = screen.getByRole("checkbox", {
+      checked: true,
+      name: referatStandardTekst.label,
+    });
     expect(checkedStandardtekst).to.exist;
   });
 
   it("preutfyller referat-skjema behandler-deltakelse fra dialogmote", () => {
     renderReferat(dialogmoteMedMellomlagretReferatBehandlerIkkeDeltatt);
 
-    clickButton(`Medisinskrin-ikon ${behandlerDeltakerTekst}, deltok ikke`);
-
-    expect(getCheckbox(deltakereSkjemaTexts.behandlerDeltokLabel, false)).to
-      .exist;
-    expect(getCheckbox(deltakereSkjemaTexts.behandlerMottaReferatLabel, false))
-      .to.exist;
+    const behandlerDeltokInput: HTMLInputElement = screen.getByLabelText(
+      deltakereSkjemaTexts.behandlerDeltokLabel
+    );
+    expect(behandlerDeltokInput.checked).to.be.false;
+    const behandlerMottarReferatInput: HTMLInputElement = screen.getByLabelText(
+      deltakereSkjemaTexts.behandlerMottaReferatLabel
+    );
+    expect(behandlerMottarReferatInput.checked).to.be.false;
   });
 });
 

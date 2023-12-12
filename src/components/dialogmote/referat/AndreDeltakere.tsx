@@ -1,30 +1,17 @@
 import React from "react";
-import { LeggTilKnapp } from "../../LeggTilKnapp";
 import { FieldArray } from "react-final-form-arrays";
 import { NewDialogmotedeltakerAnnenDTO } from "@/data/dialogmote/types/dialogmoteReferatTypes";
 import { Field, useFormState } from "react-final-form";
-import { Input } from "nav-frontend-skjema";
 import { FlexColumn, FlexRow, PaddingSize } from "../../Layout";
-import styled from "styled-components";
 import { ValidationErrors } from "final-form";
-import { SlettKnapp } from "../../SlettKnapp";
+import { Button, TextField } from "@navikt/ds-react";
+import { PlusIcon, TrashIcon } from "@navikt/aksel-icons";
 
 const texts = {
   buttonText: "Legg til en deltaker",
   funksjonLabel: "Funksjon",
   navnLabel: "Navn",
 };
-
-const FunksjonColumn = styled(FlexColumn)`
-  margin-right: 1em;
-`;
-const NavnColumn = styled(FlexColumn)`
-  margin-right: 0.25em;
-`;
-
-const SlettColumn = styled(FlexColumn)`
-  margin-top: 1.85em;
-`;
 
 interface DeltakerFieldProps {
   fieldName: string;
@@ -48,57 +35,66 @@ const DeltakerField = ({
 }: DeltakerFieldProps) => (
   <Field<string> name={fieldName} parse={identityFunction}>
     {({ input }) => (
-      <Input
+      <TextField
         {...input}
         id={fieldName}
         label={label}
-        feil={submitFailed && errors && errors[fieldName]}
+        error={submitFailed && errors && errors[fieldName]}
+        type="text"
+        size="small"
       />
     )}
   </Field>
 );
 
-const AndreDeltakereBoks = styled.div`
-  margin-top: 2em;
-`;
-
 export const AndreDeltakere = () => {
   const { submitFailed, errors } = useFormState();
 
   return (
-    <AndreDeltakereBoks>
+    <div className="mt-4">
       <FieldArray<NewDialogmotedeltakerAnnenDTO> name={"andreDeltakere"}>
         {({ fields }) => (
           <>
             {fields.map((field, index) => (
               <FlexRow key={field} bottomPadding={PaddingSize.SM}>
-                <FunksjonColumn flex={0.3}>
+                <FlexColumn className="mr-4" flex={0.3}>
                   <DeltakerField
                     fieldName={`${field}.funksjon`}
                     label={texts.funksjonLabel}
                     submitFailed={submitFailed}
                     errors={errors}
                   />
-                </FunksjonColumn>
-                <NavnColumn flex={0.3}>
+                </FlexColumn>
+                <FlexColumn className="mr-1" flex={0.3}>
                   <DeltakerField
                     fieldName={`${field}.navn`}
                     label={texts.navnLabel}
                     submitFailed={submitFailed}
                     errors={errors}
                   />
-                </NavnColumn>
-                <SlettColumn>
-                  <SlettKnapp onClick={() => fields.remove(index)} />
-                </SlettColumn>
+                </FlexColumn>
+                <FlexColumn className="mt-7">
+                  <Button
+                    type="button"
+                    variant="tertiary"
+                    size="small"
+                    icon={<TrashIcon title="Slett ikon" />}
+                    onClick={() => fields.remove(index)}
+                  />
+                </FlexColumn>
               </FlexRow>
             ))}
-            <LeggTilKnapp onClick={() => fields.push(initialDeltaker)}>
+            <Button
+              type="button"
+              variant="secondary"
+              icon={<PlusIcon title="Pluss ikon" />}
+              onClick={() => fields.push(initialDeltaker)}
+            >
               {texts.buttonText}
-            </LeggTilKnapp>
+            </Button>
           </>
         )}
       </FieldArray>
-    </AndreDeltakereBoks>
+    </div>
   );
 };

@@ -1,16 +1,12 @@
 import React, { ReactElement, ReactNode, useEffect, useState } from "react";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
-import { Normaltekst, Systemtittel, Undertittel } from "nav-frontend-typografi";
 import { Field, useFormState } from "react-final-form";
 import styled from "styled-components";
-import { Checkbox, Input } from "nav-frontend-skjema";
 import { FlexColumn, FlexRow, PaddingSize } from "../../Layout";
 import { AndreDeltakere } from "./AndreDeltakere";
 import { useAktivVeilederinfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
 import { DialogmotedeltakerBehandlerDTO } from "@/data/dialogmote/types/dialogmoteTypes";
 import { behandlerDeltokTekst } from "@/utils/behandlerUtils";
-import { EkspanderbartpanelBase } from "nav-frontend-ekspanderbartpanel";
-import navFarger from "nav-frontend-core";
 import { ReferatSkjemaValues } from "@/components/dialogmote/referat/Referat";
 import {
   PersonIcon,
@@ -18,6 +14,7 @@ import {
   PersonSuitIcon,
 } from "@navikt/aksel-icons";
 import { MedisinskrinImage } from "../../../../img/ImageComponents";
+import { Checkbox, ExpansionCard, Heading, TextField } from "@navikt/ds-react";
 
 export const texts = {
   title: "Deltakere i møtet",
@@ -32,14 +29,6 @@ export const texts = {
     "Dersom behandleren ikke deltok i møtet, men likevel ønsker å motta referat, krever det et samtykke fra arbeidstakeren.",
 };
 
-const DeltakereBoks = styled.div`
-  margin-bottom: 4em;
-`;
-
-const Header = styled(Systemtittel)`
-  margin-bottom: 1.5em;
-`;
-
 const deltakerIconProps = {
   role: "img",
   focusable: false,
@@ -47,18 +36,15 @@ const deltakerIconProps = {
   height: 24,
 };
 
-const StyledEkspanderbartpanel = styled(EkspanderbartpanelBase)`
-  margin-bottom: 0.5em;
-  border: 1px solid ${navFarger.navGra60};
-`;
-
 interface DeltakerEkspanderbartPanelProps {
+  ariaLabel: string;
   tittel: ReactNode;
   children: ReactNode;
   harValideringsfeil?: boolean;
 }
 
 const DeltakerEkspanderbartPanel = ({
+  ariaLabel,
   tittel,
   children,
   harValideringsfeil,
@@ -71,14 +57,16 @@ const DeltakerEkspanderbartPanel = ({
   }, [harValideringsfeil]);
 
   return (
-    <StyledEkspanderbartpanel
-      renderContentWhenClosed
-      apen={open}
-      onClick={() => setOpen(!open)}
-      tittel={tittel}
+    <ExpansionCard
+      className="mb-2"
+      size="small"
+      open={open}
+      onToggle={() => setOpen(!open)}
+      aria-label={ariaLabel}
     >
-      {children}
-    </StyledEkspanderbartpanel>
+      <ExpansionCard.Header>{tittel}</ExpansionCard.Header>
+      <ExpansionCard.Content>{children}</ExpansionCard.Content>
+    </ExpansionCard>
   );
 };
 
@@ -86,7 +74,7 @@ interface DeltakerTekstProps {
   color?: string;
 }
 
-const DeltakerTekst = styled(Undertittel)<DeltakerTekstProps>`
+const DeltakerTekst = styled(Heading)<DeltakerTekstProps>`
   margin-left: 0.5em;
   ${(props) =>
     props.color && {
@@ -102,9 +90,11 @@ const DeltakerBehandler = ({ behandler }: DeltakerBehandlerProps) => {
   const {
     values: { behandlerDeltatt },
   } = useFormState<ReferatSkjemaValues>();
+  const tittelTekst = behandlerDeltokTekst(behandler, behandlerDeltatt);
 
   return (
     <DeltakerEkspanderbartPanel
+      ariaLabel={tittelTekst}
       tittel={
         <FlexRow>
           <img
@@ -112,31 +102,31 @@ const DeltakerBehandler = ({ behandler }: DeltakerBehandlerProps) => {
             alt="Medisinskrin-ikon"
             {...deltakerIconProps}
           />
-          <DeltakerTekst>
-            {behandlerDeltokTekst(behandler, behandlerDeltatt)}
-          </DeltakerTekst>
+          <DeltakerTekst size="small">{tittelTekst}</DeltakerTekst>
         </FlexRow>
       }
     >
-      <FlexRow topPadding={PaddingSize.SM}>
-        <Normaltekst>{texts.behandlerTekst}</Normaltekst>
-      </FlexRow>
+      <FlexRow topPadding={PaddingSize.SM}>{texts.behandlerTekst}</FlexRow>
       <FlexRow topPadding={PaddingSize.MD}>
         <Field name="behandlerDeltatt" type="checkbox">
           {({ input }) => (
-            <Checkbox {...input} label={texts.behandlerDeltokLabel} />
+            <Checkbox size="small" {...input}>
+              {texts.behandlerDeltokLabel}
+            </Checkbox>
           )}
         </Field>
       </FlexRow>
       <FlexRow topPadding={PaddingSize.MD}>
         <Field name="behandlerMottarReferat" type="checkbox">
           {({ input }) => (
-            <Checkbox {...input} label={texts.behandlerMottaReferatLabel} />
+            <Checkbox size="small" {...input}>
+              {texts.behandlerMottaReferatLabel}
+            </Checkbox>
           )}
         </Field>
       </FlexRow>
       <FlexRow topPadding={PaddingSize.MD}>
-        <Normaltekst>{texts.behandlerReferatSamtykke}</Normaltekst>
+        {texts.behandlerReferatSamtykke}
       </FlexRow>
     </DeltakerEkspanderbartPanel>
   );
@@ -147,32 +137,38 @@ const DeltakerArbeidsgiver = () => {
     <Field<string> name="naermesteLeder">
       {({ input, meta }) => {
         const harValideringsfeil = meta.submitFailed && !!meta.error;
-        const tittelFarge = harValideringsfeil ? navFarger.redError : undefined;
+        const tittelFarge = harValideringsfeil
+          ? "var(--a-text-danger)"
+          : undefined;
+        const tittelTekst = `Fra arbeidsgiver: ${input.value || ""}`;
 
         return (
           <DeltakerEkspanderbartPanel
+            ariaLabel={tittelTekst}
             harValideringsfeil={harValideringsfeil}
             tittel={
               <FlexRow>
                 <PersonSuitIcon {...deltakerIconProps} color={tittelFarge} />
-                <DeltakerTekst color={tittelFarge}>{`Fra arbeidsgiver: ${
-                  input.value || ""
-                }`}</DeltakerTekst>
+                <DeltakerTekst size="small" color={tittelFarge}>
+                  {tittelTekst}
+                </DeltakerTekst>
               </FlexRow>
             }
           >
             <FlexRow topPadding={PaddingSize.SM}>
               <FlexColumn flex={0.5}>
-                <Input
+                <TextField
                   {...input}
                   id="naermesteLeder"
                   label={texts.arbeidsgiverLabel}
-                  feil={meta.submitFailed && meta.error}
+                  error={meta.submitFailed && meta.error}
+                  type="text"
+                  size="small"
                 />
               </FlexColumn>
             </FlexRow>
             <FlexRow topPadding={PaddingSize.MD}>
-              <Normaltekst>{texts.arbeidsgiverTekst}</Normaltekst>
+              {texts.arbeidsgiverTekst}
             </FlexRow>
           </DeltakerEkspanderbartPanel>
         );
@@ -190,20 +186,22 @@ const Deltakere = ({ behandler }: DeltakereProps): ReactElement => {
   const { data: veilederinfo } = useAktivVeilederinfoQuery();
 
   return (
-    <DeltakereBoks>
-      <Header>{texts.title}</Header>
+    <div className="mb-16">
+      <Heading size="medium" className="mb-4">
+        {texts.title}
+      </Heading>
       <FlexRow leftPadding={PaddingSize.SM} bottomPadding={PaddingSize.MD}>
         <PersonIcon {...deltakerIconProps} />
-        <DeltakerTekst>{`Arbeidstaker: ${navbruker?.navn}`}</DeltakerTekst>
+        <DeltakerTekst size="small">{`Arbeidstaker: ${navbruker?.navn}`}</DeltakerTekst>
       </FlexRow>
       <FlexRow leftPadding={PaddingSize.SM} bottomPadding={PaddingSize.MD}>
         <PersonPencilIcon {...deltakerIconProps} />
-        <DeltakerTekst>{`Fra NAV: ${veilederinfo?.navn}`}</DeltakerTekst>
+        <DeltakerTekst size="small">{`Fra NAV: ${veilederinfo?.navn}`}</DeltakerTekst>
       </FlexRow>
       <DeltakerArbeidsgiver />
       {behandler && <DeltakerBehandler behandler={behandler} />}
       <AndreDeltakere />
-    </DeltakereBoks>
+    </div>
   );
 };
 

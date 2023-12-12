@@ -31,12 +31,6 @@ export const changeTextInput = (input: HTMLElement, value: string) =>
     target: { value },
   });
 
-export const getCheckbox = (name: string, checked: boolean) =>
-  screen.getByRole("checkbox", {
-    checked,
-    name,
-  });
-
 export const maxLengthErrorMessage = (max: number) =>
   `Maks ${max} tegn tillatt`;
 

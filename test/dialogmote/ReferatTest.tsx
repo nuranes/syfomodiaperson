@@ -11,7 +11,6 @@ import { texts as valideringsTexts } from "../../src/utils/valideringUtils";
 import {
   changeTextInput,
   clickButton,
-  getCheckbox,
   getFeilmeldingLink,
   getTextInput,
   getTooLongText,
@@ -89,8 +88,13 @@ describe("ReferatTest", () => {
       })
     ).to.exist;
 
-    clickButton("Fra arbeidsgiver: Tatten Tattover");
-    const getFraArbeidsgiverInput = () => getTextInput("Navn");
+    expect(
+      screen.getByRole("region", {
+        name: "Fra arbeidsgiver: Tatten Tattover",
+      })
+    ).to.exist;
+
+    const getFraArbeidsgiverInput = () => screen.getByLabelText("Navn");
 
     // Sjekk at 'Fra arbeidsgiver' valideres
     changeTextInput(getFraArbeidsgiverInput(), "");
@@ -112,30 +116,34 @@ describe("ReferatTest", () => {
     expect(screen.getByRole("heading", { name: behandlerDeltakerTekst })).to
       .exist;
 
-    clickButton(`Medisinskrin-ikon ${behandlerDeltakerTekst}`);
+    expect(
+      screen.getByRole("region", {
+        name: behandlerDeltakerTekst,
+      })
+    ).to.exist;
 
-    expect(getCheckbox(deltakereSkjemaTexts.behandlerDeltokLabel, true)).to
-      .exist;
-    expect(getCheckbox(deltakereSkjemaTexts.behandlerMottaReferatLabel, true))
-      .to.exist;
+    const behandlerDeltokInput: HTMLInputElement = screen.getByLabelText(
+      deltakereSkjemaTexts.behandlerDeltokLabel
+    );
+    expect(behandlerDeltokInput.checked).to.be.true;
+    const behandlerMottarReferatInput: HTMLInputElement = screen.getByLabelText(
+      deltakereSkjemaTexts.behandlerMottaReferatLabel
+    );
+    expect(behandlerMottarReferatInput.checked).to.be.true;
   });
 
   it("kan endre behandlers deltakelse", () => {
     stubFerdigstillApi(apiMock(), dialogmoteMedBehandler.uuid);
     renderReferat(dialogmoteMedBehandler);
     passSkjemaTekstInput();
-    clickButton(`Medisinskrin-ikon ${behandlerDeltakerTekst}`);
 
     // Fjern avkrysning på deltakelse og motta referat
-    const behandlerDeltokCheckbox = getCheckbox(
-      deltakereSkjemaTexts.behandlerDeltokLabel,
-      true
+    const behandlerDeltokCheckbox: HTMLInputElement = screen.getByLabelText(
+      deltakereSkjemaTexts.behandlerDeltokLabel
     );
     userEvent.click(behandlerDeltokCheckbox);
-    const behandlerMottaReferatCheckbox = getCheckbox(
-      deltakereSkjemaTexts.behandlerMottaReferatLabel,
-      true
-    );
+    const behandlerMottaReferatCheckbox: HTMLInputElement =
+      screen.getByLabelText(deltakereSkjemaTexts.behandlerMottaReferatLabel);
     userEvent.click(behandlerMottaReferatCheckbox);
 
     clickButton("Lagre og send");
