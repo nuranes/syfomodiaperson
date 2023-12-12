@@ -21,15 +21,15 @@ import { EventType } from "@/utils/amplitude";
 import dayjs from "dayjs";
 
 const texts = {
-  header: "Trenger oppfølging",
+  header: "Oppfølgingsoppgave",
   save: "Lagre",
   close: "Avbryt",
-  missingOppfolgingsgrunn: "Vennligst angi oppfolgingsgrunn.",
+  missingOppfolgingsgrunn: "Vennligst angi oppfølgingsgrunn.",
   oppfolgingsgrunnLabel: "Velg oppfølgingsgrunn",
   datepickerLabel: "Frist",
-  huskelappHelpText:
+  oppfolgingsoppgaveHelpText:
     "Her kan du opprette en oppfølgingsoppgave hvis du har behov for å følge opp den sykmeldte utenom de hendelsene Modia lager automatisk. Oppfølgingsbehovet må være hjemlet i folketrygdloven kapittel 8 og den sykmeldte kan kreve innsyn i disse oppgavene.",
-  huskelappTooltip: "Hva er huskelapp?",
+  oppfolgingsoppgaveTooltip: "Hva er oppfølgingsoppgave?",
 };
 
 interface FormValues {
@@ -82,7 +82,7 @@ export const HuskelappModal = ({ isOpen, toggleOpen }: HuskelappModalProps) => {
       <Modal
         closeOnBackdropClick
         className="px-6 py-4 w-full max-w-[50rem]"
-        aria-label={"huskelapp"}
+        aria-label={texts.header}
         open={isOpen}
         onClose={() => toggleOpen(false)}
       >
@@ -97,11 +97,11 @@ export const HuskelappModal = ({ isOpen, toggleOpen }: HuskelappModalProps) => {
               {texts.header}
             </Heading>
             <HelpText
-              title={texts.huskelappTooltip}
+              title={texts.oppfolgingsoppgaveTooltip}
               placement="right"
               className={"self-center"}
             >
-              {texts.huskelappHelpText}
+              {texts.oppfolgingsoppgaveHelpText}
             </HelpText>
           </div>
         </Modal.Header>

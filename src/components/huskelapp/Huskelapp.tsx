@@ -17,9 +17,9 @@ import { useVeilederInfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks
 import { VeilederinfoDTO } from "@/data/veilederinfo/types/VeilederinfoDTO";
 
 const texts = {
-  title: "Trenger oppfølging",
+  title: "Oppfølgingsoppgave",
   remove: "Fjern",
-  removeTooltip: "Fjerner huskelappen og oppgaven fra oversikten",
+  removeTooltip: "Fjerner oppfølgingsoppgaven fra oversikten",
   createdBy: (veileder: VeilederinfoDTO, createdAt: Date) =>
     `Opprettet av: ${veileder.navn} (${
       veileder.ident

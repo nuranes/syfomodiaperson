@@ -4,7 +4,7 @@ import { HuskelappModal } from "@/components/huskelapp/HuskelappModal";
 import { PlusCircleIcon } from "@navikt/aksel-icons";
 
 const texts = {
-  openModal: "Trenger oppfølging",
+  openModal: "Oppfølgingsoppgave",
 };
 
 export const OpenHuskelappModalButton = () => {

@@ -35,6 +35,7 @@ const huskelapp: HuskelappResponseDTO = {
   createdAt: new Date(),
   frist: "2030-01-01",
 };
+const openOppfolgingsoppgaveButtonText = "Oppfølgingsoppgave";
 
 const renderHuskelapp = () =>
   render(
@@ -95,7 +96,7 @@ describe("Huskelapp", () => {
 
       const openModalButton = await screen.findByRole("button", {
         hidden: true,
-        name: "Trenger oppfølging",
+        name: openOppfolgingsoppgaveButtonText,
       });
       userEvent.click(openModalButton);
 
@@ -112,7 +113,7 @@ describe("Huskelapp", () => {
 
       const openModalButton = await screen.findByRole("button", {
         hidden: true,
-        name: "Trenger oppfølging",
+        name: openOppfolgingsoppgaveButtonText,
       });
       userEvent.click(openModalButton);
 
