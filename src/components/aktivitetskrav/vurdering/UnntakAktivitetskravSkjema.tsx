@@ -3,6 +3,7 @@ import {
   AktivitetskravStatus,
   CreateAktivitetskravVurderingDTO,
   UnntakVurderingArsak,
+  VarselType,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { unntakVurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
 import { SkjemaHeading } from "@/components/aktivitetskrav/vurdering/SkjemaHeading";
@@ -19,6 +20,7 @@ import BegrunnelseTextarea, {
   begrunnelseMaxLength,
 } from "@/components/aktivitetskrav/vurdering/BegrunnelseTextarea";
 import { useAktivitetskravNotificationAlert } from "@/components/aktivitetskrav/useAktivitetskravNotificationAlert";
+import { useAktivitetskravVarselDocument } from "@/hooks/aktivitetskrav/useAktivitetskravVarselDocument";
 
 const texts = {
   title: "Sett unntak fra aktivitetskravet",
@@ -47,14 +49,21 @@ export const UnntakAktivitetskravSkjema = ({
     reset,
   } = useForm<UnntakAktivitetskravSkjemaValues>({ defaultValues });
   const vurderAktivitetskrav = useVurderAktivitetskrav(aktivitetskravUuid);
+  const { getVurderingDocument } = useAktivitetskravVarselDocument();
   const { displayNotification } = useAktivitetskravNotificationAlert();
 
   const submit = (values: UnntakAktivitetskravSkjemaValues) => {
     const status = AktivitetskravStatus.UNNTAK;
+    const { begrunnelse, arsak } = values;
     const createAktivitetskravVurderingDTO: CreateAktivitetskravVurderingDTO = {
       status,
-      arsaker: [values.arsak],
-      beskrivelse: values.begrunnelse,
+      arsaker: [arsak],
+      beskrivelse: begrunnelse,
+      document: getVurderingDocument({
+        begrunnelse,
+        arsak,
+        varselType: VarselType.UNNTAK,
+      }),
     };
     vurderAktivitetskrav.mutate(createAktivitetskravVurderingDTO, {
       onSuccess: () => {

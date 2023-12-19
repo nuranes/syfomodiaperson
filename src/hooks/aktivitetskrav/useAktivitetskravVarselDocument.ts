@@ -10,6 +10,13 @@ import {
   Brevmal,
   getForhandsvarselTexts,
 } from "@/data/aktivitetskrav/forhandsvarselTexts";
+import {
+  VarselType,
+  VurderingArsak,
+} from "@/data/aktivitetskrav/aktivitetskravTypes";
+import { useAktivVeilederinfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
+import { tilDatoMedManedNavn } from "@/utils/datoUtils";
+import { vurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
 
 type ForhandsvarselDocumentValues = {
   begrunnelse: string;
@@ -17,12 +24,20 @@ type ForhandsvarselDocumentValues = {
   mal: Brevmal;
 };
 
+type VurderingDocumentValues = {
+  varselType: VarselType;
+  begrunnelse: string;
+  arsak: VurderingArsak;
+};
+
 export const useAktivitetskravVarselDocument = (): {
   getForhandsvarselDocument(
     values: ForhandsvarselDocumentValues
   ): DocumentComponentDto[];
+  getVurderingDocument(values: VurderingDocumentValues): DocumentComponentDto[];
 } => {
-  const { getHilsen } = useDocumentComponents();
+  const { getHilsen, getIntroGjelder } = useDocumentComponents();
+  const { data: veilederinfo } = useAktivVeilederinfoQuery();
 
   const getForhandsvarselDocument = (values: ForhandsvarselDocumentValues) => {
     const { mal, begrunnelse, frist } = values;
@@ -64,7 +79,42 @@ export const useAktivitetskravVarselDocument = (): {
     return documentComponents;
   };
 
+  const getVurderingDocument = (values: VurderingDocumentValues) => {
+    const { varselType, begrunnelse, arsak } = values;
+    const documentComponents = [
+      createHeaderH1("Vurdering av aktivitetskravet"),
+      getIntroGjelder(),
+      createParagraph(getVurderingText(varselType, arsak)),
+    ];
+
+    if (begrunnelse) {
+      documentComponents.push(createParagraph(`Begrunnelse: ${begrunnelse}`));
+    }
+    documentComponents.push(
+      createParagraph(
+        "Vedtak ble fattet etter folketrygdloven § 8-8 andre ledd, samt tilhørende rundskriv."
+      ),
+      createParagraph(`Vurdert av ${veilederinfo?.navn || ""}`)
+    );
+
+    return documentComponents;
+  };
+
   return {
     getForhandsvarselDocument,
+    getVurderingDocument,
   };
+};
+
+const getVurderingText = (type: VarselType, arsak: VurderingArsak): string => {
+  const arsakText = vurderingArsakTexts[arsak] ?? "";
+  const vurdertDato = tilDatoMedManedNavn(new Date());
+  switch (type) {
+    case VarselType.UNNTAK: {
+      return `Det ble vurdert unntak fra aktivitetskravet den ${vurdertDato}. Årsak: ${arsakText}.`;
+    }
+    case VarselType.FORHANDSVARSEL_STANS_AV_SYKEPENGER: {
+      throw new Error("use getForhandsvarselDocument");
+    }
+  }
 };

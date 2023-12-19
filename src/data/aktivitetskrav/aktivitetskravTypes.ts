@@ -34,6 +34,11 @@ export enum OppfyltVurderingArsak {
   TILTAK = "TILTAK",
 }
 
+export enum VarselType {
+  FORHANDSVARSEL_STANS_AV_SYKEPENGER = "FORHANDSVARSEL_STANS_AV_SYKEPENGER",
+  UNNTAK = "UNNTAK",
+}
+
 export interface AktivitetskravDTO {
   uuid: string;
   createdAt: Date;
@@ -76,6 +81,7 @@ export interface CreateAktivitetskravVurderingDTO {
   status: AktivitetskravStatus;
   beskrivelse?: string;
   arsaker: VurderingArsak[];
+  document?: DocumentComponentDto[];
   frist?: string;
 }
 

@@ -38,7 +38,10 @@ import {
 import { expect } from "chai";
 import { tilLesbarPeriodeMedArUtenManednavn } from "@/utils/datoUtils";
 import dayjs from "dayjs";
-import { getSendForhandsvarselDocument } from "./varselDocuments";
+import {
+  getSendForhandsvarselDocument,
+  getUnntakDocument,
+} from "./varselDocuments";
 import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQueryHooks";
 import { personOppgaveUbehandletVurderStans } from "../../mock/ispersonoppgave/personoppgaveMock";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
@@ -236,10 +239,12 @@ describe("VurderAktivitetskrav", () => {
 
       await waitFor(() => {
         const vurderUnntakMutation = queryClient.getMutationCache().getAll()[0];
+        const expectedArsak = UnntakVurderingArsak.TILRETTELEGGING_IKKE_MULIG;
         const expectedVurdering: CreateAktivitetskravVurderingDTO = {
           beskrivelse: enBeskrivelse,
           status: AktivitetskravStatus.UNNTAK,
-          arsaker: [UnntakVurderingArsak.TILRETTELEGGING_IKKE_MULIG],
+          arsaker: [expectedArsak],
+          document: getUnntakDocument(enBeskrivelse, expectedArsak),
         };
         expect(vurderUnntakMutation.state.variables).to.deep.equal(
           expectedVurdering
