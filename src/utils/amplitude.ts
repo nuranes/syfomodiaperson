@@ -1,6 +1,7 @@
 import amplitude from "amplitude-js";
 import { erProd } from "@/utils/miljoUtil";
 import { Oppfolgingsgrunn } from "@/data/huskelapp/huskelappTypes";
+import { IkkeAktuellArsak } from "@/data/aktivitetskrav/aktivitetskravTypes";
 
 /**
  See documentation for naming guidelines: https://github.com/navikt/analytics-taxonomy
@@ -12,6 +13,7 @@ export enum EventType {
   Navigation = "navigere",
   AccordionOpen = "accordion åpnet",
   OppfolgingsgrunnSendt = "oppfolgingsgrunn sendt",
+  IkkeAktuellVurderingArsak = "Ikke aktuell vurdering arsak",
   ViewPortAndScreenResolution = "viewport og skjermstørrelse",
   OptionSelected = "alternativ valgt",
 }
@@ -56,6 +58,13 @@ type OppfolgingsgrunnSendt = {
   };
 };
 
+type IkkeAktuellVurderingArsak = {
+  type: EventType.IkkeAktuellVurderingArsak;
+  data: {
+    arsak: IkkeAktuellArsak;
+  };
+};
+
 type ViewPortAndScreenResolution = {
   type: EventType.ViewPortAndScreenResolution;
   data: {
@@ -86,6 +95,7 @@ type Event =
   | EventAccordionOpen
   | ViewPortAndScreenResolution
   | OppfolgingsgrunnSendt
+  | IkkeAktuellVurderingArsak
   | OptionSelected;
 
 export const logEvent = (event: Event) =>

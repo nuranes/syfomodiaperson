@@ -34,6 +34,13 @@ export enum OppfyltVurderingArsak {
   TILTAK = "TILTAK",
 }
 
+export enum IkkeAktuellArsak {
+  INNVILGET_VTA = "INNVILGET_VTA",
+  MOTTAR_AAP = "MOTTAR_AAP",
+  ER_DOD = "ER_DOD",
+  ANNET = "ANNET",
+}
+
 export enum VarselType {
   FORHANDSVARSEL_STANS_AV_SYKEPENGER = "FORHANDSVARSEL_STANS_AV_SYKEPENGER",
   UNNTAK = "UNNTAK",
@@ -75,7 +82,8 @@ export interface AktivitetskravVarselDTO {
 export type VurderingArsak =
   | AvventVurderingArsak
   | UnntakVurderingArsak
-  | OppfyltVurderingArsak;
+  | OppfyltVurderingArsak
+  | IkkeAktuellArsak;
 
 export interface CreateAktivitetskravVurderingDTO {
   status: AktivitetskravStatus;
