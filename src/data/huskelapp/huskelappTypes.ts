@@ -3,7 +3,7 @@ const texts = {
     taKontaktSykmeldt: "Ta kontakt med den sykmeldte",
     taKontaktArbeidsgiver: "Ta kontakt med arbeidsgiver",
     taKontaktBehandler: "Ta kontakt med behandler",
-    vurderDialogmoteSenere: "Vurder dialogmøte på et senere tidspunkt",
+    vurderDialogmoteSenere: "Vurder behov for dialogmøte",
     folgOppEtterNesteSykmelding: "Følg opp etter neste sykmelding",
     vurderTiltakBehov: "Vurder behov for tiltak",
     annet:

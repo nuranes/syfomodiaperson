@@ -26,7 +26,7 @@ let queryClient: QueryClient;
 let apiMockScope: nock.Scope;
 
 const huskelappOppfolgingsgrunn = Oppfolgingsgrunn.VURDER_DIALOGMOTE_SENERE;
-const huskelappOppfogingsgrunnText = "Vurder dialogmøte på et senere tidspunkt";
+const huskelappOppfogingsgrunnText = "Vurder behov for dialogmøte";
 const huskelapp: HuskelappResponseDTO = {
   createdBy: VEILEDER_IDENT_DEFAULT,
   uuid: generateUUID(),
@@ -118,7 +118,7 @@ describe("Huskelapp", () => {
       userEvent.click(openModalButton);
 
       const oppfolgingsgrunnRadioButton = await screen.findByText(
-        "Vurder dialogmøte på et senere tidspunkt"
+        "Vurder behov for dialogmøte"
       );
       userEvent.click(oppfolgingsgrunnRadioButton);
       const fristDateInput = screen.getByRole("textbox", {
