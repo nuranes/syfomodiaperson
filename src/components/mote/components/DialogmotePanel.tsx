@@ -1,6 +1,6 @@
 import React, { ReactElement, ReactNode } from "react";
 import { IconHeader } from "@/components/IconHeader";
-import { FlexPanel } from "@/components/Layout";
+import { Box } from "@navikt/ds-react";
 
 interface Props {
   icon: string;
@@ -11,9 +11,9 @@ interface Props {
 
 export const DialogmotePanel = ({ children, ...rest }: Props): ReactElement => {
   return (
-    <FlexPanel>
+    <Box background="surface-default" className="flex flex-col mb-4 p-8">
       <IconHeader altIcon="moteikon" {...rest} />
       {children}
-    </FlexPanel>
+    </Box>
   );
 };
