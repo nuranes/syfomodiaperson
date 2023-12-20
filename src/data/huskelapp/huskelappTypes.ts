@@ -6,8 +6,7 @@ const texts = {
     vurderDialogmoteSenere: "Vurder behov for dialogmøte",
     folgOppEtterNesteSykmelding: "Følg opp etter neste sykmelding",
     vurderTiltakBehov: "Vurder behov for tiltak",
-    annet:
-      "Annet (Gi tilbakemelding i Pilotgruppa på Teams hvilket avhukingsvalg du savner)",
+    annet: "Annet",
   },
 };
 
