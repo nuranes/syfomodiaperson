@@ -44,6 +44,8 @@ export enum IkkeAktuellArsak {
 export enum VarselType {
   FORHANDSVARSEL_STANS_AV_SYKEPENGER = "FORHANDSVARSEL_STANS_AV_SYKEPENGER",
   UNNTAK = "UNNTAK",
+  OPPFYLT = "OPPFYLT",
+  IKKE_AKTUELL = "IKKE_AKTUELL",
 }
 
 export interface AktivitetskravDTO {

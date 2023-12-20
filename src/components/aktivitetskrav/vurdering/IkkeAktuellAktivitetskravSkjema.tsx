@@ -2,6 +2,7 @@ import {
   AktivitetskravStatus,
   CreateAktivitetskravVurderingDTO,
   IkkeAktuellArsak,
+  VarselType,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import React from "react";
 import { useVurderAktivitetskrav } from "@/data/aktivitetskrav/useVurderAktivitetskrav";
@@ -14,6 +15,7 @@ import { VurderAktivitetskravSkjemaProps } from "@/components/aktivitetskrav/vur
 import BegrunnelseTextarea, {
   begrunnelseMaxLength,
 } from "@/components/aktivitetskrav/vurdering/BegrunnelseTextarea";
+import { useAktivitetskravVarselDocument } from "@/hooks/aktivitetskrav/useAktivitetskravVarselDocument";
 import { ikkeAktuellVurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
 import * as Amplitude from "@/utils/amplitude";
 import { EventType } from "@/utils/amplitude";
@@ -51,6 +53,7 @@ export const IkkeAktuellAktivitetskravSkjema = ({
   setModalOpen,
 }: IkkeAktuellAktivitetskravSkjemaProps) => {
   const vurderAktivitetskrav = useVurderAktivitetskrav(aktivitetskravUuid);
+  const { getVurderingDocument } = useAktivitetskravVarselDocument();
   const { displayNotification } = useAktivitetskravNotificationAlert();
 
   const {
@@ -61,12 +64,18 @@ export const IkkeAktuellAktivitetskravSkjema = ({
   } = useForm<SkjemaValues>();
 
   const onSubmit = (values: SkjemaValues) => {
-    const isBlank = values.begrunnelse?.trim() === "";
+    const { begrunnelse, arsak } = values;
+    const isBlank = begrunnelse?.trim() === "";
     const status = AktivitetskravStatus.IKKE_AKTUELL;
     const createAktivitetskravVurderingDTO: CreateAktivitetskravVurderingDTO = {
       status,
-      beskrivelse: isBlank ? undefined : values.begrunnelse,
-      arsaker: [values.arsak],
+      beskrivelse: isBlank ? undefined : begrunnelse,
+      arsaker: [arsak],
+      document: getVurderingDocument({
+        varselType: VarselType.IKKE_AKTUELL,
+        arsak,
+        begrunnelse,
+      }),
     };
     vurderAktivitetskrav.mutate(createAktivitetskravVurderingDTO, {
       onSuccess: () => {

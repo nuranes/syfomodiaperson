@@ -40,6 +40,8 @@ import { expect } from "chai";
 import { tilLesbarPeriodeMedArUtenManednavn } from "@/utils/datoUtils";
 import dayjs from "dayjs";
 import {
+  getIkkeAktuellDocument,
+  getOppfyltDocument,
   getSendForhandsvarselDocument,
   getUnntakDocument,
 } from "./varselDocuments";
@@ -192,10 +194,12 @@ describe("VurderAktivitetskrav", () => {
         const vurderOppfyltMutation = queryClient
           .getMutationCache()
           .getAll()[0];
+        const expectedArsak = OppfyltVurderingArsak.FRISKMELDT;
         const expectedVurdering: CreateAktivitetskravVurderingDTO = {
           beskrivelse: enBeskrivelse,
           status: AktivitetskravStatus.OPPFYLT,
-          arsaker: [OppfyltVurderingArsak.FRISKMELDT],
+          arsaker: [expectedArsak],
+          document: getOppfyltDocument(enBeskrivelse, expectedArsak),
         };
         expect(vurderOppfyltMutation.state.variables).to.deep.equal(
           expectedVurdering
@@ -543,10 +547,12 @@ describe("VurderAktivitetskrav", () => {
         const vurderIkkeAktuellMutation = queryClient
           .getMutationCache()
           .getAll()[0];
+        const expectedArsak = IkkeAktuellArsak.INNVILGET_VTA;
         const expectedVurdering: CreateAktivitetskravVurderingDTO = {
           status: AktivitetskravStatus.IKKE_AKTUELL,
           beskrivelse: enBeskrivelse,
-          arsaker: [IkkeAktuellArsak.INNVILGET_VTA],
+          arsaker: [expectedArsak],
+          document: getIkkeAktuellDocument(enBeskrivelse, expectedArsak),
         };
         expect(vurderIkkeAktuellMutation.state.variables).to.deep.equal(
           expectedVurdering

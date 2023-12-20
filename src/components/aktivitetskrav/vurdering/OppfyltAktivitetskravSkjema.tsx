@@ -3,6 +3,7 @@ import {
   AktivitetskravStatus,
   CreateAktivitetskravVurderingDTO,
   OppfyltVurderingArsak,
+  VarselType,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { oppfyltVurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
 import { SkjemaHeading } from "@/components/aktivitetskrav/vurdering/SkjemaHeading";
@@ -19,6 +20,7 @@ import BegrunnelseTextarea, {
   begrunnelseMaxLength,
 } from "@/components/aktivitetskrav/vurdering/BegrunnelseTextarea";
 import { useAktivitetskravNotificationAlert } from "@/components/aktivitetskrav/useAktivitetskravNotificationAlert";
+import { useAktivitetskravVarselDocument } from "@/hooks/aktivitetskrav/useAktivitetskravVarselDocument";
 
 const texts = {
   title: "Er i aktivitet",
@@ -48,14 +50,21 @@ export const OppfyltAktivitetskravSkjema = ({
     defaultValues,
   });
   const vurderAktivitetskrav = useVurderAktivitetskrav(aktivitetskravUuid);
+  const { getVurderingDocument } = useAktivitetskravVarselDocument();
   const { displayNotification } = useAktivitetskravNotificationAlert();
 
   const submit = (values: OppfyltAktivitetskravSkjemaValues) => {
+    const { arsak, begrunnelse } = values;
     const status = AktivitetskravStatus.OPPFYLT;
     const createAktivitetskravVurderingDTO: CreateAktivitetskravVurderingDTO = {
       status,
-      arsaker: [values.arsak],
-      beskrivelse: values.begrunnelse,
+      arsaker: [arsak],
+      beskrivelse: begrunnelse,
+      document: getVurderingDocument({
+        varselType: VarselType.OPPFYLT,
+        arsak,
+        begrunnelse,
+      }),
     };
     vurderAktivitetskrav.mutate(createAktivitetskravVurderingDTO, {
       onSuccess: () => {

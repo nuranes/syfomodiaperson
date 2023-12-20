@@ -26,7 +26,7 @@ type ForhandsvarselDocumentValues = {
 
 type VurderingDocumentValues = {
   varselType: VarselType;
-  begrunnelse: string;
+  begrunnelse: string | undefined;
   arsak: VurderingArsak;
 };
 
@@ -112,6 +112,12 @@ const getVurderingText = (type: VarselType, arsak: VurderingArsak): string => {
   switch (type) {
     case VarselType.UNNTAK: {
       return `Det ble vurdert unntak fra aktivitetskravet den ${vurdertDato}. Årsak: ${arsakText}.`;
+    }
+    case VarselType.OPPFYLT: {
+      return `Det ble vurdert at aktivitetskravet er oppfylt den ${vurdertDato}. Årsak: ${arsakText}.`;
+    }
+    case VarselType.IKKE_AKTUELL: {
+      return `Det ble vurdert at aktivitetskravet ikke er aktuelt den ${vurdertDato}. Årsak: ${arsakText}.`;
     }
     case VarselType.FORHANDSVARSEL_STANS_AV_SYKEPENGER: {
       throw new Error("use getForhandsvarselDocument");

@@ -12,8 +12,16 @@ import {
   Brevmal,
   getForhandsvarselTexts,
 } from "@/data/aktivitetskrav/forhandsvarselTexts";
-import { UnntakVurderingArsak } from "@/data/aktivitetskrav/aktivitetskravTypes";
-import { unntakVurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
+import {
+  IkkeAktuellArsak,
+  OppfyltVurderingArsak,
+  UnntakVurderingArsak,
+} from "@/data/aktivitetskrav/aktivitetskravTypes";
+import {
+  ikkeAktuellVurderingArsakTexts,
+  oppfyltVurderingArsakTexts,
+  unntakVurderingArsakTexts,
+} from "@/data/aktivitetskrav/aktivitetskravTexts";
 
 const expectedFristDate = addWeeks(new Date(), 3);
 
@@ -22,16 +30,8 @@ export const getUnntakDocument = (
   arsak: UnntakVurderingArsak
 ): DocumentComponentDto[] => {
   return [
-    {
-      texts: ["Vurdering av aktivitetskravet"],
-      type: DocumentComponentType.HEADER_H1,
-    },
-    {
-      texts: [
-        `Gjelder ${ARBEIDSTAKER_DEFAULT_FULL_NAME}, f.nr. ${ARBEIDSTAKER_DEFAULT.personIdent}`,
-      ],
-      type: DocumentComponentType.PARAGRAPH,
-    },
+    vurderingHeader,
+    vurderingGjelder,
     {
       texts: [
         `Det ble vurdert unntak fra aktivitetskravet den ${tilDatoMedManedNavn(
@@ -40,21 +40,81 @@ export const getUnntakDocument = (
       ],
       type: DocumentComponentType.PARAGRAPH,
     },
-    {
-      texts: [`Begrunnelse: ${begrunnelse}`],
-      type: DocumentComponentType.PARAGRAPH,
-    },
+    vurderingBegrunnelse(begrunnelse),
+    vurderingHjemmel,
+    vurderingHilsen,
+  ];
+};
+
+export const getIkkeAktuellDocument = (
+  begrunnelse: string,
+  arsak: IkkeAktuellArsak
+): DocumentComponentDto[] => {
+  return [
+    vurderingHeader,
+    vurderingGjelder,
     {
       texts: [
-        "Vedtak ble fattet etter folketrygdloven § 8-8 andre ledd, samt tilhørende rundskriv.",
+        `Det ble vurdert at aktivitetskravet ikke er aktuelt den ${tilDatoMedManedNavn(
+          new Date()
+        )}. Årsak: ${ikkeAktuellVurderingArsakTexts[arsak]}.`,
       ],
       type: DocumentComponentType.PARAGRAPH,
     },
+    vurderingBegrunnelse(begrunnelse),
+    vurderingHjemmel,
+    vurderingHilsen,
+  ];
+};
+
+export const getOppfyltDocument = (
+  begrunnelse: string,
+  arsak: OppfyltVurderingArsak
+): DocumentComponentDto[] => {
+  return [
+    vurderingHeader,
+    vurderingGjelder,
     {
-      texts: [`Vurdert av ${VEILEDER_DEFAULT.navn}`],
+      texts: [
+        `Det ble vurdert at aktivitetskravet er oppfylt den ${tilDatoMedManedNavn(
+          new Date()
+        )}. Årsak: ${oppfyltVurderingArsakTexts[arsak]}.`,
+      ],
       type: DocumentComponentType.PARAGRAPH,
     },
+    vurderingBegrunnelse(begrunnelse),
+    vurderingHjemmel,
+    vurderingHilsen,
   ];
+};
+
+const vurderingBegrunnelse = (begrunnelse: string) => ({
+  texts: [`Begrunnelse: ${begrunnelse}`],
+  type: DocumentComponentType.PARAGRAPH,
+});
+
+const vurderingHeader = {
+  texts: ["Vurdering av aktivitetskravet"],
+  type: DocumentComponentType.HEADER_H1,
+};
+
+const vurderingGjelder = {
+  texts: [
+    `Gjelder ${ARBEIDSTAKER_DEFAULT_FULL_NAME}, f.nr. ${ARBEIDSTAKER_DEFAULT.personIdent}`,
+  ],
+  type: DocumentComponentType.PARAGRAPH,
+};
+
+const vurderingHilsen = {
+  texts: [`Vurdert av ${VEILEDER_DEFAULT.navn}`],
+  type: DocumentComponentType.PARAGRAPH,
+};
+
+const vurderingHjemmel = {
+  texts: [
+    "Vedtak ble fattet etter folketrygdloven § 8-8 andre ledd, samt tilhørende rundskriv.",
+  ],
+  type: DocumentComponentType.PARAGRAPH,
 };
 
 export const getSendForhandsvarselDocument = (
