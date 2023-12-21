@@ -23,6 +23,7 @@ import { mockEsyfovarsel } from "./esyfovarsel/mockEsyfovarsel";
 
 import express from "express";
 import { mockIshuskelapp } from "./huskelapp/mockHuskelapp";
+import { mockFlexjar } from "./flexjar/mockFlexjar";
 
 const mockEndepunkter = (server: any) => {
   server.use(express.json());
@@ -32,6 +33,7 @@ const mockEndepunkter = (server: any) => {
     mockEreg,
     mockEsyfovarsel,
     mockFastlegerest,
+    mockFlexjar,
     mockIsnarmesteleder,
     mockIsoppfolgingstilfelle,
     mockIspersonoppgave,

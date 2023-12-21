@@ -314,6 +314,15 @@ export const auth = {
     }),
     removePathPrefix: true,
   },
+  flexjar: {
+    applicationName: "flexjar-backend",
+    clientId: envVar({
+      name: "FLEXJAR_AAD_APP_CLIENT_ID",
+    }),
+    host: envVar({
+      name: "FLEXJAR_HOST",
+    }),
+  },
 };
 
 export const redis = {

@@ -73,6 +73,8 @@ spec:
           namespace: teamsykmelding
         - application: sykepengesoknad-backend
           namespace: flex
+        - application: flexjar-backend
+          namespace: flex
         - application: syfomodiaperson-redis
         - application: esyfovarsel
           namespace: team-esyfo
@@ -179,4 +181,8 @@ spec:
       value: "dev-gcp.team-esyfo.esyfovarsel"
     - name: ESYFOVARSEL_HOST
       value: "http://esyfovarsel.team-esyfo"
+    - name: FLEXJAR_AAD_APP_CLIENT_ID
+      value: "dev-gcp.flex.flexjar-backend"
+    - name: FLEXJAR_HOST
+      value: "http://flexjar-backend.flex"
 
