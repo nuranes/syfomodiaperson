@@ -1,4 +1,3 @@
-import { DialogmotePanel } from "../../mote/components/DialogmotePanel";
 import { FortidenImage } from "../../../../img/ImageComponents";
 import { FlexRow } from "../../Layout";
 import React, { ReactElement, useState } from "react";
@@ -15,6 +14,7 @@ import { UnntakDTO } from "@/data/dialogmotekandidat/types/dialogmoteunntakTypes
 import { MoteHistorikkUnntak } from "@/components/dialogmote/motehistorikk/MoteHistorikkUnntak";
 import { Flatknapp } from "nav-frontend-knapper";
 import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
+import { BodyLong, Box, Heading } from "@navikt/ds-react";
 
 const texts = {
   header: "Møtehistorikk",
@@ -121,17 +121,22 @@ export const MotehistorikkPanel = ({
   historiskeMoter,
 }: MotehistorikkPanelProps) => {
   return (
-    <DialogmotePanel
-      icon={FortidenImage}
-      header={texts.header}
-      subtitle={texts.subtitle}
-    >
+    <Box background="surface-default" className="p-8">
+      <div className="flex flex-row mb-4">
+        <img src={FortidenImage} alt="moteikon" className="w-12 mr-4" />
+        <div className="flex flex-col">
+          <Heading level="2" size="medium" className="">
+            {texts.header}
+          </Heading>
+          <BodyLong size="small">{texts.subtitle}</BodyLong>
+        </div>
+      </div>
       {historiskeMoter.map((mote, index) => (
         <MoteHistorikk key={index} mote={mote} />
       ))}
       {dialogmoteunntak.map((unntak, index) => (
         <MoteHistorikkUnntak key={index} unntak={unntak} />
       ))}
-    </DialogmotePanel>
+    </Box>
   );
 };
