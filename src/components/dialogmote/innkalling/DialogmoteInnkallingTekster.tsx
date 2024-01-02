@@ -1,8 +1,6 @@
 import React, { ReactElement, useState } from "react";
 import { useFormState } from "react-final-form";
 import DialogmoteInnkallingSkjemaSeksjon from "./DialogmoteInnkallingSkjemaSeksjon";
-import styled from "styled-components";
-import { Innholdstittel } from "nav-frontend-typografi";
 import { DialogmoteInnkallingSkjemaValues } from "./DialogmoteInnkallingSkjema";
 import { useInnkallingDocument } from "@/hooks/dialogmote/document/useInnkallingDocument";
 import { ForhandsvisningModal } from "../../ForhandsvisningModal";
@@ -31,10 +29,6 @@ export const texts = {
   reservertAlert:
     "Denne arbeidstakeren vil få brevet sendt som papirpost. Du kan inkludere telefonnummeret til kontaktsenteret i fritekstfeltet (55 55 33 33), slik at arbeidstakeren kan ta kontakt på telefon hvis tidspunktet ikke passer.",
 };
-
-const TeksterTittel = styled(Innholdstittel)`
-  margin-bottom: 0.5em;
-`;
 
 interface DialogmoteInnkallingTeksterProps {
   selectedBehandler: BehandlerDTO | undefined;
@@ -67,7 +61,6 @@ const DialogmoteInnkallingTekster = ({
 
   return (
     <DialogmoteInnkallingSkjemaSeksjon>
-      <TeksterTittel>{texts.title}</TeksterTittel>
       {brukerKanIkkeVarslesDigitalt && (
         <AlertstripeFullbredde type="advarsel" marginbottom="1em">
           {texts.reservertAlert}

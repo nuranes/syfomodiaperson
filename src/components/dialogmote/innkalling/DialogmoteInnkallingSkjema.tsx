@@ -38,6 +38,7 @@ import { useSkjemaValuesToDto } from "@/hooks/dialogmote/useSkjemaValuesToDto";
 import { TidStedSkjemaValues } from "@/data/dialogmote/types/skjemaTypes";
 import { Flatknapp, Hovedknapp } from "nav-frontend-knapper";
 import dayjs from "dayjs";
+import DialogmoteInnkallingSkjemaSeksjon from "@/components/dialogmote/innkalling/DialogmoteInnkallingSkjemaSeksjon";
 
 interface DialogmoteInnkallingSkjemaTekster {
   fritekstArbeidsgiver: string;
@@ -201,11 +202,13 @@ const DialogmoteInnkallingSkjema = () => {
       <Form initialValues={initialValues} onSubmit={submit} validate={validate}>
         {({ handleSubmit, submitFailed, errors }) => (
           <form onSubmit={handleSubmit}>
-            <DialogmoteInnkallingVelgVirksomhet />
-            <DialogmoteInnkallingBehandler
-              setSelectedBehandler={setSelectedBehandler}
-              selectedbehandler={selectedBehandler}
-            />
+            <DialogmoteInnkallingSkjemaSeksjon>
+              <DialogmoteInnkallingVelgVirksomhet />
+              <DialogmoteInnkallingBehandler
+                setSelectedBehandler={setSelectedBehandler}
+                selectedbehandler={selectedBehandler}
+              />
+            </DialogmoteInnkallingSkjemaSeksjon>
             <DialogmoteTidOgSted isFuturisticMeeting={isFuturisticMeeting} />
             <DialogmoteInnkallingTekster
               selectedBehandler={selectedBehandler}

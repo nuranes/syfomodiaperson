@@ -2,9 +2,7 @@ import React from "react";
 import { Input, SkjemaelementFeilmelding } from "nav-frontend-skjema";
 import { Field } from "react-final-form";
 import styled from "styled-components";
-import DialogmoteInnkallingSkjemaSeksjon from "../DialogmoteInnkallingSkjemaSeksjon";
 import { FlexColumn, FlexRow, PaddingSize } from "../../../Layout";
-import { Innholdstittel } from "nav-frontend-typografi";
 import { narmesteLederForVirksomhet } from "@/utils/ledereUtils";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
 import { NoNarmesteLederAlert } from "@/components/mote/NoNarmestLederAlert";
@@ -20,10 +18,6 @@ const texts = {
 
 const LederNavnColumn = styled(FlexColumn)`
   margin-right: 1em;
-`;
-
-const VirksomhetTittel = styled(Innholdstittel)`
-  margin-bottom: 1em;
 `;
 
 const DialogmoteInnkallingVelgVirksomhet = () => {
@@ -43,8 +37,7 @@ const DialogmoteInnkallingVelgVirksomhet = () => {
   const field = "arbeidsgiver";
 
   return (
-    <DialogmoteInnkallingSkjemaSeksjon>
-      <VirksomhetTittel>{texts.title}</VirksomhetTittel>
+    <div className="mb-2">
       <Field<string> name={field}>
         {({ input, meta }) => {
           const virksomhetsnummer = input.value;
@@ -95,7 +88,7 @@ const DialogmoteInnkallingVelgVirksomhet = () => {
           );
         }}
       </Field>
-    </DialogmoteInnkallingSkjemaSeksjon>
+    </div>
   );
 };
 export default DialogmoteInnkallingVelgVirksomhet;

@@ -6,7 +6,6 @@ import DialogmoteDatoField from "./DialogmoteDatoField";
 import DialogmoteInnkallingSkjemaSeksjon from "./innkalling/DialogmoteInnkallingSkjemaSeksjon";
 import styled from "styled-components";
 import { FlexColumn, FlexRow, PaddingSize } from "../Layout";
-import { Innholdstittel } from "nav-frontend-typografi";
 import { AlertstripeFullbredde } from "@/components/AlertstripeFullbredde";
 import { useAktivVeilederinfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
 import { useBrukerinfoQuery } from "@/data/navbruker/navbrukerQueryHooks";
@@ -29,10 +28,6 @@ const DatoColumn = styled(FlexColumn)`
   margin-right: 1em;
 `;
 
-const TidOgStedTittel = styled(Innholdstittel)`
-  margin-bottom: 1em;
-`;
-
 const FRIST_DIALOGMOTE2_IN_WEEKS = 26;
 
 interface FristProps {
@@ -41,7 +36,7 @@ interface FristProps {
 
 const Frist = ({ startDate }: FristProps) => {
   const frist = addWeeks(startDate, FRIST_DIALOGMOTE2_IN_WEEKS);
-  return <p>Frist: {visDato(frist)}</p>;
+  return <p>Frist dialogmøte 2: {visDato(frist)}</p>;
 };
 
 interface DialogmoteTidOgStedProps {
@@ -65,13 +60,12 @@ const DialogmoteTidOgSted = ({
 
   return (
     <DialogmoteInnkallingSkjemaSeksjon>
-      <TidOgStedTittel>{texts.title}</TidOgStedTittel>
       {isKandidat &&
         hasActiveOppfolgingstilfelle &&
         latestOppfolgingstilfelle && (
           <Frist startDate={latestOppfolgingstilfelle.start} />
         )}
-      <FlexRow bottomPadding={PaddingSize.MD}>
+      <FlexRow bottomPadding={PaddingSize.SM}>
         <DatoColumn>
           <DialogmoteDatoField />
         </DatoColumn>
@@ -88,7 +82,7 @@ const DialogmoteTidOgSted = ({
           <p>{texts.alertText}</p>
         </AlertstripeFullbredde>
       )}
-      <FlexRow bottomPadding={PaddingSize.MD}>
+      <FlexRow bottomPadding={PaddingSize.SM}>
         <FlexColumn flex={1}>
           <Field<string> name={stedField}>
             {({ input, meta }) => (

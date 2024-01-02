@@ -11,7 +11,7 @@ const texts = {
 };
 
 const FritekstWrapper = styled.div`
-  margin-bottom: 4em;
+  margin-bottom: 2em;
 `;
 
 interface FritekstSeksjonProps {
