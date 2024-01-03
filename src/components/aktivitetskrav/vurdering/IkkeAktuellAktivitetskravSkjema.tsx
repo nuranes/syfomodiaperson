@@ -24,10 +24,13 @@ const texts = {
   lagre: "Lagre",
   avbryt: "Avbryt",
   body: "Aktivitetskravet skal ikke vurderes for denne personen. Ved å lagre fjerner du hendelsen fra oversikten.",
-  begrunnelseLabel: "Begrunnelse",
   arsak: {
     label: "Velg årsak",
     missing: "Vennligst angi årsak",
+  },
+  begrunnelse: {
+    label: "Begrunnelse",
+    missing: "Vennligst angi begrunnelse",
   },
 };
 
@@ -85,6 +88,7 @@ export const IkkeAktuellAktivitetskravSkjema = ({
       },
     });
   };
+  const isArsakAnnet = watch("arsak") === IkkeAktuellArsak.ANNET;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -112,9 +116,11 @@ export const IkkeAktuellAktivitetskravSkjema = ({
         className={"mb-4"}
         {...register("begrunnelse", {
           maxLength: begrunnelseMaxLength,
+          required: isArsakAnnet,
         })}
         value={watch("begrunnelse")}
-        label={texts.begrunnelseLabel}
+        label={texts.begrunnelse.label}
+        error={errors.begrunnelse && texts.begrunnelse.missing}
       />
       {vurderAktivitetskrav.isError && (
         <SkjemaInnsendingFeil error={vurderAktivitetskrav.error} />
