@@ -1,4 +1,4 @@
-import amplitude from "amplitude-js";
+import * as amplitude from "@amplitude/analytics-browser";
 import { erProd } from "@/utils/miljoUtil";
 import { Oppfolgingsgrunn } from "@/data/huskelapp/huskelappTypes";
 import { IkkeAktuellArsak } from "@/data/aktivitetskrav/aktivitetskravTypes";
@@ -99,10 +99,10 @@ type Event =
   | OptionSelected;
 
 export const logEvent = (event: Event) =>
-  client.logEvent(event.type, { ...event.data });
+  amplitude.track(event.type, { ...event.data });
 
 export function logViewportAndScreenSize() {
-  client.logEvent(EventType.ViewPortAndScreenResolution, {
+  amplitude.track(EventType.ViewPortAndScreenResolution, {
     viewport: {
       width: window.innerWidth,
       height: window.innerHeight,
@@ -120,11 +120,6 @@ const getApiKey = () => {
     : "c7bcaaf5d0fddda592412234dd3da1ba";
 };
 
-const client = amplitude.getInstance();
-client.init(getApiKey(), "", {
-  apiEndpoint: "amplitude.nav.no/collect",
-  saveEvents: false,
-  includeUtm: true,
-  batchEvents: false,
-  includeReferrer: true,
+amplitude.init(getApiKey(), undefined, {
+  serverUrl: "https://amplitude.nav.no/collect",
 });
