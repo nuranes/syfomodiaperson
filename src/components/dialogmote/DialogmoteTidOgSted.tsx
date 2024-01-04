@@ -6,9 +6,6 @@ import DialogmoteDatoField from "./DialogmoteDatoField";
 import DialogmoteInnkallingSkjemaSeksjon from "./innkalling/DialogmoteInnkallingSkjemaSeksjon";
 import styled from "styled-components";
 import { FlexColumn, FlexRow, PaddingSize } from "../Layout";
-import { AlertstripeFullbredde } from "@/components/AlertstripeFullbredde";
-import { useAktivVeilederinfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
-import { useBrukerinfoQuery } from "@/data/navbruker/navbrukerQueryHooks";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { addWeeks, visDato } from "@/utils/datoUtils";
 import { useDialogmotekandidat } from "@/data/dialogmotekandidat/dialogmotekandidatQueryHooks";
@@ -39,21 +36,10 @@ const Frist = ({ startDate }: FristProps) => {
   return <p>Frist dialogmøte 2: {visDato(frist)}</p>;
 };
 
-interface DialogmoteTidOgStedProps {
-  isFuturisticMeeting?: boolean;
-}
-
-const DialogmoteTidOgSted = ({
-  isFuturisticMeeting,
-}: DialogmoteTidOgStedProps): ReactElement => {
+const DialogmoteTidOgSted = (): ReactElement => {
   const klokkeslettField = "klokkeslett";
   const stedField = "sted";
   const videoLinkField = "videoLink";
-  const { data: veilederinfo } = useAktivVeilederinfoQuery();
-  const ABTestHit = Number(veilederinfo?.ident.slice(-1)) >= 5;
-  const { brukerKanVarslesDigitalt } = useBrukerinfoQuery();
-  const showFuturisticWarning =
-    !!isFuturisticMeeting && ABTestHit && brukerKanVarslesDigitalt;
   const { hasActiveOppfolgingstilfelle, latestOppfolgingstilfelle } =
     useOppfolgingstilfellePersonQuery();
   const { isKandidat } = useDialogmotekandidat();
@@ -77,11 +63,6 @@ const DialogmoteTidOgSted = ({
           />
         </FlexColumn>
       </FlexRow>
-      {showFuturisticWarning && (
-        <AlertstripeFullbredde type="info" marginbottom="2em">
-          <p>{texts.alertText}</p>
-        </AlertstripeFullbredde>
-      )}
       <FlexRow bottomPadding={PaddingSize.SM}>
         <FlexColumn flex={1}>
           <Field<string> name={stedField}>
