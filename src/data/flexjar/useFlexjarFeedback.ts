@@ -14,7 +14,7 @@ export const useFlexjarFeedback = () => {
 
 export interface FlexjarFeedbackDTO {
   feedbackId: string;
-  feedback: string | null;
-  svar: string | null;
+  feedback: string | undefined;
+  svar: string | undefined;
   app: string;
 }

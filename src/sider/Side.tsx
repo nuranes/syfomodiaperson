@@ -12,6 +12,7 @@ import { OversiktLenker } from "@/components/personkort/OversiktLenker";
 import SnowButton from "@/components/festive/SnowButton";
 import { Pride } from "@/components/festive/Pride";
 import { Huskelapp } from "@/components/huskelapp/Huskelapp";
+import { Flexjar } from "@/components/flexjar/Flexjar";
 
 export const MODIA_HEADER_ID = "modia-header";
 
@@ -29,6 +30,8 @@ const Side = ({ tittel, aktivtMenypunkt, children }: SideProps) => {
     });
   }, [tittel]);
   const { toggles } = useFeatureToggles();
+  const showFlexjar =
+    toggles.isFlexjarEnabled && aktivtMenypunkt === Menypunkter.AKTIVITETSKRAV;
 
   return (
     <DocumentTitle
@@ -51,6 +54,7 @@ const Side = ({ tittel, aktivtMenypunkt, children }: SideProps) => {
           </nav>
           <div className="w-full flex flex-col">{children}</div>
         </div>
+        {showFlexjar && <Flexjar side={tittel} />}
       </div>
     </DocumentTitle>
   );
