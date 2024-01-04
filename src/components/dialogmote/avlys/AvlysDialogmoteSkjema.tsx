@@ -1,4 +1,3 @@
-import Panel from "nav-frontend-paneler";
 import React, { ReactElement, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
@@ -20,6 +19,7 @@ import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import FritekstSeksjon from "@/components/dialogmote/FritekstSeksjon";
 import { Flatknapp, Hovedknapp } from "nav-frontend-knapper";
 import { AlertstripeFullbredde } from "@/components/AlertstripeFullbredde";
+import { Box } from "@navikt/ds-react";
 
 export const MAX_LENGTH_AVLYS_BEGRUNNELSE = 500;
 
@@ -119,7 +119,7 @@ const AvlysDialogmoteSkjema = ({
   }
 
   return (
-    <Panel className="p-7">
+    <Box background="surface-default" padding="6">
       <Form initialValues={{}} onSubmit={submit} validate={validate}>
         {({ handleSubmit, submitFailed, errors, values }) => (
           <form onSubmit={handleSubmit}>
@@ -205,7 +205,7 @@ const AvlysDialogmoteSkjema = ({
           </form>
         )}
       </Form>
-    </Panel>
+    </Box>
   );
 };
 

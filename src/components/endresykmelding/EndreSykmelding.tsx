@@ -1,20 +1,6 @@
 import React from "react";
-import Panel from "nav-frontend-paneler";
-import styled from "styled-components";
-import { Normaltekst, Systemtittel } from "nav-frontend-typografi";
 import { erPreProd } from "@/utils/miljoUtil";
-
-const StyledPanel = styled(Panel)`
-  margin-bottom: 1em;
-`;
-
-const StyledSystemtittel = styled(Systemtittel)`
-  margin-bottom: 0.5em;
-`;
-
-const StyledNormaltekst = styled(Normaltekst)`
-  margin-bottom: 2em;
-`;
+import { BodyShort, Box, Heading } from "@navikt/ds-react";
 
 const texts = {
   title: "Feilregistrerte opplysninger?",
@@ -29,13 +15,17 @@ const EndreSykmelding = () => {
   const smregistrering = `https://smregistrering.${env}.nav.no/?sykmeldingid=${sykmeldingId}`;
 
   return (
-    <StyledPanel>
-      <StyledSystemtittel>{texts.title}</StyledSystemtittel>
-      <StyledNormaltekst>{texts.content}</StyledNormaltekst>
+    <Box background="surface-default" padding="4" className="mb-4">
+      <Heading size="medium" className="mb-2">
+        {texts.title}
+      </Heading>
+      <BodyShort size="small" className="mb-8">
+        {texts.content}
+      </BodyShort>
       <a href={smregistrering} className="knapp">
         {texts.buttonLabel}
       </a>
-    </StyledPanel>
+    </Box>
   );
 };
 

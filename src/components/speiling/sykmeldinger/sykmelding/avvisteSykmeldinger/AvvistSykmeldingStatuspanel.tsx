@@ -14,7 +14,7 @@ const AvvistSykmeldingStatuspanel = ({
   sykmelding,
 }: AvvistSykmeldingStatuspanelProps): ReactElement => {
   return (
-    <div className="panel panel--komprimert statuspanel blokk--xl statuspanel--treKol">
+    <div className="statuspanel blokk--xl statuspanel--treKol">
       <Statusopplysninger>
         <StatusNokkelopplysning tittel="Status">
           <p>Avvist av NAV</p>

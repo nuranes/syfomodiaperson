@@ -55,11 +55,8 @@ const OppfolgingsplanVirksomhetTittel = ({
   const { virksomhetsnavn } = useVirksomhetQuery(
     plan.virksomhet.virksomhetsnummer
   );
-  return (
-    <h3 className="panel__tittel navigasjonselement__tittel">
-      {virksomhetsnavn}
-    </h3>
-  );
+
+  return <Heading size="small">{virksomhetsnavn}</Heading>;
 };
 
 interface OppfolgingsplanerOversiktProps {

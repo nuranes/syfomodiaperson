@@ -1,15 +1,7 @@
-import styled from "styled-components";
-import Panel from "nav-frontend-paneler";
-import navFarger from "nav-frontend-core";
 import { FlexColumn } from "../../Layout";
 import { ReactElement } from "react";
 import React from "react";
-
-const InfoPanel = styled(Panel)`
-  background-color: ${navFarger.navGraBakgrunn};
-  border: 1px solid ${navFarger.navMorkGra};
-  margin-top: 1.9em;
-`;
+import { Box } from "@navikt/ds-react";
 
 interface ReferatInfoColumnProps {
   children?: ReactElement[] | ReactElement;
@@ -19,6 +11,17 @@ export const ReferatInfoColumn = ({
   children,
 }: ReferatInfoColumnProps): ReactElement => (
   <FlexColumn flex={0.5}>
-    {children ? <InfoPanel>{children}</InfoPanel> : null}
+    {children ? (
+      <Box
+        borderRadius="medium"
+        background="surface-subtle"
+        borderColor="border-default"
+        padding="4"
+        borderWidth="1"
+        className="mt-8"
+      >
+        {children}
+      </Box>
+    ) : null}
   </FlexColumn>
 );

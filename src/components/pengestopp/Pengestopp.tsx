@@ -12,8 +12,8 @@ import {
   StatusEndring,
 } from "@/data/pengestopp/types/FlaggPerson";
 import { unikeArbeidsgivereMedSykmeldingSiste3Maneder } from "@/utils/pengestoppUtils";
-import Panel from "nav-frontend-paneler";
 import { usePengestoppStatusQuery } from "@/data/pengestopp/pengestoppQueryHooks";
+import { Box } from "@navikt/ds-react";
 
 export const texts = {
   stansSykepenger: "Stanse sykepenger?",
@@ -26,11 +26,6 @@ export const texts = {
   gosys: "Se Gosys for detaljer",
   beskjeder: "Tidligere sendte beskjeder om stans av sykepenger",
 };
-
-const Wrapper = styled(Panel)`
-  margin-bottom: 1em;
-  padding: 1em;
-`;
 
 interface IPengestoppProps {
   sykmeldinger: SykmeldingOldFormat[];
@@ -67,7 +62,7 @@ const Pengestopp = ({ sykmeldinger }: IPengestoppProps) => {
     unikeArbeidsgivereMedSykmeldingSiste3Maneder(sykmeldinger);
 
   return (
-    <Wrapper>
+    <Box background="surface-default" padding="4" className="mb-4">
       {isError && <Alert type="feil">{texts.hentingFeiletMessage}</Alert>}
       {sykmeldtNotEligible && (
         <Alert type="feil">{texts.sykmeldtNotEligibleError}</Alert>
@@ -95,7 +90,7 @@ const Pengestopp = ({ sykmeldinger }: IPengestoppProps) => {
           toggleModal(false, uniqueArbeidsgivereWithSykmeldingLast3Months)
         }
       />
-    </Wrapper>
+    </Box>
   );
 };
 

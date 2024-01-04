@@ -1,7 +1,6 @@
 import React, { ReactElement, useState } from "react";
 import { Form, FormSpy } from "react-final-form";
 import arrayMutators from "final-form-arrays";
-import Panel from "nav-frontend-paneler";
 import {
   showTimeIncludingSeconds,
   tilDatoMedManedNavn,
@@ -53,6 +52,7 @@ import { useDebouncedCallback } from "use-debounce";
 import { SaveFile } from "../../../../img/ImageComponents";
 import { FormState } from "final-form";
 import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
+import { Box } from "@navikt/ds-react";
 
 export const texts = {
   digitalReferat:
@@ -310,7 +310,7 @@ const Referat = ({
   }
 
   return (
-    <Panel>
+    <Box background="surface-default" padding="4">
       <Form
         onSubmit={submit}
         validate={validate}
@@ -396,7 +396,7 @@ const Referat = ({
           </form>
         )}
       </Form>
-    </Panel>
+    </Box>
   );
 };
 

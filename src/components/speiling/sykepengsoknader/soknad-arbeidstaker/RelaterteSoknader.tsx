@@ -29,7 +29,7 @@ export const RelaterteSoknader = ({
   }
 
   return (
-    <div className="panel tidligereVersjoner">
+    <div className="tidligereVersjoner">
       <h2 className="tidligereVersjoner__tittel">{texts.tittel}</h2>
       <ul className="tidligereVersjoner__liste">
         {relaterteSoknader.sort(sorterEtterDato).map((s, index) => (

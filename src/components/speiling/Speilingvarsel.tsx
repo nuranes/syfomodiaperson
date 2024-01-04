@@ -1,18 +1,16 @@
 import React from "react";
-import Panel from "nav-frontend-paneler";
+import { Box } from "@navikt/ds-react";
 
 interface SpeilingvarselProps {
   brukernavn: string;
 }
 
-const Speilingvarsel = ({ brukernavn }: SpeilingvarselProps) => {
-  return (
-    <Panel className="panel panel--komprimert blokk--s">
-      <p>
-        Dette er slik <strong>{brukernavn}</strong> ser det på nav.no
-      </p>
-    </Panel>
-  );
-};
+const Speilingvarsel = ({ brukernavn }: SpeilingvarselProps) => (
+  <Box background="surface-default" padding="3" className="mb-6">
+    <p>
+      Dette er slik <strong>{brukernavn}</strong> ser det på nav.no
+    </p>
+  </Box>
+);
 
 export default Speilingvarsel;

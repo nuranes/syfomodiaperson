@@ -41,7 +41,7 @@ interface StatuspanelProps {
 
 const Statuspanel = (statuspanelProps: StatuspanelProps) => {
   const { children, enKolonne = false } = statuspanelProps;
-  const classNames = cn("panel panel--komprimert blokk statuspanel", {
+  const classNames = cn("blokk statuspanel", {
     "statuspanel--toKol": !enKolonne,
     "statuspanel--enKol": enKolonne,
   });

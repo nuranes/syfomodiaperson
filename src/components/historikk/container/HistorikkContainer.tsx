@@ -3,7 +3,6 @@ import Side from "../../../sider/Side";
 import Historikk from "../Historikk";
 import SideLaster from "../../SideLaster";
 import { HistorikkEvent } from "@/data/historikk/types/historikkTypes";
-import IngenHistorikk from "../IngenHistorikk";
 import { useHistorikk } from "@/data/historikk/historikk_hooks";
 import Sidetopp from "../../Sidetopp";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
@@ -17,11 +16,17 @@ import {
 import { BrukerinfoDTO } from "@/data/navbruker/types/BrukerinfoDTO";
 import { useBrukerinfoQuery } from "@/data/navbruker/navbrukerQueryHooks";
 import { useAktivitetskravHistorikkQuery } from "@/data/aktivitetskrav/aktivitetskravQueryHooks";
+import Infomelding from "@/components/Infomelding";
 
 const texts = {
   topp: "Logg",
   pageTitle: "Historikk",
   errorTitle: "Du har ikke tilgang til denne tjenesten",
+  ingenHistorikk: {
+    tittel: "Denne personen har ingen oppfølgingshistorikk",
+    melding:
+      "Når en sykmeldt blir fulgt opp så vil oppfølgingen bli loggført her slik at du får oversikt over hva som har skjedd og hvem som har vært involvert i oppfølgingen.",
+  },
 };
 
 const createHistorikkEventsFromLedere = (
@@ -141,7 +146,10 @@ export const HistorikkContainer = (): ReactElement => {
       <SideLaster henter={henter} hentingFeilet={hentingFeilet}>
         <Sidetopp tittel={texts.topp} />
         {ingenHistorikk ? (
-          <IngenHistorikk />
+          <Infomelding
+            tittel={texts.ingenHistorikk.tittel}
+            melding={texts.ingenHistorikk.melding}
+          />
         ) : (
           <Historikk historikkEvents={historikkEvents} tilfeller={tilfeller} />
         )}

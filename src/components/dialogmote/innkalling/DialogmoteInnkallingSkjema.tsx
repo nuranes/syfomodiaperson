@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Panel from "nav-frontend-paneler";
 import DialogmoteInnkallingVelgVirksomhet from "./virksomhet/DialogmoteInnkallingVelgVirksomhet";
 import DialogmoteTidOgSted from "../DialogmoteTidOgSted";
 import DialogmoteInnkallingTekster, {
@@ -32,12 +31,12 @@ import { moteoversiktRoutePath } from "@/routers/AppRouter";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import DialogmoteInnkallingBehandler from "@/components/dialogmote/innkalling/DialogmoteInnkallingBehandler";
 import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
-import styled from "styled-components";
 import { behandlerNavn } from "@/utils/behandlerUtils";
 import { useSkjemaValuesToDto } from "@/hooks/dialogmote/useSkjemaValuesToDto";
 import { TidStedSkjemaValues } from "@/data/dialogmote/types/skjemaTypes";
 import { Flatknapp, Hovedknapp } from "nav-frontend-knapper";
 import DialogmoteInnkallingSkjemaSeksjon from "@/components/dialogmote/innkalling/DialogmoteInnkallingSkjemaSeksjon";
+import { Box } from "@navikt/ds-react";
 
 interface DialogmoteInnkallingSkjemaTekster {
   fritekstArbeidsgiver: string;
@@ -51,11 +50,6 @@ export interface DialogmoteInnkallingSkjemaValues
   arbeidsgiver: string;
   behandlerRef: string;
 }
-
-const StyledPanel = styled(Panel)`
-  margin-bottom: 2em;
-  padding: 2em;
-`;
 
 type DialogmoteInnkallingSkjemaFeil = Partial<
   Pick<
@@ -185,7 +179,7 @@ const DialogmoteInnkallingSkjema = () => {
   };
 
   return (
-    <StyledPanel>
+    <Box background="surface-default" padding="6" className="mb-2">
       <Form initialValues={initialValues} onSubmit={submit} validate={validate}>
         {({ handleSubmit, submitFailed, errors }) => (
           <form onSubmit={handleSubmit}>
@@ -222,7 +216,7 @@ const DialogmoteInnkallingSkjema = () => {
           </form>
         )}
       </Form>
-    </StyledPanel>
+    </Box>
   );
 };
 

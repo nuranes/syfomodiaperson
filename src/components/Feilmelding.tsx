@@ -1,6 +1,5 @@
 import React from "react";
-import Panel from "nav-frontend-paneler";
-import { Normaltekst } from "nav-frontend-typografi";
+import { BodyShort, Box, Heading } from "@navikt/ds-react";
 
 interface FeilmeldingProps {
   tittel?: string;
@@ -10,13 +9,13 @@ interface FeilmeldingProps {
 const Feilmelding = ({
   tittel = "Beklager, det oppstod en feil",
   melding = "Vennligst prøv igjen litt senere.",
-}: FeilmeldingProps) => {
-  return (
-    <Panel id="feilmelding" className="panel--melding">
-      <h3 className="hode hode--feil">{tittel}</h3>
-      <Normaltekst>{melding}</Normaltekst>
-    </Panel>
-  );
-};
+}: FeilmeldingProps) => (
+  <Box background="surface-default" className="text-center" padding="6">
+    <Heading size="medium" level="3" className="mt-8">
+      {tittel}
+    </Heading>
+    <BodyShort size="small">{melding}</BodyShort>
+  </Box>
+);
 
 export default Feilmelding;

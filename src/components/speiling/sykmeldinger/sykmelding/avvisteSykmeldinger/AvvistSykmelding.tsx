@@ -21,7 +21,7 @@ const AvvistSykmelding = ({
         <AvvistSykmeldingStatuspanel sykmelding={sykmelding} />
       )}
       <AvvistSykmeldingPanel sykmelding={sykmelding} />
-      <div className="panel blokk">
+      <div className="blokk">
         <DineSykmeldingOpplysninger sykmelding={sykmelding} />
       </div>
       {sykmelding.status === SykmeldingStatus.NY && <BekreftAvvistSykmelding />}

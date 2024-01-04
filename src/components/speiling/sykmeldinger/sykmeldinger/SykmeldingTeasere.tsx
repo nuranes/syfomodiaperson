@@ -31,7 +31,7 @@ const SykmeldingTeasere = ({
             <SykmeldingTeaser key={idx} sykmelding={sykmelding} />
           ))
         ) : (
-          <p className="panel typo-infotekst">{ingenSykmeldingerMelding}</p>
+          <p className="typo-infotekst">{ingenSykmeldingerMelding}</p>
         )}
       </div>
     </div>

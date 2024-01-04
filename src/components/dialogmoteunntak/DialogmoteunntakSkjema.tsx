@@ -1,7 +1,5 @@
 import React from "react";
 import { Link, Navigate } from "react-router-dom";
-import Panel from "nav-frontend-paneler";
-import { AlertStripeInfo } from "nav-frontend-alertstriper";
 import { moteoversiktRoutePath } from "@/routers/AppRouter";
 import { useDialogmotekandidat } from "@/data/dialogmotekandidat/dialogmotekandidatQueryHooks";
 import {
@@ -12,9 +10,15 @@ import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { useSettDialogmoteunntak } from "@/data/dialogmotekandidat/useSettDialogmoteunntak";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Button, Radio, RadioGroup, Textarea } from "@navikt/ds-react";
+import {
+  Alert,
+  Box,
+  Button,
+  Radio,
+  RadioGroup,
+  Textarea,
+} from "@navikt/ds-react";
 import DialogmoteunntakSkjemaStatistikk from "@/components/dialogmoteunntak/DialogmoteunntakSkjemaStatistikk";
-import styled from "styled-components";
 
 export const texts = {
   noBrev: "Det blir ikke sendt ut brev ved unntak.",
@@ -59,17 +63,6 @@ export const unntakArsakTexts: UnntakArsakText[] = [
 
 export const dialogmoteunntakSkjemaBeskrivelseMaxLength = 2000;
 
-const StyledPanel = styled(Panel)`
-  padding: 2em;
-`;
-const FormInput = styled.div`
-  margin-bottom: 1em;
-`;
-
-const SubmitButton = styled(Button)`
-  margin-right: 1em;
-`;
-
 export interface DialogmoteunntakSkjemaValues {
   arsak: UnntakArsak;
   beskrivelse?: string;
@@ -103,58 +96,59 @@ const DialogmoteunntakSkjema = () => {
   };
 
   return (
-    <StyledPanel>
-      <AlertStripeInfo>{texts.noBrev}</AlertStripeInfo>
+    <Box background="surface-default" padding="8">
+      <Alert variant="info" size="small" className="p-4 mb-4">
+        {texts.noBrev}
+      </Alert>
       <p>{texts.infoKandidatlist}</p>
       <form onSubmit={handleSubmit(onSubmit)}>
         {settDialogmoteunntak.isError && (
           <SkjemaInnsendingFeil error={settDialogmoteunntak.error} />
         )}
-        <FormInput>
-          <RadioGroup
-            legend={texts.arsakLegend}
-            name="arsak"
-            size="small"
-            error={errors.arsak && texts.arsakErrorMessage}
-          >
-            {unntakArsakTexts.map((unntakArsakText, index) => (
-              <Radio
-                key={index}
-                value={unntakArsakText.arsak}
-                {...register("arsak", { required: true })}
-              >
-                {unntakArsakText.text}
-              </Radio>
-            ))}
-          </RadioGroup>
-        </FormInput>
+        <RadioGroup
+          className="mb-4"
+          legend={texts.arsakLegend}
+          name="arsak"
+          size="small"
+          error={errors.arsak && texts.arsakErrorMessage}
+        >
+          {unntakArsakTexts.map((unntakArsakText, index) => (
+            <Radio
+              key={index}
+              value={unntakArsakText.arsak}
+              {...register("arsak", { required: true })}
+            >
+              {unntakArsakText.text}
+            </Radio>
+          ))}
+        </RadioGroup>
 
         {isArsakStatistikkVisible && <DialogmoteunntakSkjemaStatistikk />}
 
-        <FormInput>
-          <Textarea
-            label={texts.beskrivelseLabel}
-            value={watch("beskrivelse")}
-            {...register("beskrivelse", {
-              maxLength: dialogmoteunntakSkjemaBeskrivelseMaxLength,
-            })}
-            maxLength={dialogmoteunntakSkjemaBeskrivelseMaxLength}
-          />
-        </FormInput>
+        <Textarea
+          className="mb-4"
+          label={texts.beskrivelseLabel}
+          value={watch("beskrivelse")}
+          {...register("beskrivelse", {
+            maxLength: dialogmoteunntakSkjemaBeskrivelseMaxLength,
+          })}
+          maxLength={dialogmoteunntakSkjemaBeskrivelseMaxLength}
+        />
 
-        <SubmitButton
+        <Button
+          className="mr-4"
           type="submit"
           variant="primary"
           loading={settDialogmoteunntak.isPending}
         >
           {texts.send}
-        </SubmitButton>
+        </Button>
 
         <Button as={Link} to={moteoversiktRoutePath} variant="secondary">
           {texts.avbryt}
         </Button>
       </form>
-    </StyledPanel>
+    </Box>
   );
 };
 

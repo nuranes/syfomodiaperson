@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
-import Panel from "nav-frontend-paneler";
 import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat";
 import * as avvisningsregelnavn from "../../../../../utils/sykmeldinger/avvisningsregelnavn";
+import { Box } from "@navikt/ds-react";
 
 const REGELNAVN_INGEN_RETT_TIL_A_SYKMELDE = [
   avvisningsregelnavn.BEHANDLER_IKKE_GYLDIG_I_HPR,
@@ -137,16 +137,12 @@ export const AvvistSykmeldingPanel = ({
   const handlingstreng = hentHandlingsstreng(sykmelding);
   const introtekststreng = hentIntrotekst(sykmelding);
   return (
-    <div className="blokk">
-      <Panel>
-        <h2 className="veilederpanel__tittel">
-          Sykmeldingen kan dessverre ikke brukes
-        </h2>
-        <p>Beklager at vi må bry deg mens du er syk.</p>
-        <p>{introtekststreng}</p>
-        <p>{handlingstreng}</p>
-        <Begrunnelse sykmelding={sykmelding} />
-      </Panel>
-    </div>
+    <Box background="surface-default" padding="4" className="mb-8">
+      <h2>Sykmeldingen kan dessverre ikke brukes</h2>
+      <p>Beklager at vi må bry deg mens du er syk.</p>
+      <p>{introtekststreng}</p>
+      <p>{handlingstreng}</p>
+      <Begrunnelse sykmelding={sykmelding} />
+    </Box>
   );
 };

@@ -2,7 +2,6 @@ import React from "react";
 import { Link, Navigate } from "react-router-dom";
 import styled from "styled-components";
 
-import Panel from "nav-frontend-paneler";
 import { FlexRow } from "../../Layout";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { Form } from "react-final-form";
@@ -29,15 +28,12 @@ import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { useSkjemaValuesToDto } from "@/hooks/dialogmote/useSkjemaValuesToDto";
 import { TidStedSkjemaValues } from "@/data/dialogmote/types/skjemaTypes";
 import { Flatknapp, Hovedknapp } from "nav-frontend-knapper";
+import { Box } from "@navikt/ds-react";
 
 const texts = {
   send: "Send",
   avbryt: "Avbryt",
 };
-
-const EndrePanel = styled(Panel)`
-  padding: 1.75rem;
-`;
 
 const SendButton = styled(Hovedknapp)`
   margin-right: 0.5rem;
@@ -155,7 +151,7 @@ const EndreDialogmoteSkjema = ({ dialogmote }: Props) => {
   }
 
   return (
-    <EndrePanel>
+    <Box background="surface-default" padding="6">
       <Form initialValues={initialValues} onSubmit={submit} validate={validate}>
         {({ handleSubmit, submitFailed, errors }) => (
           <form onSubmit={handleSubmit}>
@@ -183,7 +179,7 @@ const EndreDialogmoteSkjema = ({ dialogmote }: Props) => {
           </form>
         )}
       </Form>
-    </EndrePanel>
+    </Box>
   );
 };
 
