@@ -12,6 +12,9 @@ import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/pe
 import { useBrukerinfoQuery } from "@/data/navbruker/navbrukerQueryHooks";
 import { ArbeidstakerHarIkkeAktivSykmeldingAdvarsel } from "@/components/dialogmote/ArbeidstakerHarIkkeAktivSykmelding";
 import { Menypunkter } from "@/navigation/menypunkterTypes";
+import { TredeltSide } from "@/sider/TredeltSide";
+import { MotehistorikkPanel } from "@/components/dialogmote/motehistorikk/MotehistorikkPanel";
+import { useDialogmoteunntakQuery } from "@/data/dialogmotekandidat/dialogmoteunntakQueryHooks";
 
 const texts = {
   title: "Innkalling til dialogmøte",
@@ -39,7 +42,8 @@ export const DialogmoteInnkallingSide = (): ReactElement => {
 const DialogmoteInnkallingContainer = (): ReactElement => {
   const { isLoading: henterLedere, isError: hentingLedereFeilet } =
     useLedereQuery();
-  const { aktivtDialogmote } = useDialogmoterQuery();
+  const { aktivtDialogmote, historiskeDialogmoter } = useDialogmoterQuery();
+  const { data: dialogmoteunntak } = useDialogmoteunntakQuery();
   const {
     isLoading: henterOppfolgingstilfeller,
     isError: hentingOppfolgingstilfellerFeilet,
@@ -57,7 +61,15 @@ const DialogmoteInnkallingContainer = (): ReactElement => {
     <Side tittel={texts.title} aktivtMenypunkt={Menypunkter.DIALOGMOTE}>
       <SideLaster henter={henter} hentingFeilet={hentingFeilet}>
         <Sidetopp tittel={texts.title} />
-        <DialogmoteInnkallingSide />
+        <TredeltSide>
+          <DialogmoteInnkallingSide />
+          <div className="h-screen sticky top-2 overflow-y-scroll">
+            <MotehistorikkPanel
+              historiskeMoter={historiskeDialogmoter}
+              dialogmoteunntak={dialogmoteunntak}
+            />
+          </div>
+        </TredeltSide>
       </SideLaster>
     </Side>
   );
