@@ -13,7 +13,7 @@ import {
   VEILEDER_IDENT_DEFAULT,
   VIRKSOMHET_PONTYPANDY,
 } from "../../mock/common/mockConstants";
-import { render, screen, within } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { createFerdigstiltReferat } from "./testData";
 import {
   dialogmoteunntakMedBeskrivelse,
@@ -22,7 +22,6 @@ import {
 import { unntakLenkeText } from "@/components/dialogmote/motehistorikk/MoteHistorikkUnntak";
 import { testQueryClient } from "../testQueryClient";
 import { UnntakDTO } from "@/data/dialogmotekandidat/types/dialogmoteunntakTypes";
-import userEvent from "@testing-library/user-event";
 import { veilederinfoQueryKeys } from "@/data/veilederinfo/veilederinfoQueryHooks";
 
 let queryClient: any;
@@ -151,10 +150,12 @@ describe("Historiske dialogmøter", () => {
 
     const buttons = screen.getAllByRole("button");
     expect(buttons).to.have.length(2);
-    expect(buttons[0].textContent).to.equal(
+    expect(buttons[0].textContent).to.contain(
       "Referat fra møte 15. januar 2021 - Endret 15. januar 2021"
     );
-    expect(buttons[1].textContent).to.equal("Referat fra møte 15. januar 2021");
+    expect(buttons[1].textContent).to.contain(
+      "Referat fra møte 15. januar 2021"
+    );
   });
   it("Fremviser dialogmoteunntak", () => {
     const dialogmoteunntakListe = [
@@ -187,15 +188,7 @@ describe("Historiske dialogmøter", () => {
     );
     renderMotehistorikk(dialogmoteunntakListe, []);
 
-    const unntakButton = screen.getByRole("button", {
-      name: "Unntak fra dialogmøte 20. april 2020",
-    });
-    userEvent.click(unntakButton);
-    const unntakModal = screen.getByRole("dialog", {
-      hidden: true,
-    });
-
-    expect(within(unntakModal).getByText("Vurdert av")).to.exist;
-    expect(within(unntakModal).getByText("Vetle Veileder (Z990000)")).to.exist;
+    expect(screen.getByText("Vurdert av")).to.exist;
+    expect(screen.getByText("Vetle Veileder (Z990000)")).to.exist;
   });
 });

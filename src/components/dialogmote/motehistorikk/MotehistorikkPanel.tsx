@@ -1,20 +1,17 @@
 import { FortidenImage } from "../../../../img/ImageComponents";
-import { FlexRow } from "../../Layout";
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement } from "react";
 import {
   DialogmoteDTO,
   DialogmoteStatus,
   MotedeltakerVarselType,
 } from "@/data/dialogmote/types/dialogmoteTypes";
 import { tilDatoMedManedNavn } from "@/utils/datoUtils";
-import { ForhandsvisningModal } from "../../ForhandsvisningModal";
 import { useDialogmoteReferat } from "@/hooks/dialogmote/useDialogmoteReferat";
-import styled from "styled-components";
 import { UnntakDTO } from "@/data/dialogmotekandidat/types/dialogmoteunntakTypes";
 import { MoteHistorikkUnntak } from "@/components/dialogmote/motehistorikk/MoteHistorikkUnntak";
-import { Flatknapp } from "nav-frontend-knapper";
 import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
-import { BodyLong, Box, Heading } from "@navikt/ds-react";
+import { Accordion, BodyLong, Box, Heading } from "@navikt/ds-react";
+import { DocumentComponentVisning } from "@/components/document/DocumentComponentVisning";
 
 const texts = {
   header: "Møtehistorikk",
@@ -26,42 +23,24 @@ const texts = {
   avlysningsBrev: "Avlysningsbrev",
 };
 
-const ButtonRow = styled(FlexRow)`
-  padding-bottom: 0.5em;
-`;
-
-interface ForhandsvisDocumentButtonRowProps {
+interface ForhandsvisDocumentAccordionItemProps {
   document: DocumentComponentDto[];
-  title: string;
   children: string;
 }
 
-export const ForhandsvisDocumentButtonRow = ({
+export const ForhandsvisDocumentAccordionItem = ({
   document,
-  title,
   children,
-}: ForhandsvisDocumentButtonRowProps): ReactElement => {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+}: ForhandsvisDocumentAccordionItemProps): ReactElement => {
   return (
-    <ButtonRow>
-      <Flatknapp
-        mini
-        kompakt
-        htmlType="button"
-        onClick={() => {
-          setModalIsOpen(true);
-        }}
-      >
-        {children}
-      </Flatknapp>
-      <ForhandsvisningModal
-        title={title}
-        contentLabel={title}
-        isOpen={modalIsOpen}
-        handleClose={() => setModalIsOpen(false)}
-        getDocumentComponents={() => document}
-      />
-    </ButtonRow>
+    <Accordion.Item>
+      <Accordion.Header>{children}</Accordion.Header>
+      <Accordion.Content>
+        {document.map((component, index) => (
+          <DocumentComponentVisning key={index} documentComponent={component} />
+        ))}
+      </Accordion.Content>
+    </Accordion.Item>
   );
 };
 
@@ -81,12 +60,9 @@ const MoteHistorikk = ({ mote }: MoteHistorikkProps): ReactElement => {
       )?.document || [];
 
     return (
-      <ForhandsvisDocumentButtonRow
-        document={document}
-        title={texts.avlysningsBrev}
-      >
+      <ForhandsvisDocumentAccordionItem document={document}>
         {`${texts.avlystMote} ${moteDatoTekst}`}
-      </ForhandsvisDocumentButtonRow>
+      </ForhandsvisDocumentAccordionItem>
     );
   }
 
@@ -98,13 +74,12 @@ const MoteHistorikk = ({ mote }: MoteHistorikkProps): ReactElement => {
           : "";
 
         return (
-          <ForhandsvisDocumentButtonRow
+          <ForhandsvisDocumentAccordionItem
             key={index}
             document={referat.document}
-            title={texts.referat}
           >
             {`${texts.avholdtMote} ${moteDatoTekst}${suffix}`}
-          </ForhandsvisDocumentButtonRow>
+          </ForhandsvisDocumentAccordionItem>
         );
       })}
     </>
@@ -131,12 +106,14 @@ export const MotehistorikkPanel = ({
           <BodyLong size="small">{texts.subtitle}</BodyLong>
         </div>
       </div>
-      {historiskeMoter.map((mote, index) => (
-        <MoteHistorikk key={index} mote={mote} />
-      ))}
-      {dialogmoteunntak.map((unntak, index) => (
-        <MoteHistorikkUnntak key={index} unntak={unntak} />
-      ))}
+      <Accordion>
+        {historiskeMoter.map((mote, index) => (
+          <MoteHistorikk key={index} mote={mote} />
+        ))}
+        {dialogmoteunntak.map((unntak, index) => (
+          <MoteHistorikkUnntak key={index} unntak={unntak} />
+        ))}
+      </Accordion>
     </Box>
   );
 };

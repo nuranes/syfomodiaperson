@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { UnntakDTO } from "@/data/dialogmotekandidat/types/dialogmoteunntakTypes";
 import { tilDatoMedManedNavn } from "@/utils/datoUtils";
-import { ForhandsvisDocumentButtonRow } from "@/components/dialogmote/motehistorikk/MotehistorikkPanel";
+import { ForhandsvisDocumentAccordionItem } from "@/components/dialogmote/motehistorikk/MotehistorikkPanel";
 
 import {
   DocumentComponentDto,
@@ -66,11 +66,8 @@ export const MoteHistorikkUnntak = ({
   const { data: veilederinfo } = useVeilederInfoQuery(unntak.createdBy);
   const unntakDocument = createUnntakDocument(unntak, veilederinfo?.navn);
   return (
-    <ForhandsvisDocumentButtonRow
-      document={unntakDocument}
-      title={texts.unntakTitle}
-    >
+    <ForhandsvisDocumentAccordionItem document={unntakDocument}>
       {unntakLenkeText(unntak.createdAt)}
-    </ForhandsvisDocumentButtonRow>
+    </ForhandsvisDocumentAccordionItem>
   );
 };
