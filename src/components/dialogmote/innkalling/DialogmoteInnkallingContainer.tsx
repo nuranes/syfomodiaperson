@@ -27,7 +27,7 @@ export const DialogmoteInnkallingSide = (): ReactElement => {
     useOppfolgingstilfellePersonQuery();
 
   return (
-    <>
+    <div className="flex flex-col">
       {brukerKanIkkeVarslesDigitalt && (
         <BrukerKanIkkeVarslesPapirpostAdvarsel />
       )}
@@ -35,7 +35,7 @@ export const DialogmoteInnkallingSide = (): ReactElement => {
         <ArbeidstakerHarIkkeAktivSykmeldingAdvarsel />
       )}
       <DialogmoteInnkallingSkjema />
-    </>
+    </div>
   );
 };
 

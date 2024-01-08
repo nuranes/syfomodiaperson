@@ -9,7 +9,7 @@ export const texts = {
 
 export const ArbeidstakerHarIkkeAktivSykmeldingAdvarsel =
   (): React.ReactElement => (
-    <AlertstripeFullbredde type="advarsel" marginbottom="2em">
+    <AlertstripeFullbredde type="advarsel" marginbottom="1em">
       <Normaltekst>{texts.arbeidstakerHarIkkeAktivSykmelding}</Normaltekst>
     </AlertstripeFullbredde>
   );
