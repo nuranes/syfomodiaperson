@@ -1,62 +1,25 @@
-import React, { useRef, useState } from "react";
-import { Column } from "nav-frontend-grid";
-import Popover from "nav-frontend-popover";
-import styled from "styled-components";
-import { EpostImage } from "../../../img/ImageComponents";
+import React from "react";
+import { CopyButton as CopyButtonAksel } from "@navikt/ds-react";
+import { CheckmarkIcon, EnvelopeClosedIcon } from "@navikt/aksel-icons";
 
 const textEpostCopied = (epost?: string) => {
   return `${epost} er kopiert!`;
 };
 
-const StyledButton = styled.button`
-  margin: 0;
-  padding: 0;
-  border: 0;
-  background: none;
-`;
-
-const StyledP = styled.p`
-  padding: 0.5em;
-`;
-
 interface EpostButtonProps {
-  epost?: string;
+  epost: string;
 }
 
 const EpostButton = ({ epost }: EpostButtonProps) => {
-  const [popoverAnker, setPopoverAnker] = useState<HTMLElement>();
-  const [show, setShow] = useState<boolean>(false);
-
-  const buttonRef = useRef<HTMLButtonElement>(null);
-
-  const togglePopover = () => {
-    if (popoverAnker) {
-      setPopoverAnker(undefined);
-    } else if (buttonRef.current) {
-      setPopoverAnker(buttonRef.current);
-
-      if (!show) {
-        setShow(true);
-      }
-
-      if (epost) {
-        navigator.clipboard.writeText(epost);
-      }
-    }
-  };
-
   return (
-    <Column className="col-sm-2">
-      <StyledButton ref={buttonRef} onClick={togglePopover} value={epost}>
-        <img alt="epost" src={EpostImage} />
-      </StyledButton>
-      <Popover
-        ankerEl={popoverAnker}
-        onRequestClose={() => setPopoverAnker(undefined)}
-      >
-        <StyledP>{textEpostCopied(epost)}</StyledP>
-      </Popover>
-    </Column>
+    <div className="float-left relative w-1/6 px-2">
+      <CopyButtonAksel
+        size="small"
+        copyText={epost}
+        icon={<EnvelopeClosedIcon title="Kopier epost" />}
+        activeIcon={<CheckmarkIcon title={textEpostCopied(epost)} />}
+      />
+    </div>
   );
 };
 

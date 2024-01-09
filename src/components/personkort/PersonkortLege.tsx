@@ -4,10 +4,10 @@ import PersonkortFeilmelding from "./PersonkortFeilmelding";
 import { Adresse, Fastlege } from "@/data/fastlege/types/Fastlege";
 import { useFastlegerQuery } from "@/data/fastlege/fastlegerQueryHooks";
 import { Column, Row } from "nav-frontend-grid";
-import { Systemtittel, Undertekst } from "nav-frontend-typografi";
 import styled from "styled-components";
 import PersonkortInformasjon from "@/components/personkort/PersonkortInformasjon";
 import { FlexColumn, FlexRow } from "@/components/Layout";
+import { Detail, Heading } from "@navikt/ds-react";
 
 const texts = {
   name: "Legekontor",
@@ -72,7 +72,7 @@ export const FastlegeVikar = ({
   return (
     <PersonKortLegeRow>
       <Column>
-        <Systemtittel>{texts.vikar}</Systemtittel>
+        <Heading size="medium">{texts.vikar}</Heading>
       </Column>
       <>
         {fastlegeVikarer.map((lege, idx) => {
@@ -156,8 +156,8 @@ const PersonkortLege = () => {
       {fastlege && (
         <PersonKortLegeRow className="no-gutter">
           <Column>
-            <Systemtittel>{hentTekstFastlegeNavn(fastlege)}</Systemtittel>
-            <Undertekst>{hentTekstFastlegePeriode(fastlege)}</Undertekst>
+            <Heading size="medium">{hentTekstFastlegeNavn(fastlege)}</Heading>
+            <Detail>{hentTekstFastlegePeriode(fastlege)}</Detail>
           </Column>
         </PersonKortLegeRow>
       )}

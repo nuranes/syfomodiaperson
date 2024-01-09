@@ -1,12 +1,16 @@
 import React, { ReactNode } from "react";
-import Alertstripe from "nav-frontend-alertstriper";
+import { Alert } from "@navikt/ds-react";
 
 interface PersonkortFeilmeldingProps {
   children: ReactNode;
 }
 
 const PersonkortFeilmelding = ({ children }: PersonkortFeilmeldingProps) => {
-  return <Alertstripe type="info">{children}</Alertstripe>;
+  return (
+    <Alert variant="info" size="small">
+      {children}
+    </Alert>
+  );
 };
 
 export default PersonkortFeilmelding;
