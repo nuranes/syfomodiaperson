@@ -12,7 +12,7 @@ import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/pe
 import { useBrukerinfoQuery } from "@/data/navbruker/navbrukerQueryHooks";
 import { ArbeidstakerHarIkkeAktivSykmeldingAdvarsel } from "@/components/dialogmote/ArbeidstakerHarIkkeAktivSykmelding";
 import { Menypunkter } from "@/navigation/menypunkterTypes";
-import { TredeltSide } from "@/sider/TredeltSide";
+import * as Tredelt from "@/sider/TredeltSide";
 import { MotehistorikkPanel } from "@/components/dialogmote/motehistorikk/MotehistorikkPanel";
 import { useDialogmoteunntakQuery } from "@/data/dialogmotekandidat/dialogmoteunntakQueryHooks";
 
@@ -61,15 +61,17 @@ const DialogmoteInnkallingContainer = (): ReactElement => {
     <Side tittel={texts.title} aktivtMenypunkt={Menypunkter.DIALOGMOTE}>
       <SideLaster henter={henter} hentingFeilet={hentingFeilet}>
         <Sidetopp tittel={texts.title} />
-        <TredeltSide>
-          <DialogmoteInnkallingSide />
-          <div className="h-screen sticky top-2 overflow-y-scroll">
+        <Tredelt.Container>
+          <Tredelt.FirstColumn>
+            <DialogmoteInnkallingSide />
+          </Tredelt.FirstColumn>
+          <Tredelt.SecondColumn>
             <MotehistorikkPanel
               historiskeMoter={historiskeDialogmoter}
               dialogmoteunntak={dialogmoteunntak}
             />
-          </div>
-        </TredeltSide>
+          </Tredelt.SecondColumn>
+        </Tredelt.Container>
       </SideLaster>
     </Side>
   );

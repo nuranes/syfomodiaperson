@@ -50,9 +50,12 @@ global.MutationObserver = MutationObserver;
 
 class ResizeObserver {
   observe() {}
+
   unobserve() {}
+
   disconnect() {}
 }
+
 global.ResizeObserver = ResizeObserver;
 
 window.HTMLDialogElement.prototype.showModal = () => {};

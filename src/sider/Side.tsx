@@ -46,8 +46,8 @@ const Side = ({ tittel, aktivtMenypunkt, children }: SideProps) => {
           {isPride() && <Pride>&nbsp;</Pride>}
           <Personkort />
         </div>
-        <div className={"flex max-[700px]:flex-wrap"}>
-          <nav className="max-[700px]:w-full min-w-[15rem] w-[15rem] min-[700px]:mr-2">
+        <div className={"flex -md:flex-wrap"}>
+          <nav className="-md:w-full min-w-[15rem] w-[15rem] md:mr-2">
             <GlobalNavigasjon aktivtMenypunkt={aktivtMenypunkt} />
             {isEaster() && <Easter />}
             {toggles.isHuskelappEnabled && <Huskelapp />}

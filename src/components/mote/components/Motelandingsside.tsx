@@ -13,8 +13,7 @@ import { DialogmoteFerdigstilteReferatPanel } from "@/components/dialogmote/Dial
 import { DialogmoteStatus } from "@/data/dialogmote/types/dialogmoteTypes";
 import { useDialogmoteunntakQuery } from "@/data/dialogmotekandidat/dialogmoteunntakQueryHooks";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
-import { TREDELING_BREAKING_POINT, TredeltSide } from "@/sider/TredeltSide";
-import { useScreenWidth } from "@/hooks/tredeling/useScreenWidth";
+import * as Tredelt from "@/sider/TredeltSide";
 
 const texts = {
   dialogmoter: "Dialogmøter",
@@ -44,7 +43,6 @@ export const Motelandingsside = () => {
     isError: henterLedereFeilet,
   } = useLedereQuery();
   const navbruker = useNavBrukerData();
-  const screenWidth = useScreenWidth();
 
   const henter =
     henterDialogmoter ||
@@ -65,8 +63,8 @@ export const Motelandingsside = () => {
     <SideLaster henter={henter} hentingFeilet={hentingFeilet}>
       <Sidetopp tittel={texts.dialogmoter} />
 
-      <TredeltSide>
-        <div className="flex flex-col">
+      <Tredelt.Container>
+        <Tredelt.FirstColumn>
           <DialogmoteOnskePanel
             motebehovData={motebehov}
             ledereData={currentLedere}
@@ -80,24 +78,17 @@ export const Motelandingsside = () => {
             )}
           />
           <UtdragFraSykefravaeretPanel />
-        </div>
-        <div className="flex flex-col">
-          {isMotehistorikkVisible &&
-            (screenWidth < TREDELING_BREAKING_POINT ? (
-              <MotehistorikkPanel
-                historiskeMoter={historiskeDialogmoter}
-                dialogmoteunntak={dialogmoteunntak}
-              />
-            ) : (
-              <div className="h-screen sticky top-2 overflow-y-scroll">
-                <MotehistorikkPanel
-                  historiskeMoter={historiskeDialogmoter}
-                  dialogmoteunntak={dialogmoteunntak}
-                />
-              </div>
-            ))}
-        </div>
-      </TredeltSide>
+        </Tredelt.FirstColumn>
+
+        <Tredelt.SecondColumn>
+          {isMotehistorikkVisible && (
+            <MotehistorikkPanel
+              historiskeMoter={historiskeDialogmoter}
+              dialogmoteunntak={dialogmoteunntak}
+            />
+          )}
+        </Tredelt.SecondColumn>
+      </Tredelt.Container>
     </SideLaster>
   );
 };

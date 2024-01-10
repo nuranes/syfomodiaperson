@@ -8,8 +8,7 @@ import SideLaster from "@/components/SideLaster";
 import { AktivitetskravSide } from "@/components/aktivitetskrav/AktivitetskravSide";
 import { NotificationProvider } from "@/context/notification/NotificationContext";
 import UtdragFraSykefravaeret from "@/components/utdragFraSykefravaeret/UtdragFraSykefravaeret";
-import { TREDELING_BREAKING_POINT, TredeltSide } from "@/sider/TredeltSide";
-import { useScreenWidth } from "@/hooks/tredeling/useScreenWidth";
+import * as Tredelt from "@/sider/TredeltSide";
 
 const texts = {
   title: "Aktivitetskrav",
@@ -28,24 +27,20 @@ export const AktivitetskravContainer = (): ReactElement => {
   const hentingFeilet =
     hentAktivitetskravFeilet || hentOppfolgingstilfellerFeilet;
 
-  const screenWidth = useScreenWidth();
-
   return (
     <Side tittel={texts.title} aktivtMenypunkt={Menypunkter.AKTIVITETSKRAV}>
       <Sidetopp tittel={texts.title} />
       <SideLaster henter={henter} hentingFeilet={hentingFeilet}>
-        <TredeltSide>
-          <NotificationProvider>
-            <AktivitetskravSide />
-          </NotificationProvider>
-          {screenWidth < TREDELING_BREAKING_POINT ? (
+        <Tredelt.Container>
+          <Tredelt.FirstColumn>
+            <NotificationProvider>
+              <AktivitetskravSide />
+            </NotificationProvider>
+          </Tredelt.FirstColumn>
+          <Tredelt.SecondColumn>
             <UtdragFraSykefravaeret />
-          ) : (
-            <div className="h-screen sticky top-2 overflow-y-scroll">
-              <UtdragFraSykefravaeret />
-            </div>
-          )}
-        </TredeltSide>
+          </Tredelt.SecondColumn>
+        </Tredelt.Container>
       </SideLaster>
     </Side>
   );
