@@ -1,8 +1,6 @@
 import React from "react";
 import { expect } from "chai";
-import PersonkortVisning from "../../../src/components/personkort/PersonkortVisning";
-import { PERSONKORTVISNING_TYPE } from "@/konstanter";
-import { QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { behandlendeEnhetQueryKeys } from "@/data/behandlendeenhet/behandlendeEnhetQueryHooks";
 import { apiMock } from "../../stubs/stubApi";
 import { stubFastlegerApi } from "../../stubs/stubFastlegeRest";
@@ -12,11 +10,24 @@ import { queryClientWithAktivBruker } from "../../testQueryClient";
 import { ARBEIDSTAKER_DEFAULT } from "../../../mock/common/mockConstants";
 import { brukerinfoQueryKeys } from "@/data/navbruker/navbrukerQueryHooks";
 import { brukerinfoMock } from "../../../mock/syfoperson/persondataMock";
+import Personkort from "@/components/personkort/Personkort";
+import { clickTab, getTab } from "../../testUtils";
+import userEvent from "@testing-library/user-event";
 
-let queryClient: any;
+let queryClient: QueryClient;
 let apiMockScope: any;
 
-describe("PersonkortVisning", () => {
+const renderAndExpandPersonkort = () => {
+  render(
+    <QueryClientProvider client={queryClient}>
+      <Personkort />
+    </QueryClientProvider>
+  );
+  const expandable = screen.getAllByRole("button")[0];
+  userEvent.click(expandable);
+};
+
+describe("Personkort", () => {
   beforeEach(() => {
     queryClient = queryClientWithAktivBruker();
     queryClient.setQueryData(
@@ -28,23 +39,24 @@ describe("PersonkortVisning", () => {
   });
 
   it("Skal vise PersonkortSykmeldt, som initielt valg", () => {
-    render(
-      <QueryClientProvider client={queryClient}>
-        <PersonkortVisning visning={""} />
-      </QueryClientProvider>
-    );
+    renderAndExpandPersonkort();
 
     expect(screen.getByRole("heading", { name: "Kontaktinformasjon" })).to
       .exist;
   });
 
+  it("Skal vise Nærmeste leder-tab", () => {
+    renderAndExpandPersonkort();
+
+    expect(getTab("Nærmeste leder")).to.exist;
+  });
+
   it("Skal vise VisningLege, dersom visning for lege er valgt", async () => {
     const expectedLegeNavn = `${fastlegerMock[0].fornavn} ${fastlegerMock[0].etternavn}`;
-    render(
-      <QueryClientProvider client={queryClient}>
-        <PersonkortVisning visning={PERSONKORTVISNING_TYPE.LEGE} />
-      </QueryClientProvider>
-    );
+
+    renderAndExpandPersonkort();
+
+    clickTab("Fastlege");
 
     expect(await screen.findByRole("heading", { name: expectedLegeNavn })).to
       .exist;
@@ -61,11 +73,10 @@ describe("PersonkortVisning", () => {
         enhetId: "1234",
       })
     );
-    render(
-      <QueryClientProvider client={queryClient}>
-        <PersonkortVisning visning={PERSONKORTVISNING_TYPE.ENHET} />
-      </QueryClientProvider>
-    );
+
+    renderAndExpandPersonkort();
+
+    clickTab("Behandlende enhet");
 
     expect(await screen.findByRole("heading", { name: enhetNavn })).to.exist;
   });
