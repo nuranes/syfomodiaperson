@@ -1,9 +1,7 @@
 import React, { ReactElement, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
-import { FlexRow } from "../../Layout";
 import { Form } from "react-final-form";
-import DialogmoteInfo from "./DialogmoteInfo";
 import {
   AvlysDialogmoteDTO,
   DialogmoteDTO,
@@ -17,9 +15,8 @@ import { moteoversiktRoutePath } from "@/routers/AppRouter";
 import { useAvlysDialogmote } from "@/data/dialogmote/useAvlysDialogmote";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import FritekstSeksjon from "@/components/dialogmote/FritekstSeksjon";
-import { Flatknapp, Hovedknapp } from "nav-frontend-knapper";
-import { AlertstripeFullbredde } from "@/components/AlertstripeFullbredde";
-import { Box } from "@navikt/ds-react";
+import { Alert, Box, Button, Label } from "@navikt/ds-react";
+import { tilDatoMedUkedagOgManedNavnOgKlokkeslett } from "@/utils/datoUtils";
 
 export const MAX_LENGTH_AVLYS_BEGRUNNELSE = 500;
 
@@ -41,6 +38,7 @@ export const texts = {
     "Forhåndsvis avlysning av dialogmøte arbeidsgiver",
   forhandsvisningBehandlerContentlabel:
     "Forhåndsvis avlysning av dialogmøte behandler",
+  gjelderTitle: "Gjelder dialogmøtet",
 };
 
 interface AvlysDialogmoteSkjemaProps {
@@ -123,7 +121,10 @@ const AvlysDialogmoteSkjema = ({
       <Form initialValues={{}} onSubmit={submit} validate={validate}>
         {({ handleSubmit, submitFailed, errors, values }) => (
           <form onSubmit={handleSubmit}>
-            <DialogmoteInfo dialogmote={dialogmote} />
+            <div className="mb-8 flex flex-col">
+              <Label size="small">{texts.gjelderTitle}</Label>
+              {tilDatoMedUkedagOgManedNavnOgKlokkeslett(dialogmote.tid)}
+            </div>
             <FritekstSeksjon
               fieldName="begrunnelseArbeidstaker"
               label={texts.begrunnelseArbeidstakerLabel}
@@ -182,26 +183,34 @@ const AvlysDialogmoteSkjema = ({
             {avlysDialogmote.isError && (
               <SkjemaInnsendingFeil error={avlysDialogmote.error} />
             )}
-            <AlertstripeFullbredde type="advarsel" marginbottom="4em">
+            <Alert
+              variant="warning"
+              size="small"
+              className="mb-8 [&>*]:max-w-fit"
+            >
               {texts.alert}
-            </AlertstripeFullbredde>
+            </Alert>
             {submitFailed && harIkkeUtbedretFeil && (
               <SkjemaFeiloppsummering errors={errors} />
             )}
-            <FlexRow>
-              <Hovedknapp
+            <div className="flex gap-4">
+              <Button
+                type="submit"
+                variant="primary"
+                loading={avlysDialogmote.isPending}
                 onClick={resetFeilUtbedret}
-                htmlType="submit"
-                spinner={avlysDialogmote.isPending}
-                autoDisableVedSpinner
-                className="mr-2"
               >
                 {texts.send}
-              </Hovedknapp>
-              <Link to={moteoversiktRoutePath}>
-                <Flatknapp htmlType="button">{texts.avbryt}</Flatknapp>
-              </Link>
-            </FlexRow>
+              </Button>
+              <Button
+                as={Link}
+                type="button"
+                variant="tertiary"
+                to={moteoversiktRoutePath}
+              >
+                {texts.avbryt}
+              </Button>
+            </div>
           </form>
         )}
       </Form>
