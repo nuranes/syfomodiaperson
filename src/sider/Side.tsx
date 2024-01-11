@@ -50,7 +50,7 @@ const Side = ({ tittel, aktivtMenypunkt, children }: SideProps) => {
           <nav className="-md:w-full min-w-[15rem] w-[15rem] md:mr-2">
             <GlobalNavigasjon aktivtMenypunkt={aktivtMenypunkt} />
             {isEaster() && <Easter />}
-            {toggles.isHuskelappEnabled && <Huskelapp />}
+            <Huskelapp />
           </nav>
           <div className="w-full flex flex-col">{children}</div>
         </div>
