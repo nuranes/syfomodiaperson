@@ -13,6 +13,7 @@ import { ARBEIDSTAKER_DEFAULT } from "../../../mock/common/mockConstants";
 import { brukerinfoMock } from "../../../mock/syfoperson/persondataMock";
 import { diskresjonskodeQueryKeys } from "@/data/diskresjonskode/diskresjonskodeQueryHooks";
 import { brukerinfoQueryKeys } from "@/data/navbruker/navbrukerQueryHooks";
+import { daysFromToday } from "../../testUtils";
 
 let queryClient: any;
 
@@ -160,5 +161,38 @@ describe("PersonkortHeader", () => {
     expect(screen.getByText("01.12.2023")).to.exist;
     expect(screen.getByText("Utbetalt tom:")).to.exist;
     expect(screen.getByText("01.07.2024")).to.exist;
+  });
+
+  it("viser ikke sikkerhetstiltak-tag når bruker mangler sikkerhetstiltak", () => {
+    queryClient.setQueryData(
+      brukerinfoQueryKeys.brukerinfo(ARBEIDSTAKER_DEFAULT.personIdent),
+      () => ({
+        ...brukerinfoMock,
+        sikkerhetstiltak: [],
+      })
+    );
+    renderPersonkortHeader();
+
+    expect(screen.queryByText("Sikkerhetstiltak")).to.not.exist;
+  });
+
+  it("viser sikkerhetstiltak-tag når bruker har sikkerhetstiltak", () => {
+    queryClient.setQueryData(
+      brukerinfoQueryKeys.brukerinfo(ARBEIDSTAKER_DEFAULT.personIdent),
+      () => ({
+        ...brukerinfoMock,
+        sikkerhetstiltak: [
+          {
+            type: "FYUS",
+            beskrivelse: "Fysisk utestengelse",
+            gyldigFom: daysFromToday(-10),
+            gyldigTom: daysFromToday(10),
+          },
+        ],
+      })
+    );
+    renderPersonkortHeader();
+
+    expect(screen.getByText("Sikkerhetstiltak")).to.exist;
   });
 });

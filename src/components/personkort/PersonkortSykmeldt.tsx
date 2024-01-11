@@ -58,9 +58,8 @@ const PersonkortSykmeldt = () => {
   return (
     <PersonkortElement
       tittel="Kontaktinformasjon"
-      imgUrl={PersonImage}
-      imgAlt="Bilde av person"
       antallKolonner={3}
+      icon={<img src={PersonImage} alt={"Bilde av person"} />}
     >
       <PersonkortInformasjon
         informasjonNokkelTekster={informasjonNokkelTekster}

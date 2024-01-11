@@ -10,6 +10,7 @@ export interface BrukerinfoDTO {
   arbeidssituasjon: string;
   dodsdato: string | null;
   tilrettelagtKommunikasjon: TilrettelagtKommunikasjon | null;
+  sikkerhetstiltak: Sikkerhetstiltak[];
 }
 
 interface TilrettelagtKommunikasjon {
@@ -19,4 +20,20 @@ interface TilrettelagtKommunikasjon {
 
 interface Sprak {
   value: string | null;
+}
+
+/* https://pdl-docs.dev.intern.nav.no/ekstern/index.html#_sikkerhetstiltak */
+enum Tiltakstype {
+  FYUS = "FYUS",
+  TFUS = "TFUS",
+  FTUS = "FTUS",
+  DIUS = "DIUS",
+  TOAN = "TOAN",
+}
+
+interface Sikkerhetstiltak {
+  type: Tiltakstype;
+  beskrivelse: string;
+  gyldigFom: Date;
+  gyldigTom: Date;
 }

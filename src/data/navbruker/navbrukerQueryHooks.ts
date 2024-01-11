@@ -30,6 +30,7 @@ export const useBrukerinfoQuery = () => {
       talesprakTolk: null,
       tegnsprakTolk: null,
     },
+    sikkerhetstiltak: [],
   };
 
   return {

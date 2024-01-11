@@ -14,6 +14,7 @@ export const brukerinfoMock: BrukerinfoDTO = {
   arbeidssituasjon: "ARBEIDSTAKER",
   dodsdato: null,
   tilrettelagtKommunikasjon: null,
+  sikkerhetstiltak: [],
 };
 
 export const diskresjonskodeMock: "6" | "7" | "" = "";

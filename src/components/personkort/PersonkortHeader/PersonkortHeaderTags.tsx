@@ -16,28 +16,31 @@ const texts = {
   egenansatt: "Egenansatt",
   talesprakTolk: "Talespråktolk",
   tegnsprakTolk: "Tegnspråktolk",
+  sikkerhetstiltak: "Sikkerhetstiltak",
 };
 
 export const PersonkortHeaderTags = () => {
   const { data: isEgenAnsatt } = useEgenansattQuery();
-  const navbruker = useNavBrukerData();
+  const { dodsdato, hasSikkerhetstiltak, tilrettelagtKommunikasjon } =
+    useNavBrukerData();
   const { error, data: diskresjonskode } = useDiskresjonskodeQuery();
 
-  const isDead = !!navbruker.dodsdato;
-  const dateOfDeath = tilLesbarDatoMedArUtenManedNavn(navbruker.dodsdato);
+  const isDead = !!dodsdato;
+  const dateOfDeath = tilLesbarDatoMedArUtenManedNavn(dodsdato);
   const isKode6 = diskresjonskode === "6";
   const isKode7 = diskresjonskode === "7";
   const talesprakTolkSprakkode =
-    navbruker.tilrettelagtKommunikasjon?.talesprakTolk?.value;
+    tilrettelagtKommunikasjon?.talesprakTolk?.value;
   const tegnsprakTolkSprakkode =
-    navbruker.tilrettelagtKommunikasjon?.tegnsprakTolk?.value;
+    tilrettelagtKommunikasjon?.tegnsprakTolk?.value;
   const visEtiketter =
     isKode6 ||
     isKode7 ||
     isEgenAnsatt ||
     isDead ||
     !!talesprakTolkSprakkode ||
-    !!tegnsprakTolkSprakkode;
+    !!tegnsprakTolkSprakkode ||
+    hasSikkerhetstiltak;
 
   return visEtiketter ? (
     <ErrorBoundary
@@ -75,6 +78,11 @@ export const PersonkortHeaderTags = () => {
             variant="error"
             size="small"
           >{`${texts.dod} ${dateOfDeath}`}</Tag>
+        )}
+        {hasSikkerhetstiltak && (
+          <Tag variant="error" size="small">
+            {texts.sikkerhetstiltak}
+          </Tag>
         )}
       </FlexRow>
     </ErrorBoundary>

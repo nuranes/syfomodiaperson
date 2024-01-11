@@ -36,8 +36,7 @@ const PersonkortEnhet = () => {
       ) : behandlendeenhet ? (
         <PersonkortElement
           tittel={behandlendeenhet.navn}
-          imgUrl={KontorByggImage}
-          imgAlt="Kontorbygg"
+          icon={<img src={KontorByggImage} alt={"Kontorbygg"} />}
         >
           <StyledPersonkortElement>
             <PersonkortInformasjon

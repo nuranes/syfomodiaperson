@@ -3,20 +3,17 @@ import cn from "classnames";
 
 interface PersonkortElementProps {
   tittel: string;
-  imgUrl: string;
-  imgAlt: string;
+  icon: ReactElement;
   children: ReactElement;
   antallKolonner?: number;
 }
 
-const PersonkortElement = (personkortElementProps: PersonkortElementProps) => {
-  const {
-    tittel,
-    imgUrl,
-    imgAlt,
-    children,
-    antallKolonner = 2,
-  } = personkortElementProps;
+const PersonkortElement = ({
+  children,
+  icon,
+  tittel,
+  antallKolonner = 2,
+}: PersonkortElementProps) => {
   const classNameRad = cn("personkortElement__rad", {
     "personkortElement__rad--treKolonner": antallKolonner === 3,
     "personkortElement__rad--toKolonner": antallKolonner === 2,
@@ -24,7 +21,7 @@ const PersonkortElement = (personkortElementProps: PersonkortElementProps) => {
   return (
     <div className="personkortElement">
       <div className="personkortElement__tittel">
-        <img src={imgUrl} alt={imgAlt} />
+        {icon}
         <h4>{tittel}</h4>
       </div>
       <div className={classNameRad}>{children}</div>

@@ -11,8 +11,9 @@ import { ARBEIDSTAKER_DEFAULT } from "../../../mock/common/mockConstants";
 import { brukerinfoQueryKeys } from "@/data/navbruker/navbrukerQueryHooks";
 import { brukerinfoMock } from "../../../mock/syfoperson/persondataMock";
 import Personkort from "@/components/personkort/Personkort";
-import { clickTab, getTab } from "../../testUtils";
+import { clickTab, daysFromToday, getTab } from "../../testUtils";
 import userEvent from "@testing-library/user-event";
+import { tilLesbarPeriodeMedArUtenManednavn } from "@/utils/datoUtils";
 
 let queryClient: QueryClient;
 let apiMockScope: any;
@@ -79,5 +80,68 @@ describe("Personkort", () => {
     clickTab("Behandlende enhet");
 
     expect(await screen.findByRole("heading", { name: enhetNavn })).to.exist;
+  });
+
+  it("Skal vise Sikkerhetstiltak-tab hvis bruker har sikkerhetstiltak", () => {
+    queryClient.setQueryData(
+      brukerinfoQueryKeys.brukerinfo(ARBEIDSTAKER_DEFAULT.personIdent),
+      () => ({
+        ...brukerinfoMock,
+        sikkerhetstiltak: [
+          {
+            type: "FYUS",
+            beskrivelse: "Fysisk utestengelse",
+            gyldigFom: daysFromToday(-10),
+            gyldigTom: daysFromToday(10),
+          },
+        ],
+      })
+    );
+
+    renderAndExpandPersonkort();
+
+    expect(getTab("Sikkerhetstiltak")).to.exist;
+  });
+
+  it("Skal ikke vise Sikkerhetstiltak-tab hvis bruker mangler sikkerhetstiltak", () => {
+    queryClient.setQueryData(
+      brukerinfoQueryKeys.brukerinfo(ARBEIDSTAKER_DEFAULT.personIdent),
+      () => brukerinfoMock
+    );
+
+    renderAndExpandPersonkort();
+
+    expect(screen.queryByRole("tab", { name: "Sikkerhetstiltak" })).to.not
+      .exist;
+  });
+
+  it("Viser sikkerhetstiltak beskrivelse og gyldighet i sikkerhetstiltak-tab", () => {
+    const tenDaysAgo = daysFromToday(-10);
+    const inTenDays = daysFromToday(10);
+    const expectedGyldighetText = `Gyldig: ${tilLesbarPeriodeMedArUtenManednavn(
+      tenDaysAgo,
+      inTenDays
+    )}`;
+
+    queryClient.setQueryData(
+      brukerinfoQueryKeys.brukerinfo(ARBEIDSTAKER_DEFAULT.personIdent),
+      () => ({
+        ...brukerinfoMock,
+        sikkerhetstiltak: [
+          {
+            type: "FYUS",
+            beskrivelse: "Fysisk utestengelse",
+            gyldigFom: tenDaysAgo,
+            gyldigTom: inTenDays,
+          },
+        ],
+      })
+    );
+
+    renderAndExpandPersonkort();
+
+    clickTab("Sikkerhetstiltak");
+    expect(screen.getByText("Fysisk utestengelse")).to.exist;
+    expect(screen.getByText(expectedGyldighetText)).to.exist;
   });
 });
