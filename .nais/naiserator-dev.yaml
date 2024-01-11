@@ -51,7 +51,6 @@ spec:
         - host: "internarbeidsflatedecorator-q1.dev-fss-pub.nais.io"
         - host: "modiacontextholder-q1.dev-fss-pub.nais.io"
         - host: "ereg-services-q1.dev-fss-pub.nais.io"
-        - host: "syfomotebehov.dev-fss-pub.nais.io"
         - host: "syfooppfolgingsplanservice.dev-fss-pub.nais.io"
       rules:
         - application: fastlegerest
@@ -77,6 +76,8 @@ spec:
           namespace: flex
         - application: syfomodiaperson-redis
         - application: esyfovarsel
+          namespace: team-esyfo
+        - application: syfomotebehov
           namespace: team-esyfo
   envFrom:
     - secret: syfomodiaperson-session-key
@@ -150,9 +151,9 @@ spec:
     - name: EREG_HOST
       value: "https://ereg-services-q1.dev-fss-pub.nais.io"
     - name: SYFOMOTEBEHOV_AAD_APP_CLIENT_ID
-      value: "dev-fss.team-esyfo.syfomotebehov"
+      value: "dev-gcp.team-esyfo.syfomotebehov"
     - name: SYFOMOTEBEHOV_HOST
-      value: "https://syfomotebehov.dev-fss-pub.nais.io"
+      value: "http://syfomotebehov.team-esyfo"
     - name: SYFOOPPFOLGINGSPLANSERVICE_AAD_APP_CLIENT_ID
       value: "dev-fss.team-esyfo.syfooppfolgingsplanservice"
     - name: SYFOOPPFOLGINGSPLANSERVICE_HOST
