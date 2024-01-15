@@ -7,44 +7,45 @@ import {
   VEILEDER_IDENT_DEFAULT,
 } from "../../mock/common/mockConstants";
 import {
-  HuskelappRequestDTO,
-  HuskelappResponseDTO,
+  OppfolgingsoppgaveRequestDTO,
+  OppfolgingsoppgaveResponseDTO,
   Oppfolgingsgrunn,
-} from "@/data/huskelapp/huskelappTypes";
+} from "@/data/oppfolgingsoppgave/types";
 import { generateUUID } from "@/utils/uuidUtils";
 import { expect } from "chai";
 import userEvent from "@testing-library/user-event";
-import { stubHuskelappApi } from "../stubs/stubIshuskelapp";
 import nock from "nock";
 import { apiMock } from "../stubs/stubApi";
-import { Huskelapp } from "@/components/huskelapp/Huskelapp";
+import { Oppfolgingsoppgave } from "@/components/oppfolgingsoppgave/Oppfolgingsoppgave";
 import { changeTextInput } from "../testUtils";
 import dayjs from "dayjs";
 import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
+import { stubOppfolgingsoppgaveApi } from "../stubs/stubIshuskelapp";
 
 let queryClient: QueryClient;
 let apiMockScope: nock.Scope;
 
-const huskelappOppfolgingsgrunn = Oppfolgingsgrunn.VURDER_DIALOGMOTE_SENERE;
-const huskelappOppfogingsgrunnText = "Vurder behov for dialogmøte";
-const huskelapp: HuskelappResponseDTO = {
+const oppfolgingsoppgaveOppfolgingsgrunn =
+  Oppfolgingsgrunn.VURDER_DIALOGMOTE_SENERE;
+const oppfolgingsoppgaveOppfogingsgrunnText = "Vurder behov for dialogmøte";
+const oppfolgingsoppgave: OppfolgingsoppgaveResponseDTO = {
   createdBy: VEILEDER_IDENT_DEFAULT,
   uuid: generateUUID(),
-  oppfolgingsgrunn: huskelappOppfolgingsgrunn,
+  oppfolgingsgrunn: oppfolgingsoppgaveOppfolgingsgrunn,
   updatedAt: new Date(),
   createdAt: new Date(),
   frist: "2030-01-01",
 };
 const openOppfolgingsoppgaveButtonText = "Oppfølgingsoppgave";
 
-const renderHuskelapp = () =>
+const renderOppfolgingsoppgave = () =>
   render(
     <QueryClientProvider client={queryClient}>
-      <Huskelapp />
+      <Oppfolgingsoppgave />
     </QueryClientProvider>
   );
 
-describe("Huskelapp", () => {
+describe("Oppfolgingsoppgave", () => {
   beforeEach(() => {
     queryClient = queryClientWithMockData();
     apiMockScope = apiMock();
@@ -53,14 +54,15 @@ describe("Huskelapp", () => {
     nock.cleanAll();
   });
 
-  describe("huskelapp exists", () => {
+  describe("oppfolgingsoppgave exists", () => {
     beforeEach(() => {
-      stubHuskelappApi(apiMockScope, huskelapp);
+      stubOppfolgingsoppgaveApi(apiMockScope, oppfolgingsoppgave);
     });
-    it("renders huskelapp-tekst with save, cancel and remove buttons", async () => {
-      renderHuskelapp();
+    it("renders oppfolgingsoppgave-tekst with save, cancel and remove buttons", async () => {
+      renderOppfolgingsoppgave();
 
-      expect(await screen.findByText(huskelappOppfogingsgrunnText)).to.exist;
+      expect(await screen.findByText(oppfolgingsoppgaveOppfogingsgrunnText)).to
+        .exist;
       expect(await screen.findByText("Frist: 01.01.2030")).to.exist;
       expect(await screen.findByRole("button", { hidden: true, name: "Fjern" }))
         .to.exist;
@@ -72,8 +74,8 @@ describe("Huskelapp", () => {
         )
       ).to.exist;
     });
-    it("remove deletes huskelapp", async () => {
-      renderHuskelapp();
+    it("remove deletes oppfolgingsoppgave", async () => {
+      renderOppfolgingsoppgave();
 
       const removeButton = await screen.findByRole("button", {
         hidden: true,
@@ -81,18 +83,20 @@ describe("Huskelapp", () => {
       });
       userEvent.click(removeButton);
 
-      const fjernHuskelappMutation = queryClient.getMutationCache().getAll()[0];
-      expect(fjernHuskelappMutation.state.variables).to.deep.equal(
-        huskelapp.uuid
+      const fjernOppfolgingsoppgaveMutation = queryClient
+        .getMutationCache()
+        .getAll()[0];
+      expect(fjernOppfolgingsoppgaveMutation.state.variables).to.deep.equal(
+        oppfolgingsoppgave.uuid
       );
     });
   });
-  describe("HuskelappModal: no huskelapp exists", () => {
+  describe("OppfolgingsoppgaveModal: no oppfolgingsoppgave exists", () => {
     beforeEach(() => {
-      stubHuskelappApi(apiMockScope, undefined);
+      stubOppfolgingsoppgaveApi(apiMockScope, undefined);
     });
-    it("renders huskelapp input with radio group, datepicker and save and cancel buttons", async () => {
-      renderHuskelapp();
+    it("renders oppfolgingsoppgave input with radio group, datepicker and save and cancel buttons", async () => {
+      renderOppfolgingsoppgave();
 
       const openModalButton = await screen.findByRole("button", {
         hidden: true,
@@ -108,8 +112,8 @@ describe("Huskelapp", () => {
       expect(screen.getByRole("button", { hidden: true, name: "Avbryt" })).to
         .exist;
     });
-    it("save huskelapp with oppfolgingsgrunn and frist", async () => {
-      renderHuskelapp();
+    it("save oppfolgingsoppgave with oppfolgingsgrunn and frist", async () => {
+      renderOppfolgingsoppgave();
 
       const openModalButton = await screen.findByRole("button", {
         hidden: true,
@@ -134,14 +138,16 @@ describe("Huskelapp", () => {
       userEvent.click(lagreButton);
 
       await waitFor(() => {
-        const lagreHuskelappMutation = queryClient.getMutationCache().getAll();
-        const expectedHuskelapp: HuskelappRequestDTO = {
+        const lagreOppfolgingsoppgaveMutation = queryClient
+          .getMutationCache()
+          .getAll();
+        const expectedOppfolgingsoppgave: OppfolgingsoppgaveRequestDTO = {
           oppfolgingsgrunn: Oppfolgingsgrunn.VURDER_DIALOGMOTE_SENERE,
           frist: fristDate.format("YYYY-MM-DD"),
         };
-        expect(lagreHuskelappMutation[0].state.variables).to.deep.equal(
-          expectedHuskelapp
-        );
+        expect(
+          lagreOppfolgingsoppgaveMutation[0].state.variables
+        ).to.deep.equal(expectedOppfolgingsoppgave);
       });
     });
   });

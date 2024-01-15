@@ -1,10 +1,12 @@
 import nock from "nock";
 import { ISHUSKELAPP_ROOT } from "@/apiConstants";
-import { HuskelappResponseDTO } from "@/data/huskelapp/huskelappTypes";
+import { OppfolgingsoppgaveResponseDTO } from "@/data/oppfolgingsoppgave/types";
 
-export const stubHuskelappApi = (
+export const stubOppfolgingsoppgaveApi = (
   scope: nock.Scope,
-  huskelapp: HuskelappResponseDTO | undefined
+  oppfolgingsoppgave: OppfolgingsoppgaveResponseDTO | undefined
 ) => {
-  scope.get(`${ISHUSKELAPP_ROOT}/huskelapp`).reply(200, () => huskelapp);
+  scope
+    .get(`${ISHUSKELAPP_ROOT}/huskelapp`)
+    .reply(200, () => oppfolgingsoppgave);
 };

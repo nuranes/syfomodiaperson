@@ -1,5 +1,4 @@
-import { oppfolgingsgrunnToText } from "@/data/huskelapp/huskelappTypes";
-import { useRemoveHuskelapp } from "@/data/huskelapp/useRemoveHuskelapp";
+import { useRemoveOppfolgingsoppgave } from "@/data/oppfolgingsoppgave/useRemoveOppfolgingsoppgave";
 import {
   BodyShort,
   Box,
@@ -10,11 +9,12 @@ import {
 } from "@navikt/ds-react";
 import { TrashIcon } from "@navikt/aksel-icons";
 import React from "react";
-import { OpenHuskelappModalButton } from "@/components/huskelapp/OpenHuskelappModalButton";
-import { useGetHuskelappQuery } from "@/data/huskelapp/useGetHuskelappQuery";
+import { OpenOppfolgingsoppgaveModalButton } from "@/components/oppfolgingsoppgave/OpenOppfolgingsoppgaveModalButton";
+import { useGetOppfolgingsoppgave } from "@/data/oppfolgingsoppgave/useGetOppfolgingsoppgave";
 import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
 import { useVeilederInfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
 import { VeilederinfoDTO } from "@/data/veilederinfo/types/VeilederinfoDTO";
+import { oppfolgingsgrunnToText } from "@/data/oppfolgingsoppgave/types";
 
 const texts = {
   title: "Oppfølgingsoppgave",
@@ -26,28 +26,28 @@ const texts = {
     }), ${tilLesbarDatoMedArUtenManedNavn(createdAt)}`,
 };
 
-export const Huskelapp = () => {
-  const removeHuskelapp = useRemoveHuskelapp();
-  const { huskelapp } = useGetHuskelappQuery();
+export const Oppfolgingsoppgave = () => {
+  const removeOppfolgingsoppgave = useRemoveOppfolgingsoppgave();
+  const { oppfolgingsoppgave } = useGetOppfolgingsoppgave();
   const { data: veilederinfo } = useVeilederInfoQuery(
-    huskelapp?.createdBy ?? ""
+    oppfolgingsoppgave?.createdBy ?? ""
   );
-  const isExistingHuskelapp = !!huskelapp;
-  const handleRemoveHuskelapp = (uuid: string) => {
-    removeHuskelapp.mutate(uuid);
+  const isExistingOppfolgingsoppgave = !!oppfolgingsoppgave;
+  const handleRemoveOppfolgingsoppgave = (uuid: string) => {
+    removeOppfolgingsoppgave.mutate(uuid);
   };
 
-  const existingHuskelappText = !!huskelapp?.tekst
-    ? huskelapp.tekst
-    : !!huskelapp?.oppfolgingsgrunn
-    ? oppfolgingsgrunnToText[huskelapp.oppfolgingsgrunn]
+  const existingOppfolgingsoppgaveText = !!oppfolgingsoppgave?.tekst
+    ? oppfolgingsoppgave.tekst
+    : !!oppfolgingsoppgave?.oppfolgingsgrunn
+    ? oppfolgingsgrunnToText[oppfolgingsoppgave.oppfolgingsgrunn]
     : null;
 
-  const frist = huskelapp?.frist
-    ? tilLesbarDatoMedArUtenManedNavn(huskelapp?.frist)
+  const frist = oppfolgingsoppgave?.frist
+    ? tilLesbarDatoMedArUtenManedNavn(oppfolgingsoppgave?.frist)
     : undefined;
 
-  return isExistingHuskelapp ? (
+  return isExistingOppfolgingsoppgave ? (
     <Box background={"surface-default"} padding="4" className="flex-1">
       {frist && (
         <Tag
@@ -59,14 +59,16 @@ export const Huskelapp = () => {
       <Heading className="mb-2" size="xsmall">
         {texts.title}
       </Heading>
-      <BodyShort className="mb-4">{existingHuskelappText}</BodyShort>
+      <BodyShort className="mb-4">{existingOppfolgingsoppgaveText}</BodyShort>
       <Tooltip content={texts.removeTooltip}>
         <Button
           type="button"
           icon={<TrashIcon aria-hidden />}
           variant={"primary-neutral"}
-          onClick={() => handleRemoveHuskelapp(huskelapp.uuid)}
-          loading={removeHuskelapp.isPending}
+          onClick={() =>
+            handleRemoveOppfolgingsoppgave(oppfolgingsoppgave.uuid)
+          }
+          loading={removeOppfolgingsoppgave.isPending}
           className={"ml-auto"}
           size={"small"}
         >
@@ -75,11 +77,11 @@ export const Huskelapp = () => {
       </Tooltip>
       {veilederinfo && (
         <BodyShort size="small" textColor="subtle" className="mt-2 text-xs">
-          {texts.createdBy(veilederinfo, huskelapp.createdAt)}
+          {texts.createdBy(veilederinfo, oppfolgingsoppgave.createdAt)}
         </BodyShort>
       )}
     </Box>
   ) : (
-    <OpenHuskelappModalButton />
+    <OpenOppfolgingsoppgaveModalButton />
   );
 };

@@ -1,13 +1,13 @@
 import { Button } from "@navikt/ds-react";
 import React, { useState } from "react";
-import { HuskelappModal } from "@/components/huskelapp/HuskelappModal";
+import { OppfolgingsoppgaveModal } from "@/components/oppfolgingsoppgave/OppfolgingsoppgaveModal";
 import { PlusCircleIcon } from "@navikt/aksel-icons";
 
 const texts = {
   openModal: "Oppfølgingsoppgave",
 };
 
-export const OpenHuskelappModalButton = () => {
+export const OpenOppfolgingsoppgaveModalButton = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   return (
@@ -21,7 +21,10 @@ export const OpenHuskelappModalButton = () => {
         {texts.openModal}
       </Button>
       {modalIsOpen && (
-        <HuskelappModal isOpen={modalIsOpen} toggleOpen={setModalIsOpen} />
+        <OppfolgingsoppgaveModal
+          isOpen={modalIsOpen}
+          toggleOpen={setModalIsOpen}
+        />
       )}
     </div>
   );

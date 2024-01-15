@@ -1,6 +1,6 @@
 import * as amplitude from "@amplitude/analytics-browser";
 import { erProd } from "@/utils/miljoUtil";
-import { Oppfolgingsgrunn } from "@/data/huskelapp/huskelappTypes";
+import { Oppfolgingsgrunn } from "@/data/oppfolgingsoppgave/types";
 import { IkkeAktuellArsak } from "@/data/aktivitetskrav/aktivitetskravTypes";
 
 /**

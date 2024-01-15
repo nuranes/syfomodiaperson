@@ -10,12 +10,12 @@ const texts = {
   },
 };
 
-export interface HuskelappRequestDTO {
+export interface OppfolgingsoppgaveRequestDTO {
   oppfolgingsgrunn: Oppfolgingsgrunn;
   frist: string | null;
 }
 
-export interface HuskelappResponseDTO {
+export interface OppfolgingsoppgaveResponseDTO {
   uuid: string;
   createdBy: string;
   updatedAt: Date;

@@ -9,12 +9,12 @@ import {
   RadioGroup,
   useDatepicker,
 } from "@navikt/ds-react";
-import { useOppdaterHuskelapp } from "@/data/huskelapp/useOppdaterHuskelapp";
+import { useOppdaterOppfolgingsoppgave } from "@/data/oppfolgingsoppgave/useOppdaterOppfolgingsoppgave";
 import {
-  HuskelappRequestDTO,
+  OppfolgingsoppgaveRequestDTO,
   Oppfolgingsgrunn,
   oppfolgingsgrunnToText,
-} from "@/data/huskelapp/huskelappTypes";
+} from "@/data/oppfolgingsoppgave/types";
 import { useForm } from "react-hook-form";
 import * as Amplitude from "@/utils/amplitude";
 import { EventType } from "@/utils/amplitude";
@@ -37,13 +37,13 @@ interface FormValues {
   frist: string | null;
 }
 
-interface HuskelappModalProps {
+interface Props {
   isOpen: boolean;
   toggleOpen: (value: boolean) => void;
 }
 
-export const HuskelappModal = ({ isOpen, toggleOpen }: HuskelappModalProps) => {
-  const oppdaterHuskelapp = useOppdaterHuskelapp();
+export const OppfolgingsoppgaveModal = ({ isOpen, toggleOpen }: Props) => {
+  const oppdaterOppfolgingsoppgave = useOppdaterOppfolgingsoppgave();
   const {
     register,
     formState: { errors },
@@ -52,11 +52,11 @@ export const HuskelappModal = ({ isOpen, toggleOpen }: HuskelappModalProps) => {
   } = useForm<FormValues>();
 
   const submit = (values: FormValues) => {
-    const huskelappDto: HuskelappRequestDTO = {
+    const oppfolgingsoppgaveDto: OppfolgingsoppgaveRequestDTO = {
       oppfolgingsgrunn: values.oppfolgingsgrunn,
       frist: values.frist,
     };
-    oppdaterHuskelapp.mutate(huskelappDto, {
+    oppdaterOppfolgingsoppgave.mutate(oppfolgingsoppgaveDto, {
       onSuccess: () => {
         Amplitude.logEvent({
           type: EventType.OppfolgingsgrunnSendt,
@@ -141,7 +141,7 @@ export const HuskelappModal = ({ isOpen, toggleOpen }: HuskelappModalProps) => {
           <Button
             type="submit"
             variant="primary"
-            loading={oppdaterHuskelapp.isPending}
+            loading={oppdaterOppfolgingsoppgave.isPending}
           >
             {texts.save}
           </Button>

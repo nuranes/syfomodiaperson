@@ -22,7 +22,7 @@ import { mockIsbehandlerdialog } from "./isbehandlerdialog/mockIsbehandlerdialog
 import { mockEsyfovarsel } from "./esyfovarsel/mockEsyfovarsel";
 
 import express from "express";
-import { mockIshuskelapp } from "./huskelapp/mockHuskelapp";
+import { mockIshuskelapp } from "./oppfolgingsoppgave/mockOppfolgingsoppgave";
 import { mockFlexjar } from "./flexjar/mockFlexjar";
 
 const mockEndepunkter = (server: any) => {
