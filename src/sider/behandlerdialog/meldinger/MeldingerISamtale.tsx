@@ -4,15 +4,15 @@ import {
   MeldingStatusType,
   MeldingType,
 } from "@/data/behandlerdialog/behandlerdialogTypes";
-import { MeldingInnholdPanel } from "@/components/behandlerdialog/meldinger/MeldingInnholdPanel";
+import { MeldingInnholdPanel } from "@/sider/behandlerdialog/meldinger/MeldingInnholdPanel";
 import styled from "styled-components";
 import {
   NavLogoRod,
   StetoskopIkonBakgrunn,
 } from "../../../../img/ImageComponents";
-import { PaminnelseMelding } from "@/components/behandlerdialog/paminnelse/PaminnelseMelding";
-import { AvvistMelding } from "@/components/behandlerdialog/meldinger/AvvistMelding";
-import { ReturLegeerklaring } from "@/components/behandlerdialog/legeerklaring/ReturLegeerklaring";
+import { PaminnelseMelding } from "@/sider/behandlerdialog/paminnelse/PaminnelseMelding";
+import { AvvistMelding } from "@/sider/behandlerdialog/meldinger/AvvistMelding";
+import { ReturLegeerklaring } from "@/sider/behandlerdialog/legeerklaring/ReturLegeerklaring";
 import { usePersonoppgaverQuery } from "@/data/personoppgave/personoppgaveQueryHooks";
 import { getAllUbehandledePersonOppgaver } from "@/utils/personOppgaveUtils";
 import { PersonOppgaveType } from "@/data/personoppgave/types/PersonOppgave";

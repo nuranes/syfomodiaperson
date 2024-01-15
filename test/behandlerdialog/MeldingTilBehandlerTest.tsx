@@ -11,7 +11,7 @@ import { navEnhet } from "../dialogmote/testData";
 import React from "react";
 import { queryClientWithMockData } from "../testQueryClient";
 import { expect } from "chai";
-import { MeldingTilBehandler } from "@/components/behandlerdialog/meldingtilbehandler/MeldingTilBehandler";
+import { MeldingTilBehandler } from "@/sider/behandlerdialog/meldingtilbehandler/MeldingTilBehandler";
 import { changeTextInput, clickButton, getTextInput } from "../testUtils";
 import {
   MeldingTilBehandlerDTO,

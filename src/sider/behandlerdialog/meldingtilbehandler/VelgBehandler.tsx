@@ -10,7 +10,7 @@ import {
   UseFormTrigger,
   UseFormWatch,
 } from "react-hook-form";
-import { MeldingTilBehandlerSkjemaValues } from "@/components/behandlerdialog/meldingtilbehandler/MeldingTilBehandlerSkjema";
+import { MeldingTilBehandlerSkjemaValues } from "@/sider/behandlerdialog/meldingtilbehandler/MeldingTilBehandlerSkjema";
 import { capitalizeWord } from "@/utils/stringUtils";
 import BehandlerSearch from "@/components/behandler/BehandlerSearch";
 

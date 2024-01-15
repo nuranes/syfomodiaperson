@@ -12,8 +12,8 @@ import {
   PersonOppgave,
   PersonOppgaveType,
 } from "@/data/personoppgave/types/PersonOppgave";
-import { PaminnelseWarningIcon } from "@/components/behandlerdialog/paminnelse/PaminnelseWarningIcon";
-import { ReturLegeerklaringWarningIcon } from "@/components/behandlerdialog/legeerklaring/ReturLegeerklaringWarningIcon";
+import { PaminnelseWarningIcon } from "@/sider/behandlerdialog/paminnelse/PaminnelseWarningIcon";
+import { ReturLegeerklaringWarningIcon } from "@/sider/behandlerdialog/legeerklaring/ReturLegeerklaringWarningIcon";
 import {
   antallOfType,
   hasMeldingOfType,

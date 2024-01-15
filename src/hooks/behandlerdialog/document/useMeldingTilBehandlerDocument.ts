@@ -1,5 +1,5 @@
 import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
-import { MeldingTilBehandlerSkjemaValues } from "@/components/behandlerdialog/meldingtilbehandler/MeldingTilBehandlerSkjema";
+import { MeldingTilBehandlerSkjemaValues } from "@/sider/behandlerdialog/meldingtilbehandler/MeldingTilBehandlerSkjema";
 import { useDocumentComponents } from "@/hooks/useDocumentComponents";
 import {
   createHeaderH1,

@@ -1,8 +1,8 @@
 import React from "react";
-import { MeldingTilBehandler } from "@/components/behandlerdialog/meldingtilbehandler/MeldingTilBehandler";
+import { MeldingTilBehandler } from "@/sider/behandlerdialog/meldingtilbehandler/MeldingTilBehandler";
 import styled from "styled-components";
 import { Panel } from "@navikt/ds-react";
-import { Meldinger } from "@/components/behandlerdialog/meldinger/Meldinger";
+import { Meldinger } from "@/sider/behandlerdialog/meldinger/Meldinger";
 
 export const BehandlerdialogPanel = styled(Panel)`
   display: flex;

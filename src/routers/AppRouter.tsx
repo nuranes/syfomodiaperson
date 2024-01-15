@@ -22,7 +22,7 @@ import DialogmoteEndreReferatContainer from "@/components/dialogmote/referat/Dia
 import DialogmoteunntakSkjemaContainer from "@/components/dialogmoteunntak/DialogmoteunntakSkjemaContainer";
 import { PersonsokSide } from "@/components/PersonsokSide";
 import { AktivitetskravContainer } from "@/sider/aktivitetskrav/AktivitetskravContainer";
-import { BehandlerdialogContainer } from "@/components/behandlerdialog/BehandlerdialogContainer";
+import { BehandlerdialogContainer } from "@/sider/behandlerdialog/BehandlerdialogContainer";
 import * as Amplitude from "@/utils/amplitude";
 
 export const appRoutePath = "/sykefravaer";

@@ -4,7 +4,7 @@ import {
   ReturLegeerklaringDTO,
 } from "@/data/behandlerdialog/behandlerdialogTypes";
 import { ArrowUndoIcon } from "@navikt/aksel-icons";
-import { MeldingActionButton } from "@/components/behandlerdialog/MeldingActionButton";
+import { MeldingActionButton } from "@/sider/behandlerdialog/MeldingActionButton";
 import { Button, Modal, Textarea } from "@navikt/ds-react";
 import { DocumentComponentVisning } from "@/components/document/DocumentComponentVisning";
 import { CloseButton } from "@/components/CloseButton";

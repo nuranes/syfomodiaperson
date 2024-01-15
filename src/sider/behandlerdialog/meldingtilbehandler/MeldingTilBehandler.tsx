@@ -1,5 +1,5 @@
 import React from "react";
-import { MeldingTilBehandlerSkjema } from "@/components/behandlerdialog/meldingtilbehandler/MeldingTilBehandlerSkjema";
+import { MeldingTilBehandlerSkjema } from "@/sider/behandlerdialog/meldingtilbehandler/MeldingTilBehandlerSkjema";
 import { Alert, Heading } from "@navikt/ds-react";
 import styled from "styled-components";
 

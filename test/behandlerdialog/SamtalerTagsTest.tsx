@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
 import React from "react";
-import { Samtaler } from "@/components/behandlerdialog/meldinger/Samtaler";
+import { Samtaler } from "@/sider/behandlerdialog/meldinger/Samtaler";
 import { queryClientWithMockData } from "../testQueryClient";
 import {
   defaultMeldingResponse,

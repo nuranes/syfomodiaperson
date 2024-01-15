@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
 import React from "react";
-import { BehandlerdialogSide } from "@/components/behandlerdialog/BehandlerdialogSide";
+import { BehandlerdialogSide } from "@/sider/behandlerdialog/BehandlerdialogSide";
 import { queryClientWithMockData } from "../testQueryClient";
 import { expect } from "chai";
 

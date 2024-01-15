@@ -1,7 +1,7 @@
 import React from "react";
 import { Heading } from "@navikt/ds-react";
-import { Samtaler } from "@/components/behandlerdialog/meldinger/Samtaler";
-import BehandleBehandlerdialogSvarOppgaveKnapp from "@/components/behandlerdialog/meldinger/BehandleBehandlerdialogSvarOppgaveKnapp";
+import { Samtaler } from "@/sider/behandlerdialog/meldinger/Samtaler";
+import BehandleBehandlerdialogSvarOppgaveKnapp from "@/sider/behandlerdialog/meldinger/BehandleBehandlerdialogSvarOppgaveKnapp";
 
 export const texts = {
   header: "Meldinger",

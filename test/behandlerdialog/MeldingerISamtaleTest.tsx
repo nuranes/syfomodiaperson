@@ -3,7 +3,7 @@ import { MeldingDTO } from "@/data/behandlerdialog/behandlerdialogTypes";
 import { render, screen } from "@testing-library/react";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
-import { MeldingerISamtale } from "@/components/behandlerdialog/meldinger/MeldingerISamtale";
+import { MeldingerISamtale } from "@/sider/behandlerdialog/meldinger/MeldingerISamtale";
 import React from "react";
 import { queryClientWithMockData } from "../testQueryClient";
 import { expect } from "chai";

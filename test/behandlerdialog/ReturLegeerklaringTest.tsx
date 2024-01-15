@@ -9,7 +9,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
 import React from "react";
-import { ReturLegeerklaring } from "@/components/behandlerdialog/legeerklaring/ReturLegeerklaring";
+import { ReturLegeerklaring } from "@/sider/behandlerdialog/legeerklaring/ReturLegeerklaring";
 import { queryClientWithMockData } from "../testQueryClient";
 import { foresporselLegeerklaringFraBehandler } from "./meldingTestdataGenerator";
 import { expectedReturLegeerklaringDocument } from "./testDataDocuments";

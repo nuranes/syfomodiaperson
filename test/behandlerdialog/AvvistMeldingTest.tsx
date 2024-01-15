@@ -6,7 +6,7 @@ import React from "react";
 import { expect } from "chai";
 import { MeldingStatusType } from "@/data/behandlerdialog/behandlerdialogTypes";
 import { queryClientWithMockData } from "../testQueryClient";
-import { AvvistMelding } from "@/components/behandlerdialog/meldinger/AvvistMelding";
+import { AvvistMelding } from "@/sider/behandlerdialog/meldinger/AvvistMelding";
 import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQueryHooks";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import {

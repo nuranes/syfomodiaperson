@@ -3,7 +3,7 @@ import Side from "@/sider/Side";
 import { Menypunkter } from "@/navigation/menypunkterTypes";
 import Sidetopp from "@/components/Sidetopp";
 import SideLaster from "@/components/SideLaster";
-import { BehandlerdialogSide } from "@/components/behandlerdialog/BehandlerdialogSide";
+import { BehandlerdialogSide } from "@/sider/behandlerdialog/BehandlerdialogSide";
 
 const texts = {
   title: "Dialog med behandler",

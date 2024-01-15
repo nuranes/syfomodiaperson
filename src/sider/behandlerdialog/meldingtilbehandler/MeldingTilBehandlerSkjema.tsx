@@ -9,12 +9,12 @@ import { useMeldingTilBehandler } from "@/data/behandlerdialog/useMeldingTilBeha
 import { tilDatoMedManedNavnOgKlokkeslett } from "@/utils/datoUtils";
 import { useMeldingTilBehandlerDocument } from "@/hooks/behandlerdialog/document/useMeldingTilBehandlerDocument";
 import { behandlerNavn } from "@/utils/behandlerUtils";
-import { MeldingsTypeInfo } from "@/components/behandlerdialog/meldingtilbehandler/MeldingsTypeInfo";
+import { MeldingsTypeInfo } from "@/sider/behandlerdialog/meldingtilbehandler/MeldingsTypeInfo";
 import * as Amplitude from "@/utils/amplitude";
 import { EventType } from "@/utils/amplitude";
 import { useForm } from "react-hook-form";
 import { meldingTypeTexts } from "@/data/behandlerdialog/behandlerdialogTexts";
-import { VelgBehandler } from "@/components/behandlerdialog/meldingtilbehandler/VelgBehandler";
+import { VelgBehandler } from "@/sider/behandlerdialog/meldingtilbehandler/VelgBehandler";
 import { ButtonRow } from "@/components/Layout";
 import { ForhandsvisningModal } from "@/components/ForhandsvisningModal";
 

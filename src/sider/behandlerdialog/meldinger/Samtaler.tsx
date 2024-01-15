@@ -6,7 +6,7 @@ import {
 } from "@/data/behandlerdialog/behandlerdialogTypes";
 import { Accordion, GuidePanel } from "@navikt/ds-react";
 import styled from "styled-components";
-import { SamtaleAccordionItem } from "@/components/behandlerdialog/meldinger/SamtaleAccordionItem";
+import { SamtaleAccordionItem } from "@/sider/behandlerdialog/meldinger/SamtaleAccordionItem";
 import AppSpinner from "@/components/AppSpinner";
 
 const texts = {

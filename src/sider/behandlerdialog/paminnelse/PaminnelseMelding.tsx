@@ -13,7 +13,7 @@ import { PersonOppgave } from "@/data/personoppgave/types/PersonOppgave";
 import { useMeldingTilBehandlerDocument } from "@/hooks/behandlerdialog/document/useMeldingTilBehandlerDocument";
 import { DocumentComponentVisning } from "@/components/document/DocumentComponentVisning";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
-import { MeldingActionButton } from "@/components/behandlerdialog/MeldingActionButton";
+import { MeldingActionButton } from "@/sider/behandlerdialog/MeldingActionButton";
 import { CloseButton } from "@/components/CloseButton";
 import { DocumentComponentHeaderH1 } from "@/components/document/DocumentComponentHeaderH1";
 
