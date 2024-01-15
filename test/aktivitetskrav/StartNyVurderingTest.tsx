@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
 import React from "react";
-import { StartNyVurdering } from "@/components/aktivitetskrav/vurdering/StartNyVurdering";
+import { StartNyVurdering } from "@/sider/aktivitetskrav/vurdering/StartNyVurdering";
 import { expect } from "chai";
 import { queryClientWithMockData } from "../testQueryClient";
 import { oppfolgingstilfellePersonQueryKeys } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";

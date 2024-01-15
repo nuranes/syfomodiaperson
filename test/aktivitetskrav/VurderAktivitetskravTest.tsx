@@ -9,7 +9,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
 import React from "react";
-import { VurderAktivitetskrav } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskrav";
+import { VurderAktivitetskrav } from "@/sider/aktivitetskrav/vurdering/VurderAktivitetskrav";
 import { queryClientWithMockData } from "../testQueryClient";
 import {
   avventVurdering,
@@ -48,7 +48,7 @@ import {
 import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQueryHooks";
 import { personOppgaveUbehandletVurderStans } from "../../mock/ispersonoppgave/personoppgaveMock";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
-import { begrunnelseMaxLength } from "@/components/aktivitetskrav/vurdering/BegrunnelseTextarea";
+import { begrunnelseMaxLength } from "@/sider/aktivitetskrav/vurdering/BegrunnelseTextarea";
 import { apiMock } from "../stubs/stubApi";
 import {
   stubVurderAktivitetskravApi,

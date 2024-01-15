@@ -2,7 +2,7 @@ import React from "react";
 import { AktivitetskravVarselDTO } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { BodyShort, Heading, Panel, Tag } from "@navikt/ds-react";
 import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
-import { VarselBrev } from "@/components/aktivitetskrav/VarselBrev";
+import { VarselBrev } from "@/sider/aktivitetskrav/VarselBrev";
 import { ExpandableBlockquote } from "@/components/ExpandableBlockquote";
 
 const texts = {

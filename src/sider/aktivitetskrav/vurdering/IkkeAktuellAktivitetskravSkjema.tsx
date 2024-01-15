@@ -9,12 +9,12 @@ import { useVurderAktivitetskrav } from "@/data/aktivitetskrav/useVurderAktivite
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { ButtonRow } from "@/components/Layout";
 import { BodyShort, Button, Radio, RadioGroup } from "@navikt/ds-react";
-import { useAktivitetskravNotificationAlert } from "@/components/aktivitetskrav/useAktivitetskravNotificationAlert";
+import { useAktivitetskravNotificationAlert } from "@/sider/aktivitetskrav/useAktivitetskravNotificationAlert";
 import { useForm } from "react-hook-form";
-import { VurderAktivitetskravSkjemaProps } from "@/components/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
+import { VurderAktivitetskravSkjemaProps } from "@/sider/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
 import BegrunnelseTextarea, {
   begrunnelseMaxLength,
-} from "@/components/aktivitetskrav/vurdering/BegrunnelseTextarea";
+} from "@/sider/aktivitetskrav/vurdering/BegrunnelseTextarea";
 import { useAktivitetskravVarselDocument } from "@/hooks/aktivitetskrav/useAktivitetskravVarselDocument";
 import { ikkeAktuellVurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
 import * as Amplitude from "@/utils/amplitude";

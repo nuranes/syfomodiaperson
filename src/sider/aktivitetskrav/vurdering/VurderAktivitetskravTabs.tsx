@@ -4,10 +4,10 @@ import {
   AktivitetskravStatus,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { Tabs } from "@navikt/ds-react";
-import { UnntakAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/UnntakAktivitetskravSkjema";
-import { OppfyltAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/OppfyltAktivitetskravSkjema";
-import { SendForhandsvarselSkjema } from "@/components/aktivitetskrav/vurdering/SendForhandsvarselSkjema";
-import { IkkeOppfyltAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/IkkeOppfyltAktivitetskravSkjema";
+import { UnntakAktivitetskravSkjema } from "@/sider/aktivitetskrav/vurdering/UnntakAktivitetskravSkjema";
+import { OppfyltAktivitetskravSkjema } from "@/sider/aktivitetskrav/vurdering/OppfyltAktivitetskravSkjema";
+import { SendForhandsvarselSkjema } from "@/sider/aktivitetskrav/vurdering/SendForhandsvarselSkjema";
+import { IkkeOppfyltAktivitetskravSkjema } from "@/sider/aktivitetskrav/vurdering/IkkeOppfyltAktivitetskravSkjema";
 import styled from "styled-components";
 
 const texts = {

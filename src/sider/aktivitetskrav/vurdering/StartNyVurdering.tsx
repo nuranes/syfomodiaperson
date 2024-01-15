@@ -3,7 +3,7 @@ import { Alert, BodyShort, Button, Heading, Panel } from "@navikt/ds-react";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { useCreateAktivitetskrav } from "@/data/aktivitetskrav/useCreateAktivitetskrav";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
-import { GjelderOppfolgingstilfelle } from "@/components/aktivitetskrav/GjelderOppfolgingstilfelle";
+import { GjelderOppfolgingstilfelle } from "@/sider/aktivitetskrav/GjelderOppfolgingstilfelle";
 import {
   AktivitetskravDTO,
   AktivitetskravStatus,
@@ -11,7 +11,7 @@ import {
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import { vurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
-import { useAktivitetskravNotificationAlert } from "@/components/aktivitetskrav/useAktivitetskravNotificationAlert";
+import { useAktivitetskravNotificationAlert } from "@/sider/aktivitetskrav/useAktivitetskravNotificationAlert";
 
 export const texts = {
   header: "Start ny aktivitetskrav-vurdering",

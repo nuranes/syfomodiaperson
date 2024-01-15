@@ -22,7 +22,7 @@ import {
 } from "@/data/aktivitetskrav/aktivitetskravTexts";
 import * as Amplitude from "@/utils/amplitude";
 import { EventType } from "@/utils/amplitude";
-import { VarselBrev } from "@/components/aktivitetskrav/VarselBrev";
+import { VarselBrev } from "@/sider/aktivitetskrav/VarselBrev";
 
 const texts = {
   header: "Historikk",

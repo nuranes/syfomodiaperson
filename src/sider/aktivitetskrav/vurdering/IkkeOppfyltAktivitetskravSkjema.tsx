@@ -4,12 +4,12 @@ import {
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import React from "react";
 import { useVurderAktivitetskrav } from "@/data/aktivitetskrav/useVurderAktivitetskrav";
-import { SkjemaHeading } from "@/components/aktivitetskrav/vurdering/SkjemaHeading";
+import { SkjemaHeading } from "@/sider/aktivitetskrav/vurdering/SkjemaHeading";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
-import { VurderAktivitetskravSkjemaProps } from "@/components/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
+import { VurderAktivitetskravSkjemaProps } from "@/sider/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
 import { Button } from "@navikt/ds-react";
 import { ButtonRow } from "@/components/Layout";
-import { useAktivitetskravNotificationAlert } from "@/components/aktivitetskrav/useAktivitetskravNotificationAlert";
+import { useAktivitetskravNotificationAlert } from "@/sider/aktivitetskrav/useAktivitetskravNotificationAlert";
 
 const texts = {
   lagre: "Lagre",

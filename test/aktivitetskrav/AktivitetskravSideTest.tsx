@@ -9,7 +9,7 @@ import {
 import { oppfolgingstilfellePersonQueryKeys } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { daysFromToday } from "../testUtils";
 import { render, screen } from "@testing-library/react";
-import { AktivitetskravSide } from "@/components/aktivitetskrav/AktivitetskravSide";
+import { AktivitetskravSide } from "@/sider/aktivitetskrav/AktivitetskravSide";
 import { navEnhet } from "../dialogmote/testData";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { expect } from "chai";

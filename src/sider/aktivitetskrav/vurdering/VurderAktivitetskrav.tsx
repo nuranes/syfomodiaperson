@@ -3,14 +3,14 @@ import {
   AktivitetskravDTO,
   AktivitetskravStatus,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
-import { VurderAktivitetskravTabs } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravTabs";
+import { VurderAktivitetskravTabs } from "@/sider/aktivitetskrav/vurdering/VurderAktivitetskravTabs";
 import { Heading, Panel } from "@navikt/ds-react";
-import { VurderAktivitetskravButtons } from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravButtons";
-import { GjelderOppfolgingstilfelle } from "@/components/aktivitetskrav/GjelderOppfolgingstilfelle";
+import { VurderAktivitetskravButtons } from "@/sider/aktivitetskrav/vurdering/VurderAktivitetskravButtons";
+import { GjelderOppfolgingstilfelle } from "@/sider/aktivitetskrav/GjelderOppfolgingstilfelle";
 import { oppfolgingstilfelleForAktivitetskrav } from "@/utils/aktivitetskravUtils";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
-import { AktivitetskravVurderingAlert } from "@/components/aktivitetskrav/vurdering/AktivitetskravVurderingAlert";
-import { ForhandsvarselOppsummering } from "@/components/aktivitetskrav/vurdering/ForhandsvarselOppsummering";
+import { AktivitetskravVurderingAlert } from "@/sider/aktivitetskrav/vurdering/AktivitetskravVurderingAlert";
+import { ForhandsvarselOppsummering } from "@/sider/aktivitetskrav/vurdering/ForhandsvarselOppsummering";
 
 export const texts = {
   header: "Vurdere aktivitetskravet",

@@ -2,7 +2,7 @@ import React from "react";
 import dayjs from "dayjs";
 import { DatePicker, useDatepicker } from "@navikt/ds-react";
 import { useController } from "react-hook-form";
-import { AvventAktivitetskravSkjemaValues } from "@/components/aktivitetskrav/vurdering/AvventAktivitetskravSkjema";
+import { AvventAktivitetskravSkjemaValues } from "@/sider/aktivitetskrav/vurdering/AvventAktivitetskravSkjema";
 import { toDatePrettyPrint } from "@/utils/datoUtils";
 
 const texts = {

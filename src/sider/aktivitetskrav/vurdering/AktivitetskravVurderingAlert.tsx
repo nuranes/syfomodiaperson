@@ -8,7 +8,7 @@ import {
 } from "@/utils/datoUtils";
 import React, { ReactElement } from "react";
 import { avventVurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
-import { AktivitetskravAlertstripe } from "@/components/aktivitetskrav/AktivitetskravAlertstripe";
+import { AktivitetskravAlertstripe } from "@/sider/aktivitetskrav/AktivitetskravAlertstripe";
 import { BodyLong, BodyShort, Label } from "@navikt/ds-react";
 import { usePersonoppgaverQuery } from "@/data/personoppgave/personoppgaveQueryHooks";
 import { hasUbehandletPersonoppgave } from "@/utils/personOppgaveUtils";

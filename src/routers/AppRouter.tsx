@@ -21,7 +21,7 @@ import { useAktivBruker } from "@/data/modiacontext/modiacontextQueryHooks";
 import DialogmoteEndreReferatContainer from "@/components/dialogmote/referat/DialogmoteEndreReferatContainer";
 import DialogmoteunntakSkjemaContainer from "@/components/dialogmoteunntak/DialogmoteunntakSkjemaContainer";
 import { PersonsokSide } from "@/components/PersonsokSide";
-import { AktivitetskravContainer } from "@/components/aktivitetskrav/AktivitetskravContainer";
+import { AktivitetskravContainer } from "@/sider/aktivitetskrav/AktivitetskravContainer";
 import { BehandlerdialogContainer } from "@/components/behandlerdialog/BehandlerdialogContainer";
 import * as Amplitude from "@/utils/amplitude";
 

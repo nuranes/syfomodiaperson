@@ -9,12 +9,12 @@ import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import {
   AktivitetskravSkjemaValues,
   VurderAktivitetskravSkjemaProps,
-} from "@/components/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
+} from "@/sider/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
 import { useForm } from "react-hook-form";
 import BegrunnelseTextarea, {
   begrunnelseMaxLength,
-} from "@/components/aktivitetskrav/vurdering/BegrunnelseTextarea";
-import { SkjemaHeading } from "@/components/aktivitetskrav/vurdering/SkjemaHeading";
+} from "@/sider/aktivitetskrav/vurdering/BegrunnelseTextarea";
+import { SkjemaHeading } from "@/sider/aktivitetskrav/vurdering/SkjemaHeading";
 import { ForhandsvisningModal } from "@/components/ForhandsvisningModal";
 import * as Amplitude from "@/utils/amplitude";
 import { EventType } from "@/utils/amplitude";

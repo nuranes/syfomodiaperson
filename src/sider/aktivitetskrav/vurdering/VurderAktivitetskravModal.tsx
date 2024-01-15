@@ -1,9 +1,9 @@
 import React, { ReactElement } from "react";
 import { AktivitetskravStatus } from "@/data/aktivitetskrav/aktivitetskravTypes";
-import { AvventAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/AvventAktivitetskravSkjema";
-import { IkkeAktuellAktivitetskravSkjema } from "@/components/aktivitetskrav/vurdering/IkkeAktuellAktivitetskravSkjema";
+import { AvventAktivitetskravSkjema } from "@/sider/aktivitetskrav/vurdering/AvventAktivitetskravSkjema";
+import { IkkeAktuellAktivitetskravSkjema } from "@/sider/aktivitetskrav/vurdering/IkkeAktuellAktivitetskravSkjema";
 import { Modal } from "@navikt/ds-react";
-import { VurderAktivitetskravSkjemaProps } from "@/components/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
+import { VurderAktivitetskravSkjemaProps } from "@/sider/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
 
 const texts = {
   modalContentLabel: "Vurder aktivitetskrav",

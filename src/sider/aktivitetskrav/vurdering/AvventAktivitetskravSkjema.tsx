@@ -4,20 +4,20 @@ import {
   AvventVurderingArsak,
   CreateAktivitetskravVurderingDTO,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
-import { AvventFristDato } from "@/components/aktivitetskrav/vurdering/AvventFristDato";
+import { AvventFristDato } from "@/sider/aktivitetskrav/vurdering/AvventFristDato";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { useVurderAktivitetskrav } from "@/data/aktivitetskrav/useVurderAktivitetskrav";
 import {
   AktivitetskravSkjemaValues,
   VurderAktivitetskravSkjemaProps,
-} from "@/components/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
-import { SkjemaFieldContainer } from "@/components/aktivitetskrav/vurdering/SkjemaFieldContainer";
+} from "@/sider/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
+import { SkjemaFieldContainer } from "@/sider/aktivitetskrav/vurdering/SkjemaFieldContainer";
 import { FormProvider, useForm } from "react-hook-form";
 import { BodyShort, Button, Checkbox, CheckboxGroup } from "@navikt/ds-react";
 import { avventVurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
 import BegrunnelseTextarea, {
   begrunnelseMaxLength,
-} from "@/components/aktivitetskrav/vurdering/BegrunnelseTextarea";
+} from "@/sider/aktivitetskrav/vurdering/BegrunnelseTextarea";
 import { ButtonRow } from "@/components/Layout";
 
 const texts = {

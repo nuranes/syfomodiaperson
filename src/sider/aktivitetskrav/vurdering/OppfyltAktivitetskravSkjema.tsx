@@ -2,43 +2,42 @@ import React from "react";
 import {
   AktivitetskravStatus,
   CreateAktivitetskravVurderingDTO,
-  UnntakVurderingArsak,
+  OppfyltVurderingArsak,
   VarselType,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
-import { unntakVurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
-import { SkjemaHeading } from "@/components/aktivitetskrav/vurdering/SkjemaHeading";
+import { oppfyltVurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
+import { SkjemaHeading } from "@/sider/aktivitetskrav/vurdering/SkjemaHeading";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { useVurderAktivitetskrav } from "@/data/aktivitetskrav/useVurderAktivitetskrav";
 import {
   AktivitetskravSkjemaValues,
   VurderAktivitetskravSkjemaProps,
-} from "@/components/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
-import { SkjemaFieldContainer } from "@/components/aktivitetskrav/vurdering/SkjemaFieldContainer";
+} from "@/sider/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
+import { SkjemaFieldContainer } from "@/sider/aktivitetskrav/vurdering/SkjemaFieldContainer";
 import { useForm } from "react-hook-form";
 import { Button, Radio, RadioGroup } from "@navikt/ds-react";
 import BegrunnelseTextarea, {
   begrunnelseMaxLength,
-} from "@/components/aktivitetskrav/vurdering/BegrunnelseTextarea";
-import { useAktivitetskravNotificationAlert } from "@/components/aktivitetskrav/useAktivitetskravNotificationAlert";
+} from "@/sider/aktivitetskrav/vurdering/BegrunnelseTextarea";
+import { useAktivitetskravNotificationAlert } from "@/sider/aktivitetskrav/useAktivitetskravNotificationAlert";
 import { useAktivitetskravVarselDocument } from "@/hooks/aktivitetskrav/useAktivitetskravVarselDocument";
 
 const texts = {
-  title: "Sett unntak fra aktivitetskravet",
+  title: "Er i aktivitet",
   arsakLegend: "Årsak (obligatorisk)",
-  begrunnelseLabel: "Begrunnelse (obligatorisk)",
+  begrunnelseLabel: "Begrunnelse",
   missingArsak: "Vennligst angi årsak",
-  missingBegrunnelse: "Vennligst angi begrunnelse",
   lagre: "Lagre",
 };
 
-const defaultValues = { begrunnelse: "", arsak: undefined };
-
-export interface UnntakAktivitetskravSkjemaValues
+export interface OppfyltAktivitetskravSkjemaValues
   extends AktivitetskravSkjemaValues {
-  arsak: UnntakVurderingArsak;
+  arsak: OppfyltVurderingArsak;
 }
 
-export const UnntakAktivitetskravSkjema = ({
+const defaultValues = { begrunnelse: "", arsak: undefined };
+
+export const OppfyltAktivitetskravSkjema = ({
   aktivitetskravUuid,
 }: VurderAktivitetskravSkjemaProps) => {
   const {
@@ -47,22 +46,24 @@ export const UnntakAktivitetskravSkjema = ({
     formState: { errors },
     handleSubmit,
     reset,
-  } = useForm<UnntakAktivitetskravSkjemaValues>({ defaultValues });
+  } = useForm<OppfyltAktivitetskravSkjemaValues>({
+    defaultValues,
+  });
   const vurderAktivitetskrav = useVurderAktivitetskrav(aktivitetskravUuid);
   const { getVurderingDocument } = useAktivitetskravVarselDocument();
   const { displayNotification } = useAktivitetskravNotificationAlert();
 
-  const submit = (values: UnntakAktivitetskravSkjemaValues) => {
-    const status = AktivitetskravStatus.UNNTAK;
-    const { begrunnelse, arsak } = values;
+  const submit = (values: OppfyltAktivitetskravSkjemaValues) => {
+    const { arsak, begrunnelse } = values;
+    const status = AktivitetskravStatus.OPPFYLT;
     const createAktivitetskravVurderingDTO: CreateAktivitetskravVurderingDTO = {
       status,
       arsaker: [arsak],
       beskrivelse: begrunnelse,
       document: getVurderingDocument({
-        begrunnelse,
+        varselType: VarselType.OPPFYLT,
         arsak,
-        varselType: VarselType.UNNTAK,
+        begrunnelse,
       }),
     };
     vurderAktivitetskrav.mutate(createAktivitetskravVurderingDTO, {
@@ -83,7 +84,7 @@ export const UnntakAktivitetskravSkjema = ({
           legend={texts.arsakLegend}
           error={errors.arsak && texts.missingArsak}
         >
-          {Object.entries(unntakVurderingArsakTexts).map(
+          {Object.entries(oppfyltVurderingArsakTexts).map(
             ([arsak, text], index) => (
               <Radio
                 key={index}
@@ -98,9 +99,7 @@ export const UnntakAktivitetskravSkjema = ({
         <BegrunnelseTextarea
           {...register("begrunnelse", {
             maxLength: begrunnelseMaxLength,
-            required: true,
           })}
-          error={errors.begrunnelse && texts.missingBegrunnelse}
           value={watch("begrunnelse")}
           label={texts.begrunnelseLabel}
         />

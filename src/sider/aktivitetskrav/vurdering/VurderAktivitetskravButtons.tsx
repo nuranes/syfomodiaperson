@@ -9,7 +9,7 @@ import { ButtonRow } from "@/components/Layout";
 import {
   ModalType,
   VurderAktivitetskravModal,
-} from "@/components/aktivitetskrav/vurdering/VurderAktivitetskravModal";
+} from "@/sider/aktivitetskrav/vurdering/VurderAktivitetskravModal";
 
 const texts = {
   avvent: "Avvent",
