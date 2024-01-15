@@ -12,7 +12,7 @@ import {
 } from "@/utils/datoUtils";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { useSykmeldingerQuery } from "@/data/sykmelding/sykmeldingQueryHooks";
-import { SyketilfelleList } from "@/components/nokkelinformasjon/SyketilfelleList";
+import { SyketilfelleList } from "@/sider/nokkelinformasjon/SyketilfelleList";
 import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
 import { BodyShort, Heading, Panel } from "@navikt/ds-react";
 

@@ -1,7 +1,7 @@
 import React from "react";
-import Side from "../../../sider/Side";
+import Side from "../../Side";
 import Nokkelinformasjon from "../Nokkelinformasjon";
-import SideLaster from "../../SideLaster";
+import SideLaster from "../../../components/SideLaster";
 import { useOppfolgingsplanerQuery } from "@/data/oppfolgingsplan/oppfolgingsplanQueryHooks";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
 import { useSykmeldingerQuery } from "@/data/sykmelding/sykmeldingQueryHooks";

@@ -1,6 +1,6 @@
 import React from "react";
-import Sidetopp from "../Sidetopp";
-import UtdragFraSykefravaeret from "../utdragFraSykefravaeret/UtdragFraSykefravaeret";
+import Sidetopp from "../../components/Sidetopp";
+import UtdragFraSykefravaeret from "../../components/utdragFraSykefravaeret/UtdragFraSykefravaeret";
 import { Sykmeldingsgrad } from "@/components/sykmeldingsgrad/Sykmeldingsgrad";
 
 interface NokkelinformasjonProps {

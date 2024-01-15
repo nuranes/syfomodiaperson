@@ -7,7 +7,7 @@ import DinSykmeldingContainer from "../components/speiling/sykmeldinger/containe
 import HistorikkContainer from "../components/historikk/container/HistorikkContainer";
 import { erGyldigFodselsnummer } from "@/utils/frnValideringUtils";
 import MotelandingssideContainer from "../components/mote/container/MotelandingssideContainer";
-import NokkelinformasjonContainer from "../components/nokkelinformasjon/container/NokkelinformasjonContainer";
+import NokkelinformasjonContainer from "@/sider/nokkelinformasjon/container/NokkelinformasjonContainer";
 import DialogmoteInnkallingContainer from "../components/dialogmote/innkalling/DialogmoteInnkallingContainer";
 import AvlysDialogmoteContainer from "../components/dialogmote/avlys/AvlysDialogmoteContainer";
 import AppSpinner from "../components/AppSpinner";
