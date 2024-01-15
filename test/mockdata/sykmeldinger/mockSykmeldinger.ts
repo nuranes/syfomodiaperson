@@ -194,6 +194,7 @@ export const mockOldSykmeldinger: SykmeldingOldFormat[] = [
     startLegemeldtFravaer: undefined,
     status: SykmeldingStatus.SENDT,
     stillingsprosent: undefined,
+    yrkesbetegnelse: undefined,
     tilbakedatering: {
       dokumenterbarPasientkontakt: undefined,
       tilbakedatertBegrunnelse: undefined,

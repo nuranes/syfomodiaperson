@@ -100,6 +100,7 @@ export interface SykmeldingOldFormat {
   };
   arbeidsgiver?: string;
   stillingsprosent?: number;
+  yrkesbetegnelse?: string;
   diagnose: {
     hoveddiagnose?: SykmeldingDiagnose;
     bidiagnoser?: SykmeldingDiagnose[];

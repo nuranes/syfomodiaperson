@@ -27,6 +27,7 @@ export const sykmeldingerMock = [
     legekontorOrgnummer: "223456789",
     arbeidsgiver: {
       navn: "Virksomhet uten leder AS",
+      yrkesbetegnelse: "Utvikler",
       stillingsprosent: 100,
     },
     sykmeldingsperioder: [
@@ -227,6 +228,7 @@ export const sykmeldingerMock = [
     legekontorOrgnummer: "223456789",
     arbeidsgiver: {
       navn: "BRANN OG BIL AS",
+      yrkesbetegnelse: "Brannmann",
       stillingsprosent: 100,
     },
     sykmeldingsperioder: [
@@ -427,6 +429,7 @@ export const sykmeldingerMock = [
     legekontorOrgnummer: "223456789",
     arbeidsgiver: {
       navn: VIRKSOMHET_PONTYPANDY.virksomhetsnavn,
+      yrkesbetegnelse: "Sykepleier",
       stillingsprosent: 100,
     },
     sykmeldingsperioder: [
@@ -594,6 +597,7 @@ export const sykmeldingerMock = [
     legekontorOrgnummer: "223456789",
     arbeidsgiver: {
       navn: VIRKSOMHET_PONTYPANDY.virksomhetsnavn,
+      yrkesbetegnelse: "Sykepleier",
       stillingsprosent: 100,
     },
     sykmeldingsperioder: [
@@ -716,6 +720,7 @@ export const sykmeldingerMock = [
     legekontorOrgnummer: "223456789",
     arbeidsgiver: {
       navn: VIRKSOMHET_PONTYPANDY.virksomhetsnavn,
+      yrkesbetegnelse: "Ukjent",
       stillingsprosent: 100,
     },
     sykmeldingsperioder: [
@@ -1027,6 +1032,7 @@ export const sykmeldingerMock = [
     legekontorOrgnummer: "889640782",
     arbeidsgiver: {
       navn: null,
+      yrkesbetegnelse: null,
       stillingsprosent: null,
     },
     sykmeldingsperioder: [
@@ -1118,6 +1124,7 @@ export const sykmeldingerMock = [
     legekontorOrgnummer: "889640782",
     arbeidsgiver: {
       navn: null,
+      yrkesbetegnelse: null,
       stillingsprosent: null,
     },
     sykmeldingsperioder: [
@@ -1228,6 +1235,7 @@ export const sykmeldingerMock = [
     legekontorOrgnummer: "889640782",
     arbeidsgiver: {
       navn: null,
+      yrkesbetegnelse: null,
       stillingsprosent: null,
     },
     sykmeldingsperioder: [
@@ -1321,6 +1329,7 @@ export const sykmeldingerMock = [
     legekontorOrgnummer: "223456789",
     arbeidsgiver: {
       navn: "X-Files",
+      yrkesbetegnelse: "Senior etterforsker",
       stillingsprosent: 100,
     },
     sykmeldingsperioder: [
@@ -1452,7 +1461,11 @@ export const sykmeldingerMock = [
       ],
     },
     legekontorOrgnummer: "223456789",
-    arbeidsgiver: { navn: "LOMMEN BARNEHAVE", stillingsprosent: 100 },
+    arbeidsgiver: {
+      navn: "LOMMEN BARNEHAVE",
+      yrkesbetegnelse: "Barnehageassistent",
+      stillingsprosent: 100,
+    },
     sykmeldingsperioder: [
       {
         fom: dayjs(new Date()).subtract(10, "days").toJSON(),

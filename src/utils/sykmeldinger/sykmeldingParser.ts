@@ -302,6 +302,7 @@ export const newSMFormat2OldFormat = (
     status: mapStatus(sykmelding),
     stillingsprosent:
       sykmelding.arbeidsgiver && sykmelding.arbeidsgiver.stillingsprosent,
+    yrkesbetegnelse: sykmelding.arbeidsgiver?.yrkesbetegnelse,
     tilbakedatering: mapTilbakedatering(sykmelding),
     utdypendeOpplysninger: sykmelding.utdypendeOpplysninger,
     valgtArbeidssituasjon: mapValgtArbeidssituasjon(sykmelding),
