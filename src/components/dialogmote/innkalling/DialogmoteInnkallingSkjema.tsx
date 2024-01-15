@@ -19,7 +19,6 @@ import {
 } from "@/data/dialogmote/types/dialogmoteTypes";
 import { Link, Navigate } from "react-router-dom";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
-import { FlexRow } from "../../Layout";
 import { SkjemaFeiloppsummering } from "../../SkjemaFeiloppsummering";
 import { useFeilUtbedret } from "@/hooks/useFeilUtbedret";
 import {
@@ -34,9 +33,8 @@ import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
 import { behandlerNavn } from "@/utils/behandlerUtils";
 import { useSkjemaValuesToDto } from "@/hooks/dialogmote/useSkjemaValuesToDto";
 import { TidStedSkjemaValues } from "@/data/dialogmote/types/skjemaTypes";
-import { Flatknapp, Hovedknapp } from "nav-frontend-knapper";
 import DialogmoteInnkallingSkjemaSeksjon from "@/components/dialogmote/innkalling/DialogmoteInnkallingSkjemaSeksjon";
-import { Box } from "@navikt/ds-react";
+import { Box, Button } from "@navikt/ds-react";
 
 interface DialogmoteInnkallingSkjemaTekster {
   fritekstArbeidsgiver: string;
@@ -200,19 +198,24 @@ const DialogmoteInnkallingSkjema = () => {
             {submitFailed && harIkkeUtbedretFeil && (
               <SkjemaFeiloppsummering errors={errors} />
             )}
-            <FlexRow>
-              <Hovedknapp
+            <div className="flex gap-4">
+              <Button
+                type="submit"
+                variant="primary"
+                loading={opprettInnkalling.isPending}
                 onClick={resetFeilUtbedret}
-                spinner={opprettInnkalling.isPending}
-                autoDisableVedSpinner
-                htmlType="submit"
               >
                 {texts.send}
-              </Hovedknapp>
-              <Link to={moteoversiktRoutePath}>
-                <Flatknapp htmlType="button">{texts.cancel}</Flatknapp>
-              </Link>
-            </FlexRow>
+              </Button>
+              <Button
+                as={Link}
+                type="button"
+                variant="tertiary"
+                to={moteoversiktRoutePath}
+              >
+                {texts.cancel}
+              </Button>
+            </div>
           </form>
         )}
       </Form>

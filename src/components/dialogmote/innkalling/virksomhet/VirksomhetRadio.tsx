@@ -1,6 +1,6 @@
 import { useVirksomhetQuery } from "@/data/virksomhet/virksomhetQueryHooks";
-import { Radio } from "nav-frontend-skjema";
 import React from "react";
+import { Radio } from "@navikt/ds-react";
 
 interface VirksomhetRadioProps {
   velgVirksomhet(virksomhetsnummer: string): void;
@@ -19,10 +19,11 @@ export const VirksomhetRadio = ({
 
   return (
     <Radio
-      label={virksomhetsnavnText}
       name={name}
       value={virksomhetsnummer}
       onChange={() => velgVirksomhet(virksomhetsnummer)}
-    />
+    >
+      {virksomhetsnavnText}
+    </Radio>
   );
 };

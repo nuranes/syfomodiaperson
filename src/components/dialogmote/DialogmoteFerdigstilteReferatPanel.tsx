@@ -8,12 +8,10 @@ import {
   tilDatoMedUkedagOgManedNavnOgKlokkeslett,
   tilLesbarDatoMedArstall,
 } from "@/utils/datoUtils";
-import { Normaltekst } from "nav-frontend-typografi";
 import { useDialogmoteReferat } from "@/hooks/dialogmote/useDialogmoteReferat";
-import { FlexRow, PaddingSize } from "@/components/Layout";
-import { Hovedknapp, Knapp } from "nav-frontend-knapper";
 import { dialogmoteRoutePath } from "@/routers/AppRouter";
 import { Link } from "react-router-dom";
+import { Button } from "@navikt/ds-react";
 
 interface FerdigstilteReferatListProps {
   mote: DialogmoteDTO;
@@ -47,20 +45,17 @@ const EndreReferatPanel = ({ mote }: EndreReferatPanelProps): ReactElement => {
   return (
     <>
       <FerdigstilteReferatList mote={mote} />
-      <FlexRow topPadding={PaddingSize.SM}>
-        <Normaltekst>{`${texts.sisteFrist} ${tilDatoMedManedNavnOgKlokkeslett(
-          endreReferatFrist
-        )}`}</Normaltekst>
-      </FlexRow>
-      <FlexRow topPadding={PaddingSize.MD}>
-        <Link to={`${dialogmoteRoutePath}/${mote.uuid}/referat/endre`}>
-          {latestReferat.ferdigstilt ? (
-            <Knapp>{texts.buttonEndre}</Knapp>
-          ) : (
-            <Hovedknapp>{texts.buttonFullfor}</Hovedknapp>
-          )}
-        </Link>
-      </FlexRow>
+      {`${texts.sisteFrist} ${tilDatoMedManedNavnOgKlokkeslett(
+        endreReferatFrist
+      )}`}
+      <Button
+        className="mt-8 w-fit"
+        variant={latestReferat.ferdigstilt ? "secondary" : "primary"}
+        as={Link}
+        to={`${dialogmoteRoutePath}/${mote.uuid}/referat/endre`}
+      >
+        {latestReferat.ferdigstilt ? texts.buttonEndre : texts.buttonFullfor}
+      </Button>
     </>
   );
 };

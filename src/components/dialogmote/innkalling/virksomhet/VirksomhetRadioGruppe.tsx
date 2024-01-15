@@ -1,8 +1,11 @@
-import { RadioGruppe } from "nav-frontend-skjema";
-import React, { ReactElement } from "react";
+import React, { ReactElement, ReactNode } from "react";
 import { VirksomhetRadio } from "@/components/dialogmote/innkalling/virksomhet/VirksomhetRadio";
-import { VirksomhetInputRadio } from "@/components/dialogmote/innkalling/virksomhet/VirksomhetInputRadio";
 import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
+import { Radio, RadioGroup } from "@navikt/ds-react";
+
+const texts = {
+  fritekstRadio: "Oppgi virksomhetsnummer",
+};
 
 interface VirksomhetRadioGruppeProps {
   velgVirksomhet(virksomhetsnummer: string): void;
@@ -11,6 +14,7 @@ interface VirksomhetRadioGruppeProps {
   id: string;
   label: string;
   name: string;
+  error: ReactNode;
 }
 
 export const VirksomhetRadioGruppe = ({
@@ -20,6 +24,7 @@ export const VirksomhetRadioGruppe = ({
   id,
   label,
   name,
+  error,
 }: VirksomhetRadioGruppeProps): ReactElement => {
   const { toggles } = useFeatureToggles();
   const removeInputAndChooseVirksomhet = (virksomhetsnummer: string) => {
@@ -32,7 +37,7 @@ export const VirksomhetRadioGruppe = ({
   };
 
   return (
-    <RadioGruppe id={id} legend={label}>
+    <RadioGroup legend={label} size="small" id={id} error={error}>
       {virksomheter.map((virksomhetsnummer, index) => (
         <VirksomhetRadio
           key={index}
@@ -42,12 +47,14 @@ export const VirksomhetRadioGruppe = ({
         />
       ))}
       {toggles.isVirksomhetsinputEnabled && (
-        <VirksomhetInputRadio
-          key={virksomheter.length}
-          setShowFritekst={showInputAndRemoveChosenVirksomhet}
+        <Radio
           name={name}
-        />
+          value="fritekst"
+          onChange={showInputAndRemoveChosenVirksomhet}
+        >
+          {texts.fritekstRadio}
+        </Radio>
       )}
-    </RadioGruppe>
+    </RadioGroup>
   );
 };

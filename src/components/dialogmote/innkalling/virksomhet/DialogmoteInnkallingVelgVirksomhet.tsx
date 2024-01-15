@@ -1,13 +1,11 @@
 import React from "react";
-import { Input, SkjemaelementFeilmelding } from "nav-frontend-skjema";
 import { Field } from "react-final-form";
-import styled from "styled-components";
-import { FlexColumn, FlexRow, PaddingSize } from "../../../Layout";
 import { narmesteLederForVirksomhet } from "@/utils/ledereUtils";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
 import { NoNarmesteLederAlert } from "@/components/mote/NoNarmestLederAlert";
 import { VirksomhetChooser } from "@/components/dialogmote/innkalling/virksomhet/VirksomhetChooser";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
+import { BodyShort, Label } from "@navikt/ds-react";
 
 const texts = {
   title: "Arbeidsgiver",
@@ -15,10 +13,6 @@ const texts = {
   navnLabel: "Nærmeste leder",
   epostLabel: "Epost",
 };
-
-const LederNavnColumn = styled(FlexColumn)`
-  margin-right: 1em;
-`;
 
 const DialogmoteInnkallingVelgVirksomhet = () => {
   const { currentLedere } = useLedereQuery();
@@ -57,29 +51,19 @@ const DialogmoteInnkallingVelgVirksomhet = () => {
                 id={field}
                 label={texts.selectLabel}
                 name={field}
+                error={meta.submitFailed && meta.error}
               />
-              <SkjemaelementFeilmelding>
-                {meta.submitFailed && meta.error}
-              </SkjemaelementFeilmelding>
               {narmesteLeder && (
-                <FlexRow topPadding={PaddingSize.SM}>
-                  <LederNavnColumn flex={0.2}>
-                    <Input
-                      bredde="L"
-                      label={texts.navnLabel}
-                      disabled
-                      value={narmesteLeder.narmesteLederNavn}
-                    />
-                  </LederNavnColumn>
-                  <FlexColumn flex={1}>
-                    <Input
-                      bredde="L"
-                      label={texts.epostLabel}
-                      disabled
-                      value={narmesteLeder.narmesteLederEpost}
-                    />
-                  </FlexColumn>
-                </FlexRow>
+                <div className="flex gap-8 mb-8">
+                  <div className="flex flex-col flex-[0.2]">
+                    <Label size="small">{texts.navnLabel}</Label>
+                    <BodyShort>{narmesteLeder.narmesteLederNavn}</BodyShort>
+                  </div>
+                  <div className="flex flex-col flex-1">
+                    <Label size="small">{texts.epostLabel}</Label>
+                    <BodyShort>{narmesteLeder.narmesteLederEpost}</BodyShort>
+                  </div>
+                </div>
               )}
               {isVirksomhetChosen &&
                 noNarmesteLeder &&

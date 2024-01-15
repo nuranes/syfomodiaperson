@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, ReactNode, useState } from "react";
 import { VirksomhetInput } from "@/components/dialogmote/innkalling/virksomhet/VirksomhetInput";
 import { VirksomhetRadioGruppe } from "@/components/dialogmote/innkalling/virksomhet/VirksomhetRadioGruppe";
 import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
@@ -18,6 +18,7 @@ interface VirksomhetRadioGruppeProps {
   id: string;
   label: string;
   name: string;
+  error: ReactNode;
 }
 
 export const VirksomhetChooser = ({
@@ -26,6 +27,7 @@ export const VirksomhetChooser = ({
   id,
   label,
   name,
+  error,
 }: VirksomhetRadioGruppeProps): ReactElement => {
   const { toggles } = useFeatureToggles();
   const [showInput, setShowInput] = useState<boolean>(false);
@@ -39,6 +41,7 @@ export const VirksomhetChooser = ({
         id={id}
         label={label}
         name={name}
+        error={error}
       />
 
       {showInput && <VirksomhetInput velgVirksomhet={velgVirksomhet} />}

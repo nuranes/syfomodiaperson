@@ -1,16 +1,9 @@
 import React from "react";
-import styled from "styled-components";
-import { Input } from "nav-frontend-skjema";
+import { TextField } from "@navikt/ds-react";
 
 const texts = {
-  id: "virksomhetInput",
   label: "Oppgi virksomhetsnummer",
 };
-
-const StyledInput = styled(Input)`
-  margin-top: 1em;
-  margin-bottom: 2em;
-`;
 
 interface VirksomhetInputProps {
   velgVirksomhet(virksomhetsnummer: string): void;
@@ -18,15 +11,14 @@ interface VirksomhetInputProps {
 
 export const VirksomhetInput = ({
   velgVirksomhet,
-}: VirksomhetInputProps): React.ReactElement => {
-  return (
-    <StyledInput
-      id={texts.id}
-      label={texts.label}
-      onChange={(e) => {
-        velgVirksomhet(e.target.value);
-      }}
-      bredde={"M"}
-    />
-  );
-};
+}: VirksomhetInputProps): React.ReactElement => (
+  <TextField
+    className="mt-4 max-w-xs"
+    id="virksomhetInput"
+    label={texts.label}
+    size="small"
+    onChange={(e) => {
+      velgVirksomhet(e.target.value);
+    }}
+  />
+);

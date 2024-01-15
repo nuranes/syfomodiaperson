@@ -139,8 +139,8 @@ describe("DialogmoteInnkallingSkjema", () => {
 
     expect(screen.queryByText(/Det er ikke registrert en nærmeste leder/i)).to
       .not.exist;
-    expect(screen.queryByLabelText("Nærmeste leder")).to.exist;
-    expect(screen.queryByLabelText("Epost")).to.exist;
+    expect(screen.getByText("Nærmeste leder")).to.exist;
+    expect(screen.getByText("Epost")).to.exist;
   });
 
   it("viser alertstripe hvis valgt arbeidsgiver ikke har registrert nærmeste leder", () => {
@@ -154,8 +154,8 @@ describe("DialogmoteInnkallingSkjema", () => {
 
     expect(screen.queryByText(/Det er ikke registrert en nærmeste leder/i)).to
       .exist;
-    expect(screen.queryByLabelText("Nærmeste leder")).to.not.exist;
-    expect(screen.queryByLabelText("Epost")).to.not.exist;
+    expect(screen.queryByText("Nærmeste leder")).to.not.exist;
+    expect(screen.queryByText("Epost")).to.not.exist;
   });
 
   it("viser ekstra radioknapp for virksomhet hvis det ikke finnes oppfølgingstilfelle eller ledere", () => {
@@ -185,8 +185,8 @@ describe("DialogmoteInnkallingSkjema", () => {
 
     expect(screen.queryByText(/Det er ikke registrert en nærmeste leder/i)).to
       .not.exist;
-    expect(screen.queryByLabelText("Nærmeste leder")).to.not.exist;
-    expect(screen.queryByLabelText("Epost")).to.not.exist;
+    expect(screen.queryByText("Nærmeste leder")).to.not.exist;
+    expect(screen.queryByText("Epost")).to.not.exist;
   });
 
   it("trimmer videolenke i innkallingen som sendes til api", () => {

@@ -133,9 +133,9 @@ describe("DialogmoteFerdigstilteReferatPanel", () => {
     };
     renderDialogmoteFerdigstilteReferatPanel([ferdigstiltDialogmote]);
 
-    expect(getButton("Endre referatet")).to.exist;
-    const endreLink = screen.getByRole("link");
-    expect(endreLink.getAttribute("href")).to.contain(endreReferatRoute);
+    const endreButton = getButton("Endre referatet");
+    expect(endreButton).to.exist;
+    expect(endreButton.getAttribute("href")).to.contain(endreReferatRoute);
   });
   it("viser knapp for å fullføre endring på referat dersom siste referat for møte ikke er ferdigstilt", () => {
     const ferdigstiltDialogmote: DialogmoteDTO = {
@@ -149,8 +149,8 @@ describe("DialogmoteFerdigstilteReferatPanel", () => {
     };
     renderDialogmoteFerdigstilteReferatPanel([ferdigstiltDialogmote]);
 
-    expect(getButton("Fullfør endringen")).to.exist;
-    const endreLink = screen.getByRole("link");
-    expect(endreLink.getAttribute("href")).to.contain(endreReferatRoute);
+    const fullforButton = getButton("Fullfør endringen");
+    expect(fullforButton).to.exist;
+    expect(fullforButton.getAttribute("href")).to.contain(endreReferatRoute);
   });
 });
