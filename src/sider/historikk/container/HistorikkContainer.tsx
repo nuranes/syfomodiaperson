@@ -1,10 +1,10 @@
 import React, { ReactElement, useMemo } from "react";
-import Side from "../../../sider/Side";
+import Side from "../../Side";
 import Historikk from "../Historikk";
-import SideLaster from "../../SideLaster";
+import SideLaster from "../../../components/SideLaster";
 import { HistorikkEvent } from "@/data/historikk/types/historikkTypes";
 import { useHistorikk } from "@/data/historikk/historikk_hooks";
-import Sidetopp from "../../Sidetopp";
+import Sidetopp from "../../../components/Sidetopp";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { NarmesteLederRelasjonDTO } from "@/data/leder/ledereTypes";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";

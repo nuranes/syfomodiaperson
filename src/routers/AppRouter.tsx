@@ -4,7 +4,7 @@ import AktivBrukerTilgangLaster from "@/components/AktivBrukerTilgangLaster";
 import SykmeldingerContainer from "../components/speiling/sykmeldinger/container/SykmeldingerContainer";
 import SykepengesoknaderContainer from "../components/speiling/sykepengsoknader/container/SykepengesoknaderSide";
 import DinSykmeldingContainer from "../components/speiling/sykmeldinger/container/DinSykmeldingContainer";
-import HistorikkContainer from "../components/historikk/container/HistorikkContainer";
+import HistorikkContainer from "@/sider/historikk/container/HistorikkContainer";
 import { erGyldigFodselsnummer } from "@/utils/frnValideringUtils";
 import MotelandingssideContainer from "../components/mote/container/MotelandingssideContainer";
 import NokkelinformasjonContainer from "@/sider/nokkelinformasjon/container/NokkelinformasjonContainer";
