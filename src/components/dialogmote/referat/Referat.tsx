@@ -8,10 +8,7 @@ import {
 import Deltakere from "./Deltakere";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
-import { AlertstripeFullbredde } from "../../AlertstripeFullbredde";
 import ReferatButtons from "./ReferatButtons";
-import { Innholdstittel } from "nav-frontend-typografi";
-import styled from "styled-components";
 import {
   validerReferatDeltakere,
   validerSkjemaTekster,
@@ -31,8 +28,6 @@ import { Navigate } from "react-router-dom";
 import { moteoversiktRoutePath } from "@/routers/AppRouter";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { useMellomlagreReferat } from "@/data/dialogmote/useMellomlagreReferat";
-import { FlexRow, PaddingSize } from "@/components/Layout";
-import { Knapp } from "nav-frontend-knapper";
 import { useInitialValuesReferat } from "@/hooks/dialogmote/useInitialValuesReferat";
 import {
   MAX_LENGTH_ARBEIDSGIVERS_OPPGAVE,
@@ -46,13 +41,12 @@ import {
 } from "@/components/dialogmote/referat/ReferatFritekster";
 import { StandardTekster } from "@/components/dialogmote/referat/StandardTekster";
 import { useEndreReferat } from "@/data/dialogmote/useEndreReferat";
-import Lenke from "nav-frontend-lenker";
 import dayjs, { Dayjs } from "dayjs";
 import { useDebouncedCallback } from "use-debounce";
 import { SaveFile } from "../../../../img/ImageComponents";
 import { FormState } from "final-form";
 import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
-import { Box } from "@navikt/ds-react";
+import { Alert, Box, Button, Heading, Link } from "@navikt/ds-react";
 
 export const texts = {
   digitalReferat:
@@ -101,10 +95,6 @@ export interface ReferatSkjemaValues extends ReferatSkjemaTekster {
   behandlerMottarReferat?: boolean;
 }
 
-const ReferatTittel = styled(Innholdstittel)`
-  margin-bottom: 2em;
-`;
-
 interface ReferatProps {
   dialogmote: DialogmoteDTO;
   pageTitle: string;
@@ -139,15 +129,6 @@ const toNewReferat = (
   document: getReferatDocument(values),
   andreDeltakere: values.andreDeltakere || [],
 });
-
-const SavedReferatToast = styled.div`
-  margin-bottom: 1em;
-  font-weight: bold;
-
-  > * {
-    margin-right: 0.5em;
-  }
-`;
 
 const Referat = ({
   dialogmote,
@@ -326,41 +307,44 @@ const Referat = ({
                 debouncedAutoSave(formState.values);
               }}
             />
-            <ReferatTittel>{header}</ReferatTittel>
-            <AlertstripeFullbredde type="info" marginbottom="4em">
+            <Heading size="large" className="mb-8">
+              {header}
+            </Heading>
+            <Alert variant="info" size="small" className="mb-8 [&>*]:max-w-fit">
               {texts.digitalReferat}
-            </AlertstripeFullbredde>
+            </Alert>
             <Deltakere behandler={dialogmote.behandler} />
-            <AlertstripeFullbredde
-              type="advarsel"
-              form="inline"
-              marginbottom="4em"
+            <Alert
+              variant="warning"
+              size="small"
+              inline
+              className="mb-8 [&>*]:max-w-fit"
             >
               {texts.personvern}
-              <Lenke
+              <Link
                 target="_blank"
                 rel="noopener noreferrer"
                 href={personvernUrl}
               >
                 {texts.personvernLenketekst}
-              </Lenke>
-            </AlertstripeFullbredde>
+              </Link>
+            </Alert>
             {showToast && (
-              <SavedReferatToast>
+              <div className="mb-4 font-bold flex gap-2">
                 <img src={SaveFile} alt="saved" />
                 <span>{savedReferatText(lastSavedTime.toDate())}</span>
-              </SavedReferatToast>
+              </div>
             )}
             <ReferatFritekster dialogmote={dialogmote} mode={mode} />
             <StandardTekster />
-            <FlexRow topPadding={PaddingSize.SM} bottomPadding={PaddingSize.MD}>
-              <Knapp
-                htmlType="button"
-                onClick={() => setDisplayReferatPreview(true)}
-              >
-                {texts.preview}
-              </Knapp>
-            </FlexRow>
+            <Button
+              className="mt-4 mb-8"
+              variant="secondary"
+              type="button"
+              onClick={() => setDisplayReferatPreview(true)}
+            >
+              {texts.preview}
+            </Button>
             {ferdigstillDialogmote.isError && (
               <SkjemaInnsendingFeil error={ferdigstillDialogmote.error} />
             )}
@@ -374,9 +358,9 @@ const Referat = ({
               <SkjemaFeiloppsummering errors={errors} />
             )}
             {mellomlagreReferat.isSuccess && uendretSidenMellomlagring && (
-              <AlertstripeFullbredde type="suksess">
+              <Alert variant="success" size="small">
                 {savedReferatText(lastSavedTime.toDate())}
-              </AlertstripeFullbredde>
+              </Alert>
             )}
             <ReferatButtons
               pageTitle={pageTitle}

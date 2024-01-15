@@ -18,7 +18,7 @@ const DialogmoteDatoField = () => {
   const dateFormat = "YYYY-MM-DD";
 
   return (
-    <>
+    <div className="flex flex-col">
       <Label htmlFor={datoField}>{texts.datoLabel}</Label>
       <Field
         name={datoField}
@@ -45,7 +45,7 @@ const DialogmoteDatoField = () => {
           </>
         )}
       </Field>
-    </>
+    </div>
   );
 };
 export default DialogmoteDatoField;

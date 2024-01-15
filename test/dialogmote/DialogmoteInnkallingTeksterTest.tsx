@@ -68,13 +68,13 @@ describe("DialogmoteInnkallingTekster", () => {
   it("viser advarsel om papirpost når bruker ikke kan varsles digitalt", () => {
     renderDialogmoteInnkallingTekster(false);
 
-    expect(screen.getByRole("img", { name: "advarsel-ikon" })).to.exist;
+    expect(screen.getByRole("img", { name: "Advarsel" })).to.exist;
     expect(screen.getByText(texts.reservertAlert)).to.exist;
   });
   it("viser ikke advarsel om papirpost når bruker kan varsles digitalt", () => {
     renderDialogmoteInnkallingTekster(true);
 
-    expect(screen.queryByRole("img", { name: "advarsel-ikon" })).to.not.exist;
+    expect(screen.queryByRole("img", { name: "Advarsel" })).to.not.exist;
     expect(screen.queryByText(texts.reservertAlert)).to.not.exist;
   });
 });

@@ -1,5 +1,5 @@
 import React from "react";
-import { AlertstripeFullbredde } from "@/components/AlertstripeFullbredde";
+import { Alert } from "@navikt/ds-react";
 
 const texts = {
   noNarmesteleder:
@@ -8,7 +8,7 @@ const texts = {
 };
 
 export const NoNarmesteLederAlert = () => (
-  <AlertstripeFullbredde type="advarsel">
-    <p>{texts.noNarmesteleder}</p>
-  </AlertstripeFullbredde>
+  <Alert variant="warning" size="small" className="mb-4 [&>*]:max-w-fit">
+    {texts.noNarmesteleder}
+  </Alert>
 );

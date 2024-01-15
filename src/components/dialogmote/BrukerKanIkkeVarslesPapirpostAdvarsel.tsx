@@ -1,16 +1,16 @@
-import { BrukerKanIkkeVarslesText } from "@/components/BrukerKanIkkeVarslesText";
-import { Normaltekst } from "nav-frontend-typografi";
 import React from "react";
-import { AlertstripeFullbredde } from "@/components/AlertstripeFullbredde";
+import { Alert, BodyShort } from "@navikt/ds-react";
 
 export const texts = {
   papirpostDialogmote:
     "Innkalling, referat og andre brev blir sendt som papirpost, i tillegg til at det blir sendt digitalt.",
+  brukerKanIkkeVarslesTekst:
+    "Innbyggeren er reservert mot elektronisk kommunikasjon med det offentlige, eller kontaktinformasjon mangler. Vi kan derfor ikke sende varsler til denne innbyggeren.",
 };
 
 export const BrukerKanIkkeVarslesPapirpostAdvarsel = (): React.ReactElement => (
-  <AlertstripeFullbredde type="advarsel" marginbottom="1em">
-    <BrukerKanIkkeVarslesText />
-    <Normaltekst>{texts.papirpostDialogmote}</Normaltekst>
-  </AlertstripeFullbredde>
+  <Alert variant="warning" size="small" className="mb-4 [&>*]:max-w-fit">
+    <BodyShort size="small">{texts.brukerKanIkkeVarslesTekst}</BodyShort>
+    <BodyShort size="small">{texts.papirpostDialogmote}</BodyShort>
+  </Alert>
 );

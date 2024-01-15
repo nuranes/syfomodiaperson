@@ -1,12 +1,9 @@
 import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
 import React, { ReactElement } from "react";
-import { FlexColumn, FlexRow, PaddingSize } from "@/components/Layout";
 import { ReferatInfoColumn } from "@/components/dialogmote/referat/ReferatInfoColumn";
-import { Normaltekst } from "nav-frontend-typografi";
-import styled from "styled-components";
 import { Field } from "react-final-form";
-import Fritekst, { FritekstSize } from "@/components/Fritekst";
 import { ReferatMode } from "@/components/dialogmote/referat/Referat";
+import { BodyShort, Textarea } from "@navikt/ds-react";
 
 export const MAX_LENGTH_SITUASJON = 6500;
 export const MAX_LENGTH_KONKLUSJON = 1500;
@@ -61,140 +58,128 @@ const texts = {
 };
 
 const BegrunnelseEndring = (): ReactElement => (
-  <FlexRow bottomPadding={PaddingSize.MD}>
+  <div className="flex mb-8">
     <ReferatTextareaFieldColumn
       fieldName="begrunnelseEndring"
-      size="stor"
       label={texts.begrunnelseEndring.label}
       placeholder={texts.begrunnelseEndring.placeholder}
       maxLength={MAX_LENGTH_BEGRUNNELSE_ENDRING}
+      minRows={8}
     />
-    <ReferatInfoColumn>
-      <Normaltekst>{texts.begrunnelseEndring.infoboks}</Normaltekst>
-    </ReferatInfoColumn>
-  </FlexRow>
+    <ReferatInfoColumn>{texts.begrunnelseEndring.infoboks}</ReferatInfoColumn>
+  </div>
 );
 
 const Situasjon = (): ReactElement => (
-  <FlexRow bottomPadding={PaddingSize.MD}>
+  <div className="flex mb-8">
     <ReferatTextareaFieldColumn
-      size="ekstra-stor"
       fieldName="situasjon"
       label={texts.situasjon.label}
       placeholder={texts.situasjon.placeholder}
       maxLength={MAX_LENGTH_SITUASJON}
+      minRows={12}
     />
     <ReferatInfoColumn>
-      <Normaltekst>{texts.situasjon.infoboks.eksempler}</Normaltekst>
-      <Normaltekst>{texts.situasjon.infoboks.jobb}</Normaltekst>
-      <Normaltekst>{texts.situasjon.infoboks.tilrettelegging}</Normaltekst>
-      <Normaltekst>{texts.situasjon.infoboks.mer}</Normaltekst>
-      <Normaltekst>{texts.situasjon.infoboks.framover}</Normaltekst>
+      <BodyShort size="small">{texts.situasjon.infoboks.eksempler}</BodyShort>
+      <BodyShort size="small">{texts.situasjon.infoboks.jobb}</BodyShort>
+      <BodyShort size="small">
+        {texts.situasjon.infoboks.tilrettelegging}
+      </BodyShort>
+      <BodyShort size="small">{texts.situasjon.infoboks.mer}</BodyShort>
+      <BodyShort size="small">{texts.situasjon.infoboks.framover}</BodyShort>
       <br />
-      <Normaltekst>{texts.situasjon.infoboks.husk}</Normaltekst>
+      <BodyShort size="small">{texts.situasjon.infoboks.husk}</BodyShort>
     </ReferatInfoColumn>
-  </FlexRow>
+  </div>
 );
 
 const Konklusjon = (): ReactElement => (
-  <FlexRow bottomPadding={PaddingSize.MD}>
+  <div className="flex mb-8">
     <ReferatTextareaFieldColumn
-      size="stor"
       fieldName="konklusjon"
       label={texts.konklusjon.label}
       placeholder={texts.konklusjon.placeholder}
       maxLength={MAX_LENGTH_KONKLUSJON}
+      minRows={8}
     />
-    <ReferatInfoColumn>
-      <Normaltekst>{texts.konklusjon.infoboks}</Normaltekst>
-    </ReferatInfoColumn>
-  </FlexRow>
+    <ReferatInfoColumn>{texts.konklusjon.infoboks}</ReferatInfoColumn>
+  </div>
 );
 
 const ArbeidstakersOppgave = (): ReactElement => (
-  <FlexRow bottomPadding={PaddingSize.MD}>
+  <div className="flex mb-8">
     <ReferatTextareaFieldColumn
-      size="medium"
       fieldName="arbeidstakersOppgave"
       label={texts.arbeidstaker.label}
       placeholder={texts.arbeidstaker.placeholder}
       maxLength={MAX_LENGTH_ARBEIDSTAKERS_OPPGAVE}
+      minRows={4}
     />
-    <ReferatInfoColumn>
-      <Normaltekst>{texts.arbeidstaker.infoboks}</Normaltekst>
-    </ReferatInfoColumn>
-  </FlexRow>
+    <ReferatInfoColumn>{texts.arbeidstaker.infoboks}</ReferatInfoColumn>
+  </div>
 );
 
 const ArbeidsgiversOppgave = (): ReactElement => (
-  <FlexRow bottomPadding={PaddingSize.MD}>
+  <div className="flex mb-8">
     <ReferatTextareaFieldColumn
-      size="medium"
       fieldName="arbeidsgiversOppgave"
       label={texts.arbeidsgiver.label}
       placeholder={texts.arbeidsgiver.placeholder}
       maxLength={MAX_LENGTH_ARBEIDSGIVERS_OPPGAVE}
+      minRows={4}
     />
     <ReferatInfoColumn />
-  </FlexRow>
+  </div>
 );
 
 const BehandlersOppgave = () => (
-  <FlexRow bottomPadding={PaddingSize.MD}>
+  <div className="flex mb-8">
     <ReferatTextareaFieldColumn
-      size="medium"
       fieldName={"behandlersOppgave"}
       label={texts.behandler.label}
       placeholder={texts.behandler.placeholder}
       maxLength={MAX_LENGTH_BEHANDLERS_OPPGAVE}
+      minRows={4}
     />
     <ReferatInfoColumn />
-  </FlexRow>
+  </div>
 );
 
 const VeiledersOppgave = (): ReactElement => (
-  <FlexRow bottomPadding={PaddingSize.LG}>
+  <div className="flex mb-12">
     <ReferatTextareaFieldColumn
-      size="medium"
       fieldName={"veiledersOppgave"}
       label={texts.veileder.label}
       placeholder={texts.veileder.placeholder}
       maxLength={MAX_LENGTH_VEILEDERS_OPPGAVE}
+      minRows={4}
     />
     <ReferatInfoColumn />
-  </FlexRow>
+  </div>
 );
 
-const TextAreaColumn = styled(FlexColumn)`
-  margin-right: 2em;
-`;
-
-interface ReferatTextareaColumnProps {
+interface ReferatTextareaColumnProps
+  extends React.ComponentPropsWithRef<typeof Textarea> {
   fieldName: string;
-  size: FritekstSize;
-  label: string;
-  placeholder: string;
-  maxLength: number;
 }
 
 const ReferatTextareaFieldColumn = ({
   fieldName,
-  size,
   ...rest
 }: ReferatTextareaColumnProps): ReactElement => (
-  <TextAreaColumn flex={1}>
+  <div className="flex-1 mr-8">
     <Field<string> name={fieldName}>
       {({ input, meta }) => (
-        <Fritekst
-          size={size}
-          feil={meta.submitFailed && meta.error}
+        <Textarea
+          size="small"
+          error={meta.submitFailed && meta.error}
           id={fieldName}
           {...input}
           {...rest}
         />
       )}
     </Field>
-  </TextAreaColumn>
+  </div>
 );
 
 interface ReferatTeksterProps {

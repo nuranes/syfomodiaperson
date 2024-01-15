@@ -1,8 +1,6 @@
 import React from "react";
 import { Link, Navigate } from "react-router-dom";
-import styled from "styled-components";
 
-import { FlexRow } from "../../Layout";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { Form } from "react-final-form";
 import {
@@ -27,17 +25,12 @@ import { useEndreTidStedDialogmote } from "@/data/dialogmote/useEndreTidStedDial
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { useSkjemaValuesToDto } from "@/hooks/dialogmote/useSkjemaValuesToDto";
 import { TidStedSkjemaValues } from "@/data/dialogmote/types/skjemaTypes";
-import { Flatknapp, Hovedknapp } from "nav-frontend-knapper";
-import { Box } from "@navikt/ds-react";
+import { Box, Button } from "@navikt/ds-react";
 
 const texts = {
   send: "Send",
   avbryt: "Avbryt",
 };
-
-const SendButton = styled(Hovedknapp)`
-  margin-right: 0.5rem;
-`;
 
 interface EndreTidStedSkjemaTekster {
   begrunnelseArbeidsgiver: string;
@@ -163,19 +156,24 @@ const EndreDialogmoteSkjema = ({ dialogmote }: Props) => {
             {submitFailed && harIkkeUtbedretFeil && (
               <SkjemaFeiloppsummering errors={errors} />
             )}
-            <FlexRow>
-              <SendButton
+            <div className="flex gap-4">
+              <Button
+                type="submit"
+                variant="primary"
+                loading={endreTidStedDialogmote.isPending}
                 onClick={resetFeilUtbedret}
-                htmlType="submit"
-                spinner={endreTidStedDialogmote.isPending}
-                autoDisableVedSpinner
               >
                 {texts.send}
-              </SendButton>
-              <Link to={moteoversiktRoutePath}>
-                <Flatknapp htmlType="button">{texts.avbryt}</Flatknapp>
-              </Link>
-            </FlexRow>
+              </Button>
+              <Button
+                as={Link}
+                type="button"
+                variant="tertiary"
+                to={moteoversiktRoutePath}
+              >
+                {texts.avbryt}
+              </Button>
+            </div>
           </form>
         )}
       </Form>

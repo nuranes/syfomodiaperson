@@ -1,16 +1,15 @@
-import { FlexColumn } from "../../Layout";
-import { ReactElement } from "react";
+import { ReactElement, ReactNode } from "react";
 import React from "react";
 import { Box } from "@navikt/ds-react";
 
 interface ReferatInfoColumnProps {
-  children?: ReactElement[] | ReactElement;
+  children?: ReactNode;
 }
 
 export const ReferatInfoColumn = ({
   children,
 }: ReferatInfoColumnProps): ReactElement => (
-  <FlexColumn flex={0.5}>
+  <div className="flex-[0.5]">
     {children ? (
       <Box
         borderRadius="medium"
@@ -23,5 +22,5 @@ export const ReferatInfoColumn = ({
         {children}
       </Box>
     ) : null}
-  </FlexColumn>
+  </div>
 );

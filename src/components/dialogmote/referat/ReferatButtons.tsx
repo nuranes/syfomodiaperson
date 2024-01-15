@@ -1,9 +1,7 @@
 import React, { ReactElement } from "react";
-import { FlexRow, PaddingSize } from "../../Layout";
-import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { moteoversiktRoutePath } from "@/routers/AppRouter";
-import Knapp, { Flatknapp, Hovedknapp } from "nav-frontend-knapper";
+import { Button } from "@navikt/ds-react";
 
 const texts = {
   save: "Lagre",
@@ -19,41 +17,38 @@ interface ReferatButtonsProps {
   showSendSpinner: boolean;
 }
 
-const HovedKnapp = styled(Hovedknapp)`
-  margin-right: 1em;
-  transform: none;
-`;
-const LagreKnapp = styled(Knapp)`
-  margin-right: 1em;
-`;
-
 const ReferatButtons = ({
   onSaveClick,
   onSendClick,
   showSaveSpinner,
   showSendSpinner,
 }: ReferatButtonsProps): ReactElement => (
-  <FlexRow topPadding={PaddingSize.LG}>
-    <LagreKnapp
-      htmlType="button"
+  <div className="flex gap-4 pt-12">
+    <Button
+      type="button"
+      variant="secondary"
+      loading={showSaveSpinner}
       onClick={onSaveClick}
-      autoDisableVedSpinner
-      spinner={showSaveSpinner}
     >
       {texts.save}
-    </LagreKnapp>
-    <HovedKnapp
-      htmlType="submit"
+    </Button>
+    <Button
+      type="submit"
+      variant="primary"
+      loading={showSendSpinner}
       onClick={onSendClick}
-      autoDisableVedSpinner
-      spinner={showSendSpinner}
     >
       {texts.send}
-    </HovedKnapp>
-    <Link to={moteoversiktRoutePath}>
-      <Flatknapp htmlType="button">{texts.abort}</Flatknapp>
-    </Link>
-  </FlexRow>
+    </Button>
+    <Button
+      as={Link}
+      type="button"
+      variant="tertiary"
+      to={moteoversiktRoutePath}
+    >
+      {texts.abort}
+    </Button>
+  </div>
 );
 
 export default ReferatButtons;

@@ -1,6 +1,5 @@
-import { Normaltekst } from "nav-frontend-typografi";
 import React from "react";
-import { AlertstripeFullbredde } from "@/components/AlertstripeFullbredde";
+import { Alert } from "@navikt/ds-react";
 
 export const texts = {
   arbeidstakerHarIkkeAktivSykmelding:
@@ -9,7 +8,7 @@ export const texts = {
 
 export const ArbeidstakerHarIkkeAktivSykmeldingAdvarsel =
   (): React.ReactElement => (
-    <AlertstripeFullbredde type="advarsel" marginbottom="1em">
-      <Normaltekst>{texts.arbeidstakerHarIkkeAktivSykmelding}</Normaltekst>
-    </AlertstripeFullbredde>
+    <Alert variant="warning" size="small" className="mb-4 [&>*]:max-w-fit">
+      {texts.arbeidstakerHarIkkeAktivSykmelding}
+    </Alert>
   );

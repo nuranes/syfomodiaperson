@@ -1,14 +1,10 @@
 import React, { ReactElement } from "react";
-import { Input } from "nav-frontend-skjema";
 import { Field } from "react-final-form";
-import KlokkeslettField from "../KlokkeslettField";
 import DialogmoteDatoField from "./DialogmoteDatoField";
-import DialogmoteInnkallingSkjemaSeksjon from "./innkalling/DialogmoteInnkallingSkjemaSeksjon";
-import styled from "styled-components";
-import { FlexColumn, FlexRow, PaddingSize } from "../Layout";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { addWeeks, visDato } from "@/utils/datoUtils";
 import { useDialogmotekandidat } from "@/data/dialogmotekandidat/dialogmotekandidatQueryHooks";
+import { TextField } from "@navikt/ds-react";
 
 const texts = {
   title: "Tid og sted",
@@ -16,14 +12,7 @@ const texts = {
   stedPlaceholder: "F.eks: På arbeidsplassen",
   tidLabel: "Klokkeslett",
   videoLabel: "Lenke til videomøte (valgfritt)",
-  videoPlaceholder: "https://",
-  alertText:
-    "Tips: Nå som innkallingen ikke sendes med post, kan du kalle inn til dialogmøter tidligere enn tre uker frem i tid.",
 };
-
-const DatoColumn = styled(FlexColumn)`
-  margin-right: 1em;
-`;
 
 const FRIST_DIALOGMOTE2_IN_WEEKS = 26;
 
@@ -45,55 +34,54 @@ const DialogmoteTidOgSted = (): ReactElement => {
   const { isKandidat } = useDialogmotekandidat();
 
   return (
-    <DialogmoteInnkallingSkjemaSeksjon>
+    <div className="flex flex-col gap-4 mb-6">
       {isKandidat &&
         hasActiveOppfolgingstilfelle &&
         latestOppfolgingstilfelle && (
           <Frist startDate={latestOppfolgingstilfelle.start} />
         )}
-      <FlexRow bottomPadding={PaddingSize.SM}>
-        <DatoColumn>
-          <DialogmoteDatoField />
-        </DatoColumn>
-        <FlexColumn flex={1}>
-          <KlokkeslettField
-            id={klokkeslettField}
-            name={klokkeslettField}
-            label={texts.tidLabel}
+      <div className="flex gap-4">
+        <DialogmoteDatoField />
+        <Field<string> name={klokkeslettField}>
+          {({ input, meta }) => (
+            <TextField
+              {...input}
+              autoComplete="off"
+              size="small"
+              type="time"
+              id={klokkeslettField}
+              label={texts.tidLabel}
+              error={meta.submitFailed && meta.error}
+            />
+          )}
+        </Field>
+      </div>
+      <Field<string> name={stedField}>
+        {({ input, meta }) => (
+          <TextField
+            {...input}
+            size="small"
+            type="text"
+            id={stedField}
+            description={texts.stedPlaceholder}
+            label={texts.stedLabel}
+            error={meta.submitFailed && meta.error}
           />
-        </FlexColumn>
-      </FlexRow>
-      <FlexRow bottomPadding={PaddingSize.SM}>
-        <FlexColumn flex={1}>
-          <Field<string> name={stedField}>
-            {({ input, meta }) => (
-              <Input
-                {...input}
-                id={stedField}
-                placeholder={texts.stedPlaceholder}
-                label={texts.stedLabel}
-                feil={meta.submitFailed && meta.error}
-              />
-            )}
-          </Field>
-        </FlexColumn>
-      </FlexRow>
-      <FlexRow>
-        <FlexColumn flex={1}>
-          <Field<string> name={videoLinkField}>
-            {({ input, meta }) => (
-              <Input
-                {...input}
-                id={videoLinkField}
-                label={texts.videoLabel}
-                placeholder={texts.videoPlaceholder}
-                feil={meta.submitFailed && meta.error}
-              />
-            )}
-          </Field>
-        </FlexColumn>
-      </FlexRow>
-    </DialogmoteInnkallingSkjemaSeksjon>
+        )}
+      </Field>
+      <Field<string> name={videoLinkField}>
+        {({ input, meta }) => (
+          <TextField
+            {...input}
+            size="small"
+            type="text"
+            id={videoLinkField}
+            label={texts.videoLabel}
+            error={meta.submitFailed && meta.error}
+          />
+        )}
+      </Field>
+    </div>
   );
 };
 

@@ -1,8 +1,8 @@
 import React, { ReactElement, useState } from "react";
-import { AlertstripeFullbredde } from "@/components/AlertstripeFullbredde";
 import { VirksomhetInput } from "@/components/dialogmote/innkalling/virksomhet/VirksomhetInput";
 import { VirksomhetRadioGruppe } from "@/components/dialogmote/innkalling/virksomhet/VirksomhetRadioGruppe";
 import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
+import { Alert } from "@navikt/ds-react";
 
 const texts = {
   chooseArbeidsgiver: "Velg arbeidsgiver",
@@ -31,7 +31,7 @@ export const VirksomhetChooser = ({
   const [showInput, setShowInput] = useState<boolean>(false);
 
   return (
-    <>
+    <div className="mb-8">
       <VirksomhetRadioGruppe
         velgVirksomhet={velgVirksomhet}
         setShowInput={setShowInput}
@@ -44,14 +44,14 @@ export const VirksomhetChooser = ({
       {showInput && <VirksomhetInput velgVirksomhet={velgVirksomhet} />}
 
       {virksomheter.length === 0 && !toggles.isVirksomhetsinputEnabled && (
-        <AlertstripeFullbredde type="advarsel" marginbottom="2em">
+        <Alert variant="warning" size="small" className="[&>*]:max-w-fit">
           {texts.noArbeidsgiver}
           <ul>
             <li>{texts.unemployed}</li>
             <li>{texts.report_error}</li>
           </ul>
-        </AlertstripeFullbredde>
+        </Alert>
       )}
-    </>
+    </div>
   );
 };

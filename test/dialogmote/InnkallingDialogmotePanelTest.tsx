@@ -4,7 +4,6 @@ import React from "react";
 import dayjs from "dayjs";
 import { InnkallingDialogmotePanel } from "@/components/mote/components/innkalling/InnkallingDialogmotePanel";
 import { texts as brukerKanIkkeVarslesPapirpostTexts } from "../../src/components/dialogmote/BrukerKanIkkeVarslesPapirpostAdvarsel";
-import { brukerKanIkkeVarslesTekst } from "@/components/BrukerKanIkkeVarslesText";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -71,8 +70,12 @@ describe("InnkallingDialogmotePanel", () => {
     it("viser advarsel om fysisk brev når bruker ikke kan varsles", () => {
       renderInnkallingDialogmotePanel(brukerKanIkkeVarsles);
 
-      expect(screen.getByRole("img", { name: "advarsel-ikon" })).to.exist;
-      expect(screen.getByText(brukerKanIkkeVarslesTekst)).to.exist;
+      expect(screen.getByRole("img", { name: "Advarsel" })).to.exist;
+      expect(
+        screen.getByText(
+          brukerKanIkkeVarslesPapirpostTexts.brukerKanIkkeVarslesTekst
+        )
+      ).to.exist;
       expect(
         screen.getByText(brukerKanIkkeVarslesPapirpostTexts.papirpostDialogmote)
       ).to.exist;
@@ -88,8 +91,12 @@ describe("InnkallingDialogmotePanel", () => {
     it("viser ingen advarsel når bruker kan varsles", () => {
       renderInnkallingDialogmotePanel(brukerKanVarsles);
 
-      expect(screen.queryByRole("img", { name: "advarsel-ikon" })).to.not.exist;
-      expect(screen.queryByRole(brukerKanIkkeVarslesTekst)).to.not.exist;
+      expect(screen.queryByRole("img", { name: "Advarsel" })).to.not.exist;
+      expect(
+        screen.queryByRole(
+          brukerKanIkkeVarslesPapirpostTexts.brukerKanIkkeVarslesTekst
+        )
+      ).to.not.exist;
     });
     it("viser knapp til Dialogmoteinkalling  når bruker kan varsles", () => {
       renderInnkallingDialogmotePanel(brukerKanVarsles);

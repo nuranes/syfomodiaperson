@@ -6,8 +6,8 @@ import { useInnkallingDocument } from "@/hooks/dialogmote/document/useInnkalling
 import { ForhandsvisningModal } from "../../ForhandsvisningModal";
 import FritekstSeksjon from "../FritekstSeksjon";
 import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
-import { AlertstripeFullbredde } from "@/components/AlertstripeFullbredde";
 import { useBrukerinfoQuery } from "@/data/navbruker/navbrukerQueryHooks";
+import { Alert } from "@navikt/ds-react";
 
 export const MAX_LENGTH_INNKALLING_FRITEKST = 2000;
 
@@ -62,9 +62,9 @@ const DialogmoteInnkallingTekster = ({
   return (
     <DialogmoteInnkallingSkjemaSeksjon>
       {brukerKanIkkeVarslesDigitalt && (
-        <AlertstripeFullbredde type="advarsel" marginbottom="1em">
+        <Alert variant="warning" size="small" className="mb-4 [&>*]:max-w-fit">
           {texts.reservertAlert}
-        </AlertstripeFullbredde>
+        </Alert>
       )}
       <FritekstSeksjon
         fieldName="fritekstArbeidstaker"
