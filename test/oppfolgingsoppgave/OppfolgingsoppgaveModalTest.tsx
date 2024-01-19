@@ -1,6 +1,6 @@
 import { queryClientWithMockData } from "../testQueryClient";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import React from "react";
 import {
   VEILEDER_DEFAULT,
@@ -121,10 +121,13 @@ describe("Oppfolgingsoppgave", () => {
       });
       userEvent.click(openModalButton);
 
-      const oppfolgingsgrunnRadioButton = await screen.findByText(
-        "Vurder behov for dialogmøte"
+      const selectOppfolgingsoppgave = await screen.findByLabelText(
+        "Hvilken oppfølgingsgrunn har du?"
       );
-      userEvent.click(oppfolgingsgrunnRadioButton);
+      fireEvent.change(selectOppfolgingsoppgave, {
+        target: { value: Oppfolgingsgrunn.VURDER_DIALOGMOTE_SENERE },
+      });
+
       const fristDateInput = screen.getByRole("textbox", {
         hidden: true,
         name: "Frist",
