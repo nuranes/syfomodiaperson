@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { Row } from "nav-frontend-grid";
+import { Column, Row } from "nav-frontend-grid";
+import { Undertekst } from "nav-frontend-typografi";
 import { restdatoTildato } from "@/utils/datoUtils";
 import PersonKortVirksomhetHeader from "./PersonKortVirksomhetHeader";
 import EpostButton from "../EpostButton";
@@ -11,7 +12,6 @@ import {
 import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat";
 import { capitalizeAllWords } from "@/utils/stringUtils";
 import { useVirksomhetQuery } from "@/data/virksomhet/virksomhetQueryHooks";
-import { Detail } from "@navikt/ds-react";
 
 const texts = {
   name: "Navn",
@@ -55,27 +55,31 @@ const RowFullWidth = styled(Row)`
   margin-bottom: 0.5em;
 `;
 
+const UndertekstUppercase = styled(Undertekst)`
+  text-transform: uppercase;
+`;
+
 export const PersonKortVirksomhetLederIngressRow = () => {
   return (
     <RowFullWidth>
-      <div className="float-left relative w-1/3 px-2">
-        <Detail>{texts.name}</Detail>
-      </div>
-      <div className="float-left relative w-1/6 px-2">
-        <Detail className="uppercase">{texts.email}</Detail>
-      </div>
-      <div className="float-left relative w-1/6 px-2">
-        <Detail className="uppercase">{texts.phone}</Detail>
-      </div>
-      <div className="float-left relative w-1/6 px-2">
-        <Detail className="uppercase">{texts.startDate}</Detail>
-      </div>
+      <Column className="col-sm-4">
+        <Undertekst>{texts.name}</Undertekst>
+      </Column>
+      <Column className="col-sm-2">
+        <UndertekstUppercase>{texts.email}</UndertekstUppercase>
+      </Column>
+      <Column className="col-sm-2">
+        <UndertekstUppercase>{texts.phone}</UndertekstUppercase>
+      </Column>
+      <Column className="col-sm-2">
+        <UndertekstUppercase>{texts.startDate}</UndertekstUppercase>
+      </Column>
     </RowFullWidth>
   );
 };
 
 interface PersonKortVirksomhetLederColumnProps {
-  size: "small" | "medium";
+  colSize: number;
   text?: string;
   isActive: boolean;
 }
@@ -83,13 +87,11 @@ interface PersonKortVirksomhetLederColumnProps {
 export const PersonKortVirksomhetLederColumn = (
   personKortVirksomhetLederColumnProps: PersonKortVirksomhetLederColumnProps
 ) => {
-  const { size, text, isActive } = personKortVirksomhetLederColumnProps;
-  const width = size === "small" ? "1/6" : "1/3";
-
+  const { colSize, text, isActive } = personKortVirksomhetLederColumnProps;
   return (
-    <div className={`float-left relative w-${width} px-2`}>
+    <Column className={`col-sm-${colSize}`}>
       <p>{isActive ? <b>{text}</b> : text}</p>
-    </div>
+    </Column>
   );
 };
 
@@ -105,26 +107,26 @@ export const PersonKortVirksomhetLederRow = (
   return (
     <RowFullWidth>
       <PersonKortVirksomhetLederColumn
-        size="medium"
+        colSize={4}
         text={capitalizeAllWords(leder.narmesteLederNavn)}
         isActive={isActive}
       />
       <EpostButton epost={leder.narmesteLederEpost} />
       <PersonKortVirksomhetLederColumn
-        size="small"
+        colSize={2}
         text={leder.narmesteLederTelefonnummer}
         isActive={isActive}
       />
       {leder.aktivFom && (
         <PersonKortVirksomhetLederColumn
-          size="small"
+          colSize={2}
           text={restdatoTildato(leder.aktivFom)}
           isActive={isActive}
         />
       )}
       {leder.status && (
         <PersonKortVirksomhetLederColumn
-          size="small"
+          colSize={2}
           text={getNarmesteLederRelasjonStatusText(leder.status)}
           isActive={isActive}
         />
