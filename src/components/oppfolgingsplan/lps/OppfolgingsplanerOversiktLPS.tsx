@@ -19,7 +19,8 @@ export const ButtonOpenPlan = (buttonOpenPlanProps: ButtonOpenPlanProps) => {
     <a
       className="lenke"
       href={`${SYFOOPPFOLGINGSPLANSERVICE_ROOT}/dokument/lps/${buttonOpenPlanProps.oppfolgingsplanLPS.uuid}`}
-      download="oppfølgingsplan"
+      target="_blank"
+      rel="noopener noreferrer"
     >
       {texts.buttonOpenPlan}
     </a>
