@@ -13,6 +13,7 @@ import SnowButton from "@/components/festive/SnowButton";
 import { Pride } from "@/components/festive/Pride";
 import { Flexjar } from "@/components/flexjar/Flexjar";
 import { Oppfolgingsoppgave } from "@/components/oppfolgingsoppgave/Oppfolgingsoppgave";
+import { useDiskresjonskodeQuery } from "@/data/diskresjonskode/diskresjonskodeQueryHooks";
 
 export const MODIA_HEADER_ID = "modia-header";
 
@@ -23,6 +24,8 @@ interface SideProps {
 }
 
 const Side = ({ tittel, aktivtMenypunkt, children }: SideProps) => {
+  const { data: diskresjonskode } = useDiskresjonskodeQuery();
+
   useEffect(() => {
     Amplitude.logEvent({
       type: EventType.PageView,
@@ -31,7 +34,10 @@ const Side = ({ tittel, aktivtMenypunkt, children }: SideProps) => {
   }, [tittel]);
   const { toggles } = useFeatureToggles();
   const showFlexjar =
-    toggles.isFlexjarEnabled && aktivtMenypunkt === Menypunkter.AKTIVITETSKRAV;
+    toggles.isFlexjarEnabled &&
+    aktivtMenypunkt === Menypunkter.AKTIVITETSKRAV &&
+    diskresjonskode !== "6" &&
+    diskresjonskode !== "7";
 
   return (
     <DocumentTitle

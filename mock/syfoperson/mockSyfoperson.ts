@@ -4,7 +4,6 @@ import { personAdresseMock } from "./personAdresseMock";
 import { SYFOPERSON_ROOT } from "../../src/apiConstants";
 import { brukerinfoMock } from "./persondataMock";
 
-const diskresjonskode = "7";
 const isEgenAnsatt = true;
 
 export const mockSyfoperson = (server: any) => {
@@ -13,7 +12,7 @@ export const mockSyfoperson = (server: any) => {
     (req: express.Request, res: express.Response) => {
       if (req.headers[NAV_PERSONIDENT_HEADER]?.length === 11) {
         res.setHeader("Content-Type", "application/json");
-        res.send(diskresjonskode);
+        res.send("");
       } else {
         res.status(400).send("Did not find PersonIdent in headers");
       }
