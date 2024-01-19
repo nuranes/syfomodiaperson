@@ -48,7 +48,6 @@ import {
 import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQueryHooks";
 import { personOppgaveUbehandletVurderStans } from "../../mock/ispersonoppgave/personoppgaveMock";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
-import { begrunnelseMaxLength } from "@/sider/aktivitetskrav/vurdering/BegrunnelseTextarea";
 import { apiMock } from "../stubs/stubApi";
 import {
   stubVurderAktivitetskravApi,
@@ -91,7 +90,8 @@ const tabTexts = {
   [AktivitetskravStatus.IKKE_OPPFYLT]: "Ikke oppfylt",
 };
 
-const enBeskrivelse = "Her er en beskrivelse";
+const enLangBeskrivelse = "Her er en beskrivelse" + "t".repeat(900);
+const enKortBeskrivelse = "Her er en beskrivelse" + "t".repeat(150);
 
 const renderVurderAktivitetskrav = (aktivitetskravDto: AktivitetskravDTO) =>
   render(
@@ -168,7 +168,7 @@ describe("VurderAktivitetskrav", () => {
       renderVurderAktivitetskrav(aktivitetskrav);
 
       clickTab(tabTexts["OPPFYLT"]);
-      const tooLongBeskrivelse = getTooLongText(begrunnelseMaxLength);
+      const tooLongBeskrivelse = getTooLongText(1000);
       const beskrivelseInput = getTextInput("Begrunnelse");
       changeTextInput(beskrivelseInput, tooLongBeskrivelse);
       clickButton("Lagre");
@@ -187,7 +187,7 @@ describe("VurderAktivitetskrav", () => {
       const arsakRadioButton = screen.getByText("Friskmeldt");
       fireEvent.click(arsakRadioButton);
       const beskrivelseInput = getTextInput("Begrunnelse");
-      changeTextInput(beskrivelseInput, enBeskrivelse);
+      changeTextInput(beskrivelseInput, enLangBeskrivelse);
       clickButton("Lagre");
 
       await waitFor(() => {
@@ -196,10 +196,10 @@ describe("VurderAktivitetskrav", () => {
           .getAll()[0];
         const expectedArsak = OppfyltVurderingArsak.FRISKMELDT;
         const expectedVurdering: CreateAktivitetskravVurderingDTO = {
-          beskrivelse: enBeskrivelse,
+          beskrivelse: enLangBeskrivelse,
           status: AktivitetskravStatus.OPPFYLT,
           arsaker: [expectedArsak],
-          document: getOppfyltDocument(enBeskrivelse, expectedArsak),
+          document: getOppfyltDocument(enLangBeskrivelse, expectedArsak),
         };
         expect(vurderOppfyltMutation.state.variables).to.deep.equal(
           expectedVurdering
@@ -207,7 +207,7 @@ describe("VurderAktivitetskrav", () => {
       });
 
       await waitFor(
-        () => expect(screen.queryByText(enBeskrivelse)).to.not.exist
+        () => expect(screen.queryByText(enLangBeskrivelse)).to.not.exist
       );
     });
   });
@@ -216,7 +216,7 @@ describe("VurderAktivitetskrav", () => {
       renderVurderAktivitetskrav(aktivitetskrav);
 
       clickTab(tabTexts["UNNTAK"]);
-      const tooLongBeskrivelse = getTooLongText(begrunnelseMaxLength);
+      const tooLongBeskrivelse = getTooLongText(1000);
       const beskrivelseInput = getTextInput("Begrunnelse (obligatorisk)");
       changeTextInput(beskrivelseInput, tooLongBeskrivelse);
       clickButton("Lagre");
@@ -239,17 +239,17 @@ describe("VurderAktivitetskrav", () => {
       const arsakRadioButton = screen.getByText("Tilrettelegging ikke mulig");
       fireEvent.click(arsakRadioButton);
       const beskrivelseInput = getTextInput("Begrunnelse (obligatorisk)");
-      changeTextInput(beskrivelseInput, enBeskrivelse);
+      changeTextInput(beskrivelseInput, enLangBeskrivelse);
       clickButton("Lagre");
 
       await waitFor(() => {
         const vurderUnntakMutation = queryClient.getMutationCache().getAll()[0];
         const expectedArsak = UnntakVurderingArsak.TILRETTELEGGING_IKKE_MULIG;
         const expectedVurdering: CreateAktivitetskravVurderingDTO = {
-          beskrivelse: enBeskrivelse,
+          beskrivelse: enLangBeskrivelse,
           status: AktivitetskravStatus.UNNTAK,
           arsaker: [expectedArsak],
-          document: getUnntakDocument(enBeskrivelse, expectedArsak),
+          document: getUnntakDocument(enLangBeskrivelse, expectedArsak),
         };
         expect(vurderUnntakMutation.state.variables).to.deep.equal(
           expectedVurdering
@@ -257,12 +257,31 @@ describe("VurderAktivitetskrav", () => {
       });
 
       await waitFor(
-        () => expect(screen.queryByText(enBeskrivelse)).to.not.exist
+        () => expect(screen.queryByText(enLangBeskrivelse)).to.not.exist
       );
     });
   });
   describe("Avvent", () => {
-    it("Validerer årsaker, beskrivelse og dato", async () => {
+    it("Validerer maks tegn beskrivelse", async () => {
+      renderVurderAktivitetskrav(aktivitetskrav);
+
+      clickButton(buttonTexts["AVVENT"]);
+      const avventModal = screen.getAllByRole("dialog", { hidden: true })[0];
+      const lagreButton = within(avventModal).getByRole("button", {
+        name: "Lagre",
+        hidden: true,
+      });
+      const tooLongBeskrivelse = getTooLongText(200);
+      const beskrivelseInput = screen.getByRole("textbox", {
+        name: "Beskrivelse",
+        hidden: true,
+      });
+      changeTextInput(beskrivelseInput, tooLongBeskrivelse);
+      fireEvent.click(lagreButton);
+
+      expect(await screen.findByText("1 tegn for mye")).to.exist;
+    });
+    it("Validerer årsaker og dato", async () => {
       renderVurderAktivitetskrav(aktivitetskrav);
 
       clickButton(buttonTexts["AVVENT"]);
@@ -303,11 +322,11 @@ describe("VurderAktivitetskrav", () => {
         screen.getByText("Drøftes internt");
       fireEvent.click(arsakDroftesInterntRadioButton);
 
-      const beskrivelseInputs = screen.getByRole("textbox", {
-        name: "Begrunnelse",
+      const beskrivelseInput = screen.getByRole("textbox", {
+        name: "Beskrivelse",
         hidden: true,
       });
-      changeTextInput(beskrivelseInputs, enBeskrivelse);
+      changeTextInput(beskrivelseInput, enKortBeskrivelse);
 
       const today = dayjs();
       const datoInput = screen.getByRole("textbox", {
@@ -326,7 +345,7 @@ describe("VurderAktivitetskrav", () => {
       await waitFor(() => {
         const vurderAvventMutation = queryClient.getMutationCache().getAll()[0];
         const expectedVurdering: CreateAktivitetskravVurderingDTO = {
-          beskrivelse: enBeskrivelse,
+          beskrivelse: enKortBeskrivelse,
           status: AktivitetskravStatus.AVVENT,
           arsaker: [
             AvventVurderingArsak.OPPFOLGINGSPLAN_ARBEIDSGIVER,
@@ -396,7 +415,7 @@ describe("VurderAktivitetskrav", () => {
       expect(screen.getByText("Forhåndsvisning")).to.exist;
 
       const beskrivelseInput = getTextInput(beskrivelseLabel);
-      changeTextInput(beskrivelseInput, enBeskrivelse);
+      changeTextInput(beskrivelseInput, enLangBeskrivelse);
 
       clickButton("Send");
 
@@ -405,8 +424,8 @@ describe("VurderAktivitetskrav", () => {
           .getMutationCache()
           .getAll()[0];
         const expectedVurdering: SendForhandsvarselDTO = {
-          fritekst: enBeskrivelse,
-          document: getSendForhandsvarselDocument(enBeskrivelse),
+          fritekst: enLangBeskrivelse,
+          document: getSendForhandsvarselDocument(enLangBeskrivelse),
         };
         expect(sendForhandsvarselMutation.state.variables).to.deep.equal(
           expectedVurdering
@@ -414,7 +433,7 @@ describe("VurderAktivitetskrav", () => {
       });
 
       await waitFor(
-        () => expect(screen.queryByText(enBeskrivelse)).to.not.exist
+        () => expect(screen.queryByText(enLangBeskrivelse)).to.not.exist
       );
     });
 
@@ -435,7 +454,7 @@ describe("VurderAktivitetskrav", () => {
       expect(screen.getByText("Forhåndsvisning")).to.exist;
 
       const beskrivelseInput = getTextInput(beskrivelseLabel);
-      changeTextInput(beskrivelseInput, enBeskrivelse);
+      changeTextInput(beskrivelseInput, enLangBeskrivelse);
 
       const velgMalSelect = screen.getByRole("combobox");
       fireEvent.change(velgMalSelect, {
@@ -449,9 +468,9 @@ describe("VurderAktivitetskrav", () => {
           .getMutationCache()
           .getAll()[0];
         const expectedVurdering: SendForhandsvarselDTO = {
-          fritekst: enBeskrivelse,
+          fritekst: enLangBeskrivelse,
           document: getSendForhandsvarselDocument(
-            enBeskrivelse,
+            enLangBeskrivelse,
             Brevmal.UTEN_ARBEIDSGIVER
           ),
         };
@@ -461,7 +480,7 @@ describe("VurderAktivitetskrav", () => {
       });
 
       await waitFor(
-        () => expect(screen.queryByText(enBeskrivelse)).to.not.exist
+        () => expect(screen.queryByText(enLangBeskrivelse)).to.not.exist
       );
     });
 
@@ -505,8 +524,41 @@ describe("VurderAktivitetskrav", () => {
 
       expect(await screen.findByText("Vennligst angi begrunnelse")).to.exist;
     });
+    it("Validerer maks tegn beskrivelse", async () => {
+      renderVurderAktivitetskrav(aktivitetskrav);
+      clickTab(tabTexts["FORHANDSVARSEL"]);
+
+      const tooLongBeskrivelse = getTooLongText(1000);
+      const beskrivelseInput = getTextInput("Begrunnelse (obligatorisk)");
+      changeTextInput(beskrivelseInput, tooLongBeskrivelse);
+      clickButton("Send");
+
+      expect(await screen.findByText("1 tegn for mye")).to.exist;
+    });
   });
   describe("Ikke aktuell", () => {
+    it("Validerer maks tegn beskrivelse", async () => {
+      renderVurderAktivitetskrav(aktivitetskrav);
+
+      clickButton(buttonTexts["IKKE_AKTUELL"]);
+
+      const ikkeAktuellModal = screen.getByRole("dialog", {
+        hidden: true,
+      });
+      const tooLongBeskrivelse = getTooLongText(1000);
+      const beskrivelseInputs = screen.getByRole("textbox", {
+        name: "Begrunnelse",
+        hidden: true,
+      });
+      changeTextInput(beskrivelseInputs, tooLongBeskrivelse);
+      const lagreButton = within(ikkeAktuellModal).getByRole("button", {
+        name: "Lagre",
+        hidden: true,
+      });
+      fireEvent.click(lagreButton);
+
+      expect(await screen.findByText("1 tegn for mye")).to.exist;
+    });
     it("Lagre vurdering med verdier fra skjema", async () => {
       renderVurderAktivitetskrav(aktivitetskrav);
 
@@ -536,7 +588,7 @@ describe("VurderAktivitetskrav", () => {
         name: "Begrunnelse",
         hidden: true,
       });
-      changeTextInput(beskrivelseInputs, enBeskrivelse);
+      changeTextInput(beskrivelseInputs, enLangBeskrivelse);
 
       const lagreButton = within(ikkeAktuellModal).getByRole("button", {
         name: "Lagre",
@@ -550,9 +602,9 @@ describe("VurderAktivitetskrav", () => {
         const expectedArsak = IkkeAktuellArsak.INNVILGET_VTA;
         const expectedVurdering: CreateAktivitetskravVurderingDTO = {
           status: AktivitetskravStatus.IKKE_AKTUELL,
-          beskrivelse: enBeskrivelse,
+          beskrivelse: enLangBeskrivelse,
           arsaker: [expectedArsak],
-          document: getIkkeAktuellDocument(enBeskrivelse, expectedArsak),
+          document: getIkkeAktuellDocument(enLangBeskrivelse, expectedArsak),
         };
         expect(vurderIkkeAktuellMutation.state.variables).to.deep.equal(
           expectedVurdering

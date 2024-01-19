@@ -13,23 +13,28 @@ import {
 } from "@/sider/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
 import { SkjemaFieldContainer } from "@/sider/aktivitetskrav/vurdering/SkjemaFieldContainer";
 import { FormProvider, useForm } from "react-hook-form";
-import { BodyShort, Button, Checkbox, CheckboxGroup } from "@navikt/ds-react";
+import {
+  BodyShort,
+  Button,
+  Checkbox,
+  CheckboxGroup,
+  Textarea,
+} from "@navikt/ds-react";
 import { avventVurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
-import BegrunnelseTextarea, {
-  begrunnelseMaxLength,
-} from "@/sider/aktivitetskrav/vurdering/BegrunnelseTextarea";
 import { ButtonRow } from "@/components/Layout";
 
 const texts = {
   body1:
     "Informasjonen du oppgir her vil kun brukes til videre saksbehandling.",
   body2: "Ingenting sendes videre til arbeidstaker eller arbeidsgiver.",
-  begrunnelseLabel: "Begrunnelse",
+  begrunnelseLabel: "Beskrivelse",
   arsakLegend: "Årsak (obligatorisk)",
   missingArsak: "Vennligst angi årsak",
   lagre: "Lagre",
   avbryt: "Avbryt",
 };
+
+const begrunnelseMaxLength = 200;
 
 export interface AvventAktivitetskravSkjemaValues
   extends AktivitetskravSkjemaValues {
@@ -92,12 +97,15 @@ export const AvventAktivitetskravSkjema = ({
               )
             )}
           </CheckboxGroup>
-          <BegrunnelseTextarea
+          <Textarea
             {...register("begrunnelse", {
               maxLength: begrunnelseMaxLength,
             })}
             value={watch("begrunnelse")}
             label={texts.begrunnelseLabel}
+            size="small"
+            minRows={3}
+            maxLength={begrunnelseMaxLength}
           />
           <AvventFristDato />
         </SkjemaFieldContainer>

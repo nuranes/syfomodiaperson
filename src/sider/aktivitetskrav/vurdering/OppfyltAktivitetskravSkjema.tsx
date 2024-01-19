@@ -15,10 +15,7 @@ import {
 } from "@/sider/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
 import { SkjemaFieldContainer } from "@/sider/aktivitetskrav/vurdering/SkjemaFieldContainer";
 import { useForm } from "react-hook-form";
-import { Button, Radio, RadioGroup } from "@navikt/ds-react";
-import BegrunnelseTextarea, {
-  begrunnelseMaxLength,
-} from "@/sider/aktivitetskrav/vurdering/BegrunnelseTextarea";
+import { Button, Radio, RadioGroup, Textarea } from "@navikt/ds-react";
 import { useAktivitetskravNotificationAlert } from "@/sider/aktivitetskrav/useAktivitetskravNotificationAlert";
 import { useAktivitetskravVarselDocument } from "@/hooks/aktivitetskrav/useAktivitetskravVarselDocument";
 
@@ -36,6 +33,7 @@ export interface OppfyltAktivitetskravSkjemaValues
 }
 
 const defaultValues = { begrunnelse: "", arsak: undefined };
+const begrunnelseMaxLength = 1000;
 
 export const OppfyltAktivitetskravSkjema = ({
   aktivitetskravUuid,
@@ -96,12 +94,15 @@ export const OppfyltAktivitetskravSkjema = ({
             )
           )}
         </RadioGroup>
-        <BegrunnelseTextarea
+        <Textarea
           {...register("begrunnelse", {
             maxLength: begrunnelseMaxLength,
           })}
           value={watch("begrunnelse")}
           label={texts.begrunnelseLabel}
+          size="small"
+          minRows={6}
+          maxLength={begrunnelseMaxLength}
         />
       </SkjemaFieldContainer>
       {vurderAktivitetskrav.isError && (

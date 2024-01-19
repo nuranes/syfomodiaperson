@@ -8,13 +8,16 @@ import React from "react";
 import { useVurderAktivitetskrav } from "@/data/aktivitetskrav/useVurderAktivitetskrav";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { ButtonRow } from "@/components/Layout";
-import { BodyShort, Button, Radio, RadioGroup } from "@navikt/ds-react";
+import {
+  BodyShort,
+  Button,
+  Radio,
+  RadioGroup,
+  Textarea,
+} from "@navikt/ds-react";
 import { useAktivitetskravNotificationAlert } from "@/sider/aktivitetskrav/useAktivitetskravNotificationAlert";
 import { useForm } from "react-hook-form";
 import { VurderAktivitetskravSkjemaProps } from "@/sider/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
-import BegrunnelseTextarea, {
-  begrunnelseMaxLength,
-} from "@/sider/aktivitetskrav/vurdering/BegrunnelseTextarea";
 import { useAktivitetskravVarselDocument } from "@/hooks/aktivitetskrav/useAktivitetskravVarselDocument";
 import { ikkeAktuellVurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
 import * as Amplitude from "@/utils/amplitude";
@@ -33,6 +36,8 @@ const texts = {
     missing: "Vennligst angi begrunnelse",
   },
 };
+
+const begrunnelseMaxLength = 1000;
 
 interface IkkeAktuellAktivitetskravSkjemaProps
   extends VurderAktivitetskravSkjemaProps {
@@ -112,7 +117,7 @@ export const IkkeAktuellAktivitetskravSkjema = ({
           </Radio>
         ))}
       </RadioGroup>
-      <BegrunnelseTextarea
+      <Textarea
         className={"mb-4"}
         {...register("begrunnelse", {
           maxLength: begrunnelseMaxLength,
@@ -121,6 +126,9 @@ export const IkkeAktuellAktivitetskravSkjema = ({
         value={watch("begrunnelse")}
         label={texts.begrunnelse.label}
         error={errors.begrunnelse && texts.begrunnelse.missing}
+        size="small"
+        minRows={6}
+        maxLength={begrunnelseMaxLength}
       />
       {vurderAktivitetskrav.isError && (
         <SkjemaInnsendingFeil error={vurderAktivitetskrav.error} />

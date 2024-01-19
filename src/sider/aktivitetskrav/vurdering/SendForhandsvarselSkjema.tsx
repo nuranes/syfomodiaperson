@@ -3,7 +3,7 @@ import { SendForhandsvarselDTO } from "@/data/aktivitetskrav/aktivitetskravTypes
 import { useAktivitetskravVarselDocument } from "@/hooks/aktivitetskrav/useAktivitetskravVarselDocument";
 import { addWeeks } from "@/utils/datoUtils";
 import { ButtonRow } from "@/components/Layout";
-import { Button, HelpText, Label, Select } from "@navikt/ds-react";
+import { Button, HelpText, Label, Select, Textarea } from "@navikt/ds-react";
 import { useSendForhandsvarsel } from "@/data/aktivitetskrav/useSendForhandsvarsel";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import {
@@ -11,9 +11,6 @@ import {
   VurderAktivitetskravSkjemaProps,
 } from "@/sider/aktivitetskrav/vurdering/vurderAktivitetskravSkjemaTypes";
 import { useForm } from "react-hook-form";
-import BegrunnelseTextarea, {
-  begrunnelseMaxLength,
-} from "@/sider/aktivitetskrav/vurdering/BegrunnelseTextarea";
 import { SkjemaHeading } from "@/sider/aktivitetskrav/vurdering/SkjemaHeading";
 import { ForhandsvisningModal } from "@/components/ForhandsvisningModal";
 import * as Amplitude from "@/utils/amplitude";
@@ -42,6 +39,7 @@ const brevMalTexts: {
 
 const forhandsvarselFrist = addWeeks(new Date(), 3);
 const defaultValues = { begrunnelse: "", arsak: undefined };
+const begrunnelseMaxLength = 1000;
 
 export const SendForhandsvarselSkjema = ({
   aktivitetskravUuid,
@@ -116,7 +114,7 @@ export const SendForhandsvarselSkjema = ({
           </option>
         ))}
       </Select>
-      <BegrunnelseTextarea
+      <Textarea
         className="mb-8"
         {...register("begrunnelse", {
           maxLength: begrunnelseMaxLength,
@@ -125,6 +123,9 @@ export const SendForhandsvarselSkjema = ({
         value={watch("begrunnelse")}
         label={texts.beskrivelseLabel}
         error={errors.begrunnelse && texts.missingBeskrivelse}
+        size="small"
+        minRows={6}
+        maxLength={begrunnelseMaxLength}
       />
       {sendForhandsvarsel.isError && (
         <SkjemaInnsendingFeil error={sendForhandsvarsel.error} />
