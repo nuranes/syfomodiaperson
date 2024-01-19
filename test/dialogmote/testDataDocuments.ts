@@ -22,7 +22,7 @@ import {
   tilDatoMedManedNavnOgKlokkeslettWithComma,
   tilDatoMedUkedagOgManedNavnOgKlokkeslett,
 } from "@/utils/datoUtils";
-import { genererDato } from "@/components/mote/utils";
+import { genererDato } from "@/sider/mote/utils";
 import { capitalizeWord } from "@/utils/stringUtils";
 import { behandlerNavn } from "@/utils/behandlerUtils";
 import {

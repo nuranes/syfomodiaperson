@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { MemoryRouter } from "react-router-dom";
 import React from "react";
 import dayjs from "dayjs";
-import { InnkallingDialogmotePanel } from "@/components/mote/components/innkalling/InnkallingDialogmotePanel";
+import { InnkallingDialogmotePanel } from "@/sider/mote/components/innkalling/InnkallingDialogmotePanel";
 import { texts as brukerKanIkkeVarslesPapirpostTexts } from "../../src/components/dialogmote/BrukerKanIkkeVarslesPapirpostAdvarsel";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen } from "@testing-library/react";

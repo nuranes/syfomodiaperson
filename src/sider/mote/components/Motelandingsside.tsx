@@ -1,10 +1,10 @@
 import React from "react";
-import Sidetopp from "../../Sidetopp";
-import UtdragFraSykefravaeretPanel from "../../utdragFraSykefravaeret/UtdragFraSykefravaeret";
+import Sidetopp from "../../../components/Sidetopp";
+import UtdragFraSykefravaeretPanel from "../../../components/utdragFraSykefravaeret/UtdragFraSykefravaeret";
 import { InnkallingDialogmotePanel } from "./innkalling/InnkallingDialogmotePanel";
-import SideLaster from "../../SideLaster";
-import { DialogmoteOnskePanel } from "../../motebehov/DialogmoteOnskePanel";
-import { MotehistorikkPanel } from "../../dialogmote/motehistorikk/MotehistorikkPanel";
+import SideLaster from "../../../components/SideLaster";
+import { DialogmoteOnskePanel } from "../../../components/motebehov/DialogmoteOnskePanel";
+import { MotehistorikkPanel } from "../../../components/dialogmote/motehistorikk/MotehistorikkPanel";
 import { useDialogmoterQuery } from "@/data/dialogmote/dialogmoteQueryHooks";
 import { useOppfolgingsplanerQuery } from "@/data/oppfolgingsplan/oppfolgingsplanQueryHooks";
 import { useMotebehovQuery } from "@/data/motebehov/motebehovQueryHooks";

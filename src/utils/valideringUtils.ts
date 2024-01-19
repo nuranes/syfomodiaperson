@@ -1,6 +1,6 @@
 import { isISODateString } from "nav-datovelger";
 import { ReferatSkjemaValues } from "@/components/dialogmote/referat/Referat";
-import { genererDato } from "@/components/mote/utils";
+import { genererDato } from "@/sider/mote/utils";
 import { containsWhiteSpace } from "@/utils/stringUtils";
 import { toDatePrettyPrint } from "@/utils/datoUtils";
 import dayjs from "dayjs";

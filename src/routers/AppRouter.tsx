@@ -6,7 +6,7 @@ import SykepengesoknaderContainer from "../components/speiling/sykepengsoknader/
 import DinSykmeldingContainer from "../components/speiling/sykmeldinger/container/DinSykmeldingContainer";
 import HistorikkContainer from "@/sider/historikk/container/HistorikkContainer";
 import { erGyldigFodselsnummer } from "@/utils/frnValideringUtils";
-import MotelandingssideContainer from "../components/mote/container/MotelandingssideContainer";
+import MotelandingssideContainer from "@/sider/mote/container/MotelandingssideContainer";
 import NokkelinformasjonContainer from "@/sider/nokkelinformasjon/container/NokkelinformasjonContainer";
 import DialogmoteInnkallingContainer from "../components/dialogmote/innkalling/DialogmoteInnkallingContainer";
 import AvlysDialogmoteContainer from "../components/dialogmote/avlys/AvlysDialogmoteContainer";

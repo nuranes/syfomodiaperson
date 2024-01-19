@@ -2,7 +2,7 @@ import React from "react";
 import { Field } from "react-final-form";
 import { narmesteLederForVirksomhet } from "@/utils/ledereUtils";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
-import { NoNarmesteLederAlert } from "@/components/mote/NoNarmestLederAlert";
+import { NoNarmesteLederAlert } from "@/sider/mote/NoNarmestLederAlert";
 import { VirksomhetChooser } from "@/components/dialogmote/innkalling/virksomhet/VirksomhetChooser";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { BodyShort, Label } from "@navikt/ds-react";

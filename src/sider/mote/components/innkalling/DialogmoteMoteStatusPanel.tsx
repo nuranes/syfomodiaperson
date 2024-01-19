@@ -1,7 +1,7 @@
 import { MoteIkonBlaaImage } from "../../../../../img/ImageComponents";
 import { DialogmotePanel } from "../DialogmotePanel";
 import React, { ReactNode } from "react";
-import { FlexRow, PaddingSize } from "../../../Layout";
+import { FlexRow, PaddingSize } from "../../../../components/Layout";
 import {
   DialogmoteDTO,
   DialogmoteStatus,
@@ -15,9 +15,9 @@ import dayjs from "dayjs";
 import { useDialogmoteReferat } from "@/hooks/dialogmote/useDialogmoteReferat";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
 import { narmesteLederForVirksomhet } from "@/utils/ledereUtils";
-import { NoNarmesteLederAlert } from "@/components/mote/NoNarmestLederAlert";
+import { NoNarmesteLederAlert } from "@/sider/mote/NoNarmestLederAlert";
 import Knapp, { Hovedknapp } from "nav-frontend-knapper";
-import VurderOppgaveForDialogmotesvarKnapp from "@/components/mote/components/innkalling/VurderOppgaveForDialogmotesvarKnapp";
+import VurderOppgaveForDialogmotesvarKnapp from "@/sider/mote/components/innkalling/VurderOppgaveForDialogmotesvarKnapp";
 import { usePersonoppgaverQuery } from "@/data/personoppgave/personoppgaveQueryHooks";
 import { PersonOppgave } from "@/data/personoppgave/types/PersonOppgave";
 import {

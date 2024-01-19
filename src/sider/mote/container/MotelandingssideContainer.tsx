@@ -1,5 +1,5 @@
 import React from "react";
-import Side from "../../../sider/Side";
+import Side from "../../Side";
 import Motelandingsside from "../components/Motelandingsside";
 import { Menypunkter } from "@/navigation/menypunkterTypes";
 

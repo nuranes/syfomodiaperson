@@ -1,5 +1,5 @@
 import { TidStedDto } from "@/data/dialogmote/types/dialogmoteTypes";
-import { genererDato } from "@/components/mote/utils";
+import { genererDato } from "@/sider/mote/utils";
 import { TidStedSkjemaValues } from "@/data/dialogmote/types/skjemaTypes";
 
 export const useSkjemaValuesToDto = () => {
