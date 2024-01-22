@@ -88,7 +88,8 @@ const LpsPlanLenke = ({ lpsPlan }: LpsPlanLenkeProps) => {
     <a
       className="lenke"
       href={`${SYFOOPPFOLGINGSPLANSERVICE_ROOT}/dokument/lps/${lpsPlan.uuid}`}
-      download="oppfølgingsplan"
+      target="_blank"
+      rel="noopener noreferrer"
     >
       {`${virksomhetsNavn} (pdf)`}
     </a>
