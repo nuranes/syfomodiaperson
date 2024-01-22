@@ -6,10 +6,6 @@ export interface PersonAdresse {
 }
 
 export interface Bostedsadresse {
-  angittFlyttedato?: Date;
-  gyldigFraOgMed?: Date;
-  gyldigTilOgMed?: Date;
-  coAdressenavn?: string;
   vegadresse?: Vegadresse;
   matrikkeladresse?: Matrikkeladresse;
   utenlandskAdresse?: UtenlandskAdresse;
@@ -17,10 +13,7 @@ export interface Bostedsadresse {
 }
 
 export interface Kontaktadresse {
-  gyldigFraOgMed?: Date;
-  gyldigTilOgMed?: Date;
   type: KontaktadresseType;
-  coAdressenavn?: string;
   postboksadresse?: Postboksadresse;
   vegadresse?: Vegadresse;
   postadresseIFrittFormat?: PostadresseIFrittFormat;
@@ -34,9 +27,6 @@ export enum KontaktadresseType {
 }
 
 export interface Oppholdsadresse {
-  gyldigFraOgMed?: Date;
-  gyldigTilOgMed?: Date;
-  coAdressenavn?: string;
   utenlandskAdresse?: UtenlandskAdresse;
   vegadresse?: Vegadresse;
   matrikkeladresse?: Matrikkeladresse;
@@ -48,12 +38,14 @@ export interface PostadresseIFrittFormat {
   adresselinje2?: string;
   adresselinje3?: string;
   postnummer?: string;
+  poststed?: string;
 }
 
 export interface Postboksadresse {
   postbokseier?: string;
   postboks: string;
   postnummer?: string;
+  poststed?: string;
 }
 
 export interface UtenlandskAdresse {
@@ -76,22 +68,19 @@ export interface UtenlandskAdresseIFrittFormat {
 }
 
 export interface Vegadresse {
-  matrikkelId?: bigint;
   husnummer?: string;
   husbokstav?: string;
-  bruksenhetsnummer?: string;
   adressenavn?: string;
-  kommunenummer?: string;
-  bydelsnummer?: string;
   tilleggsnavn?: string;
   postnummer?: string;
+  poststed?: string;
 }
 
 export interface Matrikkeladresse {
-  matrikkelId?: bigint;
   bruksenhetsnummer?: string;
   tilleggsnavn?: string;
   postnummer?: string;
+  poststed?: string;
   kommunenummer?: string;
 }
 

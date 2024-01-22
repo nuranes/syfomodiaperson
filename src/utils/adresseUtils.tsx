@@ -97,7 +97,7 @@ const formaterPostboksadresse = (postboksadresse: Postboksadresse) => {
   return hentAdresseRader(
     postboksadresse.postbokseier || "",
     postboksadresse.postboks,
-    postboksadresse.postnummer || "",
+    `${postboksadresse.postnummer || ""} ${postboksadresse.poststed || ""}`,
     "",
     ""
   );
@@ -110,7 +110,9 @@ const formaterPostadresseIFrittFormat = (
     postadresseIFrittFormat.adresselinje1 || "",
     postadresseIFrittFormat.adresselinje2 || "",
     postadresseIFrittFormat.adresselinje3 || "",
-    postadresseIFrittFormat.postnummer || "",
+    `${postadresseIFrittFormat.postnummer || ""} ${
+      postadresseIFrittFormat.poststed || ""
+    }`,
     ""
   );
 };
@@ -121,7 +123,7 @@ const formaterVegadresse = (vegadresse: Vegadresse) => {
       vegadresse.husbokstav || ""
     }`,
     vegadresse.tilleggsnavn || "",
-    vegadresse.postnummer || "",
+    `${vegadresse.postnummer || ""} ${vegadresse.poststed || ""}`,
     "",
     ""
   );
@@ -131,7 +133,7 @@ const formaterMatrikkeladresse = (matrikkeladresse: Matrikkeladresse) => {
   return hentAdresseRader(
     matrikkeladresse.bruksenhetsnummer || "",
     matrikkeladresse.tilleggsnavn || "",
-    matrikkeladresse.postnummer || "",
+    `${matrikkeladresse.postnummer || ""} ${matrikkeladresse.poststed || ""}`,
     matrikkeladresse.kommunenummer || "",
     ""
   );

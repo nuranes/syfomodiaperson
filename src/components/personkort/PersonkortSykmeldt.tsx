@@ -6,7 +6,7 @@ import {
   formaterBostedsadresse,
   formaterKontaktadresse,
   formaterOppholdsadresse,
-} from "@/utils/pdladresseUtils";
+} from "@/utils/adresseUtils";
 import { PersonImage } from "../../../img/ImageComponents";
 import { usePersonAdresseQuery } from "@/data/personinfo/personAdresseQueryHooks";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
