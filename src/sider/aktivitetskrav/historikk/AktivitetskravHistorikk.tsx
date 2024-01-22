@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   AktivitetskravStatus,
   AktivitetskravVurderingDTO,
-  VurderingArsak,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { FlexColumn, FlexRow, PaddingSize } from "@/components/Layout";
 import {
@@ -16,10 +15,7 @@ import { capitalizeWord } from "@/utils/stringUtils";
 import { tilDatoMedManedNavn } from "@/utils/datoUtils";
 import { useVeilederInfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
 import { useAktivitetskravQuery } from "@/data/aktivitetskrav/aktivitetskravQueryHooks";
-import {
-  oppfyltVurderingArsakTexts,
-  unntakVurderingArsakTexts,
-} from "@/data/aktivitetskrav/aktivitetskravTexts";
+import { vurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
 import * as Amplitude from "@/utils/amplitude";
 import { EventType } from "@/utils/amplitude";
 import { VarselBrev } from "@/sider/aktivitetskrav/VarselBrev";
@@ -28,7 +24,6 @@ const texts = {
   header: "Historikk",
   subHeader: "Tidligere vurderinger av aktivitetskravet i Modia",
   arsakTitle: "Årsak",
-  beskrivelseTitle: "Begrunnelse",
   visBrev: "Se hele brevet",
   visBrevLabel: "Vis brevet",
   vurdertAv: "Vurdert av",
@@ -39,7 +34,8 @@ const isRelevantForHistorikk = (vurdering: AktivitetskravVurderingDTO) =>
   vurdering.status === AktivitetskravStatus.UNNTAK ||
   vurdering.status === AktivitetskravStatus.STANS ||
   vurdering.status === AktivitetskravStatus.IKKE_OPPFYLT ||
-  vurdering.status === AktivitetskravStatus.FORHANDSVARSEL;
+  vurdering.status === AktivitetskravStatus.FORHANDSVARSEL ||
+  vurdering.status === AktivitetskravStatus.AVVENT;
 
 const byCreatedAt = (
   v1: AktivitetskravVurderingDTO,
@@ -86,10 +82,12 @@ const headerPrefix = (status: AktivitetskravStatus): string => {
     case AktivitetskravStatus.FORHANDSVARSEL: {
       return "Forhåndsvarsel";
     }
+    case AktivitetskravStatus.AVVENT: {
+      return "Avventer";
+    }
     case AktivitetskravStatus.NY:
     case AktivitetskravStatus.NY_VURDERING:
     case AktivitetskravStatus.AUTOMATISK_OPPFYLT:
-    case AktivitetskravStatus.AVVENT:
     case AktivitetskravStatus.LUKKET:
     case AktivitetskravStatus.IKKE_AKTUELL: {
       // Ikke relevant for historikk
@@ -98,25 +96,20 @@ const headerPrefix = (status: AktivitetskravStatus): string => {
   }
 };
 
-const getArsakText = (arsak: VurderingArsak) => {
-  return (
-    oppfyltVurderingArsakTexts[arsak] ||
-    unntakVurderingArsakTexts[arsak] ||
-    arsak
-  );
-};
-
 interface HistorikkElementProps {
   vurdering: AktivitetskravVurderingDTO;
 }
 
 const HistorikkElement = ({ vurdering }: HistorikkElementProps) => {
+  const { arsaker, beskrivelse, createdAt, createdBy, status, varsel } =
+    vurdering;
   const [isOpen, setIsOpen] = useState(false);
-  const { data: veilederinfo } = useVeilederInfoQuery(vurdering.createdBy);
-  const header = `${headerPrefix(vurdering.status)} - ${tilDatoMedManedNavn(
-    vurdering.createdAt
-  )}`;
-  const arsak = vurdering.arsaker[0];
+  const { data: veilederinfo } = useVeilederInfoQuery(createdBy);
+  const header = `${headerPrefix(status)} - ${tilDatoMedManedNavn(createdAt)}`;
+  const beskrivelseTitle =
+    status === AktivitetskravStatus.AVVENT ? "Beskrivelse" : "Begrunnelse";
+  const arsakerText = () =>
+    arsaker.map((arsak) => vurderingArsakTexts[arsak] || arsak).join(", ");
 
   const handleAccordionClick = () => {
     if (!isOpen) {
@@ -138,20 +131,16 @@ const HistorikkElement = ({ vurdering }: HistorikkElementProps) => {
         {header}
       </Accordion.Header>
       <Accordion.Content>
-        {!!arsak && (
-          <Paragraph title={texts.arsakTitle} body={getArsakText(arsak)} />
+        {arsaker.length > 0 && (
+          <Paragraph title={texts.arsakTitle} body={arsakerText()} />
         )}
-        {!!vurdering.beskrivelse && (
-          <Paragraph
-            title={texts.beskrivelseTitle}
-            body={vurdering.beskrivelse}
-          />
+        {!!beskrivelse && (
+          <Paragraph title={beskrivelseTitle} body={beskrivelse} />
         )}
         <Paragraph title={texts.vurdertAv} body={veilederinfo?.navn ?? ""} />
-        {vurdering.status === AktivitetskravStatus.FORHANDSVARSEL &&
-          vurdering.varsel?.document && (
-            <VarselBrev varsel={vurdering.varsel} />
-          )}
+        {status === AktivitetskravStatus.FORHANDSVARSEL && varsel?.document && (
+          <VarselBrev varsel={varsel} />
+        )}
       </Accordion.Content>
     </Accordion.Item>
   );

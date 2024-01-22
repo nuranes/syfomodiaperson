@@ -9,6 +9,7 @@ import {
   AktivitetskravStatus,
   AktivitetskravVarselDTO,
   AktivitetskravVurderingDTO,
+  AvventVurderingArsak,
   OppfyltVurderingArsak,
   UnntakVurderingArsak,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
@@ -24,7 +25,6 @@ import {
 import { veilederinfoQueryKeys } from "@/data/veilederinfo/veilederinfoQueryHooks";
 import { aktivitetskravQueryKeys } from "@/data/aktivitetskrav/aktivitetskravQueryHooks";
 import {
-  avventVurdering,
   createAktivitetskrav,
   createAktivitetskravVurdering,
 } from "../testDataUtils";
@@ -189,10 +189,30 @@ describe("AktivitetskravHistorikk", () => {
 
     expect(getButton(`Ikke oppfylt - ${tilDatoMedManedNavn(today)}`)).to.exist;
   });
-  it("viser ikke AVVENT-vurdering", () => {
+  it("viser årsaker og beskrivelse for AVVENT-vurdering", () => {
+    const avventVurdering = createAktivitetskravVurdering(
+      AktivitetskravStatus.AVVENT,
+      [
+        AvventVurderingArsak.DROFTES_MED_ROL,
+        AvventVurderingArsak.INFORMASJON_BEHANDLER,
+      ],
+      "Avventer litt"
+    );
     renderAktivitetskravHistorikk([avventVurdering]);
 
-    expect(screen.queryByText(/Avvent/)).to.not.exist;
+    const vurderingButton = screen.getByRole("button");
+    userEvent.click(vurderingButton);
+
+    expect(screen.getByText(arsakTitle)).to.exist;
+    expect(
+      screen.getByText(
+        "Drøftes med ROL, Har bedt om mer informasjon fra behandler"
+      )
+    ).to.exist;
+    expect(screen.getByText("Beskrivelse")).to.exist;
+    expect(screen.getByText("Avventer litt")).to.exist;
+    expect(screen.getByText(vurdertAvTitle)).to.exist;
+    expect(screen.getByText(VEILEDER_DEFAULT.navn)).to.exist;
   });
   it("Viser knapp for å se hele forhåndsvarsel-brevet dersom vurderingen var et forhåndsvarsel", () => {
     renderAktivitetskravHistorikk([forhandsvarselVurdering]);
