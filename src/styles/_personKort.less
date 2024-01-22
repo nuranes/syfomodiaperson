@@ -1,3 +1,47 @@
+.personkort {
+  margin-bottom: 0.5rem;
+
+  ul {
+    padding: 0;
+    list-style-type: none;
+    margin-bottom: 3em;
+
+    li {
+      display: block;
+      margin-bottom: 0.5em;
+
+      @media all and(min-width: @screen-sm-min) {
+        display: inline-block;
+        margin-bottom: 0;
+        padding-right: 0.5em;
+      }
+
+      button {
+        padding: 0;
+        background-color: transparent;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        border-bottom: 0.25em @white solid;
+
+        &:focus {
+          outline: none;
+          background-color: @navOransjeLighten40;
+        }
+
+        &:hover,
+        &.personkort__knapp--aktiv {
+          border-bottom-color: @navBla;
+        }
+      }
+
+      &:not(:last-child) {
+        margin-right: 1em;
+      }
+    }
+  }
+}
+
 .personkortHeader {
   & > div {
     display: flex;

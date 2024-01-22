@@ -1,95 +1,110 @@
-import React, { ReactElement } from "react";
+import React, { useState } from "react";
+import { PERSONKORTVISNING_TYPE } from "@/konstanter";
 import PersonkortHeader from "./PersonkortHeader/PersonkortHeader";
+import PersonkortVisning from "./PersonkortVisning";
 import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
-import { Tabs } from "@navikt/ds-react";
-import PersonkortSykmeldt from "@/components/personkort/PersonkortSykmeldt";
-import PersonkortLedere from "@/components/personkort/ledere/PersonkortLedere";
-import PersonkortLege from "@/components/personkort/PersonkortLege";
-import PersonkortEnhet from "@/components/personkort/PersonkortEnhet";
-import { PersonkortSikkerhetstiltak } from "@/components/personkort/PersonkortSikkerhetstiltak";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 
-enum Tab {
-  SYKMELDT = "SYKMELDT",
-  LEDER = "LEDER",
-  LEGE = "LEGE",
-  ENHET = "ENHET",
-  SIKKERHETSTILTAK = "SIKKERHETSTILTAK",
-}
-
-interface TabProps {
-  label: string;
-}
-
-const tabs: Record<Tab, TabProps> = {
-  SYKMELDT: {
-    label: "Kontaktinformasjon",
+const texts = {
+  buttons: {
+    sykmeldt: "Kontaktinformasjon",
+    leder: "Nærmeste leder",
+    fastlege: "Fastlege",
+    enhet: "Behandlende enhet",
+    sikkerhetstiltak: "Sikkerhetstiltak",
   },
-  LEDER: {
-    label: "Nærmeste leder",
-  },
-  LEGE: {
-    label: "Fastlege",
-  },
-  ENHET: {
-    label: "Behandlende enhet",
-  },
-  SIKKERHETSTILTAK: {
-    label: "Sikkerhetstiltak",
-  },
-};
-
-interface PersonkortVisningProps {
-  tab: Tab;
-}
-
-const PersonkortVisning = ({ tab }: PersonkortVisningProps): ReactElement => {
-  switch (tab) {
-    case Tab.SYKMELDT:
-      return <PersonkortSykmeldt />;
-    case Tab.ENHET:
-      return <PersonkortEnhet />;
-    case Tab.LEDER:
-      return <PersonkortLedere />;
-    case Tab.LEGE:
-      return <PersonkortLege />;
-    case Tab.SIKKERHETSTILTAK:
-      return <PersonkortSikkerhetstiltak />;
-  }
 };
 
 const Personkort = () => {
+  const [visning, setVisning] = useState(PERSONKORTVISNING_TYPE.SYKMELDT);
   const { hasSikkerhetstiltak } = useNavBrukerData();
-  const isVisible = (tab: Tab): boolean => {
-    switch (tab) {
-      case Tab.SYKMELDT:
-      case Tab.ENHET:
-      case Tab.LEDER:
-      case Tab.LEGE:
-        return true;
-      case Tab.SIKKERHETSTILTAK:
-        return hasSikkerhetstiltak;
-    }
-  };
-  const visibleTabs = Object.entries(tabs).filter(([key]) =>
-    isVisible(key as Tab)
-  );
 
   return (
-    <Ekspanderbartpanel tittel={<PersonkortHeader />} className="mb-2">
-      <Tabs size="small" defaultValue={Tab.SYKMELDT}>
-        <Tabs.List className="mt-4">
-          {visibleTabs.map(([key, { label }], index) => (
-            <Tabs.Tab value={key} label={label} key={index} />
-          ))}
-        </Tabs.List>
-        {visibleTabs.map(([key], index) => (
-          <Tabs.Panel key={index} value={key} className="mt-8">
-            <PersonkortVisning tab={key as Tab} />
-          </Tabs.Panel>
-        ))}
-      </Tabs>
-    </Ekspanderbartpanel>
+    <div className="personkort">
+      <Ekspanderbartpanel tittel={<PersonkortHeader />}>
+        <div>
+          <ul>
+            <li>
+              <button
+                className={`${
+                  visning === PERSONKORTVISNING_TYPE.SYKMELDT &&
+                  "personkort__knapp--aktiv"
+                }`}
+                aria-pressed={visning === PERSONKORTVISNING_TYPE.SYKMELDT}
+                onClick={() => {
+                  setVisning(PERSONKORTVISNING_TYPE.SYKMELDT);
+                }}
+              >
+                {texts.buttons.sykmeldt}
+              </button>
+            </li>
+            <li>
+              <button
+                className={`${
+                  visning === PERSONKORTVISNING_TYPE.LEDER &&
+                  "personkort__knapp--aktiv"
+                }`}
+                aria-pressed={visning === PERSONKORTVISNING_TYPE.LEDER}
+                onClick={() => {
+                  setVisning(PERSONKORTVISNING_TYPE.LEDER);
+                }}
+              >
+                {texts.buttons.leder}
+              </button>
+            </li>
+            <li>
+              <button
+                className={`${
+                  visning === PERSONKORTVISNING_TYPE.LEGE &&
+                  "personkort__knapp--aktiv"
+                }`}
+                aria-pressed={visning === PERSONKORTVISNING_TYPE.LEGE}
+                onClick={() => {
+                  setVisning(PERSONKORTVISNING_TYPE.LEGE);
+                }}
+              >
+                {texts.buttons.fastlege}
+              </button>
+            </li>
+            <li>
+              <button
+                className={`${
+                  visning === PERSONKORTVISNING_TYPE.ENHET &&
+                  "personkort__knapp--aktiv"
+                }`}
+                aria-pressed={visning === PERSONKORTVISNING_TYPE.ENHET}
+                onClick={() => {
+                  setVisning(PERSONKORTVISNING_TYPE.ENHET);
+                }}
+              >
+                {texts.buttons.enhet}
+              </button>
+            </li>
+            {hasSikkerhetstiltak && (
+              <li>
+                <button
+                  className={`${
+                    visning === PERSONKORTVISNING_TYPE.SIKKERHETSTILTAK &&
+                    "personkort__knapp--aktiv"
+                  }`}
+                  aria-pressed={
+                    visning === PERSONKORTVISNING_TYPE.SIKKERHETSTILTAK
+                  }
+                  onClick={() => {
+                    setVisning(PERSONKORTVISNING_TYPE.SIKKERHETSTILTAK);
+                  }}
+                >
+                  {texts.buttons.sikkerhetstiltak}
+                </button>
+              </li>
+            )}
+          </ul>
+          <div aria-live="polite">
+            <PersonkortVisning visning={visning} />
+          </div>
+        </div>
+      </Ekspanderbartpanel>
+    </div>
   );
 };
 
