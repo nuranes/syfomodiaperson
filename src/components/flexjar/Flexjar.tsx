@@ -16,6 +16,7 @@ import { EmojiButton } from "@/components/flexjar/EmojiButton";
 import { ChevronDownIcon, ChevronUpIcon } from "@navikt/aksel-icons";
 import { defaultErrorTexts } from "@/api/errors";
 import { emojis, EmojiType } from "@/components/flexjar/feedbackEmojis";
+import { StoreKey, useLocalStorageState } from "@/hooks/useLocalStorageState";
 
 const texts = {
   apneKnapp: "Gi oss tilbakemelding",
@@ -38,6 +39,9 @@ export const Flexjar = ({ side }: FlexjarProps) => {
   const [feedback, setFeedback] = useState<string>();
   const [emojiType, setEmojiType] = useState<EmojiType>();
   const sendFeedback = useFlexjarFeedback();
+  const { setStoredValue: setFeedbackDate } = useLocalStorageState<Date>(
+    StoreKey.FLEXJAR_FEEDBACK_DATE
+  );
 
   useEffect(() => {
     if (!!emojiType) {
@@ -54,7 +58,9 @@ export const Flexjar = ({ side }: FlexjarProps) => {
         svar: svar,
         app: "syfomodiaperson",
       };
-      sendFeedback.mutate(body);
+      sendFeedback.mutate(body, {
+        onSuccess: () => setFeedbackDate(new Date()),
+      });
     } else {
       setIsValid(false);
     }

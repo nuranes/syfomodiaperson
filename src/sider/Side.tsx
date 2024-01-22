@@ -14,6 +14,8 @@ import { Pride } from "@/components/festive/Pride";
 import { Flexjar } from "@/components/flexjar/Flexjar";
 import { Oppfolgingsoppgave } from "@/components/oppfolgingsoppgave/Oppfolgingsoppgave";
 import { useDiskresjonskodeQuery } from "@/data/diskresjonskode/diskresjonskodeQueryHooks";
+import { StoreKey, useLocalStorageState } from "@/hooks/useLocalStorageState";
+import { dagerMellomDatoer } from "@/utils/datoUtils";
 
 export const MODIA_HEADER_ID = "modia-header";
 
@@ -25,6 +27,13 @@ interface SideProps {
 
 const Side = ({ tittel, aktivtMenypunkt, children }: SideProps) => {
   const { data: diskresjonskode } = useDiskresjonskodeQuery();
+  const { storedValue: flexjarFeedbackDate } = useLocalStorageState<Date>(
+    StoreKey.FLEXJAR_FEEDBACK_DATE
+  );
+
+  const hasGivenFeedbackLastDay = flexjarFeedbackDate
+    ? dagerMellomDatoer(flexjarFeedbackDate, Date.now()) < 1
+    : false;
 
   useEffect(() => {
     Amplitude.logEvent({
@@ -37,7 +46,8 @@ const Side = ({ tittel, aktivtMenypunkt, children }: SideProps) => {
     toggles.isFlexjarEnabled &&
     aktivtMenypunkt === Menypunkter.AKTIVITETSKRAV &&
     diskresjonskode !== "6" &&
-    diskresjonskode !== "7";
+    diskresjonskode !== "7" &&
+    !hasGivenFeedbackLastDay;
 
   return (
     <DocumentTitle

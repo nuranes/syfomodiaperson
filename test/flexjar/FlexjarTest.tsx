@@ -12,6 +12,7 @@ import { changeTextInput, clickButton } from "../testUtils";
 import { stubFlexjarApiError, stubFlexjarApiOk } from "../stubs/stubFlexjar";
 import { defaultErrorTexts } from "@/api/errors";
 import { FlexjarFeedbackDTO } from "@/data/flexjar/useFlexjarFeedback";
+import { StoreKey } from "@/hooks/useLocalStorageState";
 
 let queryClient: QueryClient;
 let apiMockScope: nock.Scope;
@@ -137,5 +138,14 @@ describe("Flexjar", () => {
     expect(sendFeedbackMutation.state.variables).to.deep.equal(
       expectedFlexjarDTO
     );
+  });
+
+  it("sets localstorage when sending feedback to flexjar", () => {
+    renderFlexjar();
+    clickButton("Gi oss tilbakemelding");
+    clickButton("Horribel");
+    clickButton("Send tilbakemelding");
+
+    expect(localStorage.getItem(StoreKey.FLEXJAR_FEEDBACK_DATE)).to.not.be.null;
   });
 });

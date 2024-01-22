@@ -25,18 +25,20 @@ const copyProps = (src, target) => {
   Object.defineProperties(target, props);
 };
 
-let temp = null;
-const localS = {
-  getItem() {
-    return temp;
-  },
-  setItem(key, value) {
-    temp = value;
-  },
-};
+function localStorage() {
+  let storage = {};
+  return {
+    getItem: function (key) {
+      return key in storage ? storage[key] : null;
+    },
+    setItem: function (key, value) {
+      storage[key] = value || "";
+    },
+  };
+}
 
 global.HTMLElement = window.HTMLElement;
-global.localStorage = localS;
+global.localStorage = localStorage();
 global.XMLHttpRequest = window.XMLHttpRequest;
 
 global.window = window;
