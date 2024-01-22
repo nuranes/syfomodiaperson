@@ -20,7 +20,10 @@ import { expectedInnkallingDocuments } from "../testDataDocuments";
 import sinon from "sinon";
 import { queryClientWithMockData } from "../../testQueryClient";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
-import { VIRKSOMHET_UTEN_NARMESTE_LEDER } from "../../../mock/common/mockConstants";
+import {
+  LEDERE_DEFAULT,
+  VIRKSOMHET_UTEN_NARMESTE_LEDER,
+} from "../../../mock/common/mockConstants";
 import { DialogmoteInnkallingDTO } from "@/data/dialogmote/types/dialogmoteTypes";
 import { renderWithRouter } from "../../testRouterUtils";
 import { oppfolgingstilfellePersonQueryKeys } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
@@ -187,6 +190,39 @@ describe("DialogmoteInnkallingSkjema", () => {
       .not.exist;
     expect(screen.queryByText("Nærmeste leder")).to.not.exist;
     expect(screen.queryByText("Epost")).to.not.exist;
+  });
+
+  it("velger virksomhet automatisk hvis det kun er én virksomhet", () => {
+    const oppfolgingstilfellePerson: OppfolgingstilfellePersonDTO = {
+      personIdent: arbeidstaker.personident,
+      oppfolgingstilfelleList: [],
+    };
+    queryClient.setQueryData(
+      oppfolgingstilfellePersonQueryKeys.oppfolgingstilfelleperson(
+        arbeidstaker.personident
+      ),
+      () => oppfolgingstilfellePerson
+    );
+    queryClient.setQueryData(
+      ledereQueryKeys.ledere(arbeidstaker.personident),
+      () => [LEDERE_DEFAULT[0]]
+    );
+    stubInnkallingApi(apiMock());
+
+    renderDialogmoteInnkallingSkjema();
+    const virksomhetSelect = screen.getByRole("radio", {
+      name: `Fant ikke virksomhetsnavn for ${arbeidsgiver.orgnr}`,
+    });
+    const virksomhetRadio = screen.getByRole("radio", {
+      name: "Oppgi virksomhetsnummer",
+    });
+
+    expect(virksomhetSelect).to.exist;
+    expect(virksomhetRadio).to.exist;
+    expect(screen.queryByText(/Det er ikke registrert en nærmeste leder/i)).to
+      .not.exist;
+    expect(screen.getByText("Nærmeste leder")).to.exist;
+    expect(screen.getByText("Epost")).to.exist;
   });
 
   it("trimmer videolenke i innkallingen som sendes til api", () => {

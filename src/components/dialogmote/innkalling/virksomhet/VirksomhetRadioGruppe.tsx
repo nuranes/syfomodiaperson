@@ -36,8 +36,20 @@ export const VirksomhetRadioGruppe = ({
     velgVirksomhet("");
   };
 
+  let defaultVirksomhet: string | undefined = undefined;
+  if (virksomheter.length === 1) {
+    defaultVirksomhet = virksomheter[0];
+    removeInputAndChooseVirksomhet(defaultVirksomhet);
+  }
+
   return (
-    <RadioGroup legend={label} size="small" id={id} error={error}>
+    <RadioGroup
+      legend={label}
+      size="small"
+      id={id}
+      error={error}
+      defaultValue={defaultVirksomhet}
+    >
       {virksomheter.map((virksomhetsnummer, index) => (
         <VirksomhetRadio
           key={index}
