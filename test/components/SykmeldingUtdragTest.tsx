@@ -1,6 +1,6 @@
 import React from "react";
 import { expect } from "chai";
-import { SykmeldingUtdragContainer } from "@/components/speiling/sykepengsoknader/SykmeldingUtdragContainer";
+import { SykmeldingUtdragContainer } from "@/sider/sykepengsoknader/SykmeldingUtdragContainer";
 import {
   mockSykepengeSoknad,
   mockSykmeldinger,
