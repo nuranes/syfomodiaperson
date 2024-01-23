@@ -236,23 +236,25 @@ export const sykmeldingerInnenforOppfolgingstilfelle = (
   });
 };
 
-export const sykmeldingerSortertNyestTilEldst = (
+export function sykmeldingerSortertNyestTilEldstPeriode(
   sykmeldinger: SykmeldingOldFormat[]
-): SykmeldingOldFormat[] => {
+): SykmeldingOldFormat[] {
   return sykmeldinger.sort((sykmelding1, sykmelding2) => {
     if (
-      sykmelding1.bekreftelse.utstedelsesdato &&
-      sykmelding2.bekreftelse.utstedelsesdato
+      sykmelding1.mulighetForArbeid.perioder.length > 0 &&
+      sykmelding2.mulighetForArbeid.perioder.length > 0
     ) {
-      const dato1 = new Date(sykmelding1.bekreftelse.utstedelsesdato);
-      const dato2 = new Date(sykmelding2.bekreftelse.utstedelsesdato);
-
+      const dato1 = new Date(
+        tidligsteFom(sykmelding1.mulighetForArbeid.perioder)
+      );
+      const dato2 = new Date(
+        tidligsteFom(sykmelding2.mulighetForArbeid.perioder)
+      );
       return dato1 > dato2 ? -1 : 1;
     }
-
     return 0;
   });
-};
+}
 
 interface SykmeldingerPerVirksomhet {
   [virksomhetsnummer: string]: SykmeldingOldFormat[];
@@ -327,7 +329,7 @@ export const latestSykmeldingForVirksomhet = (
       sykmelding.mottakendeArbeidsgiver?.virksomhetsnummer === virksomhetsnummer
   );
 
-  return sykmeldingerSortertNyestTilEldst(sykmeldingerForVirksomhet)[0];
+  return sykmeldingerSortertNyestTilEldstPeriode(sykmeldingerForVirksomhet)[0];
 };
 
 export const skalVisesSomAktivSykmelding = (sykmld: SykmeldingOldFormat) =>
@@ -347,7 +349,8 @@ export const skalVisesSomTidligereSykmelding = (sykmld: SykmeldingOldFormat) =>
 export const getDiagnosekodeFromLatestSykmelding = (
   sykmeldinger: SykmeldingOldFormat[]
 ) => {
-  const latestSykmelding = sykmeldingerSortertNyestTilEldst(sykmeldinger)[0];
+  const latestSykmelding =
+    sykmeldingerSortertNyestTilEldstPeriode(sykmeldinger)[0];
   const latestDiagnosekode =
     latestSykmelding?.diagnose?.hoveddiagnose?.diagnosekode;
 

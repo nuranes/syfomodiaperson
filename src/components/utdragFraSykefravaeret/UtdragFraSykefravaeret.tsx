@@ -7,7 +7,7 @@ import {
   sykmeldingerGruppertEtterVirksomhet,
   sykmeldingerInnenforOppfolgingstilfelle,
   sykmeldingerMedStatusSendt,
-  sykmeldingerSortertNyestTilEldst,
+  sykmeldingerSortertNyestTilEldstPeriode,
   sykmeldingerUtenArbeidsgiver,
   sykmeldingperioderSortertEldstTilNyest,
 } from "@/utils/sykmeldinger/sykmeldingUtils";
@@ -161,10 +161,10 @@ export const SykmeldingerForVirksomhet = ({
       innsendteSykmeldinger,
       latestOppfolgingstilfelle
     );
-  const sykmeldingerSortertPaaUtstedelsesdato =
-    sykmeldingerSortertNyestTilEldst(sykmeldingerIOppfolgingstilfellet);
+  const sykmeldingerSortertPaaStartDato =
+    sykmeldingerSortertNyestTilEldstPeriode(sykmeldingerIOppfolgingstilfellet);
   const sykmeldingerSortertPaaVirksomhet = sykmeldingerGruppertEtterVirksomhet(
-    sykmeldingerSortertPaaUtstedelsesdato
+    sykmeldingerSortertPaaStartDato
   );
 
   return (
@@ -242,9 +242,8 @@ const UtdragFraSykefravaeret = () => {
       innsendteSykmeldingerUtenArbeidsgiver,
       latestOppfolgingstilfelle
     );
-  const sykmeldingerSortertPaUtstedelsesdato = sykmeldingerSortertNyestTilEldst(
-    sykmeldingerIOppfolgingstilfellet
-  );
+  const sykmeldingerSortertPaSykmeldingsperiode =
+    sykmeldingerSortertNyestTilEldstPeriode(sykmeldingerIOppfolgingstilfellet);
 
   return (
     <Panel className="mb-4 h-min">
@@ -258,10 +257,10 @@ const UtdragFraSykefravaeret = () => {
         sykmeldinger={sykmeldinger}
       />
 
-      {sykmeldingerSortertPaUtstedelsesdato?.length > 0 && (
+      {sykmeldingerSortertPaSykmeldingsperiode?.length > 0 && (
         <SykmeldingerUtenArbeidsgiver
           sykmeldingerSortertPaUtstedelsesdato={
-            sykmeldingerSortertPaUtstedelsesdato
+            sykmeldingerSortertPaSykmeldingsperiode
           }
         />
       )}

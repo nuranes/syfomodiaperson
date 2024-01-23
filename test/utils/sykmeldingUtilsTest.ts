@@ -17,7 +17,7 @@ import {
   sykmeldingerGruppertEtterVirksomhet,
   sykmeldingerInnenforOppfolgingstilfelle,
   sykmeldingerMedStatusSendt,
-  sykmeldingerSortertNyestTilEldst,
+  sykmeldingerSortertNyestTilEldstPeriode,
   sykmeldingperioderSortertEldstTilNyest,
 } from "@/utils/sykmeldinger/sykmeldingUtils";
 import { ANTALL_MS_DAG } from "@/utils/datoUtils";
@@ -593,59 +593,69 @@ describe("sykmeldingUtils", () => {
     });
   });
 
-  describe("sykmeldingerSortertNyestTilEldst", () => {
-    it("skal returnere en liste med sykmeldinger sortert etter utstedelsesdato", () => {
+  describe("sykmeldingerSortertNyestTilEldstPeriode", () => {
+    it("skal returnere en liste med sykmeldinger sortert etter start på sykmeldingsperiode", () => {
       const sykmeldinger: SykmeldingOldFormat[] = [
         {
           ...baseSykmelding,
-          bekreftelse: {
-            utstedelsesdato: new Date("2019-01-05"),
+          mulighetForArbeid: {
+            perioder: [
+              { fom: new Date("2019-01-05"), tom: new Date("2019-01-05") },
+            ],
           },
         },
         {
           ...baseSykmelding,
-          bekreftelse: {
-            utstedelsesdato: new Date("2019-01-01"),
+          mulighetForArbeid: {
+            perioder: [
+              { fom: new Date("2019-01-01"), tom: new Date("2019-01-01") },
+            ],
           },
         },
         {
           ...baseSykmelding,
-          bekreftelse: {
-            utstedelsesdato: new Date("2019-01-02"),
+          mulighetForArbeid: {
+            perioder: [
+              { fom: new Date("2019-01-02"), tom: new Date("2019-01-02") },
+            ],
           },
         },
         {
           ...baseSykmelding,
-          bekreftelse: {
-            utstedelsesdato: new Date("2019-01-04"),
+          mulighetForArbeid: {
+            perioder: [
+              { fom: new Date("2019-01-04"), tom: new Date("2019-01-04") },
+            ],
           },
         },
         {
           ...baseSykmelding,
-          bekreftelse: {
-            utstedelsesdato: new Date("2019-01-03"),
+          mulighetForArbeid: {
+            perioder: [
+              { fom: new Date("2019-01-03"), tom: new Date("2019-01-03") },
+            ],
           },
         },
       ];
 
       const sykmeldingerSortertPaaUtstedelsesdato =
-        sykmeldingerSortertNyestTilEldst(sykmeldinger);
+        sykmeldingerSortertNyestTilEldstPeriode(sykmeldinger);
 
       expect(sykmeldingerSortertPaaUtstedelsesdato.length).to.equal(5);
       expect(
-        sykmeldingerSortertPaaUtstedelsesdato[0].bekreftelse.utstedelsesdato?.getTime()
+        sykmeldingerSortertPaaUtstedelsesdato[0].mulighetForArbeid.perioder[0].fom.getTime()
       ).to.equal(new Date("2019-01-05").getTime());
       expect(
-        sykmeldingerSortertPaaUtstedelsesdato[1].bekreftelse.utstedelsesdato?.getTime()
+        sykmeldingerSortertPaaUtstedelsesdato[1].mulighetForArbeid.perioder[0].fom.getTime()
       ).to.equal(new Date("2019-01-04").getTime());
       expect(
-        sykmeldingerSortertPaaUtstedelsesdato[2].bekreftelse.utstedelsesdato?.getTime()
+        sykmeldingerSortertPaaUtstedelsesdato[2].mulighetForArbeid.perioder[0].fom.getTime()
       ).to.equal(new Date("2019-01-03").getTime());
       expect(
-        sykmeldingerSortertPaaUtstedelsesdato[3].bekreftelse.utstedelsesdato?.getTime()
+        sykmeldingerSortertPaaUtstedelsesdato[3].mulighetForArbeid.perioder[0].fom.getTime()
       ).to.equal(new Date("2019-01-02").getTime());
       expect(
-        sykmeldingerSortertPaaUtstedelsesdato[4].bekreftelse.utstedelsesdato?.getTime()
+        sykmeldingerSortertPaaUtstedelsesdato[4].mulighetForArbeid.perioder[0].fom.getTime()
       ).to.equal(new Date("2019-01-01").getTime());
     });
   });
@@ -948,8 +958,8 @@ describe("sykmeldingUtils", () => {
         {
           ...baseSykmelding,
           id: "2",
-          bekreftelse: {
-            utstedelsesdato: earliestDate,
+          mulighetForArbeid: {
+            perioder: [{ fom: earliestDate, tom: earliestDate }],
           },
           mottakendeArbeidsgiver: {
             virksomhetsnummer: wantedVirksomhetsnummer,
@@ -960,8 +970,8 @@ describe("sykmeldingUtils", () => {
         {
           ...baseSykmelding,
           id: wantedSykmeldingId,
-          bekreftelse: {
-            utstedelsesdato: latestDate,
+          mulighetForArbeid: {
+            perioder: [{ fom: latestDate, tom: latestDate }],
           },
           mottakendeArbeidsgiver: {
             virksomhetsnummer: wantedVirksomhetsnummer,

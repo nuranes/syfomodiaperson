@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useSykmeldingerQuery } from "@/data/sykmelding/sykmeldingQueryHooks";
-import { sykmeldingerSortertNyestTilEldst } from "@/utils/sykmeldinger/sykmeldingUtils";
+import { sykmeldingerSortertNyestTilEldstPeriode } from "@/utils/sykmeldinger/sykmeldingUtils";
 import { Tooltip } from "@navikt/ds-react";
 import { MedisinskrinImage } from "../../../../img/ImageComponents";
 
@@ -19,7 +19,8 @@ const KodeSpan = styled.span`
 
 export const Diagnosekode = () => {
   const { sykmeldinger } = useSykmeldingerQuery();
-  const sortedSykmeldinger = sykmeldingerSortertNyestTilEldst(sykmeldinger);
+  const sortedSykmeldinger =
+    sykmeldingerSortertNyestTilEldstPeriode(sykmeldinger);
   const latestSykmelding = sortedSykmeldinger[0];
   const diagnosekode = latestSykmelding?.diagnose?.hoveddiagnose?.diagnosekode;
 
