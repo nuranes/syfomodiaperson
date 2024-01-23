@@ -1,5 +1,5 @@
 import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
-import { AvlysDialogmoteSkjemaValues } from "@/components/dialogmote/avlys/AvlysDialogmoteSkjema";
+import { AvlysDialogmoteSkjemaValues } from "@/sider/mote/components/avlys/AvlysDialogmoteSkjema";
 import { avlysningTexts } from "@/data/dialogmote/dialogmoteTexts";
 import { tilDatoMedManedNavnOgKlokkeslettWithComma } from "@/utils/datoUtils";
 import {

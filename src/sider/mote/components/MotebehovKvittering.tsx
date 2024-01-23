@@ -11,8 +11,8 @@ import {
   MotebehovIkkeSvartImage,
   MotebehovKanIkkeImage,
   MotebehovKanImage,
-} from "../../../img/ImageComponents";
-import { PaddingSize } from "../Layout";
+} from "../../../../img/ImageComponents";
+import { PaddingSize } from "../../../components/Layout";
 import { ledereUtenMotebehovsvar } from "@/utils/ledereUtils";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { NarmesteLederRelasjonDTO } from "@/data/leder/ledereTypes";

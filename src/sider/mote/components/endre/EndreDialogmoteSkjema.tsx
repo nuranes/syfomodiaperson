@@ -10,11 +10,11 @@ import {
   validerVideoLink,
 } from "@/utils/valideringUtils";
 import { useFeilUtbedret } from "@/hooks/useFeilUtbedret";
-import DialogmoteTidOgSted from "../DialogmoteTidOgSted";
+import DialogmoteTidOgSted from "../../../../components/dialogmote/DialogmoteTidOgSted";
 import EndreDialogmoteTekster, {
   MAX_LENGTH_ENDRE_BEGRUNNELSE,
 } from "./EndreDialogmoteTekster";
-import { SkjemaFeiloppsummering } from "../../SkjemaFeiloppsummering";
+import { SkjemaFeiloppsummering } from "../../../../components/SkjemaFeiloppsummering";
 import { useTidStedDocument } from "@/hooks/dialogmote/document/useTidStedDocument";
 import {
   DialogmoteDTO,

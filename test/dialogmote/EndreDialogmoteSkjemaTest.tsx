@@ -2,7 +2,7 @@ import { dialogmoteRoutePath } from "@/routers/AppRouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import { texts as valideringsTexts } from "@/utils/valideringUtils";
-import EndreDialogmoteSkjema from "@/components/dialogmote/endre/EndreDialogmoteSkjema";
+import EndreDialogmoteSkjema from "@/sider/mote/components/endre/EndreDialogmoteSkjema";
 import {
   changeTextInput,
   clickButton,
@@ -15,7 +15,7 @@ import { expect } from "chai";
 import { texts as skjemaFeilOppsummeringTexts } from "@/components/SkjemaFeiloppsummering";
 import { apiMock } from "../stubs/stubApi";
 import { stubEndreApi } from "../stubs/stubIsdialogmote";
-import { texts as endringSkjemaTexts } from "../../src/components/dialogmote/endre/EndreDialogmoteTekster";
+import { texts as endringSkjemaTexts } from "@/sider/mote/components/endre/EndreDialogmoteTekster";
 import {
   dialogmote,
   dialogmoteMedBehandler,
@@ -29,7 +29,7 @@ import {
 } from "@/data/dialogmote/types/dialogmoteTypes";
 import { fireEvent, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { MAX_LENGTH_ENDRE_BEGRUNNELSE } from "@/components/dialogmote/endre/EndreDialogmoteTekster";
+import { MAX_LENGTH_ENDRE_BEGRUNNELSE } from "@/sider/mote/components/endre/EndreDialogmoteTekster";
 import { expectedEndringDocuments } from "./testDataDocuments";
 import sinon from "sinon";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";

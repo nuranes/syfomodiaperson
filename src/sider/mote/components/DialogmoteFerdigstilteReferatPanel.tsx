@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
 import { DialogmotePanel } from "@/sider/mote/components/DialogmotePanel";
-import { BlueDocumentImage } from "../../../img/ImageComponents";
+import { BlueDocumentImage } from "../../../../img/ImageComponents";
 import dayjs from "dayjs";
 import {
   tilDatoMedManedNavnOgKlokkeslett,

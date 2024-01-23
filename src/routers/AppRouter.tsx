@@ -6,13 +6,12 @@ import SykepengesoknaderContainer from "@/sider/sykepengsoknader/container/Sykep
 import DinSykmeldingContainer from "@/sider/sykmeldinger/container/DinSykmeldingContainer";
 import HistorikkContainer from "@/sider/historikk/container/HistorikkContainer";
 import { erGyldigFodselsnummer } from "@/utils/frnValideringUtils";
-import MotelandingssideContainer from "@/sider/mote/container/MotelandingssideContainer";
 import NokkelinformasjonContainer from "@/sider/nokkelinformasjon/container/NokkelinformasjonContainer";
 import DialogmoteInnkallingContainer from "../components/dialogmote/innkalling/DialogmoteInnkallingContainer";
-import AvlysDialogmoteContainer from "../components/dialogmote/avlys/AvlysDialogmoteContainer";
+import AvlysDialogmoteContainer from "@/sider/mote/components/avlys/AvlysDialogmoteContainer";
 import AppSpinner from "../components/AppSpinner";
 import DialogmoteReferatContainer from "../components/dialogmote/referat/DialogmoteReferatContainer";
-import EndreDialogmoteContainer from "../components/dialogmote/endre/EndreDialogmoteContainer";
+import EndreDialogmoteContainer from "@/sider/mote/components/endre/EndreDialogmoteContainer";
 import { SykepengesoknadSide } from "@/sider/sykepengsoknader/container/SykepengesoknadSide";
 import { OppfoelgingsPlanerOversiktContainer } from "@/sider/oppfolgingsplan/container/OppfoelgingsPlanerOversiktContainer";
 import { OppfoelgingsplanContainer } from "@/sider/oppfolgingsplan/container/OppfoelgingsplanContainer";
@@ -24,6 +23,7 @@ import { PersonsokSide } from "@/components/PersonsokSide";
 import { AktivitetskravContainer } from "@/sider/aktivitetskrav/AktivitetskravContainer";
 import { BehandlerdialogContainer } from "@/sider/behandlerdialog/BehandlerdialogContainer";
 import * as Amplitude from "@/utils/amplitude";
+import Motelandingsside from "@/sider/mote/Motelandingsside";
 
 export const appRoutePath = "/sykefravaer";
 
@@ -56,10 +56,7 @@ const AktivBrukerRouter = (): ReactElement => {
             path={`${appRoutePath}/logg`}
             element={<HistorikkContainer />}
           />
-          <Route
-            path={moteoversiktRoutePath}
-            element={<MotelandingssideContainer />}
-          />
+          <Route path={moteoversiktRoutePath} element={<Motelandingsside />} />
           <Route
             path={dialogmoteRoutePath}
             element={<DialogmoteInnkallingContainer />}

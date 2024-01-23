@@ -1,5 +1,5 @@
 import React from "react";
-import { DialogmoteSideContainer } from "../DialogmoteSideContainer";
+import { DialogmoteSideContainer } from "../../../../components/dialogmote/DialogmoteSideContainer";
 import EndreDialogmoteSkjema from "./EndreDialogmoteSkjema";
 
 const texts = {

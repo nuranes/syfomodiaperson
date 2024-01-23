@@ -1,6 +1,6 @@
 import React from "react";
 import { expect } from "chai";
-import Motelandingsside from "@/sider/mote/components/Motelandingsside";
+import Motelandingsside from "@/sider/mote/Motelandingsside";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { dialogmoterQueryKeys } from "@/data/dialogmote/dialogmoteQueryHooks";
 import {
@@ -55,76 +55,71 @@ const renderMotelandingsside = () =>
     </QueryClientProvider>
   );
 
-describe("MotelandingssideContainer", () => {
-  describe("MotelandingssideSide", () => {
-    beforeEach(() => {
-      queryClient = queryClientWithAktivBruker();
-      queryClient.setQueryData(
-        brukerinfoQueryKeys.brukerinfo(ARBEIDSTAKER_DEFAULT.personIdent),
-        () => brukerinfoMock
-      );
-      queryClient.setQueryData(dialogmoterQueryKeys.dialogmoter(fnr), () => []);
-      queryClient.setQueryData(
-        oppfolgingsplanQueryKeys.oppfolgingsplaner(fnr),
-        () => []
-      );
-      queryClient.setQueryData(
-        motebehovQueryKeys.motebehov(fnr),
-        () => motebehovData
-      );
-      queryClient.setQueryData(
-        ledereQueryKeys.ledere(fnr),
-        () => LEDERE_DEFAULT
-      );
-      queryClient.setQueryData(dialogmoteunntakQueryKeys.unntak(fnr), () => []);
-      apiMockScope = apiMock();
+describe("MotelandingssideSide", () => {
+  beforeEach(() => {
+    queryClient = queryClientWithAktivBruker();
+    queryClient.setQueryData(
+      brukerinfoQueryKeys.brukerinfo(ARBEIDSTAKER_DEFAULT.personIdent),
+      () => brukerinfoMock
+    );
+    queryClient.setQueryData(dialogmoterQueryKeys.dialogmoter(fnr), () => []);
+    queryClient.setQueryData(
+      oppfolgingsplanQueryKeys.oppfolgingsplaner(fnr),
+      () => []
+    );
+    queryClient.setQueryData(
+      motebehovQueryKeys.motebehov(fnr),
+      () => motebehovData
+    );
+    queryClient.setQueryData(ledereQueryKeys.ledere(fnr), () => LEDERE_DEFAULT);
+    queryClient.setQueryData(dialogmoteunntakQueryKeys.unntak(fnr), () => []);
+    apiMockScope = apiMock();
+  });
+
+  afterEach(() => {
+    nock.cleanAll();
+  });
+
+  it("Skal vise AppSpinner når henter data", () => {
+    stubTilgangApi(apiMockScope);
+    renderMotelandingsside();
+
+    expect(screen.getByLabelText("Vent litt mens siden laster")).to.exist;
+  });
+
+  it("Skal vise AppSpinner når henter tilgang", async () => {
+    stubTilgangApi(apiMockScope);
+    renderMotelandingsside();
+
+    expect(await screen.findByLabelText("Vent litt mens siden laster")).to
+      .exist;
+  });
+
+  it("Skal vise feilmelding hvis ikke tilgang", async () => {
+    stubTilgangApi(apiMockScope, {
+      erGodkjent: false,
+      erAvslatt: true,
     });
+    renderMotelandingsside();
 
-    afterEach(() => {
-      nock.cleanAll();
-    });
+    expect(
+      await screen.findByRole("heading", {
+        name: "Du har ikke tilgang til denne tjenesten",
+      })
+    ).to.exist;
+  });
 
-    it("Skal vise AppSpinner når henter data", () => {
-      stubTilgangApi(apiMockScope);
-      renderMotelandingsside();
+  it("Skal vise Planlegg nytt dialogmøte når det ikke finnes møter", () => {
+    queryClient.setQueryData(
+      tilgangQueryKeys.tilgang(fnr),
+      () => tilgangBrukerMock
+    );
+    renderMotelandingsside();
 
-      expect(screen.getByLabelText("Vent litt mens siden laster")).to.exist;
-    });
-
-    it("Skal vise AppSpinner når henter tilgang", async () => {
-      stubTilgangApi(apiMockScope);
-      renderMotelandingsside();
-
-      expect(await screen.findByLabelText("Vent litt mens siden laster")).to
-        .exist;
-    });
-
-    it("Skal vise feilmelding hvis ikke tilgang", async () => {
-      stubTilgangApi(apiMockScope, {
-        erGodkjent: false,
-        erAvslatt: true,
-      });
-      renderMotelandingsside();
-
-      expect(
-        await screen.findByRole("heading", {
-          name: "Du har ikke tilgang til denne tjenesten",
-        })
-      ).to.exist;
-    });
-
-    it("Skal vise Planlegg nytt dialogmøte når det ikke finnes møter", () => {
-      queryClient.setQueryData(
-        tilgangQueryKeys.tilgang(fnr),
-        () => tilgangBrukerMock
-      );
-      renderMotelandingsside();
-
-      expect(
-        screen.getByRole("heading", {
-          name: "Planlegg nytt dialogmøte",
-        })
-      ).to.exist;
-    });
+    expect(
+      screen.getByRole("heading", {
+        name: "Planlegg nytt dialogmøte",
+      })
+    ).to.exist;
   });
 });

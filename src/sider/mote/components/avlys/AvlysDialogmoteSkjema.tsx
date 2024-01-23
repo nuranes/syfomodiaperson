@@ -6,11 +6,11 @@ import {
   AvlysDialogmoteDTO,
   DialogmoteDTO,
 } from "@/data/dialogmote/types/dialogmoteTypes";
-import { SkjemaFeiloppsummering } from "../../SkjemaFeiloppsummering";
+import { SkjemaFeiloppsummering } from "../../../../components/SkjemaFeiloppsummering";
 import { useFeilUtbedret } from "@/hooks/useFeilUtbedret";
 import { validerBegrunnelser } from "@/utils/valideringUtils";
 import { useAvlysningDocument } from "@/hooks/dialogmote/document/useAvlysningDocument";
-import { ForhandsvisningModal } from "../../ForhandsvisningModal";
+import { ForhandsvisningModal } from "../../../../components/ForhandsvisningModal";
 import { moteoversiktRoutePath } from "@/routers/AppRouter";
 import { useAvlysDialogmote } from "@/data/dialogmote/useAvlysDialogmote";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";

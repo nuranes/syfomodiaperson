@@ -3,7 +3,7 @@ import { expect } from "chai";
 import AvlysDialogmoteSkjema, {
   MAX_LENGTH_AVLYS_BEGRUNNELSE,
   texts as avlysningSkjemaTexts,
-} from "../../src/components/dialogmote/avlys/AvlysDialogmoteSkjema";
+} from "@/sider/mote/components/avlys/AvlysDialogmoteSkjema";
 import { texts as valideringsTexts } from "@/utils/valideringUtils";
 import { texts as skjemaFeilOppsummeringTexts } from "../../src/components/SkjemaFeiloppsummering";
 import {

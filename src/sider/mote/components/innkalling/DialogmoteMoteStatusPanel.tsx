@@ -15,7 +15,7 @@ import dayjs from "dayjs";
 import { useDialogmoteReferat } from "@/hooks/dialogmote/useDialogmoteReferat";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
 import { narmesteLederForVirksomhet } from "@/utils/ledereUtils";
-import { NoNarmesteLederAlert } from "@/sider/mote/NoNarmestLederAlert";
+import { NoNarmesteLederAlert } from "@/sider/mote/components/innkalling/NoNarmestLederAlert";
 import Knapp, { Hovedknapp } from "nav-frontend-knapper";
 import VurderOppgaveForDialogmotesvarKnapp from "@/sider/mote/components/innkalling/VurderOppgaveForDialogmotesvarKnapp";
 import { usePersonoppgaverQuery } from "@/data/personoppgave/personoppgaveQueryHooks";

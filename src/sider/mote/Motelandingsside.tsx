@@ -1,21 +1,24 @@
 import React from "react";
-import Sidetopp from "../../../components/Sidetopp";
-import UtdragFraSykefravaeretPanel from "../../../components/utdragFraSykefravaeret/UtdragFraSykefravaeret";
-import { InnkallingDialogmotePanel } from "./innkalling/InnkallingDialogmotePanel";
-import SideLaster from "../../../components/SideLaster";
-import { DialogmoteOnskePanel } from "../../../components/motebehov/DialogmoteOnskePanel";
-import { MotehistorikkPanel } from "../../../components/dialogmote/motehistorikk/MotehistorikkPanel";
+import Sidetopp from "../../components/Sidetopp";
+import UtdragFraSykefravaeretPanel from "../../components/utdragFraSykefravaeret/UtdragFraSykefravaeret";
+import { InnkallingDialogmotePanel } from "./components/innkalling/InnkallingDialogmotePanel";
+import SideLaster from "../../components/SideLaster";
+import { DialogmoteOnskePanel } from "./components/DialogmoteOnskePanel";
+import { MotehistorikkPanel } from "../../components/dialogmote/motehistorikk/MotehistorikkPanel";
 import { useDialogmoterQuery } from "@/data/dialogmote/dialogmoteQueryHooks";
 import { useOppfolgingsplanerQuery } from "@/data/oppfolgingsplan/oppfolgingsplanQueryHooks";
 import { useMotebehovQuery } from "@/data/motebehov/motebehovQueryHooks";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
-import { DialogmoteFerdigstilteReferatPanel } from "@/components/dialogmote/DialogmoteFerdigstilteReferatPanel";
+import { DialogmoteFerdigstilteReferatPanel } from "@/sider/mote/components/DialogmoteFerdigstilteReferatPanel";
 import { DialogmoteStatus } from "@/data/dialogmote/types/dialogmoteTypes";
 import { useDialogmoteunntakQuery } from "@/data/dialogmotekandidat/dialogmoteunntakQueryHooks";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import * as Tredelt from "@/sider/TredeltSide";
+import { Menypunkter } from "@/navigation/menypunkterTypes";
+import Side from "@/sider/Side";
 
 const texts = {
+  pageTitle: "Møtelandingsside",
   dialogmoter: "Dialogmøter",
 };
 
@@ -60,36 +63,38 @@ export const Motelandingsside = () => {
     historiskeDialogmoter.length > 0 || dialogmoteunntak.length > 0;
 
   return (
-    <SideLaster henter={henter} hentingFeilet={hentingFeilet}>
-      <Sidetopp tittel={texts.dialogmoter} />
+    <Side tittel={texts.pageTitle} aktivtMenypunkt={Menypunkter.DIALOGMOTE}>
+      <SideLaster henter={henter} hentingFeilet={hentingFeilet}>
+        <Sidetopp tittel={texts.dialogmoter} />
 
-      <Tredelt.Container>
-        <Tredelt.FirstColumn>
-          <DialogmoteOnskePanel
-            motebehovData={motebehov}
-            ledereData={currentLedere}
-            sykmeldt={navbruker}
-          />
-
-          <InnkallingDialogmotePanel aktivtDialogmote={aktivtDialogmote} />
-          <DialogmoteFerdigstilteReferatPanel
-            ferdigstilteMoter={historiskeDialogmoter.filter(
-              (mote) => mote.status === DialogmoteStatus.FERDIGSTILT
-            )}
-          />
-          <UtdragFraSykefravaeretPanel />
-        </Tredelt.FirstColumn>
-
-        <Tredelt.SecondColumn>
-          {isMotehistorikkVisible && (
-            <MotehistorikkPanel
-              historiskeMoter={historiskeDialogmoter}
-              dialogmoteunntak={dialogmoteunntak}
+        <Tredelt.Container>
+          <Tredelt.FirstColumn>
+            <DialogmoteOnskePanel
+              motebehovData={motebehov}
+              ledereData={currentLedere}
+              sykmeldt={navbruker}
             />
-          )}
-        </Tredelt.SecondColumn>
-      </Tredelt.Container>
-    </SideLaster>
+
+            <InnkallingDialogmotePanel aktivtDialogmote={aktivtDialogmote} />
+            <DialogmoteFerdigstilteReferatPanel
+              ferdigstilteMoter={historiskeDialogmoter.filter(
+                (mote) => mote.status === DialogmoteStatus.FERDIGSTILT
+              )}
+            />
+            <UtdragFraSykefravaeretPanel />
+          </Tredelt.FirstColumn>
+
+          <Tredelt.SecondColumn>
+            {isMotehistorikkVisible && (
+              <MotehistorikkPanel
+                historiskeMoter={historiskeDialogmoter}
+                dialogmoteunntak={dialogmoteunntak}
+              />
+            )}
+          </Tredelt.SecondColumn>
+        </Tredelt.Container>
+      </SideLaster>
+    </Side>
   );
 };
 

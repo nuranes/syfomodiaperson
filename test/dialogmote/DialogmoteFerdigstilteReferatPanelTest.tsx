@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { DialogmoteFerdigstilteReferatPanel } from "@/components/dialogmote/DialogmoteFerdigstilteReferatPanel";
+import { DialogmoteFerdigstilteReferatPanel } from "@/sider/mote/components/DialogmoteFerdigstilteReferatPanel";
 import React from "react";
 import {
   createFerdigstiltReferat,

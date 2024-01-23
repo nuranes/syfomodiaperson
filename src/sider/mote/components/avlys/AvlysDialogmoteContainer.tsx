@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import AvlysDialogmoteSkjema from "./AvlysDialogmoteSkjema";
-import { DialogmoteSideContainer } from "../DialogmoteSideContainer";
+import { DialogmoteSideContainer } from "../../../../components/dialogmote/DialogmoteSideContainer";
 
 const texts = {
   pageTitle: "Avlys dialogmøte",
