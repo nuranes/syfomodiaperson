@@ -6,6 +6,7 @@ const texts = {
     vurderDialogmoteSenere: "Vurder behov for dialogmøte",
     folgOppEtterNesteSykmelding: "Følg opp etter neste sykmelding",
     vurderTiltakBehov: "Vurder behov for tiltak",
+    vurderArbeidsuforhet: "Vurder §8-4 - Arbeidsuførhet",
     annet: "Annet",
   },
 };
@@ -32,6 +33,7 @@ export enum Oppfolgingsgrunn {
   VURDER_DIALOGMOTE_SENERE = "VURDER_DIALOGMOTE_SENERE",
   FOLG_OPP_ETTER_NESTE_SYKMELDING = "FOLG_OPP_ETTER_NESTE_SYKMELDING",
   VURDER_TILTAK_BEHOV = "VURDER_TILTAK_BEHOV",
+  VURDER_ARBEIDSUTFORHET = "VURDER_ARBEIDSUFORHET",
   ANNET = "ANNET",
 }
 
@@ -48,5 +50,7 @@ export const oppfolgingsgrunnToText = {
     texts.oppfolgingsgrunn.folgOppEtterNesteSykmelding,
   [Oppfolgingsgrunn.VURDER_TILTAK_BEHOV]:
     texts.oppfolgingsgrunn.vurderTiltakBehov,
+  [Oppfolgingsgrunn.VURDER_ARBEIDSUTFORHET]:
+    texts.oppfolgingsgrunn.vurderArbeidsuforhet,
   [Oppfolgingsgrunn.ANNET]: texts.oppfolgingsgrunn.annet,
 };
