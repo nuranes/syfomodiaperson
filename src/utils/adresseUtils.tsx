@@ -134,7 +134,7 @@ const formaterMatrikkeladresse = (matrikkeladresse: Matrikkeladresse) => {
     matrikkeladresse.bruksenhetsnummer || "",
     matrikkeladresse.tilleggsnavn || "",
     `${matrikkeladresse.postnummer || ""} ${matrikkeladresse.poststed || ""}`,
-    matrikkeladresse.kommunenummer || "",
+    "",
     ""
   );
 };
