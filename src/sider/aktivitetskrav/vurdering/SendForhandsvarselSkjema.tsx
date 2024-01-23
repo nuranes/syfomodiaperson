@@ -20,6 +20,8 @@ import { Brevmal } from "@/data/aktivitetskrav/forhandsvarselTexts";
 const texts = {
   title: "Send forhåndsvarsel",
   beskrivelseLabel: "Begrunnelse (obligatorisk)",
+  begrunnelseDescription:
+    "Begrunnelsen din blir en del av en større brevmal. Åpne forhåndsvisning for å se hele varselet.",
   forhandsvisning: "Forhåndsvisning",
   forhandsvisningLabel: "Forhåndsvis forhåndsvarselet",
   missingBeskrivelse: "Vennligst angi begrunnelse",
@@ -122,6 +124,7 @@ export const SendForhandsvarselSkjema = ({
         })}
         value={watch("begrunnelse")}
         label={texts.beskrivelseLabel}
+        description={texts.begrunnelseDescription}
         error={errors.begrunnelse && texts.missingBeskrivelse}
         size="small"
         minRows={6}
