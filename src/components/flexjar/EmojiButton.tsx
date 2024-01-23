@@ -1,6 +1,4 @@
 import React from "react";
-import * as Amplitude from "@/utils/amplitude";
-import { EventType } from "@/utils/amplitude";
 import { Label } from "@navikt/ds-react";
 import { emojis, EmojiType } from "@/components/flexjar/feedbackEmojis";
 
@@ -23,13 +21,6 @@ export const EmojiButton = ({
       setSelectedEmojiType(undefined);
     } else {
       setSelectedEmojiType(emojiType);
-      Amplitude.logEvent({
-        type: EventType.ButtonClick,
-        data: {
-          tekst: `${emoji.score}`,
-          url: window.location.href,
-        },
-      });
     }
   };
 

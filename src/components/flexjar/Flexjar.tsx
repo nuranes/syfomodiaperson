@@ -17,6 +17,8 @@ import { ChevronDownIcon, ChevronUpIcon } from "@navikt/aksel-icons";
 import { defaultErrorTexts } from "@/api/errors";
 import { emojis, EmojiType } from "@/components/flexjar/feedbackEmojis";
 import { StoreKey, useLocalStorageState } from "@/hooks/useLocalStorageState";
+import * as Amplitude from "@/utils/amplitude";
+import { EventType } from "@/utils/amplitude";
 
 const texts = {
   apneKnapp: "Gi oss tilbakemelding",
@@ -59,7 +61,16 @@ export const Flexjar = ({ side }: FlexjarProps) => {
         app: "syfomodiaperson",
       };
       sendFeedback.mutate(body, {
-        onSuccess: () => setFeedbackDate(new Date()),
+        onSuccess: () => {
+          setFeedbackDate(new Date());
+          Amplitude.logEvent({
+            type: EventType.ButtonClick,
+            data: {
+              tekst: svar,
+              url: window.location.href,
+            },
+          });
+        },
       });
     } else {
       setIsValid(false);
