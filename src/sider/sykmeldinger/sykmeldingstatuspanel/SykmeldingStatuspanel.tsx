@@ -6,7 +6,9 @@ import {
   Orgnummer,
 } from "./SykmeldingStatuspanelOpplysning";
 import GjenapneSykmelding from "./GjenapneSykmelding";
-import Statuspanel, { Statusopplysninger } from "../../Statuspanel";
+import Statuspanel, {
+  Statusopplysninger,
+} from "../../../components/speiling/Statuspanel";
 import {
   SykmeldingOldFormat,
   SykmeldingStatus,

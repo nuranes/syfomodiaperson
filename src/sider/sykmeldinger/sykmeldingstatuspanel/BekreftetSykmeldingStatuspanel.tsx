@@ -8,7 +8,7 @@ import { Frilansersporsmal } from "./SykmeldingStatuspanelOpplysning";
 import Statuspanel, {
   StatusNokkelopplysning,
   Statusopplysninger,
-} from "../../Statuspanel";
+} from "../../../components/speiling/Statuspanel";
 import AngreBekreftSykmelding from "../sykmeldinger/AngreBekreftSykmelding";
 import { tilStorForbokstav } from "@/utils";
 

@@ -8,7 +8,7 @@ import {
   Verktoylinje,
 } from "../../../components/speiling/Verktoylinje";
 import { tilLesbarDatoMedArstall } from "@/utils/datoUtils";
-import SykmeldingNokkelOpplysning from "../../../components/speiling/sykmeldinger/sykmelding/sykmeldingOpplysninger/SykmeldingNokkelOpplysning";
+import SykmeldingNokkelOpplysning from "@/sider/sykmeldinger/sykmelding/sykmeldingOpplysninger/SykmeldingNokkelOpplysning";
 import { SykepengesoknadDTO } from "@/data/sykepengesoknad/types/SykepengesoknadDTO";
 import { erOpprettetSisteAar } from "@/utils/sykepengesoknadUtils";
 import SykepengerOgSaksbehandlingstiderLink from "@/utils/soknad-felles/SykepengerOgSaksbehandlingstiderLink";

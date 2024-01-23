@@ -9,7 +9,7 @@ import {
   tilLesbarPeriodeMedArstall,
 } from "@/utils/datoUtils";
 import { Vis } from "@/utils";
-import { StatusNokkelopplysning } from "../../Statuspanel";
+import { StatusNokkelopplysning } from "../../../components/speiling/Statuspanel";
 import SykmeldingNokkelOpplysning from "../sykmelding/sykmeldingOpplysninger/SykmeldingNokkelOpplysning";
 
 const texts = {

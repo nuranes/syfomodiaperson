@@ -4,7 +4,7 @@ import { tidligsteFom } from "@/utils/periodeUtils";
 import SykmeldingNokkelOpplysning from "./sykmeldingOpplysninger/SykmeldingNokkelOpplysning";
 import SykmeldingPerioder from "./sykmeldingOpplysninger/SykmeldingPerioder";
 import { SykmeldingCheckboxForFelt } from "./sykmeldingOpplysninger/SykmeldingCheckboxForFelt";
-import { SladdImage } from "../../../../../img/ImageComponents";
+import { SladdImage } from "../../../../img/ImageComponents";
 
 const texts = {
   arbeidsgiver: "Arbeidsgiver som legen har skrevet inn",

@@ -3,7 +3,7 @@ import { tilLesbarDatoMedArstall } from "@/utils/datoUtils";
 import {
   StatusNokkelopplysning,
   Statusopplysninger,
-} from "../../../Statuspanel";
+} from "../../../../components/speiling/Statuspanel";
 import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat";
 
 interface AvvistSykmeldingStatuspanelProps {

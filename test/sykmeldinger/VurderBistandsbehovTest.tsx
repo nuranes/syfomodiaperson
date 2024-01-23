@@ -8,7 +8,7 @@ import React from "react";
 import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQueryHooks";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import { personOppgaveUbehandletBehandlerBerOmBistand } from "../../mock/ispersonoppgave/personoppgaveMock";
-import { BistandsbehovOppgaver } from "@/components/speiling/sykmeldinger/VurderBistandsbehov";
+import { BistandsbehovOppgaver } from "@/sider/sykmeldinger/VurderBistandsbehov";
 import { sykmeldingerQueryKeys } from "@/data/sykmelding/sykmeldingQueryHooks";
 import { sykmeldingerMock } from "../../mock/syfosmregister/sykmeldingerMock";
 import { renderWithRouter } from "../testRouterUtils";

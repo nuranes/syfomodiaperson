@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import cn from "classnames";
-import SykmeldingNokkelOpplysning from "./sykmeldinger/sykmelding/sykmeldingOpplysninger/SykmeldingNokkelOpplysning";
+import SykmeldingNokkelOpplysning from "@/sider/sykmeldinger/sykmelding/sykmeldingOpplysninger/SykmeldingNokkelOpplysning";
 
 interface StatusNokkelopplysningProps {
   children?: ReactNode;

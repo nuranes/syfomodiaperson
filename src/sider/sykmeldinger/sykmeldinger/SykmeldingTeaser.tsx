@@ -7,7 +7,7 @@ import {
   ReportProblemTriangleImage,
   SykmeldingerHoverBlaaImage,
   SykmeldingerImage,
-} from "../../../../../img/ImageComponents";
+} from "../../../../img/ImageComponents";
 import {
   SykmeldingOldFormat,
   SykmeldingPeriodeDTO,

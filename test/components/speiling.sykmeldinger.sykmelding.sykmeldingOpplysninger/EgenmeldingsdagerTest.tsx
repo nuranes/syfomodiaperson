@@ -1,6 +1,6 @@
 import React from "react";
 import { expect } from "chai";
-import { Egenmeldingsdager } from "@/components/speiling/sykmeldinger/sykmelding/sykmeldingOpplysninger/Egenmeldingsdager";
+import { Egenmeldingsdager } from "@/sider/sykmeldinger/sykmelding/sykmeldingOpplysninger/Egenmeldingsdager";
 import { render, screen } from "@testing-library/react";
 import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat";
 

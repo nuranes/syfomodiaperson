@@ -1,5 +1,5 @@
 import React from "react";
-import SykmeldingNokkelOpplysning from "@/components/speiling/sykmeldinger/sykmelding/sykmeldingOpplysninger/SykmeldingNokkelOpplysning";
+import SykmeldingNokkelOpplysning from "@/sider/sykmeldinger/sykmelding/sykmeldingOpplysninger/SykmeldingNokkelOpplysning";
 import { tilLesbarDatoMedArstall } from "@/utils/datoUtils";
 import dayjs from "dayjs";
 

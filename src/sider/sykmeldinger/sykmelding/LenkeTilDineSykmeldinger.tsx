@@ -1,5 +1,5 @@
 import React from "react";
-import Tilbakelenke from "../../../Tilbakelenke";
+import Tilbakelenke from "../../../components/Tilbakelenke";
 
 const texts = {
   tilbake: "Gå til dine sykmeldinger\n",

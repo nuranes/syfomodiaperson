@@ -8,7 +8,7 @@ import DinSendteSykmelding from "./DinSendteSykmelding";
 import DinBekreftedeSykmelding from "./DinBekreftedeSykmelding";
 import DinAvbrutteSykmelding from "./DinAvbrutteSykmelding";
 import DinUtgaatteSykmelding from "./DinUtgaatteSykmelding";
-import Feilmelding from "../../../Feilmelding";
+import Feilmelding from "../../../components/Feilmelding";
 import AvvistSykmelding from "./avvisteSykmeldinger/AvvistSykmelding";
 import KoronaSykmeldingBekreftet from "./koronasykmeldinger/KoronaSykmelding-Bekreftet";
 import KoronaSykmeldingNy from "./koronasykmeldinger/KoronaSykmelding-Ny";

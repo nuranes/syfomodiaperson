@@ -7,7 +7,7 @@ import {
   PersonOppgaveType,
 } from "@/data/personoppgave/types/PersonOppgave";
 import { useBehandlePersonoppgaveWithoutRefetch } from "@/data/personoppgave/useBehandlePersonoppgave";
-import { StatusKanImage } from "../../../../img/ImageComponents";
+import { StatusKanImage } from "../../../img/ImageComponents";
 import { getAllUbehandledePersonOppgaver } from "@/utils/personOppgaveUtils";
 import { Link as RouterLink } from "react-router-dom";
 

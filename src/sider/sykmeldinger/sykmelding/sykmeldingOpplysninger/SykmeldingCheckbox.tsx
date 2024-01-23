@@ -1,5 +1,5 @@
 import React from "react";
-import { CheckboxPng } from "../../../../../../img/ImageComponents";
+import { CheckboxPng } from "../../../../../img/ImageComponents";
 
 interface SykmeldingCheckboxProps {
   tekst: string;

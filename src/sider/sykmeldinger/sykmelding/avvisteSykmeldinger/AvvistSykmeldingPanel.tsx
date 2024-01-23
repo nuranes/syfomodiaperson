@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat";
-import * as avvisningsregelnavn from "../../../../../utils/sykmeldinger/avvisningsregelnavn";
+import * as avvisningsregelnavn from "../../../../utils/sykmeldinger/avvisningsregelnavn";
 import { Box } from "@navikt/ds-react";
 
 const REGELNAVN_INGEN_RETT_TIL_A_SYKMELDE = [

@@ -4,9 +4,9 @@ import { tilLesbarDatoMedArstall } from "@/utils/datoUtils";
 import {
   SykmeldingopplysningForsikring,
   SykmeldingopplysningFravaersperioder,
-} from "../../../components/speiling/sykmeldinger/sykmeldingstatuspanel/SykmeldingStatuspanelOpplysning";
-import SykmeldingPerioder from "../../../components/speiling/sykmeldinger/sykmelding/sykmeldingOpplysninger/SykmeldingPerioder";
-import SykmeldingNokkelOpplysning from "../../../components/speiling/sykmeldinger/sykmelding/sykmeldingOpplysninger/SykmeldingNokkelOpplysning";
+} from "@/sider/sykmeldinger/sykmeldingstatuspanel/SykmeldingStatuspanelOpplysning";
+import SykmeldingPerioder from "@/sider/sykmeldinger/sykmelding/sykmeldingOpplysninger/SykmeldingPerioder";
+import SykmeldingNokkelOpplysning from "@/sider/sykmeldinger/sykmelding/sykmeldingOpplysninger/SykmeldingNokkelOpplysning";
 import { SpeilingEkspanderbartPanel } from "@/components/speiling/ekspanderbar/SpeilingEkspanderbartPanel";
 import { SpeilingEkspanderbartPanelTittel } from "@/components/speiling/ekspanderbar/SpeilingEkspanderbartPanelTittel";
 

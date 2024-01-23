@@ -1,6 +1,6 @@
 import React from "react";
 import { expect } from "chai";
-import SykmeldingPeriodeInfo from "../../src/components/speiling/sykmeldinger/sykmeldinger/SykmeldingPeriodeInfo";
+import SykmeldingPeriodeInfo from "@/sider/sykmeldinger/sykmeldinger/SykmeldingPeriodeInfo";
 import { SykmeldingPeriodeDTO } from "@/data/sykmelding/types/SykmeldingOldFormat";
 import { toDateWithoutNullCheck } from "@/utils/datoUtils";
 import { render, screen } from "@testing-library/react";

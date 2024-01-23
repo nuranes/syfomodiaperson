@@ -1,11 +1,11 @@
 import React, { ReactElement } from "react";
-import Side from "../../../../sider/Side";
+import Side from "../../Side";
 import DineSykmeldinger from "../sykmeldinger/DineSykmeldinger";
-import Pengestopp from "../../../pengestopp/Pengestopp";
-import SideLaster from "../../../SideLaster";
+import Pengestopp from "../../../components/pengestopp/Pengestopp";
+import SideLaster from "../../../components/SideLaster";
 import { useSykmeldingerQuery } from "@/data/sykmelding/sykmeldingQueryHooks";
 import { Menypunkter } from "@/navigation/menypunkterTypes";
-import { BistandsbehovOppgaver } from "@/components/speiling/sykmeldinger/VurderBistandsbehov";
+import { BistandsbehovOppgaver } from "@/sider/sykmeldinger/VurderBistandsbehov";
 import { Heading } from "@navikt/ds-react";
 import styled from "styled-components";
 

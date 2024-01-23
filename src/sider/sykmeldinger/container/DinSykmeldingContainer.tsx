@@ -4,15 +4,15 @@ import {
   SykmeldingOldFormat,
   SykmeldingStatus,
 } from "@/data/sykmelding/types/SykmeldingOldFormat";
-import Side from "../../../../sider/Side";
-import SidetoppSpeilet from "../../../SidetoppSpeilet";
+import Side from "../../Side";
+import SidetoppSpeilet from "../../../components/SidetoppSpeilet";
 import SykmeldingSide from "../sykmelding/SykmeldingSide";
-import Brodsmuler from "../../Brodsmuler";
-import Speilingvarsel from "../../Speilingvarsel";
-import SideLaster from "../../../SideLaster";
+import Brodsmuler from "../../../components/speiling/Brodsmuler";
+import Speilingvarsel from "../../../components/speiling/Speilingvarsel";
+import SideLaster from "../../../components/SideLaster";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import { useSykmeldingerQuery } from "@/data/sykmelding/sykmeldingQueryHooks";
-import LenkeTilDineSykmeldinger from "@/components/speiling/sykmeldinger/sykmelding/LenkeTilDineSykmeldinger";
+import LenkeTilDineSykmeldinger from "@/sider/sykmeldinger/sykmelding/LenkeTilDineSykmeldinger";
 import EndreSykmelding from "@/components/endresykmelding/EndreSykmelding";
 import { Menypunkter } from "@/navigation/menypunkterTypes";
 
