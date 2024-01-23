@@ -1,7 +1,7 @@
 import React from "react";
 import dayjs from "dayjs";
 import Alertstripe from "nav-frontend-alertstriper";
-import Sidetopp from "../../Sidetopp";
+import Sidetopp from "../../../components/Sidetopp";
 import {
   erIdag,
   erIkkeIdag,

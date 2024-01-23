@@ -1,5 +1,5 @@
 import * as React from "react";
-import Infomelding from "../../Infomelding";
+import Infomelding from "../../../components/Infomelding";
 
 const IngenPlaner = () => {
   return (

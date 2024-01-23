@@ -1,9 +1,9 @@
 import React from "react";
-import Side from "../../../sider/Side";
+import Side from "../../Side";
 import OppfolgingsplanerOversikt from "../oppfolgingsplaner/OppfolgingsplanerOversikt";
 import IngenPlaner from "../oppfolgingsplaner/IngenPlaner";
 import { activeOppfolgingsplaner } from "@/utils/oppfolgingsplanerUtils";
-import SideLaster from "../../SideLaster";
+import SideLaster from "../../../components/SideLaster";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import {
   useOppfolgingsplanerLPSQuery,

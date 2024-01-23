@@ -1,7 +1,7 @@
 import React from "react";
-import SideFullbredde from "../../../sider/SideFullbredde";
+import SideFullbredde from "../../SideFullbredde";
 import Oppfolgingsplan from "../oppfolgingsplaner/Oppfolgingsplan";
-import SideLaster from "../../SideLaster";
+import SideLaster from "../../../components/SideLaster";
 import { useParams } from "react-router-dom";
 import Feilmelding from "@/components/Feilmelding";
 import { useAktivVeilederinfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
