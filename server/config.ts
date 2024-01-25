@@ -322,6 +322,7 @@ export const auth = {
     host: envVar({
       name: "FLEXJAR_HOST",
     }),
+    removePathPrefix: true,
   },
 };
 
