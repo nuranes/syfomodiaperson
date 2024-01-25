@@ -17,7 +17,10 @@ import {
   generateOppfolgingstilfelle,
 } from "../testDataUtils";
 import { clickButton, daysFromToday, getButton } from "../testUtils";
-import { tilLesbarPeriodeMedArUtenManednavn } from "@/utils/datoUtils";
+import {
+  addWeeks,
+  tilLesbarPeriodeMedArUtenManednavn,
+} from "@/utils/datoUtils";
 import {
   AktivitetskravDTO,
   AktivitetskravStatus,
@@ -37,6 +40,12 @@ const tilfelleEnd = daysFromToday(50);
 const oppfolgingstilfelle = generateOppfolgingstilfelle(
   tilfelleStart,
   tilfelleEnd
+);
+const tidligereTilfelleStart = daysFromToday(-200);
+const tidligereTilfelleSlutt = daysFromToday(-100);
+const tidligereOppfolgingstilfelle = generateOppfolgingstilfelle(
+  tidligereTilfelleStart,
+  tidligereTilfelleSlutt
 );
 const unntakBeskrivelse = "Vurdering beskrivelse";
 const unntakArsak = UnntakVurderingArsak.MEDISINSKE_GRUNNER;
@@ -92,7 +101,10 @@ describe("StartNyVurdering", () => {
       oppfolgingstilfellePersonQueryKeys.oppfolgingstilfelleperson(fnr),
       () => ({
         personIdent: fnr,
-        oppfolgingstilfelleList: [oppfolgingstilfelle],
+        oppfolgingstilfelleList: [
+          oppfolgingstilfelle,
+          tidligereOppfolgingstilfelle,
+        ],
       })
     );
   });
@@ -159,6 +171,44 @@ describe("StartNyVurdering", () => {
       expect(nyVurderingMutation.state.variables).to.deep.equal({
         previousAktivitetskravUuid: aktivitetskravUnntak.uuid,
       });
+    });
+  });
+  describe("Med aktivitetskrav i sluttilstand fra tidligere tilfelle", () => {
+    const aktivitetskravUnntakTidligereTilfelle = createAktivitetskrav(
+      addWeeks(tidligereTilfelleStart, 8),
+      AktivitetskravStatus.UNNTAK,
+      [
+        createAktivitetskravVurdering(
+          AktivitetskravStatus.UNNTAK,
+          [unntakArsak],
+          unntakBeskrivelse
+        ),
+      ]
+    );
+
+    it("renders active tilfelle-text", () => {
+      renderStartNyVurdering(aktivitetskravUnntakTidligereTilfelle);
+
+      const periodeText = tilLesbarPeriodeMedArUtenManednavn(
+        tilfelleStart,
+        tilfelleEnd
+      );
+      expect(screen.getByText(`Gjelder tilfelle ${periodeText}`)).to.exist;
+    });
+
+    it("renders no vurdering text", () => {
+      renderStartNyVurdering(aktivitetskravUnntakTidligereTilfelle);
+
+      expect(screen.getByText(noAktivitetskravText)).to.exist;
+      expect(screen.queryByText(/Det ble vurdert/)).to.not.exist;
+    });
+    it("click button runs mutation with no aktivitetskrav uuid", () => {
+      renderStartNyVurdering(aktivitetskravUnntakTidligereTilfelle);
+
+      clickButton(buttonText);
+
+      const nyVurderingMutation = queryClient.getMutationCache().getAll()[0];
+      expect(nyVurderingMutation.state.variables).to.be.undefined;
     });
   });
 });

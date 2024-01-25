@@ -12,6 +12,7 @@ import {
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import { vurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
 import { useAktivitetskravNotificationAlert } from "@/sider/aktivitetskrav/useAktivitetskravNotificationAlert";
+import { gjelderOppfolgingstilfelle } from "@/utils/aktivitetskravUtils";
 
 export const texts = {
   header: "Start ny aktivitetskrav-vurdering",
@@ -81,9 +82,12 @@ export const StartNyVurdering = ({ aktivitetskrav }: StartNyVurderingProps) => {
     useOppfolgingstilfellePersonQuery();
   const createAktivitetskrav = useCreateAktivitetskrav();
   const { notification } = useAktivitetskravNotificationAlert();
+  const aktivitetskravGjelderActiveOppfolgingstilfelle =
+    !!aktivitetskrav &&
+    gjelderOppfolgingstilfelle(aktivitetskrav, latestOppfolgingstilfelle);
 
   const handleStartNyVurdering = () => {
-    const newAktivitetskrav = aktivitetskrav
+    const newAktivitetskrav = aktivitetskravGjelderActiveOppfolgingstilfelle
       ? { previousAktivitetskravUuid: aktivitetskrav?.uuid }
       : undefined;
     createAktivitetskrav.mutate(newAktivitetskrav);
@@ -106,7 +110,7 @@ export const StartNyVurdering = ({ aktivitetskrav }: StartNyVurderingProps) => {
             oppfolgingstilfelle={latestOppfolgingstilfelle}
           />
         )}
-        {sisteVurdering ? (
+        {aktivitetskravGjelderActiveOppfolgingstilfelle && sisteVurdering ? (
           <VurderingText vurdering={sisteVurdering} />
         ) : (
           <BodyShort className="mb-4">{texts.noVurdering}</BodyShort>

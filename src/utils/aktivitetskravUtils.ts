@@ -10,7 +10,7 @@ export const oppfolgingstilfelleForAktivitetskrav = (
   );
 };
 
-const gjelderOppfolgingstilfelle = (
+export const gjelderOppfolgingstilfelle = (
   aktivitetskrav: AktivitetskravDTO,
   oppfolgingstilfelle: OppfolgingstilfelleDTO
 ): boolean => {
