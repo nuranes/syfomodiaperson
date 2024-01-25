@@ -1,5 +1,4 @@
 import React from "react";
-import SykmeldingUtdragFraSykefravaretVisning from "../motebehov/SykmeldingUtdragFraSykefravaretVisning";
 import {
   arbeidsgivernavnEllerArbeidssituasjon,
   erEkstraInformasjonISykmeldingen,
@@ -24,9 +23,8 @@ import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/pe
 import { useSykmeldingerQuery } from "@/data/sykmelding/sykmeldingQueryHooks";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { PapirsykmeldingTag } from "@/components/PapirsykmeldingTag";
-import { ExpansionCard, Heading, Link, Panel } from "@navikt/ds-react";
-import * as Amplitude from "@/utils/amplitude";
-import { EventType } from "@/utils/amplitude";
+import { UtvidbarSykmelding } from "@/components/UtvidbarSykmelding";
+import { Heading, Link, Panel } from "@navikt/ds-react";
 
 const tekster = {
   header: "Utdrag fra sykefraværet",
@@ -43,12 +41,6 @@ const tekster = {
   },
   apneSykmelding: "Åpne sykmelding",
 };
-
-const StyledExpantionCardHeader = styled(ExpansionCard.Header)`
-  .navds-expansioncard__header-content {
-    width: 100%;
-  }
-`;
 
 const Info = ({ label, text }: { label: string; text: string }) => {
   return (
@@ -107,42 +99,6 @@ export const SykmeldingTittelbeskrivelse = ({
       )}
       {sykmelding.papirsykmelding && <PapirsykmeldingTag />}
     </div>
-  );
-};
-
-interface UtvidbarSykmeldingProps {
-  sykmelding: SykmeldingOldFormat;
-  label?: string;
-}
-
-function logAccordionOpened(isOpen: boolean) {
-  if (isOpen) {
-    Amplitude.logEvent({
-      type: EventType.AccordionOpen,
-      data: {
-        tekst: `Åpne sykmeldinger accordion`,
-        url: window.location.href,
-      },
-    });
-  }
-}
-
-const UtvidbarSykmelding = ({ sykmelding, label }: UtvidbarSykmeldingProps) => {
-  const title = label ? label : "Sykmelding uten arbeidsgiver";
-  return (
-    <ExpansionCard aria-label={title} onToggle={logAccordionOpened}>
-      <StyledExpantionCardHeader className="w-full">
-        <ExpansionCard.Title
-          as="div"
-          className="flex justify-between m-0 text-base"
-        >
-          <SykmeldingTittelbeskrivelse sykmelding={sykmelding} />
-        </ExpansionCard.Title>
-      </StyledExpantionCardHeader>
-      <ExpansionCard.Content>
-        <SykmeldingUtdragFraSykefravaretVisning sykmelding={sykmelding} />
-      </ExpansionCard.Content>
-    </ExpansionCard>
   );
 };
 
