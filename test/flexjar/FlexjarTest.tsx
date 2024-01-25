@@ -146,6 +146,7 @@ describe("Flexjar", () => {
     clickButton("Horribel");
     clickButton("Send tilbakemelding");
 
-    expect(localStorage.getItem(StoreKey.FLEXJAR_FEEDBACK_DATE)).to.not.be.null;
+    expect(localStorage.getItem(StoreKey.FLEXJAR_AKTIVITETSKRAV_FEEDBACK_DATE))
+      .to.not.be.null;
   });
 });

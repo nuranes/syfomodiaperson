@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export enum StoreKey {
-  FLEXJAR_FEEDBACK_DATE = "flexjarFeedbackDate",
+  FLEXJAR_AKTIVITETSKRAV_FEEDBACK_DATE = "flexjarAktivitetskravFeedbackDate",
 }
 
 export const useLocalStorageState = <T>(key: StoreKey) => {

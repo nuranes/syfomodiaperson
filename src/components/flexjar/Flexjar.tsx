@@ -42,7 +42,7 @@ export const Flexjar = ({ side }: FlexjarProps) => {
   const [emojiType, setEmojiType] = useState<EmojiType>();
   const sendFeedback = useFlexjarFeedback();
   const { setStoredValue: setFeedbackDate } = useLocalStorageState<Date>(
-    StoreKey.FLEXJAR_FEEDBACK_DATE
+    StoreKey.FLEXJAR_AKTIVITETSKRAV_FEEDBACK_DATE
   );
 
   useEffect(() => {
