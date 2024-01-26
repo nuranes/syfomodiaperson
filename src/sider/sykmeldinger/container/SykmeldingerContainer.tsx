@@ -24,7 +24,7 @@ const SykmeldingerSide = (): ReactElement => {
           <Pengestopp sykmeldinger={sykmeldinger} />
           <BistandsbehovOppgaver />
           <StyledHeading size="xlarge">Sykmeldinger</StyledHeading>
-          <DineSykmeldinger />
+          <DineSykmeldinger sykmeldinger={sykmeldinger} />
         </div>
       </SideLaster>
     </Side>

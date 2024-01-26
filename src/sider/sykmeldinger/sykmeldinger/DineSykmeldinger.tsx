@@ -1,17 +1,16 @@
 import React, { ReactElement, useState } from "react";
+import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat";
+import SykmeldingTeasere from "./SykmeldingTeasere";
 import { VelgSykmeldingSorteringDropdown } from "./VelgSykmeldingSorteringDropdown";
 import {
   SorteringKriterium,
   SorteringsKriteriumVerdi,
   sorterSykmeldinger,
 } from "@/utils/sorterSykmeldingerUtils";
-import { Panel } from "@navikt/ds-react";
-import { useSykmeldingerQuery } from "@/data/sykmelding/sykmeldingQueryHooks";
 import {
-  arbeidsgivernavnEllerArbeidssituasjon,
-  erSykmeldingUtenArbeidsgiver,
+  skalVisesSomAktivSykmelding,
+  skalVisesSomTidligereSykmelding,
 } from "@/utils/sykmeldinger/sykmeldingUtils";
-import { UtvidbarSykmelding } from "@/components/UtvidbarSykmelding";
 
 const texts = {
   ingenSykmeldinger: "Tidligere sykmeldinger",
@@ -33,33 +32,49 @@ const sorteringsKriterier: SorteringKriterium[] = [
   },
 ];
 
-const DineSykmeldinger = (): ReactElement => {
-  const { sykmeldinger } = useSykmeldingerQuery();
+interface DineSykmeldingerProps {
+  sykmeldinger: SykmeldingOldFormat[];
+}
+
+const DineSykmeldinger = ({
+  sykmeldinger = [],
+}: DineSykmeldingerProps): ReactElement => {
+  const nyeSykmeldinger = sykmeldinger.filter((sykmld) => {
+    return skalVisesSomAktivSykmelding(sykmld);
+  });
+  const tidligereSykmeldinger = sykmeldinger.filter((sykmld) => {
+    return skalVisesSomTidligereSykmelding(sykmld);
+  });
   const [valgtSortering, setValgtSortering] =
     useState<SorteringsKriteriumVerdi>("dato");
-  const sorterteSykmeldinger = sorterSykmeldinger(sykmeldinger, valgtSortering);
 
   return (
-    <Panel className="[&>*]:mb-4">
-      <div className="flex flex-row-reverse">
-        <VelgSykmeldingSorteringDropdown
-          sorteringsKriterier={sorteringsKriterier}
-          onSorteringChanged={(e) => setValgtSortering(e.target.value)}
-        />
-      </div>
-      {sorterteSykmeldinger.map((sykmelding, index) => {
-        const label = erSykmeldingUtenArbeidsgiver(sykmelding)
-          ? undefined
-          : arbeidsgivernavnEllerArbeidssituasjon(sykmelding);
-        return (
-          <UtvidbarSykmelding
-            sykmelding={sykmelding}
-            label={label}
-            key={index}
+    <>
+      <SykmeldingTeasere
+        sykmeldinger={sorterSykmeldinger(nyeSykmeldinger)}
+        tittel={texts.nyeSykmeldinger}
+        ingenSykmeldingerMelding={texts.ingenNyeSykmeldinger}
+        className="js-nye-sykmeldinger"
+        id="sykmelding-liste-nye"
+      />
+      {tidligereSykmeldinger.length > 0 && (
+        <SykmeldingTeasere
+          sykmeldinger={sorterSykmeldinger(
+            tidligereSykmeldinger,
+            valgtSortering
+          )}
+          tittel={texts.ingenSykmeldinger}
+          ingenSykmeldingerMelding={texts.ingenSykmeldinger}
+          className="js-tidligere-sykmeldinger"
+          id="sykmelding-liste-tidligere"
+        >
+          <VelgSykmeldingSorteringDropdown
+            sorteringsKriterier={sorteringsKriterier}
+            onSorteringChanged={(e) => setValgtSortering(e.target.value)}
           />
-        );
-      })}
-    </Panel>
+        </SykmeldingTeasere>
+      )}
+    </>
   );
 };
 
