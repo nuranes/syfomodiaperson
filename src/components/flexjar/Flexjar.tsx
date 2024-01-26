@@ -64,9 +64,10 @@ export const Flexjar = ({ side }: FlexjarProps) => {
         onSuccess: () => {
           setFeedbackDate(new Date());
           Amplitude.logEvent({
-            type: EventType.ButtonClick,
+            type: EventType.OptionSelected,
             data: {
-              tekst: svar,
+              option: svar,
+              tekst: "Score Flexjar",
               url: window.location.href,
             },
           });
