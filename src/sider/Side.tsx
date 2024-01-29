@@ -1,10 +1,12 @@
 import React, { ReactNode, useEffect } from "react";
 import Personkort from "../components/personkort/Personkort";
 import DocumentTitle from "react-document-title";
-import { GlobalNavigasjon } from "@/components/globalnavigasjon/GlobalNavigasjon";
+import {
+  GlobalNavigasjon,
+  Menypunkter,
+} from "@/components/globalnavigasjon/GlobalNavigasjon";
 import { isDecember, isEaster, isPride } from "@/utils/festiveUtils";
 import { Easter } from "@/components/festive/Easter";
-import { Menypunkter } from "@/navigation/menypunkterTypes";
 import * as Amplitude from "@/utils/amplitude";
 import { EventType } from "@/utils/amplitude";
 import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";

@@ -5,7 +5,7 @@ import SideLaster from "../../../components/SideLaster";
 import { useOppfolgingsplanerQuery } from "@/data/oppfolgingsplan/oppfolgingsplanQueryHooks";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
 import { useSykmeldingerQuery } from "@/data/sykmelding/sykmeldingQueryHooks";
-import { Menypunkter } from "@/navigation/menypunkterTypes";
+import { Menypunkter } from "@/components/globalnavigasjon/GlobalNavigasjon";
 
 const texts = {
   pageTitle: "Nøkkelinformasjon",

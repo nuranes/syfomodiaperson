@@ -15,11 +15,11 @@ import {
   hasUbehandletPersonoppgave,
   numberOfUbehandledePersonOppgaver,
 } from "@/utils/personOppgaveUtils";
-import { Menypunkter } from "@/navigation/menypunkterTypes";
 import {
   AktivitetskravDTO,
   AktivitetskravStatus,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
+import { Menypunkter } from "@/components/globalnavigasjon/GlobalNavigasjon";
 
 const getNumberOfMoteOppgaver = (
   motebehov: MotebehovVeilederDTO[],

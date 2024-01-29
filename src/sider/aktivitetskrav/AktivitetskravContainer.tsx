@@ -1,6 +1,5 @@
 import React, { ReactElement } from "react";
 import Side from "@/sider/Side";
-import { Menypunkter } from "@/navigation/menypunkterTypes";
 import Sidetopp from "@/components/Sidetopp";
 import { useAktivitetskravQuery } from "@/data/aktivitetskrav/aktivitetskravQueryHooks";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
@@ -9,6 +8,7 @@ import { AktivitetskravSide } from "@/sider/aktivitetskrav/AktivitetskravSide";
 import { NotificationProvider } from "@/context/notification/NotificationContext";
 import UtdragFraSykefravaeret from "@/components/utdragFraSykefravaeret/UtdragFraSykefravaeret";
 import * as Tredelt from "@/sider/TredeltSide";
+import { Menypunkter } from "@/components/globalnavigasjon/GlobalNavigasjon";
 
 const texts = {
   title: "Aktivitetskrav",

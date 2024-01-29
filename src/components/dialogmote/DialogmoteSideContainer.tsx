@@ -8,7 +8,7 @@ import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
 import { BrukerKanIkkeVarslesPapirpostAdvarsel } from "@/components/dialogmote/BrukerKanIkkeVarslesPapirpostAdvarsel";
 import { useDialogmoterQuery } from "@/data/dialogmote/dialogmoteQueryHooks";
 import { useBrukerinfoQuery } from "@/data/navbruker/navbrukerQueryHooks";
-import { Menypunkter } from "@/navigation/menypunkterTypes";
+import { Menypunkter } from "@/components/globalnavigasjon/GlobalNavigasjon";
 
 interface DialogmoteSideProps {
   title: string;

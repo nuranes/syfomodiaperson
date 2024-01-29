@@ -4,7 +4,6 @@ import UtdragFraSykefravaeretPanel from "../../components/utdragFraSykefravaeret
 import { InnkallingDialogmotePanel } from "./components/innkalling/InnkallingDialogmotePanel";
 import SideLaster from "../../components/SideLaster";
 import { DialogmoteOnskePanel } from "./components/DialogmoteOnskePanel";
-import { MotehistorikkPanel } from "../../components/dialogmote/motehistorikk/MotehistorikkPanel";
 import { useDialogmoterQuery } from "@/data/dialogmote/dialogmoteQueryHooks";
 import { useOppfolgingsplanerQuery } from "@/data/oppfolgingsplan/oppfolgingsplanQueryHooks";
 import { useMotebehovQuery } from "@/data/motebehov/motebehovQueryHooks";
@@ -14,8 +13,9 @@ import { DialogmoteStatus } from "@/data/dialogmote/types/dialogmoteTypes";
 import { useDialogmoteunntakQuery } from "@/data/dialogmotekandidat/dialogmoteunntakQueryHooks";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import * as Tredelt from "@/sider/TredeltSide";
-import { Menypunkter } from "@/navigation/menypunkterTypes";
 import Side from "@/sider/Side";
+import { Menypunkter } from "@/components/globalnavigasjon/GlobalNavigasjon";
+import { MotehistorikkPanel } from "@/components/dialogmote/motehistorikk/MotehistorikkPanel";
 
 const texts = {
   pageTitle: "Møtelandingsside",

@@ -8,7 +8,6 @@ import Sidetopp from "../../../components/Sidetopp";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { NarmesteLederRelasjonDTO } from "@/data/leder/ledereTypes";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
-import { Menypunkter } from "@/navigation/menypunkterTypes";
 import {
   AktivitetskravHistorikkDTO,
   AktivitetskravStatus,
@@ -17,6 +16,7 @@ import { BrukerinfoDTO } from "@/data/navbruker/types/BrukerinfoDTO";
 import { useBrukerinfoQuery } from "@/data/navbruker/navbrukerQueryHooks";
 import { useAktivitetskravHistorikkQuery } from "@/data/aktivitetskrav/aktivitetskravQueryHooks";
 import Infomelding from "@/components/Infomelding";
+import { Menypunkter } from "@/components/globalnavigasjon/GlobalNavigasjon";
 
 const texts = {
   topp: "Logg",

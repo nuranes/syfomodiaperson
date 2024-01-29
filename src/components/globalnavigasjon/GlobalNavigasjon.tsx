@@ -11,21 +11,29 @@ import {
 import { useMotebehovQuery } from "@/data/motebehov/motebehovQueryHooks";
 import { toOppfolgingsplanLPSMedPersonoppgave } from "@/utils/oppfolgingsplanerUtils";
 import { VedtakMenypunkt } from "@/components/globalnavigasjon/VedtakMenypunkt";
-import { Menypunkt, Menypunkter } from "@/navigation/menypunkterTypes";
 import { useAktivitetskravQuery } from "@/data/aktivitetskrav/aktivitetskravQueryHooks";
 import { BodyShort } from "@navikt/ds-react";
 import styled from "styled-components";
 import { EventType, logEvent } from "@/utils/amplitude";
-
-const StyledLi = styled.li`
-  display: flex;
-`;
 
 const StyledLink = styled(Link)`
   display: flex;
   justify-content: space-between;
   text-decoration: none;
 `;
+
+export enum Menypunkter {
+  AKTIVITETSKRAV = "AKTIVITETSKRAV",
+  BEHANDLERDIALOG = "BEHANDLERDIALOG",
+  DIALOGMOTE = "DIALOGMOTE",
+  NOKKELINFORMASJON = "NOKKELINFORMASJON",
+  SYKMELDINGER = "SYKMELDINGER",
+  SYKEPENGESOKNADER = "SYKEPENGESOKNADER",
+  OPPFOELGINGSPLANER = "OPPFOELGINGSPLANER",
+  HISTORIKK = "HISTORIKK",
+  VEDTAK = "VEDTAK",
+}
+export type Menypunkt = { navn: string; sti: string; menypunkt: Menypunkter };
 
 const nokkelinformasjonMenypunkt = {
   navn: "Nøkkelinformasjon",
@@ -177,7 +185,7 @@ export const GlobalNavigasjon = ({
             {isVedtakMenypunkt ? (
               <VedtakMenypunkt index={index} navn={navn} />
             ) : (
-              <StyledLi aria-current={isAktiv}>
+              <li aria-current={isAktiv} className="flex">
                 <StyledLink
                   ref={(instance) => {
                     if (instance) {
@@ -199,7 +207,7 @@ export const GlobalNavigasjon = ({
                     <UnfinishedTasks tasks={tasks} menypunkt={menypunkt} />
                   )}
                 </StyledLink>
-              </StyledLi>
+              </li>
             )}
           </React.Fragment>
         );

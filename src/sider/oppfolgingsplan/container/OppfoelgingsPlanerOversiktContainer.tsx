@@ -9,7 +9,7 @@ import {
   useOppfolgingsplanerLPSQuery,
   useOppfolgingsplanerQuery,
 } from "@/data/oppfolgingsplan/oppfolgingsplanQueryHooks";
-import { Menypunkter } from "@/navigation/menypunkterTypes";
+import { Menypunkter } from "@/components/globalnavigasjon/GlobalNavigasjon";
 
 export const OppfoelgingsPlanerOversiktContainer = () => {
   const fnr = useValgtPersonident();

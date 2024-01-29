@@ -3,7 +3,7 @@ import Side from "@/sider/Side";
 import SideLaster from "@/components/SideLaster";
 import Sidetopp from "@/components/Sidetopp";
 import DialogmoteunntakSkjema from "@/components/dialogmoteunntak/DialogmoteunntakSkjema";
-import { Menypunkter } from "@/navigation/menypunkterTypes";
+import { Menypunkter } from "@/components/globalnavigasjon/GlobalNavigasjon";
 
 const texts = {
   pageTitle: "Unntak fra dialogmøte",

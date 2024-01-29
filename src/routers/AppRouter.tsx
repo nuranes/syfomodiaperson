@@ -2,7 +2,7 @@ import React, { ReactElement } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import AktivBrukerTilgangLaster from "@/components/AktivBrukerTilgangLaster";
 import SykmeldingerContainer from "@/sider/sykmeldinger/container/SykmeldingerContainer";
-import SykepengesoknaderContainer from "@/sider/sykepengsoknader/container/SykepengesoknaderSide";
+import SykepengesoknaderSide from "@/sider/sykepengsoknader/container/SykepengesoknaderSide";
 import DinSykmeldingContainer from "@/sider/sykmeldinger/container/DinSykmeldingContainer";
 import HistorikkContainer from "@/sider/historikk/container/HistorikkContainer";
 import { erGyldigFodselsnummer } from "@/utils/frnValideringUtils";
@@ -12,7 +12,6 @@ import AvlysDialogmoteContainer from "@/sider/mote/components/avlys/AvlysDialogm
 import AppSpinner from "../components/AppSpinner";
 import DialogmoteReferatContainer from "../components/dialogmote/referat/DialogmoteReferatContainer";
 import EndreDialogmoteContainer from "@/sider/mote/components/endre/EndreDialogmoteContainer";
-import { SykepengesoknadSide } from "@/sider/sykepengsoknader/container/SykepengesoknadSide";
 import { OppfoelgingsPlanerOversiktContainer } from "@/sider/oppfolgingsplan/container/OppfoelgingsPlanerOversiktContainer";
 import { OppfoelgingsplanContainer } from "@/sider/oppfolgingsplan/container/OppfoelgingsplanContainer";
 import { IngenBrukerSide } from "@/components/IngenBrukerSide";
@@ -24,6 +23,7 @@ import { AktivitetskravContainer } from "@/sider/aktivitetskrav/AktivitetskravCo
 import { BehandlerdialogContainer } from "@/sider/behandlerdialog/BehandlerdialogContainer";
 import * as Amplitude from "@/utils/amplitude";
 import Motelandingsside from "@/sider/mote/Motelandingsside";
+import { SykepengesoknadSide } from "@/sider/sykepengsoknader/container/SykepengesoknadSide";
 
 export const appRoutePath = "/sykefravaer";
 
@@ -87,7 +87,7 @@ const AktivBrukerRouter = (): ReactElement => {
           />
           <Route
             path={`${appRoutePath}/sykepengesoknader`}
-            element={<SykepengesoknaderContainer />}
+            element={<SykepengesoknaderSide />}
           />
           <Route
             path={`${appRoutePath}/sykepengesoknader/:sykepengesoknadId`}

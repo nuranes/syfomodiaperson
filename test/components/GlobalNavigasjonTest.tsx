@@ -1,5 +1,8 @@
 import { render, screen } from "@testing-library/react";
-import { GlobalNavigasjon } from "@/components/globalnavigasjon/GlobalNavigasjon";
+import {
+  GlobalNavigasjon,
+  Menypunkter,
+} from "@/components/globalnavigasjon/GlobalNavigasjon";
 import React from "react";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { expect } from "chai";
@@ -11,7 +14,6 @@ import {
   queryClientWithMockData,
 } from "../testQueryClient";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
-import { Menypunkter } from "@/navigation/menypunkterTypes";
 import { navEnhet } from "../dialogmote/testData";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import {

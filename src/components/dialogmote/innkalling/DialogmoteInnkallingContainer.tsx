@@ -11,10 +11,10 @@ import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { useBrukerinfoQuery } from "@/data/navbruker/navbrukerQueryHooks";
 import { ArbeidstakerHarIkkeAktivSykmeldingAdvarsel } from "@/components/dialogmote/ArbeidstakerHarIkkeAktivSykmelding";
-import { Menypunkter } from "@/navigation/menypunkterTypes";
 import * as Tredelt from "@/sider/TredeltSide";
 import { MotehistorikkPanel } from "@/components/dialogmote/motehistorikk/MotehistorikkPanel";
 import { useDialogmoteunntakQuery } from "@/data/dialogmotekandidat/dialogmoteunntakQueryHooks";
+import { Menypunkter } from "@/components/globalnavigasjon/GlobalNavigasjon";
 
 const texts = {
   title: "Innkalling til dialogmøte",

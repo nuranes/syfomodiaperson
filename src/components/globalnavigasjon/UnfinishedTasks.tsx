@@ -1,5 +1,5 @@
 import React from "react";
-import { Menypunkter } from "@/navigation/menypunkterTypes";
+import { Menypunkter } from "@/components/globalnavigasjon/GlobalNavigasjon";
 
 const opActivePlanerText = (tasks: number) => {
   const activeText = tasks > 1 ? "aktive" : "aktiv";

@@ -1,6 +1,5 @@
 import React from "react";
 import { expect } from "chai";
-import SykepengesoknadContainer from "@/sider/sykepengsoknader/container/SykepengesoknadContainer";
 import mockSoknader from "../mockdata/mockSoknader";
 import { screen } from "@testing-library/react";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -13,6 +12,7 @@ import { queryClientWithAktivBruker } from "../testQueryClient";
 import { renderWithRouter } from "../testRouterUtils";
 import { brukerinfoQueryKeys } from "@/data/navbruker/navbrukerQueryHooks";
 import { brukerinfoMock } from "../../mock/syfoperson/persondataMock";
+import { SykepengesoknadSideContent } from "@/sider/sykepengsoknader/container/SykepengesoknadSide";
 
 const NAERINGSDRIVENDESOKNAD_ID = "faadf7c1-3aac-4758-8673-e9cee1316a3c";
 const OPPHOLD_UTLAND_ID = "e16ff778-8475-47e1-b5dc-d2ce4ad6b9ee";
@@ -20,7 +20,7 @@ const OPPHOLD_UTLAND_ID = "e16ff778-8475-47e1-b5dc-d2ce4ad6b9ee";
 const fnr = ARBEIDSTAKER_DEFAULT.personIdent;
 let queryClient: any;
 
-describe("SykepengesoknadContainer", () => {
+describe("SykepengesoknadSide", () => {
   beforeEach(() => {
     queryClient = queryClientWithAktivBruker();
     queryClient.setQueryData(
@@ -42,7 +42,7 @@ describe("SykepengesoknadContainer", () => {
       );
       renderWithRouter(
         <QueryClientProvider client={queryClient}>
-          <SykepengesoknadContainer />
+          <SykepengesoknadSideContent />
         </QueryClientProvider>,
         "/sykefravaer/sykepengesoknader/:sykepengesoknadId",
         [`/sykefravaer/sykepengesoknader/${OPPHOLD_UTLAND_ID}`]
@@ -65,7 +65,7 @@ describe("SykepengesoknadContainer", () => {
 
       renderWithRouter(
         <QueryClientProvider client={queryClient}>
-          <SykepengesoknadContainer />
+          <SykepengesoknadSideContent />
         </QueryClientProvider>,
         "/sykefravaer/sykepengesoknader/:sykepengesoknadId",
         [`/sykefravaer/sykepengesoknader/${NAERINGSDRIVENDESOKNAD_ID}`]
