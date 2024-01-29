@@ -1,4 +1,7 @@
 import React from "react";
+import { usePersonoppgaverQuery } from "@/data/personoppgave/personoppgaveQueryHooks";
+import { hasUbehandletPersonoppgave } from "@/utils/personOppgaveUtils";
+import { PersonOppgaveType } from "@/data/personoppgave/types/PersonOppgave";
 import {
   AktivitetskravDTO,
   AktivitetskravStatus,
@@ -50,6 +53,11 @@ interface VurderAktivitetskravTabsProps {
 export const VurderAktivitetskravTabs = ({
   aktivitetskrav,
 }: VurderAktivitetskravTabsProps) => {
+  const { data: oppgaver } = usePersonoppgaverQuery();
+  const isIkkeOppfyltTabVisible = hasUbehandletPersonoppgave(
+    oppgaver,
+    PersonOppgaveType.AKTIVITETSKRAV_VURDER_STANS
+  );
   const isForhandsvarselTabVisible = isValidStateForForhandsvarsel(
     aktivitetskrav.status
   );
@@ -64,7 +72,9 @@ export const VurderAktivitetskravTabs = ({
         {isForhandsvarselTabVisible && (
           <Tabs.Tab value={Tab.FORHANDSVARSEL} label={texts.forhandsvarsel} />
         )}
-        <Tabs.Tab value={Tab.IKKE_OPPFYLT} label={texts.ikkeOppfylt} />
+        {isIkkeOppfyltTabVisible && (
+          <Tabs.Tab value={Tab.IKKE_OPPFYLT} label={texts.ikkeOppfylt} />
+        )}
       </Tabs.List>
       <Tabs.Panel value={Tab.UNNTAK}>
         <UnntakAktivitetskravSkjema aktivitetskravUuid={aktivitetskravUuid} />
@@ -77,11 +87,13 @@ export const VurderAktivitetskravTabs = ({
           <SendForhandsvarselSkjema aktivitetskravUuid={aktivitetskravUuid} />
         </Tabs.Panel>
       )}
-      <Tabs.Panel value={Tab.IKKE_OPPFYLT}>
-        <IkkeOppfyltAktivitetskravSkjema
-          aktivitetskravUuid={aktivitetskravUuid}
-        />
-      </Tabs.Panel>
+      {isIkkeOppfyltTabVisible && (
+        <Tabs.Panel value={Tab.IKKE_OPPFYLT}>
+          <IkkeOppfyltAktivitetskravSkjema
+            aktivitetskravUuid={aktivitetskravUuid}
+          />
+        </Tabs.Panel>
+      )}
     </StyledTabs>
   );
 };
