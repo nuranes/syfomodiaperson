@@ -29,7 +29,7 @@ export const Sykmeldingsgrad = () => {
   const { latestOppfolgingstilfelle } = useOppfolgingstilfellePersonQuery();
 
   const [selectedOppfolgingstilfelle, setSelectedOppfolgingstilfelle] =
-    useState<OppfolgingstilfelleDTO>(latestOppfolgingstilfelle);
+    useState<OppfolgingstilfelleDTO | undefined>(latestOppfolgingstilfelle);
 
   const newAndUsedSykmeldinger = newAndActivatedSykmeldinger(sykmeldinger);
   const sykmeldingerIOppfolgingstilfellet =

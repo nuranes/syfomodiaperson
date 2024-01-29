@@ -102,7 +102,7 @@ export const HistorikkContainer = (): ReactElement => {
   } = useLedereQuery();
 
   const {
-    data: oppfolgingstilfellePerson,
+    tilfellerDescendingStart,
     isLoading: henterTilfeller,
     isError: hentingTilfellerFeilet,
   } = useOppfolgingstilfellePersonQuery();
@@ -129,7 +129,7 @@ export const HistorikkContainer = (): ReactElement => {
     [currentLedere, formerLedere]
   );
 
-  const tilfeller = oppfolgingstilfellePerson?.oppfolgingstilfelleList || [];
+  const tilfeller = tilfellerDescendingStart || [];
   const lederHistorikk = createHistorikkEventsFromLedere(allLedere);
   const aktivitetskravHistorikkEvents = createHistorikkEventsFromAktivitetskrav(
     aktivitetskravHistorikk || [],

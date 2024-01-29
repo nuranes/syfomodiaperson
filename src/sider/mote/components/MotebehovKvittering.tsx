@@ -12,7 +12,7 @@ import {
   MotebehovKanIkkeImage,
   MotebehovKanImage,
 } from "../../../../img/ImageComponents";
-import { PaddingSize } from "../../../components/Layout";
+import { PaddingSize } from "@/components/Layout";
 import { ledereUtenMotebehovsvar } from "@/utils/ledereUtils";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { NarmesteLederRelasjonDTO } from "@/data/leder/ledereTypes";
@@ -226,7 +226,7 @@ const MotebehovKvittering = ({
   ledereData,
   sykmeldt,
 }: MotebehovKvitteringProps) => {
-  const { data: oppfolgingstilfellePerson, latestOppfolgingstilfelle } =
+  const { tilfellerDescendingStart, latestOppfolgingstilfelle } =
     useOppfolgingstilfellePersonQuery();
 
   const aktiveMotebehovSvar = motebehovFromLatestActiveTilfelle(
@@ -237,7 +237,7 @@ const MotebehovKvittering = ({
   const ledereUtenInnsendtMotebehov = ledereUtenMotebehovsvar(
     ledereData,
     motebehovData,
-    oppfolgingstilfellePerson?.oppfolgingstilfelleList || []
+    tilfellerDescendingStart || []
   );
 
   return (

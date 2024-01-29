@@ -123,6 +123,21 @@ describe("StartNyVurdering", () => {
     expect(screen.getByText(`Gjelder tilfelle ${periodeText}`)).to.exist;
     expect(getButton(buttonText)).to.exist;
   });
+  describe("Without oppfolgingstilfelle", () => {
+    it("renders start ny vurdering even without oppfolgingstilfelle", () => {
+      queryClient.setQueryData(
+        oppfolgingstilfellePersonQueryKeys.oppfolgingstilfelleperson(fnr),
+        () => ({
+          personIdent: fnr,
+          oppfolgingstilfelleList: [],
+        })
+      );
+      renderStartNyVurdering();
+
+      expect(screen.getByText(noAktivitetskravText)).to.exist;
+      expect(screen.getByRole("button", { name: buttonText })).to.exist;
+    });
+  });
   describe("Uten aktivitetskrav", () => {
     it("renders no vurdering text", () => {
       renderStartNyVurdering();

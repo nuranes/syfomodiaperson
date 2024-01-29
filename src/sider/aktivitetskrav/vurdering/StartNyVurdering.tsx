@@ -78,12 +78,12 @@ interface StartNyVurderingProps {
 }
 
 export const StartNyVurdering = ({ aktivitetskrav }: StartNyVurderingProps) => {
-  const { hasActiveOppfolgingstilfelle, latestOppfolgingstilfelle } =
-    useOppfolgingstilfellePersonQuery();
+  const { latestOppfolgingstilfelle } = useOppfolgingstilfellePersonQuery();
   const createAktivitetskrav = useCreateAktivitetskrav();
   const { notification } = useAktivitetskravNotificationAlert();
   const aktivitetskravGjelderActiveOppfolgingstilfelle =
     !!aktivitetskrav &&
+    !!latestOppfolgingstilfelle &&
     gjelderOppfolgingstilfelle(aktivitetskrav, latestOppfolgingstilfelle);
 
   const handleStartNyVurdering = () => {
@@ -105,7 +105,7 @@ export const StartNyVurdering = ({ aktivitetskrav }: StartNyVurderingProps) => {
         <Heading level="2" size="large" className="mb-1">
           {texts.header}
         </Heading>
-        {hasActiveOppfolgingstilfelle && (
+        {!!latestOppfolgingstilfelle && (
           <GjelderOppfolgingstilfelle
             oppfolgingstilfelle={latestOppfolgingstilfelle}
           />
