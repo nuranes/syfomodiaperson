@@ -6,11 +6,9 @@ import { capitalizeWord } from "@/utils/stringUtils";
 export const behandlerNavn = (
   behandler: SykmeldingBehandlerDTO | BehandlerDTO
 ): string => {
-  if (behandler.mellomnavn) {
-    return `${behandler.fornavn} ${behandler.mellomnavn} ${behandler.etternavn}`;
-  }
-
-  return `${behandler.fornavn} ${behandler.etternavn}`;
+  return [behandler.fornavn, behandler.mellomnavn, behandler.etternavn]
+    .filter(Boolean)
+    .join(" ");
 };
 
 export const behandlerDeltakerTekst = (
@@ -29,3 +27,13 @@ export const behandlerDeltokTekst = (
   `${behandlerDeltakerTekst("Behandler:", behandler)}${
     deltatt === false ? ", deltok ikke" : ""
   }`;
+
+export const behandlerDisplayText = (behandler: BehandlerDTO): string => {
+  const name = behandlerNavn(behandler);
+  const type = !!behandler.type ? `${capitalizeWord(behandler.type)}:` : "";
+  const typeAndName = `${type} ${name}`;
+  const office = !!behandler.kontor ? capitalizeWord(behandler.kontor) : "";
+  const phone = !!behandler.telefon ? `tlf ${behandler.telefon}` : "";
+
+  return [typeAndName, office, phone].filter(Boolean).join(", ");
+};

@@ -11,8 +11,8 @@ import {
   UseFormWatch,
 } from "react-hook-form";
 import { MeldingTilBehandlerSkjemaValues } from "@/sider/behandlerdialog/meldingtilbehandler/MeldingTilBehandlerSkjema";
-import { capitalizeWord } from "@/utils/stringUtils";
 import BehandlerSearch from "@/components/behandler/BehandlerSearch";
+import { behandlerDisplayText } from "@/utils/behandlerUtils";
 
 const texts = {
   behandlerLegend: "Velg behandler som skal motta meldingen",
@@ -32,18 +32,6 @@ interface VelgBehandlerProps {
   trigger: UseFormTrigger<MeldingTilBehandlerSkjemaValues>;
   errors: FieldErrors<MeldingTilBehandlerSkjemaValues>;
 }
-
-const behandlerRadioButtonText = (behandler: BehandlerDTO): string => {
-  const name = [behandler.fornavn, behandler.mellomnavn, behandler.etternavn]
-    .filter(Boolean)
-    .join(" ");
-  const type = !!behandler.type ? `${capitalizeWord(behandler.type)}:` : "";
-  const typeAndName = `${type} ${name}`;
-  const office = !!behandler.kontor ? capitalizeWord(behandler.kontor) : "";
-  const phone = !!behandler.telefon ? `tlf ${behandler.telefon}` : "";
-
-  return [typeAndName, office, phone].filter(Boolean).join(", ");
-};
 
 export const VelgBehandler = ({
   selectedBehandler,
@@ -102,7 +90,7 @@ export const VelgBehandler = ({
             behandlerRefField.onChange(event);
           }}
         >
-          {behandlerRadioButtonText(behandler)}
+          {behandlerDisplayText(behandler)}
         </Radio>
       ))}
       <Radio
