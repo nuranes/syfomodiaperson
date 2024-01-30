@@ -12,8 +12,8 @@ export const motebehovQueryKeys = {
 
 export const useMotebehovQuery = () => {
   const fnr = useValgtPersonident();
-  const path = `${SYFOMOTEBEHOV_ROOT}/motebehov?fnr=${fnr}`;
-  const fetchMotebehov = () => get<MotebehovVeilederDTO[]>(path);
+  const path = `${SYFOMOTEBEHOV_ROOT}/motebehov`;
+  const fetchMotebehov = () => get<MotebehovVeilederDTO[]>(path, fnr);
 
   const query = useQuery({
     queryKey: motebehovQueryKeys.motebehov(fnr),

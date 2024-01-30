@@ -17,7 +17,7 @@ export const ISPERSONOPPGAVE_ROOT = "/ispersonoppgave/api/v2";
 export const MODIACONTEXTHOLDER_ROOT = "/modiacontextholder/api";
 export const SYFOBEHANDLENDEENHET_ROOT =
   "/syfobehandlendeenhet/api/internad/v2";
-export const SYFOMOTEBEHOV_ROOT = "/syfomotebehov/api/internad/v2/veileder";
+export const SYFOMOTEBEHOV_ROOT = "/syfomotebehov/api/internad/v3/veileder";
 export const SYFOOPPFOLGINGSPLANSERVICE_ROOT =
   "/syfooppfolgingsplanservice/api/internad/v2";
 export const SYFOPERSON_ROOT = "/syfoperson/api/v2";

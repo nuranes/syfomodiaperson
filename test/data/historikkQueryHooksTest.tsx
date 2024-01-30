@@ -27,7 +27,7 @@ describe("historikkQueryHooks", () => {
   });
 
   it("loads motebehov-historikk for valgt personident", async () => {
-    stubMotebehovHistorikkApi(apiMockScope, ARBEIDSTAKER_DEFAULT.personIdent);
+    stubMotebehovHistorikkApi(apiMockScope);
     const wrapper = queryHookWrapper(queryClient);
 
     const { result } = renderHook(() => useHistorikkMotebehovQuery(), {

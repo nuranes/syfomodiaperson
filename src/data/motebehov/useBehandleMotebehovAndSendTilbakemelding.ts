@@ -16,16 +16,16 @@ export const useBehandleMotebehovAndSendTilbakemelding = () => {
   const { data: veilederinfo } = useAktivVeilederinfoQuery();
   const veilederIdent = veilederinfo?.ident;
   const queryClient = useQueryClient();
-  const path = `${SYFOMOTEBEHOV_ROOT}/motebehov/${fnr}/behandle`;
+  const path = `${SYFOMOTEBEHOV_ROOT}/motebehov/behandle`;
   const pathTilbakemelding = `${SYFOMOTEBEHOV_ROOT}/motebehov/tilbakemelding`;
 
   const behandleMotebehovAndSendTilbakemelding = async (
     tilbakemeldinger: MotebehovTilbakemeldingDTO[]
   ) => {
-    await post(path, {});
+    await post(path, {}, fnr);
     await Promise.all(
       tilbakemeldinger.map((tilbakemelding) =>
-        post(pathTilbakemelding, tilbakemelding)
+        post(pathTilbakemelding, tilbakemelding, fnr)
       )
     );
   };

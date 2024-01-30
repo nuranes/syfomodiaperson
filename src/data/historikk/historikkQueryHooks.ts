@@ -18,8 +18,8 @@ export const historikkQueryKeys = {
 
 export const useHistorikkMotebehovQuery = () => {
   const fnr = useValgtPersonident();
-  const path = `${SYFOMOTEBEHOV_ROOT}/historikk?fnr=${fnr}`;
-  const fetchHistorikkMotebehov = () => get<HistorikkEvent[]>(path);
+  const path = `${SYFOMOTEBEHOV_ROOT}/historikk`;
+  const fetchHistorikkMotebehov = () => get<HistorikkEvent[]>(path, fnr);
   const query = useQuery({
     queryKey: historikkQueryKeys.motebehov(fnr),
     queryFn: fetchHistorikkMotebehov,

@@ -11,8 +11,8 @@ export const useBehandleMotebehov = () => {
   const { data: veilederinfo } = useAktivVeilederinfoQuery();
   const veilederIdent = veilederinfo?.ident;
   const queryClient = useQueryClient();
-  const path = `${SYFOMOTEBEHOV_ROOT}/motebehov/${fnr}/behandle`;
-  const postBehandleMotebehov = () => post(path, {});
+  const path = `${SYFOMOTEBEHOV_ROOT}/motebehov/behandle`;
+  const postBehandleMotebehov = () => post(path, {}, fnr);
   const motebehovQueryKey = motebehovQueryKeys.motebehov(fnr);
 
   return useMutation({
