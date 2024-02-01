@@ -15,6 +15,7 @@ import * as Tredelt from "@/sider/TredeltSide";
 import { MotehistorikkPanel } from "@/components/dialogmote/motehistorikk/MotehistorikkPanel";
 import { useDialogmoteunntakQuery } from "@/data/dialogmotekandidat/dialogmoteunntakQueryHooks";
 import { Menypunkter } from "@/components/globalnavigasjon/GlobalNavigasjon";
+import { MalformProvider } from "@/context/malform/MalformContext";
 
 const texts = {
   title: "Innkalling til dialogmøte",
@@ -63,7 +64,9 @@ const DialogmoteInnkallingContainer = (): ReactElement => {
         <Sidetopp tittel={texts.title} />
         <Tredelt.Container>
           <Tredelt.FirstColumn>
-            <DialogmoteInnkallingSide />
+            <MalformProvider>
+              <DialogmoteInnkallingSide />
+            </MalformProvider>
           </Tredelt.FirstColumn>
           <Tredelt.SecondColumn>
             <MotehistorikkPanel
