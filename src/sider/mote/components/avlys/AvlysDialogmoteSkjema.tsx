@@ -1,22 +1,19 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
-import { Form } from "react-final-form";
 import {
   AvlysDialogmoteDTO,
   DialogmoteDTO,
 } from "@/data/dialogmote/types/dialogmoteTypes";
-import { SkjemaFeiloppsummering } from "../../../../components/SkjemaFeiloppsummering";
-import { useFeilUtbedret } from "@/hooks/useFeilUtbedret";
-import { validerBegrunnelser } from "@/utils/valideringUtils";
 import { useAvlysningDocument } from "@/hooks/dialogmote/document/useAvlysningDocument";
-import { ForhandsvisningModal } from "../../../../components/ForhandsvisningModal";
 import { moteoversiktRoutePath } from "@/routers/AppRouter";
 import { useAvlysDialogmote } from "@/data/dialogmote/useAvlysDialogmote";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
-import FritekstSeksjon from "@/components/dialogmote/FritekstSeksjon";
 import { Alert, Box, Button, Label } from "@navikt/ds-react";
 import { tilDatoMedUkedagOgManedNavnOgKlokkeslett } from "@/utils/datoUtils";
+import { useForm } from "react-hook-form";
+import TextareaField from "@/components/dialogmote/TextareaField";
+import { Forhandsvisning } from "@/components/Forhandsvisning";
 
 export const MAX_LENGTH_AVLYS_BEGRUNNELSE = 500;
 
@@ -24,6 +21,11 @@ export const texts = {
   begrunnelseArbeidstakerLabel: "Begrunnelse til arbeidstakeren",
   begrunnelseArbeidsgiverLabel: "Begrunnelse til nærmeste leder",
   begrunnelseBehandlerLabel: "Begrunnelse til behandler",
+  begrunnelseArbeidstakerMissing:
+    "Vennligst angi begrunnelse til arbeidstakeren",
+  begrunnelseArbeidsgiverMissing:
+    "Vennligst angi begrunnelse til nærmeste leder",
+  begrunnelseBehandlerMissing: "Vennligst angi begrunnelse til behandler",
   send: "Send",
   avbryt: "Avbryt",
   alert:
@@ -57,38 +59,19 @@ const AvlysDialogmoteSkjema = ({
 }: AvlysDialogmoteSkjemaProps): ReactElement => {
   const fnr = useValgtPersonident();
   const avlysDialogmote = useAvlysDialogmote(fnr, dialogmote.uuid);
-  const { harIkkeUtbedretFeil, resetFeilUtbedret, updateFeilUtbedret } =
-    useFeilUtbedret();
-  const [
-    displayAvlysningArbeidstakerPreview,
-    setDisplayAvlysningArbeidstakerPreview,
-  ] = useState(false);
-  const [
-    displayAvlysningArbeidsgiverPreview,
-    setDisplayAvlysningArbeidsgiverPreview,
-  ] = useState(false);
-  const [
-    displayAvlysningBehandlerPreview,
-    setDisplayAvlysningBehandlerPreview,
-  ] = useState(false);
   const {
     getAvlysningDocumentArbeidstaker,
     getAvlysningDocumentArbeidsgiver,
     getAvlysningDocumentBehandler,
   } = useAvlysningDocument(dialogmote);
 
-  const validate = (
-    values: Partial<AvlysDialogmoteSkjemaValues>
-  ): Partial<AvlysDialogmoteSkjemaValues> => {
-    const begrunnelserFeil = validerBegrunnelser(
-      values,
-      MAX_LENGTH_AVLYS_BEGRUNNELSE,
-      !!dialogmote.behandler
-    );
-    updateFeilUtbedret(begrunnelserFeil);
-
-    return begrunnelserFeil;
-  };
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+    watch,
+  } = useForm<AvlysDialogmoteSkjemaValues>();
 
   const submit = (values: AvlysDialogmoteSkjemaValues) => {
     const avlysDto: AvlysDialogmoteDTO = {
@@ -118,102 +101,97 @@ const AvlysDialogmoteSkjema = ({
 
   return (
     <Box background="surface-default" padding="6">
-      <Form initialValues={{}} onSubmit={submit} validate={validate}>
-        {({ handleSubmit, submitFailed, errors, values }) => (
-          <form onSubmit={handleSubmit}>
-            <div className="mb-8 flex flex-col">
-              <Label size="small">{texts.gjelderTitle}</Label>
-              {tilDatoMedUkedagOgManedNavnOgKlokkeslett(dialogmote.tid)}
-            </div>
-            <FritekstSeksjon
-              fieldName="begrunnelseArbeidstaker"
-              label={texts.begrunnelseArbeidstakerLabel}
-              handlePreviewClick={() =>
-                setDisplayAvlysningArbeidstakerPreview(true)
-              }
+      <form onSubmit={handleSubmit(submit)}>
+        <div className="mb-8 flex flex-col">
+          <Label size="small">{texts.gjelderTitle}</Label>
+          {tilDatoMedUkedagOgManedNavnOgKlokkeslett(dialogmote.tid)}
+        </div>
+        <div className="mb-8">
+          <TextareaField
+            id="begrunnelseArbeidstaker"
+            {...register("begrunnelseArbeidstaker", {
+              maxLength: MAX_LENGTH_AVLYS_BEGRUNNELSE,
+              required: texts.begrunnelseArbeidstakerMissing,
+            })}
+            value={watch("begrunnelseArbeidstaker")}
+            error={errors.begrunnelseArbeidstaker?.message}
+            label={texts.begrunnelseArbeidstakerLabel}
+            maxLength={MAX_LENGTH_AVLYS_BEGRUNNELSE}
+          />
+          <Forhandsvisning
+            title={texts.forhandsvisningArbeidstakerTitle}
+            contentLabel={texts.forhandsvisningArbeidstakerContentlabel}
+            getDocumentComponents={() =>
+              getAvlysningDocumentArbeidstaker(getValues())
+            }
+          />
+        </div>
+        <div className="mb-8">
+          <TextareaField
+            id="begrunnelseArbeidsgiver"
+            {...register("begrunnelseArbeidsgiver", {
+              maxLength: MAX_LENGTH_AVLYS_BEGRUNNELSE,
+              required: texts.begrunnelseArbeidsgiverMissing,
+            })}
+            value={watch("begrunnelseArbeidsgiver")}
+            error={errors.begrunnelseArbeidsgiver?.message}
+            label={texts.begrunnelseArbeidsgiverLabel}
+            maxLength={MAX_LENGTH_AVLYS_BEGRUNNELSE}
+          />
+          <Forhandsvisning
+            title={texts.forhandsvisningArbeidsgiverTitle}
+            contentLabel={texts.forhandsvisningArbeidsgiverContentlabel}
+            getDocumentComponents={() =>
+              getAvlysningDocumentArbeidsgiver(getValues())
+            }
+          />
+        </div>
+        {dialogmote.behandler && (
+          <div className="mb-8">
+            <TextareaField
+              id="begrunnelseBehandler"
+              {...register("begrunnelseBehandler", {
+                maxLength: MAX_LENGTH_AVLYS_BEGRUNNELSE,
+                required: texts.begrunnelseBehandlerMissing,
+              })}
+              value={watch("begrunnelseBehandler")}
+              error={errors.begrunnelseBehandler?.message}
+              label={texts.begrunnelseBehandlerLabel}
               maxLength={MAX_LENGTH_AVLYS_BEGRUNNELSE}
             />
-            <ForhandsvisningModal
-              title={texts.forhandsvisningArbeidstakerTitle}
-              contentLabel={texts.forhandsvisningArbeidstakerContentlabel}
-              isOpen={displayAvlysningArbeidstakerPreview}
-              handleClose={() => setDisplayAvlysningArbeidstakerPreview(false)}
+            <Forhandsvisning
+              title={texts.forhandsvisningBehandlerTitle}
+              contentLabel={texts.forhandsvisningBehandlerContentlabel}
               getDocumentComponents={() =>
-                getAvlysningDocumentArbeidstaker(values)
+                getAvlysningDocumentBehandler(getValues())
               }
             />
-            <FritekstSeksjon
-              fieldName="begrunnelseArbeidsgiver"
-              label={texts.begrunnelseArbeidsgiverLabel}
-              handlePreviewClick={() =>
-                setDisplayAvlysningArbeidsgiverPreview(true)
-              }
-              maxLength={MAX_LENGTH_AVLYS_BEGRUNNELSE}
-            />
-            <ForhandsvisningModal
-              title={texts.forhandsvisningArbeidsgiverTitle}
-              contentLabel={texts.forhandsvisningArbeidsgiverContentlabel}
-              isOpen={displayAvlysningArbeidsgiverPreview}
-              handleClose={() => setDisplayAvlysningArbeidsgiverPreview(false)}
-              getDocumentComponents={() =>
-                getAvlysningDocumentArbeidsgiver(values)
-              }
-            />
-            {dialogmote.behandler && (
-              <>
-                <FritekstSeksjon
-                  fieldName="begrunnelseBehandler"
-                  label={texts.begrunnelseBehandlerLabel}
-                  handlePreviewClick={() =>
-                    setDisplayAvlysningBehandlerPreview(true)
-                  }
-                  maxLength={MAX_LENGTH_AVLYS_BEGRUNNELSE}
-                />
-                <ForhandsvisningModal
-                  title={texts.forhandsvisningBehandlerTitle}
-                  contentLabel={texts.forhandsvisningBehandlerContentlabel}
-                  isOpen={displayAvlysningBehandlerPreview}
-                  handleClose={() => setDisplayAvlysningBehandlerPreview(false)}
-                  getDocumentComponents={() =>
-                    getAvlysningDocumentBehandler(values)
-                  }
-                />
-              </>
-            )}
-            {avlysDialogmote.isError && (
-              <SkjemaInnsendingFeil error={avlysDialogmote.error} />
-            )}
-            <Alert
-              variant="warning"
-              size="small"
-              className="mb-8 [&>*]:max-w-fit"
-            >
-              {texts.alert}
-            </Alert>
-            {submitFailed && harIkkeUtbedretFeil && (
-              <SkjemaFeiloppsummering errors={errors} />
-            )}
-            <div className="flex gap-4">
-              <Button
-                type="submit"
-                variant="primary"
-                loading={avlysDialogmote.isPending}
-                onClick={resetFeilUtbedret}
-              >
-                {texts.send}
-              </Button>
-              <Button
-                as={Link}
-                type="button"
-                variant="tertiary"
-                to={moteoversiktRoutePath}
-              >
-                {texts.avbryt}
-              </Button>
-            </div>
-          </form>
+          </div>
         )}
-      </Form>
+        {avlysDialogmote.isError && (
+          <SkjemaInnsendingFeil error={avlysDialogmote.error} />
+        )}
+        <Alert variant="warning" size="small" className="mb-8 [&>*]:max-w-fit">
+          {texts.alert}
+        </Alert>
+        <div className="flex gap-4">
+          <Button
+            type="submit"
+            variant="primary"
+            loading={avlysDialogmote.isPending}
+          >
+            {texts.send}
+          </Button>
+          <Button
+            as={Link}
+            type="button"
+            variant="tertiary"
+            to={moteoversiktRoutePath}
+          >
+            {texts.avbryt}
+          </Button>
+        </div>
+      </form>
     </Box>
   );
 };

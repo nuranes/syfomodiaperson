@@ -8,7 +8,7 @@ const texts = {
   close: "Lukk",
 };
 
-interface ForhandsvisningProps {
+export interface ForhandsvisningModalProps {
   title?: string;
   contentLabel: string;
   isOpen: boolean;
@@ -22,7 +22,7 @@ export const ForhandsvisningModal = ({
   title,
   contentLabel,
   getDocumentComponents,
-}: ForhandsvisningProps): ReactElement => {
+}: ForhandsvisningModalProps): ReactElement => {
   const documentComponents = isOpen ? getDocumentComponents() : [];
   return (
     <Modal
