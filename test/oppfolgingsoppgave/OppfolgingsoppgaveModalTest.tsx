@@ -32,6 +32,7 @@ const oppfolgingsoppgave: OppfolgingsoppgaveResponseDTO = {
   createdBy: VEILEDER_IDENT_DEFAULT,
   uuid: generateUUID(),
   oppfolgingsgrunn: oppfolgingsoppgaveOppfolgingsgrunn,
+  tekst: "Dette var en veldig god grunn for å lage oppfolgingsoppgave.",
   updatedAt: new Date(),
   createdAt: new Date(),
   frist: "2030-01-01",
@@ -95,7 +96,7 @@ describe("Oppfolgingsoppgave", () => {
     beforeEach(() => {
       stubOppfolgingsoppgaveApi(apiMockScope, undefined);
     });
-    it("renders oppfolgingsoppgave input with radio group, datepicker and save and cancel buttons", async () => {
+    it("renders oppfolgingsoppgave without beskrivelse textarea when annet is oppfolgingsgrunn", async () => {
       renderOppfolgingsoppgave();
 
       const openModalButton = await screen.findByRole("button", {
@@ -104,7 +105,33 @@ describe("Oppfolgingsoppgave", () => {
       });
       userEvent.click(openModalButton);
 
-      expect(await screen.findByText("Velg oppfølgingsgrunn")).to.exist;
+      const selectOppfolgingsgrunn = await screen.findByLabelText(
+        "Hvilken oppfølgingsgrunn har du? (obligatorisk)"
+      );
+      fireEvent.change(selectOppfolgingsgrunn, {
+        target: { value: Oppfolgingsgrunn.ANNET },
+      });
+
+      await waitFor(
+        () => expect(screen.queryByLabelText("Beskrivelse")).to.not.exist
+      );
+    });
+    it("renders oppfolgingsoppgave input with radio group, textarea, datepicker and save and cancel buttons", async () => {
+      renderOppfolgingsoppgave();
+
+      const openModalButton = await screen.findByRole("button", {
+        hidden: true,
+        name: openOppfolgingsoppgaveButtonText,
+      });
+      userEvent.click(openModalButton);
+
+      expect(
+        await screen.findByText(
+          "Hvilken oppfølgingsgrunn har du? (obligatorisk)"
+        )
+      ).to.exist;
+      expect(screen.getByRole("textbox", { hidden: true, name: "Beskrivelse" }))
+        .to.exist;
       expect(screen.getByRole("textbox", { hidden: true, name: "Frist" })).to
         .exist;
       expect(screen.getByRole("button", { hidden: true, name: "Lagre" })).to
@@ -121,12 +148,17 @@ describe("Oppfolgingsoppgave", () => {
       });
       userEvent.click(openModalButton);
 
-      const selectOppfolgingsoppgave = await screen.findByLabelText(
-        "Hvilken oppfølgingsgrunn har du?"
+      const selectOppfolgingsgrunn = await screen.findByLabelText(
+        "Hvilken oppfølgingsgrunn har du? (obligatorisk)"
       );
-      fireEvent.change(selectOppfolgingsoppgave, {
+      fireEvent.change(selectOppfolgingsgrunn, {
         target: { value: Oppfolgingsgrunn.VURDER_DIALOGMOTE_SENERE },
       });
+      const beskrivelseInput = screen.getByLabelText("Beskrivelse");
+      changeTextInput(
+        beskrivelseInput,
+        "Dette var en veldig god grunn for å lage oppfolgingsoppgave."
+      );
 
       const fristDateInput = screen.getByRole("textbox", {
         hidden: true,
@@ -146,6 +178,7 @@ describe("Oppfolgingsoppgave", () => {
           .getAll();
         const expectedOppfolgingsoppgave: OppfolgingsoppgaveRequestDTO = {
           oppfolgingsgrunn: Oppfolgingsgrunn.VURDER_DIALOGMOTE_SENERE,
+          tekst: "Dette var en veldig god grunn for å lage oppfolgingsoppgave.",
           frist: fristDate.format("YYYY-MM-DD"),
         };
         expect(

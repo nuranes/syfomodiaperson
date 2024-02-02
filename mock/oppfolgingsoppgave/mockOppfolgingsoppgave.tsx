@@ -34,6 +34,7 @@ export const mockIshuskelapp = (server: any) => {
         updatedAt: new Date(),
         createdAt: new Date(),
         oppfolgingsgrunn: body.oppfolgingsgrunn,
+        tekst: body.tekst,
         frist: body.frist,
       };
       res.sendStatus(200);

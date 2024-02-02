@@ -37,10 +37,12 @@ export const Oppfolgingsoppgave = () => {
     removeOppfolgingsoppgave.mutate(uuid);
   };
 
-  const existingOppfolgingsoppgaveText = !!oppfolgingsoppgave?.tekst
-    ? oppfolgingsoppgave.tekst
-    : !!oppfolgingsoppgave?.oppfolgingsgrunn
+  const oppfolgingsgrunn = oppfolgingsoppgave?.oppfolgingsgrunn
     ? oppfolgingsgrunnToText[oppfolgingsoppgave.oppfolgingsgrunn]
+    : null;
+
+  const beskrivelse = oppfolgingsoppgave?.tekst
+    ? oppfolgingsoppgave.tekst
     : null;
 
   const frist = oppfolgingsoppgave?.frist
@@ -59,7 +61,17 @@ export const Oppfolgingsoppgave = () => {
       <Heading className="mb-2" size="xsmall">
         {texts.title}
       </Heading>
-      <BodyShort className="mb-4">{existingOppfolgingsoppgaveText}</BodyShort>
+      {oppfolgingsgrunn && (
+        <BodyShort className="mb-4">{oppfolgingsgrunn}</BodyShort>
+      )}
+      {beskrivelse && (
+        <>
+          <Heading className="mb-2" size="xsmall">
+            {"Beskrivelse"}
+          </Heading>
+          <BodyShort className="mb-4">{beskrivelse}</BodyShort>
+        </>
+      )}
       <Tooltip content={texts.removeTooltip}>
         <Button
           type="button"

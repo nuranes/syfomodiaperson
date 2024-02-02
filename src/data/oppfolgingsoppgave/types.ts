@@ -13,6 +13,7 @@ const texts = {
 
 export interface OppfolgingsoppgaveRequestDTO {
   oppfolgingsgrunn: Oppfolgingsgrunn;
+  tekst?: string;
   frist: string | null;
 }
 
