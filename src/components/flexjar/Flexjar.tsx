@@ -36,7 +36,7 @@ interface FlexjarProps {
 }
 
 export const Flexjar = ({ side }: FlexjarProps) => {
-  const [apen, setApen] = useState<boolean>(false);
+  const [isApen, setIsApen] = useState<boolean>(false);
   const [isValid, setIsValid] = useState<boolean>();
   const [feedback, setFeedback] = useState<string>();
   const [emojiType, setEmojiType] = useState<EmojiType>();
@@ -50,6 +50,19 @@ export const Flexjar = ({ side }: FlexjarProps) => {
       setIsValid(true);
     }
   }, [emojiType]);
+
+  const clickFeedbackPanel = () => {
+    if (!isApen) {
+      Amplitude.logEvent({
+        type: EventType.ButtonClick,
+        data: {
+          tekst: "Åpne Flexjarpanel",
+          url: window.location.href,
+        },
+      });
+    }
+    setIsApen(!isApen);
+  };
 
   const handleSubmit = () => {
     const svar = emojiType && `${emojis[emojiType].score}`;
@@ -84,13 +97,13 @@ export const Flexjar = ({ side }: FlexjarProps) => {
         variant="primary-neutral"
         size="small"
         iconPosition="right"
-        icon={apen ? <ChevronDownIcon /> : <ChevronUpIcon />}
-        onClick={() => setApen(!apen)}
+        icon={isApen ? <ChevronDownIcon /> : <ChevronUpIcon />}
+        onClick={clickFeedbackPanel}
         className="w-max"
       >
         {texts.apneKnapp}
       </Button>
-      {apen && (
+      {isApen && (
         <Box
           background={"surface-default"}
           borderColor="default"
