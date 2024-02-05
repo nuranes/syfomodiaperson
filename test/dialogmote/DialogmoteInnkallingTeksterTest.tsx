@@ -13,6 +13,7 @@ import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { brukerinfoQueryKeys } from "@/data/navbruker/navbrukerQueryHooks";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import { brukerinfoMock } from "../../mock/syfoperson/persondataMock";
+import { MalformProvider } from "@/context/malform/MalformContext";
 
 const queryClient = queryClientWithAktivBruker();
 
@@ -55,7 +56,9 @@ const renderDialogmoteInnkallingTekster = (navBrukerKanVarsles: boolean) => {
             }}
           >
             {() => (
-              <DialogmoteInnkallingTekster selectedBehandler={undefined} />
+              <MalformProvider>
+                <DialogmoteInnkallingTekster selectedBehandler={undefined} />
+              </MalformProvider>
             )}
           </Form>
         </ValgtEnhetContext.Provider>

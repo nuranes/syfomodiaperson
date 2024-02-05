@@ -1,4 +1,6 @@
-export const innkallingTexts = {
+import { Malform } from "../../context/malform/MalformContext";
+
+const innkallingTextsBokmal = {
   arbeidstaker: {
     intro1:
       "Velkommen til dialogmøte mellom deg, arbeidsgiveren din og en veileder fra NAV. I møtet skal vi snakke om situasjonen din og bli enige om en plan som kan hjelpe deg videre.",
@@ -34,11 +36,68 @@ export const innkallingTexts = {
   },
 
   behandler: {
+    header: "Innkalling til dialogmøte, svar ønskes",
     intro:
       "Vi ønsker svar fra deg om du kan stille til møtet. Det er i utgangspunktet obligatorisk å delta i dialogmøtet, men tidspunktet kan endres eller møtet kan avlyses ved behov.",
     outro:
       "Vi minner om at det ikke må sendes sensitive personopplysninger over e-post eller SMS.",
   },
+
+  hilsen: "Med vennlig hilsen",
+  gjelder: "Gjelder",
+};
+
+const innkallingTextsNynorsk = {
+  arbeidstaker: {
+    intro1:
+      "Velkomen til dialogmøte mellom deg, arbeidsgivaren din og ein rettleiar frå NAV. I møtet kjem vi til å snakke om situasjonen din og bli samde om ein plan som kan hjelpe deg vidare.",
+    intro2:
+      "Vi ønskjer å høyre kva du og arbeidsgivaren seier om arbeidssituasjonen og moglegheitene for å jobbe.",
+    intro2WithBehandler:
+      "Vi ønskjer å høyre kva du, arbeidsgivaren og behandlaren seier om arbeidssituasjonen og moglegheitene for å jobbe.",
+    outroObligatorisk: "Det er obligatorisk å delta i dialogmøtet.",
+    outro1:
+      "Fastlegen eller ein annan behandlar kan bli invitert til å delta i dialogmøtet. Til dette møtet har vi ikkje sett behov for det.",
+    outro1WithBehandler:
+      "Fastlegen eller ein annan behandlar kan bli invitert til å delta i dialogmøtet. Til dette møtet har vi sett behov for å kalle inn",
+    outro2Title: "Før møtet",
+    outro2:
+      "Det er viktig at de fyller ut oppfølgingsplanen saman og deler han med NAV. Denne gir oss eit godt utgangspunkt for å snakke om kva som fungerer, kva som har blitt forsøkt, og kva moglegheiter som finst framover.",
+    outro2WithBehandler:
+      "Det er viktig at du og arbeidsgivaren din fyller ut oppfølgingsplanen saman og deler han med NAV. Denne gir oss eit godt utgangspunkt for å snakke saman om kva som fungerer, kva som har blitt forsøkt, og kva moglegheiter som finst framover.",
+  },
+  arbeidsgiver: {
+    intro1:
+      "Velkomen til dialogmøte mellom deg, arbeidstakaren din og ein rettleiar frå NAV. I møtet kjem vi til å snakke om arbeidssituasjonen til arbeidstakaren din og moglegheitene vedkomande har til å jobbe. Målet er å bli samde om ein plan som kan hjelpe arbeidstakaren din vidare.",
+    outroObligatorisk:
+      "Det er obligatorisk å delta i dialogmøtet. Gi oss svar om tidspunktet passar eller ikkje. Vi minner om at sensitive personopplysningar ikkje skal sendast på e-post eller SMS.",
+    outro1:
+      "Fastlegen eller ein annan behandlar kan bli invitert til å delta i dialogmøtet. Til dette møtet har vi ikkje sett behov for det.",
+    outro1WithBehandler:
+      "Fastlege eller annan behandlar kan bli invitert til å delta i dialogmøtet. Til dette møtet har vi sett behov for å kalle inn",
+    outro2Title: "Før møtet",
+    outro2:
+      "Det er viktig at de fyller ut oppfølgingsplanen saman og deler han med NAV seinast éi veke før møtet. Denne gir oss eit godt utgangspunkt for å snakke om kva som fungerer, kva som har blitt forsøkt, og kva moglegheiter som finst framover.",
+    outro2WithBehandler:
+      "Det er viktig at du og arbeidstakaren din fyller ut oppfølgingsplanen saman og deler han med NAV. Denne gir oss eit godt utgangspunkt for å snakke om kva som fungerer, kva som har blitt forsøkt, og kva moglegheiter som finst framover.",
+  },
+
+  behandler: {
+    header: "Innkalling til dialogmøte (ønskje om svar)",
+    intro:
+      "Vi ønskjer svar frå deg om du kan stille til møtet. Det er i utgangspunktet obligatorisk å delta i dialogmøtet, men tidspunktet kan endrast eller møtet kan avlysast ved behov.",
+    outro:
+      "Vi minner om at sensitive personopplysningar ikkje skal sendast på e-post eller SMS.",
+  },
+
+  hilsen: "Vennleg helsing",
+  gjelder: "Gjeld",
+};
+
+export const getInnkallingTexts = (malform: Malform) => {
+  return malform === Malform.NYNORSK
+    ? innkallingTextsNynorsk
+    : innkallingTextsBokmal;
 };
 
 export const endreTidStedTexts = {
@@ -91,13 +150,26 @@ export const avlysningTexts = {
   intro2: "Dette møtet er avlyst.",
 };
 
-export const commonTexts = {
+export const commonTextsBokmal = {
   arbeidsgiverTitle: "Arbeidsgiver",
   moteTidTitle: "Møtetidspunkt",
   moteStedTitle: "Møtested",
   videoLinkTitle: "Lenke til videomøte",
   arbeidsgiverTlfLabel: "Arbeidsgivertelefonen",
   arbeidsgiverTlf: "55 55 33 36",
+};
+
+const commonTextsNynorsk = {
+  arbeidsgiverTitle: "Arbeidsgivar",
+  moteTidTitle: "Møtetidspunkt",
+  moteStedTitle: "Møtestad",
+  videoLinkTitle: "Lenke til videomøte",
+  arbeidsgiverTlfLabel: "Arbeidsgivartelefonen",
+  arbeidsgiverTlf: "55 55 33 36",
+};
+
+export const getCommonTexts = (malform: Malform) => {
+  return malform === Malform.NYNORSK ? commonTextsNynorsk : commonTextsBokmal;
 };
 
 // Disse nøklene knyttes til linker i eSyfo og skal ikke endres.

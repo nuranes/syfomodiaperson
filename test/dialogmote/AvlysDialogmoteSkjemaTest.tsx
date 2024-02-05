@@ -21,6 +21,7 @@ import userEvent from "@testing-library/user-event";
 import { expectedAvlysningDocuments } from "./testDataDocuments";
 import { queryClientWithMockData } from "../testQueryClient";
 import { renderWithRouter } from "../testRouterUtils";
+import { MalformProvider } from "@/context/malform/MalformContext";
 
 let queryClient: QueryClient;
 
@@ -369,7 +370,9 @@ describe("AvlysDialogmoteSkjemaTest", () => {
 const renderAvlysDialogmoteSkjema = (dialogmote: DialogmoteDTO) => {
   return renderWithRouter(
     <QueryClientProvider client={queryClient}>
-      <AvlysDialogmoteSkjema dialogmote={dialogmote} pageTitle="test" />
+      <MalformProvider>
+        <AvlysDialogmoteSkjema dialogmote={dialogmote} pageTitle="test" />
+      </MalformProvider>
     </QueryClientProvider>,
     `${dialogmoteRoutePath}/:dialogmoteUuid/avlys`,
     [`${dialogmoteRoutePath}/123abc/avlys`]

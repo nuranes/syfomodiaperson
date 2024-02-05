@@ -30,8 +30,27 @@ import { oppfolgingstilfellePersonQueryKeys } from "@/data/oppfolgingstilfelle/p
 import { OppfolgingstilfellePersonDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
 import { DocumentComponentType } from "@/data/documentcomponent/documentComponentTypes";
 import { ledereQueryKeys } from "@/data/leder/ledereQueryHooks";
+import { Malform, MalformProvider } from "@/context/malform/MalformContext";
+import userEvent from "@testing-library/user-event";
+import { getInnkallingTexts } from "@/data/dialogmote/dialogmoteTexts";
 
 let queryClient: QueryClient;
+
+const renderDialogmoteInnkallingSkjema = () => {
+  return renderWithRouter(
+    <QueryClientProvider client={queryClient}>
+      <ValgtEnhetContext.Provider
+        value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
+      >
+        <MalformProvider>
+          <DialogmoteInnkallingSkjema />
+        </MalformProvider>
+      </ValgtEnhetContext.Provider>
+    </QueryClientProvider>,
+    dialogmoteRoutePath,
+    [dialogmoteRoutePath]
+  );
+};
 
 describe("DialogmoteInnkallingSkjema", () => {
   let clock: any;
@@ -255,21 +274,25 @@ describe("DialogmoteInnkallingSkjema", () => {
     );
     expect(videoLink).to.equal(link);
   });
-});
 
-const renderDialogmoteInnkallingSkjema = () => {
-  return renderWithRouter(
-    <QueryClientProvider client={queryClient}>
-      <ValgtEnhetContext.Provider
-        value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
-      >
-        <DialogmoteInnkallingSkjema />
-      </ValgtEnhetContext.Provider>
-    </QueryClientProvider>,
-    dialogmoteRoutePath,
-    [dialogmoteRoutePath]
-  );
-};
+  it("velger nynorske brev og endrer tekstene", () => {
+    renderDialogmoteInnkallingSkjema();
+
+    const malformRadio = screen.getByRole("radio", {
+      name: "Nynorsk",
+    });
+    userEvent.click(malformRadio);
+
+    const forhandsvisningButton = screen.getAllByRole("button", {
+      name: "Forhåndsvisning",
+    })[0];
+    userEvent.click(forhandsvisningButton);
+
+    expect(
+      screen.getByText(getInnkallingTexts(Malform.NYNORSK).arbeidstaker.intro2)
+    ).to.exist;
+  });
+});
 
 const passSkjemaInput = () => {
   const virksomhetSelect = screen.getByRole("radio", {

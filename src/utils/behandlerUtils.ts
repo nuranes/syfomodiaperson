@@ -15,9 +15,7 @@ export const behandlerDeltakerTekst = (
   pretekst: string,
   behandler: DialogmotedeltakerBehandlerDTO
 ) => {
-  return `${pretekst} ${capitalizeWord(
-    behandler.behandlerType.toLowerCase() ?? ""
-  )} ${behandler.behandlerNavn}`;
+  return `${pretekst} ${behandler.behandlerNavn}`;
 };
 
 export const behandlerDeltokTekst = (

@@ -19,7 +19,6 @@ import {
   VEILEDER_DEFAULT,
   VIRKSOMHET_PONTYPANDY,
 } from "../../mock/common/mockConstants";
-import { capitalizeWord } from "@/utils/stringUtils";
 import { behandlerNavn } from "@/utils/behandlerUtils";
 import { referatTexts } from "@/data/dialogmote/dialogmoteTexts";
 import { BehandlerDTO, BehandlerType } from "@/data/behandler/BehandlerDTO";
@@ -177,9 +176,7 @@ const begrunnelseEndring = "Noe tekst om hvorfor referatet endres";
 
 export const annenDeltakerNavn = "Bodil Bolle";
 export const annenDeltakerFunksjon = "Verneombud";
-export const behandlerDeltakerTekst = `Behandler: ${capitalizeWord(
-  behandler.type.toLowerCase()
-)} ${behandlerNavn(behandler)}`;
+export const behandlerDeltakerTekst = `Behandler: ${behandlerNavn(behandler)}`;
 
 export const mote = {
   sted: moteSted,

@@ -2,24 +2,28 @@ import {
   createLink,
   createParagraphWithTitle,
 } from "@/utils/documentComponentUtils";
-import { commonTexts } from "@/data/dialogmote/dialogmoteTexts";
+import { getCommonTexts } from "@/data/dialogmote/dialogmoteTexts";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
 import { TidStedSkjemaValues } from "@/data/dialogmote/types/skjemaTypes";
 import { tilDatoMedUkedagOgManedNavnOgKlokkeslett } from "@/utils/datoUtils";
 import { genererDato } from "@/sider/mote/utils";
 import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
 import { useDocumentComponents } from "@/hooks/useDocumentComponents";
+import { Malform } from "@/context/malform/MalformContext";
 
 export const useDialogmoteDocumentComponents = () => {
   const { getHilsen, getIntroGjelder, getIntroHei } = useDocumentComponents();
   const { getCurrentNarmesteLeder } = useLedereQuery();
 
   const getVirksomhetsnavn = (
-    virksomhetsnummer: string | undefined
+    virksomhetsnummer: string | undefined,
+    malform?: Malform
   ): DocumentComponentDto | undefined => {
     const arbeidsgiver =
       virksomhetsnummer &&
       getCurrentNarmesteLeder(virksomhetsnummer)?.virksomhetsnavn;
+
+    const commonTexts = getCommonTexts(malform ? malform : Malform.BOKMAL);
 
     return arbeidsgiver
       ? createParagraphWithTitle(commonTexts.arbeidsgiverTitle, arbeidsgiver)
@@ -28,13 +32,16 @@ export const useDialogmoteDocumentComponents = () => {
 
   const getMoteInfo = (
     values: Partial<TidStedSkjemaValues>,
-    virksomhetsnummer: string | undefined
+    virksomhetsnummer: string | undefined,
+    malform?: Malform
   ) => {
     const { dato, klokkeslett, sted, videoLink } = values;
+    const commonTexts = getCommonTexts(malform ? malform : Malform.BOKMAL);
     const tidStedTekst =
       dato && klokkeslett
         ? tilDatoMedUkedagOgManedNavnOgKlokkeslett(
-            genererDato(dato, klokkeslett)
+            genererDato(dato, klokkeslett),
+            malform
           )
         : "";
     const components: DocumentComponentDto[] = [];
@@ -48,7 +55,7 @@ export const useDialogmoteDocumentComponents = () => {
       components.push(createLink(commonTexts.videoLinkTitle, videoLink));
     }
 
-    const virksomhetsnavn = getVirksomhetsnavn(virksomhetsnummer);
+    const virksomhetsnavn = getVirksomhetsnavn(virksomhetsnummer, malform);
     if (virksomhetsnavn) {
       components.push(virksomhetsnavn);
     }

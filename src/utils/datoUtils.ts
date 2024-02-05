@@ -1,5 +1,6 @@
 import { firstLetterToUpperCase } from "./stringUtils";
 import dayjs from "dayjs";
+import { Malform } from "../context/malform/MalformContext";
 
 const maneder = [
   "januar",
@@ -23,6 +24,16 @@ const dager = [
   "Torsdag",
   "Fredag",
   "Lørdag",
+];
+
+const nynorskDager = [
+  "Søndag",
+  "Måndag",
+  "Tysdag",
+  "Onsdag",
+  "Torsdag",
+  "Fredag",
+  "Laurdag",
 ];
 
 const SKILLETEGN_PERIODE = "–";
@@ -116,14 +127,21 @@ export const tilDatoMedManedNavn = (dato): string => {
   return `${dag}. ${maaned} ${aar}`;
 };
 
-export const tilDatoMedUkedagOgManedNavn = (dato): string => {
-  const { ukeDag, dag, maaned, aar } = getDatoKomponenter(dato);
+export const tilDatoMedUkedagOgManedNavn = (
+  dato: Date | string,
+  malform?: Malform
+): string => {
+  const { ukeDag, dag, maaned, aar } = getDatoKomponenter(dato, malform);
   return `${ukeDag} ${dag}. ${maaned} ${aar}`;
 };
 
-export const getDatoKomponenter = (dato) => {
+export const getDatoKomponenter = (dato: Date | string, malform?: Malform) => {
   const nyDato = new Date(dato);
-  const ukeDag = firstLetterToUpperCase(dager[nyDato.getDay()]);
+  const ukeDag = firstLetterToUpperCase(
+    malform !== Malform.NYNORSK
+      ? dager[nyDato.getDay()]
+      : nynorskDager[nyDato.getDay()]
+  );
   const dag = nyDato.getDate();
   const maaned = maneder[nyDato.getMonth()];
   const aar = nyDato.getFullYear();
@@ -149,9 +167,12 @@ export const tilDatoMedManedNavnOgKlokkeslett = (dato): string => {
   return `${date} kl. ${time}`;
 };
 
-export const tilDatoMedUkedagOgManedNavnOgKlokkeslett = (dato): string => {
+export const tilDatoMedUkedagOgManedNavnOgKlokkeslett = (
+  dato: Date | string,
+  malform?: Malform
+): string => {
   const newDate = new Date(dato);
-  const date = tilDatoMedUkedagOgManedNavn(newDate);
+  const date = tilDatoMedUkedagOgManedNavn(newDate, malform);
   const time = visKlokkeslett(newDate);
   return `${date} kl. ${time}`;
 };

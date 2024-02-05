@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { StoreKey, useLocalStorageState } from "@/hooks/useLocalStorageState";
+import {
+  StoreKey,
+  useLocalStorageState,
+} from "../../hooks/useLocalStorageState";
 
 export enum Malform {
   BOKMAL = "nb",

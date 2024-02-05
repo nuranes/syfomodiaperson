@@ -17,6 +17,7 @@ import {
 import { expect } from "chai";
 import { daysFromToday } from "../testUtils";
 import { navEnhet } from "./testData";
+import { MalformProvider } from "@/context/malform/MalformContext";
 
 let queryClient: QueryClient;
 
@@ -52,7 +53,9 @@ const renderDialogmoteInnkallingContainer = () =>
         <ValgtEnhetContext.Provider
           value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
         >
-          <DialogmoteInnkallingSide />
+          <MalformProvider>
+            <DialogmoteInnkallingSide />
+          </MalformProvider>
         </ValgtEnhetContext.Provider>
       </QueryClientProvider>
     </MemoryRouter>

@@ -23,6 +23,7 @@ import { behandlereQueryKeys } from "@/data/behandler/behandlereQueryHooks";
 import { renderWithRouter } from "../../testRouterUtils";
 import { stubFeatureTogglesApi } from "../../stubs/stubUnleash";
 import { apiMock } from "../../stubs/stubApi";
+import { MalformProvider } from "@/context/malform/MalformContext";
 
 let queryClient: any;
 let mockApiScope;
@@ -163,7 +164,9 @@ const renderDialogmoteInnkallingSkjema = () =>
       <ValgtEnhetContext.Provider
         value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
       >
-        <DialogmoteInnkallingSkjema />
+        <MalformProvider>
+          <DialogmoteInnkallingSkjema />
+        </MalformProvider>
       </ValgtEnhetContext.Provider>
     </QueryClientProvider>,
     dialogmoteRoutePath,

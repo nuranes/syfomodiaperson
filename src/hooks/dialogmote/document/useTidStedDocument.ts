@@ -6,7 +6,7 @@ import {
 } from "@/utils/documentComponentUtils";
 import { tilDatoMedManedNavnOgKlokkeslettWithComma } from "@/utils/datoUtils";
 import {
-  commonTexts,
+  commonTextsBokmal,
   endreTidStedTexts,
 } from "@/data/dialogmote/dialogmoteTexts";
 import {
@@ -89,8 +89,8 @@ export const useTidStedDocument = (
       ),
       getHilsen(),
       createParagraph(
-        commonTexts.arbeidsgiverTlfLabel,
-        commonTexts.arbeidsgiverTlf
+        commonTextsBokmal.arbeidsgiverTlfLabel,
+        commonTextsBokmal.arbeidsgiverTlf
       )
     );
 
