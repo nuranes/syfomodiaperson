@@ -1,21 +1,17 @@
 import { dialogmoteRoutePath } from "@/routers/AppRouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
-import { texts as valideringsTexts } from "@/utils/valideringUtils";
 import EndreDialogmoteSkjema from "@/sider/mote/components/endre/EndreDialogmoteSkjema";
 import {
   changeTextInput,
   clickButton,
-  getFeilmeldingLink,
   getTextInput,
   getTooLongText,
-  maxLengthErrorMessage,
 } from "../testUtils";
 import { expect } from "chai";
-import { texts as skjemaFeilOppsummeringTexts } from "@/components/SkjemaFeiloppsummering";
 import { apiMock } from "../stubs/stubApi";
 import { stubEndreApi } from "../stubs/stubIsdialogmote";
-import { texts as endringSkjemaTexts } from "@/sider/mote/components/endre/EndreDialogmoteTekster";
+import { texts } from "@/sider/mote/components/endre/EndreDialogmoteSkjema";
 import {
   dialogmote,
   dialogmoteMedBehandler,
@@ -27,11 +23,10 @@ import {
   DialogmoteDTO,
   EndreTidStedDialogmoteDTO,
 } from "@/data/dialogmote/types/dialogmoteTypes";
-import { fireEvent, screen, within } from "@testing-library/react";
+import { fireEvent, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { MAX_LENGTH_ENDRE_BEGRUNNELSE } from "@/sider/mote/components/endre/EndreDialogmoteTekster";
+import { MAX_LENGTH_ENDRE_BEGRUNNELSE } from "@/sider/mote/components/endre/EndreDialogmoteSkjema";
 import { expectedEndringDocuments } from "./testDataDocuments";
-import sinon from "sinon";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { renderWithRouter } from "../testRouterUtils";
 import { stubFeatureTogglesApi } from "../stubs/stubUnleash";
@@ -43,74 +38,45 @@ let queryClient: QueryClient;
 let apiMockScope;
 
 describe("EndreDialogmoteSkjemaTest", () => {
-  let clock: any;
-  const today = new Date(Date.now());
-
   beforeEach(() => {
     queryClient = queryClientWithMockData();
-    clock = sinon.useFakeTimers(today.getTime());
     apiMockScope = apiMock();
   });
 
-  afterEach(() => {
-    clock.restore();
-  });
-
-  it("validerer begrunnelser og dato", () => {
+  it("validerer begrunnelser og dato", async () => {
     renderEndreDialogmoteSkjema(dialogmote);
 
     clickButton("Send");
 
-    expect(screen.getAllByText(valideringsTexts.begrunnelseArbeidstakerMissing))
-      .to.not.be.empty;
-    expect(screen.getAllByText(valideringsTexts.begrunnelseArbeidsgiverMissing))
-      .to.not.be.empty;
-    expect(screen.getAllByText(/Datoen må være etter/)).to.not.be.empty;
-
-    // Feilmeldinger i oppsummering
-    expect(screen.getByText(skjemaFeilOppsummeringTexts.title)).to.exist;
-    expect(getFeilmeldingLink(valideringsTexts.begrunnelseArbeidstakerMissing))
-      .to.exist;
-    expect(getFeilmeldingLink(valideringsTexts.begrunnelseArbeidsgiverMissing))
-      .to.exist;
-    expect(
-      screen.getByRole("link", {
-        name: /Datoen må være etter/,
-      })
-    ).to.exist;
+    expect(await screen.findByText(texts.begrunnelseArbeidstakerMissing)).to
+      .exist;
+    expect(await screen.findByText(texts.begrunnelseArbeidsgiverMissing)).to
+      .exist;
+    expect(await screen.findByText(/Tidspunktet har passert/)).to.exist;
   });
-  it("validerer begrunnelse til behandler når behandler er med", () => {
+  it("validerer begrunnelse til behandler når behandler er med", async () => {
     renderEndreDialogmoteSkjema(dialogmoteMedBehandler);
 
     clickButton("Send");
 
-    expect(screen.getAllByText(valideringsTexts.begrunnelseBehandlerMissing));
-    expect(getFeilmeldingLink(valideringsTexts.begrunnelseBehandlerMissing)).to
-      .exist;
+    expect(await screen.findByText(texts.begrunnelseBehandlerMissing)).to.exist;
   });
-  it("valideringsmeldinger forsvinner ved utbedring", () => {
+  it("valideringsmeldinger forsvinner ved utbedring", async () => {
     renderEndreDialogmoteSkjema(dialogmote);
 
     clickButton("Send");
 
-    expect(screen.getAllByText(valideringsTexts.begrunnelseArbeidstakerMissing))
-      .to.not.be.empty;
-    expect(screen.getAllByText(valideringsTexts.begrunnelseArbeidsgiverMissing))
-      .to.not.be.empty;
-    expect(screen.getAllByText(/Datoen må være etter/)).to.not.be.empty;
-    expect(screen.getByText(skjemaFeilOppsummeringTexts.title)).to.exist;
-    expect(getFeilmeldingLink(valideringsTexts.begrunnelseArbeidstakerMissing))
-      .to.exist;
-    expect(getFeilmeldingLink(valideringsTexts.begrunnelseArbeidsgiverMissing))
-      .to.exist;
-    expect(
-      screen.getByRole("link", {
-        name: /Datoen må være etter/,
-      })
-    ).to.exist;
+    expect(await screen.findByText(texts.begrunnelseArbeidstakerMissing)).to
+      .exist;
+    expect(await screen.findByText(texts.begrunnelseArbeidsgiverMissing)).to
+      .exist;
+    expect(await screen.findByText(/Tidspunktet har passert/)).to.exist;
 
     // Angi dato og begrunnelser
-    const datoInput = getTextInput("Dato");
+    const datoInput = screen.getByRole("textbox", {
+      name: "Dato",
+      hidden: true,
+    });
     const begrunnelseArbeidstakerInput = getTextInput(
       "Begrunnelse til arbeidstakeren"
     );
@@ -126,85 +92,78 @@ describe("EndreDialogmoteSkjemaTest", () => {
       moteTekster.fritekstTilArbeidsgiver
     );
     changeTextInput(datoInput, endretMote.dato);
-    fireEvent.blur(datoInput);
+    clickButton("Send");
 
-    // Feilmeldinger og feiloppsummering forsvinner
-    expect(
-      screen.queryAllByText(valideringsTexts.begrunnelseArbeidstakerMissing)
-    ).to.be.empty;
-    expect(
-      screen.queryAllByText(valideringsTexts.begrunnelseArbeidsgiverMissing)
-    ).to.be.empty;
-    expect(screen.queryAllByText(/Datoen må være etter/)).to.be.empty;
+    // Feilmeldinger forsvinner
+    await waitFor(() => {
+      expect(screen.queryByText(texts.begrunnelseArbeidstakerMissing)).to.not
+        .exist;
+    });
+    await waitFor(() => {
+      expect(screen.queryByText(texts.begrunnelseArbeidsgiverMissing)).to.not
+        .exist;
+    });
+    await waitFor(() => {
+      expect(screen.queryByText(/Tidspunktet har passert/)).to.not.exist;
+    });
 
     // Fjern begrunnelser
     changeTextInput(begrunnelseArbeidstakerInput, "");
     changeTextInput(begrunnelseArbeidsgiverInput, "");
 
-    // Feilmeldinger vises, feiloppsummering vises ved neste submit
-    expect(screen.getAllByText(valideringsTexts.begrunnelseArbeidstakerMissing))
-      .to.not.be.empty;
-    expect(getFeilmeldingLink(valideringsTexts.begrunnelseArbeidstakerMissing))
-      .to.not.exist;
-    expect(getFeilmeldingLink(valideringsTexts.begrunnelseArbeidsgiverMissing))
-      .to.not.exist;
-
-    clickButton("Send");
-    expect(getFeilmeldingLink(valideringsTexts.begrunnelseArbeidstakerMissing))
-      .to.exist;
-    expect(getFeilmeldingLink(valideringsTexts.begrunnelseArbeidsgiverMissing))
-      .to.exist;
+    // Feilmeldinger vises
+    expect(await screen.findByText(texts.begrunnelseArbeidstakerMissing)).to
+      .exist;
+    expect(await screen.findByText(texts.begrunnelseArbeidsgiverMissing)).to
+      .exist;
   });
-  it("validerer maks lengde på begrunnelser", () => {
-    const tooLongFritekst = getTooLongText(MAX_LENGTH_ENDRE_BEGRUNNELSE);
-    const maxLengthErrorMsg = maxLengthErrorMessage(
-      MAX_LENGTH_ENDRE_BEGRUNNELSE
-    );
+  it("validerer maks lengde på begrunnelser", async () => {
     renderEndreDialogmoteSkjema(dialogmoteMedBehandler);
-
     const begrunnelseArbeidstakerInput = getTextInput(
       "Begrunnelse til arbeidstakeren"
     );
+
     const begrunnelseArbeidsgiverInput = getTextInput(
       "Begrunnelse til nærmeste leder"
     );
     const begrunnelseBehandlerInput = getTextInput("Begrunnelse til behandler");
+    const tooLongFritekst = getTooLongText(MAX_LENGTH_ENDRE_BEGRUNNELSE);
     changeTextInput(begrunnelseArbeidstakerInput, tooLongFritekst);
     changeTextInput(begrunnelseArbeidsgiverInput, tooLongFritekst);
     changeTextInput(begrunnelseBehandlerInput, tooLongFritekst);
 
     clickButton("Send");
 
-    expect(
-      screen.getAllByRole("link", { name: maxLengthErrorMsg })
-    ).to.have.length(3, "Validerer maks lengde på alle begrunnelser");
+    expect(await screen.findAllByText("1 tegn for mye")).to.not.be.empty;
   });
 
-  it("endrer møte ved submit", () => {
+  it("endrer møte ved submit", async () => {
     stubEndreApi(apiMockScope, dialogmote.uuid);
     renderEndreDialogmoteSkjema(dialogmote);
     passSkjemaInput();
 
     clickButton("Send");
 
-    const endreMutation = queryClient.getMutationCache().getAll()[0];
-    const expectedEndring = {
-      arbeidsgiver: {
-        begrunnelse: moteTekster.fritekstTilArbeidsgiver,
-        endringsdokument: expectedEndringDocuments.arbeidsgiver(),
-      },
-      arbeidstaker: {
-        begrunnelse: moteTekster.fritekstTilArbeidstaker,
-        endringsdokument: expectedEndringDocuments.arbeidstaker(),
-      },
-      videoLink: endretMote.videolink,
-      sted: endretMote.sted,
-      tid: endretMote.datoTid,
-    };
-    expect(endreMutation.state.variables).to.deep.equal(expectedEndring);
+    await waitFor(() => {
+      const endreMutation = queryClient.getMutationCache().getAll()[0];
+      const expectedEndring = {
+        arbeidsgiver: {
+          begrunnelse: moteTekster.fritekstTilArbeidsgiver,
+          endringsdokument: expectedEndringDocuments.arbeidsgiver(),
+        },
+        arbeidstaker: {
+          begrunnelse: moteTekster.fritekstTilArbeidstaker,
+          endringsdokument: expectedEndringDocuments.arbeidstaker(),
+        },
+        videoLink: endretMote.videolink,
+        sted: endretMote.sted,
+        tid: endretMote.datoTid,
+      };
+      expect(endreMutation.state.variables).to.deep.equal(expectedEndring);
+    });
   });
 
-  it("trimmer videolenke i endring som sendes til api", () => {
+  it("trimmer videolenke i endring som sendes til api", async () => {
     stubEndreApi(apiMockScope, dialogmote.uuid);
     renderEndreDialogmoteSkjema(dialogmote);
     passSkjemaInput();
@@ -216,7 +175,12 @@ describe("EndreDialogmoteSkjemaTest", () => {
 
     clickButton("Send");
 
-    const endreMutation = queryClient.getMutationCache().getAll()[0];
+    let endreMutation;
+    await waitFor(() => {
+      endreMutation = queryClient.getMutationCache().getAll()[0];
+      expect(endreMutation).to.exist;
+    });
+
     const { videoLink, arbeidsgiver, arbeidstaker } = endreMutation.state
       .variables as unknown as EndreTidStedDialogmoteDTO;
 
@@ -232,7 +196,7 @@ describe("EndreDialogmoteSkjemaTest", () => {
     expect(videoLink).to.equal(link);
   });
 
-  it("endrer møte med behandler ved submit når behandler er med", () => {
+  it("endrer møte med behandler ved submit når behandler er med", async () => {
     stubEndreApi(apiMockScope, dialogmote.uuid);
     stubFeatureTogglesApi(apiMockScope);
     renderEndreDialogmoteSkjema(dialogmoteMedBehandler);
@@ -245,25 +209,27 @@ describe("EndreDialogmoteSkjemaTest", () => {
 
     clickButton("Send");
 
-    const endreMutation = queryClient.getMutationCache().getAll()[0];
-    const expectedEndring = {
-      arbeidsgiver: {
-        begrunnelse: moteTekster.fritekstTilArbeidsgiver,
-        endringsdokument: expectedEndringDocuments.arbeidsgiver(true),
-      },
-      arbeidstaker: {
-        begrunnelse: moteTekster.fritekstTilArbeidstaker,
-        endringsdokument: expectedEndringDocuments.arbeidstaker(true),
-      },
-      behandler: {
-        begrunnelse: moteTekster.fritekstTilBehandler,
-        endringsdokument: expectedEndringDocuments.behandler(),
-      },
-      videoLink: endretMote.videolink,
-      sted: endretMote.sted,
-      tid: endretMote.datoTid,
-    };
-    expect(endreMutation.state.variables).to.deep.equal(expectedEndring);
+    await waitFor(() => {
+      const endreMutation = queryClient.getMutationCache().getAll()[0];
+      const expectedEndring = {
+        arbeidsgiver: {
+          begrunnelse: moteTekster.fritekstTilArbeidsgiver,
+          endringsdokument: expectedEndringDocuments.arbeidsgiver(true),
+        },
+        arbeidstaker: {
+          begrunnelse: moteTekster.fritekstTilArbeidstaker,
+          endringsdokument: expectedEndringDocuments.arbeidstaker(true),
+        },
+        behandler: {
+          begrunnelse: moteTekster.fritekstTilBehandler,
+          endringsdokument: expectedEndringDocuments.behandler(),
+        },
+        videoLink: endretMote.videolink,
+        sted: endretMote.sted,
+        tid: endretMote.datoTid,
+      };
+      expect(endreMutation.state.variables).to.deep.equal(expectedEndring);
+    });
   });
   it("forhåndsviser endret tid og sted til arbeidstaker", () => {
     renderEndreDialogmoteSkjema(dialogmote);
@@ -277,17 +243,17 @@ describe("EndreDialogmoteSkjemaTest", () => {
 
     const forhandsvisningEndringArbeidstaker = screen.getAllByRole("dialog", {
       hidden: true,
-    })[0];
+    })[1];
 
     expect(
       within(forhandsvisningEndringArbeidstaker).getByRole("heading", {
-        name: endringSkjemaTexts.forhandsvisningArbeidstakerTitle,
+        name: texts.forhandsvisningArbeidstakerTitle,
         hidden: true,
       })
     ).to.exist;
     expect(
       within(forhandsvisningEndringArbeidstaker).getByRole("heading", {
-        name: endringSkjemaTexts.forhandsvisningSubtitle,
+        name: texts.forhandsvisningSubtitle,
         hidden: true,
       })
     ).to.exist;
@@ -311,17 +277,17 @@ describe("EndreDialogmoteSkjemaTest", () => {
 
     const forhandsvisningEndringArbeidsgiver = screen.getAllByRole("dialog", {
       hidden: true,
-    })[1];
+    })[2];
 
     expect(
       within(forhandsvisningEndringArbeidsgiver).getByRole("heading", {
-        name: endringSkjemaTexts.forhandsvisningArbeidsgiverTitle,
+        name: texts.forhandsvisningArbeidsgiverTitle,
         hidden: true,
       })
     ).to.exist;
     expect(
       within(forhandsvisningEndringArbeidsgiver).getByRole("heading", {
-        name: endringSkjemaTexts.forhandsvisningSubtitle,
+        name: texts.forhandsvisningSubtitle,
         hidden: true,
       })
     ).to.exist;
@@ -352,11 +318,11 @@ describe("EndreDialogmoteSkjemaTest", () => {
 
     const forhandsvisningEndringBehandler = screen.getAllByRole("dialog", {
       hidden: true,
-    })[2];
+    })[3];
 
     expect(
       within(forhandsvisningEndringBehandler).getByRole("heading", {
-        name: endringSkjemaTexts.forhandsvisningBehandlerTitle,
+        name: texts.forhandsvisningBehandlerTitle,
         hidden: true,
       })
     ).to.exist;

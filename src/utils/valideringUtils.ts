@@ -14,12 +14,6 @@ interface Tidspunkt {
   dato?: string;
 }
 
-interface Begrunnelser {
-  begrunnelseArbeidstaker?: string;
-  begrunnelseArbeidsgiver?: string;
-  begrunnelseBehandler?: string;
-}
-
 const MAX_LENGTH_STED = 200;
 
 export const texts = {
@@ -33,11 +27,6 @@ export const texts = {
   orgMissing: "Vennligst velg arbeidsgiver",
   orgInvalid: "Vennligst fyll inn et gyldig virksomhetsnummer",
   behandlerMissing: "Vennligst velg behandler",
-  begrunnelseArbeidstakerMissing:
-    "Vennligst angi begrunnelse til arbeidstakeren",
-  begrunnelseArbeidsgiverMissing:
-    "Vennligst angi begrunnelse til nærmeste leder",
-  begrunnelseBehandlerMissing: "Vennligst angi begrunnelse til behandler",
   arbeidsgiverDeltakerMissing: "Minst én person må delta fra arbeidsgiver",
   andreDeltakereMissingFunksjon: "Vennligst angi funksjon på deltaker",
   andreDeltakereMissingNavn: "Vennligst angi navn på deltaker",
@@ -105,6 +94,23 @@ export const validerDato = (
   }
 };
 
+export const validerKlokkeslett = (
+  dato: string | undefined,
+  klokkeslett: string | undefined
+): string | undefined => {
+  if (!klokkeslett) {
+    return texts.timeMissing;
+  }
+  if (dato && klokkeslett) {
+    const today = new Date();
+    const generertDato = genererDato(dato, klokkeslett);
+
+    if (new Date(generertDato) < today) {
+      return texts.timePassed;
+    }
+  }
+};
+
 export const validerTidspunkt = (tidspunkt?: Tidspunkt): Partial<Tidspunkt> => {
   const feil: Partial<Tidspunkt> = {};
   if (!tidspunkt) {
@@ -154,34 +160,6 @@ export const validerVideoLink = (videoLink?: string): string | undefined => {
   }
 
   return undefined;
-};
-
-export const validerBegrunnelser = (
-  begrunnelser: Begrunnelser,
-  maxLength: number,
-  includeBehandler: boolean
-): SkjemaTeksterFeil<Begrunnelser> => {
-  return validerSkjemaTekster<Begrunnelser>({
-    begrunnelseArbeidstaker: {
-      value: begrunnelser.begrunnelseArbeidstaker || "",
-      maxLength,
-      missingRequiredMessage: texts.begrunnelseArbeidstakerMissing,
-    },
-    begrunnelseArbeidsgiver: {
-      value: begrunnelser.begrunnelseArbeidsgiver || "",
-      maxLength,
-      missingRequiredMessage: texts.begrunnelseArbeidsgiverMissing,
-    },
-    ...(includeBehandler
-      ? {
-          begrunnelseBehandler: {
-            value: begrunnelser.begrunnelseBehandler || "",
-            maxLength,
-            missingRequiredMessage: texts.begrunnelseBehandlerMissing,
-          },
-        }
-      : {}),
-  });
 };
 
 export const validerSkjemaTekster = <Tekster>(

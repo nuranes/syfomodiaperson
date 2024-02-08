@@ -1,6 +1,6 @@
 import { Field } from "react-final-form";
 import React from "react";
-import { Alert, Button, Textarea } from "@navikt/ds-react";
+import { Button, Textarea } from "@navikt/ds-react";
 
 const texts = {
   forhandsvisning: "Forhåndsvisning",
@@ -11,7 +11,6 @@ interface FritekstSeksjonProps {
   label: string;
   handlePreviewClick: () => void;
   maxLength: number;
-  alertText?: string;
 }
 
 const FritekstSeksjon = ({
@@ -19,7 +18,6 @@ const FritekstSeksjon = ({
   label,
   handlePreviewClick,
   maxLength,
-  alertText,
 }: FritekstSeksjonProps) => (
   <div className="mb-8">
     <div className="mb-4">
@@ -37,11 +35,6 @@ const FritekstSeksjon = ({
         )}
       </Field>
     </div>
-    {!!alertText && (
-      <Alert variant="warning" size="small" className="mb-4 [&>*]:max-w-fit">
-        {alertText}
-      </Alert>
-    )}
     <Button variant="secondary" type="button" onClick={handlePreviewClick}>
       {texts.forhandsvisning}
     </Button>

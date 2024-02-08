@@ -13,7 +13,6 @@ import { InputDateStringToISODateString } from "nav-datovelger/lib/utils/dateFor
 import {
   ARBEIDSTAKER_DEFAULT,
   ARBEIDSTAKER_DEFAULT_FULL_NAME,
-  BEHANDLENDE_ENHET_DEFAULT,
   ENHET_GRUNERLOKKA,
   NARMESTE_LEDER_DEFAULT,
   VEILEDER_DEFAULT,
@@ -35,7 +34,6 @@ export const navEnhet = {
   id: ENHET_GRUNERLOKKA.nummer,
   navn: ENHET_GRUNERLOKKA.navn,
 };
-export const behandlendeEnhet = BEHANDLENDE_ENHET_DEFAULT;
 export const veileder = VEILEDER_DEFAULT;
 
 export const narmesteLederNavn = NARMESTE_LEDER_DEFAULT.navn;
@@ -82,6 +80,7 @@ export const dialogmote: DialogmoteDTO = {
   uuid: "123abc",
   tid: "2021-05-10T09:00:00.000",
   sted: "Videomøte",
+  videoLink: "",
   referatList: [],
 };
 export const dialogmoteMedBehandler: DialogmoteDTO = {
