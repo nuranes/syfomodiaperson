@@ -16,7 +16,7 @@ import { MoteIkonBlaaImage } from "../../../../../img/ImageComponents";
 
 const texts = {
   pageTitle: "Endre dialogmøte",
-  pageHeader: "Endre dialogmote",
+  pageHeader: "Endre dialogmøte",
   moteNotFound: "Fant ikke dialogmøte",
   motesvarHeading: "Møtesvar",
   motesvarSubheading: "Viser svar på siste innkalling/endring",
