@@ -1,5 +1,6 @@
 import {
   DialogmotedeltakerBehandlerDTO,
+  DialogmoteDTO,
   DialogmoteStatus,
   MotedeltakerVarselType,
   SvarType,
@@ -23,46 +24,57 @@ export const createDialogmote = (
   moteTid: string,
   behandler?: DialogmotedeltakerBehandlerDTO
 ) => {
-  const dialogMote = {
+  const dialogMote: DialogmoteDTO = {
     uuid: uuid,
     createdAt: "2021-05-26T12:56:26.238385",
     updatedAt: "2021-05-26T12:56:26.238385",
-    status: moteStatus.toString(),
+    status: moteStatus,
     opprettetAv: VEILEDER_IDENT_DEFAULT,
     tildeltVeilederIdent: VEILEDER_IDENT_DEFAULT,
     tildeltEnhet: ENHET_GRUNERLOKKA.nummer,
     arbeidstaker: {
-      uuid: uuid + 1,
       personIdent: ARBEIDSTAKER_DEFAULT.personIdent,
       type: "ARBEIDSTAKER",
       varselList: [
         {
           uuid: uuid + 2,
           createdAt: "2021-05-26T12:56:26.271381",
-          varselType: varselType.toString(),
+          varselType: varselType,
           digitalt: true,
           lestDato: "2021-05-26T12:56:26.271381",
           fritekst: "Ipsum lorum arbeidstaker",
           document: [
-            { type: "PARAGRAPH", title: "Tittel innkalling", texts: [] },
-            { type: "PARAGRAPH", title: "Møtetid:", texts: ["5. mai 2021"] },
-            { type: "PARAGRAPH", title: null, texts: ["Brødtekst"] },
-            { type: "LINK", title: null, texts: ["https://nav.no/"] },
             {
-              type: "PARAGRAPH",
-              title: null,
+              type: DocumentComponentType.PARAGRAPH,
+              title: "Tittel innkalling",
+              texts: [],
+            },
+            {
+              type: DocumentComponentType.PARAGRAPH,
+              title: "Møtetid:",
+              texts: ["5. mai 2021"],
+            },
+            {
+              type: DocumentComponentType.PARAGRAPH,
+              texts: ["Brødtekst"],
+            },
+            {
+              type: DocumentComponentType.LINK,
+              texts: ["https://nav.no/"],
+            },
+            {
+              type: DocumentComponentType.PARAGRAPH,
               texts: ["Med vennlig hilsen", "NAV Staden", "Kari Saksbehandler"],
             },
           ],
           svar: {
             svarTidspunkt: "2021-05-26T12:56:26.271381",
-            svarType: "KOMMER",
+            svarType: SvarType.KOMMER,
           },
         },
       ],
     },
     arbeidsgiver: {
-      uuid: uuid + 3,
       virksomhetsnummer: VIRKSOMHET_PONTYPANDY.virksomhetsnummer,
       type: "ARBEIDSGIVER",
       varselList: [
@@ -73,10 +85,11 @@ export const createDialogmote = (
           lestDato: "2021-05-26T12:56:26.271381",
           fritekst: "Ipsum lorum arbeidsgiver",
           document: [],
+          status: "",
           svar: {
             svarTidspunkt: "2021-05-26T12:56:26.271381",
             svarTekst: "Passer ikke denne dagen.",
-            svarType: "NYTT_TID_STED",
+            svarType: SvarType.NYTT_TID_STED,
           },
         },
       ],
