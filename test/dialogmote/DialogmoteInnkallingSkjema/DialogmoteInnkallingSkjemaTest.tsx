@@ -1,7 +1,5 @@
 import React from "react";
 import { expect } from "chai";
-import DialogmoteInnkallingSkjema from "@/components/dialogmote/innkalling/DialogmoteInnkallingSkjema";
-import { texts as skjemaFeilOppsummeringTexts } from "@/components/SkjemaFeiloppsummering";
 import { texts as valideringsTexts } from "@/utils/valideringUtils";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { dialogmoteRoutePath } from "@/routers/AppRouter";
@@ -14,13 +12,13 @@ import {
   moteTekster,
   navEnhet,
 } from "../testData";
-import { fireEvent, screen } from "@testing-library/react";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
 import { changeTextInput, clickButton, getTextInput } from "../../testUtils";
 import { expectedInnkallingDocuments } from "../testDataDocuments";
-import sinon from "sinon";
 import { queryClientWithMockData } from "../../testQueryClient";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import {
+  ARBEIDSTAKER_DEFAULT,
   LEDERE_DEFAULT,
   VIRKSOMHET_UTEN_NARMESTE_LEDER,
 } from "../../../mock/common/mockConstants";
@@ -33,8 +31,25 @@ import { ledereQueryKeys } from "@/data/leder/ledereQueryHooks";
 import { Malform, MalformProvider } from "@/context/malform/MalformContext";
 import userEvent from "@testing-library/user-event";
 import { getInnkallingTexts } from "@/data/dialogmote/dialogmoteTexts";
+import { brukerinfoMock } from "../../../mock/syfoperson/persondataMock";
+import { brukerinfoQueryKeys } from "@/data/navbruker/navbrukerQueryHooks";
+import {
+  DialogmoteInnkallingSkjema,
+  texts,
+} from "@/components/dialogmote/innkalling/DialogmoteInnkallingSkjema";
+import { behandlereQueryKeys } from "@/data/behandler/behandlereQueryHooks";
+import { BehandlerDTO, BehandlerType } from "@/data/behandler/BehandlerDTO";
 
 let queryClient: QueryClient;
+
+const fastlege = {
+  type: BehandlerType.FASTLEGE,
+  behandlerRef: "123",
+  fornavn: "Lego",
+  mellomnavn: "Las",
+  etternavn: "Legesen",
+};
+const behandlere: BehandlerDTO[] = [fastlege];
 
 const renderDialogmoteInnkallingSkjema = () => {
   return renderWithRouter(
@@ -53,111 +68,144 @@ const renderDialogmoteInnkallingSkjema = () => {
 };
 
 describe("DialogmoteInnkallingSkjema", () => {
-  let clock: any;
-  const today = new Date(Date.now());
-
   beforeEach(() => {
     queryClient = queryClientWithMockData();
-    clock = sinon.useFakeTimers(today.getTime());
   });
 
-  afterEach(() => {
-    clock.restore();
+  it("shows a list of behandlere and possibility to add behandler", () => {
+    queryClient.setQueryData(
+      behandlereQueryKeys.behandlere(arbeidstaker.personident),
+      () => behandlere
+    );
+    renderDialogmoteInnkallingSkjema();
+
+    expect(screen.getByRole("radio", { name: "Legg til en behandler" })).to
+      .exist;
+    expect(screen.getByRole("radio", { name: "Ingen behandler" })).to.exist;
+    expect(screen.getByRole("radio", { name: "Fastlege: Lego Las Legesen" })).to
+      .exist;
   });
 
-  it("validerer arbeidsgiver, dato, tid og sted", () => {
+  it("Possible to add behandler when no suggested behandlere", () => {
+    queryClient.setQueryData(
+      behandlereQueryKeys.behandlere(arbeidstaker.personident),
+      () => []
+    );
+    renderDialogmoteInnkallingSkjema();
+
+    expect(screen.getByRole("radio", { name: "Legg til en behandler" })).to
+      .exist;
+  });
+
+  it("viser advarsel om papirpost når bruker ikke kan varsles digitalt", () => {
+    const kanIkkeVarsles = {
+      ...brukerinfoMock,
+      kontaktinfo: {
+        ...brukerinfoMock.kontaktinfo,
+        skalHaVarsel: false,
+      },
+    };
+    queryClient.setQueryData(
+      brukerinfoQueryKeys.brukerinfo(ARBEIDSTAKER_DEFAULT.personIdent),
+      () => kanIkkeVarsles
+    );
+    renderDialogmoteInnkallingSkjema();
+
+    expect(screen.getByRole("img", { name: "Advarsel" })).to.exist;
+    expect(screen.getByText(texts.reservertAlert)).to.exist;
+  });
+  it("viser ikke advarsel om papirpost når bruker kan varsles digitalt", () => {
+    const kanVarsles = {
+      ...brukerinfoMock,
+      kontaktinfo: {
+        ...brukerinfoMock.kontaktinfo,
+        skalHaVarsel: true,
+      },
+    };
+    queryClient.setQueryData(
+      brukerinfoQueryKeys.brukerinfo(ARBEIDSTAKER_DEFAULT.personIdent),
+      () => kanVarsles
+    );
+    renderDialogmoteInnkallingSkjema();
+
+    expect(screen.queryByRole("img", { name: "Advarsel" })).to.not.exist;
+    expect(screen.queryByText(texts.reservertAlert)).to.not.exist;
+  });
+
+  it("validerer arbeidsgiver, dato, tid og sted", async () => {
     renderDialogmoteInnkallingSkjema();
     clickButton("Send innkallingene");
 
-    expect(screen.getAllByText(valideringsTexts.orgMissing)).to.not.be.empty;
-    expect(screen.getAllByText(valideringsTexts.dateMissing)).to.not.be.empty;
-    expect(screen.getAllByText(valideringsTexts.timeMissing)).to.not.be.empty;
-    expect(screen.getAllByText(valideringsTexts.placeMissing)).to.not.be.empty;
-
-    // Feilmeldinger i oppsummering
-    expect(screen.getByText(skjemaFeilOppsummeringTexts.title)).to.exist;
-    expect(screen.getByRole("link", { name: valideringsTexts.orgMissing })).to
-      .exist;
-    expect(screen.getByRole("link", { name: valideringsTexts.dateMissing })).to
-      .exist;
-    expect(screen.getByRole("link", { name: valideringsTexts.timeMissing })).to
-      .exist;
-    expect(screen.getByRole("link", { name: valideringsTexts.placeMissing })).to
-      .exist;
+    expect(await screen.findByText(valideringsTexts.orgMissing)).to.exist;
+    expect(await screen.findByText(/Vennligst angi en gyldig dato/)).to.exist;
+    expect(await screen.findByText(valideringsTexts.timeMissing)).to.exist;
+    expect(await screen.findByText(texts.stedMissing)).to.exist;
   });
 
-  it("valideringsmeldinger forsvinner ved utbedring", () => {
+  it("valideringsmeldinger forsvinner ved utbedring", async () => {
     renderDialogmoteInnkallingSkjema();
     clickButton("Send innkallingene");
 
-    expect(screen.getAllByText(valideringsTexts.orgMissing)).to.not.be.empty;
-    expect(screen.getAllByText(valideringsTexts.dateMissing)).to.not.be.empty;
-    expect(screen.getAllByText(valideringsTexts.timeMissing)).to.not.be.empty;
-    expect(screen.getAllByText(valideringsTexts.placeMissing)).to.not.be.empty;
-
-    // Feilmeldinger i oppsummering
-    expect(screen.getByText(skjemaFeilOppsummeringTexts.title)).to.exist;
-    expect(screen.getByRole("link", { name: valideringsTexts.orgMissing })).to
-      .exist;
-    expect(screen.getByRole("link", { name: valideringsTexts.dateMissing })).to
-      .exist;
-    expect(screen.getByRole("link", { name: valideringsTexts.timeMissing })).to
-      .exist;
-    expect(screen.getByRole("link", { name: valideringsTexts.placeMissing })).to
-      .exist;
+    expect(await screen.findByText(valideringsTexts.orgMissing)).to.exist;
+    expect(await screen.findByText(/Vennligst angi en gyldig dato/)).to.exist;
+    expect(await screen.findByText(valideringsTexts.timeMissing)).to.exist;
+    expect(await screen.findByText(texts.stedMissing)).to.exist;
 
     passSkjemaInput();
 
-    // Feilmeldinger og feiloppsummering forsvinner
-    expect(screen.queryAllByText(valideringsTexts.orgMissing)).to.be.empty;
-    expect(screen.queryAllByText(valideringsTexts.dateMissing)).to.be.empty;
-    expect(screen.queryAllByText(valideringsTexts.timeMissing)).to.be.empty;
-    expect(screen.queryAllByText(valideringsTexts.placeMissing)).to.be.empty;
+    // Feilmeldinger forsvinner
+    await waitFor(() => {
+      expect(screen.queryByText(valideringsTexts.orgMissing)).to.not.exist;
+    });
+    await waitFor(() => {
+      expect(screen.queryByText(/Vennligst angi en gyldig dato/)).to.not.exist;
+    });
+    await waitFor(() => {
+      expect(screen.queryByText(valideringsTexts.timeMissing)).to.not.exist;
+    });
+    await waitFor(() => {
+      expect(screen.queryByText(texts.stedMissing)).to.not.exist;
+    });
 
     // Tøm felt for sted
     const stedInput = getTextInput("Sted");
     changeTextInput(stedInput, "");
 
-    // Feilmelding vises, feiloppsummering vises ved neste submit
-    expect(screen.getAllByText(valideringsTexts.placeMissing)).to.have.length(
-      1
-    );
-
-    clickButton("Send innkallingene");
-    expect(screen.getAllByText(valideringsTexts.placeMissing)).to.have.length(
-      2
-    );
+    // Feilmelding vises
+    expect(await screen.findByText(texts.stedMissing)).to.exist;
   });
 
-  it("oppretter innkalling med verdier fra skjema", () => {
+  it("oppretter innkalling med verdier fra skjema", async () => {
     stubInnkallingApi(apiMock());
     renderDialogmoteInnkallingSkjema();
     passSkjemaInput();
 
     clickButton("Send innkallingene");
 
-    const innkallingMutation = queryClient.getMutationCache().getAll()[0];
-    const expectedInnkallingDto = {
-      arbeidsgiver: {
-        virksomhetsnummer: arbeidsgiver.orgnr,
-        fritekstInnkalling: moteTekster.fritekstTilArbeidsgiver,
-        innkalling: expectedInnkallingDocuments.arbeidsgiver(),
-      },
-      arbeidstaker: {
-        personIdent: arbeidstaker.personident,
-        fritekstInnkalling: moteTekster.fritekstTilArbeidstaker,
-        innkalling: expectedInnkallingDocuments.arbeidstaker(),
-      },
-      tidSted: {
-        sted: mote.sted,
-        tid: mote.datoTid,
-        videoLink: mote.videolink,
-      },
-    };
+    await waitFor(() => {
+      const innkallingMutation = queryClient.getMutationCache().getAll()[0];
+      const expectedInnkallingDto = {
+        arbeidsgiver: {
+          virksomhetsnummer: arbeidsgiver.orgnr,
+          fritekstInnkalling: moteTekster.fritekstTilArbeidsgiver,
+          innkalling: expectedInnkallingDocuments.arbeidsgiver(),
+        },
+        arbeidstaker: {
+          personIdent: arbeidstaker.personident,
+          fritekstInnkalling: moteTekster.fritekstTilArbeidstaker,
+          innkalling: expectedInnkallingDocuments.arbeidstaker(),
+        },
+        tidSted: {
+          sted: mote.sted,
+          tid: mote.datoTid,
+          videoLink: mote.videolink,
+        },
+      };
 
-    expect(innkallingMutation.state.variables).to.deep.equal(
-      expectedInnkallingDto
-    );
+      expect(innkallingMutation.state.variables).to.deep.equal(
+        expectedInnkallingDto
+      );
+    });
 
     expect(screen.queryByText(/Det er ikke registrert en nærmeste leder/i)).to
       .not.exist;
@@ -244,7 +292,7 @@ describe("DialogmoteInnkallingSkjema", () => {
     expect(screen.getByText("Epost")).to.exist;
   });
 
-  it("trimmer videolenke i innkallingen som sendes til api", () => {
+  it("trimmer videolenke i innkallingen som sendes til api", async () => {
     stubInnkallingApi(apiMock());
     renderDialogmoteInnkallingSkjema();
     passSkjemaInput();
@@ -255,7 +303,12 @@ describe("DialogmoteInnkallingSkjema", () => {
     changeTextInput(videoLinkInput, linkWithWhitespace);
     clickButton("Send innkallingene");
 
-    const innkallingMutation = queryClient.getMutationCache().getAll()[0];
+    let innkallingMutation;
+    await waitFor(() => {
+      innkallingMutation = queryClient.getMutationCache().getAll()[0];
+      expect(innkallingMutation).to.exist;
+    });
+
     const {
       tidSted: { videoLink },
       arbeidsgiver,

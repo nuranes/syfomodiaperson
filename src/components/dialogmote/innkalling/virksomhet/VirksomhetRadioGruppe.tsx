@@ -8,22 +8,20 @@ const texts = {
 };
 
 interface VirksomhetRadioGruppeProps {
+  defaultVirksomhet: string | undefined;
   velgVirksomhet(virksomhetsnummer: string): void;
   setShowInput(value: boolean): void;
   virksomheter: string[];
-  id: string;
   label: string;
-  name: string;
   error: ReactNode;
 }
 
 export const VirksomhetRadioGruppe = ({
+  defaultVirksomhet,
   velgVirksomhet,
   setShowInput,
   virksomheter,
-  id,
   label,
-  name,
   error,
 }: VirksomhetRadioGruppeProps): ReactElement => {
   const { toggles } = useFeatureToggles();
@@ -36,17 +34,10 @@ export const VirksomhetRadioGruppe = ({
     velgVirksomhet("");
   };
 
-  let defaultVirksomhet: string | undefined = undefined;
-  if (virksomheter.length === 1) {
-    defaultVirksomhet = virksomheter[0];
-    removeInputAndChooseVirksomhet(defaultVirksomhet);
-  }
-
   return (
     <RadioGroup
       legend={label}
       size="small"
-      id={id}
       error={error}
       defaultValue={defaultVirksomhet}
     >
@@ -55,15 +46,10 @@ export const VirksomhetRadioGruppe = ({
           key={index}
           velgVirksomhet={removeInputAndChooseVirksomhet}
           virksomhetsnummer={virksomhetsnummer}
-          name={name}
         />
       ))}
       {toggles.isVirksomhetsinputEnabled && (
-        <Radio
-          name={name}
-          value="fritekst"
-          onChange={showInputAndRemoveChosenVirksomhet}
-        >
+        <Radio value="fritekst" onChange={showInputAndRemoveChosenVirksomhet}>
           {texts.fritekstRadio}
         </Radio>
       )}

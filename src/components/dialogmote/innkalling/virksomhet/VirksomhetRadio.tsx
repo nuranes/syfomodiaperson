@@ -5,13 +5,11 @@ import { Radio } from "@navikt/ds-react";
 interface VirksomhetRadioProps {
   velgVirksomhet(virksomhetsnummer: string): void;
   virksomhetsnummer: string;
-  name: string;
 }
 
 export const VirksomhetRadio = ({
   velgVirksomhet,
   virksomhetsnummer,
-  name,
 }: VirksomhetRadioProps) => {
   const { virksomhetsnavn } = useVirksomhetQuery(virksomhetsnummer);
   const virksomhetsnavnText =
@@ -19,7 +17,6 @@ export const VirksomhetRadio = ({
 
   return (
     <Radio
-      name={name}
       value={virksomhetsnummer}
       onChange={() => velgVirksomhet(virksomhetsnummer)}
     >

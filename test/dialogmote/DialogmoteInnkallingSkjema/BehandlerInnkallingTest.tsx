@@ -14,32 +14,29 @@ import {
   clickButton,
   getTextInput,
   getTooLongText,
-  maxLengthErrorMessage,
 } from "../../testUtils";
-import { MAX_LENGTH_INNKALLING_FRITEKST } from "@/components/dialogmote/innkalling/DialogmoteInnkallingTekster";
 import { dialogmoteRoutePath } from "@/routers/AppRouter";
-import DialogmoteInnkallingSkjema from "@/components/dialogmote/innkalling/DialogmoteInnkallingSkjema";
 import { stubInnkallingApi } from "../../stubs/stubIsdialogmote";
 import { apiMock } from "../../stubs/stubApi";
 import { behandlerNavn } from "@/utils/behandlerUtils";
-import { fireEvent, screen } from "@testing-library/react";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { expectedInnkallingDocuments } from "../testDataDocuments";
-import sinon from "sinon";
 import { queryClientWithMockData } from "../../testQueryClient";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { behandlereQueryKeys } from "@/data/behandler/behandlereQueryHooks";
 import { renderWithRouter } from "../../testRouterUtils";
 import { stubFeatureTogglesApi } from "../../stubs/stubUnleash";
 import { MalformProvider } from "@/context/malform/MalformContext";
+import {
+  DialogmoteInnkallingSkjema,
+  MAX_LENGTH_INNKALLING_FRITEKST,
+} from "@/components/dialogmote/innkalling/DialogmoteInnkallingSkjema";
 
 let queryClient: QueryClient;
 let apiMockScope;
 
-describe("Dialogmoteinnkallingskjema", () => {
-  let clock: any;
-  const today = new Date(Date.now());
-
+describe("Dialogmoteinnkallingskjema med behandler", () => {
   beforeEach(() => {
     apiMockScope = apiMock();
     queryClient = queryClientWithMockData();
@@ -47,19 +44,11 @@ describe("Dialogmoteinnkallingskjema", () => {
       behandlereQueryKeys.behandlere(arbeidstaker.personident),
       () => [behandler]
     );
-
-    clock = sinon.useFakeTimers(today.getTime());
   });
 
-  afterEach(() => {
-    clock.restore();
-  });
-
-  it("validerer maks lengde på alle fritekstfelter inkl behandler", () => {
+  it("validerer maks lengde på alle fritekstfelter inkl behandler", async () => {
     const tooLongFritekst = getTooLongText(MAX_LENGTH_INNKALLING_FRITEKST);
-    const maxLengthErrorMsg = maxLengthErrorMessage(
-      MAX_LENGTH_INNKALLING_FRITEKST
-    );
+    const maxLengthErrorMsg = "1 tegn for mye";
     renderDialogmoteInnkallingSkjema();
 
     const fastlegeInput = screen.getByRole("radio", { name: /Fastlege/ });
@@ -92,12 +81,10 @@ describe("Dialogmoteinnkallingskjema", () => {
     changeTextInput(fritekstBehandlerInput, tooLongFritekst);
     clickButton("Send innkallingene");
 
-    expect(
-      screen.queryAllByRole("link", { name: maxLengthErrorMsg })
-    ).to.have.length(3);
+    expect(await screen.findAllByText(maxLengthErrorMsg)).to.have.length(3);
   });
 
-  it("submit creates innkalling with behandler when behandler is selected", () => {
+  it("submit creates innkalling with behandler when behandler is selected", async () => {
     stubInnkallingApi(apiMockScope);
     stubFeatureTogglesApi(apiMockScope);
     renderDialogmoteInnkallingSkjema();
@@ -105,36 +92,38 @@ describe("Dialogmoteinnkallingskjema", () => {
 
     clickButton("Send innkallingene");
 
-    const innkallingMutation = queryClient.getMutationCache().getAll()[0];
-    const expectedInnkallingDto = {
-      arbeidsgiver: {
-        virksomhetsnummer: arbeidsgiver.orgnr,
-        fritekstInnkalling: moteTekster.fritekstTilArbeidsgiver,
-        innkalling: expectedInnkallingDocuments.arbeidsgiver(true),
-      },
-      arbeidstaker: {
-        personIdent: arbeidstaker.personident,
-        fritekstInnkalling: moteTekster.fritekstTilArbeidstaker,
-        innkalling: expectedInnkallingDocuments.arbeidstaker(true),
-      },
-      behandler: {
-        personIdent: behandler.fnr,
-        behandlerRef: behandler.behandlerRef,
-        behandlerNavn: behandlerNavn(behandler),
-        behandlerKontor: behandler.kontor,
-        fritekstInnkalling: moteTekster.fritekstTilBehandler,
-        innkalling: expectedInnkallingDocuments.behandler(),
-      },
-      tidSted: {
-        sted: mote.sted,
-        tid: mote.datoTid,
-        videoLink: mote.videolink,
-      },
-    };
+    await waitFor(() => {
+      const innkallingMutation = queryClient.getMutationCache().getAll()[0];
+      const expectedInnkallingDto = {
+        arbeidsgiver: {
+          virksomhetsnummer: arbeidsgiver.orgnr,
+          fritekstInnkalling: moteTekster.fritekstTilArbeidsgiver,
+          innkalling: expectedInnkallingDocuments.arbeidsgiver(true),
+        },
+        arbeidstaker: {
+          personIdent: arbeidstaker.personident,
+          fritekstInnkalling: moteTekster.fritekstTilArbeidstaker,
+          innkalling: expectedInnkallingDocuments.arbeidstaker(true),
+        },
+        behandler: {
+          personIdent: behandler.fnr,
+          behandlerRef: behandler.behandlerRef,
+          behandlerNavn: behandlerNavn(behandler),
+          behandlerKontor: behandler.kontor,
+          fritekstInnkalling: moteTekster.fritekstTilBehandler,
+          innkalling: expectedInnkallingDocuments.behandler(),
+        },
+        tidSted: {
+          sted: mote.sted,
+          tid: mote.datoTid,
+          videoLink: mote.videolink,
+        },
+      };
 
-    expect(innkallingMutation.state.variables).to.deep.equal(
-      expectedInnkallingDto
-    );
+      expect(innkallingMutation.state.variables).to.deep.equal(
+        expectedInnkallingDto
+      );
+    });
   });
 
   it("doesn't display behandler fritekst and preview when none is selected", () => {

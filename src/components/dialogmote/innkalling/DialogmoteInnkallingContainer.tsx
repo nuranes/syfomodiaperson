@@ -1,7 +1,6 @@
 import Side from "../../../sider/Side";
 import React, { ReactElement } from "react";
 import Sidetopp from "../../Sidetopp";
-import DialogmoteInnkallingSkjema from "./DialogmoteInnkallingSkjema";
 import SideLaster from "../../SideLaster";
 import { BrukerKanIkkeVarslesPapirpostAdvarsel } from "@/components/dialogmote/BrukerKanIkkeVarslesPapirpostAdvarsel";
 import { useDialogmoterQuery } from "@/data/dialogmote/dialogmoteQueryHooks";
@@ -16,6 +15,7 @@ import { MotehistorikkPanel } from "@/components/dialogmote/motehistorikk/Motehi
 import { useDialogmoteunntakQuery } from "@/data/dialogmotekandidat/dialogmoteunntakQueryHooks";
 import { Menypunkter } from "@/components/globalnavigasjon/GlobalNavigasjon";
 import { MalformProvider } from "@/context/malform/MalformContext";
+import { DialogmoteInnkallingSkjema } from "@/components/dialogmote/innkalling/DialogmoteInnkallingSkjema";
 
 const texts = {
   title: "Innkalling til dialogmøte",

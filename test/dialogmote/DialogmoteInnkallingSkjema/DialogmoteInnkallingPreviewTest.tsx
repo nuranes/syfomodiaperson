@@ -10,13 +10,10 @@ import {
 import { fireEvent, screen, within } from "@testing-library/react";
 import { expect } from "chai";
 import userEvent from "@testing-library/user-event";
-import { texts as innkallingSkjemaTexts } from "@/components/dialogmote/innkalling/DialogmoteInnkallingTekster";
 import { dialogmoteRoutePath } from "@/routers/AppRouter";
-import DialogmoteInnkallingSkjema from "@/components/dialogmote/innkalling/DialogmoteInnkallingSkjema";
 import React from "react";
 import { changeTextInput, getTextInput } from "../../testUtils";
 import { expectedInnkallingDocuments } from "../testDataDocuments";
-import sinon from "sinon";
 import { queryClientWithMockData } from "../../testQueryClient";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { behandlereQueryKeys } from "@/data/behandler/behandlereQueryHooks";
@@ -24,22 +21,18 @@ import { renderWithRouter } from "../../testRouterUtils";
 import { stubFeatureTogglesApi } from "../../stubs/stubUnleash";
 import { apiMock } from "../../stubs/stubApi";
 import { MalformProvider } from "@/context/malform/MalformContext";
+import {
+  DialogmoteInnkallingSkjema,
+  texts,
+} from "@/components/dialogmote/innkalling/DialogmoteInnkallingSkjema";
 
 let queryClient: any;
 let mockApiScope;
 
-describe("Dialogmoteinnkallingskjema", () => {
-  let clock: any;
-  const today = new Date(Date.now());
-
+describe("Dialogmoteinnkallingskjema forhåndsvisning", () => {
   beforeEach(() => {
     queryClient = queryClientWithMockData();
     mockApiScope = apiMock();
-    clock = sinon.useFakeTimers(today.getTime());
-  });
-
-  afterEach(() => {
-    clock.restore();
   });
 
   it("previews innkalling to arbeidstaker", () => {
@@ -56,17 +49,17 @@ describe("Dialogmoteinnkallingskjema", () => {
       {
         hidden: true,
       }
-    )[0];
+    )[1];
 
     expect(
       within(forhandsvisningInnkallingArbeidstaker).getByRole("heading", {
-        name: innkallingSkjemaTexts.forhandsvisningArbeidstakerTitle,
+        name: texts.forhandsvisningArbeidstakerTitle,
         hidden: true,
       })
     ).to.exist;
     expect(
       within(forhandsvisningInnkallingArbeidstaker).getByRole("heading", {
-        name: innkallingSkjemaTexts.forhandsvisningSubtitle,
+        name: texts.forhandsvisningSubtitle,
         hidden: true,
       })
     ).to.exist;
@@ -93,17 +86,17 @@ describe("Dialogmoteinnkallingskjema", () => {
       {
         hidden: true,
       }
-    )[1];
+    )[2];
 
     expect(
       within(forhandsvisningInnkallingArbeidsgiver).getByRole("heading", {
-        name: innkallingSkjemaTexts.forhandsvisningSubtitle,
+        name: texts.forhandsvisningSubtitle,
         hidden: true,
       })
     ).to.exist;
     expect(
       within(forhandsvisningInnkallingArbeidsgiver).getByRole("heading", {
-        name: innkallingSkjemaTexts.forhandsvisningArbeidsgiverTitle,
+        name: texts.forhandsvisningArbeidsgiverTitle,
         hidden: true,
       })
     ).to.exist;
@@ -139,11 +132,11 @@ describe("Dialogmoteinnkallingskjema", () => {
     userEvent.click(previewButtons[2]);
     const forhandsvisningInnkallingBehandler = screen.getAllByRole("dialog", {
       hidden: true,
-    })[2];
+    })[3];
 
     expect(
       within(forhandsvisningInnkallingBehandler).getByRole("heading", {
-        name: innkallingSkjemaTexts.forhandsvisningBehandlerTitle,
+        name: texts.forhandsvisningBehandlerTitle,
         hidden: true,
       })
     ).to.exist;

@@ -9,7 +9,7 @@ import {
   VarselSvarDTO,
 } from "@/data/dialogmote/types/dialogmoteTypes";
 import { toDatePrettyPrint } from "@/utils/datoUtils";
-import { InputDateStringToISODateString } from "nav-datovelger/lib/utils/dateFormatUtils";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 import {
   ARBEIDSTAKER_DEFAULT,
   ARBEIDSTAKER_DEFAULT_FULL_NAME,
@@ -22,6 +22,8 @@ import { behandlerNavn } from "@/utils/behandlerUtils";
 import { referatTexts } from "@/data/dialogmote/dialogmoteTexts";
 import { BehandlerDTO, BehandlerType } from "@/data/behandler/BehandlerDTO";
 import { DocumentComponentType } from "@/data/documentcomponent/documentComponentTypes";
+
+dayjs.extend(customParseFormat);
 
 export const arbeidstaker = {
   navn: ARBEIDSTAKER_DEFAULT_FULL_NAME,
@@ -145,7 +147,9 @@ export const dialogmoteMedVarsel = (
 
 const moteSted = "Sted for møtet";
 const moteDato = toDatePrettyPrint(dayjs(new Date()).add(1, "days")) as string;
-const moteDatoAsISODateString = InputDateStringToISODateString(moteDato);
+const moteDatoAsISODateString = dayjs(moteDato, "DD.MM.YYYY").format(
+  "YYYY-MM-DD"
+);
 const moteKlokkeslett = "08:00";
 const moteDatoTid = `${moteDatoAsISODateString}T${moteKlokkeslett}:00`;
 const moteVideoLink = "https://video.nav.no";
@@ -156,10 +160,10 @@ const endretDato = toDatePrettyPrint(
   dayjs(new Date()).add(2, "days")
 ) as string;
 const endretKlokkeslett = "09:00";
-const endretDatoAsISODateString = InputDateStringToISODateString(endretDato);
-const endretDatoTid = `${InputDateStringToISODateString(
-  endretDato
-)}T${endretKlokkeslett}:00`;
+const endretDatoAsISODateString = dayjs(endretDato, "DD.MM.YYYY").format(
+  "YYYY-MM-DD"
+);
+const endretDatoTid = `${endretDatoAsISODateString}T${endretKlokkeslett}:00`;
 const endretVideolink = "https://video.nav.no/asxs";
 
 const fritekstTilBehandler = "Noe fritekst til behandler";

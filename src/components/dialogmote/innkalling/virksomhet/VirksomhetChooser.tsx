@@ -14,19 +14,17 @@ const texts = {
 
 interface VirksomhetRadioGruppeProps {
   velgVirksomhet(virksomhetsnummer: string): void;
+  defaultVirksomhet: string | undefined;
   virksomheter: string[];
-  id: string;
   label: string;
-  name: string;
   error: ReactNode;
 }
 
 export const VirksomhetChooser = ({
   velgVirksomhet,
+  defaultVirksomhet,
   virksomheter,
-  id,
   label,
-  name,
   error,
 }: VirksomhetRadioGruppeProps): ReactElement => {
   const { toggles } = useFeatureToggles();
@@ -35,12 +33,11 @@ export const VirksomhetChooser = ({
   return (
     <div className="mb-8">
       <VirksomhetRadioGruppe
+        defaultVirksomhet={defaultVirksomhet}
         velgVirksomhet={velgVirksomhet}
         setShowInput={setShowInput}
         virksomheter={virksomheter}
-        id={id}
         label={label}
-        name={name}
         error={error}
       />
 

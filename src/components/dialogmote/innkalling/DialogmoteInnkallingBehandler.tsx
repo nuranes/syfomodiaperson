@@ -1,11 +1,13 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import { useField } from "react-final-form";
 import AppSpinner from "@/components/AppSpinner";
 import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
 import { useBehandlereQuery } from "@/data/behandler/behandlereQueryHooks";
 import { ErrorMessage, Radio, RadioGroup } from "@navikt/ds-react";
 import { behandlerDisplayText } from "@/utils/behandlerUtils";
 import BehandlerSearch from "@/components/behandler/BehandlerSearch";
+import { useController } from "react-hook-form";
+import { DialogmoteInnkallingSkjemaValues } from "@/components/dialogmote/innkalling/DialogmoteInnkallingSkjema";
+import { behandlerRefValidationErrors } from "@/utils/valideringUtils";
 
 export const texts = {
   title: "Behandler",
@@ -29,8 +31,16 @@ const DialogmoteInnkallingBehandler = ({
   setSelectedBehandler,
   selectedbehandler,
 }: DialogmoteInnkallingBehandlerProps): ReactElement => {
-  const field = "behandlerRef";
-  const { input, meta } = useField<string>(field);
+  const { field, fieldState } = useController<
+    DialogmoteInnkallingSkjemaValues,
+    "behandlerRef"
+  >({
+    name: "behandlerRef",
+    rules: {
+      validate: (value) => behandlerRefValidationErrors(value, true),
+    },
+  });
+
   const { data: behandlere, isLoading } = useBehandlereQuery();
 
   const [showBehandlerSearch, setShowBehandlerSearch] =
@@ -38,11 +48,11 @@ const DialogmoteInnkallingBehandler = ({
 
   useEffect(() => {
     if (!showBehandlerSearch) {
-      input.onChange(selectedbehandler?.behandlerRef ?? "NONE");
+      field.onChange(selectedbehandler?.behandlerRef ?? "NONE");
     } else {
-      input.onChange(selectedbehandler?.behandlerRef);
+      field.onChange(selectedbehandler?.behandlerRef);
     }
-  }, [input, selectedbehandler?.behandlerRef, showBehandlerSearch]);
+  }, [field, selectedbehandler?.behandlerRef, showBehandlerSearch]);
 
   const updateBehandlerAndHideSearch = (behandler?: BehandlerDTO) => {
     setShowBehandlerSearch(false);
@@ -61,7 +71,6 @@ const DialogmoteInnkallingBehandler = ({
       ) : (
         <>
           <RadioGroup
-            id={field}
             legend={behandlerRadioGruppeTexts.behandlerLegend}
             description={behandlerRadioGruppeTexts.behandlerDescription}
             size="small"
@@ -103,9 +112,7 @@ const DialogmoteInnkallingBehandler = ({
           )}
         </>
       )}
-      <ErrorMessage size="small">
-        {meta.submitFailed && meta.error}
-      </ErrorMessage>
+      <ErrorMessage size="small">{fieldState.error?.message}</ErrorMessage>
     </>
   );
 };

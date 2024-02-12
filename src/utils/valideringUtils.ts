@@ -1,28 +1,14 @@
-import { isISODateString } from "nav-datovelger";
 import { ReferatSkjemaValues } from "@/components/dialogmote/referat/Referat";
 import { genererDato } from "@/sider/mote/utils";
 import { containsWhiteSpace } from "@/utils/stringUtils";
-import { toDatePrettyPrint } from "@/utils/datoUtils";
-import dayjs from "dayjs";
 
 export interface SkjemaFeil {
   [key: string]: string | undefined;
 }
 
-interface Tidspunkt {
-  klokkeslett?: string;
-  dato?: string;
-}
-
-const MAX_LENGTH_STED = 200;
-
 export const texts = {
-  dateMissing: "Vennligst angi gyldig dato",
-  dateWrongFormat:
-    "Datoen er ikke gyldig eller har ikke riktig format (dd.mm.åååå)",
   timeMissing: "Vennligst angi klokkeslett",
   timePassed: "Tidspunktet har passert",
-  placeMissing: "Vennligst angi møtested",
   textTooLong: (maxLength: number) => `Maks ${maxLength} tegn tillatt`,
   orgMissing: "Vennligst velg arbeidsgiver",
   orgInvalid: "Vennligst fyll inn et gyldig virksomhetsnummer",
@@ -57,43 +43,6 @@ export const behandlerRefValidationErrors = (
   return undefined;
 };
 
-export const validerSted = (
-  sted?: string,
-  maxLength?: number
-): string | undefined => {
-  if (undefinedOrEmpty(sted)) {
-    return texts.placeMissing;
-  } else if (maxLength && sted && sted.length > maxLength) {
-    return texts.textTooLong(MAX_LENGTH_STED);
-  } else {
-    return undefined;
-  }
-};
-
-export const validerDato = (
-  value: string | undefined,
-  minDate?: Date,
-  maxDate?: Date
-) => {
-  if (!value) {
-    return texts.dateMissing;
-  } else if (!isISODateString(value)) {
-    return texts.dateWrongFormat;
-  } else if (
-    minDate &&
-    new Date(value) < dayjs(minDate).startOf("day").toDate()
-  ) {
-    return `Datoen må være etter ${toDatePrettyPrint(minDate)}`;
-  } else if (
-    maxDate &&
-    new Date(value) > dayjs(maxDate).endOf("day").toDate()
-  ) {
-    return `Datoen må være før ${toDatePrettyPrint(maxDate)}`;
-  } else {
-    return undefined;
-  }
-};
-
 export const validerKlokkeslett = (
   dato: string | undefined,
   klokkeslett: string | undefined
@@ -109,36 +58,6 @@ export const validerKlokkeslett = (
       return texts.timePassed;
     }
   }
-};
-
-export const validerTidspunkt = (tidspunkt?: Tidspunkt): Partial<Tidspunkt> => {
-  const feil: Partial<Tidspunkt> = {};
-  if (!tidspunkt) {
-    feil.klokkeslett = texts.timeMissing;
-    feil.dato = texts.dateMissing;
-  } else {
-    const datoValue = tidspunkt.dato;
-    if (!datoValue) {
-      feil.dato = texts.dateMissing;
-    } else if (!isISODateString(datoValue)) {
-      feil.dato = texts.dateWrongFormat;
-    }
-    const klokkeslettValue = tidspunkt.klokkeslett;
-    if (!klokkeslettValue) {
-      feil.klokkeslett = texts.timeMissing;
-    }
-
-    if (isISODateString(datoValue) && klokkeslettValue) {
-      const today = new Date();
-      const generertDato = genererDato(tidspunkt.dato, tidspunkt.klokkeslett);
-
-      if (new Date(generertDato) < today) {
-        feil.klokkeslett = texts.timePassed;
-      }
-    }
-  }
-
-  return feil;
 };
 
 export const validerVideoLink = (videoLink?: string): string | undefined => {

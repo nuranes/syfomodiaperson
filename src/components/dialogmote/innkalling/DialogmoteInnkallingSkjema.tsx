@@ -1,26 +1,12 @@
 import React, { useState } from "react";
 import DialogmoteInnkallingVelgVirksomhet from "./virksomhet/DialogmoteInnkallingVelgVirksomhet";
-import DialogmoteTidOgSted from "../DialogmoteTidOgSted";
-import DialogmoteInnkallingTekster, {
-  MAX_LENGTH_INNKALLING_FRITEKST,
-} from "./DialogmoteInnkallingTekster";
-import { Form } from "react-final-form";
-import {
-  behandlerRefValidationErrors,
-  validerArbeidsgiver,
-  validerSkjemaTekster,
-  validerSted,
-  validerTidspunkt,
-  validerVideoLink,
-} from "@/utils/valideringUtils";
+import { validerKlokkeslett, validerVideoLink } from "@/utils/valideringUtils";
 import {
   DialogmoteInnkallingDTO,
   TidStedDto,
 } from "@/data/dialogmote/types/dialogmoteTypes";
 import { Link, Navigate } from "react-router-dom";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
-import { SkjemaFeiloppsummering } from "../../SkjemaFeiloppsummering";
-import { useFeilUtbedret } from "@/hooks/useFeilUtbedret";
 import {
   IInnkallingDocument,
   useInnkallingDocument,
@@ -33,43 +19,54 @@ import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
 import { behandlerNavn } from "@/utils/behandlerUtils";
 import { useSkjemaValuesToDto } from "@/hooks/dialogmote/useSkjemaValuesToDto";
 import { TidStedSkjemaValues } from "@/data/dialogmote/types/skjemaTypes";
-import DialogmoteInnkallingSkjemaSeksjon from "@/components/dialogmote/innkalling/DialogmoteInnkallingSkjemaSeksjon";
-import { Box, Button } from "@navikt/ds-react";
+import { Alert, Box, Button } from "@navikt/ds-react";
 import { MalformRadioGroup } from "@/components/MalformRadioGroup";
 import * as Amplitude from "@/utils/amplitude";
 import { EventType } from "@/utils/amplitude";
 import { useMalform } from "@/context/malform/MalformContext";
+import { useBrukerinfoQuery } from "@/data/navbruker/navbrukerQueryHooks";
+import { DialogmoteFrist } from "@/components/dialogmote/DialogmoteFrist";
+import { DialogmoteDato } from "@/sider/mote/components/DialogmoteDato";
+import DialogmoteKlokkeslett from "@/sider/mote/components/DialogmoteKlokkeslett";
+import DialogmoteSted, {
+  MAX_LENGTH_STED,
+} from "@/sider/mote/components/DialogmoteSted";
+import DialogmoteVideolink from "@/sider/mote/components/DialogmoteVideolink";
+import { FormProvider, useForm } from "react-hook-form";
+import TextareaField from "@/components/dialogmote/TextareaField";
+import { Forhandsvisning } from "@/components/Forhandsvisning";
 
-interface DialogmoteInnkallingSkjemaTekster {
+export interface DialogmoteInnkallingSkjemaValues extends TidStedSkjemaValues {
   fritekstArbeidsgiver: string;
   fritekstArbeidstaker: string;
   fritekstBehandler?: string;
-}
-
-export interface DialogmoteInnkallingSkjemaValues
-  extends DialogmoteInnkallingSkjemaTekster,
-    TidStedSkjemaValues {
   arbeidsgiver: string;
   behandlerRef: string;
 }
 
-type DialogmoteInnkallingSkjemaFeil = Partial<
-  Pick<
-    DialogmoteInnkallingSkjemaValues,
-    | "arbeidsgiver"
-    | "behandlerRef"
-    | "sted"
-    | "klokkeslett"
-    | "dato"
-    | "videoLink"
-  >
->;
-
-const texts = {
+export const texts = {
   send: "Send innkallingene",
   cancel: "Avbryt",
   behandler: "Behandler",
+  arbeidstakerLabel: "Fritekst til arbeidstakeren (valgfri)",
+  arbeidsgiverLabel: "Fritekst til nærmeste leder (valgfri)",
+  behandlerLabel: "Fritekst til behandler (valgfri)",
+  stedMissing: "Vennligst angi møtested",
+  forhandsvisningSubtitle: "Innkalling til dialogmøte",
+  forhandsvisningArbeidstakerTitle: "Brev til arbeidstakeren",
+  forhandsvisningArbeidstakerContentLabel:
+    "Forhåndsvis innkalling til dialogmøte arbeidstaker",
+  forhandsvisningArbeidsgiverTitle: "Brev til nærmeste leder",
+  forhandsvisningArbeidsgiverContentLabel:
+    "Forhåndsvis innkalling til dialogmøte arbeidsgiver",
+  forhandsvisningBehandlerTitle: "Brev til behandler",
+  forhandsvisningBehandlerContentLabel:
+    "Forhåndsvis innkalling til dialogmøte behandler",
+  reservertAlert:
+    "Denne arbeidstakeren vil få brevet sendt som papirpost. Du kan inkludere telefonnummeret til kontaktsenteret i fritekstfeltet (55 55 33 33), slik at arbeidstakeren kan ta kontakt på telefon hvis tidspunktet ikke passer.",
 };
+
+export const MAX_LENGTH_INNKALLING_FRITEKST = 2000;
 
 const toInnkalling = (
   values: DialogmoteInnkallingSkjemaValues,
@@ -112,59 +109,22 @@ const toInnkalling = (
   return innkalling;
 };
 
-const DialogmoteInnkallingSkjema = () => {
-  const initialValues: Partial<DialogmoteInnkallingSkjemaValues> = {};
+export const DialogmoteInnkallingSkjema = () => {
   const fnr = useValgtPersonident();
-  const { harIkkeUtbedretFeil, resetFeilUtbedret, updateFeilUtbedret } =
-    useFeilUtbedret();
-
+  const { brukerKanIkkeVarslesDigitalt } = useBrukerinfoQuery();
   const [selectedBehandler, setSelectedBehandler] = useState<BehandlerDTO>();
-
   const innkallingDocument = useInnkallingDocument();
-
   const { toTidStedDto } = useSkjemaValuesToDto();
   const opprettInnkalling = useOpprettInnkallingDialogmote(fnr);
   const { malform } = useMalform();
-
-  const validate = (
-    values: Partial<DialogmoteInnkallingSkjemaValues>
-  ): DialogmoteInnkallingSkjemaFeil => {
-    const friteksterFeil =
-      validerSkjemaTekster<DialogmoteInnkallingSkjemaTekster>({
-        fritekstArbeidsgiver: {
-          maxLength: MAX_LENGTH_INNKALLING_FRITEKST,
-          value: values.fritekstArbeidsgiver || "",
-        },
-        fritekstArbeidstaker: {
-          maxLength: MAX_LENGTH_INNKALLING_FRITEKST,
-          value: values.fritekstArbeidstaker || "",
-        },
-        ...(selectedBehandler
-          ? {
-              fritekstBehandler: {
-                maxLength: MAX_LENGTH_INNKALLING_FRITEKST,
-                value: values.fritekstBehandler || "",
-              },
-            }
-          : {}),
-      });
-
-    const feilmeldinger: DialogmoteInnkallingSkjemaFeil = {
-      arbeidsgiver: validerArbeidsgiver(values.arbeidsgiver),
-      behandlerRef: behandlerRefValidationErrors(values.behandlerRef, true),
-      ...validerTidspunkt({
-        dato: values.dato,
-        klokkeslett: values.klokkeslett,
-      }),
-      sted: validerSted(values.sted),
-      ...friteksterFeil,
-      videoLink: validerVideoLink(values.videoLink),
-    };
-
-    updateFeilUtbedret(feilmeldinger);
-
-    return feilmeldinger;
-  };
+  const methods = useForm<DialogmoteInnkallingSkjemaValues>();
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+    watch,
+  } = methods;
 
   if (opprettInnkalling.isSuccess) {
     return <Navigate to={moteoversiktRoutePath} />;
@@ -192,49 +152,132 @@ const DialogmoteInnkallingSkjema = () => {
   return (
     <Box background="surface-default" padding="6" className="mb-2">
       <MalformRadioGroup />
-      <Form initialValues={initialValues} onSubmit={submit} validate={validate}>
-        {({ handleSubmit, submitFailed, errors }) => (
-          <form onSubmit={handleSubmit}>
-            <DialogmoteInnkallingSkjemaSeksjon>
-              <DialogmoteInnkallingVelgVirksomhet />
-              <DialogmoteInnkallingBehandler
-                setSelectedBehandler={setSelectedBehandler}
-                selectedbehandler={selectedBehandler}
-              />
-            </DialogmoteInnkallingSkjemaSeksjon>
-            <DialogmoteTidOgSted />
-            <DialogmoteInnkallingTekster
-              selectedBehandler={selectedBehandler}
+      <FormProvider {...methods}>
+        <form onSubmit={handleSubmit(submit)}>
+          <div className="mb-6">
+            <DialogmoteInnkallingVelgVirksomhet />
+            <DialogmoteInnkallingBehandler
+              setSelectedBehandler={setSelectedBehandler}
+              selectedbehandler={selectedBehandler}
             />
-            {opprettInnkalling.isError && (
-              <SkjemaInnsendingFeil error={opprettInnkalling.error} />
-            )}
-            {submitFailed && harIkkeUtbedretFeil && (
-              <SkjemaFeiloppsummering errors={errors} />
-            )}
-            <div className="flex gap-4">
-              <Button
-                type="submit"
-                variant="primary"
-                loading={opprettInnkalling.isPending}
-                onClick={resetFeilUtbedret}
-              >
-                {texts.send}
-              </Button>
-              <Button
-                as={Link}
-                type="button"
-                variant="tertiary"
-                to={moteoversiktRoutePath}
-              >
-                {texts.cancel}
-              </Button>
+          </div>
+          <div className="flex flex-col gap-4 mb-6">
+            <DialogmoteFrist />
+            <div className="flex gap-4 items-start">
+              <DialogmoteDato />
+              <DialogmoteKlokkeslett
+                {...register("klokkeslett", {
+                  validate: (value, formValues) =>
+                    validerKlokkeslett(formValues.dato, value),
+                })}
+                error={errors.klokkeslett?.message}
+              />
             </div>
-          </form>
-        )}
-      </Form>
+            <DialogmoteSted
+              {...register("sted", {
+                maxLength: MAX_LENGTH_STED,
+                required: texts.stedMissing,
+              })}
+              error={errors.sted?.message}
+            />
+            <DialogmoteVideolink
+              {...register("videoLink", {
+                validate: (value) => validerVideoLink(value),
+              })}
+              error={errors.videoLink?.message}
+            />
+          </div>
+          {brukerKanIkkeVarslesDigitalt && (
+            <Alert
+              variant="warning"
+              size="small"
+              className="mb-4 [&>*]:max-w-fit"
+            >
+              {texts.reservertAlert}
+            </Alert>
+          )}
+          <div className="mb-8">
+            <TextareaField
+              {...register("fritekstArbeidstaker", {
+                maxLength: MAX_LENGTH_INNKALLING_FRITEKST,
+              })}
+              value={watch("fritekstArbeidstaker")}
+              label={texts.arbeidstakerLabel}
+              maxLength={MAX_LENGTH_INNKALLING_FRITEKST}
+            />
+            <Forhandsvisning
+              contentLabel={texts.forhandsvisningArbeidstakerContentLabel}
+              getDocumentComponents={() =>
+                innkallingDocument.getInnkallingDocumentArbeidstaker(
+                  getValues(),
+                  selectedBehandler
+                )
+              }
+              title={texts.forhandsvisningArbeidstakerTitle}
+            />
+          </div>
+          <div className="mb-8">
+            <TextareaField
+              {...register("fritekstArbeidsgiver", {
+                maxLength: MAX_LENGTH_INNKALLING_FRITEKST,
+              })}
+              value={watch("fritekstArbeidsgiver")}
+              label={texts.arbeidsgiverLabel}
+              maxLength={MAX_LENGTH_INNKALLING_FRITEKST}
+            />
+            <Forhandsvisning
+              contentLabel={texts.forhandsvisningArbeidsgiverContentLabel}
+              getDocumentComponents={() =>
+                innkallingDocument.getInnkallingDocumentArbeidsgiver(
+                  getValues(),
+                  selectedBehandler
+                )
+              }
+              title={texts.forhandsvisningArbeidsgiverTitle}
+            />
+          </div>
+
+          {!!selectedBehandler && (
+            <div className="mb-8">
+              <TextareaField
+                {...register("fritekstBehandler", {
+                  maxLength: MAX_LENGTH_INNKALLING_FRITEKST,
+                })}
+                value={watch("fritekstBehandler")}
+                label={texts.behandlerLabel}
+                maxLength={MAX_LENGTH_INNKALLING_FRITEKST}
+              />
+              <Forhandsvisning
+                contentLabel={texts.forhandsvisningBehandlerContentLabel}
+                getDocumentComponents={() =>
+                  innkallingDocument.getInnkallingDocumentBehandler(getValues())
+                }
+                title={texts.forhandsvisningBehandlerTitle}
+              />
+            </div>
+          )}
+          {opprettInnkalling.isError && (
+            <SkjemaInnsendingFeil error={opprettInnkalling.error} />
+          )}
+          <div className="flex gap-4">
+            <Button
+              type="submit"
+              variant="primary"
+              loading={opprettInnkalling.isPending}
+            >
+              {texts.send}
+            </Button>
+            <Button
+              as={Link}
+              type="button"
+              variant="tertiary"
+              to={moteoversiktRoutePath}
+            >
+              {texts.cancel}
+            </Button>
+          </div>
+        </form>
+      </FormProvider>
     </Box>
   );
 };
-
-export default DialogmoteInnkallingSkjema;
