@@ -4,7 +4,7 @@ import Knapp from "nav-frontend-knapper";
 import { DokumentinfoDTO } from "@/data/oppfolgingsplan/types/DokumentinfoDTO";
 import Feilmelding from "../../../components/Feilmelding";
 import AppSpinner from "../../../components/AppSpinner";
-import { SYFOOPPFOLGINGSPLANSERVICE_ROOT } from "@/apiConstants";
+import { SYFOOPPFOLGINGSPLANSERVICE_V2_ROOT } from "@/apiConstants";
 import { OppfolgingsplanDTO } from "@/data/oppfolgingsplan/types/OppfolgingsplanDTO";
 import { useDokumentinfoQuery } from "@/data/oppfolgingsplan/oppfolgingsplanQueryHooks";
 
@@ -18,7 +18,7 @@ const PlanVisning = ({ dokumentinfo, oppfolgingsplan }: PlanVisningProps) => {
   if (dokumentinfo) {
     for (let i = 1; i <= dokumentinfo.antallSider; i += 1) {
       bildeUrler.push(
-        `${SYFOOPPFOLGINGSPLANSERVICE_ROOT}/dokument/${oppfolgingsplan.id}/side/${i}`
+        `${SYFOOPPFOLGINGSPLANSERVICE_V2_ROOT}/dokument/${oppfolgingsplan.id}/side/${i}`
       );
     }
   }
@@ -58,7 +58,7 @@ const PlanVisning = ({ dokumentinfo, oppfolgingsplan }: PlanVisningProps) => {
           type="standard"
           onClick={() => {
             const newWindow = window.open(
-              `${SYFOOPPFOLGINGSPLANSERVICE_ROOT}/dokument/${oppfolgingsplan.id}`
+              `${SYFOOPPFOLGINGSPLANSERVICE_V2_ROOT}/dokument/${oppfolgingsplan.id}`
             );
             newWindow?.print();
           }}

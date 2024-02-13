@@ -7,7 +7,7 @@ import {
   tilLesbarPeriodeMedArstall,
 } from "@/utils/datoUtils";
 import { OppfolgingsplanLPS } from "@/data/oppfolgingsplan/types/OppfolgingsplanLPS";
-import { SYFOOPPFOLGINGSPLANSERVICE_ROOT } from "@/apiConstants";
+import { SYFOOPPFOLGINGSPLANSERVICE_V2_ROOT } from "@/apiConstants";
 import { useVirksomhetQuery } from "@/data/virksomhet/virksomhetQueryHooks";
 import {
   useOppfolgingsplanerLPSQuery,
@@ -87,7 +87,7 @@ const LpsPlanLenke = ({ lpsPlan }: LpsPlanLenkeProps) => {
   return (
     <a
       className="lenke"
-      href={`${SYFOOPPFOLGINGSPLANSERVICE_ROOT}/dokument/lps/${lpsPlan.uuid}`}
+      href={`${SYFOOPPFOLGINGSPLANSERVICE_V2_ROOT}/dokument/lps/${lpsPlan.uuid}`}
       target="_blank"
       rel="noopener noreferrer"
     >

@@ -1,5 +1,8 @@
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
-import { SYFOOPPFOLGINGSPLANSERVICE_ROOT } from "@/apiConstants";
+import {
+  SYFOOPPFOLGINGSPLANSERVICE_V2_ROOT,
+  SYFOOPPFOLGINGSPLANSERVICE_V3_ROOT,
+} from "@/apiConstants";
 import { get } from "@/api/axios";
 import { useQuery } from "@tanstack/react-query";
 import { OppfolgingsplanLPS } from "@/data/oppfolgingsplan/types/OppfolgingsplanLPS";
@@ -16,7 +19,7 @@ export const oppfolgingsplanQueryKeys = {
 
 export const useOppfolgingsplanerQuery = () => {
   const fnr = useValgtPersonident();
-  const path = `${SYFOOPPFOLGINGSPLANSERVICE_ROOT}/oppfolgingsplan/${fnr}`;
+  const path = `${SYFOOPPFOLGINGSPLANSERVICE_V3_ROOT}/oppfolgingsplan`;
   const fetchOppfolgingsplaner = () => get<OppfolgingsplanDTO[]>(path, fnr);
   const query = useQuery({
     queryKey: oppfolgingsplanQueryKeys.oppfolgingsplaner(fnr),
@@ -42,7 +45,7 @@ export const useOppfolgingsplanerQuery = () => {
 
 export const useOppfolgingsplanerLPSQuery = () => {
   const fnr = useValgtPersonident();
-  const path = `${SYFOOPPFOLGINGSPLANSERVICE_ROOT}/oppfolgingsplan/lps`;
+  const path = `${SYFOOPPFOLGINGSPLANSERVICE_V2_ROOT}/oppfolgingsplan/lps`;
   const fetchOppfolgingsplanerLPS = () => get<OppfolgingsplanLPS[]>(path, fnr);
   const query = useQuery({
     queryKey: oppfolgingsplanQueryKeys.oppfolgingsplanerLPS(fnr),
@@ -58,7 +61,7 @@ export const useOppfolgingsplanerLPSQuery = () => {
 };
 
 export const useDokumentinfoQuery = (oppfolgingsplanId: number) => {
-  const path = `${SYFOOPPFOLGINGSPLANSERVICE_ROOT}/dokument/${oppfolgingsplanId}/dokumentinfo`;
+  const path = `${SYFOOPPFOLGINGSPLANSERVICE_V2_ROOT}/dokument/${oppfolgingsplanId}/dokumentinfo`;
   const fetchDokumentinfo = () => get<DokumentinfoDTO>(path);
   return useQuery({
     queryKey: oppfolgingsplanQueryKeys.dokumentinfo(oppfolgingsplanId),

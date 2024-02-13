@@ -10,7 +10,6 @@ import { expect } from "chai";
 import { historikkmotebehovMock } from "../../mock/syfomotebehov/historikkmotebehovMock";
 import { historikkoppfolgingsplanMock } from "../../mock/syfooppfolgingsplanservice/historikkoppfolgingsplanMock";
 import { stubMotebehovHistorikkApi } from "../stubs/stubSyfomotebehov";
-import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import { stubOppfolgingsplanHistorikkApi } from "../stubs/stubSyfooppfolgingsplan";
 import { testQueryClient } from "../testQueryClient";
 
@@ -46,10 +45,7 @@ describe("historikkQueryHooks", () => {
     expect(result.current.data).to.deep.equal(expectedHistorikkEvents);
   });
   it("loads oppfolgingsplan-historikk for valgt personident", async () => {
-    stubOppfolgingsplanHistorikkApi(
-      apiMockScope,
-      ARBEIDSTAKER_DEFAULT.personIdent
-    );
+    stubOppfolgingsplanHistorikkApi(apiMockScope);
     const wrapper = queryHookWrapper(queryClient);
 
     const { result } = renderHook(() => useHistorikkOppfolgingsplan(), {

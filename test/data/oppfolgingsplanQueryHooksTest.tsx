@@ -16,7 +16,6 @@ import {
 } from "../stubs/stubSyfooppfolgingsplan";
 import { oppfolgingsplanerLPSMock } from "../../mock/syfooppfolgingsplanservice/oppfolgingsplanLPSMock";
 import { dokumentinfoMock } from "../../mock/syfooppfolgingsplanservice/dokumentinfoMock";
-import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import { testQueryClient } from "../testQueryClient";
 
 let queryClient: any;
@@ -34,7 +33,7 @@ describe("oppfolgingsplanQueryHooks tests", () => {
   });
 
   it("loads oppfolgingsplaner for valgt personident", async () => {
-    stubOppfolgingsplanApi(apiMockScope, ARBEIDSTAKER_DEFAULT.personIdent);
+    stubOppfolgingsplanApi(apiMockScope);
 
     const wrapper = queryHookWrapper(queryClient);
 

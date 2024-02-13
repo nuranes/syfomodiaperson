@@ -1,6 +1,6 @@
 import {
   SYFOMOTEBEHOV_ROOT,
-  SYFOOPPFOLGINGSPLANSERVICE_ROOT,
+  SYFOOPPFOLGINGSPLANSERVICE_V3_ROOT,
 } from "@/apiConstants";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import {
@@ -35,8 +35,8 @@ export const useHistorikkMotebehovQuery = () => {
 
 export const useHistorikkOppfolgingsplan = () => {
   const fnr = useValgtPersonident();
-  const path = `${SYFOOPPFOLGINGSPLANSERVICE_ROOT}/oppfolgingsplan/${fnr}/historikk`;
-  const fetchHistorikkOppfolgingsplan = () => get<HistorikkEvent[]>(path);
+  const path = `${SYFOOPPFOLGINGSPLANSERVICE_V3_ROOT}/oppfolgingsplan/historikk`;
+  const fetchHistorikkOppfolgingsplan = () => get<HistorikkEvent[]>(path, fnr);
   const query = useQuery({
     queryKey: historikkQueryKeys.oppfolgingsplan(fnr),
     queryFn: fetchHistorikkOppfolgingsplan,

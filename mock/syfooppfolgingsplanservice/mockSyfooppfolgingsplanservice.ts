@@ -3,14 +3,17 @@ import { oppfolgingsplanMock } from "./oppfolgingsplanMock";
 import { historikkoppfolgingsplanMock } from "./historikkoppfolgingsplanMock";
 import { oppfolgingsplanerLPSMock } from "./oppfolgingsplanLPSMock";
 import { NAV_PERSONIDENT_HEADER } from "../util/requestUtil";
-import { SYFOOPPFOLGINGSPLANSERVICE_ROOT } from "../../src/apiConstants";
+import {
+  SYFOOPPFOLGINGSPLANSERVICE_V2_ROOT,
+  SYFOOPPFOLGINGSPLANSERVICE_V3_ROOT,
+} from "../../src/apiConstants";
 import { dokumentinfoMock } from "./dokumentinfoMock";
 
 const path = require("path");
 
 export const mockSyfooppfolgingsplanservice = (server: any) => {
   server.get(
-    `${SYFOOPPFOLGINGSPLANSERVICE_ROOT}/oppfolgingsplan/lps`,
+    `${SYFOOPPFOLGINGSPLANSERVICE_V2_ROOT}/oppfolgingsplan/lps`,
     (req: express.Request, res: express.Response) => {
       if (req.headers[NAV_PERSONIDENT_HEADER]?.length === 11) {
         res.setHeader("Content-Type", "application/json");
@@ -22,7 +25,7 @@ export const mockSyfooppfolgingsplanservice = (server: any) => {
   );
 
   server.get(
-    `${SYFOOPPFOLGINGSPLANSERVICE_ROOT}/dokument/lps/:uuid`,
+    `${SYFOOPPFOLGINGSPLANSERVICE_V2_ROOT}/dokument/lps/:uuid`,
     (req: express.Request, res: express.Response) => {
       const file = path.join(
         __dirname,
@@ -37,7 +40,7 @@ export const mockSyfooppfolgingsplanservice = (server: any) => {
   );
 
   server.get(
-    `${SYFOOPPFOLGINGSPLANSERVICE_ROOT}/oppfolgingsplan/:fnr`,
+    `${SYFOOPPFOLGINGSPLANSERVICE_V3_ROOT}/oppfolgingsplan/`,
     (req: express.Request, res: express.Response) => {
       res.setHeader("Content-Type", "application/json");
       res.send(JSON.stringify(oppfolgingsplanMock));
@@ -45,7 +48,7 @@ export const mockSyfooppfolgingsplanservice = (server: any) => {
   );
 
   server.get(
-    `${SYFOOPPFOLGINGSPLANSERVICE_ROOT}/oppfolgingsplan/:fnr/historikk`,
+    `${SYFOOPPFOLGINGSPLANSERVICE_V3_ROOT}/oppfolgingsplan/historikk`,
     (req: express.Request, res: express.Response) => {
       res.setHeader("Content-Type", "application/json");
       res.send(JSON.stringify(historikkoppfolgingsplanMock));
@@ -53,7 +56,7 @@ export const mockSyfooppfolgingsplanservice = (server: any) => {
   );
 
   server.get(
-    `${SYFOOPPFOLGINGSPLANSERVICE_ROOT}/dokument/:id/dokumentinfo`,
+    `${SYFOOPPFOLGINGSPLANSERVICE_V2_ROOT}/dokument/:id/dokumentinfo`,
     (req: express.Request, res: express.Response) => {
       res.setHeader("Content-Type", "application/json");
       res.send(JSON.stringify(dokumentinfoMock));
