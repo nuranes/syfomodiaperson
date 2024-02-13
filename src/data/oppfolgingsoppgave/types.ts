@@ -7,6 +7,8 @@ const texts = {
     folgOppEtterNesteSykmelding: "Følg opp etter neste sykmelding",
     vurderTiltakBehov: "Vurder behov for tiltak",
     vurderArbeidsuforhet: "Vurder §8-4 - Arbeidsuførhet",
+    friskmeldingTilArbeidsformidling:
+      "Vurder §8-5 - Friskmelding til arbeidsformidling",
     annet: "Annet",
   },
 };
@@ -35,6 +37,7 @@ export enum Oppfolgingsgrunn {
   FOLG_OPP_ETTER_NESTE_SYKMELDING = "FOLG_OPP_ETTER_NESTE_SYKMELDING",
   VURDER_TILTAK_BEHOV = "VURDER_TILTAK_BEHOV",
   VURDER_ARBEIDSUTFORHET = "VURDER_ARBEIDSUFORHET",
+  FRISKMELDING_TIL_ARBEIDSFORMIDLING = "FRISKMELDING_TIL_ARBEIDSFORMIDLING",
   ANNET = "ANNET",
 }
 
@@ -53,5 +56,7 @@ export const oppfolgingsgrunnToText = {
     texts.oppfolgingsgrunn.vurderTiltakBehov,
   [Oppfolgingsgrunn.VURDER_ARBEIDSUTFORHET]:
     texts.oppfolgingsgrunn.vurderArbeidsuforhet,
+  [Oppfolgingsgrunn.FRISKMELDING_TIL_ARBEIDSFORMIDLING]:
+    texts.oppfolgingsgrunn.friskmeldingTilArbeidsformidling,
   [Oppfolgingsgrunn.ANNET]: texts.oppfolgingsgrunn.annet,
 };
