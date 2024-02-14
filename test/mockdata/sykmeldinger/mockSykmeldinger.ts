@@ -14,6 +14,7 @@ import {
   SykepengesoknadDTO,
 } from "@/data/sykepengesoknad/types/SykepengesoknadDTO";
 import { VIRKSOMHET_PONTYPANDY } from "../../../mock/common/mockConstants";
+import { NyeSykmeldingStatuser } from "@/utils/sykmeldinger/sykmeldingstatuser";
 
 export const mockSykmeldingId = "test-id";
 
@@ -56,7 +57,7 @@ export const mockSykmeldinger: SykmeldingNewFormatDTO[] = [
       },
     ],
     sykmeldingStatus: {
-      statusEvent: "SENDT",
+      statusEvent: NyeSykmeldingStatuser.SENDT,
       timestamp: "2020-01-29T09:38:05.414834Z",
       arbeidsgiver: {
         orgnummer: VIRKSOMHET_PONTYPANDY.virksomhetsnummer,

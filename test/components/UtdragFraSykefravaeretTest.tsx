@@ -40,4 +40,14 @@ describe("UtdragFraSykefravaeret", () => {
     expect(within(firstExpansionCard).getByText("Arbeidsgiver:")).to.exist;
     expect(within(firstExpansionCard).getByText("BRANN OG BIL AS")).to.exist;
   });
+
+  it("Viser sykmeldinger som både er sendt og ikke tatt i bruk", () => {
+    renderUtdragFraSykefravaeret();
+
+    const sykmeldingExpansionCards = screen.getAllByRole("region");
+    expect(sykmeldingExpansionCards.length).to.equal(2);
+
+    expect(within(sykmeldingExpansionCards[0]).getByText("Ikke tatt i bruk")).to
+      .exist;
+  });
 });

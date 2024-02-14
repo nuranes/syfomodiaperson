@@ -312,7 +312,7 @@ export const sykmeldingerMock = [
       },
     ],
     sykmeldingStatus: {
-      statusEvent: "SENDT",
+      statusEvent: "APEN",
       timestamp: "2020-01-29T09:38:05.414834Z",
       arbeidsgiver: {
         orgnummer: VIRKSOMHET_BRANNOGBIL.virksomhetsnummer,
@@ -878,7 +878,7 @@ export const sykmeldingerMock = [
       },
     ],
     sykmeldingStatus: {
-      statusEvent: "SENDT",
+      statusEvent: "APEN",
       timestamp: "2020-01-29T09:38:05.414834Z",
       arbeidsgiver: {
         orgnummer: "170100000",

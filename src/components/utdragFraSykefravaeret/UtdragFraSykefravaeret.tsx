@@ -6,7 +6,6 @@ import {
   stringMedAlleGraderingerFraSykmeldingPerioder,
   sykmeldingerGruppertEtterVirksomhet,
   sykmeldingerInnenforOppfolgingstilfelle,
-  sykmeldingerMedStatusSendt,
   sykmeldingerSortertNyestTilEldstPeriode,
   sykmeldingerUtenArbeidsgiver,
   sykmeldingperioderSortertEldstTilNyest,
@@ -15,24 +14,27 @@ import { finnMiljoStreng } from "@/utils/miljoUtil";
 import { tilLesbarPeriodeMedArstall } from "@/utils/datoUtils";
 import { senesteTom, tidligsteFom } from "@/utils/periodeUtils";
 import styled from "styled-components";
-import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat";
+import {
+  SykmeldingOldFormat,
+  SykmeldingStatus,
+} from "@/data/sykmelding/types/SykmeldingOldFormat";
 import { MerInformasjonImage } from "../../../img/ImageComponents";
 import { UtdragOppfolgingsplaner } from "./UtdragOppfolgingsplaner";
 import { SpinnsynLenke } from "@/components/vedtak/SpinnsynLenke";
-import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { useSykmeldingerQuery } from "@/data/sykmelding/sykmeldingQueryHooks";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { PapirsykmeldingTag } from "@/components/PapirsykmeldingTag";
-import { ExpansionCard, Heading, Link, Panel } from "@navikt/ds-react";
+import { ExpansionCard, Heading, Link, Panel, Tag } from "@navikt/ds-react";
 import * as Amplitude from "@/utils/amplitude";
 import { EventType } from "@/utils/amplitude";
 
-const tekster = {
+const texts = {
   header: "Utdrag fra sykefraværet",
   sykmeldinger: {
     header: "Sykmeldinger",
     headerUtenArbeidsgiver: "Sykmeldinger uten arbeidsgiver",
+    ny: "Ikke tatt i bruk",
   },
   samtalereferat: {
     header: "Samtalereferat",
@@ -82,17 +84,29 @@ export const SykmeldingTittelbeskrivelse = ({
   const erViktigInformasjon = erEkstraInformasjonISykmeldingen(sykmelding);
   const sykmelder = sykmelding.bekreftelse.sykmelder;
   const arbeidsgiver = arbeidsgivernavnEllerArbeidssituasjon(sykmelding);
+  const erIkkeTattIBruk = sykmelding.status === SykmeldingStatus.NY;
 
   return (
     <div className="w-full flex flex-col">
-      <div className="flex justify-between">
+      <div className="flex justify-between mb-2">
         <div>
           {periode}
           {graderinger}
         </div>
-        {erViktigInformasjon && (
-          <img alt="Viktig informasjon" src={MerInformasjonImage} />
-        )}
+        <div className="flex gap-4">
+          {erIkkeTattIBruk && (
+            <Tag variant="warning" size="small">
+              {texts.sykmeldinger.ny}
+            </Tag>
+          )}
+          {erViktigInformasjon && (
+            <img
+              height={18}
+              alt="Viktig informasjon"
+              src={MerInformasjonImage}
+            />
+          )}
+        </div>
       </div>
       {sykmelding.diagnose.hoveddiagnose && (
         <Info label={"Diagnose: "} text={diagnose} />
@@ -146,19 +160,17 @@ const UtvidbarSykmelding = ({ sykmelding, label }: UtvidbarSykmeldingProps) => {
   );
 };
 
-interface SykmeldingerForVirksomhetProps {
-  latestOppfolgingstilfelle?: OppfolgingstilfelleDTO;
-  sykmeldinger: SykmeldingOldFormat[];
-}
-
-export const SykmeldingerForVirksomhet = ({
-  latestOppfolgingstilfelle,
-  sykmeldinger,
-}: SykmeldingerForVirksomhetProps) => {
-  const innsendteSykmeldinger = sykmeldingerMedStatusSendt(sykmeldinger);
+export const SykmeldingerForVirksomhet = () => {
+  const { sykmeldinger } = useSykmeldingerQuery();
+  const { latestOppfolgingstilfelle } = useOppfolgingstilfellePersonQuery();
+  const aktuelleSykmeldinger = sykmeldinger.filter(
+    (sykmelding) =>
+      sykmelding.status === SykmeldingStatus.SENDT ||
+      sykmelding.status === SykmeldingStatus.NY
+  );
   const sykmeldingerIOppfolgingstilfellet =
     sykmeldingerInnenforOppfolgingstilfelle(
-      innsendteSykmeldinger,
+      aktuelleSykmeldinger,
       latestOppfolgingstilfelle
     );
   const sykmeldingerSortertPaaStartDato =
@@ -170,7 +182,7 @@ export const SykmeldingerForVirksomhet = ({
   return (
     <div className="mb-10 [&>*]:mb-2">
       <Heading size="small" level="3">
-        {tekster.sykmeldinger.header}
+        {texts.sykmeldinger.header}
       </Heading>
       {Object.keys(sykmeldingerSortertPaaVirksomhet).map((key) => {
         return sykmeldingerSortertPaaVirksomhet[key].map(
@@ -201,7 +213,7 @@ export const SykmeldingerUtenArbeidsgiver = ({
   return (
     <div className="mb-10 [&>*]:mb-2">
       <Heading size="small" level="3">
-        {tekster.sykmeldinger.headerUtenArbeidsgiver}
+        {texts.sykmeldinger.headerUtenArbeidsgiver}
       </Heading>
       {sykmeldingerSortertPaUtstedelsesdato.map((sykmelding, index) => {
         return <UtvidbarSykmelding sykmelding={sykmelding} key={index} />;
@@ -219,13 +231,13 @@ export const Samtalereferat = () => {
   return (
     <SamtalereferatWrapper>
       <Heading size="small" level="3">
-        {tekster.samtalereferat.header}
+        {texts.samtalereferat.header}
       </Heading>
       <Link
         href={`https://modapp${finnMiljoStreng()}.adeo.no/modiabrukerdialog/person/${fnr}#!meldinger`}
         target="_blank"
       >
-        {tekster.samtalereferat.lenkeTekst}
+        {texts.samtalereferat.lenkeTekst}
       </Link>
     </SamtalereferatWrapper>
   );
@@ -248,15 +260,10 @@ const UtdragFraSykefravaeret = () => {
   return (
     <Panel className="mb-4 h-min">
       <Heading level="2" size="medium" className="mb-4">
-        {tekster.header}
+        {texts.header}
       </Heading>
       <UtdragOppfolgingsplaner />
-
-      <SykmeldingerForVirksomhet
-        latestOppfolgingstilfelle={latestOppfolgingstilfelle}
-        sykmeldinger={sykmeldinger}
-      />
-
+      <SykmeldingerForVirksomhet />
       {sykmeldingerSortertPaSykmeldingsperiode?.length > 0 && (
         <SykmeldingerUtenArbeidsgiver
           sykmeldingerSortertPaUtstedelsesdato={
@@ -264,10 +271,9 @@ const UtdragFraSykefravaeret = () => {
           }
         />
       )}
-
       <Samtalereferat />
       <Heading size="small" level="3">
-        {tekster.vedtak.header}
+        {texts.vedtak.header}
       </Heading>
       <SpinnsynLenke />
     </Panel>

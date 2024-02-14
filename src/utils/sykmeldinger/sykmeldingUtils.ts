@@ -147,6 +147,11 @@ export const arbeidsgivernavnEllerArbeidssituasjon = (
     sykmelding.innsendtArbeidsgivernavn.length > 0
   ) {
     return sykmelding.innsendtArbeidsgivernavn;
+  } else if (
+    sykmelding.status === SykmeldingStatus.NY &&
+    sykmelding.arbeidsgiver
+  ) {
+    return `${sykmelding.arbeidsgiver} (fylt inn av sykmelder)`;
   }
 
   switch (sykmelding.sporsmal.arbeidssituasjon) {
@@ -157,16 +162,8 @@ export const arbeidsgivernavnEllerArbeidssituasjon = (
     case ArbeidssituasjonType.FRILANSER:
       return "Frilanser";
     default:
-      return "Annet";
+      return "Ukjent";
   }
-};
-
-export const sykmeldingerMedStatusSendt = (
-  sykmeldinger: SykmeldingOldFormat[]
-): SykmeldingOldFormat[] => {
-  return sykmeldinger.filter(
-    (sykmelding) => sykmelding.status === SykmeldingStatus.SENDT
-  );
 };
 
 export const sykmeldingerUtenArbeidsgiver = (
@@ -265,7 +262,8 @@ export const sykmeldingerGruppertEtterVirksomhet = (
 ): SykmeldingerPerVirksomhet => {
   return sykmeldinger.reduce((memo: SykmeldingerPerVirksomhet, sykmelding) => {
     const virksomhetsnummer =
-      sykmelding.mottakendeArbeidsgiver?.virksomhetsnummer;
+      sykmelding.mottakendeArbeidsgiver?.virksomhetsnummer ??
+      "Ukjent virksomhet";
     const memo2 = { ...memo };
     if (virksomhetsnummer) {
       if (!memo2[virksomhetsnummer]) {

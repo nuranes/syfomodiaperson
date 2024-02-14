@@ -8,6 +8,7 @@ import { SvartypeDTO } from "@/data/sykmelding/types/SvartypeDTO";
 import { ShortNameDTO } from "@/data/sykmelding/types/ShortNameDTO";
 import { AnnenFraverGrunnDTO } from "@/data/sykmelding/types/AnnenFraverGrunnDTO";
 import { mockSykmeldinger } from "./mockSykmeldinger";
+import { NyeSykmeldingStatuser } from "@/utils/sykmeldinger/sykmeldingstatuser";
 
 const mockSM = mockSykmeldinger[0];
 
@@ -119,7 +120,7 @@ export const mockSykmeldingWithoutMottakendeArbeidsgiver: SykmeldingNewFormatDTO
     ...mockSM,
     sykmeldingStatus: {
       ...mockSM.sykmeldingStatus,
-      statusEvent: "APEN",
+      statusEvent: NyeSykmeldingStatuser.APEN,
       timestamp: "2020-01-28T09:38:05.414834Z",
       arbeidsgiver: undefined,
     },

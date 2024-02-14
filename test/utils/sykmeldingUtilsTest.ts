@@ -16,7 +16,6 @@ import {
   stringMedAlleGraderingerFraSykmeldingPerioder,
   sykmeldingerGruppertEtterVirksomhet,
   sykmeldingerInnenforOppfolgingstilfelle,
-  sykmeldingerMedStatusSendt,
   sykmeldingerSortertNyestTilEldstPeriode,
   sykmeldingperioderSortertEldstTilNyest,
 } from "@/utils/sykmeldinger/sykmeldingUtils";
@@ -433,29 +432,6 @@ describe("sykmeldingUtils", () => {
         arbeidsgivernavnEllerArbeidssituasjon(sykmelding);
 
       expect(arbeidssituasjon).to.equal("Selvstendig næringsdrivende");
-    });
-  });
-
-  describe("sykmeldingerMedStatusSendt", () => {
-    it("skal returnere en liste med bare innsendte sykmeldinger", () => {
-      const sykmeldinger: SykmeldingOldFormat[] = [
-        {
-          ...baseSykmelding,
-          status: SykmeldingStatus.AVBRUTT,
-        },
-        {
-          ...baseSykmelding,
-          status: SykmeldingStatus.SENDT,
-        },
-        {
-          ...baseSykmelding,
-          status: SykmeldingStatus.AVBRUTT,
-        },
-      ];
-
-      const sendteSykmeldinger = sykmeldingerMedStatusSendt(sykmeldinger);
-
-      expect(sendteSykmeldinger.length).to.equal(1);
     });
   });
 
