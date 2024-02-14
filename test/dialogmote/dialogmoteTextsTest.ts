@@ -1,8 +1,9 @@
 import { expect } from "chai";
 import {
-  referatTexts,
+  getReferatTexts,
   StandardtekstKey,
 } from "@/data/dialogmote/dialogmoteTexts";
+import { Malform } from "@/context/malform/MalformContext";
 
 const expectedStandardtekstKeys = [
   "IKKE_BEHOV",
@@ -30,7 +31,7 @@ describe("dialogmoteTexts", () => {
   it("referattekster har tekster for alle standardtekst-nøkler", () => {
     expectedStandardtekstKeys.forEach((key) => {
       expect(
-        referatTexts.standardTekster.some(
+        getReferatTexts(Malform.BOKMAL).standardTekster.some(
           (standardTekst) => standardTekst.key === key
         ),
         `mangler standardtekst for nøkkel ${key}`

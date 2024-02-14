@@ -42,9 +42,6 @@ const innkallingTextsBokmal = {
     outro:
       "Vi minner om at det ikke må sendes sensitive personopplysninger over e-post eller SMS.",
   },
-
-  hilsen: "Med vennlig hilsen",
-  gjelder: "Gjelder",
 };
 
 const innkallingTextsNynorsk = {
@@ -89,9 +86,6 @@ const innkallingTextsNynorsk = {
     outro:
       "Vi minner om at sensitive personopplysningar ikkje skal sendast på e-post eller SMS.",
   },
-
-  hilsen: "Vennleg helsing",
-  gjelder: "Gjeld",
 };
 
 export const getInnkallingTexts = (malform: Malform) => {
@@ -157,6 +151,8 @@ export const commonTextsBokmal = {
   videoLinkTitle: "Lenke til videomøte",
   arbeidsgiverTlfLabel: "Arbeidsgivertelefonen",
   arbeidsgiverTlf: "55 55 33 36",
+  hilsen: "Med vennlig hilsen",
+  gjelder: "Gjelder",
 };
 
 const commonTextsNynorsk = {
@@ -166,6 +162,8 @@ const commonTextsNynorsk = {
   videoLinkTitle: "Lenke til videomøte",
   arbeidsgiverTlfLabel: "Arbeidsgivartelefonen",
   arbeidsgiverTlf: "55 55 33 36",
+  hilsen: "Vennleg helsing",
+  gjelder: "Gjeld",
 };
 
 export const getCommonTexts = (malform: Malform) => {
@@ -257,10 +255,80 @@ const referatStandardTekster: StandardTekst[] = [
   },
 ];
 
-export const referatTexts = {
+const referatStandardTeksterNynorsk: StandardTekst[] = [
+  {
+    key: StandardtekstKey.IKKE_BEHOV,
+    label: "Ikkje behov for bistand frå NAV no",
+    text: "Slik situasjonen er no, er det ikkje behov for spesiell bistand frå NAV. De kan likevel be om nytt dialogmøte når de treng det.",
+  },
+  {
+    key: StandardtekstKey.FRISKMELDING_ARBEIDSFORMIDLING,
+    label: "Friskmelding til arbeidsformidling",
+    text: "Denne ordninga er aktuell dersom helsa di er slik at du kan kome tilbake i arbeid, men ikkje til den jobben du er sjukmeld frå. Dersom alle moglegheiter for å kome tilbake til arbeidsplassen din er forsøkt, kan du få sjukepengar i inntil 12 veker medan du søkjer ny jobb. Maksimal periode med sjukepengar er 52 veker, inkludert vekene med friskmelding til arbeidsformidling.",
+  },
+  {
+    key: StandardtekstKey.AVKLARING_ARBEIDSEVNE,
+    label: "Avklaring av arbeidsevne",
+    text: "Du kan få kartlagt eller prøvd ut arbeidsevna di. Avklaringa kan skje der du jobbar, eller på ein annan arbeidsplass. Vi undersøkjer då om du kan utføre jobben med enkelte tilpassingar, om du kan få påfyll av kompetanse, eller om eit anna yrke kan vere aktuelt. Avklaringa varer som regel i fire veker, men kan forlengast med inntil åtte veker ved behov.",
+  },
+  {
+    key: StandardtekstKey.OPPFOLGINGSTILTAK,
+    label: "Oppfølgingstiltak",
+    text: "Du kan få støtte eller rettleiing til å behalde jobben din eller finne ein ny. Tiltaket skal tilpassast behova dine ut frå moglegheitene du har på arbeidsmarknaden.",
+  },
+  {
+    key: StandardtekstKey.ARBEIDSRETTET_REHABILITERING,
+    label: "Arbeidsretta rehabilitering",
+    text: "Du kan få individuell rettleiing tilpassa behovet ditt (t.d. hjelp til å kartleggje helse, arbeidsplass og funksjon). Dette aukar sjansane dine til å kome i jobb att.",
+  },
+  {
+    key: StandardtekstKey.OPPLAERING_UTDANNING,
+    label: "Opplæring og utdanning",
+    text: "Dersom du har vore sjuk lenge, kan kurs eller utdanning ha ekstra stor betydning for å kome i jobb att. Kanskje kan det vere aktuelt med kurs (arbeidsmarknadsopplæring – AMO), opplæring på vidaregåande nivå, fagskule eller høgare utdanning.",
+  },
+  {
+    key: StandardtekstKey.UNNTAK_ARBEIDSGIVERPERIODE,
+    label: "Unntak frå arbeidsgivarperiode – langvarig eller kronisk sjukdom",
+    text: "Dei første 16 dagane av sjukefråværet er det arbeidsgivaren som dekkjer sjukepengane. Dersom du har mykje fråvær grunna kronisk eller langvarig sjukdom, kan NAV dekke sjukepengane i arbeidsgivarperioden.",
+  },
+  {
+    key: StandardtekstKey.REISETILSKUDD,
+    label: "Reisetilskot",
+    text: "Du kan få reisetilskot i staden for sjukepengar viss det gjer at du kan vere heilt eller delvis i arbeid. Reisetilskotet dekkjer nødvendige ekstra reiseutgifter til og frå jobben medan du er sjuk, altså transportutgifter utover dei du har til vanleg.",
+  },
+  {
+    key: StandardtekstKey.HJELPEMIDLER_TILRETTELEGGING,
+    label: "Hjelpemiddel og tilrettelegging",
+    text: "Hjelpemiddelsentralane i NAV kan bidra med både rettleiing og hjelpemiddel på arbeidsplassen. Dei finn løysingar på problem med syn, høyrsel, hugs, konsentrasjon, lesing, skriving eller moglegheiter for å bruke dataløysingar. NAV-kontoret kan setje dykk i kontakt med nærmaste hjelpemiddelsentral.",
+  },
+  {
+    key: StandardtekstKey.MIDLERTIDIG_LONNSTILSKUDD,
+    label: "Mellombels lønstilskot",
+    text: "Arbeidsgivaren din kan få tilskot til løna dersom det er fare for at du ikkje kjem tilbake etter tolv månader med full eller gradert sjukmelding. Med lønstilskot skal du utføre vanlege oppgåver, men du treng ikkje gjere dei med full intensitet.",
+  },
+  {
+    key: StandardtekstKey.OKONOMISK_STOTTE,
+    label: "Hjelp til å søkje om anna økonomisk støtte",
+    text: "Viss du ikkje klarer å kome tilbake i arbeid før den siste dagen du har rett til sjukepengar, må det avtalast eit nytt dialogmøte. Vi tek då ein prat saman om korleis du eventuelt kan søkje om anna økonomisk støtte frå NAV.",
+  },
+  {
+    key: StandardtekstKey.INGEN_RETTIGHETER,
+    label: "Ingen vidare rettar",
+    text: "Slik situasjonen din er no, har du ikkje krav på utbetalingar frå NAV. Det betyr at du må gå tilbake til jobben eller søkje ny jobb. Ta gjerne ein kik på ledige stillingar på arbeidsplassen.nav.no.",
+  },
+];
+
+const referatTextsBokmal = {
   nyttHeader: "Referat fra dialogmøte",
   endretHeader: "Endret referat fra dialogmøte",
   deltakereTitle: "Deltakere i møtet",
+  deltakere: {
+    arbeidsgiver: "Fra arbeidsgiver",
+    arbeidstaker: "Arbeidstaker",
+    nav: "Fra NAV",
+    behandler: "Behandler",
+    deltakelse: "deltok ikke",
+  },
   endring:
     "Dette referatet er en endring av et referat du har mottatt tidligere. Dette referatet erstatter det forrige, og det forrige referatet er derfor utdatert.",
   begrunnelseEndringTitle: "Årsaken til at referatet er endret",
@@ -277,4 +345,37 @@ export const referatTexts = {
   situasjonTitle: "Situasjon og muligheter",
   standardTeksterHeader: "Dette informerte NAV om i møtet",
   standardTekster: referatStandardTekster,
+};
+
+const referatTextsNynorsk = {
+  nyttHeader: "Referat frå dialogmøte",
+  endretHeader: "Endra referat frå dialogmøte",
+  deltakereTitle: "Deltakarar i møtet",
+  deltakere: {
+    arbeidsgiver: "Frå arbeidsgivar",
+    arbeidstaker: "Arbeidstakar",
+    nav: "Frå NAV",
+    behandler: "Behandlar",
+    deltakelse: "deltok ikkje",
+  },
+  endring:
+    "Dette referatet er ein endra versjon av eit referat du har motteke tidlegare. Dette referatet erstattar det førre, og det førre referatet er difor utdatert.",
+  begrunnelseEndringTitle: "Årsaka til at referatet er endra",
+  intro1:
+    "Målet med dialogmøtet var å oppsummere situasjonen din, drøfte moglegheitene dine for å jobbe, og leggje ein plan for tida framover.",
+  intro2:
+    "Sjukdom og diagnose er informasjon som er underlagt teieplikt. Helsa di er såleis berre eit tema dersom du sjølv vel å vere open om henne. Av omsyn til personvernet inneheld referatet uansett ikkje slike opplysingar. Sjå artikkel 9, Lov om behandling av personopplysingar.",
+  detteSkjeddeHeader: "Dette skjedde i møtet",
+  konklusjonTitle: "Konklusjon",
+  arbeidstakersOppgaveTitle: "Di oppgåve",
+  arbeidsgiversOppgaveTitle: "Oppgåva til arbeidsgivar",
+  navOppgaveTitle: "Oppgåva til NAV",
+  behandlersOppgave: "Oppgåva til behandlar",
+  situasjonTitle: "Situasjon og moglegheiter",
+  standardTeksterHeader: "Dette informerte NAV om i møtet",
+  standardTekster: referatStandardTeksterNynorsk,
+};
+
+export const getReferatTexts = (malform: Malform) => {
+  return malform === Malform.NYNORSK ? referatTextsNynorsk : referatTextsBokmal;
 };

@@ -51,12 +51,12 @@ export const useInnkallingDocument = (): IInnkallingDocument => {
   const valgtPersonident = useValgtPersonident();
 
   const hilsenParagraph = createParagraph(
-    innkallingTexts.hilsen,
+    commonTexts.hilsen,
     veilederinfo?.navn || "",
     `NAV`
   );
   const gjelderParagraph = createParagraph(
-    `${innkallingTexts.gjelder} ${navBruker.navn}, f.nr. ${valgtPersonident}`
+    `${commonTexts.gjelder} ${navBruker.navn}, f.nr. ${valgtPersonident}`
   );
 
   const getInnkallingDocumentArbeidstaker = (

@@ -25,15 +25,17 @@ import { expectedEndretReferatDocument } from "./testDataDocuments";
 import sinon from "sinon";
 import { MAX_LENGTH_BEGRUNNELSE_ENDRING } from "@/components/dialogmote/referat/ReferatFritekster";
 import { queryClientWithMockData } from "../testQueryClient";
-import { referatTexts } from "@/data/dialogmote/dialogmoteTexts";
+import { getReferatTexts } from "@/data/dialogmote/dialogmoteTexts";
 import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
 import { renderWithRouter } from "../testRouterUtils";
+import { Malform, MalformProvider } from "@/context/malform/MalformContext";
 
 let queryClient: QueryClient;
 
 describe("ReferatEndreTest", () => {
   let clock: any;
   const today = new Date(Date.now());
+  const referatTexts = getReferatTexts(Malform.BOKMAL);
 
   beforeEach(() => {
     queryClient = queryClientWithMockData();
@@ -139,11 +141,13 @@ describe("ReferatEndreTest", () => {
 const renderEndreReferat = (dialogmote: DialogmoteDTO) => {
   return renderWithRouter(
     <QueryClientProvider client={queryClient}>
-      <Referat
-        dialogmote={dialogmote}
-        pageTitle="Test"
-        mode={ReferatMode.ENDRET}
-      />
+      <MalformProvider>
+        <Referat
+          dialogmote={dialogmote}
+          pageTitle="Test"
+          mode={ReferatMode.ENDRET}
+        />
+      </MalformProvider>
     </QueryClientProvider>,
     `${dialogmoteRoutePath}/:dialogmoteUuid/referat/endre`,
     [`${dialogmoteRoutePath}/${dialogmote.uuid}/referat/endre`]

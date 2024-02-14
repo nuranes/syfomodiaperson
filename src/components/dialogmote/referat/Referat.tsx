@@ -47,6 +47,10 @@ import { SaveFile } from "../../../../img/ImageComponents";
 import { FormState } from "final-form";
 import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
 import { Alert, Box, Button, Heading, Link } from "@navikt/ds-react";
+import { MalformRadioGroup } from "@/components/MalformRadioGroup";
+import * as Amplitude from "@/utils/amplitude";
+import { EventType } from "@/utils/amplitude";
+import { useMalform } from "@/context/malform/MalformContext";
 
 export const texts = {
   digitalReferat:
@@ -155,6 +159,7 @@ const Referat = ({
   const { harIkkeUtbedretFeil, resetFeilUtbedret, updateFeilUtbedret } =
     useFeilUtbedret();
   const { getReferatDocument } = useReferatDocument(dialogmote, mode);
+  const { malform } = useMalform();
 
   const isSendingReferat = () => {
     return ferdigstillDialogmote.isPending || endreReferat.isPending;
@@ -227,6 +232,14 @@ const Referat = ({
     } else {
       ferdigstillDialogmote.mutate(newDialogmoteReferatDTO);
     }
+    Amplitude.logEvent({
+      type: EventType.OptionSelected,
+      data: {
+        url: window.location.href,
+        tekst: "Målform valgt",
+        option: malform,
+      },
+    });
   };
 
   const isNullOrEmpty = (value?: string | undefined) => {
@@ -329,6 +342,7 @@ const Referat = ({
                 {texts.personvernLenketekst}
               </Link>
             </Alert>
+            <MalformRadioGroup />
             {showToast && (
               <div className="mb-4 font-bold flex gap-2">
                 <img src={SaveFile} alt="saved" />

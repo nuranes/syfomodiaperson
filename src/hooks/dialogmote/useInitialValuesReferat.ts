@@ -1,14 +1,16 @@
 import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
 import { ReferatSkjemaValues } from "@/components/dialogmote/referat/Referat";
-import { referatTexts } from "@/data/dialogmote/dialogmoteTexts";
+import { getReferatTexts } from "@/data/dialogmote/dialogmoteTexts";
 import { useMemo } from "react";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
 import { useDialogmoteReferat } from "@/hooks/dialogmote/useDialogmoteReferat";
+import { useMalform } from "@/context/malform/MalformContext";
 
 export const useInitialValuesReferat = (
   dialogmote: DialogmoteDTO
 ): Partial<ReferatSkjemaValues> => {
   const { getCurrentNarmesteLeder } = useLedereQuery();
+  const { malform } = useMalform();
   const {
     arbeidsgiver: { virksomhetsnummer },
     behandler,
@@ -42,8 +44,9 @@ export const useInitialValuesReferat = (
             funksjon,
           })
         ),
-        standardtekster: referatTexts.standardTekster.filter((standardtekst) =>
-          latestReferat.document.some(({ key }) => key === standardtekst.key)
+        standardtekster: getReferatTexts(malform).standardTekster.filter(
+          (standardtekst) =>
+            latestReferat.document.some(({ key }) => key === standardtekst.key)
         ),
         ...behandlerInitialValues,
       };
@@ -53,5 +56,5 @@ export const useInitialValuesReferat = (
         ...behandlerInitialValues,
       };
     }
-  }, [currentNarmesteLederNavn, latestReferat, behandler]);
+  }, [behandler, latestReferat, malform, currentNarmesteLederNavn]);
 };

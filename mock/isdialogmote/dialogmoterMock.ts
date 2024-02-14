@@ -13,9 +13,10 @@ import {
   VIRKSOMHET_PONTYPANDY,
 } from "../common/mockConstants";
 import { ReferatDTO } from "../../src/data/dialogmote/types/dialogmoteReferatTypes";
-import { referatTexts } from "../../src/data/dialogmote/dialogmoteTexts";
+import { getReferatTexts } from "../../src/data/dialogmote/dialogmoteTexts";
 import dayjs from "dayjs";
 import { DocumentComponentType } from "../../src/data/documentcomponent/documentComponentTypes";
+import { Malform } from "../../src/context/malform/MalformContext";
 
 export const createDialogmote = (
   uuid: string,
@@ -150,7 +151,7 @@ export const createReferat = (
   ferdigstilt: boolean,
   tid: string
 ): ReferatDTO => {
-  const standardTekst = referatTexts.standardTekster[0];
+  const standardTekst = getReferatTexts(Malform.BOKMAL).standardTekster[0];
   return {
     uuid: "520239a6-a973-42f6-a4e7-9fe7d27d2f93",
     createdAt: tid,

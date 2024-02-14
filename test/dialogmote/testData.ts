@@ -19,9 +19,10 @@ import {
   VIRKSOMHET_PONTYPANDY,
 } from "../../mock/common/mockConstants";
 import { behandlerNavn } from "@/utils/behandlerUtils";
-import { referatTexts } from "@/data/dialogmote/dialogmoteTexts";
+import { getReferatTexts } from "@/data/dialogmote/dialogmoteTexts";
 import { BehandlerDTO, BehandlerType } from "@/data/behandler/BehandlerDTO";
 import { DocumentComponentType } from "@/data/documentcomponent/documentComponentTypes";
+import { Malform } from "@/context/malform/MalformContext";
 
 dayjs.extend(customParseFormat);
 
@@ -213,7 +214,8 @@ export const moteTekster = {
   begrunnelseEndring,
 };
 
-export const referatStandardTekst = referatTexts.standardTekster[3];
+export const referatStandardTekst = getReferatTexts(Malform.BOKMAL)
+  .standardTekster[3];
 
 export const createMellomlagretReferat = (tid?: string) => ({
   uuid: "123abc",

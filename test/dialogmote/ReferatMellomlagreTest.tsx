@@ -25,6 +25,7 @@ import { apiMock } from "../stubs/stubApi";
 import { queryClientWithMockData } from "../testQueryClient";
 import { texts as deltakereSkjemaTexts } from "@/components/dialogmote/referat/Deltakere";
 import { renderWithRouter } from "../testRouterUtils";
+import { MalformProvider } from "@/context/malform/MalformContext";
 
 let queryClient: QueryClient;
 
@@ -100,11 +101,13 @@ describe("ReferatMellomlagreTest", () => {
 const renderReferat = (dialogmoteDTO: DialogmoteDTO) => {
   return renderWithRouter(
     <QueryClientProvider client={queryClient}>
-      <Referat
-        dialogmote={dialogmoteDTO}
-        pageTitle="Test"
-        mode={ReferatMode.NYTT}
-      />
+      <MalformProvider>
+        <Referat
+          dialogmote={dialogmoteDTO}
+          pageTitle="Test"
+          mode={ReferatMode.NYTT}
+        />
+      </MalformProvider>
     </QueryClientProvider>,
     `${dialogmoteRoutePath}/:dialogmoteUuid/referat`,
     [`${dialogmoteRoutePath}/${dialogmoteDTO.uuid}/referat`]

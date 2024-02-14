@@ -39,6 +39,7 @@ import {
 } from "@/components/dialogmote/innkalling/DialogmoteInnkallingSkjema";
 import { behandlereQueryKeys } from "@/data/behandler/behandlereQueryHooks";
 import { BehandlerDTO, BehandlerType } from "@/data/behandler/BehandlerDTO";
+import { StoreKey } from "@/hooks/useLocalStorageState";
 
 let queryClient: QueryClient;
 
@@ -70,6 +71,10 @@ const renderDialogmoteInnkallingSkjema = () => {
 describe("DialogmoteInnkallingSkjema", () => {
   beforeEach(() => {
     queryClient = queryClientWithMockData();
+  });
+
+  afterEach(() => {
+    localStorage.setItem(StoreKey.MALFORM, Malform.BOKMAL);
   });
 
   it("shows a list of behandlere and possibility to add behandler", () => {
@@ -331,10 +336,10 @@ describe("DialogmoteInnkallingSkjema", () => {
   it("velger nynorske brev og endrer tekstene", () => {
     renderDialogmoteInnkallingSkjema();
 
-    const malformRadio = screen.getByRole("radio", {
+    const malformRadioNynorsk = screen.getByRole("radio", {
       name: "Nynorsk",
     });
-    userEvent.click(malformRadio);
+    userEvent.click(malformRadioNynorsk);
 
     const forhandsvisningButton = screen.getAllByRole("button", {
       name: "Forhåndsvisning",

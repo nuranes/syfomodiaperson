@@ -22,7 +22,7 @@ export const behandlerDeltokTekst = (
   behandler: DialogmotedeltakerBehandlerDTO,
   deltatt: boolean | undefined
 ): string =>
-  `${behandlerDeltakerTekst("Behandler:", behandler)}${
+  `Behandler: ${behandler.behandlerNavn}${
     deltatt === false ? ", deltok ikke" : ""
   }`;
 

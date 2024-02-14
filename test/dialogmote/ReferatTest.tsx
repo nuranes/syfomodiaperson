@@ -43,15 +43,18 @@ import {
   MAX_LENGTH_VEILEDERS_OPPGAVE,
 } from "@/components/dialogmote/referat/ReferatFritekster";
 import { queryClientWithMockData } from "../testQueryClient";
-import { referatTexts } from "@/data/dialogmote/dialogmoteTexts";
+import { getReferatTexts } from "@/data/dialogmote/dialogmoteTexts";
 import { NewDialogmoteReferatDTO } from "@/data/dialogmote/types/dialogmoteReferatTypes";
 import { renderWithRouter } from "../testRouterUtils";
+import { Malform, MalformProvider } from "@/context/malform/MalformContext";
+import { StoreKey } from "@/hooks/useLocalStorageState";
 
 let queryClient: QueryClient;
 
 describe("ReferatTest", () => {
   let clock: any;
   const today = new Date(Date.now());
+  const referatTexts = getReferatTexts(Malform.BOKMAL);
 
   beforeEach(() => {
     queryClient = queryClientWithMockData();
@@ -60,6 +63,7 @@ describe("ReferatTest", () => {
 
   afterEach(() => {
     clock.restore();
+    localStorage.setItem(StoreKey.MALFORM, Malform.BOKMAL);
   });
 
   it("viser arbeidstaker, dato og sted i tittel", () => {
@@ -320,16 +324,32 @@ describe("ReferatTest", () => {
         expect(within(forhandsvisningReferat).getByText(text)).to.exist;
       });
   });
+
+  it("forhåndsviser referat med nynorsktekster hvis dette er valgt", () => {
+    renderReferat(dialogmoteMedBehandler);
+    passSkjemaTekstInput();
+
+    const malformRadioNynorsk = screen.getByRole("radio", {
+      name: "Nynorsk",
+    });
+    userEvent.click(malformRadioNynorsk);
+
+    clickButton("Se forhåndsvisning");
+
+    expect(screen.getByText(getReferatTexts(Malform.NYNORSK).intro2)).to.exist;
+  });
 });
 
 const renderReferat = (dialogmoteDTO: DialogmoteDTO) => {
   return renderWithRouter(
     <QueryClientProvider client={queryClient}>
-      <Referat
-        dialogmote={dialogmoteDTO}
-        pageTitle="Test"
-        mode={ReferatMode.NYTT}
-      />
+      <MalformProvider>
+        <Referat
+          dialogmote={dialogmoteDTO}
+          pageTitle="Test"
+          mode={ReferatMode.NYTT}
+        />
+      </MalformProvider>
     </QueryClientProvider>,
     `${dialogmoteRoutePath}/:dialogmoteUuid/referat`,
     [`${dialogmoteRoutePath}/${dialogmoteDTO.uuid}/referat`]

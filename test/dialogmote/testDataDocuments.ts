@@ -3,7 +3,6 @@ import {
   annenDeltakerNavn,
   arbeidstaker,
   behandler,
-  behandlerDeltakerTekst,
   dialogmote,
   endretMote,
   mote,
@@ -16,7 +15,7 @@ import {
   commonTextsBokmal,
   endreTidStedTexts,
   getInnkallingTexts,
-  referatTexts,
+  getReferatTexts,
 } from "@/data/dialogmote/dialogmoteTexts";
 import {
   tilDatoMedManedNavnOgKlokkeslettWithComma,
@@ -32,6 +31,7 @@ import { addBehandlerTypeAndName } from "@/hooks/dialogmote/document/useInnkalli
 import { behandlerNavn } from "@/utils/behandlerUtils";
 
 const innkallingTextsBokmal = getInnkallingTexts(Malform.BOKMAL);
+const referatTextsBokmal = getReferatTexts(Malform.BOKMAL);
 
 const expectedArbeidstakerInnkalling = (
   medBehandler = false
@@ -623,7 +623,7 @@ const expectedAvlysningBehandler = (): DocumentComponentDto[] => [
 
 export const expectedReferatDocument = (): DocumentComponentDto[] => [
   {
-    texts: [referatTexts.nyttHeader],
+    texts: [referatTextsBokmal.nyttHeader],
     type: DocumentComponentType.HEADER_H1,
   },
   {
@@ -650,71 +650,71 @@ export const expectedReferatDocument = (): DocumentComponentDto[] => [
   },
   {
     texts: [
-      `Arbeidstaker: ${arbeidstaker.navn}`,
-      `Fra NAV: ${veileder.navn}`,
-      `Fra arbeidsgiver: ${narmesteLederNavn}`,
-      behandlerDeltakerTekst,
+      `${referatTextsBokmal.deltakere.arbeidstaker}: ${arbeidstaker.navn}`,
+      `${referatTextsBokmal.deltakere.nav}: ${veileder.navn}`,
+      `${referatTextsBokmal.deltakere.arbeidsgiver}: ${narmesteLederNavn}`,
+      `${referatTextsBokmal.deltakere.behandler}: ${behandlerNavn(behandler)}`,
       `${annenDeltakerFunksjon}: ${annenDeltakerNavn}`,
     ],
-    title: referatTexts.deltakereTitle,
+    title: referatTextsBokmal.deltakereTitle,
     type: DocumentComponentType.PARAGRAPH,
   },
   {
     texts: [mote.arbeidsgivernavn],
-    title: "Arbeidsgiver",
+    title: commonTextsBokmal.arbeidsgiverTitle,
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: [referatTexts.intro1],
+    texts: [referatTextsBokmal.intro1],
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: [referatTexts.intro2],
+    texts: [referatTextsBokmal.intro2],
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: [referatTexts.detteSkjeddeHeader],
+    texts: [referatTextsBokmal.detteSkjeddeHeader],
     type: DocumentComponentType.HEADER_H2,
   },
   {
     texts: [moteTekster.konklusjonTekst],
-    title: referatTexts.konklusjonTitle,
+    title: referatTextsBokmal.konklusjonTitle,
     type: DocumentComponentType.PARAGRAPH,
   },
   {
     texts: [moteTekster.arbeidstakersOppgave],
-    title: referatTexts.arbeidstakersOppgaveTitle,
+    title: referatTextsBokmal.arbeidstakersOppgaveTitle,
     type: DocumentComponentType.PARAGRAPH,
   },
   {
     texts: [moteTekster.arbeidsgiversOppgave],
-    title: referatTexts.arbeidsgiversOppgaveTitle,
+    title: referatTextsBokmal.arbeidsgiversOppgaveTitle,
     type: DocumentComponentType.PARAGRAPH,
   },
   {
     texts: [moteTekster.behandlersOppgave],
-    title: referatTexts.behandlersOppgave,
+    title: referatTextsBokmal.behandlersOppgave,
     type: DocumentComponentType.PARAGRAPH,
   },
   {
     texts: [moteTekster.veiledersOppgave],
-    title: referatTexts.navOppgaveTitle,
+    title: referatTextsBokmal.navOppgaveTitle,
     type: DocumentComponentType.PARAGRAPH,
   },
   {
     texts: [moteTekster.situasjonTekst],
-    title: referatTexts.situasjonTitle,
+    title: referatTextsBokmal.situasjonTitle,
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: ["Med vennlig hilsen", veileder.navn ?? "", "NAV"],
+    texts: [commonTextsBokmal.hilsen, veileder.navn ?? "", "NAV"],
     type: DocumentComponentType.PARAGRAPH,
   },
 ];
 
 export const expectedEndretReferatDocument = (): DocumentComponentDto[] => [
   {
-    texts: [referatTexts.endretHeader],
+    texts: [referatTextsBokmal.endretHeader],
     type: DocumentComponentType.HEADER_H1,
   },
   {
@@ -722,12 +722,12 @@ export const expectedEndretReferatDocument = (): DocumentComponentDto[] => [
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: [referatTexts.endring],
+    texts: [referatTextsBokmal.endring],
     type: DocumentComponentType.PARAGRAPH,
   },
   {
     texts: [moteTekster.begrunnelseEndring],
-    title: referatTexts.begrunnelseEndringTitle,
+    title: referatTextsBokmal.begrunnelseEndringTitle,
     type: DocumentComponentType.PARAGRAPH,
   },
   {
@@ -750,57 +750,57 @@ export const expectedEndretReferatDocument = (): DocumentComponentDto[] => [
   },
   {
     texts: [
-      `Arbeidstaker: ${arbeidstaker.navn}`,
-      `Fra NAV: ${veileder.navn}`,
-      `Fra arbeidsgiver: ${narmesteLederNavn}`,
+      `${referatTextsBokmal.deltakere.arbeidstaker}: ${arbeidstaker.navn}`,
+      `${referatTextsBokmal.deltakere.nav}: ${veileder.navn}`,
+      `${referatTextsBokmal.deltakere.arbeidsgiver}: ${narmesteLederNavn}`,
     ],
-    title: referatTexts.deltakereTitle,
+    title: referatTextsBokmal.deltakereTitle,
     type: DocumentComponentType.PARAGRAPH,
   },
   {
     texts: [mote.arbeidsgivernavn],
-    title: "Arbeidsgiver",
+    title: commonTextsBokmal.arbeidsgiverTitle,
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: [referatTexts.intro1],
+    texts: [referatTextsBokmal.intro1],
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: [referatTexts.intro2],
+    texts: [referatTextsBokmal.intro2],
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: [referatTexts.detteSkjeddeHeader],
+    texts: [referatTextsBokmal.detteSkjeddeHeader],
     type: DocumentComponentType.HEADER_H2,
   },
   {
     texts: [moteTekster.konklusjonTekst],
-    title: referatTexts.konklusjonTitle,
+    title: referatTextsBokmal.konklusjonTitle,
     type: DocumentComponentType.PARAGRAPH,
   },
   {
     texts: [moteTekster.arbeidstakersOppgave],
-    title: referatTexts.arbeidstakersOppgaveTitle,
+    title: referatTextsBokmal.arbeidstakersOppgaveTitle,
     type: DocumentComponentType.PARAGRAPH,
   },
   {
     texts: [moteTekster.arbeidsgiversOppgave],
-    title: referatTexts.arbeidsgiversOppgaveTitle,
+    title: referatTextsBokmal.arbeidsgiversOppgaveTitle,
     type: DocumentComponentType.PARAGRAPH,
   },
   {
     texts: [moteTekster.veiledersOppgave],
-    title: referatTexts.navOppgaveTitle,
+    title: referatTextsBokmal.navOppgaveTitle,
     type: DocumentComponentType.PARAGRAPH,
   },
   {
     texts: [moteTekster.situasjonTekst],
-    title: referatTexts.situasjonTitle,
+    title: referatTextsBokmal.situasjonTitle,
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: ["Med vennlig hilsen", veileder.navn ?? "", "NAV"],
+    texts: [commonTextsBokmal.hilsen, veileder.navn ?? "", "NAV"],
     type: DocumentComponentType.PARAGRAPH,
   },
 ];
