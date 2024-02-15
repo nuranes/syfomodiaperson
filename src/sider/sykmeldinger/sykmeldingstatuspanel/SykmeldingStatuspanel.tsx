@@ -5,7 +5,6 @@ import {
   Arbeidsgiver,
   Orgnummer,
 } from "./SykmeldingStatuspanelOpplysning";
-import GjenapneSykmelding from "./GjenapneSykmelding";
 import Statuspanel, {
   Statusopplysninger,
 } from "../../../components/speiling/Statuspanel";
@@ -64,8 +63,6 @@ const SykmeldingStatuspanel = ({
   return (
     <Statuspanel>
       <Nokkelopplysninger sykmelding={sykmelding} />
-      {sykmelding.status === SykmeldingStatus.AVBRUTT &&
-        !sykmelding.egenmeldt && <GjenapneSykmelding />}
     </Statuspanel>
   );
 };

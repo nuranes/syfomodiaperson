@@ -1,9 +1,7 @@
 import React from "react";
-import { Undertittel, Normaltekst } from "nav-frontend-typografi";
-import { Knapp } from "nav-frontend-knapper";
+import { Undertittel } from "nav-frontend-typografi";
 import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat";
 import DineKoronaSykmeldingOpplysninger from "../sykmeldingOpplysninger/DineKoronaSykmeldingOpplysninger";
-import Hjelpeboble from "../../../../components/bjorn/Hjelpeboble";
 import { PersonImage } from "../../../../../img/ImageComponents";
 
 const texts = {
@@ -28,19 +26,6 @@ const KoronaSykmeldingNy = (
       <Undertittel style={{ marginBottom: "2.5rem", textAlign: "center" }}>
         {texts.pageSubtitle}
       </Undertittel>
-      <Hjelpeboble className="blokk" hvit bildeAlt={texts.infotext1}>
-        <>
-          <Normaltekst style={{ marginBottom: "1rem" }}>
-            {texts.infotext1}
-          </Normaltekst>
-          <Normaltekst>{texts.infoText2}</Normaltekst>
-          <div className="skjul-pa-desktop">
-            <Knapp mini disabled style={{ marginTop: "2rem" }}>
-              {texts.button}
-            </Knapp>
-          </div>
-        </>
-      </Hjelpeboble>
       <article>
         <header className="panelHeader panelHeader--lysebla">
           <img className="panelHeader__ikon" src={PersonImage} alt="Du" />

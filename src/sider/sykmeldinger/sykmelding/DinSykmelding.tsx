@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Alertstripe from "nav-frontend-alertstriper";
 import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat";
 import DineSykmeldingOpplysninger from "./sykmeldingOpplysninger/DineSykmeldingOpplysninger";
-import Hjelpeboble from "../../../components/bjorn/Hjelpeboble";
 import {
   PersonHighContrastImage,
   PersonImage,
@@ -27,16 +26,6 @@ const DinSykmelding = (dinSykmeldingProps: DinSykmeldingProps) => {
     dinSykmeldingProps;
   return (
     <div>
-      <Hjelpeboble className="blokk" hvit bildeAlt={texts.bjorn}>
-        <div>
-          <p>{texts.bjorn}</p>
-          <p className="introtekst__knapperad">
-            <button disabled className="knapp knapp--mini">
-              Gå til utfylling
-            </button>
-          </p>
-        </div>
-      </Hjelpeboble>
       {visEldreSykmeldingVarsel && (
         <Alertstripe type="info">
           <p className="sist side-innhold">

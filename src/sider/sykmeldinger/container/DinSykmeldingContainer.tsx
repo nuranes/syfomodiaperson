@@ -7,14 +7,12 @@ import {
 import Side from "../../Side";
 import SidetoppSpeilet from "../../../components/SidetoppSpeilet";
 import SykmeldingSide from "../sykmelding/SykmeldingSide";
-import Brodsmuler from "../../../components/speiling/Brodsmuler";
-import Speilingvarsel from "../../../components/speiling/Speilingvarsel";
 import SideLaster from "../../../components/SideLaster";
-import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import { useSykmeldingerQuery } from "@/data/sykmelding/sykmeldingQueryHooks";
 import LenkeTilDineSykmeldinger from "@/sider/sykmeldinger/sykmelding/LenkeTilDineSykmeldinger";
 import EndreSykmelding from "@/components/endresykmelding/EndreSykmelding";
 import { Menypunkter } from "@/components/globalnavigasjon/GlobalNavigasjon";
+import { Panel } from "@navikt/ds-react";
 
 const texts = {
   pageTitleSykmelding: "Sykmelding",
@@ -39,7 +37,6 @@ export const getSykmelding = (
 const DinSykmeldingSide = (): ReactElement => {
   const sykmeldingId = window.location.pathname.split("/")[3];
 
-  const { navn: brukernavn } = useNavBrukerData();
   const { isLoading, isError, sykmeldinger, arbeidsgiverssykmeldinger } =
     useSykmeldingerQuery();
 
@@ -59,27 +56,13 @@ const DinSykmeldingSide = (): ReactElement => {
     );
   }
 
-  const brodsmuler = [
-    {
-      tittel: "Ditt sykefravær",
-    },
-    {
-      tittel: "Dine sykmeldinger",
-    },
-    {
-      tittel: "Sykmelding",
-    },
-  ];
-
   return (
     <Side
       tittel={texts.pageTitleSykmelding}
       aktivtMenypunkt={Menypunkter.SYKMELDINGER}
     >
       <SideLaster henter={isLoading} hentingFeilet={isError}>
-        <Speilingvarsel brukernavn={brukernavn} />
-        <div className="speiling">
-          <Brodsmuler brodsmuler={brodsmuler} />
+        <Panel>
           <SidetoppSpeilet tittel={pageTitle(dinSykmelding)} />
           <SykmeldingSide
             dinSykmelding={dinSykmelding}
@@ -87,7 +70,7 @@ const DinSykmeldingSide = (): ReactElement => {
           />
           {!dinSykmelding?.papirsykmelding && <EndreSykmelding />}
           <LenkeTilDineSykmeldinger />
-        </div>
+        </Panel>
       </SideLaster>
     </Side>
   );
