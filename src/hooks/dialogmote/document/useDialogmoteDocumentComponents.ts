@@ -33,7 +33,7 @@ export const useDialogmoteDocumentComponents = () => {
   const getMoteInfo = (
     values: Partial<TidStedSkjemaValues>,
     virksomhetsnummer: string | undefined,
-    malform?: Malform
+    malform?: Malform // TODO: Fjern når alle tekster bruker målform og ta inn i hooken
   ) => {
     const { dato, klokkeslett, sted, videoLink } = values;
     const commonTexts = getCommonTexts(malform ? malform : Malform.BOKMAL);

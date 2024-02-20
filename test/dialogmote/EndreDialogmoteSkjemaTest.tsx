@@ -33,6 +33,9 @@ import { stubFeatureTogglesApi } from "../stubs/stubUnleash";
 import { stubAktivVeilederinfoApi } from "../stubs/stubSyfoveileder";
 import { queryClientWithMockData } from "../testQueryClient";
 import { DocumentComponentType } from "@/data/documentcomponent/documentComponentTypes";
+import { Malform, MalformProvider } from "@/context/malform/MalformContext";
+import { getEndreTidStedTexts } from "@/data/dialogmote/dialogmoteTexts";
+import { StoreKey } from "@/hooks/useLocalStorageState";
 
 let queryClient: QueryClient;
 let apiMockScope;
@@ -41,6 +44,10 @@ describe("EndreDialogmoteSkjemaTest", () => {
   beforeEach(() => {
     queryClient = queryClientWithMockData();
     apiMockScope = apiMock();
+  });
+
+  afterEach(() => {
+    localStorage.setItem(StoreKey.MALFORM, Malform.BOKMAL);
   });
 
   it("validerer begrunnelser og dato", async () => {
@@ -335,6 +342,24 @@ describe("EndreDialogmoteSkjemaTest", () => {
           .exist;
       });
   });
+
+  it("forhåndsviser endring med nynorsktekster hvis dette er valgt", () => {
+    renderEndreDialogmoteSkjema(dialogmoteMedBehandler);
+    passSkjemaInput();
+
+    const malformRadioNynorsk = screen.getByRole("radio", {
+      name: "Nynorsk",
+    });
+    userEvent.click(malformRadioNynorsk);
+
+    const forhandsvisningButton = screen.getAllByRole("button", {
+      name: "Forhåndsvisning",
+    })[0];
+    userEvent.click(forhandsvisningButton);
+
+    expect(screen.getByText(getEndreTidStedTexts(Malform.NYNORSK).intro2)).to
+      .exist;
+  });
 });
 
 const renderEndreDialogmoteSkjema = (dialogmote: DialogmoteDTO) => {
@@ -343,7 +368,9 @@ const renderEndreDialogmoteSkjema = (dialogmote: DialogmoteDTO) => {
       <ValgtEnhetContext.Provider
         value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
       >
-        <EndreDialogmoteSkjema dialogmote={dialogmote} />
+        <MalformProvider>
+          <EndreDialogmoteSkjema dialogmote={dialogmote} />
+        </MalformProvider>
       </ValgtEnhetContext.Provider>
     </QueryClientProvider>,
     `${dialogmoteRoutePath}/:dialogmoteUuid/endre`,

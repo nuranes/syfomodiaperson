@@ -26,6 +26,10 @@ import DialogmoteSted, {
 import DialogmoteVideolink from "@/sider/mote/components/DialogmoteVideolink";
 import DialogmoteKlokkeslett from "@/sider/mote/components/DialogmoteKlokkeslett";
 import { DialogmoteFrist } from "@/components/dialogmote/DialogmoteFrist";
+import { MalformRadioGroup } from "@/components/MalformRadioGroup";
+import * as Amplitude from "@/utils/amplitude";
+import { EventType } from "@/utils/amplitude";
+import { useMalform } from "@/context/malform/MalformContext";
 
 export const texts = {
   send: "Send",
@@ -70,6 +74,7 @@ const EndreDialogmoteSkjema = ({ dialogmote }: Props) => {
   const { sted, arbeidsgiver, tid, uuid, behandler, videoLink } = dialogmote;
   const fnr = useValgtPersonident();
   const { currentLedere } = useLedereQuery();
+  const { malform } = useMalform();
 
   const narmesteLeder = narmesteLederForVirksomhet(
     currentLedere,
@@ -127,7 +132,18 @@ const EndreDialogmoteSkjema = ({ dialogmote }: Props) => {
 
   const submit = (values: EndreTidStedSkjemaValues) => {
     const dialogmoteEndring = toEndreTidSted(values);
-    endreTidStedDialogmote.mutate(dialogmoteEndring);
+    endreTidStedDialogmote.mutate(dialogmoteEndring, {
+      onSuccess: () => {
+        Amplitude.logEvent({
+          type: EventType.OptionSelected,
+          data: {
+            url: window.location.href,
+            tekst: "Målform valgt",
+            option: malform,
+          },
+        });
+      },
+    });
   };
 
   if (endreTidStedDialogmote.isSuccess) {
@@ -135,10 +151,11 @@ const EndreDialogmoteSkjema = ({ dialogmote }: Props) => {
   }
 
   return (
-    <Box background="surface-default" padding="6">
+    <Box background="surface-default" padding="6" className="mb-2">
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(submit)}>
           <div className="flex flex-col gap-4 mb-6">
+            <MalformRadioGroup />
             <DialogmoteFrist />
             <div className="flex gap-4 items-start">
               <DialogmoteDato />

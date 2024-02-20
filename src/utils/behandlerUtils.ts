@@ -11,13 +11,6 @@ export const behandlerNavn = (
     .join(" ");
 };
 
-export const behandlerDeltakerTekst = (
-  pretekst: string,
-  behandler: DialogmotedeltakerBehandlerDTO
-) => {
-  return `${pretekst} ${behandler.behandlerNavn}`;
-};
-
 export const behandlerDeltokTekst = (
   behandler: DialogmotedeltakerBehandlerDTO,
   deltatt: boolean | undefined

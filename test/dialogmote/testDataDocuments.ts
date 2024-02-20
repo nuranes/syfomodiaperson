@@ -12,8 +12,8 @@ import {
 } from "./testData";
 import {
   avlysningTexts,
-  commonTextsBokmal,
-  endreTidStedTexts,
+  getCommonTexts,
+  getEndreTidStedTexts,
   getInnkallingTexts,
   getReferatTexts,
 } from "@/data/dialogmote/dialogmoteTexts";
@@ -32,6 +32,8 @@ import { behandlerNavn } from "@/utils/behandlerUtils";
 
 const innkallingTextsBokmal = getInnkallingTexts(Malform.BOKMAL);
 const referatTextsBokmal = getReferatTexts(Malform.BOKMAL);
+const commonTextsBokmal = getCommonTexts(Malform.BOKMAL);
+const endreTidStedTextsBokmal = getEndreTidStedTexts(Malform.BOKMAL);
 
 const expectedArbeidstakerInnkalling = (
   medBehandler = false
@@ -275,14 +277,14 @@ const expectedArbeidsgiverEndringsdokument = (
   },
   {
     texts: [
-      `${endreTidStedTexts.intro1} ${tilDatoMedManedNavnOgKlokkeslettWithComma(
-        dialogmote.tid
-      )}.`,
+      `${
+        endreTidStedTextsBokmal.intro1
+      } ${tilDatoMedManedNavnOgKlokkeslettWithComma(dialogmote.tid)}.`,
     ],
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: [endreTidStedTexts.intro2],
+    texts: [endreTidStedTextsBokmal.intro2],
     type: DocumentComponentType.PARAGRAPH,
   },
   {
@@ -316,32 +318,32 @@ const expectedArbeidsgiverEndringsdokument = (
   {
     texts: [
       medBehandler
-        ? endreTidStedTexts.arbeidsgiver.outro1WithBehandler
-        : endreTidStedTexts.arbeidsgiver.outro1,
+        ? endreTidStedTextsBokmal.arbeidsgiver.outro1WithBehandler
+        : endreTidStedTextsBokmal.arbeidsgiver.outro1,
     ],
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: [endreTidStedTexts.arbeidsgiver.outroObligatorisk],
+    texts: [endreTidStedTextsBokmal.arbeidsgiver.outroObligatorisk],
     type: DocumentComponentType.PARAGRAPH,
   },
   {
     texts: [
       medBehandler
         ? `${
-            endreTidStedTexts.arbeidsgiver.outro2WithBehandler
+            endreTidStedTextsBokmal.arbeidsgiver.outro2WithBehandler
           } ${behandlerNavn(behandler)}.`
-        : endreTidStedTexts.arbeidsgiver.outro2,
+        : endreTidStedTextsBokmal.arbeidsgiver.outro2,
     ],
     type: DocumentComponentType.PARAGRAPH,
   },
   {
     texts: [
       medBehandler
-        ? endreTidStedTexts.arbeidsgiver.outro3WithBehandler
-        : endreTidStedTexts.arbeidsgiver.outro3,
+        ? endreTidStedTextsBokmal.arbeidsgiver.outro3WithBehandler
+        : endreTidStedTextsBokmal.arbeidsgiver.outro3,
     ],
-    title: endreTidStedTexts.arbeidsgiver.outro3Title,
+    title: endreTidStedTextsBokmal.arbeidsgiver.outro3Title,
     type: DocumentComponentType.PARAGRAPH,
   },
   {
@@ -371,14 +373,14 @@ const expectedArbeidstakerEndringsdokument = (
   },
   {
     texts: [
-      `${endreTidStedTexts.intro1} ${tilDatoMedManedNavnOgKlokkeslettWithComma(
-        dialogmote.tid
-      )}.`,
+      `${
+        endreTidStedTextsBokmal.intro1
+      } ${tilDatoMedManedNavnOgKlokkeslettWithComma(dialogmote.tid)}.`,
     ],
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: [endreTidStedTexts.intro2],
+    texts: [endreTidStedTextsBokmal.intro2],
     type: DocumentComponentType.PARAGRAPH,
   },
   {
@@ -412,32 +414,32 @@ const expectedArbeidstakerEndringsdokument = (
   {
     texts: [
       medBehandler
-        ? endreTidStedTexts.arbeidstaker.outro1WithBehandler
-        : endreTidStedTexts.arbeidstaker.outro1,
+        ? endreTidStedTextsBokmal.arbeidstaker.outro1WithBehandler
+        : endreTidStedTextsBokmal.arbeidstaker.outro1,
     ],
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: [endreTidStedTexts.arbeidstaker.outroObligatorisk],
+    texts: [endreTidStedTextsBokmal.arbeidstaker.outroObligatorisk],
     type: DocumentComponentType.PARAGRAPH,
   },
   {
     texts: [
       medBehandler
         ? `${
-            endreTidStedTexts.arbeidstaker.outro2WithBehandler
+            endreTidStedTextsBokmal.arbeidstaker.outro2WithBehandler
           } ${behandlerNavn(behandler)}.`
-        : endreTidStedTexts.arbeidstaker.outro2,
+        : endreTidStedTextsBokmal.arbeidstaker.outro2,
     ],
     type: DocumentComponentType.PARAGRAPH,
   },
   {
     texts: [
       medBehandler
-        ? endreTidStedTexts.arbeidstaker.outro3WithBehandler
-        : endreTidStedTexts.arbeidstaker.outro3,
+        ? endreTidStedTextsBokmal.arbeidstaker.outro3WithBehandler
+        : endreTidStedTextsBokmal.arbeidstaker.outro3,
     ],
-    title: endreTidStedTexts.arbeidstaker.outro3Title,
+    title: endreTidStedTextsBokmal.arbeidstaker.outro3Title,
     type: DocumentComponentType.PARAGRAPH,
   },
   {
@@ -452,7 +454,7 @@ const expectedBehandlerEndringsdokument = (): DocumentComponentDto[] => [
     type: DocumentComponentType.HEADER_H1,
   },
   {
-    texts: [endreTidStedTexts.behandler.intro],
+    texts: [endreTidStedTextsBokmal.behandler.intro],
     type: DocumentComponentType.PARAGRAPH,
   },
   {
@@ -465,14 +467,14 @@ const expectedBehandlerEndringsdokument = (): DocumentComponentDto[] => [
   },
   {
     texts: [
-      `${endreTidStedTexts.intro1} ${tilDatoMedManedNavnOgKlokkeslettWithComma(
-        dialogmote.tid
-      )}.`,
+      `${
+        endreTidStedTextsBokmal.intro1
+      } ${tilDatoMedManedNavnOgKlokkeslettWithComma(dialogmote.tid)}.`,
     ],
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: [endreTidStedTexts.intro2],
+    texts: [endreTidStedTextsBokmal.intro2],
     type: DocumentComponentType.PARAGRAPH,
   },
   {
@@ -504,7 +506,7 @@ const expectedBehandlerEndringsdokument = (): DocumentComponentDto[] => [
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: [endreTidStedTexts.behandler.outro],
+    texts: [endreTidStedTextsBokmal.behandler.outro],
     type: DocumentComponentType.PARAGRAPH,
   },
   {

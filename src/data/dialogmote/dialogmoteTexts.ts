@@ -94,7 +94,8 @@ export const getInnkallingTexts = (malform: Malform) => {
     : innkallingTextsBokmal;
 };
 
-export const endreTidStedTexts = {
+const endreTidStedTextsBokmal = {
+  header: "Endret dialogmøte",
   intro1:
     "Du har tidligere blitt innkalt til et dialogmøte. Møtet skulle vært avholdt",
   intro2: "Møtet må flyttes. Dette tidspunktet og møtestedet gjelder nå:",
@@ -136,7 +137,61 @@ export const endreTidStedTexts = {
       "Det er obligatorisk å delta i dialogmøtet. Gi oss svar om tidspunktet passer eller ikke.",
     outro:
       "Vi minner om at det ikke må sendes sensitive personopplysninger over e-post eller SMS.",
+    endring: "Endret dialogmøte, svar ønskes",
   },
+};
+
+const endreTidStedTextsNynorsk = {
+  header: "Endra dialogmøte",
+  intro1:
+    "Du har tidlegare blitt kalla inn til dialogmøte. Møtet skulle etter planen ha vore",
+  intro2: "Møtet må flyttast. Følgjande tidspunkt og møtestad gjeld no:",
+  arbeidsgiver: {
+    outro1:
+      "I møtet ønskjer vi å høyre kva du og den tilsette seier om arbeidssituasjonen og moglegheitene for jobb. Vi blir einige om ein plan som kan hjelpe den tilsette vidare.",
+    outro2:
+      "Fastlegen eller annan behandlar kan bli invitert til å delta i dialogmøtet. Til dette møtet har vi ikkje sett behov for det.",
+    outro1WithBehandler:
+      "I møtet ønskjer vi å høyre kva du, den tilsette og behandlarane seier om arbeidssituasjonen og moglegheitene for jobb. Vi blir einige om ein plan som kan hjelpe den tilsette vidare.",
+    outro2WithBehandler:
+      "Fastlegen eller annan behandlar kan bli invitert til å delta i dialogmøtet. Til dette møtet har vi sett behov for å kalle inn",
+    outroObligatorisk:
+      "Det er obligatorisk å delta i dialogmøtet. Gi oss svar om tidspunktet passar eller ikkje. Vi minner om at sensitive personopplysningar ikkje skal sendast på e-post eller SMS.",
+    outro3Title: "Før møtet",
+    outro3:
+      "Det er viktig at de fyller ut oppfølgingsplanen saman og deler han med NAV. Denne gir oss eit godt utgangspunkt for å snakke om kva som fungerer, kva som har blitt forsøkt, og kva moglegheiter som finst framover.",
+    outro3WithBehandler:
+      "Det er viktig at du og arbeidstakaren din fyller ut oppfølgingsplanen saman og deler han med NAV. Denne gir oss eit godt utgangspunkt for å snakke om kva som fungerer, kva som har blitt forsøkt, og kva moglegheiter som finst framover.",
+  },
+  arbeidstaker: {
+    outro1:
+      "Vi ønskjer å høyre kva du og arbeidsgivaren seier om arbeidssituasjonen og moglegheitene for å jobbe. Vi blir einige om ein plan som kan hjelpe deg vidare.",
+    outro2:
+      "Fastlegen eller annan behandlar kan bli invitert til å delta i dialogmøtet. Til dette møtet har vi ikkje sett behov for det.",
+    outro1WithBehandler:
+      "Vi ønskjer å høyre kva du, arbeidsgivaren og behandlaren seier om arbeidssituasjonen og moglegheitene for å jobbe. Vi blir einige om ein plan som kan hjelpe deg vidare.",
+    outro2WithBehandler:
+      "Fastlegen eller annan behandlar kan bli invitert til å delta i dialogmøtet. Til dette møtet har vi sett behov for å kalle inn",
+    outroObligatorisk: "Det er obligatorisk å delta i dialogmøtet.",
+    outro3Title: "Før møtet",
+    outro3:
+      "Det er viktig at de fyller ut oppfølgingsplanen saman og deler han med NAV. Denne gir oss eit godt utgangspunkt for å snakke om kva som fungerer, kva som har blitt forsøkt, og kva moglegheiter som finst framover.",
+    outro3WithBehandler:
+      "Det er viktig at du og arbeidsgivaren din fyller ut oppfølgingsplanen saman og deler han med NAV. Denne gir oss eit godt utgangspunkt for å snakke om kva som fungerer, kva som har blitt forsøkt, og kva moglegheiter som finst framover.",
+  },
+  behandler: {
+    intro:
+      "Det er obligatorisk å delta i dialogmøtet. Gi oss svar om tidspunktet passar eller ikkje.",
+    outro:
+      "Vi minner om at sensitive personopplysningar ikkje skal sendast på e-post eller SMS.",
+    endring: "Endra dialogmøte (ønskje om svar)",
+  },
+};
+
+export const getEndreTidStedTexts = (malform: Malform) => {
+  return malform === Malform.NYNORSK
+    ? endreTidStedTextsNynorsk
+    : endreTidStedTextsBokmal;
 };
 
 export const avlysningTexts = {

@@ -6,16 +6,16 @@ import {
 } from "@/utils/documentComponentUtils";
 import { tilDatoMedManedNavnOgKlokkeslettWithComma } from "@/utils/datoUtils";
 import {
-  commonTextsBokmal,
-  endreTidStedTexts,
+  getCommonTexts,
+  getEndreTidStedTexts,
 } from "@/data/dialogmote/dialogmoteTexts";
-import {
-  DialogmotedeltakerBehandlerDTO,
-  DialogmoteDTO,
-} from "@/data/dialogmote/types/dialogmoteTypes";
-import { behandlerDeltakerTekst } from "@/utils/behandlerUtils";
+import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
 import { useDialogmoteDocumentComponents } from "@/hooks/dialogmote/document/useDialogmoteDocumentComponents";
 import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
+import { useMalform } from "@/context/malform/MalformContext";
+import { useValgtPersonident } from "@/hooks/useValgtBruker";
+import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
+import { useAktivVeilederinfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
 
 export interface ITidStedDocument {
   getTidStedDocumentArbeidsgiver(
@@ -35,9 +35,23 @@ export const useTidStedDocument = (
   dialogmote: DialogmoteDTO
 ): ITidStedDocument => {
   const { tid, arbeidsgiver, behandler } = dialogmote;
+  const { malform } = useMalform();
+  const { data: veilederinfo } = useAktivVeilederinfoQuery();
+  const endreTidStedTexts = getEndreTidStedTexts(malform);
+  const commonTexts = getCommonTexts(malform);
+  const valgtPersonident = useValgtPersonident();
+  const navBruker = useNavBrukerData();
+  const hilsenParagraph = createParagraph(
+    commonTexts.hilsen,
+    veilederinfo?.navn || "",
+    `NAV`
+  );
 
-  const { getHilsen, getMoteInfo, getIntroHei, getIntroGjelder } =
-    useDialogmoteDocumentComponents();
+  const { getMoteInfo, getIntroHei } = useDialogmoteDocumentComponents();
+
+  const gjelderParagraph = createParagraph(
+    `${commonTexts.gjelder} ${navBruker.navn}, f.nr. ${valgtPersonident}`
+  );
 
   const sendtDato = createParagraph(
     `Sendt ${tilDatoMedManedNavnOgKlokkeslettWithComma(new Date())}`
@@ -55,11 +69,11 @@ export const useTidStedDocument = (
     values: Partial<EndreTidStedSkjemaValues>
   ) => {
     const documentComponents = [
-      createHeaderH1("Endret dialogmøte"),
+      createHeaderH1(endreTidStedTexts.header),
       sendtDato,
-      getIntroGjelder(),
+      gjelderParagraph,
       ...introComponents,
-      ...getMoteInfo(values, arbeidsgiver.virksomhetsnummer),
+      ...getMoteInfo(values, arbeidsgiver.virksomhetsnummer, malform),
     ];
 
     if (values.begrunnelseArbeidsgiver) {
@@ -70,10 +84,7 @@ export const useTidStedDocument = (
       ? endreTidStedTexts.arbeidsgiver.outro1WithBehandler
       : endreTidStedTexts.arbeidsgiver.outro1;
     const outro2 = behandler
-      ? addBehandlerTypeAndName(
-          endreTidStedTexts.arbeidsgiver.outro2WithBehandler,
-          behandler
-        )
+      ? `${endreTidStedTexts.arbeidsgiver.outro2WithBehandler} ${behandler.behandlerNavn}.`
       : endreTidStedTexts.arbeidsgiver.outro2;
     const outro3 = behandler
       ? endreTidStedTexts.arbeidsgiver.outro3WithBehandler
@@ -87,10 +98,10 @@ export const useTidStedDocument = (
         endreTidStedTexts.arbeidsgiver.outro3Title,
         outro3
       ),
-      getHilsen(),
+      hilsenParagraph,
       createParagraph(
-        commonTextsBokmal.arbeidsgiverTlfLabel,
-        commonTextsBokmal.arbeidsgiverTlf
+        commonTexts.arbeidsgiverTlfLabel,
+        commonTexts.arbeidsgiverTlf
       )
     );
 
@@ -101,11 +112,11 @@ export const useTidStedDocument = (
     values: Partial<EndreTidStedSkjemaValues>
   ) => {
     const documentComponents = [
-      createHeaderH1("Endret dialogmøte"),
+      createHeaderH1(endreTidStedTexts.header),
       sendtDato,
       getIntroHei(),
       ...introComponents,
-      ...getMoteInfo(values, arbeidsgiver.virksomhetsnummer),
+      ...getMoteInfo(values, arbeidsgiver.virksomhetsnummer, malform),
     ];
 
     if (values.begrunnelseArbeidstaker) {
@@ -116,10 +127,7 @@ export const useTidStedDocument = (
       ? endreTidStedTexts.arbeidstaker.outro1WithBehandler
       : endreTidStedTexts.arbeidstaker.outro1;
     const outro2 = behandler
-      ? addBehandlerTypeAndName(
-          endreTidStedTexts.arbeidstaker.outro2WithBehandler,
-          behandler
-        )
+      ? `${endreTidStedTexts.arbeidstaker.outro2WithBehandler} ${behandler.behandlerNavn}.`
       : endreTidStedTexts.arbeidstaker.outro2;
     const outro3 = behandler
       ? endreTidStedTexts.arbeidstaker.outro3WithBehandler
@@ -133,7 +141,7 @@ export const useTidStedDocument = (
         endreTidStedTexts.arbeidstaker.outro3Title,
         outro3
       ),
-      getHilsen()
+      hilsenParagraph
     );
 
     return documentComponents;
@@ -143,12 +151,12 @@ export const useTidStedDocument = (
     values: Partial<EndreTidStedSkjemaValues>
   ) => {
     const documentComponents = [
-      createHeaderH1("Endret dialogmøte, svar ønskes"),
+      createHeaderH1(endreTidStedTexts.behandler.endring),
       createParagraph(endreTidStedTexts.behandler.intro),
       sendtDato,
-      getIntroGjelder(),
+      gjelderParagraph,
       ...introComponents,
-      ...getMoteInfo(values, arbeidsgiver.virksomhetsnummer),
+      ...getMoteInfo(values, arbeidsgiver.virksomhetsnummer, malform),
     ];
     if (values.begrunnelseBehandler) {
       documentComponents.push(createParagraph(values.begrunnelseBehandler));
@@ -156,7 +164,7 @@ export const useTidStedDocument = (
 
     documentComponents.push(
       createParagraph(endreTidStedTexts.behandler.outro),
-      getHilsen()
+      hilsenParagraph
     );
 
     return documentComponents;
@@ -167,11 +175,4 @@ export const useTidStedDocument = (
     getTidStedDocumentArbeidsgiver,
     getTidStedDocumentBehandler,
   };
-};
-
-const addBehandlerTypeAndName = (
-  preText: string,
-  behandler: DialogmotedeltakerBehandlerDTO
-) => {
-  return `${behandlerDeltakerTekst(preText, behandler)}.`;
 };

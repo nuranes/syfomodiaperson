@@ -13,6 +13,7 @@ import * as Tredelt from "@/sider/TredeltSide";
 import { DeltakereSvarInfo } from "@/components/dialogmote/DeltakereSvarInfo";
 import { BodyLong, Box, Heading } from "@navikt/ds-react";
 import { MoteIkonBlaaImage } from "../../../../../img/ImageComponents";
+import { MalformProvider } from "@/context/malform/MalformContext";
 
 const texts = {
   pageTitle: "Endre dialogmøte",
@@ -43,7 +44,9 @@ const EndreDialogmoteContainer = () => {
               {brukerKanIkkeVarslesDigitalt && (
                 <BrukerKanIkkeVarslesPapirpostAdvarsel />
               )}
-              <EndreDialogmoteSkjema dialogmote={dialogmote} />
+              <MalformProvider>
+                <EndreDialogmoteSkjema dialogmote={dialogmote} />
+              </MalformProvider>
             </Tredelt.FirstColumn>
             <Tredelt.SecondColumn>
               <Box
