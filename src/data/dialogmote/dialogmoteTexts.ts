@@ -194,12 +194,26 @@ export const getEndreTidStedTexts = (malform: Malform) => {
     : endreTidStedTextsBokmal;
 };
 
-export const avlysningTexts = {
+const avlysningTextsBokmal = {
+  header: "Avlysning av dialogmøte",
   intro1: "NAV har tidligere innkalt til dialogmøtet som skulle vært avholdt",
   intro2: "Dette møtet er avlyst.",
 };
 
-export const commonTextsBokmal = {
+const avlysningTextsNynorsk = {
+  header: "Avlysing dialogmøte",
+  intro1:
+    "NAV har tidlegare kalla inn til eit dialogmøte som etter planen skulle vere",
+  intro2: "Dette møtet er avlyst.",
+};
+
+export const getAvlysningTexts = (malform: Malform) => {
+  return malform === Malform.NYNORSK
+    ? avlysningTextsNynorsk
+    : avlysningTextsBokmal;
+};
+
+const commonTextsBokmal = {
   arbeidsgiverTitle: "Arbeidsgiver",
   moteTidTitle: "Møtetidspunkt",
   moteStedTitle: "Møtested",

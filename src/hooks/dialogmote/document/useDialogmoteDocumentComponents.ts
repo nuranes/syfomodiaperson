@@ -9,21 +9,20 @@ import { tilDatoMedUkedagOgManedNavnOgKlokkeslett } from "@/utils/datoUtils";
 import { genererDato } from "@/sider/mote/utils";
 import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
 import { useDocumentComponents } from "@/hooks/useDocumentComponents";
-import { Malform } from "@/context/malform/MalformContext";
+import { useMalform } from "@/context/malform/MalformContext";
 
 export const useDialogmoteDocumentComponents = () => {
   const { getHilsen, getIntroGjelder, getIntroHei } = useDocumentComponents();
   const { getCurrentNarmesteLeder } = useLedereQuery();
+  const { malform } = useMalform();
+  const commonTexts = getCommonTexts(malform);
 
   const getVirksomhetsnavn = (
-    virksomhetsnummer: string | undefined,
-    malform?: Malform
+    virksomhetsnummer: string | undefined
   ): DocumentComponentDto | undefined => {
     const arbeidsgiver =
       virksomhetsnummer &&
       getCurrentNarmesteLeder(virksomhetsnummer)?.virksomhetsnavn;
-
-    const commonTexts = getCommonTexts(malform ? malform : Malform.BOKMAL);
 
     return arbeidsgiver
       ? createParagraphWithTitle(commonTexts.arbeidsgiverTitle, arbeidsgiver)
@@ -32,11 +31,9 @@ export const useDialogmoteDocumentComponents = () => {
 
   const getMoteInfo = (
     values: Partial<TidStedSkjemaValues>,
-    virksomhetsnummer: string | undefined,
-    malform?: Malform // TODO: Fjern når alle tekster bruker målform og ta inn i hooken
+    virksomhetsnummer: string | undefined
   ) => {
     const { dato, klokkeslett, sted, videoLink } = values;
-    const commonTexts = getCommonTexts(malform ? malform : Malform.BOKMAL);
     const tidStedTekst =
       dato && klokkeslett
         ? tilDatoMedUkedagOgManedNavnOgKlokkeslett(
@@ -55,7 +52,7 @@ export const useDialogmoteDocumentComponents = () => {
       components.push(createLink(commonTexts.videoLinkTitle, videoLink));
     }
 
-    const virksomhetsnavn = getVirksomhetsnavn(virksomhetsnummer, malform);
+    const virksomhetsnavn = getVirksomhetsnavn(virksomhetsnummer);
     if (virksomhetsnavn) {
       components.push(virksomhetsnavn);
     }

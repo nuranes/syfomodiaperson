@@ -1,6 +1,9 @@
 import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
 import { AvlysDialogmoteSkjemaValues } from "@/sider/mote/components/avlys/AvlysDialogmoteSkjema";
-import { avlysningTexts } from "@/data/dialogmote/dialogmoteTexts";
+import {
+  getAvlysningTexts,
+  getCommonTexts,
+} from "@/data/dialogmote/dialogmoteTexts";
 import { tilDatoMedManedNavnOgKlokkeslettWithComma } from "@/utils/datoUtils";
 import {
   createHeaderH1,
@@ -8,6 +11,10 @@ import {
 } from "@/utils/documentComponentUtils";
 import { useDialogmoteDocumentComponents } from "@/hooks/dialogmote/document/useDialogmoteDocumentComponents";
 import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
+import { useMalform } from "@/context/malform/MalformContext";
+import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
+import { useValgtPersonident } from "@/hooks/useValgtBruker";
+import { useAktivVeilederinfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
 
 export interface IAvlysningDocument {
   getAvlysningDocumentArbeidstaker(
@@ -26,11 +33,28 @@ export interface IAvlysningDocument {
 export const useAvlysningDocument = (
   dialogmote: DialogmoteDTO
 ): IAvlysningDocument => {
-  const { getHilsen, getIntroHei, getIntroGjelder, getVirksomhetsnavn } =
-    useDialogmoteDocumentComponents();
+  const { malform } = useMalform();
+  const avlysningTexts = getAvlysningTexts(malform);
+  const commonTexts = getCommonTexts(malform);
+  const navBruker = useNavBrukerData();
+  const valgtPersonident = useValgtPersonident();
+  const { data: veilederinfo } = useAktivVeilederinfoQuery();
+
+  const { getIntroHei, getVirksomhetsnavn } = useDialogmoteDocumentComponents();
 
   const sendt = createParagraph(
     `Sendt ${tilDatoMedManedNavnOgKlokkeslettWithComma(new Date())}`
+  );
+
+  // TODO: Alle disse gjelder-paragraphene kan byttes ut når aktivitetskravet også er på nynorsk. Da kan vi lage en felles gjelder-intro igjen basert på målform
+  const gjelderParagraph = createParagraph(
+    `${commonTexts.gjelder} ${navBruker.navn}, f.nr. ${valgtPersonident}`
+  );
+  // TODO: Samme her
+  const hilsenParagraph = createParagraph(
+    commonTexts.hilsen,
+    veilederinfo?.navn || "",
+    `NAV`
   );
 
   const introText = createParagraph(
@@ -40,12 +64,11 @@ export const useAvlysningDocument = (
   );
 
   const getAvlysningDocument = (
-    values: Partial<AvlysDialogmoteSkjemaValues>,
     introHilsen: DocumentComponentDto,
     begrunnelse?: string
   ) => {
     const documentComponents = [
-      createHeaderH1("Avlysning av dialogmøte"),
+      createHeaderH1(avlysningTexts.header),
       sendt,
       introHilsen,
       introText,
@@ -61,7 +84,7 @@ export const useAvlysningDocument = (
       documentComponents.push(virksomhetsnavn);
     }
 
-    documentComponents.push(getHilsen());
+    documentComponents.push(hilsenParagraph);
 
     return documentComponents;
   };
@@ -70,26 +93,14 @@ export const useAvlysningDocument = (
     getAvlysningDocumentArbeidstaker: (
       values: Partial<AvlysDialogmoteSkjemaValues>
     ): DocumentComponentDto[] =>
-      getAvlysningDocument(
-        values,
-        getIntroHei(),
-        values.begrunnelseArbeidstaker
-      ),
+      getAvlysningDocument(getIntroHei(), values.begrunnelseArbeidstaker),
     getAvlysningDocumentArbeidsgiver: (
       values: Partial<AvlysDialogmoteSkjemaValues>
     ): DocumentComponentDto[] =>
-      getAvlysningDocument(
-        values,
-        getIntroGjelder(),
-        values.begrunnelseArbeidsgiver
-      ),
+      getAvlysningDocument(gjelderParagraph, values.begrunnelseArbeidsgiver),
     getAvlysningDocumentBehandler: (
       values: Partial<AvlysDialogmoteSkjemaValues>
     ): DocumentComponentDto[] =>
-      getAvlysningDocument(
-        values,
-        getIntroGjelder(),
-        values.begrunnelseBehandler
-      ),
+      getAvlysningDocument(gjelderParagraph, values.begrunnelseBehandler),
   };
 };

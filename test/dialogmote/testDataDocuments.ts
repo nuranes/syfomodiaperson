@@ -11,7 +11,7 @@ import {
   veileder,
 } from "./testData";
 import {
-  avlysningTexts,
+  getAvlysningTexts,
   getCommonTexts,
   getEndreTidStedTexts,
   getInnkallingTexts,
@@ -34,6 +34,7 @@ const innkallingTextsBokmal = getInnkallingTexts(Malform.BOKMAL);
 const referatTextsBokmal = getReferatTexts(Malform.BOKMAL);
 const commonTextsBokmal = getCommonTexts(Malform.BOKMAL);
 const endreTidStedTextsBokmal = getEndreTidStedTexts(Malform.BOKMAL);
+const avlysningTextsBokmal = getAvlysningTexts(Malform.BOKMAL);
 
 const expectedArbeidstakerInnkalling = (
   medBehandler = false
@@ -530,9 +531,11 @@ const expectedAvlysningArbeidsgiver = (): DocumentComponentDto[] => [
   },
   {
     texts: [
-      `${avlysningTexts.intro1} ${tilDatoMedManedNavnOgKlokkeslettWithComma(
-        dialogmote.tid
-      )}. ${avlysningTexts.intro2}`,
+      `${
+        avlysningTextsBokmal.intro1
+      } ${tilDatoMedManedNavnOgKlokkeslettWithComma(dialogmote.tid)}. ${
+        avlysningTextsBokmal.intro2
+      }`,
     ],
     type: DocumentComponentType.PARAGRAPH,
   },
@@ -566,9 +569,11 @@ const expectedAvlysningArbeidstaker = (): DocumentComponentDto[] => [
   },
   {
     texts: [
-      `${avlysningTexts.intro1} ${tilDatoMedManedNavnOgKlokkeslettWithComma(
-        dialogmote.tid
-      )}. ${avlysningTexts.intro2}`,
+      `${
+        avlysningTextsBokmal.intro1
+      } ${tilDatoMedManedNavnOgKlokkeslettWithComma(dialogmote.tid)}. ${
+        avlysningTextsBokmal.intro2
+      }`,
     ],
     type: DocumentComponentType.PARAGRAPH,
   },
@@ -602,9 +607,11 @@ const expectedAvlysningBehandler = (): DocumentComponentDto[] => [
   },
   {
     texts: [
-      `${avlysningTexts.intro1} ${tilDatoMedManedNavnOgKlokkeslettWithComma(
-        dialogmote.tid
-      )}. ${avlysningTexts.intro2}`,
+      `${
+        avlysningTextsBokmal.intro1
+      } ${tilDatoMedManedNavnOgKlokkeslettWithComma(dialogmote.tid)}. ${
+        avlysningTextsBokmal.intro2
+      }`,
     ],
     type: DocumentComponentType.PARAGRAPH,
   },

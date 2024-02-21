@@ -14,6 +14,10 @@ import { tilDatoMedUkedagOgManedNavnOgKlokkeslett } from "@/utils/datoUtils";
 import { useForm } from "react-hook-form";
 import TextareaField from "@/components/dialogmote/TextareaField";
 import { Forhandsvisning } from "@/components/Forhandsvisning";
+import { MalformRadioGroup } from "@/components/MalformRadioGroup";
+import * as Amplitude from "@/utils/amplitude";
+import { EventType } from "@/utils/amplitude";
+import { useMalform } from "@/context/malform/MalformContext";
 
 export const MAX_LENGTH_AVLYS_BEGRUNNELSE = 500;
 
@@ -64,6 +68,7 @@ const AvlysDialogmoteSkjema = ({
     getAvlysningDocumentArbeidsgiver,
     getAvlysningDocumentBehandler,
   } = useAvlysningDocument(dialogmote);
+  const { malform } = useMalform();
 
   const {
     register,
@@ -92,7 +97,18 @@ const AvlysDialogmoteSkjema = ({
       };
     }
 
-    avlysDialogmote.mutate(avlysDto);
+    avlysDialogmote.mutate(avlysDto, {
+      onSuccess: () => {
+        Amplitude.logEvent({
+          type: EventType.OptionSelected,
+          data: {
+            url: window.location.href,
+            tekst: "Målform valgt",
+            option: malform,
+          },
+        });
+      },
+    });
   };
 
   if (avlysDialogmote.isSuccess) {
@@ -102,6 +118,7 @@ const AvlysDialogmoteSkjema = ({
   return (
     <Box background="surface-default" padding="6">
       <form onSubmit={handleSubmit(submit)}>
+        <MalformRadioGroup />
         <div className="mb-8 flex flex-col">
           <Label size="small">{texts.gjelderTitle}</Label>
           {tilDatoMedUkedagOgManedNavnOgKlokkeslett(dialogmote.tid)}

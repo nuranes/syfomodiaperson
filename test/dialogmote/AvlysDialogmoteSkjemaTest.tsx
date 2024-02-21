@@ -21,13 +21,19 @@ import userEvent from "@testing-library/user-event";
 import { expectedAvlysningDocuments } from "./testDataDocuments";
 import { queryClientWithMockData } from "../testQueryClient";
 import { renderWithRouter } from "../testRouterUtils";
-import { MalformProvider } from "@/context/malform/MalformContext";
+import { Malform, MalformProvider } from "@/context/malform/MalformContext";
+import { getAvlysningTexts } from "@/data/dialogmote/dialogmoteTexts";
+import { StoreKey } from "@/hooks/useLocalStorageState";
 
 let queryClient: QueryClient;
 
 describe("AvlysDialogmoteSkjemaTest", () => {
   beforeEach(() => {
     queryClient = queryClientWithMockData();
+  });
+
+  afterEach(() => {
+    localStorage.setItem(StoreKey.MALFORM, Malform.BOKMAL);
   });
 
   it("viser møtetidspunkt", () => {
@@ -364,6 +370,28 @@ describe("AvlysDialogmoteSkjemaTest", () => {
         expect(within(forhandsvisningAvlysningBehandler).getByText(text)).to
           .exist;
       });
+  });
+
+  it("forhåndsviser avlysning med nynorsktekster hvis dette er valgt", () => {
+    renderAvlysDialogmoteSkjema(dialogmoteMedBehandler);
+
+    const malformRadioNynorsk = screen.getByRole("radio", {
+      name: "Nynorsk",
+    });
+    userEvent.click(malformRadioNynorsk);
+
+    const forhandsvisningButton = screen.getAllByRole("button", {
+      name: "Forhåndsvisning",
+    })[0];
+    userEvent.click(forhandsvisningButton);
+
+    expect(
+      screen.getByText(getAvlysningTexts(Malform.NYNORSK).intro1, {
+        exact: false,
+      })
+    ).to.exist;
+    expect(screen.getByText(getAvlysningTexts(Malform.NYNORSK).header)).to
+      .exist;
   });
 });
 

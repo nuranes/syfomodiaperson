@@ -65,7 +65,7 @@ export const useInnkallingDocument = (): IInnkallingDocument => {
   ) => {
     const documentComponents = [
       ...introComponents,
-      ...getMoteInfo(values, values.arbeidsgiver, malform),
+      ...getMoteInfo(values, values.arbeidsgiver),
       getIntroHei(),
       ...arbeidstakerIntro(valgtBehandler, malform),
     ];
@@ -86,7 +86,7 @@ export const useInnkallingDocument = (): IInnkallingDocument => {
   ) => {
     const documentComponents = [
       ...introComponents,
-      ...getMoteInfo(values, values.arbeidsgiver, malform),
+      ...getMoteInfo(values, values.arbeidsgiver),
       gjelderParagraph,
       createParagraph(innkallingTexts.arbeidsgiver.intro1),
     ];
@@ -114,7 +114,7 @@ export const useInnkallingDocument = (): IInnkallingDocument => {
         `Sendt ${tilDatoMedManedNavnOgKlokkeslettWithComma(new Date())}`
       ),
       createParagraph(innkallingTexts.behandler.intro),
-      ...getMoteInfo(values, values.arbeidsgiver, malform),
+      ...getMoteInfo(values, values.arbeidsgiver),
       gjelderParagraph,
     ];
 

@@ -193,8 +193,7 @@ export const useReferatDocument = (
     );
 
     const virksomhetsnavn = getVirksomhetsnavn(
-      dialogmote.arbeidsgiver.virksomhetsnummer,
-      malform
+      dialogmote.arbeidsgiver.virksomhetsnummer
     );
     if (virksomhetsnavn) {
       documentComponents.push(virksomhetsnavn);

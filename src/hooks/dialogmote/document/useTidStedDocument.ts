@@ -73,7 +73,7 @@ export const useTidStedDocument = (
       sendtDato,
       gjelderParagraph,
       ...introComponents,
-      ...getMoteInfo(values, arbeidsgiver.virksomhetsnummer, malform),
+      ...getMoteInfo(values, arbeidsgiver.virksomhetsnummer),
     ];
 
     if (values.begrunnelseArbeidsgiver) {
@@ -116,7 +116,7 @@ export const useTidStedDocument = (
       sendtDato,
       getIntroHei(),
       ...introComponents,
-      ...getMoteInfo(values, arbeidsgiver.virksomhetsnummer, malform),
+      ...getMoteInfo(values, arbeidsgiver.virksomhetsnummer),
     ];
 
     if (values.begrunnelseArbeidstaker) {
@@ -156,7 +156,7 @@ export const useTidStedDocument = (
       sendtDato,
       gjelderParagraph,
       ...introComponents,
-      ...getMoteInfo(values, arbeidsgiver.virksomhetsnummer, malform),
+      ...getMoteInfo(values, arbeidsgiver.virksomhetsnummer),
     ];
     if (values.begrunnelseBehandler) {
       documentComponents.push(createParagraph(values.begrunnelseBehandler));
