@@ -8,6 +8,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { minutesToMillis } from "@/utils/timeUtils";
 import { ValgtEnhetProvider } from "@/context/ValgtEnhetContext";
 import { isClientError } from "@/api/errors";
+import { initFaro } from "@/faro";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,6 +30,8 @@ const queryClient = new QueryClient({
     },
   },
 });
+
+initFaro();
 
 const container =
   document.getElementById("maincontent") || new DocumentFragment();
