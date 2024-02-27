@@ -24,6 +24,7 @@ import { BehandlerdialogContainer } from "@/sider/behandlerdialog/Behandlerdialo
 import * as Amplitude from "@/utils/amplitude";
 import Motelandingsside from "@/sider/mote/Motelandingsside";
 import { SykepengesoknadSide } from "@/sider/sykepengsoknader/container/SykepengesoknadSide";
+import { ArbeidsuforhetSide } from "@/sider/arbeidsuforhet/ArbeidsuforhetSide";
 
 export const appRoutePath = "/sykefravaer";
 
@@ -88,6 +89,10 @@ const AktivBrukerRouter = (): ReactElement => {
           <Route
             path={`${appRoutePath}/sykepengesoknader`}
             element={<SykepengesoknaderSide />}
+          />
+          <Route
+            path={`${appRoutePath}/arbeidsuforhet`}
+            element={<ArbeidsuforhetSide />}
           />
           <Route
             path={`${appRoutePath}/sykepengesoknader/:sykepengesoknadId`}
