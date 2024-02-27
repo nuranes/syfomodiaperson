@@ -71,7 +71,6 @@ const PersonkortChangeEnhet = ({
         open={open}
         aria-label="Modal endre enhet"
         onClose={() => setOpen(false)}
-        aria-labelledby="modal-heading"
       >
         <Modal.Header>
           <Heading spacing level="1" size="large" id="modal-heading">

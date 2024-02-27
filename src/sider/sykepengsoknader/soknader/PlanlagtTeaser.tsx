@@ -11,7 +11,6 @@ import {
   SykepengesoknadDTO,
 } from "@/data/sykepengesoknad/types/SykepengesoknadDTO";
 import { Modal } from "@navikt/ds-react";
-import styled from "styled-components";
 
 const texts = {
   dato: {
@@ -53,10 +52,6 @@ const textSoknadStatus = (status: Soknadstatus) => {
 const textTeaserText = (periode: string) => {
   return `${texts.teaserTekst} ${periode}`;
 };
-
-const ModalWrapper = styled(Modal)`
-  padding: 1em;
-`;
 
 interface FremtidigSoknadTeaserProps {
   soknad: SykepengesoknadDTO;
@@ -105,10 +100,10 @@ const FremtidigSoknadTeaser = ({
           )}
         </div>
       </button>
-      <ModalWrapper
+      <Modal
+        className="p-4"
         closeOnBackdropClick
         aria-label="Modal planlagt søknad"
-        aria-labelledby="modal-heading"
         open={vis}
         onClose={() => setVis(false)}
       >
@@ -121,7 +116,7 @@ const FremtidigSoknadTeaser = ({
         <div className="knapperad">
           <Knapp onClick={() => setVis(false)}>{texts.close}</Knapp>
         </div>
-      </ModalWrapper>
+      </Modal>
     </article>
   );
 };

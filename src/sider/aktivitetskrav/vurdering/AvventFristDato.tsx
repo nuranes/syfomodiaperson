@@ -29,7 +29,6 @@ export const AvventFristDato = () => {
     onDateChange: (date: Date | undefined) => {
       field.onChange(date ? dayjs(date).format("YYYY-MM-DD") : undefined);
     },
-    openOnFocus: false,
     fromDate: now,
     toDate: inTwoMonths,
   });
