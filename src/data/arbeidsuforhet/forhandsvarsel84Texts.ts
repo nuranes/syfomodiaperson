@@ -8,35 +8,30 @@ export const getForhandsvarsel84Texts = ({
   frist,
 }: Forhandsvarsel84TextsOptions) => ({
   varselInfo: {
-    header: "Varsel om stans av sykepenger",
-    introWithFristDate: `Peer, du lyver! Vi vurderer å stanse sykepengene dine fra og med ${tilDatoMedManedNavn(
+    header: "NAV vurderer å avslå sykepengene dine",
+    introWithFristDate: `NAV vurderer å avslå sykepengene dine fra og med ${tilDatoMedManedNavn(
       frist
     )}.`,
   },
-  unngaStansInfo: {
-    header: "Du kan unngå stans av sykepenger",
-    tiltak1:
-      "Kommer du helt eller delvis tilbake i arbeid, oppfyller du aktivitetsplikten og kan fortsatt få sykepenger. Aktivitet kan dokumenteres med gradert sykmelding eller i søknaden om sykepenger.",
-    tiltak2:
-      "Aktivitetsplikten vil også være oppfylt hvis du deltar i et arbeidsrettet tiltak i regi av NAV. Ta kontakt med NAV hvis du tenker at dette er aktuelt for deg.",
-    tiltak3:
-      "Du kan få unntak fra aktivitetsplikten dersom arbeidsgiveren din gir en skriftlig begrunnelse for hvorfor det ikke er mulig å legge til rette for at du kan jobbe, eller dersom din lege dokumenterer at medisinske grunner klart er til hinder for arbeidsrelatert aktivitet.",
+  begrunnelse: {
+    uteAvStand:
+      "For å få sykepenger må du være helt eller delvis ute av stand til å arbeide på grunn av sykdom eller skade.",
+    begrunnelseIntro: "Vi vurderer å avslå sykepengene dine fordi ...",
   },
-  giOssTilbakemelding: {
-    header: "Gi oss tilbakemelding",
-    tilbakemeldingWithFristDate: `Vi ber om tilbakemelding fra deg, arbeidsgiveren din eller den som har sykmeldt deg innen ${tilDatoMedManedNavn(
+  duKanUttaleDeg: {
+    header: "Du kan uttale deg",
+    tilbakemeldingWithFristDate: `Vi sender deg dette brevet for at du skal ha mulighet til å uttale deg før vi avgjør saken din. Du må sende inn opplysninger eller kontakte oss innen ${tilDatoMedManedNavn(
       frist
-    )}. Etter denne datoen vil NAV vurdere å stanse sykepengene dine.`,
+    )}.`,
+    etterFrist: "Etter denne datoen vil NAV vurdere å avslå sykepengene dine.",
     kontaktOss:
       "Kontakt oss gjerne på nav.no/skriv-til-oss eller telefon 55 55 33 33.",
   },
   lovhjemmel: {
     header: "Lovhjemmel",
-    aktivitetsplikten:
-      "Aktivitetsplikten er beskrevet i folketrygdloven § 8-8 andre ledd.",
+    arbeidsuforhet:
+      "Krav om arbeidsuførhet er beskrevet i folketrygdloven § 8-4 første ledd.",
     pliktInfo:
-      "«Medlemmet har plikt til å være i arbeidsrelatert aktivitet, jf. § 8-7 a første ledd og arbeidsmiljøloven § 4-6 første ledd," +
-      " så tidlig som mulig, og senest innen 8 uker. Dette gjelder ikke når medisinske grunner klart er til hinder for slik aktivitet," +
-      " eller arbeidsrelaterte aktiviteter ikke kan gjennomføres på arbeidsplassen.»",
+      "«Sykepenger ytes til den som er arbeidsufør på grunn av en funksjonsnedsettelse som klart skyldes sykdom eller skade. Arbeidsuførhet som skyldes sosiale eller økonomiske problemer o.l., gir ikke rett til sykepenger.»",
   },
 });

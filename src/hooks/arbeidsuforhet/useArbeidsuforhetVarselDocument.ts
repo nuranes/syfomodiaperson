@@ -1,7 +1,6 @@
 import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
 import { useDocumentComponents } from "@/hooks/useDocumentComponents";
 import {
-  createBulletPoints,
   createHeaderH1,
   createHeaderH3,
   createParagraph,
@@ -29,6 +28,8 @@ export const useArbeidsuforhetVarselDocument = (): {
     const documentComponents = [
       createHeaderH1(sendForhandsvarselTexts.varselInfo.header),
       createParagraph(sendForhandsvarselTexts.varselInfo.introWithFristDate),
+      createParagraph(sendForhandsvarselTexts.begrunnelse.uteAvStand),
+      createParagraph(sendForhandsvarselTexts.begrunnelse.begrunnelseIntro),
     ];
 
     if (begrunnelse) {
@@ -36,21 +37,15 @@ export const useArbeidsuforhetVarselDocument = (): {
     }
 
     documentComponents.push(
-      createHeaderH3(sendForhandsvarselTexts.unngaStansInfo.header),
-      createBulletPoints(
-        sendForhandsvarselTexts.unngaStansInfo.tiltak1,
-        sendForhandsvarselTexts.unngaStansInfo.tiltak2,
-        sendForhandsvarselTexts.unngaStansInfo.tiltak3
-      ),
-
-      createHeaderH3(sendForhandsvarselTexts.giOssTilbakemelding.header),
+      createHeaderH3(sendForhandsvarselTexts.duKanUttaleDeg.header),
       createParagraph(
-        sendForhandsvarselTexts.giOssTilbakemelding.tilbakemeldingWithFristDate
+        sendForhandsvarselTexts.duKanUttaleDeg.tilbakemeldingWithFristDate
       ),
-      createParagraph(sendForhandsvarselTexts.giOssTilbakemelding.kontaktOss),
+      createParagraph(sendForhandsvarselTexts.duKanUttaleDeg.etterFrist),
+      createParagraph(sendForhandsvarselTexts.duKanUttaleDeg.kontaktOss),
 
       createHeaderH3(sendForhandsvarselTexts.lovhjemmel.header),
-      createParagraph(sendForhandsvarselTexts.lovhjemmel.aktivitetsplikten),
+      createParagraph(sendForhandsvarselTexts.lovhjemmel.arbeidsuforhet),
       createParagraph(sendForhandsvarselTexts.lovhjemmel.pliktInfo),
 
       getHilsen()
