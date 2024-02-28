@@ -11,6 +11,11 @@ const texts = {
   beskrivelseLabel: "Begrunnelse (obligatorisk)",
   begrunnelseDescription:
     "Begrunnelsen din blir en del av en større brevmal. Åpne forhåndsvisning for å se hele varselet.",
+  helptexts: [
+    "Skriv en kort setning om det er vilkåret om sykdom eller skade, arbeidsuførhet, eller årsakssammenheng mellom de to, som ikke er oppfylt. Skriv kort hvilke opplysninger som ligger til grunn for forhåndsvarsel.",
+    "Skriv kort din vurdering av hvorfor vilkåret ikke er oppfylt.",
+    "Hvis du har vurdert ordningen friskmelding til arbeidsformidling: skriv hvorfor ordningen ikke er aktuell og legg inn henvisning til §8-5.",
+  ],
   forhandsvisning: "Forhåndsvisning",
   forhandsvisningLabel: "Forhåndsvis forhåndsvarselet",
   missingBeskrivelse: "Vennligst angi begrunnelse",
@@ -46,6 +51,13 @@ export const SendForhandsvarselSkjema = () => {
         <Heading className="mt-4 mb-4" level="2" size="small">
           {texts.title}
         </Heading>
+        <ul className="pl-8">
+          {texts.helptexts.map((text, index) => (
+            <li key={index} className="mb-2">
+              {text}
+            </li>
+          ))}
+        </ul>
         <Textarea
           className="mb-8"
           {...register("begrunnelse", {
