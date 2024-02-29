@@ -2,7 +2,7 @@ import React from "react";
 import { AktivitetskravVarselDTO } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { BodyShort, Heading, Panel, Tag } from "@navikt/ds-react";
 import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
-import { VarselBrev } from "@/sider/aktivitetskrav/VarselBrev";
+import { VisBrev } from "@/components/VisBrev";
 import { ExpandableBlockquote } from "@/components/ExpandableBlockquote";
 
 const texts = {
@@ -34,7 +34,7 @@ export const ForhandsvarselOppsummering = ({
           {beskrivelse}
         </ExpandableBlockquote>
       )}
-      <VarselBrev varsel={varsel} />
+      <VisBrev document={varsel.document} />
       <BodyShort>{texts.merInfo}</BodyShort>
     </Panel>
   );

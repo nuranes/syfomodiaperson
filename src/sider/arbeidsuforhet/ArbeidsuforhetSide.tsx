@@ -7,12 +7,20 @@ import UtdragFraSykefravaeret from "@/components/utdragFraSykefravaeret/UtdragFr
 import * as Tredelt from "@/sider/TredeltSide";
 import { Menypunkter } from "@/components/globalnavigasjon/GlobalNavigasjon";
 import { SendForhandsvarselSkjema } from "@/sider/arbeidsuforhet/SendForhandsvarselSkjema";
+import { ForhandsvarselSendt } from "@/sider/arbeidsuforhet/ForhandsvarselSendt";
 
 const texts = {
   title: "Vurdering av §8-4 Arbeidsuførhet",
 };
 
+enum Status {
+  NY = "NY",
+  SENDT = "SENDT",
+}
+
 export const ArbeidsuforhetSide = (): ReactElement => {
+  const status: Status = Status.SENDT;
+
   return (
     <Side tittel={texts.title} aktivtMenypunkt={Menypunkter.AKTIVITETSKRAV}>
       <Sidetopp tittel={texts.title} />
@@ -20,7 +28,11 @@ export const ArbeidsuforhetSide = (): ReactElement => {
         <Tredelt.Container>
           <Tredelt.FirstColumn>
             <NotificationProvider>
-              <SendForhandsvarselSkjema />
+              {status === Status.SENDT ? (
+                <ForhandsvarselSendt />
+              ) : (
+                <SendForhandsvarselSkjema />
+              )}
             </NotificationProvider>
           </Tredelt.FirstColumn>
           <Tredelt.SecondColumn>

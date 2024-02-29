@@ -18,7 +18,7 @@ import { useAktivitetskravQuery } from "@/data/aktivitetskrav/aktivitetskravQuer
 import { vurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
 import * as Amplitude from "@/utils/amplitude";
 import { EventType } from "@/utils/amplitude";
-import { VarselBrev } from "@/sider/aktivitetskrav/VarselBrev";
+import { VisBrev } from "@/components/VisBrev";
 
 const texts = {
   header: "Historikk",
@@ -139,7 +139,7 @@ const HistorikkElement = ({ vurdering }: HistorikkElementProps) => {
         )}
         <Paragraph title={texts.vurdertAv} body={veilederinfo?.navn ?? ""} />
         {status === AktivitetskravStatus.FORHANDSVARSEL && varsel?.document && (
-          <VarselBrev varsel={varsel} />
+          <VisBrev document={varsel.document} />
         )}
       </Accordion.Content>
     </Accordion.Item>
