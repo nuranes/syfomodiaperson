@@ -62,7 +62,7 @@ export const getIkkeAktuellDocument = (
       type: DocumentComponentType.PARAGRAPH,
     },
     vurderingBegrunnelse(begrunnelse),
-    vurderingHjemmel,
+    ikkeAktuellHjemmel,
     vurderingHilsen,
   ];
 };
@@ -113,6 +113,13 @@ const vurderingHilsen = {
 const vurderingHjemmel = {
   texts: [
     "Vedtak ble fattet etter folketrygdloven § 8-8 andre ledd, samt tilhørende rundskriv.",
+  ],
+  type: DocumentComponentType.PARAGRAPH,
+};
+
+const ikkeAktuellHjemmel = {
+  texts: [
+    "Det er vurdert at folketrygdloven § 8-8 andre ledd ikke kommer til anvendelse i dette tilfellet.",
   ],
   type: DocumentComponentType.PARAGRAPH,
 };

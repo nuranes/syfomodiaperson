@@ -91,9 +91,7 @@ export const useAktivitetskravVarselDocument = (): {
       documentComponents.push(createParagraph(`Begrunnelse: ${begrunnelse}`));
     }
     documentComponents.push(
-      createParagraph(
-        "Vedtak ble fattet etter folketrygdloven § 8-8 andre ledd, samt tilhørende rundskriv."
-      ),
+      createParagraph(getVedtakText(varselType)),
       createParagraph(`Vurdert av ${veilederinfo?.navn || ""}`)
     );
 
@@ -105,7 +103,6 @@ export const useAktivitetskravVarselDocument = (): {
     getVurderingDocument,
   };
 };
-
 const getVurderingText = (type: VarselType, arsak: VurderingArsak): string => {
   const arsakText = vurderingArsakTexts[arsak] ?? "";
   const vurdertDato = tilDatoMedManedNavn(new Date());
@@ -118,6 +115,21 @@ const getVurderingText = (type: VarselType, arsak: VurderingArsak): string => {
     }
     case VarselType.IKKE_AKTUELL: {
       return `Det ble vurdert at aktivitetskravet ikke er aktuelt den ${vurdertDato}. Årsak: ${arsakText}.`;
+    }
+    case VarselType.FORHANDSVARSEL_STANS_AV_SYKEPENGER: {
+      throw new Error("use getForhandsvarselDocument");
+    }
+  }
+};
+
+const getVedtakText = (type: VarselType) => {
+  switch (type) {
+    case VarselType.UNNTAK:
+    case VarselType.OPPFYLT: {
+      return "Vedtak ble fattet etter folketrygdloven § 8-8 andre ledd, samt tilhørende rundskriv.";
+    }
+    case VarselType.IKKE_AKTUELL: {
+      return "Det er vurdert at folketrygdloven § 8-8 andre ledd ikke kommer til anvendelse i dette tilfellet.";
     }
     case VarselType.FORHANDSVARSEL_STANS_AV_SYKEPENGER: {
       throw new Error("use getForhandsvarselDocument");
