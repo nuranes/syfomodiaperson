@@ -4,7 +4,6 @@ import {
   arbeidsgivernavnEllerArbeidssituasjon,
   erEkstraInformasjonISykmeldingen,
   stringMedAlleGraderingerFraSykmeldingPerioder,
-  sykmeldingerGruppertEtterVirksomhet,
   sykmeldingerInnenforOppfolgingstilfelle,
   sykmeldingerSortertNyestTilEldstPeriode,
   sykmeldingerUtenArbeidsgiver,
@@ -126,7 +125,6 @@ export const SykmeldingTittelbeskrivelse = ({
 
 interface UtvidbarSykmeldingProps {
   sykmelding: SykmeldingOldFormat;
-  label?: string;
 }
 
 function logAccordionOpened(isOpen: boolean) {
@@ -141,8 +139,12 @@ function logAccordionOpened(isOpen: boolean) {
   }
 }
 
-const UtvidbarSykmelding = ({ sykmelding, label }: UtvidbarSykmeldingProps) => {
-  const title = label ? label : "Sykmelding uten arbeidsgiver";
+const UtvidbarSykmelding = ({ sykmelding }: UtvidbarSykmeldingProps) => {
+  const arbeidsgiverEllerSituasjon =
+    arbeidsgivernavnEllerArbeidssituasjon(sykmelding);
+  const title = arbeidsgiverEllerSituasjon
+    ? arbeidsgiverEllerSituasjon
+    : "Sykmelding uten arbeidsgiver";
   return (
     <ExpansionCard aria-label={title} onToggle={logAccordionOpened}>
       <StyledExpantionCardHeader className="w-full">
@@ -175,30 +177,15 @@ export const SykmeldingerForVirksomhet = () => {
     );
   const sykmeldingerSortertPaaStartDato =
     sykmeldingerSortertNyestTilEldstPeriode(sykmeldingerIOppfolgingstilfellet);
-  const sykmeldingerSortertPaaVirksomhet = sykmeldingerGruppertEtterVirksomhet(
-    sykmeldingerSortertPaaStartDato
-  );
 
   return (
     <div className="mb-10 [&>*]:mb-2">
       <Heading size="small" level="3">
         {texts.sykmeldinger.header}
       </Heading>
-      {Object.keys(sykmeldingerSortertPaaVirksomhet).map((key) => {
-        return sykmeldingerSortertPaaVirksomhet[key].map(
-          (sykmelding, index) => {
-            const arbeidsgiverEllerSituasjon =
-              arbeidsgivernavnEllerArbeidssituasjon(sykmelding);
-            return (
-              <UtvidbarSykmelding
-                sykmelding={sykmelding}
-                label={arbeidsgiverEllerSituasjon}
-                key={index}
-              />
-            );
-          }
-        );
-      })}
+      {sykmeldingerSortertPaaStartDato.map((sykmelding, index) => (
+        <UtvidbarSykmelding sykmelding={sykmelding} key={index} />
+      ))}
     </div>
   );
 };
@@ -215,9 +202,9 @@ export const SykmeldingerUtenArbeidsgiver = ({
       <Heading size="small" level="3">
         {texts.sykmeldinger.headerUtenArbeidsgiver}
       </Heading>
-      {sykmeldingerSortertPaUtstedelsesdato.map((sykmelding, index) => {
-        return <UtvidbarSykmelding sykmelding={sykmelding} key={index} />;
-      })}
+      {sykmeldingerSortertPaUtstedelsesdato.map((sykmelding, index) => (
+        <UtvidbarSykmelding sykmelding={sykmelding} key={index} />
+      ))}
     </div>
   );
 };

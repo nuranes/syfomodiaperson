@@ -14,7 +14,6 @@ import {
   latestSykmeldingForVirksomhet,
   newAndActivatedSykmeldinger,
   stringMedAlleGraderingerFraSykmeldingPerioder,
-  sykmeldingerGruppertEtterVirksomhet,
   sykmeldingerInnenforOppfolgingstilfelle,
   sykmeldingerSortertNyestTilEldstPeriode,
   sykmeldingperioderSortertEldstTilNyest,
@@ -633,77 +632,6 @@ describe("sykmeldingUtils", () => {
       expect(
         sykmeldingerSortertPaaUtstedelsesdato[4].mulighetForArbeid.perioder[0].fom.getTime()
       ).to.equal(new Date("2019-01-01").getTime());
-    });
-  });
-
-  describe("sykmeldingerGruppertEtterVirksomhet", () => {
-    it("skal returnere en liste med én liste av sykmeldinger per virksomhet", () => {
-      const sykmeldinger: SykmeldingOldFormat[] = [
-        {
-          ...baseSykmelding,
-          mottakendeArbeidsgiver: {
-            navn: "Arbeidsgiver",
-            virksomhetsnummer: "1",
-            juridiskOrgnummer: "1",
-          },
-        },
-        {
-          ...baseSykmelding,
-          mottakendeArbeidsgiver: {
-            navn: "Arbeidsgiver",
-            virksomhetsnummer: "2",
-            juridiskOrgnummer: "2",
-          },
-        },
-        {
-          ...baseSykmelding,
-          mottakendeArbeidsgiver: {
-            navn: "Arbeidsgiver",
-            virksomhetsnummer: "2",
-            juridiskOrgnummer: "2",
-          },
-        },
-        {
-          ...baseSykmelding,
-          mottakendeArbeidsgiver: {
-            navn: "Arbeidsgiver",
-            virksomhetsnummer: "3",
-            juridiskOrgnummer: "3",
-          },
-        },
-        {
-          ...baseSykmelding,
-          mottakendeArbeidsgiver: {
-            navn: "Arbeidsgiver",
-            virksomhetsnummer: "1",
-            juridiskOrgnummer: "1",
-          },
-        },
-        {
-          ...baseSykmelding,
-          mottakendeArbeidsgiver: {
-            navn: "Arbeidsgiver",
-            virksomhetsnummer: "1",
-            juridiskOrgnummer: "1",
-          },
-        },
-      ];
-
-      const sykmeldingerSortertPaaVirksomhetsnummer =
-        sykmeldingerGruppertEtterVirksomhet(sykmeldinger);
-
-      expect(
-        Object.keys(sykmeldingerSortertPaaVirksomhetsnummer).length
-      ).to.equal(3);
-      expect(
-        Object.keys(sykmeldingerSortertPaaVirksomhetsnummer["1"]).length
-      ).to.equal(3);
-      expect(
-        Object.keys(sykmeldingerSortertPaaVirksomhetsnummer["2"]).length
-      ).to.equal(2);
-      expect(
-        Object.keys(sykmeldingerSortertPaaVirksomhetsnummer["3"]).length
-      ).to.equal(1);
     });
   });
 

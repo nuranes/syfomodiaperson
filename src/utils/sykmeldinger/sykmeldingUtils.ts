@@ -253,28 +253,6 @@ export function sykmeldingerSortertNyestTilEldstPeriode(
   });
 }
 
-interface SykmeldingerPerVirksomhet {
-  [virksomhetsnummer: string]: SykmeldingOldFormat[];
-}
-
-export const sykmeldingerGruppertEtterVirksomhet = (
-  sykmeldinger: SykmeldingOldFormat[]
-): SykmeldingerPerVirksomhet => {
-  return sykmeldinger.reduce((memo: SykmeldingerPerVirksomhet, sykmelding) => {
-    const virksomhetsnummer =
-      sykmelding.mottakendeArbeidsgiver?.virksomhetsnummer ??
-      "Ukjent virksomhet";
-    const memo2 = { ...memo };
-    if (virksomhetsnummer) {
-      if (!memo2[virksomhetsnummer]) {
-        memo2[virksomhetsnummer] = [];
-      }
-      memo2[virksomhetsnummer] = [...memo2[virksomhetsnummer], sykmelding];
-    }
-    return memo2;
-  }, {});
-};
-
 const sykmeldingperioderMedGradering = (
   sykmeldingperioder: SykmeldingPeriodeDTO[]
 ) => {

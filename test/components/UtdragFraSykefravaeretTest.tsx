@@ -38,7 +38,8 @@ describe("UtdragFraSykefravaeret", () => {
     expect(within(firstExpansionCard).getByText("Sykmelder:")).to.exist;
     expect(within(firstExpansionCard).getByText("Lego Las Legesen")).to.exist;
     expect(within(firstExpansionCard).getByText("Arbeidsgiver:")).to.exist;
-    expect(within(firstExpansionCard).getByText("BRANN OG BIL AS")).to.exist;
+    expect(within(firstExpansionCard).getByText("Virksomhet uten leder AS")).to
+      .exist;
   });
 
   it("Viser sykmeldinger som både er sendt og ikke tatt i bruk", () => {
@@ -47,7 +48,7 @@ describe("UtdragFraSykefravaeret", () => {
     const sykmeldingExpansionCards = screen.getAllByRole("region");
     expect(sykmeldingExpansionCards.length).to.equal(2);
 
-    expect(within(sykmeldingExpansionCards[0]).getByText("Ikke tatt i bruk")).to
+    expect(within(sykmeldingExpansionCards[1]).getByText("Ikke tatt i bruk")).to
       .exist;
   });
 });
