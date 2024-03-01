@@ -49,7 +49,7 @@ interface Props {
   toggleOpen: (value: boolean) => void;
 }
 
-const MAX_LENGTH_BESKRIVELSE = 100;
+const MAX_LENGTH_BESKRIVELSE = 200;
 
 function logOppfolgingsgrunnSendt(oppfolgingsgrunn: Oppfolgingsgrunn) {
   Amplitude.logEvent({
