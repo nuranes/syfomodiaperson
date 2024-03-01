@@ -161,6 +161,24 @@ export const setupProxy = (
   );
 
   router.use(
+    "/isarbeidsuforhet/*",
+    (
+      req: express.Request,
+      res: express.Response,
+      next: express.NextFunction
+    ) => {
+      proxyOnBehalfOf(
+        req,
+        res,
+        next,
+        authClient,
+        issuer,
+        Config.auth.isarbeidsuforhet
+      );
+    }
+  );
+
+  router.use(
     "/isbehandlerdialog/*",
     (
       req: express.Request,

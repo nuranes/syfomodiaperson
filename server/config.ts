@@ -122,6 +122,16 @@ export const auth = {
     }),
     removePathPrefix: true,
   },
+  isarbeidsuforhet: {
+    applicationName: "isarbeidsuforhet",
+    clientId: envVar({
+      name: "ISARBIDSUFORHET_AAD_APP_CLIENT_ID",
+    }),
+    host: envVar({
+      name: "ISARBEIDSUFORHET_HOST",
+    }),
+    removePathPrefix: true,
+  },
   isbehandlerdialog: {
     applicationName: "isbehandlerdialog",
     clientId: envVar({

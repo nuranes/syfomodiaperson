@@ -24,6 +24,7 @@ import { mockEsyfovarsel } from "./esyfovarsel/mockEsyfovarsel";
 import express from "express";
 import { mockIshuskelapp } from "./oppfolgingsoppgave/mockOppfolgingsoppgave";
 import { mockFlexjar } from "./flexjar/mockFlexjar";
+import { mockIsarbeidsuforhet } from "./isarbeidsuforhet/mockIsarbeidsuforhet";
 
 const mockEndepunkter = (server: any) => {
   server.use(express.json());
@@ -46,6 +47,7 @@ const mockEndepunkter = (server: any) => {
     mockSyfoperson,
     mockSyfosmregister,
     mockIsaktivitetskrav,
+    mockIsarbeidsuforhet,
     mockIshuskelapp,
     mockIsbehandlerdialog,
     mockIspengestopp,
