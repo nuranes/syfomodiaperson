@@ -5,6 +5,9 @@ import { Box, Button, Heading, Textarea } from "@navikt/ds-react";
 import { useForm } from "react-hook-form";
 import { useArbeidsuforhetVarselDocument } from "@/hooks/arbeidsuforhet/useArbeidsuforhetVarselDocument";
 import { Forhandsvisning } from "@/components/Forhandsvisning";
+import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
+import { ForhandsvarselRequestDTO } from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
+import { useSendForhandsvarsel } from "@/data/arbeidsuforhet/useSendForhandsvarsel";
 
 const texts = {
   title: "Send forhåndsvarsel",
@@ -32,6 +35,7 @@ interface SkjemaValues {
 }
 
 export const SendForhandsvarselSkjema = () => {
+  const sendForhandsvarsel = useSendForhandsvarsel();
   const {
     register,
     watch,
@@ -41,8 +45,14 @@ export const SendForhandsvarselSkjema = () => {
   const { getForhandsvarselDocument } = useArbeidsuforhetVarselDocument();
 
   const submit = (values: SkjemaValues) => {
-    console.log(values);
-    // TODO: Mutate arbeidsuforhet (og sett loading på send-knappen)
+    const forhandsvarselRequestDTO: ForhandsvarselRequestDTO = {
+      begrunnelse: values.begrunnelse,
+      document: getForhandsvarselDocument({
+        begrunnelse: values.begrunnelse,
+        frist: forhandsvarselFrist,
+      }),
+    };
+    sendForhandsvarsel.mutate(forhandsvarselRequestDTO);
   };
 
   return (
@@ -72,7 +82,9 @@ export const SendForhandsvarselSkjema = () => {
           minRows={6}
           maxLength={begrunnelseMaxLength}
         />
-        {/* TODO: <SkjemaInnsendingFeil /> */}
+        {sendForhandsvarsel.isError && (
+          <SkjemaInnsendingFeil error={sendForhandsvarsel.error} />
+        )}
         <ButtonRow className="flex">
           <Button variant="secondary" type="button">
             {texts.avbrytButtonText}
@@ -87,7 +99,11 @@ export const SendForhandsvarselSkjema = () => {
             }
             title={texts.forhandsvisningLabel}
           />
-          <Button loading={false} type="submit" className="ml-auto">
+          <Button
+            loading={sendForhandsvarsel.isPending}
+            type="submit"
+            className="ml-auto"
+          >
             {texts.sendVarselButtonText}
           </Button>
         </ButtonRow>

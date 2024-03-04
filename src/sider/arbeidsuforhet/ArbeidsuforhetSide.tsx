@@ -19,7 +19,7 @@ enum Status {
 }
 
 export const ArbeidsuforhetSide = (): ReactElement => {
-  const status: Status = Status.SENDT;
+  const status: Status = Status.NY;
 
   return (
     <Side tittel={texts.title} aktivtMenypunkt={Menypunkter.ARBEIDSUFORHET}>
@@ -28,7 +28,7 @@ export const ArbeidsuforhetSide = (): ReactElement => {
         <Tredelt.Container>
           <Tredelt.FirstColumn>
             <NotificationProvider>
-              {status === Status.SENDT ? (
+              {status !== Status.NY ? (
                 <ForhandsvarselSendt />
               ) : (
                 <SendForhandsvarselSkjema />
