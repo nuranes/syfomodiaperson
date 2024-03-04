@@ -125,7 +125,7 @@ export const auth = {
   isarbeidsuforhet: {
     applicationName: "isarbeidsuforhet",
     clientId: envVar({
-      name: "ISARBIDSUFORHET_AAD_APP_CLIENT_ID",
+      name: "ISARBEIDSUFORHET_AAD_APP_CLIENT_ID",
     }),
     host: envVar({
       name: "ISARBEIDSUFORHET_HOST",
