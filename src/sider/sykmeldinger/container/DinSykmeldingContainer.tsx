@@ -68,7 +68,7 @@ const DinSykmeldingSide = (): ReactElement => {
             dinSykmelding={dinSykmelding}
             arbeidsgiversSykmelding={arbeidsgiversSykmelding}
           />
-          {!dinSykmelding?.papirsykmelding && <EndreSykmelding />}
+          {dinSykmelding?.papirsykmelding && <EndreSykmelding />}
           <LenkeTilDineSykmeldinger />
         </Panel>
       </SideLaster>
