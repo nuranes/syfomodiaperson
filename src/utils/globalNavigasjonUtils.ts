@@ -132,6 +132,7 @@ export const numberOfTasks = (
       return getNumberOfBehandlerBerOmBistandOppgaver(personOppgaver);
     case Menypunkter.NOKKELINFORMASJON:
     case Menypunkter.SYKEPENGESOKNADER:
+    case Menypunkter.ARBEIDSUFORHET:
     case Menypunkter.VEDTAK:
     case Menypunkter.HISTORIKK: {
       return 0;

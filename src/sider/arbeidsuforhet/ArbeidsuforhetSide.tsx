@@ -10,7 +10,7 @@ import { SendForhandsvarselSkjema } from "@/sider/arbeidsuforhet/SendForhandsvar
 import { ForhandsvarselSendt } from "@/sider/arbeidsuforhet/ForhandsvarselSendt";
 
 const texts = {
-  title: "Vurdering av §8-4 Arbeidsuførhet",
+  title: "Arbeidsuførhet",
 };
 
 enum Status {
@@ -22,7 +22,7 @@ export const ArbeidsuforhetSide = (): ReactElement => {
   const status: Status = Status.SENDT;
 
   return (
-    <Side tittel={texts.title} aktivtMenypunkt={Menypunkter.AKTIVITETSKRAV}>
+    <Side tittel={texts.title} aktivtMenypunkt={Menypunkter.ARBEIDSUFORHET}>
       <Sidetopp tittel={texts.title} />
       <SideLaster henter={false} hentingFeilet={false}>
         <Tredelt.Container>

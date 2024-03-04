@@ -6,9 +6,11 @@ export type Toggles = {
 export enum ToggleNames {
   isVirksomhetsinputEnabled = "isVirksomhetsinputEnabled",
   isFlexjarEnabled = "isFlexjarEnabled",
+  isArbeidsuforhetEnabled = "isArbeidsuforhetEnabled",
 }
 
 export const defaultToggles: Toggles = {
   isVirksomhetsinputEnabled: false,
   isFlexjarEnabled: false,
+  isArbeidsuforhetEnabled: false,
 };

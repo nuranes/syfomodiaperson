@@ -15,6 +15,7 @@ import { useAktivitetskravQuery } from "@/data/aktivitetskrav/aktivitetskravQuer
 import { BodyShort } from "@navikt/ds-react";
 import styled from "styled-components";
 import { EventType, logEvent } from "@/utils/amplitude";
+import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
 
 const StyledLink = styled(Link)`
   display: flex;
@@ -32,7 +33,9 @@ export enum Menypunkter {
   OPPFOELGINGSPLANER = "OPPFOELGINGSPLANER",
   HISTORIKK = "HISTORIKK",
   VEDTAK = "VEDTAK",
+  ARBEIDSUFORHET = "ARBEIDSUFORHET",
 }
+
 export type Menypunkt = { navn: string; sti: string; menypunkt: Menypunkter };
 
 const nokkelinformasjonMenypunkt = {
@@ -88,6 +91,13 @@ const vedtakMenypunkt = {
   sti: "vedtak",
   menypunkt: Menypunkter.VEDTAK,
 };
+
+const arbeidsuforhetMenypunkt = {
+  navn: "Arbeidsuførhet",
+  sti: "arbeidsuforhet",
+  menypunkt: Menypunkter.ARBEIDSUFORHET,
+};
+
 const allMenypunkter: Menypunkt[] = [
   nokkelinformasjonMenypunkt,
   aktivitetskravMenypunkt,
@@ -97,6 +107,7 @@ const allMenypunkter: Menypunkt[] = [
   sykepengesoknadMenypunkt,
   oppfoelgingsplanMenypunkt,
   motemodulMenypunkt,
+  arbeidsuforhetMenypunkt,
   vedtakMenypunkt,
 ];
 
@@ -115,6 +126,7 @@ export const GlobalNavigasjon = ({
   const { data: oppfolgingsplanerLPS } = useOppfolgingsplanerLPSQuery();
   const { data: motebehov } = useMotebehovQuery();
   const { data: aktivitetskrav } = useAktivitetskravQuery();
+  const { toggles } = useFeatureToggles();
 
   const oppfolgingsplanerLPSMedPersonOppgave = oppfolgingsplanerLPS.map(
     (oppfolgingsplanLPS) =>
@@ -165,6 +177,13 @@ export const GlobalNavigasjon = ({
   return (
     <ul aria-label="Navigasjon" className="navigasjon">
       {allMenypunkter.map(({ navn, sti, menypunkt }, index) => {
+        if (
+          !toggles.isArbeidsuforhetEnabled &&
+          menypunkt === Menypunkter.ARBEIDSUFORHET
+        ) {
+          return null;
+        }
+
         const isAktiv = menypunkt === aktivtMenypunkt;
         const className = cn("navigasjonspanel", {
           "navigasjonspanel--aktiv": isAktiv,
