@@ -71,7 +71,7 @@ export const PaminnelseMelding = ({
         {texts.button}
       </MeldingActionButton>
       <Modal
-        width="25%"
+        width="medium"
         closeOnBackdropClick
         open={visPaminnelseModal}
         onClose={handleClose}
