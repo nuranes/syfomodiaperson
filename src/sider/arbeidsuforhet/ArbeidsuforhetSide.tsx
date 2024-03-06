@@ -8,18 +8,16 @@ import * as Tredelt from "@/sider/TredeltSide";
 import { Menypunkter } from "@/components/globalnavigasjon/GlobalNavigasjon";
 import { SendForhandsvarselSkjema } from "@/sider/arbeidsuforhet/SendForhandsvarselSkjema";
 import { ForhandsvarselSendt } from "@/sider/arbeidsuforhet/ForhandsvarselSendt";
+import { useArbeidsuforhetVurderingQuery } from "@/data/arbeidsuforhet/arbeidsuforhetQueryHooks";
+import { VurderingType } from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
 
 const texts = {
   title: "Arbeidsuførhet",
 };
 
-enum Status {
-  NY = "NY",
-  SENDT = "SENDT",
-}
-
 export const ArbeidsuforhetSide = (): ReactElement => {
-  const status: Status = Status.NY;
+  const { data } = useArbeidsuforhetVurderingQuery();
+  const sisteVurdering = data[0];
 
   return (
     <Side tittel={texts.title} aktivtMenypunkt={Menypunkter.ARBEIDSUFORHET}>
@@ -28,7 +26,8 @@ export const ArbeidsuforhetSide = (): ReactElement => {
         <Tredelt.Container>
           <Tredelt.FirstColumn>
             <NotificationProvider>
-              {status !== Status.NY ? (
+              {!!sisteVurdering &&
+              sisteVurdering.type === VurderingType.FORHANDSVARSEL ? (
                 <ForhandsvarselSendt />
               ) : (
                 <SendForhandsvarselSkjema />
