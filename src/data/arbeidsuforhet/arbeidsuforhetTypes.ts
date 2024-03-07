@@ -13,7 +13,6 @@ export enum VurderingType {
 
 interface VarselDTO {
   uuid: string;
-  document: DocumentComponentDto[];
   createdAt: Date;
 }
 
@@ -24,5 +23,6 @@ export interface VurderingResponseDTO {
   veilederident: string;
   type: VurderingType;
   begrunnelse: string;
+  document: DocumentComponentDto[];
   varsel: VarselDTO | undefined;
 }
