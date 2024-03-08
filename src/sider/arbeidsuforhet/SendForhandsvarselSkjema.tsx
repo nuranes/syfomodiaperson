@@ -19,6 +19,7 @@ const texts = {
     "Skriv kort din vurdering av hvorfor vilkåret ikke er oppfylt.",
     "Hvis du har vurdert ordningen friskmelding til arbeidsformidling: skriv hvorfor ordningen ikke er aktuell og legg inn henvisning til §8-5.",
   ],
+  defaultTextareaValue: "NAV vurderer å avslå sykepengene dine fordi ...",
   forhandsvisning: "Forhåndsvisning",
   forhandsvisningLabel: "Forhåndsvis forhåndsvarselet",
   missingBeskrivelse: "Vennligst angi begrunnelse",
@@ -27,7 +28,7 @@ const texts = {
 };
 
 const forhandsvarselFrist = addWeeks(new Date(), 3);
-const defaultValues = { begrunnelse: "" };
+const defaultValues = { begrunnelse: texts.defaultTextareaValue };
 const begrunnelseMaxLength = 1000;
 
 interface SkjemaValues {
@@ -73,6 +74,8 @@ export const SendForhandsvarselSkjema = () => {
           {...register("begrunnelse", {
             maxLength: begrunnelseMaxLength,
             required: texts.missingBeskrivelse,
+            validate: (value) =>
+              value !== texts.defaultTextareaValue || texts.missingBeskrivelse,
           })}
           value={watch("begrunnelse")}
           label={texts.beskrivelseLabel}

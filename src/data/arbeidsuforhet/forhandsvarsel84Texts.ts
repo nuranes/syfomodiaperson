@@ -16,7 +16,6 @@ export const getForhandsvarsel84Texts = ({
   begrunnelse: {
     uteAvStand:
       "For å få sykepenger må du være helt eller delvis ute av stand til å arbeide på grunn av sykdom eller skade.",
-    begrunnelseIntro: "Vi vurderer å avslå sykepengene dine fordi ...",
   },
   duKanUttaleDeg: {
     header: "Du kan uttale deg",

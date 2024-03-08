@@ -29,7 +29,6 @@ export const useArbeidsuforhetVarselDocument = (): {
       createHeaderH1(sendForhandsvarselTexts.varselInfo.header),
       createParagraph(sendForhandsvarselTexts.varselInfo.introWithFristDate),
       createParagraph(sendForhandsvarselTexts.begrunnelse.uteAvStand),
-      createParagraph(sendForhandsvarselTexts.begrunnelse.begrunnelseIntro),
     ];
 
     if (begrunnelse) {

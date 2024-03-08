@@ -41,8 +41,19 @@ describe("Forhandsvarselskjema arbeidsuforhet", () => {
   });
 
   describe("Send forhåndsvarsel", () => {
+    it("Gives error when trying to send forhandsvarsel without changing default begrunnelse", async () => {
+      renderForhandsvarselSkjema();
+
+      clickButton("Send");
+
+      expect(await screen.findByText("Vennligst angi begrunnelse")).to.exist;
+    });
+
     it("Gives error when trying to send forhandsvarsel with no begrunnelse", async () => {
       renderForhandsvarselSkjema();
+      const begrunnelseLabel = "Begrunnelse (obligatorisk)";
+      const beskrivelseInput = getTextInput(begrunnelseLabel);
+      changeTextInput(beskrivelseInput, "");
 
       clickButton("Send");
 

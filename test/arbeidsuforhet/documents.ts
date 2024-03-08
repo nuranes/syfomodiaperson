@@ -28,10 +28,6 @@ export const getSendForhandsvarselDocument = (
       type: DocumentComponentType.PARAGRAPH,
     },
     {
-      texts: [sendForhandsvarselTexts.begrunnelse.begrunnelseIntro],
-      type: DocumentComponentType.PARAGRAPH,
-    },
-    {
       texts: [begrunnelse],
       type: DocumentComponentType.PARAGRAPH,
     },
