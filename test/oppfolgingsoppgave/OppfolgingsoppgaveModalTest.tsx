@@ -96,26 +96,7 @@ describe("Oppfolgingsoppgave", () => {
     beforeEach(() => {
       stubOppfolgingsoppgaveApi(apiMockScope, undefined);
     });
-    it("renders oppfolgingsoppgave without beskrivelse textarea when annet is oppfolgingsgrunn", async () => {
-      renderOppfolgingsoppgave();
 
-      const openModalButton = await screen.findByRole("button", {
-        hidden: true,
-        name: openOppfolgingsoppgaveButtonText,
-      });
-      userEvent.click(openModalButton);
-
-      const selectOppfolgingsgrunn = await screen.findByLabelText(
-        "Hvilken oppfølgingsgrunn har du? (obligatorisk)"
-      );
-      fireEvent.change(selectOppfolgingsgrunn, {
-        target: { value: Oppfolgingsgrunn.ANNET },
-      });
-
-      await waitFor(
-        () => expect(screen.queryByLabelText("Beskrivelse")).to.not.exist
-      );
-    });
     it("renders oppfolgingsoppgave input with radio group, textarea, datepicker and save and cancel buttons", async () => {
       renderOppfolgingsoppgave();
 
@@ -185,6 +166,48 @@ describe("Oppfolgingsoppgave", () => {
           lagreOppfolgingsoppgaveMutation[0].state.variables
         ).to.deep.equal(expectedOppfolgingsoppgave);
       });
+    });
+    it("shown extra alert when ANNET oppfolgingsgrunn is chosen", async () => {
+      renderOppfolgingsoppgave();
+
+      const openModalButton = await screen.findByRole("button", {
+        hidden: true,
+        name: openOppfolgingsoppgaveButtonText,
+      });
+      userEvent.click(openModalButton);
+
+      const selectOppfolgingsgrunn = await screen.findByLabelText(
+        "Hvilken oppfølgingsgrunn har du? (obligatorisk)"
+      );
+      fireEvent.change(selectOppfolgingsgrunn, {
+        target: { value: Oppfolgingsgrunn.ANNET },
+      });
+      expect(
+        screen.queryByText(
+          "Denne oppgaven skal kun brukes til sykefraværsoppfølging, altså ikke oppgaver knyttet til andre ytelser eller formål. Innbyggeren kan få innsyn i det du skriver her."
+        )
+      ).to.exist;
+    });
+    it("does not show extra alert when ANNET oppfolgingsgrunn is NOT chosen", async () => {
+      renderOppfolgingsoppgave();
+
+      const openModalButton = await screen.findByRole("button", {
+        hidden: true,
+        name: openOppfolgingsoppgaveButtonText,
+      });
+      userEvent.click(openModalButton);
+
+      const selectOppfolgingsgrunn = await screen.findByLabelText(
+        "Hvilken oppfølgingsgrunn har du? (obligatorisk)"
+      );
+      fireEvent.change(selectOppfolgingsgrunn, {
+        target: { value: Oppfolgingsgrunn.TA_KONTAKT_ARBEIDSGIVER },
+      });
+      expect(
+        screen.queryByText(
+          "Denne oppgaven skal kun brukes til sykefraværsoppfølging, altså ikke oppgaver knyttet til andre ytelser eller formål. Innbyggeren kan få innsyn i det du skriver her."
+        )
+      ).to.not.exist;
     });
   });
 });

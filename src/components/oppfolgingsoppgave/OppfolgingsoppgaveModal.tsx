@@ -26,6 +26,8 @@ const texts = {
   header: "Oppfølgingsoppgave",
   guidelines:
     "Denne oppgaven skal kun brukes etter formålet, altså ikke til andre oppgaver enn det oppfølgingsgrunnen tilsier. Innbyggeren kan få innsyn i det du skriver her.",
+  annetChosenAlert:
+    "Denne oppgaven skal kun brukes til sykefraværsoppfølging, altså ikke oppgaver knyttet til andre ytelser eller formål. Innbyggeren kan få innsyn i det du skriver her.",
   save: "Lagre",
   close: "Avbryt",
   missingOppfolgingsgrunn: "Vennligst angi oppfølgingsgrunn.",
@@ -75,7 +77,7 @@ export const OppfolgingsoppgaveModal = ({ isOpen, toggleOpen }: Props) => {
     const oppfolgingsoppgaveDto: OppfolgingsoppgaveRequestDTO = {
       oppfolgingsgrunn: values.oppfolgingsgrunn,
       tekst:
-        values.oppfolgingsgrunn == Oppfolgingsgrunn.ANNET
+        values.oppfolgingsgrunn === Oppfolgingsgrunn.ANNET
           ? undefined
           : values.beskrivelse,
       frist: values.frist,
@@ -95,8 +97,8 @@ export const OppfolgingsoppgaveModal = ({ isOpen, toggleOpen }: Props) => {
     fromDate: new Date(),
   });
 
-  const isBeskrivelseInputVisible =
-    watch("oppfolgingsgrunn") !== Oppfolgingsgrunn.ANNET;
+  const isOppfolgingsgrunnAnnet =
+    watch("oppfolgingsgrunn") === Oppfolgingsgrunn.ANNET;
 
   return (
     <form onSubmit={handleSubmit(submit)}>
@@ -147,17 +149,25 @@ export const OppfolgingsoppgaveModal = ({ isOpen, toggleOpen }: Props) => {
               </option>
             ))}
           </Select>
-          {isBeskrivelseInputVisible && (
-            <Textarea
-              label={texts.beskrivelseLabel}
-              size="small"
-              value={watch("beskrivelse")}
-              maxLength={MAX_LENGTH_BESKRIVELSE}
-              {...register("beskrivelse", {
-                maxLength: MAX_LENGTH_BESKRIVELSE,
-              })}
-            ></Textarea>
+
+          {isOppfolgingsgrunnAnnet && (
+            <Alert inline variant="warning">
+              <BodyLong textColor="subtle" size="small">
+                {texts.annetChosenAlert}
+              </BodyLong>
+            </Alert>
           )}
+
+          <Textarea
+            label={texts.beskrivelseLabel}
+            size="small"
+            value={watch("beskrivelse")}
+            maxLength={MAX_LENGTH_BESKRIVELSE}
+            {...register("beskrivelse", {
+              maxLength: MAX_LENGTH_BESKRIVELSE,
+            })}
+          ></Textarea>
+
           <DatePicker {...datepickerProps} strategy="fixed">
             <DatePicker.Input {...inputProps} label={texts.datepickerLabel} />
           </DatePicker>
