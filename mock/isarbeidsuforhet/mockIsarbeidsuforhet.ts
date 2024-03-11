@@ -2,7 +2,10 @@ import express = require("express");
 import { ISARBEIDSUFORHET_ROOT } from "../../src/apiConstants";
 import { NAV_PERSONIDENT_HEADER } from "../util/requestUtil";
 import { mockArbeidsuforhetvurdering } from "./arbeidsuforhetMock";
-import { ForhandsvarselRequestDTO } from "../../src/data/arbeidsuforhet/arbeidsuforhetTypes";
+import {
+  ForhandsvarselRequestDTO,
+  VurderingType,
+} from "../../src/data/arbeidsuforhet/arbeidsuforhetTypes";
 
 export const mockIsarbeidsuforhet = (server: any) => {
   server.get(
@@ -20,11 +23,13 @@ export const mockIsarbeidsuforhet = (server: any) => {
     `${ISARBEIDSUFORHET_ROOT}/arbeidsuforhet/forhandsvarsel`,
     (req: express.Request, res: express.Response) => {
       const body: ForhandsvarselRequestDTO = req.body;
-      const forhandsvarsel = {
+      const sentForhandsvarsel = {
+        ...mockArbeidsuforhetvurdering[0],
+        type: VurderingType.FORHANDSVARSEL,
         begrunnelse: body.begrunnelse,
         document: body.document,
       };
-      res.sendStatus(201);
+      res.status(201).send(JSON.stringify(sentForhandsvarsel));
     }
   );
 };

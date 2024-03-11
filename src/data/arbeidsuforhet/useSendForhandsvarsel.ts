@@ -14,11 +14,10 @@ export const useSendForhandsvarsel = () => {
 
   return useMutation({
     mutationFn: postForhandsvarsel,
-    onSuccess: (data) => {
-      queryClient.setQueryData(
-        arbeidsuforhetQueryKeys.arbeidsuforhet(personident),
-        data
-      );
+    onSuccess: () => {
+      return queryClient.invalidateQueries({
+        queryKey: arbeidsuforhetQueryKeys.arbeidsuforhet(personident),
+      });
     },
   });
 };

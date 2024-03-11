@@ -10,7 +10,8 @@ import {
 import { VurderingType } from "../../src/data/arbeidsuforhet/arbeidsuforhetTypes";
 import { getForhandsvarsel84Texts } from "../../src/data/arbeidsuforhet/forhandsvarsel84Texts";
 
-const defaultBegrunnelse = "Du har ikke rett på sykepenger";
+const defaultForhandsvarselBegrunnelse = "Du har nok ikke rett på sykepenger";
+const defaultOppfyltBegrunnelse = "Du har rett på sykepenger";
 
 const getSendForhandsvarselDocument = (
   begrunnelse: string,
@@ -77,17 +78,14 @@ export const mockArbeidsuforhetvurdering = [
   {
     uuid: "123",
     personident: ARBEIDSTAKER_DEFAULT.personIdent,
-    createdAt: new Date(),
+    createdAt: daysFromToday(-100),
     veilederident: VEILEDER_DEFAULT.ident,
-    type: VurderingType.FORHANDSVARSEL,
-    begrunnelse: defaultBegrunnelse,
-    varsel: {
-      uuid: "123",
-      document: getSendForhandsvarselDocument(
-        defaultBegrunnelse,
-        daysFromToday(21)
-      ),
-      createdAt: new Date(),
-    },
+    type: VurderingType.OPPFYLT,
+    begrunnelse: defaultOppfyltBegrunnelse,
+    document: getSendForhandsvarselDocument(
+      defaultOppfyltBegrunnelse,
+      daysFromToday(-79)
+    ),
+    varsel: undefined,
   },
 ];
