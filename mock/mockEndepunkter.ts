@@ -25,6 +25,7 @@ import express from "express";
 import { mockIshuskelapp } from "./oppfolgingsoppgave/mockOppfolgingsoppgave";
 import { mockFlexjar } from "./flexjar/mockFlexjar";
 import { mockIsarbeidsuforhet } from "./isarbeidsuforhet/mockIsarbeidsuforhet";
+import { mockLpsOppfolgingsplanerMottak } from "./lpsoppfolgingsplanmottak/mockLpsOppfolgingsplanMottak";
 
 const mockEndepunkter = (server: any) => {
   server.use(express.json());
@@ -41,6 +42,7 @@ const mockEndepunkter = (server: any) => {
     mockModiacontextholder,
     mockSyfomotebehov,
     mockSyfooppfolgingsplanservice,
+    mockLpsOppfolgingsplanerMottak,
     mockSykepengesoknadBackend,
     mockIstilgangskontroll,
     mockSyfobehandlendeenhet,
