@@ -1,5 +1,6 @@
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import {
+  LPS_OPPFOLGINGSPLAN_MOTTAK_V1_ROOT,
   SYFOOPPFOLGINGSPLANSERVICE_V2_ROOT,
   SYFOOPPFOLGINGSPLANSERVICE_V3_ROOT,
 } from "@/apiConstants";
@@ -45,7 +46,7 @@ export const useOppfolgingsplanerQuery = () => {
 
 export const useOppfolgingsplanerLPSQuery = () => {
   const fnr = useValgtPersonident();
-  const path = `${SYFOOPPFOLGINGSPLANSERVICE_V2_ROOT}/oppfolgingsplan/lps`;
+  const path = `${LPS_OPPFOLGINGSPLAN_MOTTAK_V1_ROOT}/oppfolgingsplan/lps`;
   const fetchOppfolgingsplanerLPS = () => get<OppfolgingsplanLPS[]>(path, fnr);
   const query = useQuery({
     queryKey: oppfolgingsplanQueryKeys.oppfolgingsplanerLPS(fnr),

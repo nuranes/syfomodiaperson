@@ -442,6 +442,24 @@ export const setupProxy = (
   );
 
   router.use(
+    "/lps-oppfolgingsplan-mottak/*",
+    (
+      req: express.Request,
+      res: express.Response,
+      next: express.NextFunction
+    ) => {
+      proxyOnBehalfOf(
+        req,
+        res,
+        next,
+        authClient,
+        issuer,
+        Config.auth.lpsOppfolgingsplanMottak
+      );
+    }
+  );
+
+  router.use(
     "/syfoperson/*",
     (
       req: express.Request,

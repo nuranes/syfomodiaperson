@@ -1,5 +1,6 @@
 import nock from "nock";
 import {
+  LPS_OPPFOLGINGSPLAN_MOTTAK_V1_ROOT,
   SYFOOPPFOLGINGSPLANSERVICE_V2_ROOT,
   SYFOOPPFOLGINGSPLANSERVICE_V3_ROOT,
 } from "@/apiConstants";
@@ -16,7 +17,7 @@ export const stubOppfolgingsplanApi = (scope: nock.Scope) => {
 
 export const stubOppfolgingsplanLPSApi = (scope: nock.Scope, created: Date) => {
   return scope
-    .get(`${SYFOOPPFOLGINGSPLANSERVICE_V2_ROOT}/oppfolgingsplan/lps`)
+    .get(`${LPS_OPPFOLGINGSPLAN_MOTTAK_V1_ROOT}/oppfolgingsplan/lps`)
     .reply(200, () => oppfolgingsplanerLPSMock(created));
 };
 

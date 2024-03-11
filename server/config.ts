@@ -266,6 +266,16 @@ export const auth = {
       name: "SYFOOPPFOLGINGSPLANSERVICE_HOST",
     }),
   },
+  lpsOppfolgingsplanMottak: {
+    applicationName: "lps-oppfolgingsplan-mottak",
+    clientId: envVar({
+      name: "LPS_OPPFOLGINGSPLAN_MOTTAK_AAD_APP_CLIENT_ID",
+    }),
+    host: envVar({
+      name: "LPS_OPPFOLGINGSPLAN_MOTTAK_HOST",
+    }),
+    removePathPrefix: true,
+  },
   syfoperson: {
     applicationName: "syfoperson",
     clientId: envVar({

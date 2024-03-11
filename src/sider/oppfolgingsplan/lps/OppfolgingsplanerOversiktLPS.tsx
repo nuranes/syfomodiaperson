@@ -2,7 +2,7 @@ import React from "react";
 import { restdatoTilLesbarDato } from "@/utils/datoUtils";
 import { OppfolgingsplanLPS } from "@/data/oppfolgingsplan/types/OppfolgingsplanLPS";
 import BehandleOppfolgingsplanLPS from "./BehandleOppfolgingsplanLPS";
-import { SYFOOPPFOLGINGSPLANSERVICE_V2_ROOT } from "@/apiConstants";
+import { LPS_OPPFOLGINGSPLAN_MOTTAK_V1_ROOT } from "@/apiConstants";
 import { useVirksomhetQuery } from "@/data/virksomhet/virksomhetQueryHooks";
 import { Box, Heading, Tag } from "@navikt/ds-react";
 
@@ -18,7 +18,7 @@ export const ButtonOpenPlan = (buttonOpenPlanProps: ButtonOpenPlanProps) => {
   return (
     <a
       className="lenke"
-      href={`${SYFOOPPFOLGINGSPLANSERVICE_V2_ROOT}/dokument/lps/${buttonOpenPlanProps.oppfolgingsplanLPS.uuid}`}
+      href={`${LPS_OPPFOLGINGSPLAN_MOTTAK_V1_ROOT}/oppfolgingsplan/lps/${buttonOpenPlanProps.oppfolgingsplanLPS.uuid}`}
       target="_blank"
       rel="noopener noreferrer"
     >

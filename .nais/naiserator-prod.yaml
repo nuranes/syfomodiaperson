@@ -80,6 +80,8 @@ spec:
           namespace: team-esyfo
         - application: syfomotebehov
           namespace: team-esyfo
+        - application: lps-oppfolgingsplan-mottak
+          namespace: team-esyfo
   envFrom:
     - secret: syfomodiaperson-session-key
     - secret: syfomodiaperson-redis-password
@@ -163,6 +165,10 @@ spec:
       value: "prod-fss.team-esyfo.syfooppfolgingsplanservice"
     - name: SYFOOPPFOLGINGSPLANSERVICE_HOST
       value: "https://syfooppfolgingsplanservice.prod-fss-pub.nais.io"
+    - name: LPS_OPPFOLGINGSPLAN_MOTTAK_AAD_APP_CLIENT_ID
+      value: "prod-gcp.team-esyfo.lps-oppfolgingsplan-mottak"
+    - name: LPS_OPPFOLGINGSPLAN_MOTTAK_HOST
+      value: "http://lps-oppfolgingsplan-mottak.team-esyfo"
     - name: SYFOPERSON_AAD_APP_CLIENT_ID
       value: "prod-gcp.teamsykefravr.syfoperson"
     - name: SYFOPERSON_HOST
