@@ -38,12 +38,10 @@ export const ForhandsvarselAfterDeadline = () => {
           <BellIcon title="bjelleikon" fontSize="2em" />
         </div>
         <p>{texts.passertInfo}</p>
-        <ButtonRow className="flex">
+        <ButtonRow>
+          <Button variant="primary">{texts.avslag}</Button>
+          <Button variant="secondary">{texts.oppfylt}</Button>
           <VisBrev document={forhandsvarsel.document} />
-          <Button variant="secondary" className="ml-auto">
-            {texts.oppfylt}
-          </Button>
-          <Button variant="secondary">{texts.avslag}</Button>
         </ButtonRow>
       </Box>
     </div>

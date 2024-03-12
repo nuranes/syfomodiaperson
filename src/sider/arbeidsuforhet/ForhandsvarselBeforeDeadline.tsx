@@ -49,14 +49,12 @@ export const ForhandsvarselBeforeDeadline = () => {
           <ClockIcon title="klokkeikon" fontSize="2em" />
         </div>
         <p>{texts.sendtInfo}</p>
-        <ButtonRow className="flex">
-          <VisBrev document={forhandsvarsel.document} />
-          <Button variant="secondary" className="ml-auto">
-            {texts.oppfylt}
-          </Button>
-          <Button variant="secondary" disabled>
+        <ButtonRow>
+          <Button variant="primary" disabled>
             {texts.avslag}
           </Button>
+          <Button variant="secondary">{texts.oppfylt}</Button>
+          <VisBrev document={forhandsvarsel.document} />
         </ButtonRow>
       </Box>
     </div>

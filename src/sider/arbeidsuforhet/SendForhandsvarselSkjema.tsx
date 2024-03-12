@@ -89,8 +89,8 @@ export const SendForhandsvarselSkjema = () => {
           <SkjemaInnsendingFeil error={sendForhandsvarsel.error} />
         )}
         <ButtonRow className="flex">
-          <Button variant="secondary" type="button">
-            {texts.avbrytButtonText}
+          <Button loading={sendForhandsvarsel.isPending} type="submit">
+            {texts.sendVarselButtonText}
           </Button>
           <Forhandsvisning
             contentLabel={texts.forhandsvisningLabel}
@@ -102,12 +102,8 @@ export const SendForhandsvarselSkjema = () => {
             }
             title={texts.forhandsvisningLabel}
           />
-          <Button
-            loading={sendForhandsvarsel.isPending}
-            type="submit"
-            className="ml-auto"
-          >
-            {texts.sendVarselButtonText}
+          <Button variant="secondary" type="button" className="ml-auto">
+            {texts.avbrytButtonText}
           </Button>
         </ButtonRow>
       </form>
