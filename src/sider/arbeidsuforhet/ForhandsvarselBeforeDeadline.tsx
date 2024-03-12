@@ -3,7 +3,7 @@ import { useArbeidsuforhetVurderingQuery } from "@/data/arbeidsuforhet/arbeidsuf
 import { Alert, Box, Button, Heading } from "@navikt/ds-react";
 import { ButtonRow } from "@/components/Layout";
 import { VisBrev } from "@/components/VisBrev";
-import { addWeeks, tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
+import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
 import { ClockIcon } from "@navikt/aksel-icons";
 
 const texts = {
@@ -27,7 +27,7 @@ const texts = {
 export const ForhandsvarselBeforeDeadline = () => {
   const { data } = useArbeidsuforhetVurderingQuery();
   const forhandsvarsel = data[0];
-  const frist = addWeeks(forhandsvarsel.createdAt, 3);
+  const frist = forhandsvarsel.varsel?.svarfrist;
 
   return (
     <div>

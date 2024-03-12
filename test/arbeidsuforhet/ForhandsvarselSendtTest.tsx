@@ -50,19 +50,19 @@ describe("ForhandsvarselSendt", () => {
   });
 
   describe("Show correct component", () => {
-    it("show ForhandsvarselBeforeDeadline when createdAt is less than three weeks ago", () => {
-      const createdAt = new Date();
+    it("show ForhandsvarselBeforeDeadline when svarfrist is in three weeks (not expired)", () => {
       const forhandsvarselBeforeFrist: VurderingResponseDTO = {
         uuid: "123",
         personident: ARBEIDSTAKER_DEFAULT.personIdent,
-        createdAt: createdAt,
+        createdAt: new Date(),
         veilederident: VEILEDER_DEFAULT.ident,
         type: VurderingType.FORHANDSVARSEL,
         begrunnelse: "begrunnelse",
         document: getSendForhandsvarselDocument("begrunnelse"),
         varsel: {
           uuid: "654",
-          createdAt: createdAt,
+          createdAt: new Date(),
+          svarfrist: addWeeks(new Date(), 3),
         },
       };
       const vurderinger = [forhandsvarselBeforeFrist];
@@ -73,7 +73,7 @@ describe("ForhandsvarselSendt", () => {
       expect(
         screen.getByText(
           `Forhåndsvarselet er sendt ${tilLesbarDatoMedArUtenManedNavn(
-            createdAt
+            new Date()
           )}.`
         )
       ).to.exist;
@@ -93,7 +93,7 @@ describe("ForhandsvarselSendt", () => {
       expect(screen.getByRole("button", { name: "Se hele brevet" })).to.exist;
     });
 
-    it("show ForhandsvarselAfterDeadline when createdAt is three weeks ago", () => {
+    it("show ForhandsvarselAfterDeadline when svarfrist is today (expired)", () => {
       const createdAt = addWeeks(new Date(), -3);
       const forhandsvarselBeforeFrist: VurderingResponseDTO = {
         uuid: "123",
@@ -106,6 +106,7 @@ describe("ForhandsvarselSendt", () => {
         varsel: {
           uuid: "654",
           createdAt: createdAt,
+          svarfrist: new Date(),
         },
       };
       const vurderinger = [forhandsvarselBeforeFrist];

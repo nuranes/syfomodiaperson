@@ -14,6 +14,7 @@ export enum VurderingType {
 interface VarselDTO {
   uuid: string;
   createdAt: Date;
+  svarfrist: Date;
 }
 
 export interface VurderingResponseDTO {
