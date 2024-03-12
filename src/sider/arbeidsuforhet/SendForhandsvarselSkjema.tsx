@@ -24,7 +24,6 @@ const texts = {
   forhandsvisningLabel: "Forhåndsvis forhåndsvarselet",
   missingBeskrivelse: "Vennligst angi begrunnelse",
   sendVarselButtonText: "Send",
-  avbrytButtonText: "Avbryt",
 };
 
 const forhandsvarselFrist = addWeeks(new Date(), 3);
@@ -88,7 +87,7 @@ export const SendForhandsvarselSkjema = () => {
         {sendForhandsvarsel.isError && (
           <SkjemaInnsendingFeil error={sendForhandsvarsel.error} />
         )}
-        <ButtonRow className="flex">
+        <ButtonRow>
           <Button loading={sendForhandsvarsel.isPending} type="submit">
             {texts.sendVarselButtonText}
           </Button>
@@ -102,9 +101,6 @@ export const SendForhandsvarselSkjema = () => {
             }
             title={texts.forhandsvisningLabel}
           />
-          <Button variant="secondary" type="button" className="ml-auto">
-            {texts.avbrytButtonText}
-          </Button>
         </ButtonRow>
       </form>
     </Box>
