@@ -119,6 +119,17 @@ export const personOppgaveBehandletDialogmotesvar = {
   opprettet: new Date(dayjs().subtract(10, "days").toJSON()).toDateString(),
 };
 
+export const personOppgaveArbeidsuforhetVurderAvslag = {
+  uuid: "5f1e2629-062b-442d-ae1f-3b08e9574c99",
+  referanseUuid: "5f1e2629-062b-442d-ae1f-3b08e9574c88",
+  fnr: ARBEIDSTAKER_DEFAULT.personIdent,
+  virksomhetsnummer: VIRKSOMHET_PONTYPANDY.virksomhetsnummer,
+  type: "ARBEIDSUFORHET_VURDER_AVSLAG",
+  behandletTidspunkt: null,
+  behandletVeilederIdent: null,
+  opprettet: new Date().toDateString(),
+};
+
 export const makePersonOppgaveBehandlet = (ubehandletPersonOppgave) => {
   return {
     ...ubehandletPersonOppgave,
@@ -143,6 +154,7 @@ export const personoppgaverMock = () => {
     personOppgaveUbehandletBehandlerdialogAvvistMelding,
     personOppgaveBehandletBehandlerdialogAvvistMelding,
     personOppgaveUbehandletVurderStans,
+    personOppgaveArbeidsuforhetVurderAvslag,
     personOppgaveUbehandletBehandlerBerOmBistand,
     personOppgaveUbehandletBehandlerBerOmBistand2,
   ];

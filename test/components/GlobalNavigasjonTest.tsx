@@ -13,7 +13,12 @@ import {
   queryClientWithAktivBruker,
   queryClientWithMockData,
 } from "../testQueryClient";
-import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
+import {
+  ARBEIDSTAKER_DEFAULT,
+  BEHANDLENDE_ENHET_DEFAULT,
+  VEILEDER_DEFAULT,
+  VEILEDER_IDENT_DEFAULT,
+} from "../../mock/common/mockConstants";
 import { navEnhet } from "../dialogmote/testData";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import {
@@ -22,6 +27,9 @@ import {
   personOppgaveUbehandletBehandlerdialogSvar,
   personOppgaveUbehandletBehandlerdialogUbesvartMelding,
 } from "../../mock/ispersonoppgave/personoppgaveMock";
+import { unleashQueryKeys } from "@/data/unleash/unleashQueryHooks";
+import { mockUnleashResponse } from "../../mock/unleashMocks";
+import { veilederinfoQueryKeys } from "@/data/veilederinfo/veilederinfoQueryHooks";
 
 const fnr = ARBEIDSTAKER_DEFAULT.personIdent;
 let queryClient: any;
@@ -156,5 +164,27 @@ describe("GlobalNavigasjon", () => {
     renderGlobalNavigasjon();
 
     expect(screen.getByRole("link", { name: "Aktivitetskrav 1" })).to.exist;
+  });
+
+  it("viser rød prikk for menypunkt Arbeidsuforhet når arbeidsuforhet er skrudd på og ubehandlet oppgave for 'vurder avslag'", () => {
+    queryClient.setQueryData(personoppgaverQueryKeys.personoppgaver(fnr), () =>
+      personoppgaverMock()
+    );
+    queryClient.setQueryData(
+      unleashQueryKeys.toggles(
+        BEHANDLENDE_ENHET_DEFAULT.enhetId,
+        VEILEDER_IDENT_DEFAULT
+      ),
+      () => mockUnleashResponse
+    );
+    queryClient.setQueryData(
+      veilederinfoQueryKeys.veilederinfo,
+      () => VEILEDER_DEFAULT
+    );
+
+    renderGlobalNavigasjon();
+
+    expect(screen.getByRole("link", { name: "Forhåndsvarsel §8-4 1" })).to
+      .exist;
   });
 });

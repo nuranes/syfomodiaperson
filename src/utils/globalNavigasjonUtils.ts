@@ -104,6 +104,15 @@ const getNumberOfBehandlerBerOmBistandOppgaver = (
   ).length;
 };
 
+const getNumberOfArbeidsuforhetOppgaver = (
+  personoppgaver: PersonOppgave[]
+): number => {
+  return getAllUbehandledePersonOppgaver(
+    personoppgaver,
+    PersonOppgaveType.ARBEIDSUFORHET_VURDER_AVSLAG
+  ).length;
+};
+
 export const numberOfTasks = (
   menypunkt: Menypunkter,
   motebehov: MotebehovVeilederDTO[],
@@ -130,9 +139,10 @@ export const numberOfTasks = (
       return getNumberOfBehandlerDialogOppgaver(personOppgaver);
     case Menypunkter.SYKMELDINGER:
       return getNumberOfBehandlerBerOmBistandOppgaver(personOppgaver);
+    case Menypunkter.ARBEIDSUFORHET:
+      return getNumberOfArbeidsuforhetOppgaver(personOppgaver);
     case Menypunkter.NOKKELINFORMASJON:
     case Menypunkter.SYKEPENGESOKNADER:
-    case Menypunkter.ARBEIDSUFORHET:
     case Menypunkter.VEDTAK:
     case Menypunkter.HISTORIKK: {
       return 0;
