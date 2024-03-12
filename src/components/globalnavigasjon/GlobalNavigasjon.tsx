@@ -93,7 +93,7 @@ const vedtakMenypunkt = {
 };
 
 const arbeidsuforhetMenypunkt = {
-  navn: "Arbeidsuførhet",
+  navn: "Forhåndsvarsel §8-4",
   sti: "arbeidsuforhet",
   menypunkt: Menypunkter.ARBEIDSUFORHET,
 };
