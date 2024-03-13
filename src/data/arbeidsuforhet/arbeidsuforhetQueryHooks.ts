@@ -10,7 +10,7 @@ export const arbeidsuforhetQueryKeys = {
 
 export const useArbeidsuforhetVurderingQuery = () => {
   const personident = useValgtPersonident();
-  const path = `${ISARBEIDSUFORHET_ROOT}/arbeidsuforhet/vurdering`;
+  const path = `${ISARBEIDSUFORHET_ROOT}/arbeidsuforhet/vurderinger`;
   const fetchArbeidsuforhet = () =>
     get<VurderingResponseDTO[]>(path, personident);
 

@@ -7,10 +7,12 @@ import {
   DocumentComponentDto,
   DocumentComponentType,
 } from "../../src/data/documentcomponent/documentComponentTypes";
-import { VurderingType } from "../../src/data/arbeidsuforhet/arbeidsuforhetTypes";
+import {
+  VurderingResponseDTO,
+  VurderingType,
+} from "../../src/data/arbeidsuforhet/arbeidsuforhetTypes";
 import { getForhandsvarsel84Texts } from "../../src/data/arbeidsuforhet/forhandsvarsel84Texts";
 
-const defaultForhandsvarselBegrunnelse = "Du har nok ikke rett på sykepenger";
 const defaultOppfyltBegrunnelse = "Du har rett på sykepenger";
 
 const getSendForhandsvarselDocument = (
@@ -74,7 +76,7 @@ const getSendForhandsvarselDocument = (
   ];
 };
 
-export const mockArbeidsuforhetvurdering = [
+export const mockArbeidsuforhetvurdering: VurderingResponseDTO[] = [
   {
     uuid: "123",
     personident: ARBEIDSTAKER_DEFAULT.personIdent,

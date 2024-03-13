@@ -1,6 +1,7 @@
 import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
 
-export interface ForhandsvarselRequestDTO {
+export interface VurderingRequestDTO {
+  type: VurderingType;
   begrunnelse: string;
   document: DocumentComponentDto[];
 }

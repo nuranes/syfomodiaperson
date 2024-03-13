@@ -7,7 +7,10 @@ import nock from "nock";
 import { NotificationContext } from "@/context/notification/NotificationContext";
 import { SendForhandsvarselSkjema } from "@/sider/arbeidsuforhet/SendForhandsvarselSkjema";
 import { stubArbeidsuforhetForhandsvarselApi } from "../stubs/stubIsarbeidsuforhet";
-import { ForhandsvarselRequestDTO } from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
+import {
+  VurderingRequestDTO,
+  VurderingType,
+} from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
 import { getSendForhandsvarselDocument } from "./documents";
 import { navEnhet } from "../dialogmote/testData";
 import { queryClientWithMockData } from "../testQueryClient";
@@ -84,7 +87,8 @@ describe("Forhandsvarselskjema arbeidsuforhet", () => {
         const sendForhandsvarselMutation = queryClient
           .getMutationCache()
           .getAll()[0];
-        const expectedVurdering: ForhandsvarselRequestDTO = {
+        const expectedVurdering: VurderingRequestDTO = {
+          type: VurderingType.FORHANDSVARSEL,
           begrunnelse: begrunnelse,
           document: getSendForhandsvarselDocument(begrunnelse),
         };

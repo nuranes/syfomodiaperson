@@ -6,8 +6,11 @@ import { useForm } from "react-hook-form";
 import { useArbeidsuforhetVurderingDocument } from "@/hooks/arbeidsuforhet/useArbeidsuforhetVurderingDocument";
 import { Forhandsvisning } from "@/components/Forhandsvisning";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
-import { ForhandsvarselRequestDTO } from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
-import { useSendForhandsvarsel } from "@/data/arbeidsuforhet/useSendForhandsvarsel";
+import {
+  VurderingRequestDTO,
+  VurderingType,
+} from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
+import { useSendVurderingArbeidsuforhet } from "@/data/arbeidsuforhet/useSendVurderingArbeidsuforhet";
 
 const texts = {
   title: "Send forhåndsvarsel",
@@ -35,7 +38,7 @@ interface SkjemaValues {
 }
 
 export const SendForhandsvarselSkjema = () => {
-  const sendForhandsvarsel = useSendForhandsvarsel();
+  const sendForhandsvarsel = useSendVurderingArbeidsuforhet();
   const {
     register,
     watch,
@@ -45,7 +48,8 @@ export const SendForhandsvarselSkjema = () => {
   const { getForhandsvarselDocument } = useArbeidsuforhetVurderingDocument();
 
   const submit = (values: SkjemaValues) => {
-    const forhandsvarselRequestDTO: ForhandsvarselRequestDTO = {
+    const forhandsvarselRequestDTO: VurderingRequestDTO = {
+      type: VurderingType.FORHANDSVARSEL,
       begrunnelse: values.begrunnelse,
       document: getForhandsvarselDocument({
         begrunnelse: values.begrunnelse,
