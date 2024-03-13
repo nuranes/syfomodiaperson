@@ -14,7 +14,6 @@ import {
   VarselType,
   VurderingArsak,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
-import { useAktivVeilederinfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
 import { tilDatoMedManedNavn } from "@/utils/datoUtils";
 import { vurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
 
@@ -36,8 +35,7 @@ export const useAktivitetskravVarselDocument = (): {
   ): DocumentComponentDto[];
   getVurderingDocument(values: VurderingDocumentValues): DocumentComponentDto[];
 } => {
-  const { getHilsen, getIntroGjelder } = useDocumentComponents();
-  const { data: veilederinfo } = useAktivVeilederinfoQuery();
+  const { getHilsen, getIntroGjelder, getVurdertAv } = useDocumentComponents();
 
   const getForhandsvarselDocument = (values: ForhandsvarselDocumentValues) => {
     const { mal, begrunnelse, frist } = values;
@@ -92,7 +90,7 @@ export const useAktivitetskravVarselDocument = (): {
     }
     documentComponents.push(
       createParagraph(getVedtakText(varselType)),
-      createParagraph(`Vurdert av ${veilederinfo?.navn || ""}`)
+      getVurdertAv()
     );
 
     return documentComponents;

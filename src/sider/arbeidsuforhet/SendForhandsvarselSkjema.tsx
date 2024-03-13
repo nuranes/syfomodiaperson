@@ -3,7 +3,7 @@ import { addWeeks } from "@/utils/datoUtils";
 import { ButtonRow } from "@/components/Layout";
 import { Box, Button, Heading, Textarea } from "@navikt/ds-react";
 import { useForm } from "react-hook-form";
-import { useArbeidsuforhetVarselDocument } from "@/hooks/arbeidsuforhet/useArbeidsuforhetVarselDocument";
+import { useArbeidsuforhetVurderingDocument } from "@/hooks/arbeidsuforhet/useArbeidsuforhetVurderingDocument";
 import { Forhandsvisning } from "@/components/Forhandsvisning";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { ForhandsvarselRequestDTO } from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
@@ -42,7 +42,7 @@ export const SendForhandsvarselSkjema = () => {
     formState: { errors },
     handleSubmit,
   } = useForm<SkjemaValues>({ defaultValues });
-  const { getForhandsvarselDocument } = useArbeidsuforhetVarselDocument();
+  const { getForhandsvarselDocument } = useArbeidsuforhetVurderingDocument();
 
   const submit = (values: SkjemaValues) => {
     const forhandsvarselRequestDTO: ForhandsvarselRequestDTO = {
