@@ -76,10 +76,7 @@ export const OppfolgingsoppgaveModal = ({ isOpen, toggleOpen }: Props) => {
   const submit = (values: FormValues) => {
     const oppfolgingsoppgaveDto: OppfolgingsoppgaveRequestDTO = {
       oppfolgingsgrunn: values.oppfolgingsgrunn,
-      tekst:
-        values.oppfolgingsgrunn === Oppfolgingsgrunn.ANNET
-          ? undefined
-          : values.beskrivelse,
+      tekst: values.beskrivelse,
       frist: values.frist,
     };
     oppdaterOppfolgingsoppgave.mutate(oppfolgingsoppgaveDto, {
