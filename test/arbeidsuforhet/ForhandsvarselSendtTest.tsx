@@ -1,23 +1,17 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import { queryClientWithMockData } from "../testQueryClient";
-import {
-  ARBEIDSTAKER_DEFAULT,
-  VEILEDER_DEFAULT,
-} from "../../mock/common/mockConstants";
+import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import { render, screen } from "@testing-library/react";
 import { navEnhet } from "../dialogmote/testData";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { expect } from "chai";
 import { NotificationContext } from "@/context/notification/NotificationContext";
 import { ForhandsvarselSendt } from "@/sider/arbeidsuforhet/ForhandsvarselSendt";
-import {
-  VurderingResponseDTO,
-  VurderingType,
-} from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
-import { getSendForhandsvarselDocument } from "./documents";
+import { VurderingResponseDTO } from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
 import { arbeidsuforhetQueryKeys } from "@/data/arbeidsuforhet/arbeidsuforhetQueryHooks";
 import { addWeeks, tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
+import { createForhandsvarsel } from "./arbeidsuforhetTestData";
 
 let queryClient: QueryClient;
 
@@ -51,20 +45,10 @@ describe("ForhandsvarselSendt", () => {
 
   describe("Show correct component", () => {
     it("show ForhandsvarselBeforeDeadline when svarfrist is in three weeks (not expired)", () => {
-      const forhandsvarselBeforeFrist: VurderingResponseDTO = {
-        uuid: "123",
-        personident: ARBEIDSTAKER_DEFAULT.personIdent,
+      const forhandsvarselBeforeFrist = createForhandsvarsel({
         createdAt: new Date(),
-        veilederident: VEILEDER_DEFAULT.ident,
-        type: VurderingType.FORHANDSVARSEL,
-        begrunnelse: "begrunnelse",
-        document: getSendForhandsvarselDocument("begrunnelse"),
-        varsel: {
-          uuid: "654",
-          createdAt: new Date(),
-          svarfrist: addWeeks(new Date(), 3),
-        },
-      };
+        svarfrist: addWeeks(new Date(), 3),
+      });
       const vurderinger = [forhandsvarselBeforeFrist];
       mockArbeidsuforhetVurderinger(vurderinger);
 
@@ -95,20 +79,10 @@ describe("ForhandsvarselSendt", () => {
 
     it("show ForhandsvarselAfterDeadline when svarfrist is today (expired)", () => {
       const createdAt = addWeeks(new Date(), -3);
-      const forhandsvarselBeforeFrist: VurderingResponseDTO = {
-        uuid: "123",
-        personident: ARBEIDSTAKER_DEFAULT.personIdent,
+      const forhandsvarselBeforeFrist = createForhandsvarsel({
         createdAt: createdAt,
-        veilederident: VEILEDER_DEFAULT.ident,
-        type: VurderingType.FORHANDSVARSEL,
-        begrunnelse: "begrunnelse",
-        document: getSendForhandsvarselDocument("begrunnelse"),
-        varsel: {
-          uuid: "654",
-          createdAt: createdAt,
-          svarfrist: new Date(),
-        },
-      };
+        svarfrist: new Date(),
+      });
       const vurderinger = [forhandsvarselBeforeFrist];
       mockArbeidsuforhetVurderinger(vurderinger);
 

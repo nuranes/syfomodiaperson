@@ -3,14 +3,7 @@ import {
   AktivitetskravStatus,
   AktivitetskravVurderingDTO,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
-import { FlexColumn, FlexRow, PaddingSize } from "@/components/Layout";
-import {
-  Accordion,
-  BodyLong,
-  BodyShort,
-  Heading,
-  Panel,
-} from "@navikt/ds-react";
+import { Accordion, BodyShort, Box, Heading } from "@navikt/ds-react";
 import { capitalizeWord } from "@/utils/stringUtils";
 import { tilDatoMedManedNavn } from "@/utils/datoUtils";
 import { useVeilederInfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
@@ -19,6 +12,7 @@ import { vurderingArsakTexts } from "@/data/aktivitetskrav/aktivitetskravTexts";
 import * as Amplitude from "@/utils/amplitude";
 import { EventType } from "@/utils/amplitude";
 import { VisBrev } from "@/components/VisBrev";
+import { Paragraph } from "@/components/Paragraph";
 
 const texts = {
   header: "Historikk",
@@ -49,21 +43,23 @@ export const AktivitetskravHistorikk = () => {
   );
 
   return (
-    <Panel className="mb-4 flex flex-col p-8">
-      <FlexRow bottomPadding={PaddingSize.MD}>
-        <FlexColumn>
-          <Heading level="2" size="large">
-            {texts.header}
-          </Heading>
-          <BodyShort size="small">{texts.subHeader}</BodyShort>
-        </FlexColumn>
-      </FlexRow>
+    <Box
+      background="surface-default"
+      padding="8"
+      className="flex flex-col mb-4 gap-8"
+    >
+      <div>
+        <Heading level="2" size="large">
+          {texts.header}
+        </Heading>
+        <BodyShort size="small">{texts.subHeader}</BodyShort>
+      </div>
       <Accordion>
         {vurderinger.sort(byCreatedAt).map((vurdering, index) => (
           <HistorikkElement key={index} vurdering={vurdering} />
         ))}
       </Accordion>
-    </Panel>
+    </Box>
   );
 };
 
@@ -132,30 +128,16 @@ const HistorikkElement = ({ vurdering }: HistorikkElementProps) => {
       </Accordion.Header>
       <Accordion.Content>
         {arsaker.length > 0 && (
-          <Paragraph title={texts.arsakTitle} body={arsakerText()} />
+          <Paragraph label={texts.arsakTitle} body={arsakerText()} />
         )}
         {!!beskrivelse && (
-          <Paragraph title={beskrivelseTitle} body={beskrivelse} />
+          <Paragraph label={beskrivelseTitle} body={beskrivelse} />
         )}
-        <Paragraph title={texts.vurdertAv} body={veilederinfo?.navn ?? ""} />
+        <Paragraph label={texts.vurdertAv} body={veilederinfo?.navn ?? ""} />
         {status === AktivitetskravStatus.FORHANDSVARSEL && varsel?.document && (
           <VisBrev document={varsel.document} />
         )}
       </Accordion.Content>
     </Accordion.Item>
-  );
-};
-
-interface ParagraphProps {
-  title: string;
-  body: string;
-}
-
-const Paragraph = ({ title, body }: ParagraphProps) => {
-  return (
-    <div className="mb-4">
-      <b>{title}</b>
-      <BodyLong size="small">{body}</BodyLong>
-    </div>
   );
 };

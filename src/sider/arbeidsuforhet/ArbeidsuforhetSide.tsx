@@ -10,6 +10,7 @@ import { SendForhandsvarselSkjema } from "@/sider/arbeidsuforhet/SendForhandsvar
 import { ForhandsvarselSendt } from "@/sider/arbeidsuforhet/ForhandsvarselSendt";
 import { useArbeidsuforhetVurderingQuery } from "@/data/arbeidsuforhet/arbeidsuforhetQueryHooks";
 import { VurderingType } from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
+import { VurderingHistorikk } from "@/sider/arbeidsuforhet/historikk/VurderingHistorikk";
 
 const texts = {
   title: "Forhåndsvarsel §8-4",
@@ -26,13 +27,16 @@ export const ArbeidsuforhetSide = (): ReactElement => {
         <Tredelt.Container>
           <Tredelt.FirstColumn>
             <NotificationProvider>
-              {!!sisteVurdering &&
-              sisteVurdering.type === VurderingType.FORHANDSVARSEL ? (
-                <ForhandsvarselSendt />
-              ) : (
-                <SendForhandsvarselSkjema />
-              )}
+              <div className="mb-4">
+                {!!sisteVurdering &&
+                sisteVurdering.type === VurderingType.FORHANDSVARSEL ? (
+                  <ForhandsvarselSendt />
+                ) : (
+                  <SendForhandsvarselSkjema />
+                )}
+              </div>
             </NotificationProvider>
+            <VurderingHistorikk />
           </Tredelt.FirstColumn>
           <Tredelt.SecondColumn>
             <UtdragFraSykefravaeret />
