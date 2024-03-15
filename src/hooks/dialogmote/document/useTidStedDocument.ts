@@ -43,7 +43,7 @@ export const useTidStedDocument = (
   const navBruker = useNavBrukerData();
   const hilsenParagraph = createParagraph(
     commonTexts.hilsen,
-    veilederinfo?.navn || "",
+    veilederinfo?.fulltNavn() || "",
     `NAV`
   );
 

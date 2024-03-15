@@ -46,7 +46,10 @@ const VurderingHistorikkItem = ({ vurdering }: VurderingHistorikkItemProps) => {
       <Accordion.Header>{header}</Accordion.Header>
       <Accordion.Content>
         <Paragraph label={texts.begrunnelseLabel} body={begrunnelse} />
-        <Paragraph label={texts.vurdertLabel} body={veilederinfo?.navn ?? ""} />
+        <Paragraph
+          label={texts.vurdertLabel}
+          body={veilederinfo?.fulltNavn() ?? ""}
+        />
       </Accordion.Content>
     </Accordion.Item>
   );

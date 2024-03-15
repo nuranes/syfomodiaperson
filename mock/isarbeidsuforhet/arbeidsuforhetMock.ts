@@ -70,7 +70,7 @@ const getSendForhandsvarselDocument = (
       type: DocumentComponentType.PARAGRAPH,
     },
     {
-      texts: ["Med vennlig hilsen", VEILEDER_DEFAULT.navn, "NAV"],
+      texts: ["Med vennlig hilsen", VEILEDER_DEFAULT.fulltNavn(), "NAV"],
       type: DocumentComponentType.PARAGRAPH,
     },
   ];

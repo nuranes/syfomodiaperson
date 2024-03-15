@@ -10,11 +10,15 @@ export const useDocumentComponents = () => {
 
   return {
     getHilsen: () =>
-      createParagraph("Med vennlig hilsen", veilederinfo?.navn || "", "NAV"),
+      createParagraph(
+        "Med vennlig hilsen",
+        veilederinfo?.fulltNavn() || "",
+        "NAV"
+      ),
     getIntroHei: () => createParagraph(`Hei, ${navBruker.navn}`),
     getIntroGjelder: () =>
       createParagraph(`Gjelder ${navBruker.navn}, f.nr. ${valgtPersonident}`),
     getVurdertAv: () =>
-      createParagraph(`Vurdert av ${veilederinfo?.navn || ""}`),
+      createParagraph(`Vurdert av ${veilederinfo?.fulltNavn()}`),
   };
 };

@@ -4,7 +4,7 @@ import { SYFOVEILEDER_ROOT } from "../../src/apiConstants";
 
 export const mockSyfoveileder = (server: any) => {
   server.get(
-    `${SYFOVEILEDER_ROOT}/veileder/self`,
+    `${SYFOVEILEDER_ROOT}/veiledere/self`,
     (req: express.Request, res: express.Response) => {
       res.setHeader("Content-Type", "application/json");
       res.send(JSON.stringify(veilederMock));
@@ -12,7 +12,7 @@ export const mockSyfoveileder = (server: any) => {
   );
 
   server.get(
-    `${SYFOVEILEDER_ROOT}/veileder/:ident`,
+    `${SYFOVEILEDER_ROOT}/veiledere/:ident`,
     (req: express.Request, res: express.Response) => {
       res.setHeader("Content-Type", "application/json");
       res.send(JSON.stringify(veilederMock));

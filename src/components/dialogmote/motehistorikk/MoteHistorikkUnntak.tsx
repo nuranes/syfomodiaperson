@@ -64,7 +64,10 @@ export const MoteHistorikkUnntak = ({
   unntak,
 }: MoteHistorikkUnntakProps): ReactElement => {
   const { data: veilederinfo } = useVeilederInfoQuery(unntak.createdBy);
-  const unntakDocument = createUnntakDocument(unntak, veilederinfo?.navn);
+  const unntakDocument = createUnntakDocument(
+    unntak,
+    veilederinfo?.fulltNavn()
+  );
   return (
     <ForhandsvisDocumentAccordionItem document={unntakDocument}>
       {unntakLenkeText(unntak.createdAt)}

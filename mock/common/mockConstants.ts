@@ -1,5 +1,6 @@
 import { NarmesteLederRelasjonStatus } from "../../src/data/leder/ledereTypes";
 import { RSContext } from "../../src/data/modiacontext/modiacontextTypes";
+import { Veileder } from "@/data/veilederinfo/types/Veileder";
 
 export const TODAY = new Date().setHours(0, 0, 0, 0);
 
@@ -41,14 +42,13 @@ export const BEHANDLENDE_ENHET_DEFAULT = {
 
 export const VEILEDER_IDENT_DEFAULT = "Z990000";
 
-export const VEILEDER_DEFAULT = {
-  ident: VEILEDER_IDENT_DEFAULT,
-  navn: "Vetle Veileder",
-  fornavn: "Vetle",
-  etternavn: "Veileder",
-  epost: "vetle.veileder@nav.no",
-  telefonnummer: "12345678",
-};
+export const VEILEDER_DEFAULT = new Veileder(
+  VEILEDER_IDENT_DEFAULT,
+  "Vetle",
+  "Veileder",
+  "vetle.veileder@nav.no",
+  "12345678"
+);
 
 export const VIRKSOMHET_PONTYPANDY = {
   virksomhetsnavn: "PONTYPANDY FIRE SERVICE",

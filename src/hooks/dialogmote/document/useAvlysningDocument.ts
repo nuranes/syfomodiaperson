@@ -53,7 +53,7 @@ export const useAvlysningDocument = (
   // TODO: Samme her
   const hilsenParagraph = createParagraph(
     commonTexts.hilsen,
-    veilederinfo?.navn || "",
+    veilederinfo?.fulltNavn() || "",
     `NAV`
   );
 

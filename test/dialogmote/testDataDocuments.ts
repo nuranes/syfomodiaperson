@@ -116,7 +116,7 @@ const expectedArbeidstakerInnkalling = (
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: ["Med vennlig hilsen", veileder.navn ?? "", "NAV"],
+    texts: ["Med vennlig hilsen", veileder.fulltNavn(), "NAV"],
     type: DocumentComponentType.PARAGRAPH,
   },
 ];
@@ -193,7 +193,7 @@ const expectedArbeidsgiverInnkalling = (
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: ["Med vennlig hilsen", veileder.navn ?? "", "NAV"],
+    texts: ["Med vennlig hilsen", veileder.fulltNavn(), "NAV"],
     type: DocumentComponentType.PARAGRAPH,
   },
   {
@@ -256,7 +256,7 @@ const expectedBehandlerInnkalling = (): DocumentComponentDto[] => [
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: ["Med vennlig hilsen", veileder.navn ?? "", "NAV"],
+    texts: ["Med vennlig hilsen", veileder.fulltNavn(), "NAV"],
     type: DocumentComponentType.PARAGRAPH,
   },
 ];
@@ -348,7 +348,7 @@ const expectedArbeidsgiverEndringsdokument = (
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: ["Med vennlig hilsen", veileder.navn ?? "", "NAV"],
+    texts: ["Med vennlig hilsen", veileder.fulltNavn(), "NAV"],
     type: DocumentComponentType.PARAGRAPH,
   },
   {
@@ -444,7 +444,7 @@ const expectedArbeidstakerEndringsdokument = (
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: ["Med vennlig hilsen", veileder.navn ?? "", "NAV"],
+    texts: ["Med vennlig hilsen", veileder.fulltNavn(), "NAV"],
     type: DocumentComponentType.PARAGRAPH,
   },
 ];
@@ -511,7 +511,7 @@ const expectedBehandlerEndringsdokument = (): DocumentComponentDto[] => [
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: ["Med vennlig hilsen", veileder.navn ?? "", "NAV"],
+    texts: ["Med vennlig hilsen", veileder.fulltNavn(), "NAV"],
     type: DocumentComponentType.PARAGRAPH,
   },
 ];
@@ -549,7 +549,7 @@ const expectedAvlysningArbeidsgiver = (): DocumentComponentDto[] => [
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: ["Med vennlig hilsen", veileder.navn ?? "", "NAV"],
+    texts: ["Med vennlig hilsen", veileder.fulltNavn(), "NAV"],
     type: DocumentComponentType.PARAGRAPH,
   },
 ];
@@ -587,7 +587,7 @@ const expectedAvlysningArbeidstaker = (): DocumentComponentDto[] => [
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: ["Med vennlig hilsen", veileder.navn ?? "", "NAV"],
+    texts: ["Med vennlig hilsen", veileder.fulltNavn(), "NAV"],
     type: DocumentComponentType.PARAGRAPH,
   },
 ];
@@ -625,7 +625,7 @@ const expectedAvlysningBehandler = (): DocumentComponentDto[] => [
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: ["Med vennlig hilsen", veileder.navn ?? "", "NAV"],
+    texts: ["Med vennlig hilsen", veileder.fulltNavn(), "NAV"],
     type: DocumentComponentType.PARAGRAPH,
   },
 ];
@@ -660,7 +660,7 @@ export const expectedReferatDocument = (): DocumentComponentDto[] => [
   {
     texts: [
       `${referatTextsBokmal.deltakere.arbeidstaker}: ${arbeidstaker.navn}`,
-      `${referatTextsBokmal.deltakere.nav}: ${veileder.navn}`,
+      `${referatTextsBokmal.deltakere.nav}: ${veileder.fulltNavn()}`,
       `${referatTextsBokmal.deltakere.arbeidsgiver}: ${narmesteLederNavn}`,
       `${referatTextsBokmal.deltakere.behandler}: ${behandlerNavn(behandler)}`,
       `${annenDeltakerFunksjon}: ${annenDeltakerNavn}`,
@@ -716,7 +716,7 @@ export const expectedReferatDocument = (): DocumentComponentDto[] => [
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: [commonTextsBokmal.hilsen, veileder.navn ?? "", "NAV"],
+    texts: [commonTextsBokmal.hilsen, veileder.fulltNavn(), "NAV"],
     type: DocumentComponentType.PARAGRAPH,
   },
 ];
@@ -760,7 +760,7 @@ export const expectedEndretReferatDocument = (): DocumentComponentDto[] => [
   {
     texts: [
       `${referatTextsBokmal.deltakere.arbeidstaker}: ${arbeidstaker.navn}`,
-      `${referatTextsBokmal.deltakere.nav}: ${veileder.navn}`,
+      `${referatTextsBokmal.deltakere.nav}: ${veileder.fulltNavn()}`,
       `${referatTextsBokmal.deltakere.arbeidsgiver}: ${narmesteLederNavn}`,
     ],
     title: referatTextsBokmal.deltakereTitle,
@@ -809,7 +809,7 @@ export const expectedEndretReferatDocument = (): DocumentComponentDto[] => [
     type: DocumentComponentType.PARAGRAPH,
   },
   {
-    texts: [commonTextsBokmal.hilsen, veileder.navn ?? "", "NAV"],
+    texts: [commonTextsBokmal.hilsen, veileder.fulltNavn(), "NAV"],
     type: DocumentComponentType.PARAGRAPH,
   },
 ];

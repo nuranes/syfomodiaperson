@@ -4,10 +4,10 @@ import { SYFOVEILEDER_ROOT } from "@/apiConstants";
 
 export const stubAktivVeilederinfoApi = (scope: nock.Scope) =>
   scope
-    .get(`${SYFOVEILEDER_ROOT}/veileder/self`)
+    .get(`${SYFOVEILEDER_ROOT}/veiledere/self`)
     .reply(200, () => veilederMock);
 
 export const stubVeilederinfoApi = (scope: nock.Scope) =>
   scope
-    .get(`${SYFOVEILEDER_ROOT}/veileder/${veilederMock.ident}`)
+    .get(`${SYFOVEILEDER_ROOT}/veiledere/${veilederMock.ident}`)
     .reply(200, () => veilederMock);

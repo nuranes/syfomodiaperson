@@ -106,7 +106,7 @@ const vurderingGjelder = {
 };
 
 const vurderingHilsen = {
-  texts: [`Vurdert av ${VEILEDER_DEFAULT.navn}`],
+  texts: [`Vurdert av ${VEILEDER_DEFAULT.fulltNavn()}`],
   type: DocumentComponentType.PARAGRAPH,
 };
 
@@ -184,7 +184,7 @@ export const getSendForhandsvarselDocument = (
       type: DocumentComponentType.PARAGRAPH,
     },
     {
-      texts: ["Med vennlig hilsen", VEILEDER_DEFAULT.navn, "NAV"],
+      texts: ["Med vennlig hilsen", VEILEDER_DEFAULT.fulltNavn(), "NAV"],
       type: DocumentComponentType.PARAGRAPH,
     },
   ];

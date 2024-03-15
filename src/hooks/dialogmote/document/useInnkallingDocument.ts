@@ -52,7 +52,7 @@ export const useInnkallingDocument = (): IInnkallingDocument => {
 
   const hilsenParagraph = createParagraph(
     commonTexts.hilsen,
-    veilederinfo?.navn || "",
+    veilederinfo?.fulltNavn() || "",
     `NAV`
   );
   const gjelderParagraph = createParagraph(

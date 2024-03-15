@@ -196,7 +196,9 @@ const Deltakere = ({ behandler }: DeltakereProps): ReactElement => {
       </FlexRow>
       <FlexRow leftPadding={PaddingSize.SM} bottomPadding={PaddingSize.MD}>
         <PersonPencilIcon {...deltakerIconProps} />
-        <DeltakerTekst size="small">{`Fra NAV: ${veilederinfo?.navn}`}</DeltakerTekst>
+        <DeltakerTekst size="small">
+          {`Fra NAV: ${veilederinfo?.fulltNavn()}`}
+        </DeltakerTekst>
       </FlexRow>
       <DeltakerArbeidsgiver />
       {behandler && <DeltakerBehandler behandler={behandler} />}

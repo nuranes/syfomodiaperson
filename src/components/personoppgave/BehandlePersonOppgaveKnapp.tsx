@@ -56,7 +56,7 @@ const BehandlePersonOppgaveKnapp = ({
   );
   const oppgaveKnappText =
     isBehandlet && personOppgave
-      ? getFerdigbehandletText(personOppgave, veilederInfo?.navn)
+      ? getFerdigbehandletText(personOppgave, veilederInfo?.fulltNavn())
       : behandleOppgaveText;
 
   return (

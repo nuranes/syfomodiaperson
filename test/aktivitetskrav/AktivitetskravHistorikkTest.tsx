@@ -150,7 +150,7 @@ describe("AktivitetskravHistorikk", () => {
     expect(screen.getByText(beskrivelseTitle)).to.exist;
     expect(screen.getByText(friskmeldtBeskrivelse)).to.exist;
     expect(screen.getByText(vurdertAvTitle)).to.exist;
-    expect(screen.getByText(VEILEDER_DEFAULT.navn)).to.exist;
+    expect(screen.getByText(VEILEDER_DEFAULT.fulltNavn())).to.exist;
   });
   it("klikk på overskrift viser årsak med tittel og veileder-navn, uten beskrivelse og tittel hvis beskrivelse mangler", () => {
     renderAktivitetskravHistorikk([oppfyltVurderingWithoutBeskrivelse]);
@@ -163,7 +163,7 @@ describe("AktivitetskravHistorikk", () => {
     expect(screen.queryByText(beskrivelseTitle)).to.not.exist;
     expect(screen.queryByText(friskmeldtBeskrivelse)).to.not.exist;
     expect(screen.getByText(vurdertAvTitle)).to.exist;
-    expect(screen.getByText(VEILEDER_DEFAULT.navn)).to.exist;
+    expect(screen.getByText(VEILEDER_DEFAULT.fulltNavn())).to.exist;
   });
   it("klikk på overskrift viser kun veiledernavn hvis årsak og beskrivelse mangler", () => {
     renderAktivitetskravHistorikk([ikkeOppfyltVurdering]);
@@ -176,7 +176,7 @@ describe("AktivitetskravHistorikk", () => {
     expect(screen.queryByText(beskrivelseTitle)).to.not.exist;
     expect(screen.queryByText(friskmeldtBeskrivelse)).to.not.exist;
     expect(screen.getByText(vurdertAvTitle)).to.exist;
-    expect(screen.getByText(VEILEDER_DEFAULT.navn)).to.exist;
+    expect(screen.getByText(VEILEDER_DEFAULT.fulltNavn())).to.exist;
   });
   it("viser riktig overskrift for STANS-vurdering", () => {
     renderAktivitetskravHistorikk([stansVurdering]);
@@ -212,7 +212,7 @@ describe("AktivitetskravHistorikk", () => {
     expect(screen.getByText("Beskrivelse")).to.exist;
     expect(screen.getByText("Avventer litt")).to.exist;
     expect(screen.getByText(vurdertAvTitle)).to.exist;
-    expect(screen.getByText(VEILEDER_DEFAULT.navn)).to.exist;
+    expect(screen.getByText(VEILEDER_DEFAULT.fulltNavn())).to.exist;
   });
   it("Viser knapp for å se hele forhåndsvarsel-brevet dersom vurderingen var et forhåndsvarsel", () => {
     renderAktivitetskravHistorikk([forhandsvarselVurdering]);
@@ -224,7 +224,7 @@ describe("AktivitetskravHistorikk", () => {
     expect(screen.getByText(beskrivelseTitle)).to.exist;
     expect(screen.getByText(enBeskrivelse)).to.exist;
     expect(screen.getByText(vurdertAvTitle)).to.exist;
-    expect(screen.getByText(VEILEDER_DEFAULT.navn)).to.exist;
+    expect(screen.getByText(VEILEDER_DEFAULT.fulltNavn())).to.exist;
     expect(button).to.exist;
 
     userEvent.click(button);

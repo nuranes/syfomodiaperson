@@ -98,7 +98,7 @@ export const MeldingInnholdPanel = ({ melding }: MeldingInnholdPanelProps) => {
   );
   const avsender = melding.innkommende
     ? melding.behandlerNavn
-    : veilederInfo?.navn;
+    : veilederInfo?.fulltNavn() || "";
 
   return (
     <Panel border>

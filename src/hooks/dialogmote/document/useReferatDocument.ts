@@ -15,7 +15,6 @@ import {
   createParagraphWithTitle,
 } from "@/utils/documentComponentUtils";
 import { BrukerinfoDTO } from "@/data/navbruker/types/BrukerinfoDTO";
-import { VeilederinfoDTO } from "@/data/veilederinfo/types/VeilederinfoDTO";
 import {
   getCommonTexts,
   getReferatTexts,
@@ -28,6 +27,7 @@ import {
   DocumentComponentType,
 } from "@/data/documentcomponent/documentComponentTypes";
 import { useMalform } from "@/context/malform/MalformContext";
+import { Veileder } from "@/data/veilederinfo/types/Veileder";
 
 export interface IReferatDocument {
   getReferatDocument(
@@ -48,7 +48,7 @@ export const useReferatDocument = (
   const commonTexts = getCommonTexts(malform);
   const hilsenParagraph = createParagraph(
     commonTexts.hilsen,
-    veilederinfo?.navn || "",
+    veilederinfo?.fulltNavn() || "",
     `NAV`
   );
   const personident = useValgtPersonident();
@@ -65,11 +65,11 @@ export const useReferatDocument = (
     values: Partial<ReferatSkjemaValues>,
     navbruker: BrukerinfoDTO,
     personident: string,
-    veileder?: VeilederinfoDTO
+    veileder?: Veileder
   ): DocumentComponentDto[] => {
     const deltakereTekst = [
       `${referatTexts.deltakere.arbeidstaker}: ${navbruker.navn}`,
-      `${referatTexts.deltakere.nav}: ${veileder?.navn}`,
+      `${referatTexts.deltakere.nav}: ${veileder?.fulltNavn()}`,
       `${referatTexts.deltakere.arbeidsgiver}: ${values.naermesteLeder}`,
     ];
     if (dialogmote.behandler) {

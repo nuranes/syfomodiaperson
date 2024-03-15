@@ -79,8 +79,9 @@ describe("ReferatTest", () => {
   it("viser alle deltakere forhåndsutfylt med 'Fra arbeidsgiver' redigerbar og påkrevd", () => {
     renderReferat(dialogmote);
 
-    expect(screen.getByRole("heading", { name: `Fra NAV: ${veileder.navn}` }))
-      .to.exist;
+    expect(
+      screen.getByRole("heading", { name: `Fra NAV: ${veileder.fulltNavn()}` })
+    ).to.exist;
     expect(
       screen.getByRole("heading", {
         name: `Arbeidstaker: ${arbeidstaker.navn}`,

@@ -120,7 +120,7 @@ describe("VurderingHistorikk", () => {
       expect(screen.getByText("Begrunnelse")).to.exist;
       expect(screen.getByText(oppfylt.begrunnelse)).to.exist;
       expect(screen.getByText("Vurdert av")).to.exist;
-      expect(screen.getByText(VEILEDER_DEFAULT.navn)).to.exist;
+      expect(screen.getByText(VEILEDER_DEFAULT.fulltNavn())).to.exist;
     });
   });
 });

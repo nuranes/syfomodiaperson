@@ -133,7 +133,10 @@ const HistorikkElement = ({ vurdering }: HistorikkElementProps) => {
         {!!beskrivelse && (
           <Paragraph label={beskrivelseTitle} body={beskrivelse} />
         )}
-        <Paragraph label={texts.vurdertAv} body={veilederinfo?.navn ?? ""} />
+        <Paragraph
+          label={texts.vurdertAv}
+          body={veilederinfo?.fulltNavn() ?? ""}
+        />
         {status === AktivitetskravStatus.FORHANDSVARSEL && varsel?.document && (
           <VisBrev document={varsel.document} />
         )}
