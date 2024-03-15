@@ -88,19 +88,15 @@ describe("ForhandsvarselSendt", () => {
 
       renderForhandsvarselSendt();
 
+      expect(screen.getByText("Fristen er utgått!")).to.exist;
+      expect(screen.getByText(tilLesbarDatoMedArUtenManedNavn(new Date()))).to
+        .exist;
+      expect(screen.getByRole("img", { name: "bjelleikon" })).to.exist;
       expect(
         screen.getByText(
           `Forhåndsvarselet som ble sendt ut ${tilLesbarDatoMedArUtenManedNavn(
             createdAt
-          )} er gått ut!`
-        )
-      ).to.exist;
-      expect(screen.getByText("Venter på svar fra bruker")).to.exist;
-      expect(screen.getByText("Fristen er utgått!")).to.exist;
-      expect(screen.getByRole("img", { name: "bjelleikon" })).to.exist;
-      expect(
-        screen.getByText(
-          "Tiden har gått ut og du kan nå gå videre med å sende avslag."
+          )} er gått ut! Du kan nå gi avslag på Arbeidsuførhet.`
         )
       ).to.exist;
       expect(screen.getByRole("button", { name: "Avslag" })).to.have.property(
