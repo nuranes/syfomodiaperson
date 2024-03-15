@@ -34,6 +34,7 @@ const texts = {
   begrunnelse: {
     label: "Begrunnelse",
     missing: "Vennligst angi begrunnelse",
+    description: "Når du trykker Lagre journalføres vurderingen automatisk.",
   },
 };
 
@@ -125,6 +126,7 @@ export const IkkeAktuellAktivitetskravSkjema = ({
         })}
         value={watch("begrunnelse")}
         label={texts.begrunnelse.label}
+        description={texts.begrunnelse.description}
         error={errors.begrunnelse && texts.begrunnelse.missing}
         size="small"
         minRows={6}

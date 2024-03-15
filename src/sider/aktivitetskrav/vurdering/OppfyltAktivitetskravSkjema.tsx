@@ -23,6 +23,8 @@ const texts = {
   title: "Er i aktivitet",
   arsakLegend: "Årsak (obligatorisk)",
   begrunnelseLabel: "Begrunnelse",
+  begrunnelseDescription:
+    "Når du trykker Lagre journalføres vurderingen automatisk.",
   missingArsak: "Vennligst angi årsak",
   lagre: "Lagre",
 };
@@ -100,6 +102,7 @@ export const OppfyltAktivitetskravSkjema = ({
           })}
           value={watch("begrunnelse")}
           label={texts.begrunnelseLabel}
+          description={texts.begrunnelseDescription}
           size="small"
           minRows={6}
           maxLength={begrunnelseMaxLength}

@@ -4,7 +4,7 @@ import {
   AktivitetskravStatus,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { VurderAktivitetskravTabs } from "@/sider/aktivitetskrav/vurdering/VurderAktivitetskravTabs";
-import { Heading, Panel } from "@navikt/ds-react";
+import { Box, Heading } from "@navikt/ds-react";
 import { VurderAktivitetskravButtons } from "@/sider/aktivitetskrav/vurdering/VurderAktivitetskravButtons";
 import { GjelderOppfolgingstilfelle } from "@/sider/aktivitetskrav/GjelderOppfolgingstilfelle";
 import { oppfolgingstilfelleForAktivitetskrav } from "@/utils/aktivitetskravUtils";
@@ -44,7 +44,10 @@ export const VurderAktivitetskrav = ({
           beskrivelse={currentVurdering.beskrivelse}
         />
       )}
-      <Panel className="mb-4 flex flex-col pt-4 pr-4 pb-8 pl-8">
+      <Box
+        background="surface-default"
+        className="mb-4 flex flex-col pt-4 pr-4 pb-8 pl-8"
+      >
         <VurderAktivitetskravButtons aktivitetskrav={aktivitetskrav} />
         <Heading level="2" size="large" className="mb-1">
           {texts.header}
@@ -55,7 +58,7 @@ export const VurderAktivitetskrav = ({
           />
         )}
         <VurderAktivitetskravTabs aktivitetskrav={aktivitetskrav} />
-      </Panel>
+      </Box>
     </>
   );
 };

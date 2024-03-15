@@ -23,6 +23,8 @@ const texts = {
   title: "Sett unntak fra aktivitetskravet",
   arsakLegend: "Årsak (obligatorisk)",
   begrunnelseLabel: "Begrunnelse (obligatorisk)",
+  begrunnelseDescription:
+    "Når du trykker Lagre journalføres vurderingen automatisk.",
   missingArsak: "Vennligst angi årsak",
   missingBegrunnelse: "Vennligst angi begrunnelse",
   lagre: "Lagre",
@@ -101,6 +103,7 @@ export const UnntakAktivitetskravSkjema = ({
           error={errors.begrunnelse && texts.missingBegrunnelse}
           value={watch("begrunnelse")}
           label={texts.begrunnelseLabel}
+          description={texts.begrunnelseDescription}
           size="small"
           minRows={6}
           maxLength={begrunnelseMaxLength}

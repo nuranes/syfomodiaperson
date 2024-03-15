@@ -21,7 +21,7 @@ const texts = {
   title: "Send forhåndsvarsel",
   beskrivelseLabel: "Begrunnelse (obligatorisk)",
   begrunnelseDescription:
-    "Begrunnelsen din blir en del av en større brevmal. Åpne forhåndsvisning for å se hele varselet.",
+    "Begrunnelsen din blir en del av en større brevmal. Åpne forhåndsvisning for å se hele varselet. Varselet journalføres automatisk etter utsending.",
   forhandsvisning: "Forhåndsvisning",
   forhandsvisningLabel: "Forhåndsvis forhåndsvarselet",
   missingBeskrivelse: "Vennligst angi begrunnelse",
