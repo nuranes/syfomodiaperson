@@ -1,6 +1,6 @@
 import { NarmesteLederRelasjonStatus } from "../../src/data/leder/ledereTypes";
 import { RSContext } from "../../src/data/modiacontext/modiacontextTypes";
-import { Veileder } from "@/data/veilederinfo/types/Veileder";
+import { Veileder } from "../../src/data/veilederinfo/types/Veileder";
 
 export const TODAY = new Date().setHours(0, 0, 0, 0);
 
