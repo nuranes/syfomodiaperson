@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { oppfolgingsoppgaveQueryKeys } from "@/data/oppfolgingsoppgave/useGetOppfolgingsoppgave";
 import { OppfolgingsoppgaveRequestDTO } from "@/data/oppfolgingsoppgave/types";
 
-export const useOppdaterOppfolgingsoppgave = () => {
+export const useCreateOppfolgingsoppgave = () => {
   const personident = useValgtPersonident();
   const queryClient = useQueryClient();
   const path = `${ISHUSKELAPP_ROOT}/huskelapp`;

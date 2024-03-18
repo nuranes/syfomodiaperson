@@ -8,22 +8,22 @@ const texts = {
 };
 
 export const OpenOppfolgingsoppgaveModalButton = () => {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <div>
       <Button
         variant="secondary"
-        onClick={() => setModalIsOpen(!modalIsOpen)}
+        onClick={() => setIsModalOpen(!isModalOpen)}
         className="mb-2"
         icon={<PlusCircleIcon aria-hidden />}
       >
         {texts.openModal}
       </Button>
-      {modalIsOpen && (
+      {isModalOpen && (
         <OppfolgingsoppgaveModal
-          isOpen={modalIsOpen}
-          toggleOpen={setModalIsOpen}
+          isOpen={isModalOpen}
+          toggleOpen={setIsModalOpen}
         />
       )}
     </div>

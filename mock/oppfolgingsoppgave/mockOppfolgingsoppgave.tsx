@@ -2,6 +2,7 @@ import { ISHUSKELAPP_ROOT } from "../../src/apiConstants";
 import { NAV_PERSONIDENT_HEADER } from "../util/requestUtil";
 import express from "express";
 import {
+  EditOppfolgingsoppgaveRequestDTO,
   OppfolgingsoppgaveRequestDTO,
   OppfolgingsoppgaveResponseDTO,
 } from "@/data/oppfolgingsoppgave/types";
@@ -21,6 +22,26 @@ export const mockIshuskelapp = (server: any) => {
           : res.sendStatus(204);
       } else {
         res.status(400).send("Did not find PersonIdent in headers");
+      }
+    }
+  );
+  server.post(
+    `${ISHUSKELAPP_ROOT}/huskelapp/:huskelappUuid`,
+    (req: express.Request, res: express.Response) => {
+      const body = req.body as EditOppfolgingsoppgaveRequestDTO;
+      if (oppfolgingsoppgaveMock) {
+        oppfolgingsoppgaveMock = {
+          uuid: oppfolgingsoppgaveMock.uuid,
+          createdBy: oppfolgingsoppgaveMock.createdBy,
+          updatedAt: oppfolgingsoppgaveMock.updatedAt,
+          createdAt: oppfolgingsoppgaveMock.createdAt,
+          oppfolgingsgrunn: oppfolgingsoppgaveMock.oppfolgingsgrunn,
+          tekst: oppfolgingsoppgaveMock.tekst,
+          frist: body.frist,
+        };
+        res.send(JSON.stringify(oppfolgingsoppgaveMock));
+      } else {
+        res.sendStatus(500);
       }
     }
   );

@@ -290,10 +290,6 @@ export const addWeeks = (date: Date, numberOfWeeks: number): Date => {
   return dayjs(date, { utc: true }).add(numberOfWeeks, "weeks").toDate();
 };
 
-export const getEarliestDate = (date1, date2): Date => {
-  return new Date(date1) < new Date(date2) ? new Date(date1) : new Date(date2);
-};
-
 export const getWeeksBetween = (date1, date2): number => {
   return Math.abs(dayjs(date1).diff(date2, "week"));
 };

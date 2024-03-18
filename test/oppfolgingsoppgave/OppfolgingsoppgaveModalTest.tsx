@@ -1,6 +1,12 @@
 import { queryClientWithMockData } from "../testQueryClient";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import React from "react";
 import {
   VEILEDER_DEFAULT,
@@ -10,6 +16,7 @@ import {
   OppfolgingsoppgaveRequestDTO,
   OppfolgingsoppgaveResponseDTO,
   Oppfolgingsgrunn,
+  EditOppfolgingsoppgaveRequestDTO,
 } from "@/data/oppfolgingsoppgave/types";
 import { generateUUID } from "@/utils/uuidUtils";
 import { expect } from "chai";
@@ -65,6 +72,8 @@ describe("Oppfolgingsoppgave", () => {
       expect(await screen.findByText(oppfolgingsoppgaveOppfogingsgrunnText)).to
         .exist;
       expect(await screen.findByText("Frist: 01.01.2030")).to.exist;
+      expect(await screen.findByRole("button", { hidden: true, name: "Endre" }))
+        .to.exist;
       expect(await screen.findByRole("button", { hidden: true, name: "Fjern" }))
         .to.exist;
       expect(
@@ -90,6 +99,58 @@ describe("Oppfolgingsoppgave", () => {
       expect(fjernOppfolgingsoppgaveMutation.state.variables).to.deep.equal(
         oppfolgingsoppgave.uuid
       );
+    });
+    it("edit opens oppfolgingsoppgavemodal", async () => {
+      renderOppfolgingsoppgave();
+
+      const editButton = await screen.findByRole("button", {
+        hidden: true,
+        name: "Endre",
+      });
+      userEvent.click(editButton);
+
+      const dialogs = await screen.findAllByRole("dialog", {
+        hidden: true,
+      });
+      const oppfolgingsoppgaveModal = dialogs[0];
+      expect(oppfolgingsoppgaveModal).to.exist;
+      expect(within(oppfolgingsoppgaveModal).getByText("Lagre")).to.exist;
+      expect(within(oppfolgingsoppgaveModal).getByText("Avbryt")).to.exist;
+    });
+    it("edit date of existing oppfolgingsoppgavemodal", async () => {
+      renderOppfolgingsoppgave();
+
+      const editButton = await screen.findByRole("button", {
+        hidden: true,
+        name: "Endre",
+      });
+      userEvent.click(editButton);
+
+      const fristDateInput = screen.getByRole("textbox", {
+        hidden: true,
+        name: "Frist",
+      });
+      const fristDate = dayjs();
+      changeTextInput(fristDateInput, fristDate.format("DD-MM-YY"));
+
+      const lagreButton = screen.getByRole("button", {
+        hidden: true,
+        name: "Lagre",
+      });
+      userEvent.click(lagreButton);
+
+      await waitFor(() => {
+        const endreOppfolgingsoppgaveMutation = queryClient
+          .getMutationCache()
+          .getAll();
+        const expectedOppfolgingsoppgave: EditOppfolgingsoppgaveRequestDTO = {
+          tekst: "Dette var en veldig god grunn for å lage oppfolgingsoppgave.",
+          frist: fristDate.format("YYYY-MM-DD"),
+        };
+        expect(
+          endreOppfolgingsoppgaveMutation[0].state.variables
+        ).to.deep.equal(expectedOppfolgingsoppgave);
+      });
     });
   });
   describe("OppfolgingsoppgaveModal: no oppfolgingsoppgave exists", () => {

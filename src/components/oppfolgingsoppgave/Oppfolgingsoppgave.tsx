@@ -7,17 +7,18 @@ import {
   Tag,
   Tooltip,
 } from "@navikt/ds-react";
-import { TrashIcon } from "@navikt/aksel-icons";
-import React from "react";
+import React, { useState } from "react";
 import { OpenOppfolgingsoppgaveModalButton } from "@/components/oppfolgingsoppgave/OpenOppfolgingsoppgaveModalButton";
 import { useGetOppfolgingsoppgave } from "@/data/oppfolgingsoppgave/useGetOppfolgingsoppgave";
 import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
 import { useVeilederInfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
 import { oppfolgingsgrunnToText } from "@/data/oppfolgingsoppgave/types";
+import { OppfolgingsoppgaveModal } from "@/components/oppfolgingsoppgave/OppfolgingsoppgaveModal";
 import { Veileder } from "@/data/veilederinfo/types/Veileder";
 
 const texts = {
   title: "Oppfølgingsoppgave",
+  edit: "Endre",
   remove: "Fjern",
   removeTooltip: "Fjerner oppfølgingsoppgaven fra oversikten",
   createdBy: (veileder: Veileder, createdAt: Date) =>
@@ -27,6 +28,7 @@ const texts = {
 };
 
 export const Oppfolgingsoppgave = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const removeOppfolgingsoppgave = useRemoveOppfolgingsoppgave();
   const { oppfolgingsoppgave } = useGetOppfolgingsoppgave();
   const { data: veilederinfo } = useVeilederInfoQuery(
@@ -72,11 +74,19 @@ export const Oppfolgingsoppgave = () => {
           <BodyShort className="mb-4">{beskrivelse}</BodyShort>
         </>
       )}
+      <Button
+        type="button"
+        variant={"primary-neutral"}
+        onClick={() => setIsModalOpen(true)}
+        className={"ml-auto mr-4"}
+        size={"small"}
+      >
+        {texts.edit}
+      </Button>
       <Tooltip content={texts.removeTooltip}>
         <Button
           type="button"
-          icon={<TrashIcon aria-hidden />}
-          variant={"primary-neutral"}
+          variant={"secondary-neutral"}
           onClick={() =>
             handleRemoveOppfolgingsoppgave(oppfolgingsoppgave.uuid)
           }
@@ -91,6 +101,13 @@ export const Oppfolgingsoppgave = () => {
         <BodyShort size="small" textColor="subtle" className="mt-2 text-xs">
           {texts.createdBy(veilederinfo, oppfolgingsoppgave.createdAt)}
         </BodyShort>
+      )}
+      {isModalOpen && (
+        <OppfolgingsoppgaveModal
+          isOpen={isModalOpen}
+          toggleOpen={setIsModalOpen}
+          existingOppfolgingsoppgave={oppfolgingsoppgave}
+        />
       )}
     </Box>
   ) : (

@@ -13,6 +13,7 @@ export enum EventType {
   Navigation = "navigere",
   AccordionOpen = "accordion åpnet",
   OppfolgingsgrunnSendt = "oppfolgingsgrunn sendt",
+  OppfolgingsoppgaveEdited = "oppfolgingsoppgave endret",
   IkkeAktuellVurderingArsak = "Ikke aktuell vurdering arsak",
   ViewPortAndScreenResolution = "viewport og skjermstørrelse",
   OptionSelected = "alternativ valgt",
@@ -58,6 +59,15 @@ type OppfolgingsgrunnSendt = {
   };
 };
 
+type OppfolgingsoppgaveEdited = {
+  type: EventType.OppfolgingsoppgaveEdited;
+  data: {
+    url: string;
+    oppfolgingsgrunn: Oppfolgingsgrunn;
+    fieldsEdited: string[];
+  };
+};
+
 type IkkeAktuellVurderingArsak = {
   type: EventType.IkkeAktuellVurderingArsak;
   data: {
@@ -95,6 +105,7 @@ type Event =
   | EventAccordionOpen
   | ViewPortAndScreenResolution
   | OppfolgingsgrunnSendt
+  | OppfolgingsoppgaveEdited
   | IkkeAktuellVurderingArsak
   | OptionSelected;
 

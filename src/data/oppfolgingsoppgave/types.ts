@@ -19,6 +19,11 @@ export interface OppfolgingsoppgaveRequestDTO {
   frist: string | null;
 }
 
+export interface EditOppfolgingsoppgaveRequestDTO {
+  tekst?: string;
+  frist: string | null;
+}
+
 export interface OppfolgingsoppgaveResponseDTO {
   uuid: string;
   createdBy: string;

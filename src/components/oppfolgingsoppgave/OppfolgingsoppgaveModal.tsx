@@ -11,16 +11,19 @@ import {
   Textarea,
   useDatepicker,
 } from "@navikt/ds-react";
-import { useOppdaterOppfolgingsoppgave } from "@/data/oppfolgingsoppgave/useOppdaterOppfolgingsoppgave";
+import { useCreateOppfolgingsoppgave } from "@/data/oppfolgingsoppgave/useCreateOppfolgingsoppgave";
 import {
+  EditOppfolgingsoppgaveRequestDTO,
   Oppfolgingsgrunn,
   oppfolgingsgrunnToText,
   OppfolgingsoppgaveRequestDTO,
+  OppfolgingsoppgaveResponseDTO,
 } from "@/data/oppfolgingsoppgave/types";
 import { useForm } from "react-hook-form";
 import * as Amplitude from "@/utils/amplitude";
 import { EventType } from "@/utils/amplitude";
 import dayjs from "dayjs";
+import { useEditOppfolgingsoppgave } from "@/data/oppfolgingsoppgave/useEditOppfolgingsoppgave";
 
 const texts = {
   header: "Oppfølgingsoppgave",
@@ -49,6 +52,7 @@ interface FormValues {
 interface Props {
   isOpen: boolean;
   toggleOpen: (value: boolean) => void;
+  existingOppfolgingsoppgave?: OppfolgingsoppgaveResponseDTO;
 }
 
 const MAX_LENGTH_BESKRIVELSE = 200;
@@ -63,8 +67,37 @@ function logOppfolgingsgrunnSendt(oppfolgingsgrunn: Oppfolgingsgrunn) {
   });
 }
 
-export const OppfolgingsoppgaveModal = ({ isOpen, toggleOpen }: Props) => {
-  const oppdaterOppfolgingsoppgave = useOppdaterOppfolgingsoppgave();
+function logOppfolgingsoppgaveEdited(
+  oppfolgingsgrunn: Oppfolgingsgrunn,
+  existingOppfolgingsoppgave: OppfolgingsoppgaveResponseDTO,
+  editedOppfolgingsoppgave: EditOppfolgingsoppgaveRequestDTO
+) {
+  const editedFields: string[] = [];
+  if (editedOppfolgingsoppgave.frist !== existingOppfolgingsoppgave.frist) {
+    editedFields.push("frist");
+  }
+  if (editedOppfolgingsoppgave.tekst !== existingOppfolgingsoppgave.tekst) {
+    editedFields.push("tekst");
+  }
+  Amplitude.logEvent({
+    type: EventType.OppfolgingsoppgaveEdited,
+    data: {
+      url: window.location.href,
+      oppfolgingsgrunn: oppfolgingsgrunn,
+      fieldsEdited: editedFields,
+    },
+  });
+}
+
+export const OppfolgingsoppgaveModal = ({
+  isOpen,
+  toggleOpen,
+  existingOppfolgingsoppgave,
+}: Props) => {
+  const createOppfolgingsoppgave = useCreateOppfolgingsoppgave();
+  const editOppfolgingsoppgave = useEditOppfolgingsoppgave(
+    existingOppfolgingsoppgave?.uuid
+  );
   const {
     register,
     formState: { errors },
@@ -73,29 +106,56 @@ export const OppfolgingsoppgaveModal = ({ isOpen, toggleOpen }: Props) => {
     watch,
   } = useForm<FormValues>();
 
+  const isEditMode = !!existingOppfolgingsoppgave;
+
   const submit = (values: FormValues) => {
-    const oppfolgingsoppgaveDto: OppfolgingsoppgaveRequestDTO = {
-      oppfolgingsgrunn: values.oppfolgingsgrunn,
-      tekst: values.beskrivelse,
-      frist: values.frist,
-    };
-    oppdaterOppfolgingsoppgave.mutate(oppfolgingsoppgaveDto, {
-      onSuccess: () => {
-        logOppfolgingsgrunnSendt(values.oppfolgingsgrunn);
-        toggleOpen(false);
-      },
-    });
+    if (isEditMode) {
+      const oppfolgingsoppgaveDto: EditOppfolgingsoppgaveRequestDTO = {
+        tekst: values.beskrivelse,
+        frist: values.frist,
+      };
+      editOppfolgingsoppgave.mutate(oppfolgingsoppgaveDto, {
+        onSuccess: () => {
+          logOppfolgingsoppgaveEdited(
+            values.oppfolgingsgrunn,
+            existingOppfolgingsoppgave,
+            oppfolgingsoppgaveDto
+          );
+          toggleOpen(false);
+        },
+      });
+    } else {
+      const oppfolgingsoppgaveDto: OppfolgingsoppgaveRequestDTO = {
+        oppfolgingsgrunn: values.oppfolgingsgrunn,
+        tekst: values.beskrivelse,
+        frist: values.frist,
+      };
+      createOppfolgingsoppgave.mutate(oppfolgingsoppgaveDto, {
+        onSuccess: () => {
+          logOppfolgingsgrunnSendt(values.oppfolgingsgrunn);
+          toggleOpen(false);
+        },
+      });
+    }
   };
 
+  const defaultSelectedDate =
+    isEditMode && !!existingOppfolgingsoppgave.frist
+      ? dayjs(existingOppfolgingsoppgave.frist).toDate()
+      : undefined;
   const { datepickerProps, inputProps } = useDatepicker({
     onDateChange: (date: Date | undefined) => {
       setValue("frist", dayjs(date).format("YYYY-MM-DD") ?? null);
     },
+    defaultSelected: defaultSelectedDate,
     fromDate: new Date(),
   });
 
   const isOppfolgingsgrunnAnnet =
     watch("oppfolgingsgrunn") === Oppfolgingsgrunn.ANNET;
+  const beskrivelseValue = isEditMode
+    ? existingOppfolgingsoppgave?.tekst
+    : watch("beskrivelse");
 
   return (
     <form onSubmit={handleSubmit(submit)}>
@@ -135,9 +195,11 @@ export const OppfolgingsoppgaveModal = ({ isOpen, toggleOpen }: Props) => {
           <Select
             label={texts.oppfolgingsgrunnLabel}
             size="small"
-            className="w-[22rem]"
+            className="w-[24rem]"
             {...register("oppfolgingsgrunn", { required: true })}
             error={errors.oppfolgingsgrunn && texts.missingOppfolgingsgrunn}
+            readOnly={isEditMode}
+            value={existingOppfolgingsoppgave?.oppfolgingsgrunn}
           >
             <option value="">{texts.oppfolgingsgrunnDefaultOption}</option>
             {Object.values(Oppfolgingsgrunn).map((oppfolgingsgrunn, index) => (
@@ -158,11 +220,12 @@ export const OppfolgingsoppgaveModal = ({ isOpen, toggleOpen }: Props) => {
           <Textarea
             label={texts.beskrivelseLabel}
             size="small"
-            value={watch("beskrivelse")}
+            value={beskrivelseValue}
             maxLength={MAX_LENGTH_BESKRIVELSE}
             {...register("beskrivelse", {
               maxLength: MAX_LENGTH_BESKRIVELSE,
             })}
+            readOnly={isEditMode}
           ></Textarea>
 
           <DatePicker {...datepickerProps} strategy="fixed">
@@ -181,7 +244,10 @@ export const OppfolgingsoppgaveModal = ({ isOpen, toggleOpen }: Props) => {
           <Button
             type="submit"
             variant="primary"
-            loading={oppdaterOppfolgingsoppgave.isPending}
+            loading={
+              createOppfolgingsoppgave.isPending ||
+              editOppfolgingsoppgave.isPending
+            }
           >
             {texts.save}
           </Button>
