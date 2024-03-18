@@ -51,7 +51,7 @@ export const createVurdering = ({
     veilederident: VEILEDER_DEFAULT.ident,
     type,
     begrunnelse,
-    document: [],
+    document: getSendForhandsvarselDocument(begrunnelse),
     varsel: undefined,
   };
 };

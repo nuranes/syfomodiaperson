@@ -25,12 +25,14 @@ import * as Amplitude from "@/utils/amplitude";
 import Motelandingsside from "@/sider/mote/Motelandingsside";
 import { SykepengesoknadSide } from "@/sider/sykepengsoknader/container/SykepengesoknadSide";
 import { ArbeidsuforhetSide } from "@/sider/arbeidsuforhet/ArbeidsuforhetSide";
+import { ArbeidsuforhetOppfyltSide } from "@/sider/arbeidsuforhet/ArbeidsuforhetOppfyltSide";
 
 export const appRoutePath = "/sykefravaer";
 
 export const dialogmoteRoutePath = `${appRoutePath}/dialogmote`;
 export const dialogmoteUnntakRoutePath = `${appRoutePath}/dialogmoteunntak`;
 export const moteoversiktRoutePath = `${appRoutePath}/moteoversikt`;
+export const arbeidsuforhetOppfyltPath = `${appRoutePath}/arbeidsuforhet/oppfylt`;
 
 const AktivBrukerRouter = (): ReactElement => {
   Amplitude.logViewportAndScreenSize();
@@ -93,6 +95,10 @@ const AktivBrukerRouter = (): ReactElement => {
           <Route
             path={`${appRoutePath}/arbeidsuforhet`}
             element={<ArbeidsuforhetSide />}
+          />
+          <Route
+            path={arbeidsuforhetOppfyltPath}
+            element={<ArbeidsuforhetOppfyltSide />}
           />
           <Route
             path={`${appRoutePath}/sykepengesoknader/:sykepengesoknadId`}
