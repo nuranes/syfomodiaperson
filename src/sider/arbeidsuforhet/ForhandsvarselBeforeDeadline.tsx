@@ -28,6 +28,7 @@ export const ForhandsvarselBeforeDeadline = () => {
   const { data } = useArbeidsuforhetVurderingQuery();
   const forhandsvarsel = data[0];
   const frist = forhandsvarsel.varsel?.svarfrist;
+  const isOppfyltEnabled = false;
 
   return (
     <div>
@@ -53,7 +54,9 @@ export const ForhandsvarselBeforeDeadline = () => {
           <Button variant="primary" disabled>
             {texts.avslag}
           </Button>
-          <Button variant="secondary">{texts.oppfylt}</Button>
+          {isOppfyltEnabled && (
+            <Button variant="secondary">{texts.oppfylt}</Button>
+          )}
           <VisBrev document={forhandsvarsel.document} />
         </ButtonRow>
       </Box>
