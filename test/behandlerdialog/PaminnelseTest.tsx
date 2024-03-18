@@ -52,7 +52,7 @@ describe("PåminnelseMelding", () => {
     );
   });
 
-  it("click opens preview with send, fjern oppgave and cancel button", () => {
+  it("click opens preview with send and cancel button", () => {
     renderPaminnelseMelding(meldingTilBehandler);
 
     clickButton(paminnelseButtonText);
@@ -70,12 +70,6 @@ describe("PåminnelseMelding", () => {
     expect(
       within(previewModal).getByRole("button", {
         name: sendButtonText,
-        hidden: true,
-      })
-    ).to.exist;
-    expect(
-      within(previewModal).getByRole("button", {
-        name: fjernOppgaveButtonText,
         hidden: true,
       })
     ).to.exist;
@@ -126,16 +120,10 @@ describe("PåminnelseMelding", () => {
       expectedPaminnelseDTO
     );
   });
-  it("click fjern oppgave in preview behandler oppgave", () => {
+  it("click fjern oppgave behandler oppgave", () => {
     renderPaminnelseMelding(meldingTilBehandler);
 
-    clickButton(paminnelseButtonText);
-
-    const fjernOppgaveButton = screen.getByRole("button", {
-      name: fjernOppgaveButtonText,
-      hidden: true,
-    });
-    userEvent.click(fjernOppgaveButton);
+    clickButton(fjernOppgaveButtonText);
 
     const paminnelseMutation = queryClient.getMutationCache().getAll()[0];
 

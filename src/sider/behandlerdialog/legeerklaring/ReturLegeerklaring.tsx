@@ -4,7 +4,6 @@ import {
   ReturLegeerklaringDTO,
 } from "@/data/behandlerdialog/behandlerdialogTypes";
 import { ArrowUndoIcon } from "@navikt/aksel-icons";
-import { MeldingActionButton } from "@/sider/behandlerdialog/MeldingActionButton";
 import { Button, Modal, Textarea } from "@navikt/ds-react";
 import { DocumentComponentVisning } from "@/components/document/DocumentComponentVisning";
 import { CloseButton } from "@/components/CloseButton";
@@ -63,7 +62,8 @@ export const ReturLegeerklaring = ({ melding }: ReturLegeerklaringProps) => {
 
   return (
     <>
-      <MeldingActionButton
+      <Button
+        className="self-start"
         icon={<ArrowUndoIcon aria-hidden />}
         onClick={() => {
           setVisReturModal(true);
@@ -71,7 +71,7 @@ export const ReturLegeerklaring = ({ melding }: ReturLegeerklaringProps) => {
         }}
       >
         {texts.button}
-      </MeldingActionButton>
+      </Button>
       <form onSubmit={handleSubmit(submit)}>
         <Modal
           closeOnBackdropClick
