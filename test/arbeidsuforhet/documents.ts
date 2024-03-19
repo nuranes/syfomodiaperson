@@ -2,9 +2,13 @@ import {
   DocumentComponentDto,
   DocumentComponentType,
 } from "@/data/documentcomponent/documentComponentTypes";
-import { addWeeks } from "@/utils/datoUtils";
+import { addWeeks, tilDatoMedManedNavn } from "@/utils/datoUtils";
 import { getForhandsvarsel84Texts } from "@/data/arbeidsuforhet/forhandsvarsel84Texts";
-import { VEILEDER_DEFAULT } from "../../mock/common/mockConstants";
+import {
+  ARBEIDSTAKER_DEFAULT,
+  ARBEIDSTAKER_DEFAULT_FULL_NAME,
+  VEILEDER_DEFAULT,
+} from "../../mock/common/mockConstants";
 
 const expectedFristDate = addWeeks(new Date(), 3);
 
@@ -63,6 +67,35 @@ export const getSendForhandsvarselDocument = (
     },
     {
       texts: ["Med vennlig hilsen", VEILEDER_DEFAULT.fulltNavn(), "NAV"],
+      type: DocumentComponentType.PARAGRAPH,
+    },
+  ];
+};
+
+export const getSendVurderingDocument = (
+  begrunnelse: string
+): DocumentComponentDto[] => {
+  return [
+    {
+      texts: ["Vurdering av arbeidsuførhet"],
+      type: DocumentComponentType.HEADER_H1,
+    },
+    {
+      texts: [
+        `Gjelder ${ARBEIDSTAKER_DEFAULT_FULL_NAME}, f.nr. ${ARBEIDSTAKER_DEFAULT.personIdent}`,
+      ],
+      type: DocumentComponentType.PARAGRAPH,
+    },
+    {
+      texts: [`Det ble vurdert oppfylt den ${tilDatoMedManedNavn(new Date())}`],
+      type: DocumentComponentType.PARAGRAPH,
+    },
+    {
+      texts: [`Begrunnelse: ${begrunnelse}`],
+      type: DocumentComponentType.PARAGRAPH,
+    },
+    {
+      texts: [`Vurdert av ${VEILEDER_DEFAULT.fulltNavn()}`],
       type: DocumentComponentType.PARAGRAPH,
     },
   ];

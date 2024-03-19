@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import { queryClientWithMockData } from "../testQueryClient";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { navEnhet } from "../dialogmote/testData";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { expect } from "chai";
@@ -12,6 +12,8 @@ import { VurderingResponseDTO } from "@/data/arbeidsuforhet/arbeidsuforhetTypes"
 import { arbeidsuforhetQueryKeys } from "@/data/arbeidsuforhet/arbeidsuforhetQueryHooks";
 import { addWeeks, tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
 import { createForhandsvarsel } from "./arbeidsuforhetTestData";
+import { renderWithRouter } from "../testRouterUtils";
+import { appRoutePath } from "@/routers/AppRouter";
 
 let queryClient: QueryClient;
 
@@ -23,7 +25,7 @@ const mockArbeidsuforhetVurderinger = (vurderinger: VurderingResponseDTO[]) => {
 };
 
 const renderForhandsvarselSendt = () => {
-  render(
+  renderWithRouter(
     <QueryClientProvider client={queryClient}>
       <ValgtEnhetContext.Provider
         value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
@@ -34,7 +36,9 @@ const renderForhandsvarselSendt = () => {
           <ForhandsvarselSendt />
         </NotificationContext.Provider>
       </ValgtEnhetContext.Provider>
-    </QueryClientProvider>
+    </QueryClientProvider>,
+    `${appRoutePath}/arbeidsuforhet`,
+    [`${appRoutePath}/arbeidsuforhet`]
   );
 };
 
@@ -73,7 +77,7 @@ describe("ForhandsvarselSendt", () => {
         "disabled",
         true
       );
-      //expect(screen.getByRole("button", { name: "Oppfylt" })).to.exist;
+      expect(screen.getByRole("button", { name: "Oppfylt" })).to.exist;
       expect(screen.getByRole("button", { name: "Se hele brevet" })).to.exist;
     });
 

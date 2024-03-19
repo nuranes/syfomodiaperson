@@ -55,7 +55,11 @@ describe("OppfyltSide", () => {
 
       renderArbeidsuforhetOppfyltSide();
 
-      expect(screen.getByText("Placeholder")).to.exist;
+      expect(
+        screen.getByText(
+          "Skriv en kort begrunnelse for hvorfor bruker oppfyller § 8-4"
+        )
+      ).to.exist;
     });
 
     it("show form if latest arbeidsuforhet status is forhandsvarsel and frist is not utgatt", () => {
@@ -68,7 +72,11 @@ describe("OppfyltSide", () => {
 
       renderArbeidsuforhetOppfyltSide();
 
-      expect(screen.getByText("Placeholder")).to.exist;
+      expect(
+        screen.getByText(
+          "Skriv en kort begrunnelse for hvorfor bruker oppfyller § 8-4"
+        )
+      ).to.exist;
     });
 
     it("show succes if latest arbeidsuforhet status is Oppfylt", () => {

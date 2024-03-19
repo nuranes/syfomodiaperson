@@ -5,6 +5,8 @@ import { ButtonRow } from "@/components/Layout";
 import { VisBrev } from "@/components/VisBrev";
 import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
 import { BellIcon } from "@navikt/aksel-icons";
+import { Link } from "react-router-dom";
+import { arbeidsuforhetOppfyltPath } from "@/routers/AppRouter";
 
 const texts = {
   title: "Fristen er utgått!",
@@ -37,7 +39,9 @@ export const ForhandsvarselAfterDeadline = () => {
       </BodyShort>
       <ButtonRow>
         <Button variant="primary">{texts.avslag}</Button>
-        <Button variant="secondary">{texts.oppfylt}</Button>
+        <Button as={Link} to={arbeidsuforhetOppfyltPath} variant="secondary">
+          {texts.oppfylt}
+        </Button>
         <VisBrev document={forhandsvarsel.document} />
       </ButtonRow>
     </Box>

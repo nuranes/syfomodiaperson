@@ -2,6 +2,7 @@ import React, { ReactElement } from "react";
 import { useArbeidsuforhetVurderingQuery } from "@/data/arbeidsuforhet/arbeidsuforhetQueryHooks";
 import { Alert } from "@navikt/ds-react";
 import { VurderingType } from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
+import { OppfyltForm } from "@/sider/arbeidsuforhet/OppfyltForm";
 
 const texts = {
   success:
@@ -20,7 +21,7 @@ export const ArbeidsuforhetOppfylt = (): ReactElement => {
 
   return (
     <div>
-      {isForhandsvarsel && <p>Placeholder</p>}
+      {isForhandsvarsel && <OppfyltForm />}
       {isOppfylt && (
         <Alert variant="success" className="mb-2">
           {texts.success}

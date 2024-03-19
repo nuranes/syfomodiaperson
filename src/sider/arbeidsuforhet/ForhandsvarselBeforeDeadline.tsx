@@ -5,6 +5,8 @@ import { ButtonRow } from "@/components/Layout";
 import { VisBrev } from "@/components/VisBrev";
 import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
 import { ClockIcon } from "@navikt/aksel-icons";
+import { Link } from "react-router-dom";
+import { arbeidsuforhetOppfyltPath } from "@/routers/AppRouter";
 
 const texts = {
   title: "Venter på svar fra bruker",
@@ -28,7 +30,6 @@ export const ForhandsvarselBeforeDeadline = () => {
   const { data } = useArbeidsuforhetVurderingQuery();
   const forhandsvarsel = data[0];
   const frist = forhandsvarsel.varsel?.svarfrist;
-  const isOppfyltEnabled = false;
 
   return (
     <div>
@@ -54,9 +55,9 @@ export const ForhandsvarselBeforeDeadline = () => {
           <Button variant="primary" disabled>
             {texts.avslag}
           </Button>
-          {isOppfyltEnabled && (
-            <Button variant="secondary">{texts.oppfylt}</Button>
-          )}
+          <Button as={Link} to={arbeidsuforhetOppfyltPath} variant="secondary">
+            {texts.oppfylt}
+          </Button>
           <VisBrev document={forhandsvarsel.document} />
         </ButtonRow>
       </Box>
