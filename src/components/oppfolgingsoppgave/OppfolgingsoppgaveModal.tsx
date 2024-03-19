@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Alert,
   BodyLong,
   Button,
   DatePicker,
+  ErrorMessage,
   Heading,
   HelpText,
   Modal,
@@ -31,6 +32,7 @@ const texts = {
     "Denne oppgaven skal kun brukes etter formålet, altså ikke til andre oppgaver enn det oppfølgingsgrunnen tilsier. Innbyggeren kan få innsyn i det du skriver her.",
   annetChosenAlert:
     "Denne oppgaven skal kun brukes til sykefraværsoppfølging, altså ikke oppgaver knyttet til andre ytelser eller formål. Innbyggeren kan få innsyn i det du skriver her.",
+  formNeedsChangeToSave: "Du må gjøre en endring før du kan lagre.",
   save: "Lagre",
   close: "Avbryt",
   missingOppfolgingsgrunn: "Vennligst angi oppfølgingsgrunn.",
@@ -94,6 +96,7 @@ export const OppfolgingsoppgaveModal = ({
   toggleOpen,
   existingOppfolgingsoppgave,
 }: Props) => {
+  const [isGeneralFormError, setIsGeneralFormError] = useState(false);
   const createOppfolgingsoppgave = useCreateOppfolgingsoppgave();
   const editOppfolgingsoppgave = useEditOppfolgingsoppgave(
     existingOppfolgingsoppgave?.uuid
@@ -105,39 +108,56 @@ export const OppfolgingsoppgaveModal = ({
     setValue,
     watch,
   } = useForm<FormValues>();
-
   const isEditMode = !!existingOppfolgingsoppgave;
 
   const submit = (values: FormValues) => {
     if (isEditMode) {
-      const oppfolgingsoppgaveDto: EditOppfolgingsoppgaveRequestDTO = {
-        tekst: values.beskrivelse,
-        frist: values.frist,
-      };
-      editOppfolgingsoppgave.mutate(oppfolgingsoppgaveDto, {
-        onSuccess: () => {
-          logOppfolgingsoppgaveEdited(
-            values.oppfolgingsgrunn,
-            existingOppfolgingsoppgave,
-            oppfolgingsoppgaveDto
-          );
-          toggleOpen(false);
-        },
-      });
+      if (
+        values.frist === existingOppfolgingsoppgave?.frist ||
+        values.frist === undefined
+      ) {
+        setIsGeneralFormError(true);
+      } else {
+        submitEditedOppfolgingsoppgave(values, existingOppfolgingsoppgave);
+      }
     } else {
-      const oppfolgingsoppgaveDto: OppfolgingsoppgaveRequestDTO = {
-        oppfolgingsgrunn: values.oppfolgingsgrunn,
-        tekst: values.beskrivelse,
-        frist: values.frist,
-      };
-      createOppfolgingsoppgave.mutate(oppfolgingsoppgaveDto, {
-        onSuccess: () => {
-          logOppfolgingsgrunnSendt(values.oppfolgingsgrunn);
-          toggleOpen(false);
-        },
-      });
+      submitNewOppfolgingsoppgave(values);
     }
   };
+
+  function submitEditedOppfolgingsoppgave(
+    values: FormValues,
+    existingOppfolgingsoppgave: OppfolgingsoppgaveResponseDTO
+  ) {
+    const oppfolgingsoppgaveDto: EditOppfolgingsoppgaveRequestDTO = {
+      tekst: values.beskrivelse,
+      frist: values.frist,
+    };
+    editOppfolgingsoppgave.mutate(oppfolgingsoppgaveDto, {
+      onSuccess: () => {
+        logOppfolgingsoppgaveEdited(
+          values.oppfolgingsgrunn,
+          existingOppfolgingsoppgave,
+          oppfolgingsoppgaveDto
+        );
+        toggleOpen(false);
+      },
+    });
+  }
+
+  function submitNewOppfolgingsoppgave(values: FormValues) {
+    const oppfolgingsoppgaveDto: OppfolgingsoppgaveRequestDTO = {
+      oppfolgingsgrunn: values.oppfolgingsgrunn,
+      tekst: values.beskrivelse,
+      frist: values.frist,
+    };
+    createOppfolgingsoppgave.mutate(oppfolgingsoppgaveDto, {
+      onSuccess: () => {
+        logOppfolgingsgrunnSendt(values.oppfolgingsgrunn);
+        toggleOpen(false);
+      },
+    });
+  }
 
   const defaultSelectedDate =
     isEditMode && !!existingOppfolgingsoppgave.frist
@@ -146,6 +166,11 @@ export const OppfolgingsoppgaveModal = ({
   const { datepickerProps, inputProps } = useDatepicker({
     onDateChange: (date: Date | undefined) => {
       setValue("frist", dayjs(date).format("YYYY-MM-DD") ?? null);
+      if (date === existingOppfolgingsoppgave?.frist) {
+        setIsGeneralFormError(true);
+      } else {
+        setIsGeneralFormError(false);
+      }
     },
     defaultSelected: defaultSelectedDate,
     fromDate: new Date(),
@@ -251,6 +276,9 @@ export const OppfolgingsoppgaveModal = ({
           >
             {texts.save}
           </Button>
+          {isGeneralFormError && (
+            <ErrorMessage>{texts.formNeedsChangeToSave}</ErrorMessage>
+          )}
         </Modal.Footer>
       </Modal>
     </form>

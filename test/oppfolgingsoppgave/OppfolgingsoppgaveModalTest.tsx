@@ -152,6 +152,30 @@ describe("Oppfolgingsoppgave", () => {
         ).to.deep.equal(expectedOppfolgingsoppgave);
       });
     });
+    it("fails if date is not edited on existing oppfolgingsoppgavemodal", async () => {
+      renderOppfolgingsoppgave();
+      const editButton = await screen.findByRole("button", {
+        hidden: true,
+        name: "Endre",
+      });
+      userEvent.click(editButton);
+
+      expect(
+        screen.getByRole("textbox", {
+          hidden: true,
+          name: "Frist",
+        })
+      ).to.exist;
+
+      const lagreButton = screen.getByRole("button", {
+        hidden: true,
+        name: "Lagre",
+      });
+      expect(lagreButton).to.exist;
+      userEvent.click(lagreButton);
+
+      await screen.findByText("Du må gjøre en endring før du kan lagre.");
+    });
   });
   describe("OppfolgingsoppgaveModal: no oppfolgingsoppgave exists", () => {
     beforeEach(() => {
