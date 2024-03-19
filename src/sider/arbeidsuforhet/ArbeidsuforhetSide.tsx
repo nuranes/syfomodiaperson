@@ -2,7 +2,6 @@ import React, { ReactElement } from "react";
 import Side from "@/sider/Side";
 import Sidetopp from "@/components/Sidetopp";
 import SideLaster from "@/components/SideLaster";
-import { NotificationProvider } from "@/context/notification/NotificationContext";
 import UtdragFraSykefravaeret from "@/components/utdragFraSykefravaeret/UtdragFraSykefravaeret";
 import * as Tredelt from "@/sider/TredeltSide";
 import { Menypunkter } from "@/components/globalnavigasjon/GlobalNavigasjon";
@@ -17,25 +16,23 @@ const texts = {
 };
 
 export const ArbeidsuforhetSide = (): ReactElement => {
-  const { data } = useArbeidsuforhetVurderingQuery();
+  const { data, isLoading, isError } = useArbeidsuforhetVurderingQuery();
   const sisteVurdering = data[0];
 
   return (
     <Side tittel={texts.title} aktivtMenypunkt={Menypunkter.ARBEIDSUFORHET}>
       <Sidetopp tittel={texts.title} />
-      <SideLaster henter={false} hentingFeilet={false}>
+      <SideLaster henter={isLoading} hentingFeilet={isError}>
         <Tredelt.Container>
           <Tredelt.FirstColumn>
-            <NotificationProvider>
-              <div className="mb-4">
-                {!!sisteVurdering &&
-                sisteVurdering.type === VurderingType.FORHANDSVARSEL ? (
-                  <ForhandsvarselSendt />
-                ) : (
-                  <SendForhandsvarselSkjema />
-                )}
-              </div>
-            </NotificationProvider>
+            <div className="mb-4">
+              {!!sisteVurdering &&
+              sisteVurdering.type === VurderingType.FORHANDSVARSEL ? (
+                <ForhandsvarselSendt />
+              ) : (
+                <SendForhandsvarselSkjema />
+              )}
+            </div>
             <VurderingHistorikk />
           </Tredelt.FirstColumn>
           <Tredelt.SecondColumn>

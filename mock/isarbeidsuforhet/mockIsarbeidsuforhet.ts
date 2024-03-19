@@ -31,6 +31,14 @@ export const mockIsarbeidsuforhet = (server: any) => {
     (req: express.Request, res: express.Response) => {
       const body: VurderingRequestDTO = req.body;
       const personident = req.headers[NAV_PERSONIDENT_HEADER];
+      const varsel =
+        body.type === "FORHANDSVARSEL"
+          ? {
+              uuid: generateUUID(),
+              createdAt: new Date(),
+              svarfrist: new Date(),
+            }
+          : undefined;
       const sentVurdering: VurderingResponseDTO = {
         uuid: generateUUID(),
         personident:
@@ -40,7 +48,7 @@ export const mockIsarbeidsuforhet = (server: any) => {
         type: body.type,
         begrunnelse: body.begrunnelse,
         document: body.document,
-        varsel: undefined,
+        varsel,
       };
       arbeidsuforhetVurderinger = [sentVurdering, ...arbeidsuforhetVurderinger];
       res.status(201).send(JSON.stringify(sentVurdering));

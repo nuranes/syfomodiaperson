@@ -16,14 +16,11 @@ const texts = {
     passert:
       "Når fristen er passert vil det dukke opp en hendelse i oversikten.",
   },
-  isPassert: "Tiden har gått ut på forhåndsvarselet.",
   sendtInfo:
     "Om du får svar fra bruker, og hen oppfyller kravene om 8-4 etter din vurdering, klikker du på “oppfylt”-knappen under. Om ikke må du vente til tiden går ut før du kan gi avslag.",
-  passertInfo: "Tiden har gått ut og du kan nå gå videre med å sende avslag.",
-  seSendtBrev: "Se sendt brev",
+  frist: "Fristen går ut: ",
   oppfylt: "Oppfylt",
   avslag: "Avslag",
-  frist: "Fristen går ut: ",
 };
 
 export const ForhandsvarselBeforeDeadline = () => {

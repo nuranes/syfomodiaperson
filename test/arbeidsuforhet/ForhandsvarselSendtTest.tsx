@@ -6,7 +6,6 @@ import { screen } from "@testing-library/react";
 import { navEnhet } from "../dialogmote/testData";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { expect } from "chai";
-import { NotificationContext } from "@/context/notification/NotificationContext";
 import { ForhandsvarselSendt } from "@/sider/arbeidsuforhet/ForhandsvarselSendt";
 import { VurderingResponseDTO } from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
 import { arbeidsuforhetQueryKeys } from "@/data/arbeidsuforhet/arbeidsuforhetQueryHooks";
@@ -30,11 +29,7 @@ const renderForhandsvarselSendt = () => {
       <ValgtEnhetContext.Provider
         value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
       >
-        <NotificationContext.Provider
-          value={{ notification: undefined, setNotification: () => void 0 }}
-        >
-          <ForhandsvarselSendt />
-        </NotificationContext.Provider>
+        <ForhandsvarselSendt />
       </ValgtEnhetContext.Provider>
     </QueryClientProvider>,
     `${appRoutePath}/arbeidsuforhet`,

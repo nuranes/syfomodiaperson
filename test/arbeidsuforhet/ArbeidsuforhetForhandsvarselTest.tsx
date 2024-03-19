@@ -4,7 +4,6 @@ import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import React from "react";
 import { expect } from "chai";
 import nock from "nock";
-import { NotificationContext } from "@/context/notification/NotificationContext";
 import { SendForhandsvarselSkjema } from "@/sider/arbeidsuforhet/SendForhandsvarselSkjema";
 import { stubArbeidsuforhetForhandsvarselApi } from "../stubs/stubIsarbeidsuforhet";
 import {
@@ -26,11 +25,7 @@ const renderForhandsvarselSkjema = () =>
       <ValgtEnhetContext.Provider
         value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
       >
-        <NotificationContext.Provider
-          value={{ notification: undefined, setNotification: () => void 0 }}
-        >
-          <SendForhandsvarselSkjema />
-        </NotificationContext.Provider>
+        <SendForhandsvarselSkjema />
       </ValgtEnhetContext.Provider>
     </QueryClientProvider>
   );

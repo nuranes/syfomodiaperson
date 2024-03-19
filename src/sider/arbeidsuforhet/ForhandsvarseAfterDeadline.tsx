@@ -14,8 +14,8 @@ const texts = {
     `Forhåndsvarselet som ble sendt ut ${tilLesbarDatoMedArUtenManedNavn(
       sentDate
     )} er gått ut! Du kan nå gi avslag på Arbeidsuførhet.`,
-  oppfylt: "Oppfylt",
   avslag: "Avslag",
+  oppfylt: "Oppfylt",
   seSendtBrev: "Se sendt brev",
 };
 
