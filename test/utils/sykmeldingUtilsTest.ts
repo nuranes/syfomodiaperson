@@ -18,7 +18,7 @@ import {
   sykmeldingerSortertNyestTilEldstPeriode,
   sykmeldingperioderSortertEldstTilNyest,
 } from "@/utils/sykmeldinger/sykmeldingUtils";
-import { ANTALL_MS_DAG } from "@/utils/datoUtils";
+import { ANTALL_MS_DAG, dagerMellomDatoer } from "@/utils/datoUtils";
 import {
   SykmeldingOldFormat,
   SykmeldingPeriodeDTO,
@@ -450,6 +450,7 @@ describe("sykmeldingUtils", () => {
         arbeidstakerAtTilfelleEnd: true,
         start: startDate,
         end: endDate,
+        antallSykedager: dagerMellomDatoer(startDate, endDate) + 1,
         varighetUker: 16,
         virksomhetsnummerList: ["123", "321", "999"],
       };
@@ -510,6 +511,7 @@ describe("sykmeldingUtils", () => {
         arbeidstakerAtTilfelleEnd: true,
         start: startDate,
         end: endDate,
+        antallSykedager: dagerMellomDatoer(startDate, endDate) + 1,
         varighetUker: 16,
         virksomhetsnummerList: ["123", "321", "999"],
       };

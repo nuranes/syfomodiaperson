@@ -18,6 +18,7 @@ import { expect } from "chai";
 import { daysFromToday } from "../testUtils";
 import { navEnhet } from "./testData";
 import { MalformProvider } from "@/context/malform/MalformContext";
+import { dagerMellomDatoer } from "@/utils/datoUtils";
 
 let queryClient: QueryClient;
 
@@ -42,6 +43,7 @@ const createOppfolgingstilfelle = (end: Date): OppfolgingstilfelleDTO => {
     arbeidstakerAtTilfelleEnd: true,
     end,
     start: daysFromToday(-10),
+    antallSykedager: dagerMellomDatoer(daysFromToday(-10), end) + 1,
     varighetUker: 1,
   };
 };

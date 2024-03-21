@@ -13,6 +13,7 @@ export const oppfolgingstilfellePersonMock: OppfolgingstilfellePersonDTO = {
       start: new Date("2019-06-06"),
       end: new Date("2020-01-21"),
       virksomhetsnummerList: [VIRKSOMHET_PONTYPANDY.virksomhetsnummer],
+      antallSykedager: 230,
       varighetUker: 25,
     },
     {
@@ -20,6 +21,7 @@ export const oppfolgingstilfellePersonMock: OppfolgingstilfellePersonDTO = {
       start: new Date("2020-02-21"),
       end: new Date("2020-12-10"),
       virksomhetsnummerList: [VIRKSOMHET_PONTYPANDY.virksomhetsnummer],
+      antallSykedager: 294,
       varighetUker: 48,
     },
     {
@@ -31,6 +33,7 @@ export const oppfolgingstilfellePersonMock: OppfolgingstilfellePersonDTO = {
         VIRKSOMHET_BRANNOGBIL.virksomhetsnummer,
         VIRKSOMHET_UTEN_NARMESTE_LEDER.virksomhetsnummer,
       ],
+      antallSykedager: 3946,
       varighetUker: 48,
     },
   ],

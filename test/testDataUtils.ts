@@ -15,6 +15,7 @@ import {
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { generateUUID } from "@/utils/uuidUtils";
 import { daysFromToday } from "./testUtils";
+import { dagerMellomDatoer } from "@/utils/datoUtils";
 
 export const generateOppfolgingstilfelle = (
   start: Date,
@@ -25,6 +26,7 @@ export const generateOppfolgingstilfelle = (
     arbeidstakerAtTilfelleEnd: true,
     end: end,
     start: start,
+    antallSykedager: dagerMellomDatoer(start, end) + 1,
     varighetUker: 1,
   };
 };
