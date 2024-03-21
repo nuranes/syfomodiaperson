@@ -29,7 +29,20 @@ describe("OppfolgingstilfelleUtils", () => {
       expect(isGjentakendeSykefravar(tilfeller)).to.be.false;
     });
 
-    it("is NOT a gjentakende sykefravar if 5 short sykefravar and one long adding up to more than 100 days", () => {
+    it("is NOT a gjentakende sykefravar if 5 short, less than 3 days, sykefravar and one long adding up to more than 100 days", () => {
+      const tilfeller = [
+        generateOppfolgingstilfelle(daysFromToday(-500), daysFromToday(-400)),
+        generateOppfolgingstilfelle(daysFromToday(-300), daysFromToday(-299)),
+        generateOppfolgingstilfelle(daysFromToday(-250), daysFromToday(-249)),
+        generateOppfolgingstilfelle(daysFromToday(-200), daysFromToday(-199)),
+        generateOppfolgingstilfelle(daysFromToday(-150), daysFromToday(-149)),
+        generateOppfolgingstilfelle(daysFromToday(-100), daysFromToday(-99)),
+      ];
+
+      expect(isGjentakendeSykefravar(tilfeller)).to.be.false;
+    });
+
+    it("is a gjentakende sykefravar if 5 almost short, exactly 3 days, sykefravar and one long adding up to more than 100 days", () => {
       const tilfeller = [
         generateOppfolgingstilfelle(daysFromToday(-500), daysFromToday(-400)),
         generateOppfolgingstilfelle(daysFromToday(-300), daysFromToday(-298)),
@@ -39,7 +52,7 @@ describe("OppfolgingstilfelleUtils", () => {
         generateOppfolgingstilfelle(daysFromToday(-100), daysFromToday(-98)),
       ];
 
-      expect(isGjentakendeSykefravar(tilfeller)).to.be.false;
+      expect(isGjentakendeSykefravar(tilfeller)).to.be.true;
     });
 
     it("is a gjentakende sykefravar if 5 sykefravar adding up to 101 days", () => {

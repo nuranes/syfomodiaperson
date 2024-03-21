@@ -7,7 +7,10 @@ import {
 import { dagerMellomDatoer } from "@/utils/datoUtils";
 
 const daysInTilfelle = (tilfelle: OppfolgingstilfelleDTO) => {
-  return dagerMellomDatoer(tilfelle.start, tilfelle.end) + 1;
+  return (
+    tilfelle.antallSykedager ??
+    dagerMellomDatoer(tilfelle.start, tilfelle.end) + 1
+  );
 };
 
 const hasManySykefravar = (tilfeller: number, sickdays: number) => {

@@ -15,7 +15,7 @@ import {
 
 export const ARBEIDSGIVERPERIODE_DAYS = 16;
 export const THREE_YEARS_AGO_IN_MONTHS = 36;
-export const MIN_DAYS_IN_LONG_TILFELLE = 4;
+export const MIN_DAYS_IN_LONG_TILFELLE = 3;
 
 const isInactive = (oppfolgingstilfelle: OppfolgingstilfelleDTO) => {
   const today = dayjs(new Date());
