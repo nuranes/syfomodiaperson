@@ -7,6 +7,11 @@ import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
 import { BellIcon } from "@navikt/aksel-icons";
 import { Link } from "react-router-dom";
 import { arbeidsuforhetOppfyltPath } from "@/routers/AppRouter";
+import { useSendVurderingArbeidsuforhet } from "@/data/arbeidsuforhet/useSendVurderingArbeidsuforhet";
+import {
+  VurderingRequestDTO,
+  VurderingType,
+} from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
 
 const texts = {
   title: "Fristen er utgått!",
@@ -22,6 +27,16 @@ const texts = {
 export const ForhandsvarselAfterDeadline = () => {
   const { data } = useArbeidsuforhetVurderingQuery();
   const forhandsvarsel = data[0];
+  const sendVurdering = useSendVurderingArbeidsuforhet();
+
+  const handleAvslag = () => {
+    const vurderingRequestDTO: VurderingRequestDTO = {
+      type: VurderingType.AVSLAG,
+      begrunnelse: "",
+      document: [],
+    };
+    sendVurdering.mutate(vurderingRequestDTO);
+  };
 
   return (
     <Box background="surface-default" padding="3" className="mb-2">
@@ -38,7 +53,13 @@ export const ForhandsvarselAfterDeadline = () => {
         {texts.passertAlert(forhandsvarsel.createdAt)}
       </BodyShort>
       <ButtonRow>
-        <Button variant="primary">{texts.avslag}</Button>
+        <Button
+          variant="primary"
+          onClick={handleAvslag}
+          loading={sendVurdering.isPending}
+        >
+          {texts.avslag}
+        </Button>
         <Button as={Link} to={arbeidsuforhetOppfyltPath} variant="secondary">
           {texts.oppfylt}
         </Button>

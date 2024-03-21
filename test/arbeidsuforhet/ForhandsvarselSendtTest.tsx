@@ -2,17 +2,22 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import { queryClientWithMockData } from "../testQueryClient";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
-import { screen } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import { navEnhet } from "../dialogmote/testData";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { expect } from "chai";
 import { ForhandsvarselSendt } from "@/sider/arbeidsuforhet/ForhandsvarselSendt";
-import { VurderingResponseDTO } from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
+import {
+  VurderingRequestDTO,
+  VurderingResponseDTO,
+  VurderingType,
+} from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
 import { arbeidsuforhetQueryKeys } from "@/data/arbeidsuforhet/arbeidsuforhetQueryHooks";
 import { addWeeks, tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
 import { createForhandsvarsel } from "./arbeidsuforhetTestData";
 import { renderWithRouter } from "../testRouterUtils";
 import { appRoutePath } from "@/routers/AppRouter";
+import { clickButton } from "../testUtils";
 
 let queryClient: QueryClient;
 
@@ -104,6 +109,33 @@ describe("ForhandsvarselSendt", () => {
       );
       expect(screen.getByRole("button", { name: "Oppfylt" })).to.exist;
       expect(screen.getByRole("button", { name: "Se hele brevet" })).to.exist;
+    });
+
+    it("send avslag after frist is utgatt", async () => {
+      const createdAt = addWeeks(new Date(), -3);
+      const forhandsvarselBeforeFrist = createForhandsvarsel({
+        createdAt: createdAt,
+        svarfrist: new Date(),
+      });
+      const vurderinger = [forhandsvarselBeforeFrist];
+      mockArbeidsuforhetVurderinger(vurderinger);
+
+      renderForhandsvarselSendt();
+
+      clickButton("Avslag");
+      await waitFor(() => {
+        const expectedVurdering: VurderingRequestDTO = {
+          type: VurderingType.AVSLAG,
+          begrunnelse: "",
+          document: [],
+        };
+        const useSendVurderingArbeidsuforhet = queryClient
+          .getMutationCache()
+          .getAll()[0];
+        expect(useSendVurderingArbeidsuforhet.state.variables).to.deep.equal(
+          expectedVurdering
+        );
+      });
     });
   });
 });

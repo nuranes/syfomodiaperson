@@ -5,19 +5,16 @@ import SideLaster from "@/components/SideLaster";
 import UtdragFraSykefravaeret from "@/components/utdragFraSykefravaeret/UtdragFraSykefravaeret";
 import * as Tredelt from "@/sider/TredeltSide";
 import { Menypunkter } from "@/components/globalnavigasjon/GlobalNavigasjon";
-import { SendForhandsvarselSkjema } from "@/sider/arbeidsuforhet/SendForhandsvarselSkjema";
-import { ForhandsvarselSendt } from "@/sider/arbeidsuforhet/ForhandsvarselSendt";
 import { useArbeidsuforhetVurderingQuery } from "@/data/arbeidsuforhet/arbeidsuforhetQueryHooks";
-import { VurderingType } from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
 import { VurderingHistorikk } from "@/sider/arbeidsuforhet/historikk/VurderingHistorikk";
+import { Arbeidsuforhet } from "@/sider/arbeidsuforhet/Arbeidsuforhet";
 
 const texts = {
   title: "Forhåndsvarsel §8-4",
 };
 
 export const ArbeidsuforhetSide = (): ReactElement => {
-  const { data, isLoading, isError } = useArbeidsuforhetVurderingQuery();
-  const sisteVurdering = data[0];
+  const { isLoading, isError } = useArbeidsuforhetVurderingQuery();
 
   return (
     <Side tittel={texts.title} aktivtMenypunkt={Menypunkter.ARBEIDSUFORHET}>
@@ -26,12 +23,7 @@ export const ArbeidsuforhetSide = (): ReactElement => {
         <Tredelt.Container>
           <Tredelt.FirstColumn>
             <div className="mb-4">
-              {!!sisteVurdering &&
-              sisteVurdering.type === VurderingType.FORHANDSVARSEL ? (
-                <ForhandsvarselSendt />
-              ) : (
-                <SendForhandsvarselSkjema />
-              )}
+              <Arbeidsuforhet />
             </div>
             <VurderingHistorikk />
           </Tredelt.FirstColumn>
