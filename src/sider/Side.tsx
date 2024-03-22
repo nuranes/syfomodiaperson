@@ -64,8 +64,8 @@ const Side = ({ tittel, aktivtMenypunkt, children }: SideProps) => {
         <div className={"flex -md:flex-wrap"}>
           <nav className="-md:w-full min-w-[15rem] w-[15rem] md:mr-2">
             <GlobalNavigasjon aktivtMenypunkt={aktivtMenypunkt} />
-            {isEaster() && <Easter />}
             <Oppfolgingsoppgave />
+            {isEaster() && <Easter />}
           </nav>
           <div className="w-full flex flex-col">{children}</div>
         </div>

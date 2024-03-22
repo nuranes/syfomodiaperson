@@ -52,7 +52,7 @@ export const Oppfolgingsoppgave = () => {
     : undefined;
 
   return isExistingOppfolgingsoppgave ? (
-    <Box background={"surface-default"} padding="4" className="flex-1">
+    <Box background={"surface-default"} padding="4" className="flex-1 mb-2">
       {frist && (
         <Tag
           variant="warning"
