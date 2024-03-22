@@ -2,7 +2,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ISARBEIDSUFORHET_ROOT } from "@/apiConstants";
 import { post } from "@/api/axios";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
-import { VurderingRequestDTO } from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
+import {
+  VurderingRequestDTO,
+  VurderingResponseDTO,
+} from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
 import { arbeidsuforhetQueryKeys } from "@/data/arbeidsuforhet/arbeidsuforhetQueryHooks";
 
 export const useSendVurderingArbeidsuforhet = () => {
@@ -10,14 +13,15 @@ export const useSendVurderingArbeidsuforhet = () => {
   const queryClient = useQueryClient();
   const path = `${ISARBEIDSUFORHET_ROOT}/arbeidsuforhet/vurderinger`;
   const postForhandsvarsel = (forhandsvarsel: VurderingRequestDTO) =>
-    post(path, forhandsvarsel, personident);
+    post<VurderingResponseDTO>(path, forhandsvarsel, personident);
 
   return useMutation({
     mutationFn: postForhandsvarsel,
-    onSuccess: () => {
-      return queryClient.invalidateQueries({
-        queryKey: arbeidsuforhetQueryKeys.arbeidsuforhet(personident),
-      });
+    onSuccess: (data: VurderingResponseDTO) => {
+      queryClient.setQueryData(
+        arbeidsuforhetQueryKeys.arbeidsuforhet(personident),
+        (oldData: VurderingResponseDTO[]) => [data, ...oldData]
+      );
     },
   });
 };
