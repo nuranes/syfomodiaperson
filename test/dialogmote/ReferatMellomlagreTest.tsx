@@ -102,11 +102,7 @@ const renderReferat = (dialogmoteDTO: DialogmoteDTO) => {
   return renderWithRouter(
     <QueryClientProvider client={queryClient}>
       <MalformProvider>
-        <Referat
-          dialogmote={dialogmoteDTO}
-          pageTitle="Test"
-          mode={ReferatMode.NYTT}
-        />
+        <Referat dialogmote={dialogmoteDTO} mode={ReferatMode.NYTT} />
       </MalformProvider>
     </QueryClientProvider>,
     `${dialogmoteRoutePath}/:dialogmoteUuid/referat`,

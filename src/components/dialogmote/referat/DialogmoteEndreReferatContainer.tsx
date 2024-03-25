@@ -12,11 +12,7 @@ const DialogmoteEndreReferatContainer = (): ReactElement => (
   <DialogmoteSideContainer title={texts.pageTitle} header={texts.pageHeader}>
     {(dialogmote) => (
       <MalformProvider>
-        <Referat
-          dialogmote={dialogmote}
-          pageTitle={texts.pageTitle}
-          mode={ReferatMode.ENDRET}
-        />
+        <Referat dialogmote={dialogmote} mode={ReferatMode.ENDRET} />
       </MalformProvider>
     )}
   </DialogmoteSideContainer>

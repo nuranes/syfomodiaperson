@@ -3,11 +3,10 @@ import { ISDIALOGMOTE_ROOT } from "@/apiConstants";
 import { NewDialogmoteReferatDTO } from "@/data/dialogmote/types/dialogmoteReferatTypes";
 import { post } from "@/api/axios";
 import { dialogmoterQueryKeys } from "@/data/dialogmote/dialogmoteQueryHooks";
+import { useValgtPersonident } from "@/hooks/useValgtBruker";
 
-export const useFerdigstillDialogmote = (
-  fnr: string,
-  dialogmoteUuid: string
-) => {
+export const useFerdigstillDialogmote = (dialogmoteUuid: string) => {
+  const fnr = useValgtPersonident();
   const queryClient = useQueryClient();
   const path = `${ISDIALOGMOTE_ROOT}/dialogmote/${dialogmoteUuid}/ferdigstill`;
   const postFerdigstillDialogmote = (referat: NewDialogmoteReferatDTO) =>

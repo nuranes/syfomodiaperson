@@ -16,11 +16,6 @@ const getTab = (tabTitle: string) =>
 export const queryButton = (buttonText: string) =>
   screen.queryByRole("button", { name: buttonText });
 
-export const getFeilmeldingLink = (feilmelding: string) =>
-  screen.queryByRole("link", {
-    name: feilmelding,
-  });
-
 export const getTextInput = (name: string) =>
   screen.getByRole("textbox", {
     name,

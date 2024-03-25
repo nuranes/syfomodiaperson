@@ -12,11 +12,7 @@ const DialogmoteReferatContainer = (): ReactElement => (
   <DialogmoteSideContainer title={texts.pageTitle} header={texts.pageHeader}>
     {(dialogmote) => (
       <MalformProvider>
-        <Referat
-          dialogmote={dialogmote}
-          pageTitle={texts.pageTitle}
-          mode={ReferatMode.NYTT}
-        />
+        <Referat dialogmote={dialogmote} mode={ReferatMode.NYTT} />
       </MalformProvider>
     )}
   </DialogmoteSideContainer>

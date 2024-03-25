@@ -1,17 +1,21 @@
 import React from "react";
 import Referat, {
+  MAX_LENGTH_ARBEIDSGIVERS_OPPGAVE,
+  MAX_LENGTH_ARBEIDSTAKERS_OPPGAVE,
+  MAX_LENGTH_BEHANDLERS_OPPGAVE,
+  MAX_LENGTH_KONKLUSJON,
+  MAX_LENGTH_SITUASJON,
+  MAX_LENGTH_VEILEDERS_OPPGAVE,
   ReferatMode,
   valideringsTexts as referatSkjemaValideringsTexts,
 } from "../../src/components/dialogmote/referat/Referat";
 import { texts as deltakereSkjemaTexts } from "../../src/components/dialogmote/referat/Deltakere";
 import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
 import { expect } from "chai";
-import { texts as skjemaFeilOppsummeringTexts } from "../../src/components/SkjemaFeiloppsummering";
 import { texts as valideringsTexts } from "../../src/utils/valideringUtils";
 import {
   changeTextInput,
   clickButton,
-  getFeilmeldingLink,
   getTextInput,
   getTooLongText,
 } from "../testUtils";
@@ -34,14 +38,6 @@ import { screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { expectedReferatDocument } from "./testDataDocuments";
 import sinon from "sinon";
-import {
-  MAX_LENGTH_ARBEIDSGIVERS_OPPGAVE,
-  MAX_LENGTH_ARBEIDSTAKERS_OPPGAVE,
-  MAX_LENGTH_BEHANDLERS_OPPGAVE,
-  MAX_LENGTH_KONKLUSJON,
-  MAX_LENGTH_SITUASJON,
-  MAX_LENGTH_VEILEDERS_OPPGAVE,
-} from "@/components/dialogmote/referat/ReferatFritekster";
 import { queryClientWithMockData } from "../testQueryClient";
 import { getReferatTexts } from "@/data/dialogmote/dialogmoteTexts";
 import { NewDialogmoteReferatDTO } from "@/data/dialogmote/types/dialogmoteReferatTypes";
@@ -188,23 +184,6 @@ describe("ReferatTest", () => {
         referatSkjemaValideringsTexts.arbeidsgiversOppgaveMissing
       )
     ).to.not.be.empty;
-
-    // Feilmeldinger i oppsummering
-    expect(screen.getByText(skjemaFeilOppsummeringTexts.title)).to.exist;
-    expect(getFeilmeldingLink(referatSkjemaValideringsTexts.situasjonMissing))
-      .to.exist;
-    expect(getFeilmeldingLink(referatSkjemaValideringsTexts.konklusjonMissing))
-      .to.exist;
-    expect(
-      getFeilmeldingLink(
-        referatSkjemaValideringsTexts.arbeidstakersOppgaveMissing
-      )
-    ).to.exist;
-    expect(
-      getFeilmeldingLink(
-        referatSkjemaValideringsTexts.arbeidsgiversOppgaveMissing
-      )
-    ).to.exist;
   });
 
   it("validerer navn og funksjon på andre deltakere", () => {
@@ -218,12 +197,6 @@ describe("ReferatTest", () => {
       .not.be.empty;
     expect(screen.getAllByText(valideringsTexts.andreDeltakereMissingFunksjon))
       .to.not.be.empty;
-
-    // Feilmelding i oppsummering
-    expect(getFeilmeldingLink(valideringsTexts.andreDeltakereMissingNavn)).to
-      .exist;
-    expect(getFeilmeldingLink(valideringsTexts.andreDeltakereMissingFunksjon))
-      .to.exist;
 
     // Slett deltaker og sjekk at feil forsvinner
     clickButton("Slett ikon");
@@ -263,10 +236,6 @@ describe("ReferatTest", () => {
     );
 
     clickButton("Lagre og send");
-
-    expect(
-      screen.getAllByRole("link", { name: /tegn tillatt/ })
-    ).to.have.length(6, "Validerer maks lengde på alle fritekstfelter");
   });
 
   it("ferdigstiller dialogmote ved submit av skjema", () => {
@@ -314,7 +283,7 @@ describe("ReferatTest", () => {
     changeTextInput(annenDeltakerNavnInput, annenDeltakerNavn);
     changeTextInput(annenDeltakerFunksjonInput, annenDeltakerFunksjon);
 
-    clickButton("Se forhåndsvisning");
+    clickButton("Forhåndsvisning");
     const forhandsvisningReferat = screen.getByRole("dialog", {
       hidden: true,
     });
@@ -335,7 +304,7 @@ describe("ReferatTest", () => {
     });
     userEvent.click(malformRadioNynorsk);
 
-    clickButton("Se forhåndsvisning");
+    clickButton("Forhåndsvisning");
 
     expect(screen.getByText(getReferatTexts(Malform.NYNORSK).intro2)).to.exist;
   });
@@ -345,11 +314,7 @@ const renderReferat = (dialogmoteDTO: DialogmoteDTO) => {
   return renderWithRouter(
     <QueryClientProvider client={queryClient}>
       <MalformProvider>
-        <Referat
-          dialogmote={dialogmoteDTO}
-          pageTitle="Test"
-          mode={ReferatMode.NYTT}
-        />
+        <Referat dialogmote={dialogmoteDTO} mode={ReferatMode.NYTT} />
       </MalformProvider>
     </QueryClientProvider>,
     `${dialogmoteRoutePath}/:dialogmoteUuid/referat`,

@@ -8,15 +8,10 @@ import {
 import Deltakere from "./Deltakere";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
-import ReferatButtons from "./ReferatButtons";
 import {
   validerReferatDeltakere,
   validerSkjemaTekster,
 } from "@/utils/valideringUtils";
-import { useFeilUtbedret } from "@/hooks/useFeilUtbedret";
-import { SkjemaFeiloppsummering } from "../../SkjemaFeiloppsummering";
-import { useValgtPersonident } from "@/hooks/useValgtBruker";
-import { ForhandsvisningModal } from "../../ForhandsvisningModal";
 import { useReferatDocument } from "@/hooks/dialogmote/document/useReferatDocument";
 import { StandardTekst } from "@/data/dialogmote/dialogmoteTexts";
 import {
@@ -29,16 +24,6 @@ import { moteoversiktRoutePath } from "@/routers/AppRouter";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { useMellomlagreReferat } from "@/data/dialogmote/useMellomlagreReferat";
 import { useInitialValuesReferat } from "@/hooks/dialogmote/useInitialValuesReferat";
-import {
-  MAX_LENGTH_ARBEIDSGIVERS_OPPGAVE,
-  MAX_LENGTH_ARBEIDSTAKERS_OPPGAVE,
-  MAX_LENGTH_BEGRUNNELSE_ENDRING,
-  MAX_LENGTH_BEHANDLERS_OPPGAVE,
-  MAX_LENGTH_KONKLUSJON,
-  MAX_LENGTH_SITUASJON,
-  MAX_LENGTH_VEILEDERS_OPPGAVE,
-  ReferatFritekster,
-} from "@/components/dialogmote/referat/ReferatFritekster";
 import { StandardTekster } from "@/components/dialogmote/referat/StandardTekster";
 import { useEndreReferat } from "@/data/dialogmote/useEndreReferat";
 import dayjs, { Dayjs } from "dayjs";
@@ -46,13 +31,27 @@ import { useDebouncedCallback } from "use-debounce";
 import { SaveFile } from "../../../../img/ImageComponents";
 import { FormState } from "final-form";
 import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
-import { Alert, Box, Button, Heading, Link } from "@navikt/ds-react";
+import { Alert, BodyShort, Box, Button, Heading, Link } from "@navikt/ds-react";
+import { Link as RouterLink } from "react-router-dom";
 import { MalformRadioGroup } from "@/components/MalformRadioGroup";
 import * as Amplitude from "@/utils/amplitude";
 import { EventType } from "@/utils/amplitude";
 import { useMalform } from "@/context/malform/MalformContext";
+import { Forhandsvisning } from "@/components/Forhandsvisning";
+import { ReferatTextArea } from "@/components/dialogmote/referat/ReferatTextArea";
+
+export const MAX_LENGTH_SITUASJON = 6500;
+export const MAX_LENGTH_KONKLUSJON = 1500;
+export const MAX_LENGTH_ARBEIDSTAKERS_OPPGAVE = 600;
+export const MAX_LENGTH_ARBEIDSGIVERS_OPPGAVE = 600;
+export const MAX_LENGTH_BEHANDLERS_OPPGAVE = 600;
+export const MAX_LENGTH_VEILEDERS_OPPGAVE = 600;
+export const MAX_LENGTH_BEGRUNNELSE_ENDRING = 500;
 
 export const texts = {
+  save: "Lagre",
+  send: "Lagre og send",
+  abort: "Avbryt",
   digitalReferat:
     "Referatet formidles her på nav.no. Det er bare de arbeidstakerne som har reservert seg mot digital kommunikasjon, som vil få referatet i posten.",
   personvern:
@@ -60,8 +59,50 @@ export const texts = {
   personvernLenketekst:
     "Du kan også lese mer om dette på Navet (åpnes i ny fane).",
   forhandsvisningContentLabel: "Forhåndsvis referat fra dialogmøte",
-  preview: "Se forhåndsvisning",
   referatSaved: "Referatet er lagret",
+  fritekster: {
+    situasjon: {
+      label: "Situasjon og muligheter",
+      description: "Skriv hva deltakerne forteller om situasjonen",
+      infoboks: {
+        eksempler: "Eksempler:",
+        jobb: "Hvordan har det gått å prøve seg i jobb?",
+        tilrettelegging: "Hvordan har tilretteleggingen fungert?",
+        mer: "Er det noe mer som kan gjøres?",
+        framover: "Hva ser man for seg framover?",
+        husk: "Husk å skrive i du-form, referatet er rettet mot arbeidstakeren selv om det går til flere.",
+      },
+    },
+    konklusjon: {
+      label: "Konklusjon",
+      description: "Gi en kort oppsummering",
+      infoboks:
+        "Konklusjonen og oppgavene nedenfor vil vises øverst i referatet.",
+    },
+    arbeidstaker: {
+      label: "Arbeidstakerens oppgave:",
+      description: "Hva avtalte dere at arbeidstakeren skal gjøre?",
+      infoboks: "Husk å skrive i du-form i feltet om arbeidstakerens oppgave.",
+    },
+    arbeidsgiver: {
+      label: "Arbeidsgiverens oppgave:",
+      description: "Hva avtalte dere at arbeidsgiveren skal gjøre?",
+    },
+    begrunnelseEndring: {
+      label: "Årsaken til at referatet må endres",
+      description: "Fortell hva som er årsaken til at referatet må endres",
+      infoboks:
+        "Det er viktig å oppgi årsak til endringen slik at alle møtedeltakerne blir informert. Det er også viktig i videre oppfølging.",
+    },
+    veileder: {
+      label: "Veilederens oppgave (valgfri):",
+      description: "Hva avtalte dere at du skal gjøre?",
+    },
+    behandler: {
+      label: "Behandlerens oppgave (valgfri):",
+      description: "Hva avtalte dere at behandleren skal gjøre?",
+    },
+  },
 };
 
 const personvernUrl =
@@ -101,7 +142,6 @@ export interface ReferatSkjemaValues extends ReferatSkjemaTekster {
 
 interface ReferatProps {
   dialogmote: DialogmoteDTO;
-  pageTitle: string;
   mode: ReferatMode;
 }
 
@@ -134,30 +174,22 @@ const toNewReferat = (
   andreDeltakere: values.andreDeltakere || [],
 });
 
-const Referat = ({
-  dialogmote,
-  pageTitle,
-  mode,
-}: ReferatProps): ReactElement => {
-  const fnr = useValgtPersonident();
-  const ferdigstillDialogmote = useFerdigstillDialogmote(fnr, dialogmote.uuid);
-  const mellomlagreReferat = useMellomlagreReferat(fnr, dialogmote.uuid);
-  const endreReferat = useEndreReferat(fnr, dialogmote.uuid);
+const Referat = ({ dialogmote, mode }: ReferatProps): ReactElement => {
+  const navbruker = useNavBrukerData();
+  const ferdigstillDialogmote = useFerdigstillDialogmote(dialogmote.uuid);
+  const mellomlagreReferat = useMellomlagreReferat(dialogmote.uuid);
+  const endreReferat = useEndreReferat(dialogmote.uuid);
+
   const [showToast, setShowToast] = useState<boolean>(false);
   const [lastSavedTime, setLastSavedTime] = useState<Dayjs>(dayjs());
   const [uendretSidenMellomlagring, setUendretSidenMellomlagring] = useState<
     boolean | undefined
   >();
 
-  const navbruker = useNavBrukerData();
-  const [displayReferatPreview, setDisplayReferatPreview] = useState(false);
-
   const dateAndTimeForMeeting = tilDatoMedManedNavn(dialogmote.tid);
   const header = `${navbruker?.navn}, ${dateAndTimeForMeeting}, ${dialogmote.sted}`;
   const isEndringAvReferat = mode === ReferatMode.ENDRET;
 
-  const { harIkkeUtbedretFeil, resetFeilUtbedret, updateFeilUtbedret } =
-    useFeilUtbedret();
   const { getReferatDocument } = useReferatDocument(dialogmote, mode);
   const { malform } = useMalform();
 
@@ -211,14 +243,10 @@ const Referat = ({
         : {}),
     });
 
-    const feilmeldinger = {
+    return {
       ...validerReferatDeltakere(values),
       ...friteksterFeil,
     };
-
-    updateFeilUtbedret(feilmeldinger);
-
-    return feilmeldinger;
   };
 
   const submit = (values: ReferatSkjemaValues) => {
@@ -288,11 +316,6 @@ const Referat = ({
     mellomlagre(values);
   };
 
-  const handleSendClick = () => {
-    debouncedAutoSave.cancel();
-    resetFeilUtbedret();
-  };
-
   const savedReferatText = (savedDate: Date) => {
     return `${texts.referatSaved} ${showTimeIncludingSeconds(savedDate)}`;
   };
@@ -311,7 +334,7 @@ const Referat = ({
         initialValues={initialValues}
         mutators={{ ...arrayMutators }}
       >
-        {({ handleSubmit, submitFailed, errors, values }) => (
+        {({ handleSubmit, values }) => (
           <form onSubmit={handleSubmit}>
             <FormSpy
               subscription={{ values: true }}
@@ -349,16 +372,78 @@ const Referat = ({
                 <span>{savedReferatText(lastSavedTime.toDate())}</span>
               </div>
             )}
-            <ReferatFritekster dialogmote={dialogmote} mode={mode} />
+            <div className="flex flex-col gap-8 mb-8">
+              {mode === ReferatMode.ENDRET && (
+                <ReferatTextArea
+                  field="begrunnelseEndring"
+                  label={texts.fritekster.begrunnelseEndring.label}
+                  description={texts.fritekster.begrunnelseEndring.description}
+                  maxLength={MAX_LENGTH_BEGRUNNELSE_ENDRING}
+                  minRows={8}
+                  infoBox={texts.fritekster.begrunnelseEndring.infoboks}
+                />
+              )}
+              <ReferatTextArea
+                field="situasjon"
+                label={texts.fritekster.situasjon.label}
+                description={texts.fritekster.situasjon.description}
+                maxLength={MAX_LENGTH_SITUASJON}
+                minRows={12}
+                infoBox={Object.values(texts.fritekster.situasjon.infoboks).map(
+                  (text, index) => (
+                    <BodyShort key={index} size="small">
+                      {text}
+                    </BodyShort>
+                  )
+                )}
+              />
+              <ReferatTextArea
+                field="konklusjon"
+                label={texts.fritekster.konklusjon.label}
+                description={texts.fritekster.konklusjon.description}
+                maxLength={MAX_LENGTH_KONKLUSJON}
+                minRows={8}
+                infoBox={texts.fritekster.konklusjon.infoboks}
+              />
+              <ReferatTextArea
+                field="arbeidstakersOppgave"
+                label={texts.fritekster.arbeidstaker.label}
+                description={texts.fritekster.arbeidstaker.description}
+                maxLength={MAX_LENGTH_ARBEIDSTAKERS_OPPGAVE}
+                minRows={4}
+                infoBox={texts.fritekster.arbeidstaker.infoboks}
+              />
+              <ReferatTextArea
+                field="arbeidsgiversOppgave"
+                label={texts.fritekster.arbeidsgiver.label}
+                description={texts.fritekster.arbeidsgiver.description}
+                maxLength={MAX_LENGTH_ARBEIDSGIVERS_OPPGAVE}
+                minRows={4}
+              />
+              {dialogmote.behandler && (
+                <ReferatTextArea
+                  field="behandlersOppgave"
+                  label={texts.fritekster.behandler.label}
+                  description={texts.fritekster.behandler.description}
+                  maxLength={MAX_LENGTH_BEHANDLERS_OPPGAVE}
+                  minRows={4}
+                />
+              )}
+              <ReferatTextArea
+                field="veiledersOppgave"
+                label={texts.fritekster.veileder.label}
+                description={texts.fritekster.veileder.description}
+                maxLength={MAX_LENGTH_VEILEDERS_OPPGAVE}
+                minRows={4}
+              />
+            </div>
             <StandardTekster />
-            <Button
-              className="mt-4 mb-8"
-              variant="secondary"
-              type="button"
-              onClick={() => setDisplayReferatPreview(true)}
-            >
-              {texts.preview}
-            </Button>
+            <div className="mb-8">
+              <Forhandsvisning
+                contentLabel={texts.forhandsvisningContentLabel}
+                getDocumentComponents={() => getReferatDocument(values)}
+              />
+            </div>
             {ferdigstillDialogmote.isError && (
               <SkjemaInnsendingFeil error={ferdigstillDialogmote.error} />
             )}
@@ -368,29 +453,37 @@ const Referat = ({
             {mellomlagreReferat.isError && (
               <SkjemaInnsendingFeil error={mellomlagreReferat.error} />
             )}
-            {submitFailed && harIkkeUtbedretFeil && (
-              <SkjemaFeiloppsummering errors={errors} />
-            )}
             {mellomlagreReferat.isSuccess && uendretSidenMellomlagring && (
               <Alert variant="success" size="small">
                 {savedReferatText(lastSavedTime.toDate())}
               </Alert>
             )}
-            <ReferatButtons
-              pageTitle={pageTitle}
-              onSaveClick={() => handleLagreClick(values)}
-              onSendClick={handleSendClick}
-              showSaveSpinner={mellomlagreReferat.isPending}
-              showSendSpinner={
-                ferdigstillDialogmote.isPending || endreReferat.isPending
-              }
-            />
-            <ForhandsvisningModal
-              contentLabel={texts.forhandsvisningContentLabel}
-              isOpen={displayReferatPreview}
-              handleClose={() => setDisplayReferatPreview(false)}
-              getDocumentComponents={() => getReferatDocument(values)}
-            />
+            <div className="flex gap-4 pt-12">
+              <Button
+                type="button"
+                variant="secondary"
+                loading={mellomlagreReferat.isPending}
+                onClick={() => handleLagreClick(values)}
+              >
+                {texts.save}
+              </Button>
+              <Button
+                type="submit"
+                variant="primary"
+                loading={isSendingReferat()}
+                onClick={() => debouncedAutoSave.cancel()}
+              >
+                {texts.send}
+              </Button>
+              <Button
+                as={RouterLink}
+                type="button"
+                variant="tertiary"
+                to={moteoversiktRoutePath}
+              >
+                {texts.abort}
+              </Button>
+            </div>
           </form>
         )}
       </Form>

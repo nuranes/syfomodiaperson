@@ -1,14 +1,13 @@
 import React from "react";
 import Referat, {
+  MAX_LENGTH_BEGRUNNELSE_ENDRING,
   ReferatMode,
   valideringsTexts as referatSkjemaValideringsTexts,
 } from "../../src/components/dialogmote/referat/Referat";
 import { expect } from "chai";
-import { texts as skjemaFeilOppsummeringTexts } from "../../src/components/SkjemaFeiloppsummering";
 import {
   changeTextInput,
   clickButton,
-  getFeilmeldingLink,
   getTextInput,
   getTooLongText,
 } from "../testUtils";
@@ -23,7 +22,6 @@ import {
 import { screen, within } from "@testing-library/react";
 import { expectedEndretReferatDocument } from "./testDataDocuments";
 import sinon from "sinon";
-import { MAX_LENGTH_BEGRUNNELSE_ENDRING } from "@/components/dialogmote/referat/ReferatFritekster";
 import { queryClientWithMockData } from "../testQueryClient";
 import { getReferatTexts } from "@/data/dialogmote/dialogmoteTexts";
 import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
@@ -56,12 +54,6 @@ describe("ReferatEndreTest", () => {
         referatSkjemaValideringsTexts.begrunnelseEndringMissing
       )
     ).to.not.be.empty;
-    expect(screen.getByText(skjemaFeilOppsummeringTexts.title)).to.exist;
-    expect(
-      getFeilmeldingLink(
-        referatSkjemaValideringsTexts.begrunnelseEndringMissing
-      )
-    ).to.exist;
 
     const begrunnelseInput = getTextInput("Årsaken til at referatet må endres");
     changeTextInput(
@@ -69,7 +61,8 @@ describe("ReferatEndreTest", () => {
       getTooLongText(MAX_LENGTH_BEGRUNNELSE_ENDRING)
     );
     clickButton("Lagre og send");
-    expect(screen.getByRole("link", { name: /tegn tillatt/ })).to.exist;
+
+    expect(screen.getByText(/tegn tillatt/)).to.exist;
   });
 
   it("preutfyller skjema fra ferdigstilt referat", () => {
@@ -92,7 +85,7 @@ describe("ReferatEndreTest", () => {
     renderEndreReferat(dialogmoteMedFerdigstiltReferat);
     passSkjemaInput();
 
-    clickButton("Se forhåndsvisning");
+    clickButton("Forhåndsvisning");
 
     const forhandsvisningReferat = screen.getByRole("dialog", {
       hidden: true,
@@ -142,11 +135,7 @@ const renderEndreReferat = (dialogmote: DialogmoteDTO) => {
   return renderWithRouter(
     <QueryClientProvider client={queryClient}>
       <MalformProvider>
-        <Referat
-          dialogmote={dialogmote}
-          pageTitle="Test"
-          mode={ReferatMode.ENDRET}
-        />
+        <Referat dialogmote={dialogmote} mode={ReferatMode.ENDRET} />
       </MalformProvider>
     </QueryClientProvider>,
     `${dialogmoteRoutePath}/:dialogmoteUuid/referat/endre`,

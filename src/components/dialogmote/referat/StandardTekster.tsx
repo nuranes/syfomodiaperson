@@ -4,8 +4,7 @@ import {
   getReferatTexts,
   StandardTekst,
 } from "@/data/dialogmote/dialogmoteTexts";
-import { ReferatInfoColumn } from "./ReferatInfoColumn";
-import { BodyShort, Checkbox, Label } from "@navikt/ds-react";
+import { BodyShort, Box, Checkbox, Label } from "@navikt/ds-react";
 import { Malform, useMalform } from "@/context/malform/MalformContext";
 
 const texts = {
@@ -42,7 +41,17 @@ export const StandardTekster = (): ReactElement => {
           </Field>
         ))}
       </div>
-      <ReferatInfoColumn>{texts.info}</ReferatInfoColumn>
+      <div className="flex-[0.5]">
+        <Box
+          borderRadius="medium"
+          background="surface-subtle"
+          borderColor="border-default"
+          padding="4"
+          borderWidth="1"
+        >
+          {texts.info}
+        </Box>
+      </div>
     </div>
   );
 };
