@@ -21,7 +21,7 @@ const StatuspanelBehandlingsdager = ({
   soknad,
 }: StatuspanelBehandlingsdagerProps): ReactElement => {
   return (
-    <div className="blokk statuspanel">
+    <div>
       <StatusNokkelopplysning tittel={texts.status}>
         <SoknadStatustekst soknad={soknad} />
       </StatusNokkelopplysning>

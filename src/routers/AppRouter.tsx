@@ -2,7 +2,7 @@ import React, { ReactElement } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import AktivBrukerTilgangLaster from "@/components/AktivBrukerTilgangLaster";
 import SykmeldingerContainer from "@/sider/sykmeldinger/container/SykmeldingerContainer";
-import SykepengesoknaderSide from "@/sider/sykepengsoknader/container/SykepengesoknaderSide";
+import SykepengesoknaderSide from "@/sider/sykepengsoknader/SykepengesoknaderSide";
 import DinSykmeldingContainer from "@/sider/sykmeldinger/container/DinSykmeldingContainer";
 import HistorikkContainer from "@/sider/historikk/container/HistorikkContainer";
 import { erGyldigFodselsnummer } from "@/utils/frnValideringUtils";

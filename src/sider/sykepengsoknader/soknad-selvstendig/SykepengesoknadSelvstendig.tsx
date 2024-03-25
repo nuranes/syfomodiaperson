@@ -1,6 +1,5 @@
 import React, { ReactElement } from "react";
 import Oppsummeringsvisning from "../soknad-felles-oppsummering/Oppsummeringsvisning";
-import SoknadSpeiling from "../soknad-felles/SoknadSpeiling";
 import IkkeInnsendtSoknad from "../soknad-felles/IkkeInnsendtSoknad";
 import SendtSoknadSelvstendigStatuspanel from "./SendtSoknadSelvstendigStatuspanel";
 import AvbruttSoknadSelvstendigStatuspanel from "./AvbruttSoknadSelvstendigStatuspanel";
@@ -10,26 +9,24 @@ import {
   SykepengesoknadDTO,
 } from "@/data/sykepengesoknad/types/SykepengesoknadDTO";
 import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat";
-import { Brodsmule } from "../../../components/speiling/Brodsmuler";
 import { erVaerKlarOverAt } from "@/utils/sykepengesoknadUtils";
 import { SpeilingEkspanderbartPanel } from "@/components/speiling/ekspanderbar/SpeilingEkspanderbartPanel";
+import { Heading } from "@navikt/ds-react";
+import TilbakeTilSoknader from "@/sider/sykepengsoknader/soknad-felles/TilbakeTilSoknader";
 
 const texts = {
+  sideTittel: "Søknad om sykepenger",
   oppsummering: "Oppsummering",
 };
 
 interface SykepengesoknadSelvstendigProps {
-  brukernavn: string;
   soknad: SykepengesoknadDTO;
-  brodsmuler: Brodsmule[];
   sykmelding?: SykmeldingOldFormat;
 }
 
 const SykepengesoknadSelvstendig = ({
   soknad,
   sykmelding,
-  brodsmuler,
-  brukernavn,
 }: SykepengesoknadSelvstendigProps): ReactElement => {
   switch (soknad.status) {
     case Soknadstatus.NY:
@@ -38,17 +35,24 @@ const SykepengesoknadSelvstendig = ({
     }
     case Soknadstatus.AVBRUTT: {
       return (
-        <SoknadSpeiling brodsmuler={brodsmuler} brukernavn={brukernavn}>
+        <div>
+          <Heading level="1" size="large">
+            {texts.sideTittel}
+          </Heading>
           <AvbruttSoknadSelvstendigStatuspanel soknad={soknad} />
           {sykmelding?.sporsmal && (
             <SykmeldingUtdragForSelvstendige sykmelding={sykmelding} erApen />
           )}
-        </SoknadSpeiling>
+          <TilbakeTilSoknader />
+        </div>
       );
     }
     default: {
       return (
-        <SoknadSpeiling brodsmuler={brodsmuler} brukernavn={brukernavn}>
+        <div>
+          <Heading level="1" size="large">
+            {texts.sideTittel}
+          </Heading>
           <SendtSoknadSelvstendigStatuspanel soknad={soknad} />
           {sykmelding?.sporsmal && (
             <SykmeldingUtdragForSelvstendige sykmelding={sykmelding} erApen />
@@ -63,7 +67,7 @@ const SykepengesoknadSelvstendig = ({
               }}
             />
           </SpeilingEkspanderbartPanel>
-          <div className="panel">
+          <div className="panel mb-4">
             <Oppsummeringsvisning
               soknad={{
                 ...soknad,
@@ -73,7 +77,8 @@ const SykepengesoknadSelvstendig = ({
               }}
             />
           </div>
-        </SoknadSpeiling>
+          <TilbakeTilSoknader />
+        </div>
       );
     }
   }

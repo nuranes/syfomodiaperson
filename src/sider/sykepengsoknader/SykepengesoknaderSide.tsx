@@ -1,10 +1,8 @@
 import React, { ReactElement } from "react";
-import Side from "../../Side";
-import Soknader from "../soknader/Soknader";
-import Brodsmuler from "../../../components/speiling/Brodsmuler";
-import Speilingvarsel from "../../../components/speiling/Speilingvarsel";
-import Feilstripe from "../../../components/Feilstripe";
-import SideLaster from "../../../components/SideLaster";
+import Side from "../Side";
+import Soknader from "./soknader/Soknader";
+import Feilstripe from "../../components/Feilstripe";
+import SideLaster from "../../components/SideLaster";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import { useSykepengesoknaderQuery } from "@/data/sykepengesoknad/sykepengesoknadQueryHooks";
@@ -23,14 +21,6 @@ const SykepengesoknaderSide = (): ReactElement => {
   } = useSykepengesoknaderQuery();
 
   const brukernavn = useNavBrukerData().navn;
-  const brodsmuler = [
-    {
-      tittel: "Ditt sykefravær",
-    },
-    {
-      tittel: "Søknader om sykepenger",
-    },
-  ];
   return (
     <Side
       tittel="Sykepengesøknader"
@@ -43,11 +33,7 @@ const SykepengesoknaderSide = (): ReactElement => {
             tekst={errorMessageText(brukernavn)}
             vis={isError}
           />
-          <Speilingvarsel brukernavn={brukernavn} />
-          <div className="speiling">
-            <Brodsmuler brodsmuler={brodsmuler} />
-            <Soknader fnr={fnr} soknader={sykepengesoknader} />
-          </div>
+          <Soknader fnr={fnr} soknader={sykepengesoknader} />
         </div>
       </SideLaster>
     </Side>

@@ -10,7 +10,7 @@ const texts = {
 
 const IkkeInnsendtSoknad = (): ReactElement => (
   <>
-    <Box background="surface-default" className="text-center" padding="6">
+    <Box background="surface-default" className="mb-4 text-center" padding="6">
       <Heading size="small" level="2" className="mt-8">
         {texts.title}
       </Heading>

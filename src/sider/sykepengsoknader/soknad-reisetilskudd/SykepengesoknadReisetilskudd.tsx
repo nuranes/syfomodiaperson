@@ -1,7 +1,5 @@
 import React, { ReactElement } from "react";
 import Oppsummeringsvisning from "../soknad-felles-oppsummering/Oppsummeringsvisning";
-import SoknadSpeiling from "../soknad-felles/SoknadSpeiling";
-import { Brodsmule } from "../../../components/speiling/Brodsmuler";
 import {
   Soknadstatus,
   SykepengesoknadDTO,
@@ -12,6 +10,8 @@ import { SykmeldingUtdragContainer } from "../SykmeldingUtdragContainer";
 import { erVaerKlarOverAt } from "@/utils/sykepengesoknadUtils";
 import SykepengesoknadStatuspanel from "@/sider/sykepengsoknader/soknad-arbeidstaker-ny/SykepengesoknadStatuspanel";
 import { SpeilingEkspanderbartPanel } from "@/components/speiling/ekspanderbar/SpeilingEkspanderbartPanel";
+import { Heading } from "@navikt/ds-react";
+import TilbakeTilSoknader from "@/sider/sykepengsoknader/soknad-felles/TilbakeTilSoknader";
 
 const texts = {
   tittel: "Søknad om reisetilskudd",
@@ -31,22 +31,17 @@ const OppsummeringUtvidbar = ({ soknad }: OppsummeringUtvidbarProps) => {
 };
 
 interface SykepengesoknadReisetilskuddProps {
-  brukernavn: string;
-  brodsmuler: Brodsmule[];
   soknad: SykepengesoknadDTO;
 }
 
 const SykepengesoknadReisetilskudd = ({
-  brukernavn,
-  brodsmuler,
   soknad,
 }: SykepengesoknadReisetilskuddProps): ReactElement => {
   return (
-    <SoknadSpeiling
-      tittel={texts.tittel}
-      brukernavn={brukernavn}
-      brodsmuler={brodsmuler}
-    >
+    <div>
+      <Heading level="1" size="large">
+        {texts.tittel}
+      </Heading>
       {soknad.status === Soknadstatus.KORRIGERT && (
         <KorrigertAv soknadId={soknad.id} />
       )}
@@ -61,7 +56,8 @@ const SykepengesoknadReisetilskudd = ({
         }}
       />
       <RelaterteSoknader soknad={soknad} />
-    </SoknadSpeiling>
+      <TilbakeTilSoknader />
+    </div>
   );
 };
 

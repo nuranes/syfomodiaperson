@@ -1,8 +1,6 @@
 import React, { ReactElement } from "react";
 import Oppsummeringsvisning from "../soknad-felles-oppsummering/Oppsummeringsvisning";
-import SoknadSpeiling from "../soknad-felles/SoknadSpeiling";
 import SykepengesoknadStatuspanel from "./SykepengesoknadStatuspanel";
-import { Brodsmule } from "../../../components/speiling/Brodsmuler";
 import {
   Soknadstatus,
   SykepengesoknadDTO,
@@ -12,6 +10,8 @@ import { RelaterteSoknader } from "../soknad-arbeidstaker/RelaterteSoknader";
 import { SykmeldingUtdragContainer } from "../SykmeldingUtdragContainer";
 import { erTilSlutt, erVaerKlarOverAt } from "@/utils/sykepengesoknadUtils";
 import { SpeilingEkspanderbartPanel } from "@/components/speiling/ekspanderbar/SpeilingEkspanderbartPanel";
+import { Heading } from "@navikt/ds-react";
+import TilbakeTilSoknader from "@/sider/sykepengsoknader/soknad-felles/TilbakeTilSoknader";
 
 const texts = {
   tittel: "Søknad om sykepenger",
@@ -31,22 +31,17 @@ const OppsummeringUtvidbar = ({ soknad }: OppsummeringUtvidbarProps) => {
 };
 
 interface SendtSoknadArbeidstakerNyProps {
-  brukernavn: string;
-  brodsmuler: Brodsmule[];
   soknad: SykepengesoknadDTO;
 }
 
 const SendtSoknadArbeidstakerNy = ({
-  brukernavn,
-  brodsmuler,
   soknad,
 }: SendtSoknadArbeidstakerNyProps): ReactElement => {
   return (
-    <SoknadSpeiling
-      tittel={texts.tittel}
-      brukernavn={brukernavn}
-      brodsmuler={brodsmuler}
-    >
+    <div>
+      <Heading level="1" size="large">
+        {texts.tittel}
+      </Heading>
       {soknad.status === Soknadstatus.KORRIGERT && (
         <KorrigertAv soknadId={soknad.id} />
       )}
@@ -71,7 +66,8 @@ const SendtSoknadArbeidstakerNy = ({
         />
       </div>
       <RelaterteSoknader soknad={soknad} />
-    </SoknadSpeiling>
+      <TilbakeTilSoknader />
+    </div>
   );
 };
 

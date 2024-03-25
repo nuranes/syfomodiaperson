@@ -4,12 +4,12 @@ import Statuspanel, {
   StatusNokkelopplysning,
   Statusopplysninger,
 } from "../../../components/speiling/Statuspanel";
-import SoknadSpeiling from "../soknad-felles/SoknadSpeiling";
 import VerktoylinjeGjenapne from "../soknad-felles/VerktoylinjeGjenapneSoknad";
-import { Brodsmule } from "../../../components/speiling/Brodsmuler";
 import { SykepengesoknadDTO } from "@/data/sykepengesoknad/types/SykepengesoknadDTO";
 import { SykmeldingUtdragContainer } from "../SykmeldingUtdragContainer";
 import { erOpprettetSisteAar } from "@/utils/sykepengesoknadUtils";
+import { Heading } from "@navikt/ds-react";
+import TilbakeTilSoknader from "@/sider/sykepengsoknader/soknad-felles/TilbakeTilSoknader";
 
 const texts = {
   tittel: "Søknad om sykepenger",
@@ -41,26 +41,20 @@ const AvbruttSoknadArbeidstakerStatuspanel = ({
 };
 
 interface AvbruttSoknadArbeidstakerProps {
-  brukernavn: string;
   soknad: SykepengesoknadDTO;
-  brodsmuler: Brodsmule[];
 }
 
 const AvbruttSoknadArbeidstaker = ({
-  brukernavn,
-  brodsmuler,
   soknad,
 }: AvbruttSoknadArbeidstakerProps): ReactElement => {
   return (
     <div>
-      <SoknadSpeiling
-        tittel={texts.tittel}
-        brukernavn={brukernavn}
-        brodsmuler={brodsmuler}
-      >
-        <AvbruttSoknadArbeidstakerStatuspanel soknad={soknad} />
-        <SykmeldingUtdragContainer soknad={soknad} />
-      </SoknadSpeiling>
+      <Heading level="1" size="large">
+        {texts.tittel}
+      </Heading>
+      <AvbruttSoknadArbeidstakerStatuspanel soknad={soknad} />
+      <SykmeldingUtdragContainer soknad={soknad} />
+      <TilbakeTilSoknader />
     </div>
   );
 };

@@ -1,10 +1,9 @@
 import React, { ReactElement } from "react";
 import Oppsummeringsvisning from "../soknad-felles-oppsummering/Oppsummeringsvisning";
-import SoknadSpeiling from "../soknad-felles/SoknadSpeiling";
 import StatuspanelUtland from "./StatuspanelUtland";
 import { SykepengesoknadDTO } from "@/data/sykepengesoknad/types/SykepengesoknadDTO";
-import { Brodsmule } from "../../../components/speiling/Brodsmuler";
 import { Heading, Panel } from "@navikt/ds-react";
+import TilbakeTilSoknader from "@/sider/sykepengsoknader/soknad-felles/TilbakeTilSoknader";
 
 const texts = {
   tittel: "Søknad om sykepenger under opphold utenfor Norge",
@@ -27,25 +26,21 @@ const OppsummeringPanel = ({ soknad }: OppsummeringPanelProps) => {
 };
 
 interface SykepengesoknadUtlandProps {
-  brukernavn: string;
-  brodsmuler: Brodsmule[];
   soknad: SykepengesoknadDTO;
 }
 
 const SykepengesoknadUtland = ({
-  brukernavn,
-  brodsmuler,
   soknad,
 }: SykepengesoknadUtlandProps): ReactElement => {
   return (
-    <SoknadSpeiling
-      tittel={texts.tittel}
-      brukernavn={brukernavn}
-      brodsmuler={brodsmuler}
-    >
+    <div>
+      <Heading level="1" size="large">
+        {texts.tittel}
+      </Heading>
       <StatuspanelUtland soknad={soknad} />
       <OppsummeringPanel soknad={soknad} />
-    </SoknadSpeiling>
+      <TilbakeTilSoknader />
+    </div>
   );
 };
 
