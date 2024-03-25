@@ -36,7 +36,7 @@ export const mockIshuskelapp = (server: any) => {
           updatedAt: oppfolgingsoppgaveMock.updatedAt,
           createdAt: oppfolgingsoppgaveMock.createdAt,
           oppfolgingsgrunn: oppfolgingsoppgaveMock.oppfolgingsgrunn,
-          tekst: oppfolgingsoppgaveMock.tekst,
+          tekst: body.tekst,
           frist: body.frist,
         };
         res.send(JSON.stringify(oppfolgingsoppgaveMock));

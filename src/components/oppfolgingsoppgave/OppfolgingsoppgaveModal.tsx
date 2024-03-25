@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Alert,
   BodyLong,
@@ -96,27 +96,54 @@ export const OppfolgingsoppgaveModal = ({
   toggleOpen,
   existingOppfolgingsoppgave,
 }: Props) => {
-  const [isGeneralFormError, setIsGeneralFormError] = useState(false);
+  const [isFormError, setIsFormError] = useState(false);
+  const [isFristTouched, setIsFristTouched] = useState(false);
   const createOppfolgingsoppgave = useCreateOppfolgingsoppgave();
   const editOppfolgingsoppgave = useEditOppfolgingsoppgave(
     existingOppfolgingsoppgave?.uuid
   );
   const {
     register,
-    formState: { errors },
+    formState: { errors, isDirty },
     handleSubmit,
     setValue,
     watch,
-  } = useForm<FormValues>();
+  } = useForm<FormValues>({
+    defaultValues: {
+      beskrivelse: existingOppfolgingsoppgave?.tekst ?? "",
+      frist: existingOppfolgingsoppgave?.frist ?? null,
+    },
+  });
+  const watchedValues = watch();
   const isEditMode = !!existingOppfolgingsoppgave;
+
+  const isFormEdited = useCallback(
+    (existingOppfolgingsoppgave) => {
+      const isFristEdited =
+        watchedValues.frist !== existingOppfolgingsoppgave?.frist;
+      const isBeskrivelseEdited =
+        watchedValues.beskrivelse !== existingOppfolgingsoppgave?.tekst;
+      return isFristEdited || isBeskrivelseEdited;
+    },
+    [watchedValues]
+  );
+
+  useEffect(() => {
+    if (isDirty || isFristTouched) {
+      setIsFormError(!isFormEdited(existingOppfolgingsoppgave));
+    }
+  }, [
+    existingOppfolgingsoppgave,
+    isDirty,
+    isFormEdited,
+    isFristTouched,
+    watchedValues,
+  ]);
 
   const submit = (values: FormValues) => {
     if (isEditMode) {
-      if (
-        values.frist === existingOppfolgingsoppgave?.frist ||
-        values.frist === undefined
-      ) {
-        setIsGeneralFormError(true);
+      if (!isFormEdited(existingOppfolgingsoppgave)) {
+        setIsFormError(true);
       } else {
         submitEditedOppfolgingsoppgave(values, existingOppfolgingsoppgave);
       }
@@ -159,18 +186,15 @@ export const OppfolgingsoppgaveModal = ({
     });
   }
 
-  const defaultSelectedDate =
-    isEditMode && !!existingOppfolgingsoppgave.frist
-      ? dayjs(existingOppfolgingsoppgave.frist).toDate()
-      : undefined;
+  const defaultSelectedDate = !!existingOppfolgingsoppgave?.frist
+    ? dayjs(existingOppfolgingsoppgave.frist).toDate()
+    : undefined;
   const { datepickerProps, inputProps } = useDatepicker({
     onDateChange: (date: Date | undefined) => {
-      setValue("frist", dayjs(date).format("YYYY-MM-DD") ?? null);
-      if (date === existingOppfolgingsoppgave?.frist) {
-        setIsGeneralFormError(true);
-      } else {
-        setIsGeneralFormError(false);
-      }
+      date
+        ? setValue("frist", dayjs(date).format("YYYY-MM-DD"))
+        : setValue("frist", null);
+      setIsFristTouched(true);
     },
     defaultSelected: defaultSelectedDate,
     fromDate: new Date(),
@@ -178,9 +202,6 @@ export const OppfolgingsoppgaveModal = ({
 
   const isOppfolgingsgrunnAnnet =
     watch("oppfolgingsgrunn") === Oppfolgingsgrunn.ANNET;
-  const beskrivelseValue = isEditMode
-    ? existingOppfolgingsoppgave?.tekst
-    : watch("beskrivelse");
 
   return (
     <form onSubmit={handleSubmit(submit)}>
@@ -245,12 +266,11 @@ export const OppfolgingsoppgaveModal = ({
           <Textarea
             label={texts.beskrivelseLabel}
             size="small"
-            value={beskrivelseValue}
+            value={watch("beskrivelse")}
             maxLength={MAX_LENGTH_BESKRIVELSE}
             {...register("beskrivelse", {
               maxLength: MAX_LENGTH_BESKRIVELSE,
             })}
-            readOnly={isEditMode}
           ></Textarea>
 
           <DatePicker {...datepickerProps} strategy="fixed">
@@ -276,7 +296,7 @@ export const OppfolgingsoppgaveModal = ({
           >
             {texts.save}
           </Button>
-          {isGeneralFormError && (
+          {isFormError && (
             <ErrorMessage>{texts.formNeedsChangeToSave}</ErrorMessage>
           )}
         </Modal.Footer>
