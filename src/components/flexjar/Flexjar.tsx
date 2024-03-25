@@ -42,7 +42,7 @@ export const Flexjar = ({ side }: FlexjarProps) => {
   const [emojiType, setEmojiType] = useState<EmojiType>();
   const sendFeedback = useFlexjarFeedback();
   const { setStoredValue: setFeedbackDate } = useLocalStorageState<Date>(
-    StoreKey.FLEXJAR_AKTIVITETSKRAV_FEEDBACK_DATE
+    StoreKey.FLEXJAR_ARBEIDSUFORHET_FEEDBACK_DATE
   );
 
   useEffect(() => {
@@ -95,7 +95,6 @@ export const Flexjar = ({ side }: FlexjarProps) => {
     <div className="flex flex-col sticky bottom-0 items-end z-[100]">
       <Button
         variant="primary-neutral"
-        size="small"
         iconPosition="right"
         icon={isApen ? <ChevronDownIcon /> : <ChevronUpIcon />}
         onClick={clickFeedbackPanel}

@@ -35,6 +35,7 @@ describe("Flexjar", () => {
   });
   afterEach(() => {
     nock.cleanAll();
+    localStorage.setItem(StoreKey.FLEXJAR_ARBEIDSUFORHET_FEEDBACK_DATE, "");
   });
 
   it("renders only feedback button", () => {
@@ -146,7 +147,8 @@ describe("Flexjar", () => {
     clickButton("Horribel");
     clickButton("Send tilbakemelding");
 
-    expect(localStorage.getItem(StoreKey.FLEXJAR_AKTIVITETSKRAV_FEEDBACK_DATE))
-      .to.not.be.null;
+    expect(
+      localStorage.getItem(StoreKey.FLEXJAR_ARBEIDSUFORHET_FEEDBACK_DATE)
+    ).to.not.equal("");
   });
 });

@@ -29,7 +29,7 @@ interface SideProps {
 const Side = ({ tittel, aktivtMenypunkt, children }: SideProps) => {
   const { data: diskresjonskode } = useDiskresjonskodeQuery();
   const { storedValue: flexjarFeedbackDate } = useLocalStorageState<Date>(
-    StoreKey.FLEXJAR_AKTIVITETSKRAV_FEEDBACK_DATE
+    StoreKey.FLEXJAR_ARBEIDSUFORHET_FEEDBACK_DATE
   );
 
   const hasGivenFeedback = !!flexjarFeedbackDate;
@@ -43,7 +43,7 @@ const Side = ({ tittel, aktivtMenypunkt, children }: SideProps) => {
   const { toggles } = useFeatureToggles();
   const showFlexjar =
     toggles.isFlexjarEnabled &&
-    aktivtMenypunkt === Menypunkter.AKTIVITETSKRAV &&
+    aktivtMenypunkt === Menypunkter.ARBEIDSUFORHET &&
     diskresjonskode !== "6" &&
     diskresjonskode !== "7" &&
     !hasGivenFeedback;
