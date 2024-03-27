@@ -2,7 +2,6 @@ import React, { ReactElement, ReactNode, useEffect, useState } from "react";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import { Field, useFormState } from "react-final-form";
 import styled from "styled-components";
-import { FlexColumn, FlexRow, PaddingSize } from "../../Layout";
 import { AndreDeltakere } from "./AndreDeltakere";
 import { useAktivVeilederinfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
 import { DialogmotedeltakerBehandlerDTO } from "@/data/dialogmote/types/dialogmoteTypes";
@@ -14,7 +13,13 @@ import {
   PersonSuitIcon,
 } from "@navikt/aksel-icons";
 import { MedisinskrinImage } from "../../../../img/ImageComponents";
-import { Checkbox, ExpansionCard, Heading, TextField } from "@navikt/ds-react";
+import {
+  BodyLong,
+  Checkbox,
+  ExpansionCard,
+  Heading,
+  TextField,
+} from "@navikt/ds-react";
 
 export const texts = {
   title: "Deltakere i møtet",
@@ -58,7 +63,6 @@ const DeltakerEkspanderbartPanel = ({
 
   return (
     <ExpansionCard
-      className="mb-2"
       size="small"
       open={open}
       onToggle={() => setOpen(!open)}
@@ -70,12 +74,11 @@ const DeltakerEkspanderbartPanel = ({
   );
 };
 
-interface DeltakerTekstProps {
+interface DeltakerHeadingProps {
   color?: string;
 }
 
-const DeltakerTekst = styled(Heading)<DeltakerTekstProps>`
-  margin-left: 0.5em;
+const DeltakerHeading = styled(Heading)<DeltakerHeadingProps>`
   ${(props) =>
     props.color && {
       color: props.color,
@@ -96,18 +99,18 @@ const DeltakerBehandler = ({ behandler }: DeltakerBehandlerProps) => {
     <DeltakerEkspanderbartPanel
       ariaLabel={tittelTekst}
       tittel={
-        <FlexRow>
+        <div className="flex gap-2">
           <img
             src={MedisinskrinImage}
             alt="Medisinskrin-ikon"
             {...deltakerIconProps}
           />
-          <DeltakerTekst size="small">{tittelTekst}</DeltakerTekst>
-        </FlexRow>
+          <Heading size="small">{tittelTekst}</Heading>
+        </div>
       }
     >
-      <FlexRow topPadding={PaddingSize.SM}>{texts.behandlerTekst}</FlexRow>
-      <FlexRow topPadding={PaddingSize.MD}>
+      <div className="flex flex-col gap-4 mt-4 mb-4">
+        <BodyLong size="small">{texts.behandlerTekst}</BodyLong>
         <Field name="behandlerDeltatt" type="checkbox">
           {({ input }) => (
             <Checkbox size="small" {...input}>
@@ -115,8 +118,6 @@ const DeltakerBehandler = ({ behandler }: DeltakerBehandlerProps) => {
             </Checkbox>
           )}
         </Field>
-      </FlexRow>
-      <FlexRow topPadding={PaddingSize.MD}>
         <Field name="behandlerMottarReferat" type="checkbox">
           {({ input }) => (
             <Checkbox size="small" {...input}>
@@ -124,10 +125,8 @@ const DeltakerBehandler = ({ behandler }: DeltakerBehandlerProps) => {
             </Checkbox>
           )}
         </Field>
-      </FlexRow>
-      <FlexRow topPadding={PaddingSize.MD}>
-        {texts.behandlerReferatSamtykke}
-      </FlexRow>
+        <BodyLong size="small">{texts.behandlerReferatSamtykke}</BodyLong>
+      </div>
     </DeltakerEkspanderbartPanel>
   );
 };
@@ -147,29 +146,26 @@ const DeltakerArbeidsgiver = () => {
             ariaLabel={tittelTekst}
             harValideringsfeil={harValideringsfeil}
             tittel={
-              <FlexRow>
+              <div className="flex gap-2">
                 <PersonSuitIcon {...deltakerIconProps} color={tittelFarge} />
-                <DeltakerTekst size="small" color={tittelFarge}>
+                <DeltakerHeading size="small" color={tittelFarge}>
                   {tittelTekst}
-                </DeltakerTekst>
-              </FlexRow>
+                </DeltakerHeading>
+              </div>
             }
           >
-            <FlexRow topPadding={PaddingSize.SM}>
-              <FlexColumn flex={0.5}>
-                <TextField
-                  {...input}
-                  id="naermesteLeder"
-                  label={texts.arbeidsgiverLabel}
-                  error={meta.submitFailed && meta.error}
-                  type="text"
-                  size="small"
-                />
-              </FlexColumn>
-            </FlexRow>
-            <FlexRow topPadding={PaddingSize.MD}>
-              {texts.arbeidsgiverTekst}
-            </FlexRow>
+            <div className="flex flex-col gap-8 mt-4">
+              <TextField
+                className="w-2/4"
+                {...input}
+                id="naermesteLeder"
+                label={texts.arbeidsgiverLabel}
+                error={meta.submitFailed && meta.error}
+                type="text"
+                size="small"
+              />
+              <BodyLong size="small">{texts.arbeidsgiverTekst}</BodyLong>
+            </div>
           </DeltakerEkspanderbartPanel>
         );
       }}
@@ -186,20 +182,18 @@ const Deltakere = ({ behandler }: DeltakereProps): ReactElement => {
   const { data: veilederinfo } = useAktivVeilederinfoQuery();
 
   return (
-    <div className="mb-16">
-      <Heading size="medium" className="mb-4">
-        {texts.title}
-      </Heading>
-      <FlexRow leftPadding={PaddingSize.SM} bottomPadding={PaddingSize.MD}>
+    <div className="flex flex-col gap-4 mb-16">
+      <Heading size="medium">{texts.title}</Heading>
+      <div className="flex pl-4 gap-2">
         <PersonIcon {...deltakerIconProps} />
-        <DeltakerTekst size="small">{`Arbeidstaker: ${navbruker?.navn}`}</DeltakerTekst>
-      </FlexRow>
-      <FlexRow leftPadding={PaddingSize.SM} bottomPadding={PaddingSize.MD}>
+        <Heading size="small">{`Arbeidstaker: ${navbruker?.navn}`}</Heading>
+      </div>
+      <div className="flex pl-4 gap-2">
         <PersonPencilIcon {...deltakerIconProps} />
-        <DeltakerTekst size="small">
+        <Heading size="small">
           {`Fra NAV: ${veilederinfo?.fulltNavn()}`}
-        </DeltakerTekst>
-      </FlexRow>
+        </Heading>
+      </div>
       <DeltakerArbeidsgiver />
       {behandler && <DeltakerBehandler behandler={behandler} />}
       <AndreDeltakere />

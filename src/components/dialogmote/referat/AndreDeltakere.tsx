@@ -2,7 +2,6 @@ import React from "react";
 import { FieldArray } from "react-final-form-arrays";
 import { NewDialogmotedeltakerAnnenDTO } from "@/data/dialogmote/types/dialogmoteReferatTypes";
 import { Field, useFormState } from "react-final-form";
-import { FlexColumn, FlexRow, PaddingSize } from "../../Layout";
 import { ValidationErrors } from "final-form";
 import { Button, TextField } from "@navikt/ds-react";
 import { PlusIcon, TrashIcon } from "@navikt/aksel-icons";
@@ -36,6 +35,7 @@ const DeltakerField = ({
   <Field<string> name={fieldName} parse={identityFunction}>
     {({ input }) => (
       <TextField
+        className="flex-[0.3]"
         {...input}
         id={fieldName}
         label={label}
@@ -51,38 +51,33 @@ export const AndreDeltakere = () => {
   const { submitFailed, errors } = useFormState();
 
   return (
-    <div className="mt-4">
+    <div className="flex flex-col gap-4 items-start">
       <FieldArray<NewDialogmotedeltakerAnnenDTO> name={"andreDeltakere"}>
         {({ fields }) => (
           <>
             {fields.map((field, index) => (
-              <FlexRow key={field} bottomPadding={PaddingSize.SM}>
-                <FlexColumn className="mr-4" flex={0.3}>
-                  <DeltakerField
-                    fieldName={`${field}.funksjon`}
-                    label={texts.funksjonLabel}
-                    submitFailed={submitFailed}
-                    errors={errors}
-                  />
-                </FlexColumn>
-                <FlexColumn className="mr-1" flex={0.3}>
-                  <DeltakerField
-                    fieldName={`${field}.navn`}
-                    label={texts.navnLabel}
-                    submitFailed={submitFailed}
-                    errors={errors}
-                  />
-                </FlexColumn>
-                <FlexColumn className="mt-7">
-                  <Button
-                    type="button"
-                    variant="tertiary"
-                    size="small"
-                    icon={<TrashIcon title="Slett ikon" />}
-                    onClick={() => fields.remove(index)}
-                  />
-                </FlexColumn>
-              </FlexRow>
+              <div key={field} className="flex w-full gap-2">
+                <DeltakerField
+                  fieldName={`${field}.funksjon`}
+                  label={texts.funksjonLabel}
+                  submitFailed={submitFailed}
+                  errors={errors}
+                />
+                <DeltakerField
+                  fieldName={`${field}.navn`}
+                  label={texts.navnLabel}
+                  submitFailed={submitFailed}
+                  errors={errors}
+                />
+                <Button
+                  className="mt-7 self-start"
+                  type="button"
+                  variant="tertiary"
+                  size="small"
+                  icon={<TrashIcon title="Slett ikon" />}
+                  onClick={() => fields.remove(index)}
+                />
+              </div>
             ))}
             <Button
               type="button"
