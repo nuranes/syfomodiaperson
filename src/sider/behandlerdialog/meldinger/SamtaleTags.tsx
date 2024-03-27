@@ -1,5 +1,5 @@
-import { Tag } from "@navikt/ds-react";
-import React, { ComponentProps } from "react";
+import { Tag, TagProps } from "@navikt/ds-react";
+import React from "react";
 import styled from "styled-components";
 import {
   MeldingDTO,
@@ -41,7 +41,7 @@ interface SamtaleTagsProps {
   meldinger: MeldingDTO[];
 }
 
-const SamtaleTag = (props: ComponentProps<typeof Tag>) => (
+const SamtaleTag = (props: TagProps) => (
   <StyledWrapper>
     <StyledTag {...props} size="small">
       {props.children}
