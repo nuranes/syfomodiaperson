@@ -31,7 +31,7 @@ const texts = {
 
 const forhandsvarselFrist = addWeeks(new Date(), 3);
 const defaultValues = { begrunnelse: texts.defaultTextareaValue };
-const begrunnelseMaxLength = 1000;
+const begrunnelseMaxLength = 2000;
 
 interface SkjemaValues {
   begrunnelse: string;
