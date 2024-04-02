@@ -1,27 +1,20 @@
 import React from "react";
-import { Box, Heading, List } from "@navikt/ds-react";
+import { Alert } from "@navikt/ds-react";
 
 const texts = {
-  title: "Husk å opprette oppgave i Gosys",
-  todo: [
-    "Gå inn i Gosys",
-    "Lag innstilling i forvaltningsnotat",
-    "Lag oppgave",
-    "Send til NAY",
-  ],
+  title: "Du har gitt avslag i modia og oppgaven er fjernet fra oversikten.",
+  nb: "NB!",
+  nextStep:
+    "Husk å lage innstilling i forvaltningsnotat i Gosys og lage oppgave og sende til NAY.",
 };
 
 export const AvslagSent = () => {
   return (
-    <Box background="surface-default" padding="4">
-      <Heading className="mb-4" level="2" size="medium">
-        {texts.title}
-      </Heading>
-      <List as="ol" size="small">
-        {texts.todo.map((todo, index) => (
-          <List.Item key={index}>{todo}</List.Item>
-        ))}
-      </List>
-    </Box>
+    <Alert variant="success" className="mb-2">
+      <p>{texts.title}</p>
+      <p>
+        <b>{texts.nb}</b> {texts.nextStep}
+      </p>
+    </Alert>
   );
 };

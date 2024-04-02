@@ -111,7 +111,11 @@ describe("ArbeidsuforhetSide", () => {
 
       renderArbeidsuforhetSide();
 
-      expect(screen.getByText("Husk å opprette oppgave i Gosys")).to.exist;
+      expect(
+        screen.getByText(
+          "Du har gitt avslag i modia og oppgaven er fjernet fra oversikten."
+        )
+      ).to.exist;
     });
   });
 });
