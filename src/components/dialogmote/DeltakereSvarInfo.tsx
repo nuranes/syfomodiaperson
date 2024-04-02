@@ -218,7 +218,7 @@ const EkspanderbartSvarPanel = ({
   tittel,
   children,
 }: EkspanderbartSvarPanelProps) => (
-  <ExpansionCard size="small" aria-label={tittel} className="mb-4">
+  <ExpansionCard size="small" aria-label={tittel}>
     <ExpansionCard.Header>
       <ExpansionCard.Title size="small">
         <div className="flex gap-1 items-center">
@@ -287,7 +287,7 @@ export const DeltakereSvarInfo = ({ dialogmote }: DeltakereSvarInfoProps) => {
   const customTitle = noNarmesteLeder ? texts.noNarmesteleder : undefined;
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full gap-4">
       <DeltakerSvarPanel
         deltakerLabel={texts.naermesteLeder}
         deltakerNavn={narmesteLederNavn ?? ""}

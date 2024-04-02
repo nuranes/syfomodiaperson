@@ -56,10 +56,6 @@ export const FlexRow = styled.div<RowProps>`
     props.justifyContent || JustifyContentType.FLEX_START};
 `;
 
-export const H2NoMargins = styled.h2`
-  margin: 0;
-`;
-
 interface ButtonRowProps {
   topPadding?: PaddingSize;
   bottomPadding?: PaddingSize;

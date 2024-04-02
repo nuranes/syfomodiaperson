@@ -1,7 +1,6 @@
+import React, { ReactNode } from "react";
 import { MoteIkonBlaaImage } from "../../../../../img/ImageComponents";
 import { DialogmotePanel } from "../DialogmotePanel";
-import React, { ReactNode } from "react";
-import { FlexRow, PaddingSize } from "../../../../components/Layout";
 import {
   DialogmoteDTO,
   DialogmoteStatus,
@@ -9,14 +8,12 @@ import {
 import { tilDatoMedUkedagOgManedNavnOgKlokkeslett } from "@/utils/datoUtils";
 import { Link } from "react-router-dom";
 import { dialogmoteRoutePath } from "@/routers/AppRouter";
-import { Normaltekst } from "nav-frontend-typografi";
 import { DeltakereSvarInfo } from "@/components/dialogmote/DeltakereSvarInfo";
 import dayjs from "dayjs";
 import { useDialogmoteReferat } from "@/hooks/dialogmote/useDialogmoteReferat";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
 import { narmesteLederForVirksomhet } from "@/utils/ledereUtils";
 import { NoNarmesteLederAlert } from "@/sider/mote/components/innkalling/NoNarmestLederAlert";
-import Knapp, { Hovedknapp } from "nav-frontend-knapper";
 import VurderOppgaveForDialogmotesvarKnapp from "@/sider/mote/components/innkalling/VurderOppgaveForDialogmotesvarKnapp";
 import { usePersonoppgaverQuery } from "@/data/personoppgave/personoppgaveQueryHooks";
 import { PersonOppgave } from "@/data/personoppgave/types/PersonOppgave";
@@ -24,6 +21,7 @@ import {
   isAktivtDialogmote,
   isPersonoppgaveCompletedAfterLastMoteEndring,
 } from "@/utils/dialogmoteUtils";
+import { BodyShort, Button } from "@navikt/ds-react";
 
 const texts = {
   innkallingSendtTrackingContext: "Møtelandingsside: Sendt innkalling",
@@ -43,8 +41,8 @@ const Subtitle = (dialogmote: DialogmoteDTO): ReactNode => {
 
   return (
     <>
-      <Normaltekst>{`${texts.moteTid}: ${moteDatoTid}`}</Normaltekst>
-      <Normaltekst>{`${texts.moteSted}: ${dialogmote.sted}`}</Normaltekst>
+      <BodyShort size="small">{`${texts.moteTid}: ${moteDatoTid}`}</BodyShort>
+      <BodyShort size="small">{`${texts.moteSted}: ${dialogmote.sted}`}</BodyShort>
     </>
   );
 };
@@ -101,35 +99,36 @@ export const DialogmoteMoteStatusPanel = ({ dialogmote }: Props) => {
       subtitle={Subtitle(dialogmote)}
       header={headerText(dialogmote)}
     >
-      {noNarmesteLeder && (
-        <FlexRow bottomPadding={PaddingSize.MD}>
-          <NoNarmesteLederAlert />
-        </FlexRow>
-      )}
-
-      <FlexRow>
-        <DeltakereSvarInfo dialogmote={dialogmote} />
-      </FlexRow>
-
+      {noNarmesteLeder && <NoNarmesteLederAlert />}
+      <DeltakereSvarInfo dialogmote={dialogmote} />
       {skalVurderes && (
-        <FlexRow topPadding={PaddingSize.MD}>
-          <VurderOppgaveForDialogmotesvarKnapp
-            personOppgave={personOppgaveForMote}
-          />
-        </FlexRow>
+        <VurderOppgaveForDialogmotesvarKnapp
+          personOppgave={personOppgaveForMote}
+        />
       )}
-
-      <FlexRow topPadding={PaddingSize.MD}>
-        <Link to={`${dialogmoteRoutePath}/${dialogmote.uuid}/endre`}>
-          <Knapp>{texts.endreMote}</Knapp>
-        </Link>
-        <Link to={`${dialogmoteRoutePath}/${dialogmote.uuid}/avlys`}>
-          <Knapp>{texts.avlysMote}</Knapp>
-        </Link>
-        <Link to={`${dialogmoteRoutePath}/${dialogmote.uuid}/referat`}>
-          <Hovedknapp>{referatKnappText}</Hovedknapp>
-        </Link>
-      </FlexRow>
+      <div className="flex gap-6">
+        <Button
+          as={Link}
+          to={`${dialogmoteRoutePath}/${dialogmote.uuid}/referat`}
+          variant="primary"
+        >
+          {referatKnappText}
+        </Button>
+        <Button
+          as={Link}
+          to={`${dialogmoteRoutePath}/${dialogmote.uuid}/endre`}
+          variant="secondary"
+        >
+          {texts.endreMote}
+        </Button>
+        <Button
+          as={Link}
+          to={`${dialogmoteRoutePath}/${dialogmote.uuid}/avlys`}
+          variant="secondary"
+        >
+          {texts.avlysMote}
+        </Button>
+      </div>
     </DialogmotePanel>
   );
 };
