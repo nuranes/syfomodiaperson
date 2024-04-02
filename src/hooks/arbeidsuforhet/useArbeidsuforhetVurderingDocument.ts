@@ -5,9 +5,9 @@ import {
   createHeaderH3,
   createParagraph,
 } from "@/utils/documentComponentUtils";
-import { getForhandsvarsel84Texts } from "@/data/arbeidsuforhet/forhandsvarsel84Texts";
 import { VurderingType } from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
 import { tilDatoMedManedNavn } from "@/utils/datoUtils";
+import { getForhandsvarselArbeidsuforhetTexts } from "@/data/arbeidsuforhet/forhandsvarselArbeidsuforhetTexts";
 
 type ForhandsvarselDocumentValues = {
   begrunnelse: string;
@@ -29,7 +29,7 @@ export const useArbeidsuforhetVurderingDocument = (): {
 
   const getForhandsvarselDocument = (values: ForhandsvarselDocumentValues) => {
     const { begrunnelse, frist } = values;
-    const sendForhandsvarselTexts = getForhandsvarsel84Texts({
+    const sendForhandsvarselTexts = getForhandsvarselArbeidsuforhetTexts({
       frist,
     });
 
@@ -49,6 +49,7 @@ export const useArbeidsuforhetVurderingDocument = (): {
         sendForhandsvarselTexts.duKanUttaleDeg.tilbakemeldingWithFristDate
       ),
       createParagraph(sendForhandsvarselTexts.duKanUttaleDeg.etterFrist),
+      createParagraph(sendForhandsvarselTexts.duKanUttaleDeg.friskmeldt),
       createParagraph(sendForhandsvarselTexts.duKanUttaleDeg.kontaktOss),
 
       createHeaderH3(sendForhandsvarselTexts.lovhjemmel.header),
@@ -69,7 +70,7 @@ export const useArbeidsuforhetVurderingDocument = (): {
     }
 
     const documentComponents = [
-      createHeaderH1("Vurdering av arbeidsuførhet"),
+      createHeaderH1("Vurdering av § 8-4 arbeidsuførhet"),
       getIntroGjelder(),
       createParagraph(getVurderingText(type)),
     ];
@@ -95,7 +96,7 @@ const getVurderingText = (
   const vurdertDato = tilDatoMedManedNavn(new Date());
   switch (type) {
     case VurderingType.OPPFYLT: {
-      return `Det ble vurdert oppfylt den ${vurdertDato}`;
+      return `Det ble vurdert oppfylt den ${vurdertDato}.`;
     }
     case VurderingType.AVSLAG: {
       return `Det ble vurdert avslag den ${vurdertDato}.`;

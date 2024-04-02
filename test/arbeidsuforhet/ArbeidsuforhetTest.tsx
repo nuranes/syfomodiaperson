@@ -18,7 +18,7 @@ import {
 } from "./arbeidsuforhetTestData";
 import { Arbeidsuforhet } from "@/sider/arbeidsuforhet/Arbeidsuforhet";
 import { renderWithRouter } from "../testRouterUtils";
-import { appRoutePath } from "@/routers/AppRouter";
+import { arbeidsuforhetPath } from "@/routers/AppRouter";
 
 let queryClient: QueryClient;
 
@@ -38,8 +38,8 @@ const renderArbeidsuforhetSide = () => {
         <Arbeidsuforhet />
       </ValgtEnhetContext.Provider>
     </QueryClientProvider>,
-    `${appRoutePath}/arbeidsuforhet`,
-    [`${appRoutePath}/arbeidsuforhet`]
+    arbeidsuforhetPath,
+    [arbeidsuforhetPath]
   );
 };
 
@@ -97,7 +97,7 @@ describe("ArbeidsuforhetSide", () => {
 
       renderArbeidsuforhetSide();
 
-      expect(screen.getByText("Fristen er utgått!")).to.exist;
+      expect(screen.getByText("Fristen er gått ut")).to.exist;
     });
 
     it("show avslag page if status is avslag", () => {

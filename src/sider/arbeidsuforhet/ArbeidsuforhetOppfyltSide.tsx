@@ -10,7 +10,7 @@ import { useArbeidsuforhetVurderingQuery } from "@/data/arbeidsuforhet/arbeidsuf
 import { ArbeidsuforhetOppfylt } from "@/sider/arbeidsuforhet/ArbeidsuforhetOppfylt";
 
 const texts = {
-  title: "Forhåndsvarsel §8-4",
+  title: "Arbeidsuførhet",
 };
 
 export const ArbeidsuforhetOppfyltSide = (): ReactElement => {

@@ -11,7 +11,7 @@ import {
   VurderingResponseDTO,
   VurderingType,
 } from "../../src/data/arbeidsuforhet/arbeidsuforhetTypes";
-import { getForhandsvarsel84Texts } from "../../src/data/arbeidsuforhet/forhandsvarsel84Texts";
+import { getForhandsvarselArbeidsuforhetTexts } from "../../src/data/arbeidsuforhet/forhandsvarselArbeidsuforhetTexts";
 
 const defaultOppfyltBegrunnelse = "Du har rett på sykepenger";
 
@@ -19,7 +19,7 @@ const getSendForhandsvarselDocument = (
   begrunnelse: string,
   frist: Date
 ): DocumentComponentDto[] => {
-  const sendForhandsvarselTexts = getForhandsvarsel84Texts({
+  const sendForhandsvarselTexts = getForhandsvarselArbeidsuforhetTexts({
     frist,
   });
   return [

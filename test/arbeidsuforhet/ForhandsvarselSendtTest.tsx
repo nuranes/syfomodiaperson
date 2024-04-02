@@ -16,7 +16,7 @@ import { arbeidsuforhetQueryKeys } from "@/data/arbeidsuforhet/arbeidsuforhetQue
 import { addWeeks, tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
 import { createForhandsvarsel } from "./arbeidsuforhetTestData";
 import { renderWithRouter } from "../testRouterUtils";
-import { appRoutePath } from "@/routers/AppRouter";
+import { arbeidsuforhetPath } from "@/routers/AppRouter";
 import { clickButton } from "../testUtils";
 
 let queryClient: QueryClient;
@@ -37,8 +37,8 @@ const renderForhandsvarselSendt = () => {
         <ForhandsvarselSendt />
       </ValgtEnhetContext.Provider>
     </QueryClientProvider>,
-    `${appRoutePath}/arbeidsuforhet`,
-    [`${appRoutePath}/arbeidsuforhet`]
+    arbeidsuforhetPath,
+    [arbeidsuforhetPath]
   );
 };
 
@@ -69,7 +69,7 @@ describe("ForhandsvarselSendt", () => {
       expect(screen.getByText("Fristen går ut:")).to.exist;
       expect(
         screen.getByText(
-          "Om du får svar fra bruker, og hen oppfyller kravene om 8-4 etter din vurdering, klikker du på “oppfylt”-knappen under. Om ikke må du vente til tiden går ut før du kan gi avslag."
+          "Dersom du har mottatt nye opplysninger og vurdert at bruker likevel oppfyller § 8-4, klikker du på Oppfylt-knappen. Du kan ikke avslå før fristen er gått ut."
         )
       ).to.exist;
       expect(screen.getByRole("img", { name: "klokkeikon" })).to.exist;
@@ -78,7 +78,7 @@ describe("ForhandsvarselSendt", () => {
         true
       );
       expect(screen.getByRole("button", { name: "Oppfylt" })).to.exist;
-      expect(screen.getByRole("button", { name: "Se hele brevet" })).to.exist;
+      expect(screen.getByRole("button", { name: "Se sendt varsel" })).to.exist;
     });
 
     it("show ForhandsvarselAfterDeadline when svarfrist is today (expired)", () => {
@@ -92,15 +92,15 @@ describe("ForhandsvarselSendt", () => {
 
       renderForhandsvarselSendt();
 
-      expect(screen.getByText("Fristen er utgått!")).to.exist;
+      expect(screen.getByText("Fristen er gått ut")).to.exist;
       expect(screen.getByText(tilLesbarDatoMedArUtenManedNavn(new Date()))).to
         .exist;
       expect(screen.getByRole("img", { name: "bjelleikon" })).to.exist;
       expect(
         screen.getByText(
-          `Forhåndsvarselet som ble sendt ut ${tilLesbarDatoMedArUtenManedNavn(
+          `Fristen for forhåndsvarselet som ble sendt ut ${tilLesbarDatoMedArUtenManedNavn(
             createdAt
-          )} er gått ut! Du kan nå gi avslag på Arbeidsuførhet.`
+          )} er gått ut. Trykk på Avslag-knappen hvis vilkårene i § 8-4 ikke er oppfylt og rett til videre sykepenger skal avslås.`
         )
       ).to.exist;
       expect(screen.getByRole("button", { name: "Avslag" })).to.have.property(
@@ -108,7 +108,7 @@ describe("ForhandsvarselSendt", () => {
         false
       );
       expect(screen.getByRole("button", { name: "Oppfylt" })).to.exist;
-      expect(screen.getByRole("button", { name: "Se hele brevet" })).to.exist;
+      expect(screen.getByRole("button", { name: "Se sendt varsel" })).to.exist;
     });
 
     it("send avslag after frist is utgatt", async () => {

@@ -1,5 +1,5 @@
 import React from "react";
-import { Box } from "@navikt/ds-react";
+import { Box, Heading, List } from "@navikt/ds-react";
 
 const texts = {
   title: "Husk å opprette oppgave i Gosys",
@@ -13,13 +13,15 @@ const texts = {
 
 export const AvslagSent = () => {
   return (
-    <Box background="surface-default" padding="6">
-      <h1>{texts.title}</h1>
-      <ol>
+    <Box background="surface-default" padding="4">
+      <Heading className="mb-4" level="2" size="medium">
+        {texts.title}
+      </Heading>
+      <List as="ol" size="small">
         {texts.todo.map((todo, index) => (
-          <li key={index}>{todo}</li>
+          <List.Item key={index}>{todo}</List.Item>
         ))}
-      </ol>
+      </List>
     </Box>
   );
 };

@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import { queryClientWithMockData } from "../testQueryClient";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { navEnhet } from "../dialogmote/testData";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { expect } from "chai";
@@ -17,6 +17,8 @@ import {
   createVurdering,
 } from "./arbeidsuforhetTestData";
 import { ArbeidsuforhetOppfylt } from "@/sider/arbeidsuforhet/ArbeidsuforhetOppfylt";
+import { renderWithRouter } from "../testRouterUtils";
+import { arbeidsuforhetOppfyltPath } from "@/routers/AppRouter";
 
 let queryClient: QueryClient;
 
@@ -28,14 +30,16 @@ const mockArbeidsuforhetVurderinger = (vurderinger: VurderingResponseDTO[]) => {
 };
 
 const renderArbeidsuforhetOppfyltSide = () => {
-  render(
+  renderWithRouter(
     <QueryClientProvider client={queryClient}>
       <ValgtEnhetContext.Provider
         value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
       >
         <ArbeidsuforhetOppfylt />
       </ValgtEnhetContext.Provider>
-    </QueryClientProvider>
+    </QueryClientProvider>,
+    arbeidsuforhetOppfyltPath,
+    [arbeidsuforhetOppfyltPath]
   );
 };
 
@@ -57,7 +61,7 @@ describe("OppfyltSide", () => {
 
       expect(
         screen.getByText(
-          "Skriv en kort begrunnelse for hvorfor bruker oppfyller § 8-4"
+          "Skriv en kort begrunnelse for hvorfor bruker oppfyller vilkårene i § 8-4."
         )
       ).to.exist;
     });
@@ -74,7 +78,7 @@ describe("OppfyltSide", () => {
 
       expect(
         screen.getByText(
-          "Skriv en kort begrunnelse for hvorfor bruker oppfyller § 8-4"
+          "Skriv en kort begrunnelse for hvorfor bruker oppfyller vilkårene i § 8-4."
         )
       ).to.exist;
     });
@@ -92,7 +96,7 @@ describe("OppfyltSide", () => {
 
       expect(
         screen.getByText(
-          "Begrunnelsen din på at bruker oppfyller § 8-4 er lagret i historikken."
+          "Vurderingen om at bruker oppfyller § 8-4 er lagret i historikken og blir journalført automatisk."
         )
       ).to.exist;
     });
@@ -110,7 +114,7 @@ describe("OppfyltSide", () => {
 
       expect(
         screen.getByText(
-          "Trykk på 'Forhåndsvarsel'-menypunktet for å komme til skjema for forhåndsvarsel!"
+          "Trykk på 'Arbeidsuførhet'-menypunktet for å komme til skjema for forhåndsvarsel."
         )
       ).to.exist;
     });

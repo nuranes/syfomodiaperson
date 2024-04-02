@@ -110,7 +110,7 @@ describe("Forhandsvarselskjema arbeidsuforhet", () => {
       })[0];
       expect(
         within(forhandsvisningForhandsvarsel).getByRole("heading", {
-          name: "Forhåndsvis forhåndsvarselet",
+          name: "NAV vurderer å avslå sykepengene dine",
           hidden: true,
         })
       ).to.exist;

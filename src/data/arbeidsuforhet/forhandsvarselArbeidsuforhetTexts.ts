@@ -1,12 +1,12 @@
 import { tilDatoMedManedNavn } from "../../utils/datoUtils";
 
-type Forhandsvarsel84TextsOptions = {
+type ForhandsvarselArbeidsuforhetTextsOptions = {
   frist: Date;
 };
 
-export const getForhandsvarsel84Texts = ({
+export const getForhandsvarselArbeidsuforhetTexts = ({
   frist,
-}: Forhandsvarsel84TextsOptions) => ({
+}: ForhandsvarselArbeidsuforhetTextsOptions) => ({
   varselInfo: {
     header: "NAV vurderer å avslå sykepengene dine",
     introWithFristDate: `NAV vurderer å avslå sykepengene dine fra og med ${tilDatoMedManedNavn(
@@ -23,6 +23,9 @@ export const getForhandsvarsel84Texts = ({
       frist
     )}.`,
     etterFrist: "Etter denne datoen vil NAV vurdere å avslå sykepengene dine.",
+    friskmeldt: `Dersom du blir friskmeldt før ${tilDatoMedManedNavn(
+      frist
+    )} kan du se bort fra dette brevet.`,
     kontaktOss:
       "Kontakt oss gjerne på nav.no/skriv-til-oss eller telefon 55 55 33 33.",
   },

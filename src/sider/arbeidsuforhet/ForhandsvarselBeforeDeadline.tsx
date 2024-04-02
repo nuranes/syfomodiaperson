@@ -1,6 +1,6 @@
 import React from "react";
 import { useArbeidsuforhetVurderingQuery } from "@/data/arbeidsuforhet/arbeidsuforhetQueryHooks";
-import { Alert, Box, Button, Heading } from "@navikt/ds-react";
+import { Alert, BodyLong, Box, Button, Heading } from "@navikt/ds-react";
 import { ButtonRow } from "@/components/Layout";
 import { VisBrev } from "@/components/VisBrev";
 import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
@@ -17,10 +17,11 @@ const texts = {
       "Når fristen er passert vil det dukke opp en hendelse i oversikten.",
   },
   sendtInfo:
-    "Om du får svar fra bruker, og hen oppfyller kravene om 8-4 etter din vurdering, klikker du på “oppfylt”-knappen under. Om ikke må du vente til tiden går ut før du kan gi avslag.",
+    "Dersom du har mottatt nye opplysninger og vurdert at bruker likevel oppfyller § 8-4, klikker du på Oppfylt-knappen. Du kan ikke avslå før fristen er gått ut.",
   frist: "Fristen går ut: ",
   oppfylt: "Oppfylt",
   avslag: "Avslag",
+  seSendtVarsel: "Se sendt varsel",
 };
 
 export const ForhandsvarselBeforeDeadline = () => {
@@ -36,9 +37,9 @@ export const ForhandsvarselBeforeDeadline = () => {
         </p>
         <p>{texts.sentAlert.passert}</p>
       </Alert>
-      <Box background="surface-default" padding="3" className="mb-2">
+      <Box background="surface-default" padding="4" className="[&>*]:mb-4">
         <div className="flex items-center">
-          <Heading className="mt-2 mb-4" level="2" size="small">
+          <Heading level="2" size="medium">
             {texts.title}
           </Heading>
           <div className="ml-auto mr-4">
@@ -47,7 +48,7 @@ export const ForhandsvarselBeforeDeadline = () => {
           </div>
           <ClockIcon title="klokkeikon" fontSize="2em" />
         </div>
-        <p>{texts.sendtInfo}</p>
+        <BodyLong>{texts.sendtInfo}</BodyLong>
         <ButtonRow>
           <Button variant="primary" disabled>
             {texts.avslag}
@@ -55,7 +56,10 @@ export const ForhandsvarselBeforeDeadline = () => {
           <Button as={Link} to={arbeidsuforhetOppfyltPath} variant="secondary">
             {texts.oppfylt}
           </Button>
-          <VisBrev document={forhandsvarsel.document} />
+          <VisBrev
+            document={forhandsvarsel.document}
+            buttonText={texts.seSendtVarsel}
+          />
         </ButtonRow>
       </Box>
     </div>

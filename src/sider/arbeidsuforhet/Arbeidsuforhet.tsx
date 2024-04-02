@@ -14,7 +14,7 @@ export const Arbeidsuforhet = (): ReactElement => {
   const isAvslag = sisteVurdering?.type === VurderingType.AVSLAG;
 
   return (
-    <div>
+    <div className="mb-2">
       {(!sisteVurdering || isOppfylt) && <SendForhandsvarselSkjema />}
       {isForhandsvarsel && <ForhandsvarselSendt />}
       {isAvslag && <AvslagSent />}

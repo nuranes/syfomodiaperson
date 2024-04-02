@@ -33,6 +33,7 @@ export const dialogmoteRoutePath = `${appRoutePath}/dialogmote`;
 export const dialogmoteUnntakRoutePath = `${appRoutePath}/dialogmoteunntak`;
 export const moteoversiktRoutePath = `${appRoutePath}/moteoversikt`;
 export const arbeidsuforhetOppfyltPath = `${appRoutePath}/arbeidsuforhet/oppfylt`;
+export const arbeidsuforhetPath = `${appRoutePath}/arbeidsuforhet`;
 
 const AktivBrukerRouter = (): ReactElement => {
   Amplitude.logViewportAndScreenSize();
@@ -92,10 +93,7 @@ const AktivBrukerRouter = (): ReactElement => {
             path={`${appRoutePath}/sykepengesoknader`}
             element={<SykepengesoknaderSide />}
           />
-          <Route
-            path={`${appRoutePath}/arbeidsuforhet`}
-            element={<ArbeidsuforhetSide />}
-          />
+          <Route path={arbeidsuforhetPath} element={<ArbeidsuforhetSide />} />
           <Route
             path={arbeidsuforhetOppfyltPath}
             element={<ArbeidsuforhetOppfyltSide />}

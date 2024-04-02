@@ -6,9 +6,9 @@ import { OppfyltForm } from "@/sider/arbeidsuforhet/OppfyltForm";
 
 const texts = {
   success:
-    "Begrunnelsen din på at bruker oppfyller § 8-4 er lagret i historikken.",
+    "Vurderingen om at bruker oppfyller § 8-4 er lagret i historikken og blir journalført automatisk.",
   error:
-    "Trykk på 'Forhåndsvarsel'-menypunktet for å komme til skjema for forhåndsvarsel!",
+    "Trykk på 'Arbeidsuførhet'-menypunktet for å komme til skjema for forhåndsvarsel.",
 };
 
 export const ArbeidsuforhetOppfylt = (): ReactElement => {

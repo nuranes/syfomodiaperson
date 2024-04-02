@@ -1,6 +1,12 @@
 import React from "react";
-import { BodyShort, Box, Button, Heading, Textarea } from "@navikt/ds-react";
-import { ButtonRow } from "@/components/Layout";
+import {
+  BodyShort,
+  Box,
+  Button,
+  Heading,
+  List,
+  Textarea,
+} from "@navikt/ds-react";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { Forhandsvisning } from "@/components/Forhandsvisning";
 import { useForm } from "react-hook-form";
@@ -10,21 +16,26 @@ import {
 } from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
 import { useArbeidsuforhetVurderingDocument } from "@/hooks/arbeidsuforhet/useArbeidsuforhetVurderingDocument";
 import { useSendVurderingArbeidsuforhet } from "@/data/arbeidsuforhet/useSendVurderingArbeidsuforhet";
+import { Link } from "react-router-dom";
+import { arbeidsuforhetPath } from "@/routers/AppRouter";
+import { ButtonRow } from "@/components/Layout";
 
 const texts = {
-  title: "Skriv en kort begrunnelse for hvorfor bruker oppfyller § 8-4",
-  info: "Det du skriver her blir liggende i historikken på brukeren og bruker vil få innsyn i notatet om de har behov.",
+  title: "Oppfyller bruker vilkårene likevel?",
+  info: "Skriv en kort begrunnelse for hvorfor bruker oppfyller vilkårene i § 8-4.",
   begrunnelseLabel: "Begrunnelse (obligatorisk)",
-  begrunnelseDescription: "Åpne forhåndsvisning for å se innstillingen.",
+  begrunnelseDescription:
+    "Åpne forhåndsvisning for å se vurderingen. Når du trykker Lagre journalføres vurderingen automatisk.",
   forDuGarVidere: {
-    head: "Før du går videre bør du gjøre følgende",
+    head: "Før du går videre bør du gjøre følgende:",
     step1: "Informere bruker om utfallet av vurderingen.",
     step2:
-      "Informere NAV Arbeid og ytelser via Gosys dersom det var de som initierte vurderingen av arbeidsuførheten",
+      "Besvare Gosys-oppgaven dersom NAV Arbeid og ytelser ba om vurderingen.",
   },
-  forhandsvisningLabel: "Forhåndsvis brev",
+  forhandsvisningLabel: "Forhåndsvis vurderingen",
   missingBegrunnelse: "Vennligst angi begrunnelse",
-  sendVarselButtonText: "Send",
+  sendVarselButtonText: "Lagre",
+  avbrytButton: "Avbryt",
 };
 
 const defaultValues = { begrunnelse: "" };
@@ -58,14 +69,13 @@ export const OppfyltForm = () => {
   };
 
   return (
-    <Box background="surface-default" padding="3" className="mb-2">
-      <form onSubmit={handleSubmit(submit)}>
-        <Heading className="mt-4 mb-4" level="2" size="small">
+    <Box background="surface-default" padding="4" className="mb-2">
+      <form onSubmit={handleSubmit(submit)} className="[&>*]:mb-4">
+        <Heading level="2" size="medium">
           {texts.title}
         </Heading>
-        <BodyShort className="mb-4">{texts.info}</BodyShort>
+        <BodyShort>{texts.info}</BodyShort>
         <Textarea
-          className="mb-8"
           {...register("begrunnelse", {
             maxLength: begrunnelseMaxLength,
             required: texts.missingBegrunnelse,
@@ -81,11 +91,10 @@ export const OppfyltForm = () => {
         {sendVurdering.isError && (
           <SkjemaInnsendingFeil error={sendVurdering.error} />
         )}
-        <b>{texts.forDuGarVidere.head}</b>
-        <ol>
-          <li>{texts.forDuGarVidere.step1}</li>
-          <li>{texts.forDuGarVidere.step2}</li>
-        </ol>
+        <List as="ol" size="small" title={texts.forDuGarVidere.head}>
+          <List.Item>{texts.forDuGarVidere.step1}</List.Item>
+          <List.Item>{texts.forDuGarVidere.step2}</List.Item>
+        </List>
         <ButtonRow>
           <Button loading={sendVurdering.isPending} type="submit">
             {texts.sendVarselButtonText}
@@ -98,8 +107,10 @@ export const OppfyltForm = () => {
                 type,
               })
             }
-            title={texts.forhandsvisningLabel}
           />
+          <Button as={Link} to={arbeidsuforhetPath} variant="secondary">
+            {texts.avbrytButton}
+          </Button>
         </ButtonRow>
       </form>
     </Box>

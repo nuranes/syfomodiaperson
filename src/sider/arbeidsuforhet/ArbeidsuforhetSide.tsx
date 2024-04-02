@@ -10,7 +10,7 @@ import { VurderingHistorikk } from "@/sider/arbeidsuforhet/historikk/VurderingHi
 import { Arbeidsuforhet } from "@/sider/arbeidsuforhet/Arbeidsuforhet";
 
 const texts = {
-  title: "Forhåndsvarsel §8-4",
+  title: "Arbeidsuførhet",
 };
 
 export const ArbeidsuforhetSide = (): ReactElement => {
@@ -22,9 +22,7 @@ export const ArbeidsuforhetSide = (): ReactElement => {
       <SideLaster henter={isLoading} hentingFeilet={isError}>
         <Tredelt.Container>
           <Tredelt.FirstColumn>
-            <div className="mb-4">
-              <Arbeidsuforhet />
-            </div>
+            <Arbeidsuforhet />
             <VurderingHistorikk />
           </Tredelt.FirstColumn>
           <Tredelt.SecondColumn>

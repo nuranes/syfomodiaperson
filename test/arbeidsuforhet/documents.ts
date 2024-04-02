@@ -3,19 +3,19 @@ import {
   DocumentComponentType,
 } from "@/data/documentcomponent/documentComponentTypes";
 import { addWeeks, tilDatoMedManedNavn } from "@/utils/datoUtils";
-import { getForhandsvarsel84Texts } from "@/data/arbeidsuforhet/forhandsvarsel84Texts";
 import {
   ARBEIDSTAKER_DEFAULT,
   ARBEIDSTAKER_DEFAULT_FULL_NAME,
   VEILEDER_DEFAULT,
 } from "../../mock/common/mockConstants";
+import { getForhandsvarselArbeidsuforhetTexts } from "@/data/arbeidsuforhet/forhandsvarselArbeidsuforhetTexts";
 
 const expectedFristDate = addWeeks(new Date(), 3);
 
 export const getSendForhandsvarselDocument = (
   begrunnelse: string
 ): DocumentComponentDto[] => {
-  const sendForhandsvarselTexts = getForhandsvarsel84Texts({
+  const sendForhandsvarselTexts = getForhandsvarselArbeidsuforhetTexts({
     frist: expectedFristDate,
   });
   return [
@@ -50,6 +50,10 @@ export const getSendForhandsvarselDocument = (
       type: DocumentComponentType.PARAGRAPH,
     },
     {
+      texts: [sendForhandsvarselTexts.duKanUttaleDeg.friskmeldt],
+      type: DocumentComponentType.PARAGRAPH,
+    },
+    {
       texts: [sendForhandsvarselTexts.duKanUttaleDeg.kontaktOss],
       type: DocumentComponentType.PARAGRAPH,
     },
@@ -77,7 +81,7 @@ export const getSendVurderingDocument = (
 ): DocumentComponentDto[] => {
   return [
     {
-      texts: ["Vurdering av arbeidsuførhet"],
+      texts: ["Vurdering av § 8-4 arbeidsuførhet"],
       type: DocumentComponentType.HEADER_H1,
     },
     {
@@ -87,7 +91,9 @@ export const getSendVurderingDocument = (
       type: DocumentComponentType.PARAGRAPH,
     },
     {
-      texts: [`Det ble vurdert oppfylt den ${tilDatoMedManedNavn(new Date())}`],
+      texts: [
+        `Det ble vurdert oppfylt den ${tilDatoMedManedNavn(new Date())}.`,
+      ],
       type: DocumentComponentType.PARAGRAPH,
     },
     {

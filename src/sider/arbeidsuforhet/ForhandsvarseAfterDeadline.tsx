@@ -1,6 +1,6 @@
 import React from "react";
 import { useArbeidsuforhetVurderingQuery } from "@/data/arbeidsuforhet/arbeidsuforhetQueryHooks";
-import { BodyShort, Box, Button, Heading } from "@navikt/ds-react";
+import { BodyShort, Box, Button, Detail, Heading } from "@navikt/ds-react";
 import { ButtonRow } from "@/components/Layout";
 import { VisBrev } from "@/components/VisBrev";
 import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
@@ -14,14 +14,14 @@ import {
 } from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
 
 const texts = {
-  title: "Fristen er utgått!",
+  title: "Fristen er gått ut",
   passertAlert: (sentDate: Date) =>
-    `Forhåndsvarselet som ble sendt ut ${tilLesbarDatoMedArUtenManedNavn(
+    `Fristen for forhåndsvarselet som ble sendt ut ${tilLesbarDatoMedArUtenManedNavn(
       sentDate
-    )} er gått ut! Du kan nå gi avslag på Arbeidsuførhet.`,
+    )} er gått ut. Trykk på Avslag-knappen hvis vilkårene i § 8-4 ikke er oppfylt og rett til videre sykepenger skal avslås.`,
   avslag: "Avslag",
   oppfylt: "Oppfylt",
-  seSendtBrev: "Se sendt brev",
+  seSendtVarsel: "Se sendt varsel",
 };
 
 export const ForhandsvarselAfterDeadline = () => {
@@ -39,19 +39,17 @@ export const ForhandsvarselAfterDeadline = () => {
   };
 
   return (
-    <Box background="surface-default" padding="3" className="mb-2">
+    <Box background="surface-default" padding="4" className="mb-2 [&>*]:mb-4">
       <div className="flex items-center">
-        <Heading className="mt-2 mb-4" level="2" size="small">
+        <Heading level="2" size="medium">
           {texts.title}
         </Heading>
-        <b className="ml-auto mr-4">
+        <Detail weight="semibold" className="ml-auto mr-4 text-lg">
           {tilLesbarDatoMedArUtenManedNavn(forhandsvarsel.varsel?.svarfrist)}
-        </b>
+        </Detail>
         <BellIcon title="bjelleikon" fontSize="2em" />
       </div>
-      <BodyShort className="mt-4 mb-8">
-        {texts.passertAlert(forhandsvarsel.createdAt)}
-      </BodyShort>
+      <BodyShort>{texts.passertAlert(forhandsvarsel.createdAt)}</BodyShort>
       <ButtonRow>
         <Button
           variant="primary"
@@ -63,7 +61,10 @@ export const ForhandsvarselAfterDeadline = () => {
         <Button as={Link} to={arbeidsuforhetOppfyltPath} variant="secondary">
           {texts.oppfylt}
         </Button>
-        <VisBrev document={forhandsvarsel.document} />
+        <VisBrev
+          document={forhandsvarsel.document}
+          buttonText={texts.seSendtVarsel}
+        />
       </ButtonRow>
     </Box>
   );

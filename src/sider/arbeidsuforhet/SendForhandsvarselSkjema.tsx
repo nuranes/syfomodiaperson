@@ -1,7 +1,7 @@
 import React from "react";
 import { addWeeks } from "@/utils/datoUtils";
 import { ButtonRow } from "@/components/Layout";
-import { Box, Button, Heading, Textarea } from "@navikt/ds-react";
+import { Box, Button, Heading, List, Textarea } from "@navikt/ds-react";
 import { useForm } from "react-hook-form";
 import { useArbeidsuforhetVurderingDocument } from "@/hooks/arbeidsuforhet/useArbeidsuforhetVurderingDocument";
 import { Forhandsvisning } from "@/components/Forhandsvisning";
@@ -62,18 +62,18 @@ export const SendForhandsvarselSkjema = () => {
   return (
     <Box background="surface-default" padding="6">
       <form onSubmit={handleSubmit(submit)}>
-        <Heading className="mt-4 mb-4" level="2" size="small">
+        <Heading className="mb-4" level="2" size="medium">
           {texts.title}
         </Heading>
-        <ul className="pl-8">
+        <List as="ul" size="small">
           {texts.helptexts.map((text, index) => (
-            <li key={index} className="mb-2">
+            <List.Item key={index} className="mb-2">
               {text}
-            </li>
+            </List.Item>
           ))}
-        </ul>
+        </List>
         <Textarea
-          className="mb-8"
+          className="mb-8 mt-8"
           {...register("begrunnelse", {
             maxLength: begrunnelseMaxLength,
             required: texts.missingBeskrivelse,
@@ -103,7 +103,6 @@ export const SendForhandsvarselSkjema = () => {
                 frist: forhandsvarselFrist,
               })
             }
-            title={texts.forhandsvisningLabel}
           />
         </ButtonRow>
       </form>
