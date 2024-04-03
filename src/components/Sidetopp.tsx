@@ -1,23 +1,18 @@
 import React from "react";
 import { Heading } from "@navikt/ds-react";
-import styled from "styled-components";
 
-const StyledHeading = styled(Heading)`
-  text-align: center;
-`;
+const SIDETOPP_ID = "sidetopp";
 
-export const SIDETOPP_ID = "sidetopp";
-
-interface SidetoppProps {
+interface Props {
   tittel: string;
 }
 
-const Sidetopp = ({ tittel }: SidetoppProps) => {
+const Sidetopp = ({ tittel }: Props) => {
   return (
     <header>
-      <StyledHeading spacing size="xlarge" id={SIDETOPP_ID}>
+      <Heading spacing size="xlarge" id={SIDETOPP_ID} className="text-center">
         {tittel}
-      </StyledHeading>
+      </Heading>
     </header>
   );
 };

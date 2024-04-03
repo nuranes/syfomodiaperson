@@ -12,9 +12,9 @@ import {
 } from "@/utils/datoUtils";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { useSykmeldingerQuery } from "@/data/sykmelding/sykmeldingQueryHooks";
-import { SyketilfelleList } from "@/sider/nokkelinformasjon/SyketilfelleList";
+import { SyketilfelleList } from "@/sider/nokkelinformasjon/sykmeldingsgrad/SyketilfelleList";
 import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
-import { BodyShort, Heading, Panel } from "@navikt/ds-react";
+import { BodyShort, Box, Heading } from "@navikt/ds-react";
 
 const texts = {
   title: "Sykmeldingsgrad",
@@ -85,7 +85,7 @@ export const Sykmeldingsgrad = () => {
   };
 
   return (
-    <Panel className={"mb-8"}>
+    <Box background="surface-default" padding={"4"} className={"mb-8"}>
       <Heading size="medium" level="2">
         {texts.title}
       </Heading>
@@ -126,6 +126,6 @@ export const Sykmeldingsgrad = () => {
 
       <BodyShort size="small">{texts.yAxis}</BodyShort>
       <BodyShort size="small">{texts.xAxis}</BodyShort>
-    </Panel>
+    </Box>
   );
 };

@@ -10,7 +10,7 @@ import {
   sykmeldingerInnenforOppfolgingstilfelle,
 } from "@/utils/sykmeldinger/sykmeldingUtils";
 import styled from "styled-components";
-import { MedisinskrinImage } from "../../../img/ImageComponents";
+import { MedisinskrinImage } from "../../../../img/ImageComponents";
 
 const texts = {
   title: "Siste sykefravær",

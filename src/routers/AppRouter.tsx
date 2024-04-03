@@ -6,7 +6,6 @@ import SykepengesoknaderSide from "@/sider/sykepengsoknader/SykepengesoknaderSid
 import DinSykmeldingContainer from "@/sider/sykmeldinger/container/DinSykmeldingContainer";
 import HistorikkContainer from "@/sider/historikk/container/HistorikkContainer";
 import { erGyldigFodselsnummer } from "@/utils/frnValideringUtils";
-import NokkelinformasjonContainer from "@/sider/nokkelinformasjon/container/NokkelinformasjonContainer";
 import DialogmoteInnkallingContainer from "../components/dialogmote/innkalling/DialogmoteInnkallingContainer";
 import AvlysDialogmoteContainer from "@/sider/mote/components/avlys/AvlysDialogmoteContainer";
 import AppSpinner from "../components/AppSpinner";
@@ -26,6 +25,7 @@ import Motelandingsside from "@/sider/mote/Motelandingsside";
 import { SykepengesoknadSide } from "@/sider/sykepengsoknader/container/SykepengesoknadSide";
 import { ArbeidsuforhetSide } from "@/sider/arbeidsuforhet/ArbeidsuforhetSide";
 import { ArbeidsuforhetOppfyltSide } from "@/sider/arbeidsuforhet/ArbeidsuforhetOppfyltSide";
+import { Nokkelinformasjon } from "@/sider/nokkelinformasjon/Nokkelinformasjon";
 
 export const appRoutePath = "/sykefravaer";
 
@@ -43,10 +43,10 @@ const AktivBrukerRouter = (): ReactElement => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Navigate to={appRoutePath} />} />
-          <Route path={appRoutePath} element={<NokkelinformasjonContainer />} />
+          <Route path={appRoutePath} element={<Nokkelinformasjon />} />
           <Route
             path={`${appRoutePath}/nokkelinformasjon`}
-            element={<NokkelinformasjonContainer />}
+            element={<Nokkelinformasjon />}
           />
           <Route
             path={`${appRoutePath}/aktivitetskrav`}

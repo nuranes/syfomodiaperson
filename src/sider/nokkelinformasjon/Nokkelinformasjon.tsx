@@ -1,20 +1,41 @@
 import React from "react";
-import Sidetopp from "../../components/Sidetopp";
 import UtdragFraSykefravaeret from "../../components/utdragFraSykefravaeret/UtdragFraSykefravaeret";
-import { Sykmeldingsgrad } from "@/components/sykmeldingsgrad/Sykmeldingsgrad";
+import { Sykmeldingsgrad } from "@/sider/nokkelinformasjon/sykmeldingsgrad/Sykmeldingsgrad";
+import { useOppfolgingsplanerQuery } from "@/data/oppfolgingsplan/oppfolgingsplanQueryHooks";
+import { useSykmeldingerQuery } from "@/data/sykmelding/sykmeldingQueryHooks";
+import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
+import Side from "@/sider/Side";
+import { Menypunkter } from "@/components/globalnavigasjon/GlobalNavigasjon";
+import SideLaster from "@/components/SideLaster";
+import { Heading } from "@navikt/ds-react";
 
-interface NokkelinformasjonProps {
-  pageTitle: string;
-}
-
-const Nokkelinformasjon = ({ pageTitle }: NokkelinformasjonProps) => {
-  return (
-    <>
-      <Sidetopp tittel={pageTitle} />
-      <Sykmeldingsgrad />
-      <UtdragFraSykefravaeret />
-    </>
-  );
+const texts = {
+  pageTitle: "Nøkkelinformasjon",
 };
 
-export default Nokkelinformasjon;
+export const Nokkelinformasjon = () => {
+  const { isLoading: henterOppfolgingsplaner } = useOppfolgingsplanerQuery();
+  const { isError: henterSykmeldingerFeilet } = useSykmeldingerQuery();
+  const { isLoading: henterLedere, isError: henterLedereFeilet } =
+    useLedereQuery();
+
+  const henter = henterOppfolgingsplaner || henterLedere;
+  const hentingFeilet = henterSykmeldingerFeilet || henterLedereFeilet;
+
+  return (
+    <Side
+      tittel={texts.pageTitle}
+      aktivtMenypunkt={Menypunkter.NOKKELINFORMASJON}
+    >
+      <SideLaster henter={henter} hentingFeilet={hentingFeilet}>
+        <header>
+          <Heading spacing size="medium" className="hidden">
+            {texts.pageTitle}
+          </Heading>
+        </header>
+        <Sykmeldingsgrad />
+        <UtdragFraSykefravaeret />
+      </SideLaster>
+    </Side>
+  );
+};
