@@ -11,7 +11,7 @@ import {
   VurderingResponseDTO,
   VurderingType,
 } from "../../src/data/arbeidsuforhet/arbeidsuforhetTypes";
-import { getForhandsvarselArbeidsuforhetTexts } from "../../src/data/arbeidsuforhet/forhandsvarselArbeidsuforhetTexts";
+import { getForhandsvarselArbeidsuforhetTexts } from "../../src/data/arbeidsuforhet/arbeidsuforhetDocumentTexts";
 
 const defaultOppfyltBegrunnelse = "Du har rett på sykepenger";
 

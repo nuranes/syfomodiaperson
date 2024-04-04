@@ -11,7 +11,7 @@ import {
 } from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
 import { changeTextInput, clickButton, getTextInput } from "../testUtils";
 import { OppfyltForm } from "@/sider/arbeidsuforhet/OppfyltForm";
-import { getSendVurderingDocument } from "./documents";
+import { getOppfyltVurderingDocument } from "./documents";
 import { renderWithRouter } from "../testRouterUtils";
 import { arbeidsuforhetOppfyltPath } from "@/routers/AppRouter";
 
@@ -92,7 +92,7 @@ describe("OppfyltForm", () => {
         const expectedVurdering: VurderingRequestDTO = {
           type: VurderingType.OPPFYLT,
           begrunnelse: begrunnelse,
-          document: getSendVurderingDocument(begrunnelse),
+          document: getOppfyltVurderingDocument(begrunnelse),
         };
         expect(useSendVurderingArbeidsuforhet.state.variables).to.deep.equal(
           expectedVurdering
@@ -119,7 +119,7 @@ describe("OppfyltForm", () => {
           hidden: true,
         })
       ).to.exist;
-      getSendVurderingDocument(begrunnelse)
+      getOppfyltVurderingDocument(begrunnelse)
         .flatMap((documentComponent) => documentComponent.texts)
         .forEach((text) => {
           expect(within(forhandsvisningVurdering).getByText(text)).to.exist;

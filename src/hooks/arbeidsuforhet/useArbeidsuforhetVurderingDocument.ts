@@ -5,25 +5,19 @@ import {
   createHeaderH3,
   createParagraph,
 } from "@/utils/documentComponentUtils";
-import { VurderingType } from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
 import { tilDatoMedManedNavn } from "@/utils/datoUtils";
-import { getForhandsvarselArbeidsuforhetTexts } from "@/data/arbeidsuforhet/forhandsvarselArbeidsuforhetTexts";
+import { getForhandsvarselArbeidsuforhetTexts } from "@/data/arbeidsuforhet/arbeidsuforhetDocumentTexts";
 
 type ForhandsvarselDocumentValues = {
   begrunnelse: string;
   frist: Date;
 };
 
-type VurderingDocumentValues = {
-  begrunnelse: string;
-  type: VurderingType;
-};
-
 export const useArbeidsuforhetVurderingDocument = (): {
   getForhandsvarselDocument(
     values: ForhandsvarselDocumentValues
   ): DocumentComponentDto[];
-  getVurderingDocument(values: VurderingDocumentValues): DocumentComponentDto[];
+  getOppfyltDocument(begrunnelse: string): DocumentComponentDto[];
 } => {
   const { getHilsen, getIntroGjelder, getVurdertAv } = useDocumentComponents();
 
@@ -62,17 +56,12 @@ export const useArbeidsuforhetVurderingDocument = (): {
     return documentComponents;
   };
 
-  const getVurderingDocument = (values: VurderingDocumentValues) => {
-    const { type, begrunnelse } = values;
-
-    if (type === VurderingType.FORHANDSVARSEL) {
-      throw new Error("use getForhandsvarselDocument");
-    }
-
+  const getOppfyltDocument = (begrunnelse: string) => {
+    const vurdertDato = tilDatoMedManedNavn(new Date());
     const documentComponents = [
       createHeaderH1("Vurdering av § 8-4 arbeidsuførhet"),
       getIntroGjelder(),
-      createParagraph(getVurderingText(type)),
+      createParagraph(`Det ble vurdert oppfylt den ${vurdertDato}.`),
     ];
 
     if (begrunnelse) {
@@ -86,20 +75,6 @@ export const useArbeidsuforhetVurderingDocument = (): {
 
   return {
     getForhandsvarselDocument,
-    getVurderingDocument,
+    getOppfyltDocument,
   };
-};
-
-const getVurderingText = (
-  type: VurderingType.OPPFYLT | VurderingType.AVSLAG
-) => {
-  const vurdertDato = tilDatoMedManedNavn(new Date());
-  switch (type) {
-    case VurderingType.OPPFYLT: {
-      return `Det ble vurdert oppfylt den ${vurdertDato}.`;
-    }
-    case VurderingType.AVSLAG: {
-      return `Det ble vurdert avslag den ${vurdertDato}.`;
-    }
-  }
 };

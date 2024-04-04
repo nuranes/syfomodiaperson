@@ -47,23 +47,18 @@ interface SkjemaValues {
 
 export const OppfyltForm = () => {
   const sendVurdering = useSendVurderingArbeidsuforhet();
-  const { getVurderingDocument } = useArbeidsuforhetVurderingDocument();
+  const { getOppfyltDocument } = useArbeidsuforhetVurderingDocument();
   const {
     register,
     watch,
     formState: { errors },
     handleSubmit,
   } = useForm<SkjemaValues>({ defaultValues });
-  const type = VurderingType.OPPFYLT;
-
   const submit = (values: SkjemaValues) => {
     const vurderingRequestDTO: VurderingRequestDTO = {
-      type,
+      type: VurderingType.OPPFYLT,
       begrunnelse: values.begrunnelse,
-      document: getVurderingDocument({
-        begrunnelse: values.begrunnelse,
-        type,
-      }),
+      document: getOppfyltDocument(values.begrunnelse),
     };
     sendVurdering.mutate(vurderingRequestDTO);
   };
@@ -102,10 +97,7 @@ export const OppfyltForm = () => {
           <Forhandsvisning
             contentLabel={texts.forhandsvisningLabel}
             getDocumentComponents={() =>
-              getVurderingDocument({
-                begrunnelse: watch("begrunnelse"),
-                type,
-              })
+              getOppfyltDocument(watch("begrunnelse"))
             }
           />
           <Button as={Link} to={arbeidsuforhetPath} variant="secondary">

@@ -8,7 +8,7 @@ import {
   ARBEIDSTAKER_DEFAULT_FULL_NAME,
   VEILEDER_DEFAULT,
 } from "../../mock/common/mockConstants";
-import { getForhandsvarselArbeidsuforhetTexts } from "@/data/arbeidsuforhet/forhandsvarselArbeidsuforhetTexts";
+import { getForhandsvarselArbeidsuforhetTexts } from "@/data/arbeidsuforhet/arbeidsuforhetDocumentTexts";
 
 const expectedFristDate = addWeeks(new Date(), 3);
 
@@ -76,7 +76,7 @@ export const getSendForhandsvarselDocument = (
   ];
 };
 
-export const getSendVurderingDocument = (
+export const getOppfyltVurderingDocument = (
   begrunnelse: string
 ): DocumentComponentDto[] => {
   return [
