@@ -41,7 +41,7 @@ const brevMalTexts: {
 
 const forhandsvarselFrist = addWeeks(new Date(), 3);
 const defaultValues = { begrunnelse: "", arsak: undefined };
-const begrunnelseMaxLength = 1000;
+const begrunnelseMaxLength = 5000;
 
 export const SendForhandsvarselSkjema = ({
   aktivitetskravUuid,

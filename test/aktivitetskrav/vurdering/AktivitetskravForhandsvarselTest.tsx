@@ -225,7 +225,7 @@ describe("VurderAktivitetskrav forhåndsvarsel", () => {
       renderVurderAktivitetskrav(aktivitetskrav);
       clickTab(tabTexts["FORHANDSVARSEL"]);
 
-      const tooLongBeskrivelse = getTooLongText(1000);
+      const tooLongBeskrivelse = getTooLongText(5000);
       const beskrivelseInput = getTextInput("Begrunnelse (obligatorisk)");
       changeTextInput(beskrivelseInput, tooLongBeskrivelse);
       clickButton("Send");
