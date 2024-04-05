@@ -94,7 +94,7 @@ export const Flexjar = ({ side }: FlexjarProps) => {
   return (
     <div className="flex flex-col sticky bottom-0 items-end z-[100]">
       <Button
-        variant="primary-neutral"
+        variant="primary"
         iconPosition="right"
         icon={isApen ? <ChevronDownIcon /> : <ChevronUpIcon />}
         onClick={clickFeedbackPanel}
