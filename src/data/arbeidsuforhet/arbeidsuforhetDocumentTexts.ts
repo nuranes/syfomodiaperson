@@ -37,3 +37,14 @@ export const getForhandsvarselArbeidsuforhetTexts = ({
       "«Sykepenger ytes til den som er arbeidsufør på grunn av en funksjonsnedsettelse som klart skyldes sykdom eller skade. Arbeidsuførhet som skyldes sosiale eller økonomiske problemer o.l., gir ikke rett til sykepenger.»",
   },
 });
+
+export const getAvslagArbeiduforhetTexts = (fom: Date) => ({
+  header: "NAV har avslått sykepengene dine",
+  fom: `NAV har avslått din søknad om sykepenger fra og med ${tilDatoMedManedNavn(
+    fom
+  )}.`,
+  intro:
+    "For å få sykepenger må du ha en sykdom eller skade som gjør at du ikke kan klarer å være i arbeid, eller at du bare klarer å gjøre deler av arbeidet ditt.",
+  hjemmel:
+    "Vi har brukt folketrygdloven § 8-4 første ledd når vi har behandlet saken din.",
+});

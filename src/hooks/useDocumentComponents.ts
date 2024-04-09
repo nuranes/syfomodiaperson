@@ -20,5 +20,6 @@ export const useDocumentComponents = () => {
       createParagraph(`Gjelder ${navBruker.navn}, f.nr. ${valgtPersonident}`),
     getVurdertAv: () =>
       createParagraph(`Vurdert av ${veilederinfo?.fulltNavn()}`),
+    getVeiledernavn: () => createParagraph(veilederinfo?.fulltNavn() || ""),
   };
 };

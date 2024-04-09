@@ -6,11 +6,19 @@ import {
   createParagraph,
 } from "@/utils/documentComponentUtils";
 import { tilDatoMedManedNavn } from "@/utils/datoUtils";
-import { getForhandsvarselArbeidsuforhetTexts } from "@/data/arbeidsuforhet/arbeidsuforhetDocumentTexts";
+import {
+  getAvslagArbeiduforhetTexts,
+  getForhandsvarselArbeidsuforhetTexts,
+} from "@/data/arbeidsuforhet/arbeidsuforhetDocumentTexts";
 
 type ForhandsvarselDocumentValues = {
   begrunnelse: string;
   frist: Date;
+};
+
+type AvslagDocumentValues = {
+  begrunnelse: string;
+  fom: Date;
 };
 
 export const useArbeidsuforhetVurderingDocument = (): {
@@ -18,8 +26,10 @@ export const useArbeidsuforhetVurderingDocument = (): {
     values: ForhandsvarselDocumentValues
   ): DocumentComponentDto[];
   getOppfyltDocument(begrunnelse: string): DocumentComponentDto[];
+  getAvslagDocument(values: AvslagDocumentValues): DocumentComponentDto[];
 } => {
-  const { getHilsen, getIntroGjelder, getVurdertAv } = useDocumentComponents();
+  const { getHilsen, getIntroGjelder, getVurdertAv, getVeiledernavn } =
+    useDocumentComponents();
 
   const getForhandsvarselDocument = (values: ForhandsvarselDocumentValues) => {
     const { begrunnelse, frist } = values;
@@ -56,6 +66,28 @@ export const useArbeidsuforhetVurderingDocument = (): {
     return documentComponents;
   };
 
+  const getAvslagDocument = (values: AvslagDocumentValues) => {
+    const { begrunnelse, fom } = values;
+    const avslagArbeiduforhetTexts = getAvslagArbeiduforhetTexts(fom);
+
+    const documentComponents = [
+      createHeaderH1(avslagArbeiduforhetTexts.header),
+      createParagraph(avslagArbeiduforhetTexts.fom),
+      createParagraph(avslagArbeiduforhetTexts.intro),
+    ];
+
+    if (begrunnelse) {
+      documentComponents.push(createParagraph(begrunnelse));
+    }
+
+    documentComponents.push(
+      createParagraph(avslagArbeiduforhetTexts.hjemmel),
+      getVeiledernavn()
+    );
+
+    return documentComponents;
+  };
+
   const getOppfyltDocument = (begrunnelse: string) => {
     const vurdertDato = tilDatoMedManedNavn(new Date());
     const documentComponents = [
@@ -76,5 +108,6 @@ export const useArbeidsuforhetVurderingDocument = (): {
   return {
     getForhandsvarselDocument,
     getOppfyltDocument,
+    getAvslagDocument,
   };
 };
