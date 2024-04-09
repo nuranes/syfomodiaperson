@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 
 export interface Notification {
-  message: string;
+  message: ReactNode;
 }
 
 type NotificationProviderProps = {

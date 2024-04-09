@@ -12,6 +12,8 @@ import {
   VurderingRequestDTO,
   VurderingType,
 } from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
+import { useNotification } from "@/context/notification/NotificationContext";
+import { AvslagSent } from "@/sider/arbeidsuforhet/AvslagSent";
 
 const texts = {
   title: "Fristen er gått ut",
@@ -28,6 +30,7 @@ export const ForhandsvarselAfterDeadline = () => {
   const { data } = useArbeidsuforhetVurderingQuery();
   const forhandsvarsel = data[0];
   const sendVurdering = useSendVurderingArbeidsuforhet();
+  const { setNotification } = useNotification();
 
   const handleAvslag = () => {
     const vurderingRequestDTO: VurderingRequestDTO = {
@@ -35,7 +38,14 @@ export const ForhandsvarselAfterDeadline = () => {
       begrunnelse: "",
       document: [],
     };
-    sendVurdering.mutate(vurderingRequestDTO);
+
+    sendVurdering.mutate(vurderingRequestDTO, {
+      onSuccess: () => {
+        setNotification({
+          message: <AvslagSent />,
+        });
+      },
+    });
   };
 
   return (

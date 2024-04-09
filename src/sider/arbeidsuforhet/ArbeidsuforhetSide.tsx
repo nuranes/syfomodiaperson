@@ -8,6 +8,7 @@ import { Menypunkter } from "@/components/globalnavigasjon/GlobalNavigasjon";
 import { useArbeidsuforhetVurderingQuery } from "@/data/arbeidsuforhet/arbeidsuforhetQueryHooks";
 import { VurderingHistorikk } from "@/sider/arbeidsuforhet/historikk/VurderingHistorikk";
 import { Arbeidsuforhet } from "@/sider/arbeidsuforhet/Arbeidsuforhet";
+import { NotificationProvider } from "@/context/notification/NotificationContext";
 
 const texts = {
   title: "Arbeidsuførhet",
@@ -22,7 +23,9 @@ export const ArbeidsuforhetSide = (): ReactElement => {
       <SideLaster henter={isLoading} hentingFeilet={isError}>
         <Tredelt.Container>
           <Tredelt.FirstColumn>
-            <Arbeidsuforhet />
+            <NotificationProvider>
+              <Arbeidsuforhet />
+            </NotificationProvider>
             <VurderingHistorikk />
           </Tredelt.FirstColumn>
           <Tredelt.SecondColumn>

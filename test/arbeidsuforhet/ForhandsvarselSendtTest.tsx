@@ -18,6 +18,7 @@ import { createForhandsvarsel } from "./arbeidsuforhetTestData";
 import { renderWithRouter } from "../testRouterUtils";
 import { arbeidsuforhetPath } from "@/routers/AppRouter";
 import { clickButton } from "../testUtils";
+import { NotificationContext } from "@/context/notification/NotificationContext";
 
 let queryClient: QueryClient;
 
@@ -34,7 +35,11 @@ const renderForhandsvarselSendt = () => {
       <ValgtEnhetContext.Provider
         value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
       >
-        <ForhandsvarselSendt />
+        <NotificationContext.Provider
+          value={{ notification: undefined, setNotification: () => void 0 }}
+        >
+          <ForhandsvarselSendt />
+        </NotificationContext.Provider>
       </ValgtEnhetContext.Provider>
     </QueryClientProvider>,
     arbeidsuforhetPath,
