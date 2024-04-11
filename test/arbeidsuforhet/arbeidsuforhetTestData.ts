@@ -29,6 +29,7 @@ export const createForhandsvarsel = ({
       uuid: "654",
       createdAt: new Date(),
       svarfrist,
+      isExpired: svarfrist <= new Date(),
     },
   };
 };

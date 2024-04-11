@@ -74,6 +74,7 @@ describe("GlobalNavigasjon", () => {
       "Søknader om sykepenger",
       "Oppfølgingsplaner",
       "Dialogmøter",
+      "Arbeidsuførhet",
       "Vedtak",
     ];
 

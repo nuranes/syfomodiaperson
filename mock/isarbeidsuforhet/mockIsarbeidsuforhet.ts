@@ -37,6 +37,7 @@ export const mockIsarbeidsuforhet = (server: any) => {
               uuid: generateUUID(),
               createdAt: new Date(),
               svarfrist: new Date(),
+              isExpired: true,
             }
           : undefined;
       const sentVurdering: VurderingResponseDTO = {

@@ -15,7 +15,6 @@ import { useAktivitetskravQuery } from "@/data/aktivitetskrav/aktivitetskravQuer
 import { BodyShort } from "@navikt/ds-react";
 import styled from "styled-components";
 import { EventType, logEvent } from "@/utils/amplitude";
-import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
 
 const StyledLink = styled(Link)`
   display: flex;
@@ -126,7 +125,6 @@ export const GlobalNavigasjon = ({
   const { data: oppfolgingsplanerLPS } = useOppfolgingsplanerLPSQuery();
   const { data: motebehov } = useMotebehovQuery();
   const { data: aktivitetskrav } = useAktivitetskravQuery();
-  const { toggles } = useFeatureToggles();
 
   const oppfolgingsplanerLPSMedPersonOppgave = oppfolgingsplanerLPS.map(
     (oppfolgingsplanLPS) =>
@@ -177,13 +175,6 @@ export const GlobalNavigasjon = ({
   return (
     <ul aria-label="Navigasjon" className="navigasjon">
       {allMenypunkter.map(({ navn, sti, menypunkt }, index) => {
-        if (
-          !toggles.isArbeidsuforhetEnabled &&
-          menypunkt === Menypunkter.ARBEIDSUFORHET
-        ) {
-          return null;
-        }
-
         const isAktiv = menypunkt === aktivtMenypunkt;
         const className = cn("navigasjonspanel", {
           "navigasjonspanel--aktiv": isAktiv,

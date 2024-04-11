@@ -16,6 +16,7 @@ interface VarselDTO {
   uuid: string;
   createdAt: Date;
   svarfrist: Date;
+  isExpired: boolean;
 }
 
 export interface VurderingResponseDTO {

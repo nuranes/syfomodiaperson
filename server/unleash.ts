@@ -42,6 +42,5 @@ export const getToggles = (veilederId, enhetId) => {
       context
     ),
     isFlexjarEnabled: unleash.isEnabled("isFlexjarEnabled", context),
-    isArbeidsuforhetEnabled: unleash.isEnabled("isArbeidsuforhet", context),
   };
 };
