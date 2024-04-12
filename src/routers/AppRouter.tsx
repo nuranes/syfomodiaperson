@@ -26,6 +26,7 @@ import { SykepengesoknadSide } from "@/sider/sykepengsoknader/container/Sykepeng
 import { ArbeidsuforhetSide } from "@/sider/arbeidsuforhet/ArbeidsuforhetSide";
 import { ArbeidsuforhetOppfyltSide } from "@/sider/arbeidsuforhet/ArbeidsuforhetOppfyltSide";
 import { Nokkelinformasjon } from "@/sider/nokkelinformasjon/Nokkelinformasjon";
+import { ArbeidsuforhetAvslagSide } from "@/sider/arbeidsuforhet/avslag/ArbeidsuforhetAvslagSide";
 
 export const appRoutePath = "/sykefravaer";
 
@@ -33,6 +34,7 @@ export const dialogmoteRoutePath = `${appRoutePath}/dialogmote`;
 export const dialogmoteUnntakRoutePath = `${appRoutePath}/dialogmoteunntak`;
 export const moteoversiktRoutePath = `${appRoutePath}/moteoversikt`;
 export const arbeidsuforhetOppfyltPath = `${appRoutePath}/arbeidsuforhet/oppfylt`;
+export const arbeidsuforhetAvslagPath = `${appRoutePath}/arbeidsuforhet/avslag`;
 export const arbeidsuforhetPath = `${appRoutePath}/arbeidsuforhet`;
 
 const AktivBrukerRouter = (): ReactElement => {
@@ -97,6 +99,10 @@ const AktivBrukerRouter = (): ReactElement => {
           <Route
             path={arbeidsuforhetOppfyltPath}
             element={<ArbeidsuforhetOppfyltSide />}
+          />
+          <Route
+            path={arbeidsuforhetAvslagPath}
+            element={<ArbeidsuforhetAvslagSide />}
           />
           <Route
             path={`${appRoutePath}/sykepengesoknader/:sykepengesoknadId`}
