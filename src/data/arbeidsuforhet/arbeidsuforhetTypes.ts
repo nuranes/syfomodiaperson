@@ -12,7 +12,7 @@ export enum VurderingType {
   AVSLAG = "AVSLAG",
 }
 
-interface VarselDTO {
+export interface VarselDTO {
   uuid: string;
   createdAt: Date;
   svarfrist: Date;

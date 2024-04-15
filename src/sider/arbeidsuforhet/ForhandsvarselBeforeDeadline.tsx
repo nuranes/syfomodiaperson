@@ -2,7 +2,6 @@ import React from "react";
 import { useArbeidsuforhetVurderingQuery } from "@/data/arbeidsuforhet/arbeidsuforhetQueryHooks";
 import { Alert, BodyLong, Box, Button, Heading } from "@navikt/ds-react";
 import { ButtonRow } from "@/components/Layout";
-import { VisBrev } from "@/components/VisBrev";
 import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
 import { ClockIcon } from "@navikt/aksel-icons";
 import { Link } from "react-router-dom";
@@ -56,10 +55,6 @@ export const ForhandsvarselBeforeDeadline = () => {
           <Button as={Link} to={arbeidsuforhetOppfyltPath} variant="secondary">
             {texts.oppfylt}
           </Button>
-          <VisBrev
-            document={forhandsvarsel.document}
-            buttonText={texts.seSendtVarsel}
-          />
         </ButtonRow>
       </Box>
     </div>

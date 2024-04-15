@@ -8,10 +8,14 @@ import {
   DocumentComponentType,
 } from "../../src/data/documentcomponent/documentComponentTypes";
 import {
+  VarselDTO,
   VurderingResponseDTO,
   VurderingType,
 } from "../../src/data/arbeidsuforhet/arbeidsuforhetTypes";
-import { getForhandsvarselArbeidsuforhetTexts } from "../../src/data/arbeidsuforhet/arbeidsuforhetDocumentTexts";
+import {
+  getForhandsvarselArbeidsuforhetTexts,
+  getOppfyltArbeidsuforhetTexts,
+} from "../../src/data/arbeidsuforhet/arbeidsuforhetDocumentTexts";
 
 const defaultOppfyltBegrunnelse = "Du har rett på sykepenger";
 
@@ -76,18 +80,56 @@ const getSendForhandsvarselDocument = (
   ];
 };
 
+const getOppfyltDocument = (begrunnelse: string): DocumentComponentDto[] => {
+  const oppfyltArbeidsuforhetTexts = getOppfyltArbeidsuforhetTexts(
+    daysFromToday(-40),
+    begrunnelse
+  );
+  return [
+    {
+      texts: [oppfyltArbeidsuforhetTexts.header],
+      type: DocumentComponentType.HEADER_H1,
+    },
+    {
+      texts: [oppfyltArbeidsuforhetTexts.vurdert],
+      type: DocumentComponentType.PARAGRAPH,
+    },
+    {
+      texts: [oppfyltArbeidsuforhetTexts.begrunnelse],
+      type: DocumentComponentType.PARAGRAPH,
+    },
+  ];
+};
+
+const mockVarsel: VarselDTO = {
+  uuid: "1234",
+  createdAt: daysFromToday(-50),
+  svarfrist: daysFromToday(-30),
+  isExpired: false,
+};
+
 export const mockArbeidsuforhetvurdering: VurderingResponseDTO[] = [
   {
     uuid: "123",
     personident: ARBEIDSTAKER_DEFAULT.personIdent,
-    createdAt: daysFromToday(-100),
+    createdAt: daysFromToday(-40),
     veilederident: VEILEDER_DEFAULT.ident,
     type: VurderingType.OPPFYLT,
     begrunnelse: defaultOppfyltBegrunnelse,
-    document: getSendForhandsvarselDocument(
-      defaultOppfyltBegrunnelse,
-      daysFromToday(-79)
-    ),
+    document: getOppfyltDocument(defaultOppfyltBegrunnelse),
     varsel: undefined,
+  },
+  {
+    uuid: "098",
+    personident: ARBEIDSTAKER_DEFAULT.personIdent,
+    createdAt: daysFromToday(-50),
+    veilederident: VEILEDER_DEFAULT.ident,
+    type: VurderingType.FORHANDSVARSEL,
+    begrunnelse: defaultOppfyltBegrunnelse,
+    document: getSendForhandsvarselDocument(
+      "En begrunnelse forhåndsvarsel",
+      daysFromToday(-30)
+    ),
+    varsel: mockVarsel,
   },
 ];

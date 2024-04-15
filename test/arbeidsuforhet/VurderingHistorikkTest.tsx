@@ -110,7 +110,7 @@ describe("VurderingHistorikk", () => {
       );
     });
 
-    it("klikk på overskrift viser begrunnelse og veileder for vurderingen", () => {
+    it("klikk på overskrift viser begrunnelse, veileder og knapp for å se document for vurderingen", () => {
       renderVurderingHistorikk([oppfylt]);
 
       const vurderingButton = screen.getByRole("button");
@@ -121,6 +121,8 @@ describe("VurderingHistorikk", () => {
       expect(screen.getByText(oppfylt.begrunnelse)).to.exist;
       expect(screen.getByText("Vurdert av")).to.exist;
       expect(screen.getByText(VEILEDER_DEFAULT.fulltNavn())).to.exist;
+      expect(screen.getByRole("button", { name: "Se oppfylt vurdering" })).to
+        .exist;
     });
   });
 });

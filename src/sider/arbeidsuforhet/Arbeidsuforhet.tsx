@@ -12,9 +12,13 @@ export const Arbeidsuforhet = (): ReactElement => {
   const [showStartetVurdering, setShowStartetVurdering] =
     useState<boolean>(false);
 
-  return showStartetVurdering || isForhandsvarsel ? (
-    <StartetVurdering />
-  ) : (
-    <NyVurdering handleClick={() => setShowStartetVurdering(true)} />
+  return (
+    <div className="mb-2">
+      {showStartetVurdering || isForhandsvarsel ? (
+        <StartetVurdering />
+      ) : (
+        <NyVurdering handleClick={() => setShowStartetVurdering(true)} />
+      )}
+    </div>
   );
 };

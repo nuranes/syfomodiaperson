@@ -83,7 +83,6 @@ describe("ForhandsvarselSendt", () => {
         true
       );
       expect(screen.getByRole("button", { name: "Oppfylt" })).to.exist;
-      expect(screen.getByRole("button", { name: "Se sendt varsel" })).to.exist;
     });
 
     it("show ForhandsvarselAfterDeadline when svarfrist is today (expired)", () => {
@@ -113,7 +112,6 @@ describe("ForhandsvarselSendt", () => {
         false
       );
       expect(screen.getByRole("button", { name: "Oppfylt" })).to.exist;
-      expect(screen.getByRole("button", { name: "Se sendt varsel" })).to.exist;
     });
 
     it("send avslag after frist is utgatt", async () => {

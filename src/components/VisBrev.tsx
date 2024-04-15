@@ -16,15 +16,17 @@ interface VarselBrevProps {
   buttonText?: string;
 }
 
-export const VisBrev = ({ document, buttonText }: VarselBrevProps) => {
+export const VisBrev = ({
+  document,
+  buttonText = texts.visBrev,
+}: VarselBrevProps) => {
   const [visBrev, setVisBrev] = useState(false);
-  const text = buttonText ? buttonText : texts.visBrev;
 
   const handleButtonClick = () => {
     setVisBrev(true);
     Amplitude.logEvent({
       type: EventType.ButtonClick,
-      data: { tekst: text, url: window.location.href },
+      data: { tekst: buttonText, url: window.location.href },
     });
   };
 
@@ -37,7 +39,7 @@ export const VisBrev = ({ document, buttonText }: VarselBrevProps) => {
         size="small"
         icon={<EyeWithPupilIcon aria-hidden />}
       >
-        {text}
+        {buttonText}
       </Button>
       <ForhandsvisningModal
         contentLabel={texts.visBrevLabel}

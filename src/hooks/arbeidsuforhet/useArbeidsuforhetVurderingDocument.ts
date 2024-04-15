@@ -5,10 +5,10 @@ import {
   createHeaderH3,
   createParagraph,
 } from "@/utils/documentComponentUtils";
-import { tilDatoMedManedNavn } from "@/utils/datoUtils";
 import {
-  getAvslagArbeiduforhetTexts,
+  getAvslagArbeidsuforhetTexts,
   getForhandsvarselArbeidsuforhetTexts,
+  getOppfyltArbeidsuforhetTexts,
 } from "@/data/arbeidsuforhet/arbeidsuforhetDocumentTexts";
 
 type ForhandsvarselDocumentValues = {
@@ -68,12 +68,12 @@ export const useArbeidsuforhetVurderingDocument = (): {
 
   const getAvslagDocument = (values: AvslagDocumentValues) => {
     const { begrunnelse, fom } = values;
-    const avslagArbeiduforhetTexts = getAvslagArbeiduforhetTexts(fom);
+    const avslagArbeidsuforhetTexts = getAvslagArbeidsuforhetTexts(fom);
 
     const documentComponents = [
-      createHeaderH1(avslagArbeiduforhetTexts.header),
-      createParagraph(avslagArbeiduforhetTexts.fom),
-      createParagraph(avslagArbeiduforhetTexts.intro),
+      createHeaderH1(avslagArbeidsuforhetTexts.header),
+      createParagraph(avslagArbeidsuforhetTexts.fom),
+      createParagraph(avslagArbeidsuforhetTexts.intro),
     ];
 
     if (begrunnelse) {
@@ -81,7 +81,7 @@ export const useArbeidsuforhetVurderingDocument = (): {
     }
 
     documentComponents.push(
-      createParagraph(avslagArbeiduforhetTexts.hjemmel),
+      createParagraph(avslagArbeidsuforhetTexts.hjemmel),
       getVeiledernavn()
     );
 
@@ -89,15 +89,20 @@ export const useArbeidsuforhetVurderingDocument = (): {
   };
 
   const getOppfyltDocument = (begrunnelse: string) => {
-    const vurdertDato = tilDatoMedManedNavn(new Date());
+    const oppfyltArbeidsuforhetTexts = getOppfyltArbeidsuforhetTexts(
+      new Date(),
+      begrunnelse
+    );
     const documentComponents = [
-      createHeaderH1("Vurdering av § 8-4 arbeidsuførhet"),
+      createHeaderH1(oppfyltArbeidsuforhetTexts.header),
       getIntroGjelder(),
-      createParagraph(`Det ble vurdert oppfylt den ${vurdertDato}.`),
+      createParagraph(oppfyltArbeidsuforhetTexts.vurdert),
     ];
 
     if (begrunnelse) {
-      documentComponents.push(createParagraph(`Begrunnelse: ${begrunnelse}`));
+      documentComponents.push(
+        createParagraph(oppfyltArbeidsuforhetTexts.begrunnelse)
+      );
     }
 
     documentComponents.push(getVurdertAv());

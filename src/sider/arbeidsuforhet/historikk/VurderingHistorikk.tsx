@@ -8,6 +8,7 @@ import {
 import { useVeilederInfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
 import { Paragraph } from "@/components/Paragraph";
 import { tilDatoMedManedNavn } from "@/utils/datoUtils";
+import { VisBrev } from "@/components/VisBrev";
 
 const texts = {
   header: "Historikk",
@@ -36,10 +37,25 @@ const headerPrefix = (type: VurderingType): string => {
   }
 };
 
+const getButtonText = (type: VurderingType): string => {
+  switch (type) {
+    case VurderingType.FORHANDSVARSEL: {
+      return "Se sendt forhåndsvarsel";
+    }
+    case VurderingType.OPPFYLT: {
+      return "Se oppfylt vurdering";
+    }
+    case VurderingType.AVSLAG: {
+      return "Se innstilling om avslag";
+    }
+  }
+};
+
 const VurderingHistorikkItem = ({ vurdering }: VurderingHistorikkItemProps) => {
   const { type, begrunnelse, createdAt, veilederident } = vurdering;
   const { data: veilederinfo } = useVeilederInfoQuery(veilederident);
   const header = `${headerPrefix(type)} - ${tilDatoMedManedNavn(createdAt)}`;
+  const buttonText = getButtonText(type);
 
   return (
     <Accordion.Item>
@@ -50,6 +66,7 @@ const VurderingHistorikkItem = ({ vurdering }: VurderingHistorikkItemProps) => {
           label={texts.vurdertLabel}
           body={veilederinfo?.fulltNavn() ?? ""}
         />
+        <VisBrev document={vurdering.document} buttonText={buttonText} />
       </Accordion.Content>
     </Accordion.Item>
   );
