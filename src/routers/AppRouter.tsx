@@ -27,6 +27,7 @@ import { ArbeidsuforhetSide } from "@/sider/arbeidsuforhet/ArbeidsuforhetSide";
 import { ArbeidsuforhetOppfyltSide } from "@/sider/arbeidsuforhet/ArbeidsuforhetOppfyltSide";
 import { Nokkelinformasjon } from "@/sider/nokkelinformasjon/Nokkelinformasjon";
 import { ArbeidsuforhetAvslagSide } from "@/sider/arbeidsuforhet/avslag/ArbeidsuforhetAvslagSide";
+import { FriskmeldingTilArbeidsformidlingSide } from "@/sider/frisktilarbeid/FriskmeldingTilArbeidsformidlingSide";
 
 export const appRoutePath = "/sykefravaer";
 
@@ -36,6 +37,7 @@ export const moteoversiktRoutePath = `${appRoutePath}/moteoversikt`;
 export const arbeidsuforhetOppfyltPath = `${appRoutePath}/arbeidsuforhet/oppfylt`;
 export const arbeidsuforhetAvslagPath = `${appRoutePath}/arbeidsuforhet/avslag`;
 export const arbeidsuforhetPath = `${appRoutePath}/arbeidsuforhet`;
+export const frisktilarbeidPath = `${appRoutePath}/frisktilarbeid`;
 
 const AktivBrukerRouter = (): ReactElement => {
   Amplitude.logViewportAndScreenSize();
@@ -103,6 +105,10 @@ const AktivBrukerRouter = (): ReactElement => {
           <Route
             path={arbeidsuforhetAvslagPath}
             element={<ArbeidsuforhetAvslagSide />}
+          />
+          <Route
+            path={frisktilarbeidPath}
+            element={<FriskmeldingTilArbeidsformidlingSide />}
           />
           <Route
             path={`${appRoutePath}/sykepengesoknader/:sykepengesoknadId`}
