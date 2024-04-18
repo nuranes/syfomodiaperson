@@ -59,7 +59,7 @@ describe("AvslagSide", () => {
 
       renderArbeidsuforhetAvslagSide();
 
-      expect(screen.getByText("Her kommer det et skjema!")).to.exist;
+      expect(screen.getByText("Skriv innstilling til NAY")).to.exist;
     });
 
     it("redirect to arbeidsuforhet page if latest arbeidsuforhet status is forhandsvarsel and frist is not utgatt", () => {
@@ -72,7 +72,7 @@ describe("AvslagSide", () => {
 
       renderArbeidsuforhetAvslagSide();
 
-      expect(screen.queryByText("Her kommer det et skjema!")).to.not.exist;
+      expect(screen.queryByText("Skriv innstilling til NAY")).to.not.exist;
     });
 
     it("redirect to arbeidsuforhet page if latest arbeidsuforhet status is Avslag", () => {
@@ -86,7 +86,7 @@ describe("AvslagSide", () => {
 
       renderArbeidsuforhetAvslagSide();
 
-      expect(screen.queryByText("Her kommer det et skjema!")).to.not.exist;
+      expect(screen.queryByText("Skriv innstilling til NAY")).to.not.exist;
     });
 
     it("redirect to arbeidsuforhet page if latest arbeidsuforhet status is Oppfylt", () => {
@@ -100,7 +100,7 @@ describe("AvslagSide", () => {
 
       renderArbeidsuforhetAvslagSide();
 
-      expect(screen.queryByText("Her kommer det et skjema!")).to.not.exist;
+      expect(screen.queryByText("Skriv innstilling til NAY")).to.not.exist;
     });
   });
 });

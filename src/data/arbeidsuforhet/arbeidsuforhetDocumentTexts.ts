@@ -38,11 +38,11 @@ export const getForhandsvarselArbeidsuforhetTexts = ({
   },
 });
 
-export const getAvslagArbeidsuforhetTexts = (fom: Date) => ({
+export const getAvslagArbeidsuforhetTexts = (fom: Date | undefined) => ({
   header: "NAV har avslått sykepengene dine",
-  fom: `NAV har avslått din søknad om sykepenger fra og med ${tilDatoMedManedNavn(
-    fom
-  )}.`,
+  fom: `NAV har avslått din søknad om sykepenger fra og med ${
+    !!fom ? tilDatoMedManedNavn(fom) : ""
+  }.`,
   intro:
     "For å få sykepenger må du ha en sykdom eller skade som gjør at du ikke kan klarer å være i arbeid, eller at du bare klarer å gjøre deler av arbeidet ditt.",
   hjemmel:

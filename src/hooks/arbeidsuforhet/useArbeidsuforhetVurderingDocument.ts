@@ -18,7 +18,7 @@ type ForhandsvarselDocumentValues = {
 
 type AvslagDocumentValues = {
   begrunnelse: string;
-  fom: Date;
+  fom: Date | undefined;
 };
 
 export const useArbeidsuforhetVurderingDocument = (): {

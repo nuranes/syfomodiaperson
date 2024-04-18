@@ -106,3 +106,43 @@ export const getOppfyltVurderingDocument = (
     },
   ];
 };
+
+export const getAvslagVurderingDocument = (
+  begrunnelse: string,
+  fom: Date | undefined
+): DocumentComponentDto[] => {
+  return [
+    {
+      texts: ["NAV har avslått sykepengene dine"],
+      type: DocumentComponentType.HEADER_H1,
+    },
+    {
+      texts: [
+        `NAV har avslått din søknad om sykepenger fra og med ${
+          !!fom ? tilDatoMedManedNavn(fom) : ""
+        }.`,
+      ],
+      type: DocumentComponentType.PARAGRAPH,
+    },
+    {
+      texts: [
+        "For å få sykepenger må du ha en sykdom eller skade som gjør at du ikke kan klarer å være i arbeid, eller at du bare klarer å gjøre deler av arbeidet ditt.",
+      ],
+      type: DocumentComponentType.PARAGRAPH,
+    },
+    {
+      texts: [`${begrunnelse}`],
+      type: DocumentComponentType.PARAGRAPH,
+    },
+    {
+      texts: [
+        "Vi har brukt folketrygdloven § 8-4 første ledd når vi har behandlet saken din.",
+      ],
+      type: DocumentComponentType.PARAGRAPH,
+    },
+    {
+      texts: [`${VEILEDER_DEFAULT.fulltNavn()}`],
+      type: DocumentComponentType.PARAGRAPH,
+    },
+  ];
+};
