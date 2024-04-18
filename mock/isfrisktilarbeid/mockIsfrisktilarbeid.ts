@@ -1,5 +1,5 @@
 import express = require("express");
-import { ISFRISKTILARBEID_ROOT } from "@/apiConstants";
+import { ISFRISKTILARBEID_ROOT } from "../../src/apiConstants";
 
 export const mockIsfrisktilarbeid = (server: any) => {
   server.post(

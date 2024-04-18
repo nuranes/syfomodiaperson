@@ -4,6 +4,7 @@ import Sidetopp from "@/components/Sidetopp";
 import SideLaster from "@/components/SideLaster";
 import * as Tredelt from "@/sider/TredeltSide";
 import { Menypunkter } from "@/components/globalnavigasjon/GlobalNavigasjon";
+import { FattVedtak } from "@/sider/frisktilarbeid/FattVedtak";
 
 const texts = {
   title: "Friskmelding til arbeidsformidling",
@@ -15,7 +16,9 @@ export const FriskmeldingTilArbeidsformidlingSide = (): ReactElement => {
       <Sidetopp tittel={texts.title} />
       <SideLaster henter={false} hentingFeilet={false}>
         <Tredelt.Container>
-          <Tredelt.FirstColumn>Her kommer vedtak-skjema</Tredelt.FirstColumn>
+          <Tredelt.FirstColumn>
+            <FattVedtak />
+          </Tredelt.FirstColumn>
           <Tredelt.SecondColumn>
             Her kommer historikk og link servicerutine
           </Tredelt.SecondColumn>
