@@ -251,6 +251,24 @@ export const setupProxy = (
   );
 
   router.use(
+    "/isfrisktilarbeid/*",
+    (
+      req: express.Request,
+      res: express.Response,
+      next: express.NextFunction
+    ) => {
+      proxyOnBehalfOf(
+        req,
+        res,
+        next,
+        authClient,
+        issuer,
+        Config.auth.isfrisktilarbeid
+      );
+    }
+  );
+
+  router.use(
     "/ishuskelapp/*",
     (
       req: express.Request,

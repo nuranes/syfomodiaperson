@@ -26,6 +26,7 @@ import { mockIshuskelapp } from "./oppfolgingsoppgave/mockOppfolgingsoppgave";
 import { mockFlexjar } from "./flexjar/mockFlexjar";
 import { mockIsarbeidsuforhet } from "./isarbeidsuforhet/mockIsarbeidsuforhet";
 import { mockLpsOppfolgingsplanerMottak } from "./lpsoppfolgingsplanmottak/mockLpsOppfolgingsplanMottak";
+import { mockIsfrisktilarbeid } from "./isfrisktilarbeid/mockIsfrisktilarbeid";
 
 const mockEndepunkter = (server: any) => {
   server.use(express.json());
@@ -50,6 +51,7 @@ const mockEndepunkter = (server: any) => {
     mockSyfosmregister,
     mockIsaktivitetskrav,
     mockIsarbeidsuforhet,
+    mockIsfrisktilarbeid,
     mockIshuskelapp,
     mockIsbehandlerdialog,
     mockIspengestopp,

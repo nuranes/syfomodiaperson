@@ -61,6 +61,7 @@ spec:
         - application: isdialogmote
         - application: isdialogmotekandidat
         - application: ishuskelapp
+        - application: isfrisktilarbeid
         - application: isnarmesteleder
         - application: isoppfolgingstilfelle
         - application: ispengestopp
@@ -127,6 +128,10 @@ spec:
       value: "dev-gcp.teamsykefravr.isdialogmotekandidat"
     - name: ISDIALOGMOTEKANDIDAT_HOST
       value: "http://isdialogmotekandidat"
+    - name: ISFRISKTILARBEID_AAD_APP_CLIENT_ID
+      value: "dev-gcp.teamsykefravr.isfrisktilarbeid"
+    - name: ISFRISKTILARBEID_HOST
+      value: "http://isfrisktilarbeid"
     - name: ISHUSKELAPP_AAD_APP_CLIENT_ID
       value: "dev-gcp.teamsykefravr.ishuskelapp"
     - name: ISHUSKELAPP_HOST

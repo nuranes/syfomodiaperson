@@ -172,6 +172,16 @@ export const auth = {
     }),
     removePathPrefix: true,
   },
+  isfrisktilarbeid: {
+    applicationName: "isfrisktilarbeid",
+    clientId: envVar({
+      name: "ISFRISKTILARBEID_AAD_APP_CLIENT_ID",
+    }),
+    host: envVar({
+      name: "ISFRISKTILARBEID_HOST",
+    }),
+    removePathPrefix: true,
+  },
   ishuskelapp: {
     applicationName: "ishuskelapp",
     clientId: envVar({
