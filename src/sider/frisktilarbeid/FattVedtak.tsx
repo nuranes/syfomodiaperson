@@ -4,6 +4,8 @@ import { Forhandsvisning } from "@/components/Forhandsvisning";
 import { FormProvider, useForm } from "react-hook-form";
 import { VedtakDatoer } from "@/sider/frisktilarbeid/VedtakDatoer";
 import { addWeeks } from "@/utils/datoUtils";
+import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
+import { VelgBehandler } from "@/components/behandler/VelgBehandler";
 
 const begrunnelseMaxLength = 5000;
 
@@ -13,6 +15,7 @@ const texts = {
   begrunnelseDescription: "Åpne forhåndsvisning for å se hele vedtaket",
   previewContentLabel: "Forhåndsvis vedtaket",
   primaryButton: "Fatt vedtak",
+  velgBehandlerLegend: "Velg behandler",
 };
 
 export interface FattVedtakSkjemaValues {
@@ -23,6 +26,7 @@ export interface FattVedtakSkjemaValues {
 
 export const FattVedtak = () => {
   const [tilDato, setTilDato] = useState<Date>();
+  const [selectedBehandler, setSelectedBehandler] = useState<BehandlerDTO>();
   const methods = useForm<FattVedtakSkjemaValues>();
   const {
     register,
@@ -35,17 +39,23 @@ export const FattVedtak = () => {
   };
 
   const submit = (values: FattVedtakSkjemaValues) => {
-    console.log(values);
+    console.log("values", values);
+    console.log("behandler", selectedBehandler);
+    console.log("tilDato", tilDato);
   };
 
   return (
     <Box background="surface-default" padding="6">
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(submit)} className="flex flex-col gap-8">
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-6">
             <VedtakDatoer
               tilDato={tilDato}
               onFraDatoChanged={handleFraDatoChanged}
+            />
+            <VelgBehandler
+              legend={texts.velgBehandlerLegend}
+              onBehandlerSelected={setSelectedBehandler}
             />
             <Textarea
               {...register("begrunnelse", {

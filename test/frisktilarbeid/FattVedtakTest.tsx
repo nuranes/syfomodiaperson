@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
 import React from "react";
@@ -35,18 +35,39 @@ describe("FattVedtak", () => {
     );
     expect(tilDatoInput).to.exist;
     expect(tilDatoInput).to.have.property("readOnly", true);
+
+    expect(screen.getByRole("group", { name: "Velg behandler" })).to.exist;
+    expect(screen.getByRole("radio", { name: /Fastlege/ })).to.exist;
+    expect(screen.getByRole("radio", { name: "Søk etter behandler" })).to.exist;
+    expect(screen.queryByRole("searchbox")).to.not.exist;
+
     expect(getTextInput("Begrunnelse")).to.exist;
+
     expect(screen.getByRole("button", { name: "Fatt vedtak" })).to.exist;
     expect(screen.getByRole("button", { name: "Forhåndsvisning" })).to.exist;
   });
-  it("validerer fra-dato og begrunnelse", async () => {
+
+  it("viser behandlersøk ved klikk på 'Søk etter behandler'", () => {
+    renderFattVedtak();
+
+    const searchBehandlerOption = screen.getByRole("radio", {
+      name: "Søk etter behandler",
+    });
+    fireEvent.click(searchBehandlerOption);
+
+    expect(screen.getByRole("searchbox")).to.exist;
+  });
+
+  it("validerer fra-dato, begrunnelse og behandler", async () => {
     renderFattVedtak();
 
     clickButton("Fatt vedtak");
 
     expect(await screen.findByText("Vennligst angi begrunnelse")).to.exist;
     expect(await screen.findByText("Vennligst angi dato")).to.exist;
+    expect(await screen.findByText("Vennligst velg behandler")).to.exist;
   });
+
   it("åpner forhåndsvisning", () => {
     renderFattVedtak();
 
