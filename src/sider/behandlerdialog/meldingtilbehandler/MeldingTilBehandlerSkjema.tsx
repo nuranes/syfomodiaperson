@@ -12,11 +12,11 @@ import { behandlerNavn } from "@/utils/behandlerUtils";
 import { MeldingsTypeInfo } from "@/sider/behandlerdialog/meldingtilbehandler/MeldingsTypeInfo";
 import * as Amplitude from "@/utils/amplitude";
 import { EventType } from "@/utils/amplitude";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { meldingTypeTexts } from "@/data/behandlerdialog/behandlerdialogTexts";
-import { VelgBehandler } from "@/sider/behandlerdialog/meldingtilbehandler/VelgBehandler";
 import { ButtonRow } from "@/components/Layout";
 import { ForhandsvisningModal } from "@/components/ForhandsvisningModal";
+import { VelgBehandler } from "@/components/behandler/VelgBehandler";
 
 const texts = {
   sendKnapp: "Send til behandler",
@@ -29,6 +29,7 @@ const texts = {
   },
   meldingsTekstLabel: "Skriv inn meldingstekst",
   meldingsTekstErrorMessage: "Vennligst angi meldingstekst",
+  velgBehandlerLegend: "Velg behandler som skal motta meldingen",
 };
 
 export interface MeldingTilBehandlerSkjemaValues {
@@ -44,6 +45,7 @@ export const MeldingTilBehandlerSkjema = () => {
   const { getMeldingTilBehandlerDocument } = useMeldingTilBehandlerDocument();
   const [selectedBehandler, setSelectedBehandler] = useState<BehandlerDTO>();
   const meldingTilBehandler = useMeldingTilBehandler();
+  const formMethods = useForm<MeldingTilBehandlerSkjemaValues>();
   const {
     register,
     watch,
@@ -51,9 +53,7 @@ export const MeldingTilBehandlerSkjema = () => {
     formState: { errors },
     reset,
     getValues,
-    trigger,
-    setError,
-  } = useForm<MeldingTilBehandlerSkjemaValues>();
+  } = formMethods;
 
   const now = new Date();
 
@@ -66,19 +66,9 @@ export const MeldingTilBehandlerSkjema = () => {
   };
 
   const submit = (values: MeldingTilBehandlerSkjemaValues) => {
-    const behandlerRefValue = () => {
-      if (
-        values.behandlerRef === "sokEtterBehandler" &&
-        selectedBehandler?.behandlerRef
-      ) {
-        return selectedBehandler?.behandlerRef;
-      } else {
-        return values.behandlerRef;
-      }
-    };
     const meldingTilBehandlerDTO: MeldingTilBehandlerDTO = {
       type: values.meldingsType,
-      behandlerRef: behandlerRefValue(),
+      behandlerRef: values.behandlerRef,
       tekst: values.meldingTekst,
       document: getMeldingTilBehandlerDocument(values),
       behandlerIdent: selectedBehandler?.fnr,
@@ -108,70 +98,67 @@ export const MeldingTilBehandlerSkjema = () => {
   );
 
   return (
-    <form onSubmit={handleSubmit(submit)} className={"flex flex-col gap-4"}>
-      {meldingTilBehandler.isSuccess && (
-        <Alert variant="success" size="small">
-          {`Meldingen ble sendt ${tilDatoMedManedNavnOgKlokkeslett(now)}`}
-        </Alert>
-      )}
-      <div className="max-w-[23rem]">
-        <Select
-          id="type"
-          className="mb-4"
-          label={texts.meldingsType.label}
-          {...register("meldingsType", { required: true })}
-          value={watch("meldingsType")}
-          error={errors.meldingsType && texts.meldingsType.missing}
-        >
-          <option value="">{texts.meldingsType.defaultOption}</option>
-          <MeldingTypeOption
-            type={MeldingType.FORESPORSEL_PASIENT_TILLEGGSOPPLYSNINGER}
-          />
-          <MeldingTypeOption
-            type={MeldingType.FORESPORSEL_PASIENT_LEGEERKLARING}
-          />
-          <MeldingTypeOption type={MeldingType.HENVENDELSE_MELDING_FRA_NAV} />
-        </Select>
-        {watch("meldingsType") && (
-          <MeldingsTypeInfo meldingType={watch("meldingsType")} />
+    <FormProvider {...formMethods}>
+      <form onSubmit={handleSubmit(submit)} className={"flex flex-col gap-4"}>
+        {meldingTilBehandler.isSuccess && (
+          <Alert variant="success" size="small">
+            {`Meldingen ble sendt ${tilDatoMedManedNavnOgKlokkeslett(now)}`}
+          </Alert>
         )}
-      </div>
-      <VelgBehandler
-        selectedBehandler={selectedBehandler}
-        setSelectedBehandler={setSelectedBehandler}
-        register={register}
-        setError={setError}
-        watch={watch}
-        trigger={trigger}
-        errors={errors}
-      />
-      <Textarea
-        label={texts.meldingsTekstLabel}
-        {...register("meldingTekst", {
-          required: true,
-          maxLength: MAX_LENGTH_BEHANDLER_MELDING,
-        })}
-        error={errors.meldingTekst && texts.meldingsTekstErrorMessage}
-      />
-      <ForhandsvisningModal
-        contentLabel={texts.previewContentLabel}
-        isOpen={displayPreview}
-        handleClose={() => setDisplayPreview(false)}
-        getDocumentComponents={() =>
-          getMeldingTilBehandlerDocument(getValues()) ?? []
-        }
-      />
-      <ButtonRow>
-        <Button
-          variant="primary"
-          onClick={handleSubmit(submit)}
-          loading={meldingTilBehandler.isPending}
-          type="submit"
-        >
-          {texts.sendKnapp}
-        </Button>
-        <PreviewButton />
-      </ButtonRow>
-    </form>
+        <div className="max-w-[23rem]">
+          <Select
+            id="type"
+            className="mb-4"
+            label={texts.meldingsType.label}
+            {...register("meldingsType", { required: true })}
+            value={watch("meldingsType")}
+            error={errors.meldingsType && texts.meldingsType.missing}
+          >
+            <option value="">{texts.meldingsType.defaultOption}</option>
+            <MeldingTypeOption
+              type={MeldingType.FORESPORSEL_PASIENT_TILLEGGSOPPLYSNINGER}
+            />
+            <MeldingTypeOption
+              type={MeldingType.FORESPORSEL_PASIENT_LEGEERKLARING}
+            />
+            <MeldingTypeOption type={MeldingType.HENVENDELSE_MELDING_FRA_NAV} />
+          </Select>
+          {watch("meldingsType") && (
+            <MeldingsTypeInfo meldingType={watch("meldingsType")} />
+          )}
+        </div>
+        <VelgBehandler
+          onBehandlerSelected={setSelectedBehandler}
+          legend={texts.velgBehandlerLegend}
+        />
+        <Textarea
+          label={texts.meldingsTekstLabel}
+          {...register("meldingTekst", {
+            required: true,
+            maxLength: MAX_LENGTH_BEHANDLER_MELDING,
+          })}
+          error={errors.meldingTekst && texts.meldingsTekstErrorMessage}
+        />
+        <ForhandsvisningModal
+          contentLabel={texts.previewContentLabel}
+          isOpen={displayPreview}
+          handleClose={() => setDisplayPreview(false)}
+          getDocumentComponents={() =>
+            getMeldingTilBehandlerDocument(getValues()) ?? []
+          }
+        />
+        <ButtonRow>
+          <Button
+            variant="primary"
+            onClick={handleSubmit(submit)}
+            loading={meldingTilBehandler.isPending}
+            type="submit"
+          >
+            {texts.sendKnapp}
+          </Button>
+          <PreviewButton />
+        </ButtonRow>
+      </form>
+    </FormProvider>
   );
 };
