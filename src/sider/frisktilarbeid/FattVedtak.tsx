@@ -1,11 +1,23 @@
 import React, { useState } from "react";
-import { Box, Button, Textarea } from "@navikt/ds-react";
+import {
+  Box,
+  Button,
+  DatePicker,
+  Textarea,
+  useDatepicker,
+} from "@navikt/ds-react";
 import { Forhandsvisning } from "@/components/Forhandsvisning";
 import { FormProvider, useForm } from "react-hook-form";
-import { VedtakDatoer } from "@/sider/frisktilarbeid/VedtakDatoer";
+import { VedtakFraDato } from "@/sider/frisktilarbeid/VedtakFraDato";
 import { addWeeks } from "@/utils/datoUtils";
 import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
 import { VelgBehandler } from "@/components/behandler/VelgBehandler";
+import { useFattVedtak } from "@/data/frisktilarbeid/useFattVedtak";
+import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
+import { VedtakRequestDTO } from "@/data/frisktilarbeid/frisktilarbeidTypes";
+import dayjs from "dayjs";
+import { behandlerNavn } from "@/utils/behandlerUtils";
+import { createHeaderH1 } from "@/utils/documentComponentUtils";
 
 const begrunnelseMaxLength = 5000;
 
@@ -16,43 +28,59 @@ const texts = {
   previewContentLabel: "Forhåndsvis vedtaket",
   primaryButton: "Fatt vedtak",
   velgBehandlerLegend: "Velg behandler",
+  tilDatoLabel: "Til dato (automatisk justert 12 uker frem)",
+  tilDatoDescription: "Dette er datoen vedtaket slutter",
 };
 
 export interface FattVedtakSkjemaValues {
-  fraDato: string;
+  fraDato: Date;
   begrunnelse: string;
   behandlerRef: string;
 }
 
 export const FattVedtak = () => {
-  const [tilDato, setTilDato] = useState<Date>();
   const [selectedBehandler, setSelectedBehandler] = useState<BehandlerDTO>();
+  const fattVedtak = useFattVedtak();
   const methods = useForm<FattVedtakSkjemaValues>();
   const {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = methods;
 
-  const handleFraDatoChanged = (fraDato: Date) => {
-    setTilDato(addWeeks(fraDato, 12));
-  };
+  const fraDato = watch("fraDato");
+  const tilDato = fraDato ? addWeeks(fraDato, 12) : undefined;
 
   const submit = (values: FattVedtakSkjemaValues) => {
-    console.log("values", values);
-    console.log("behandler", selectedBehandler);
-    console.log("tilDato", tilDato);
+    const vedtakRequestDTO: VedtakRequestDTO = {
+      fom: dayjs(values.fraDato).format("YYYY-MM-DD"),
+      tom: dayjs(tilDato).format("YYYY-MM-DD"),
+      begrunnelse: values.begrunnelse,
+      document: [createHeaderH1("Vedtak")],
+      behandlerRef: values.behandlerRef,
+      behandlerNavn: selectedBehandler ? behandlerNavn(selectedBehandler) : "",
+      behandlerDocument: [],
+    };
+    fattVedtak.mutate(vedtakRequestDTO);
   };
+
+  const tilDatoDatePicker = useDatepicker();
 
   return (
     <Box background="surface-default" padding="6">
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(submit)} className="flex flex-col gap-8">
           <div className="flex flex-col gap-6">
-            <VedtakDatoer
-              tilDato={tilDato}
-              onFraDatoChanged={handleFraDatoChanged}
-            />
+            <VedtakFraDato />
+            <DatePicker {...tilDatoDatePicker.datepickerProps}>
+              <DatePicker.Input
+                value={tilDato ? dayjs(tilDato).format("DD.MM.YYYY") : ""}
+                label={texts.tilDatoLabel}
+                description={texts.tilDatoDescription}
+                readOnly
+              />
+            </DatePicker>
             <VelgBehandler
               legend={texts.velgBehandlerLegend}
               onBehandlerSelected={setSelectedBehandler}
@@ -69,8 +97,15 @@ export const FattVedtak = () => {
               error={errors.begrunnelse?.message}
             />
           </div>
+          {fattVedtak.isError && (
+            <SkjemaInnsendingFeil error={fattVedtak.error} />
+          )}
           <div className="flex gap-4">
-            <Button variant="primary" loading={false} type="submit">
+            <Button
+              variant="primary"
+              loading={fattVedtak.isPending}
+              type="submit"
+            >
               {texts.primaryButton}
             </Button>
             <Forhandsvisning

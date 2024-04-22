@@ -1,14 +1,29 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
 import React from "react";
 import { FattVedtak } from "@/sider/frisktilarbeid/FattVedtak";
 import { queryClientWithMockData } from "../testQueryClient";
 import { expect } from "chai";
-import { clickButton, getTextInput } from "../testUtils";
+import { changeTextInput, clickButton, getTextInput } from "../testUtils";
+import dayjs from "dayjs";
+import { VedtakRequestDTO } from "@/data/frisktilarbeid/frisktilarbeidTypes";
+import { behandlereDialogmeldingMock } from "../../mock/isdialogmelding/behandlereDialogmeldingMock";
+import { addWeeks } from "@/utils/datoUtils";
+import { createHeaderH1 } from "@/utils/documentComponentUtils";
 
 let queryClient: QueryClient;
+
+const mockBehandler = behandlereDialogmeldingMock[0];
+const today = dayjs();
+const inTwelveWeeks = dayjs(addWeeks(today.toDate(), 12));
 
 const renderFattVedtak = () =>
   render(
@@ -66,6 +81,38 @@ describe("FattVedtak", () => {
     expect(await screen.findByText("Vennligst angi begrunnelse")).to.exist;
     expect(await screen.findByText("Vennligst angi dato")).to.exist;
     expect(await screen.findByText("Vennligst velg behandler")).to.exist;
+  });
+
+  it("fatter vedtak med verdier fra skjema", async () => {
+    renderFattVedtak();
+
+    const fraDato = getTextInput("Friskmeldingen gjelder fra");
+    changeTextInput(fraDato, today.format("DD.MM.YYYY"));
+
+    const velgFastlegeOption = screen.getByRole("radio", { name: /Fastlege/ });
+    fireEvent.click(velgFastlegeOption);
+
+    const begrunnelseInput = getTextInput("Begrunnelse");
+    changeTextInput(begrunnelseInput, "En begrunnelse");
+
+    clickButton("Fatt vedtak");
+
+    const expectedVedtakRequest: VedtakRequestDTO = {
+      fom: today.format("YYYY-MM-DD"),
+      tom: inTwelveWeeks.format("YYYY-MM-DD"),
+      begrunnelse: "En begrunnelse",
+      document: [createHeaderH1("Vedtak")],
+      behandlerDocument: [],
+      behandlerNavn: `${mockBehandler.fornavn} ${mockBehandler.mellomnavn} ${mockBehandler.etternavn}`,
+      behandlerRef: mockBehandler.behandlerRef,
+    };
+
+    await waitFor(() => {
+      const fattVedtakMutation = queryClient.getMutationCache().getAll().pop();
+      expect(fattVedtakMutation?.state.variables).to.deep.equal(
+        expectedVedtakRequest
+      );
+    });
   });
 
   it("åpner forhåndsvisning", () => {
