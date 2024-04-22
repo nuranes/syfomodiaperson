@@ -44,7 +44,7 @@ export const getAvslagArbeidsuforhetTexts = (fom: Date | undefined) => ({
     !!fom ? tilDatoMedManedNavn(fom) : ""
   }.`,
   intro:
-    "For å få sykepenger må du ha en sykdom eller skade som gjør at du ikke kan klarer å være i arbeid, eller at du bare klarer å gjøre deler av arbeidet ditt.",
+    "For å få sykepenger må du ha en sykdom eller skade som gjør at du ikke kan være i arbeid, eller at du bare klarer å gjøre deler av arbeidet ditt.",
   hjemmel:
     "Vi har brukt folketrygdloven § 8-4 første ledd når vi har behandlet saken din.",
 });

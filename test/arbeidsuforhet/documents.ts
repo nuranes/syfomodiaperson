@@ -126,7 +126,7 @@ export const getAvslagVurderingDocument = (
     },
     {
       texts: [
-        "For å få sykepenger må du ha en sykdom eller skade som gjør at du ikke kan klarer å være i arbeid, eller at du bare klarer å gjøre deler av arbeidet ditt.",
+        "For å få sykepenger må du ha en sykdom eller skade som gjør at du ikke kan være i arbeid, eller at du bare klarer å gjøre deler av arbeidet ditt.",
       ],
       type: DocumentComponentType.PARAGRAPH,
     },
