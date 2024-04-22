@@ -2,22 +2,17 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import { queryClientWithMockData } from "../testQueryClient";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
-import { screen, waitFor } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { navEnhet } from "../dialogmote/testData";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { expect } from "chai";
 import { ForhandsvarselSendt } from "@/sider/arbeidsuforhet/ForhandsvarselSendt";
-import {
-  VurderingRequestDTO,
-  VurderingResponseDTO,
-  VurderingType,
-} from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
+import { VurderingResponseDTO } from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
 import { arbeidsuforhetQueryKeys } from "@/data/arbeidsuforhet/arbeidsuforhetQueryHooks";
 import { addWeeks, tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
 import { createForhandsvarsel } from "./arbeidsuforhetTestData";
 import { renderWithRouter } from "../testRouterUtils";
 import { arbeidsuforhetPath } from "@/routers/AppRouter";
-import { clickButton } from "../testUtils";
 import { NotificationContext } from "@/context/notification/NotificationContext";
 
 let queryClient: QueryClient;
@@ -78,10 +73,9 @@ describe("ForhandsvarselSendt", () => {
         )
       ).to.exist;
       expect(screen.getByRole("img", { name: "klokkeikon" })).to.exist;
-      expect(screen.getByRole("button", { name: "Avslag" })).to.have.property(
-        "disabled",
-        true
-      );
+      expect(
+        screen.getByRole("button", { name: "Innstilling om avslag" })
+      ).to.have.property("disabled", true);
       expect(screen.getByRole("button", { name: "Oppfylt" })).to.exist;
     });
 
@@ -104,41 +98,12 @@ describe("ForhandsvarselSendt", () => {
         screen.getByText(
           `Fristen for forhåndsvarselet som ble sendt ut ${tilLesbarDatoMedArUtenManedNavn(
             createdAt
-          )} er gått ut. Trykk på Avslag-knappen hvis vilkårene i § 8-4 ikke er oppfylt og rett til videre sykepenger skal avslås.`
+          )} er gått ut. Trykk på Innstilling om avslag-knappen hvis vilkårene i § 8-4 ikke er oppfylt og rett til videre sykepenger skal avslås.`
         )
       ).to.exist;
-      expect(screen.getByRole("button", { name: "Avslag" })).to.have.property(
-        "disabled",
-        false
-      );
+      expect(screen.getByRole("button", { name: "Innstilling om avslag" })).to
+        .exist;
       expect(screen.getByRole("button", { name: "Oppfylt" })).to.exist;
-    });
-
-    it("send avslag after frist is utgatt", async () => {
-      const createdAt = addWeeks(new Date(), -3);
-      const forhandsvarselBeforeFrist = createForhandsvarsel({
-        createdAt: createdAt,
-        svarfrist: new Date(),
-      });
-      const vurderinger = [forhandsvarselBeforeFrist];
-      mockArbeidsuforhetVurderinger(vurderinger);
-
-      renderForhandsvarselSendt();
-
-      clickButton("Avslag");
-      await waitFor(() => {
-        const expectedVurdering: VurderingRequestDTO = {
-          type: VurderingType.AVSLAG,
-          begrunnelse: "",
-          document: [],
-        };
-        const useSendVurderingArbeidsuforhet = queryClient
-          .getMutationCache()
-          .getAll()[0];
-        expect(useSendVurderingArbeidsuforhet.state.variables).to.deep.equal(
-          expectedVurdering
-        );
-      });
     });
   });
 });

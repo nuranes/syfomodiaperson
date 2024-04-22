@@ -19,12 +19,7 @@ import {
 import { Arbeidsuforhet } from "@/sider/arbeidsuforhet/Arbeidsuforhet";
 import { renderWithRouter } from "../testRouterUtils";
 import { arbeidsuforhetPath } from "@/routers/AppRouter";
-import {
-  Notification,
-  NotificationContext,
-} from "@/context/notification/NotificationContext";
 import { clickButton } from "../testUtils";
-import { AvslagSent } from "@/sider/arbeidsuforhet/AvslagSent";
 
 let queryClient: QueryClient;
 
@@ -35,19 +30,13 @@ const mockArbeidsuforhetVurderinger = (vurderinger: VurderingResponseDTO[]) => {
   );
 };
 
-const renderArbeidsuforhetSide = (
-  notification: Notification | undefined = undefined
-) => {
+const renderArbeidsuforhetSide = () => {
   renderWithRouter(
     <QueryClientProvider client={queryClient}>
       <ValgtEnhetContext.Provider
         value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
       >
-        <NotificationContext.Provider
-          value={{ notification, setNotification: () => void 0 }}
-        >
-          <Arbeidsuforhet />
-        </NotificationContext.Provider>
+        <Arbeidsuforhet />
       </ValgtEnhetContext.Provider>
     </QueryClientProvider>,
     arbeidsuforhetPath,
@@ -62,22 +51,6 @@ describe("ArbeidsuforhetSide", () => {
 
   describe("Show correct info", () => {
     const nyVurderingButtonText = "Start ny vurdering";
-
-    describe("Show avslag sent notification", () => {
-      it("if notification is set", () => {
-        const notification = {
-          message: <AvslagSent />,
-        };
-
-        renderArbeidsuforhetSide(notification);
-
-        expect(
-          screen.getByText(
-            "Du har gitt avslag i modia og oppgaven er fjernet fra oversikten."
-          )
-        ).to.exist;
-      });
-    });
 
     describe("Show ny vurdering button", () => {
       it("if there are no vurderinger", () => {

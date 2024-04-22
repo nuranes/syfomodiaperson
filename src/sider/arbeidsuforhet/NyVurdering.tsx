@@ -6,7 +6,6 @@ import {
   VurderingType,
 } from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
 import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
-import { useNotification } from "@/context/notification/NotificationContext";
 
 const texts = {
   title: "Arbeidsuførhet",
@@ -40,22 +39,18 @@ export const NyVurdering = ({
   handleClick,
 }: NyVurderingProps): ReactElement => {
   const { data: vurderinger } = useArbeidsuforhetVurderingQuery();
-  const { notification } = useNotification();
 
   return (
-    <>
-      {notification && notification.message}
-      <Box background="surface-default" padding="6">
-        <Heading className="mb-4" level="2" size="medium">
-          {texts.siste}
-        </Heading>
-        <BodyShort className="mb-4">{`${lastVurderingText(
-          vurderinger
-        )}`}</BodyShort>
-        <Button onClick={handleClick} variant="secondary">
-          {texts.button}
-        </Button>
-      </Box>
-    </>
+    <Box background="surface-default" padding="6">
+      <Heading className="mb-4" level="2" size="medium">
+        {texts.siste}
+      </Heading>
+      <BodyShort className="mb-4">{`${lastVurderingText(
+        vurderinger
+      )}`}</BodyShort>
+      <Button onClick={handleClick} variant="secondary">
+        {texts.button}
+      </Button>
+    </Box>
   );
 };

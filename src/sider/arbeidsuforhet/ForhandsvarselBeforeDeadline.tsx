@@ -19,7 +19,7 @@ const texts = {
     "Dersom du har mottatt nye opplysninger og vurdert at bruker likevel oppfyller § 8-4, klikker du på Oppfylt-knappen. Du kan ikke avslå før fristen er gått ut.",
   frist: "Fristen går ut: ",
   oppfylt: "Oppfylt",
-  avslag: "Avslag",
+  avslag: "Innstilling om avslag",
   seSendtVarsel: "Se sendt varsel",
 };
 

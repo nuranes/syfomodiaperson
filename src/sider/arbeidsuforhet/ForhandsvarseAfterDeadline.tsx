@@ -5,22 +5,18 @@ import { ButtonRow } from "@/components/Layout";
 import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
 import { BellIcon } from "@navikt/aksel-icons";
 import { Link } from "react-router-dom";
-import { arbeidsuforhetOppfyltPath } from "@/routers/AppRouter";
-import { useSendVurderingArbeidsuforhet } from "@/data/arbeidsuforhet/useSendVurderingArbeidsuforhet";
 import {
-  VurderingRequestDTO,
-  VurderingType,
-} from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
-import { useNotification } from "@/context/notification/NotificationContext";
-import { AvslagSent } from "@/sider/arbeidsuforhet/AvslagSent";
+  arbeidsuforhetAvslagPath,
+  arbeidsuforhetOppfyltPath,
+} from "@/routers/AppRouter";
 
 const texts = {
   title: "Fristen er gått ut",
   passertAlert: (sentDate: Date) =>
     `Fristen for forhåndsvarselet som ble sendt ut ${tilLesbarDatoMedArUtenManedNavn(
       sentDate
-    )} er gått ut. Trykk på Avslag-knappen hvis vilkårene i § 8-4 ikke er oppfylt og rett til videre sykepenger skal avslås.`,
-  avslag: "Avslag",
+    )} er gått ut. Trykk på Innstilling om avslag-knappen hvis vilkårene i § 8-4 ikke er oppfylt og rett til videre sykepenger skal avslås.`,
+  avslag: "Innstilling om avslag",
   oppfylt: "Oppfylt",
   seSendtVarsel: "Se sendt varsel",
 };
@@ -28,24 +24,6 @@ const texts = {
 export const ForhandsvarselAfterDeadline = () => {
   const { data } = useArbeidsuforhetVurderingQuery();
   const forhandsvarsel = data[0];
-  const sendVurdering = useSendVurderingArbeidsuforhet();
-  const { setNotification } = useNotification();
-
-  const handleAvslag = () => {
-    const vurderingRequestDTO: VurderingRequestDTO = {
-      type: VurderingType.AVSLAG,
-      begrunnelse: "",
-      document: [],
-    };
-
-    sendVurdering.mutate(vurderingRequestDTO, {
-      onSuccess: () => {
-        setNotification({
-          message: <AvslagSent />,
-        });
-      },
-    });
-  };
 
   return (
     <Box background="surface-default" padding="4" className="mb-2 [&>*]:mb-4">
@@ -60,11 +38,7 @@ export const ForhandsvarselAfterDeadline = () => {
       </div>
       <BodyShort>{texts.passertAlert(forhandsvarsel.createdAt)}</BodyShort>
       <ButtonRow>
-        <Button
-          variant="primary"
-          onClick={handleAvslag}
-          loading={sendVurdering.isPending}
-        >
+        <Button as={Link} to={arbeidsuforhetAvslagPath} variant="primary">
           {texts.avslag}
         </Button>
         <Button as={Link} to={arbeidsuforhetOppfyltPath} variant="secondary">
