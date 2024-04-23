@@ -9,3 +9,13 @@ export interface VedtakRequestDTO {
   behandlerNavn: string;
   behandlerDocument: DocumentComponentDto[];
 }
+
+export interface VedtakResponseDTO {
+  uuid: string;
+  createdAt: Date;
+  veilederident: string;
+  begrunnelse: string;
+  fom: Date;
+  tom: Date;
+  document: DocumentComponentDto[];
+}

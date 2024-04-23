@@ -5,16 +5,19 @@ import SideLaster from "@/components/SideLaster";
 import * as Tredelt from "@/sider/TredeltSide";
 import { Menypunkter } from "@/components/globalnavigasjon/GlobalNavigasjon";
 import { FattVedtak } from "@/sider/frisktilarbeid/FattVedtak";
+import { useVedtakQuery } from "@/data/frisktilarbeid/vedtakQuery";
 
 const texts = {
   title: "Friskmelding til arbeidsformidling",
 };
 
 export const FriskmeldingTilArbeidsformidlingSide = (): ReactElement => {
+  const { isLoading, isError } = useVedtakQuery();
+
   return (
     <Side tittel={texts.title} aktivtMenypunkt={Menypunkter.FRISKTILARBEID}>
       <Sidetopp tittel={texts.title} />
-      <SideLaster henter={false} hentingFeilet={false}>
+      <SideLaster henter={isLoading} hentingFeilet={isError}>
         <Tredelt.Container>
           <Tredelt.FirstColumn>
             <FattVedtak />
