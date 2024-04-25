@@ -1,7 +1,5 @@
 import * as React from "react";
-import { ChangeEvent, useState } from "react";
-import { Knapp } from "nav-frontend-knapper";
-import { Checkbox, CheckboxGruppe } from "nav-frontend-skjema";
+import { useState } from "react";
 import {
   Arbeidsgiver,
   StoppAutomatikk,
@@ -9,11 +7,18 @@ import {
   SykepengestoppArsakType,
   VirksomhetNr,
 } from "@/data/pengestopp/types/FlaggPerson";
-import { AlertStripeInfo } from "nav-frontend-alertstriper";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 import { useFlaggPerson } from "@/data/pengestopp/useFlaggPerson";
 import { useValgtEnhet } from "@/context/ValgtEnhetContext";
-import { ErrorMessage, Heading, Modal } from "@navikt/ds-react";
+import {
+  Alert,
+  Button,
+  Checkbox,
+  CheckboxGroup,
+  ErrorMessage,
+  Heading,
+  Modal,
+} from "@navikt/ds-react";
 
 const texts = {
   notStoppedTittel:
@@ -120,39 +125,14 @@ const PengestoppModal = ({
     });
   };
 
-  const handleChangeVirksomhet = (e: ChangeEvent<HTMLInputElement>) => {
-    const orgnr: VirksomhetNr = {
-      value: e.target.name,
-    };
-
-    if (e.target.checked) {
-      setEmployerError(false);
-      updateVirksomhetNr([...stoppAutomatikk.virksomhetNr, orgnr]);
-    } else {
-      const virksomhetListWithoutSelection =
-        stoppAutomatikk.virksomhetNr.filter((virksomhetNr: VirksomhetNr) => {
-          return virksomhetNr.value !== orgnr.value;
-        });
-      updateVirksomhetNr(virksomhetListWithoutSelection);
-    }
+  const handleChangeVirksomheter = (values: string[]) => {
+    setEmployerError(values.length === 0);
+    updateVirksomhetNr(values.map((value) => ({ value })));
   };
 
-  const handleChangeArsak = (e: ChangeEvent<HTMLInputElement>) => {
-    const newArsakType: SykepengestoppArsakType =
-      SykepengestoppArsakType[e.target.name];
-    const newArsak = { type: newArsakType };
-
-    if (e.target.checked) {
-      setAarsakError(false);
-      updateAarsakList([...stoppAutomatikk.arsakList, newArsak]);
-    } else {
-      const aarsakListWithoutSelection = stoppAutomatikk.arsakList.filter(
-        (arsak: SykepengestoppArsak) => {
-          return newArsak.type !== arsak.type;
-        }
-      );
-      updateAarsakList(aarsakListWithoutSelection);
-    }
+  const handleChangeArsaker = (values: SykepengestoppArsakType[]) => {
+    setAarsakError(values.length === 0);
+    updateAarsakList(values.map((value) => ({ type: value })));
   };
 
   const handleCloseModal = () => {
@@ -177,58 +157,46 @@ const PengestoppModal = ({
       <Modal.Body>
         {!isSuccess ? (
           <>
-            <CheckboxGruppe
+            <CheckboxGroup
               className="my-4"
               legend={texts.arbeidsgiver}
-              feil={employerError && texts.submitError}
+              onChange={handleChangeVirksomheter}
+              error={employerError && texts.submitError}
             >
               {arbeidsgivere.map(
-                (arbeidsgiver: Arbeidsgiver, index: number) => {
-                  return (
-                    <Checkbox
-                      key={index}
-                      label={arbeidsgiver.navn}
-                      onChange={handleChangeVirksomhet}
-                      name={arbeidsgiver.orgnummer}
-                    />
-                  );
-                }
+                (arbeidsgiver: Arbeidsgiver, index: number) => (
+                  <Checkbox key={index} value={arbeidsgiver.orgnummer}>
+                    {arbeidsgiver.navn}
+                  </Checkbox>
+                )
               )}
-            </CheckboxGruppe>
-            <CheckboxGruppe
+            </CheckboxGroup>
+            <CheckboxGroup
               className="my-4"
               legend={texts.arsak.title}
-              feil={aarsakError && texts.arsak.submitError}
+              onChange={handleChangeArsaker}
+              error={aarsakError && texts.arsak.submitError}
             >
-              {sykepengestoppArsakTekstListe.map((arsak, index: number) => {
-                return (
-                  <Checkbox
-                    key={index}
-                    label={arsak.text}
-                    onChange={handleChangeArsak}
-                    name={arsak.type}
-                  />
-                );
-              })}
-            </CheckboxGruppe>
-            <Knapp type="flat" onClick={handleCloseModal}>
-              {texts.avbryt}
-            </Knapp>
-            <Knapp
-              type="hoved"
-              mini
-              spinner={isPending}
-              autoDisableVedSpinner
-              onClick={submit}
-            >
-              {texts.send}
-            </Knapp>
+              {sykepengestoppArsakTekstListe.map((arsak, index: number) => (
+                <Checkbox key={index} value={arsak.type}>
+                  {arsak.text}
+                </Checkbox>
+              ))}
+            </CheckboxGroup>
+            <div className="flex gap-4">
+              <Button variant="secondary" onClick={handleCloseModal}>
+                {texts.avbryt}
+              </Button>
+              <Button variant="primary" onClick={submit} loading={isPending}>
+                {texts.send}
+              </Button>
+            </div>
           </>
         ) : (
-          <AlertStripeInfo className="my-4">
+          <Alert variant="info" className="my-4">
             <p>{texts.stoppedInfo}</p>
             <p>{texts.seServicerutinen}</p>
-          </AlertStripeInfo>
+          </Alert>
         )}
         {isError && (
           <ErrorMessage className="mt-4">{texts.serverError}</ErrorMessage>

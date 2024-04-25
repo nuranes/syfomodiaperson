@@ -4,14 +4,8 @@ import {
   PersonOppgaveType,
 } from "@/data/personoppgave/types/PersonOppgave";
 import { toDatePrettyPrint } from "@/utils/datoUtils";
-import { Checkbox, Panel } from "@navikt/ds-react";
-import styled from "styled-components";
-import navFarger from "nav-frontend-core";
+import { Box, Checkbox } from "@navikt/ds-react";
 import { useVeilederInfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
-
-const CheckboxPanel = styled(Panel)`
-  border: 1px solid ${navFarger.navGra20};
-`;
 
 const getFerdigbehandletPrefixText = (personoppgaveType: PersonOppgaveType) => {
   switch (personoppgaveType) {
@@ -60,7 +54,7 @@ const BehandlePersonOppgaveKnapp = ({
       : behandleOppgaveText;
 
   return (
-    <CheckboxPanel>
+    <Box borderColor="border-subtle" borderWidth="1" padding="4">
       <Checkbox
         onClick={handleBehandleOppgave}
         disabled={isBehandlet || isBehandleOppgaveLoading}
@@ -69,7 +63,7 @@ const BehandlePersonOppgaveKnapp = ({
       >
         {oppgaveKnappText}
       </Checkbox>
-    </CheckboxPanel>
+    </Box>
   );
 };
 

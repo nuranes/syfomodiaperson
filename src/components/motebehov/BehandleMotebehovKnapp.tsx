@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Checkbox } from "nav-frontend-skjema";
 import {
   erMotebehovBehandlet,
   fjernBehandledeMotebehov,
@@ -12,9 +11,14 @@ import {
 import { toDatePrettyPrint } from "@/utils/datoUtils";
 import { MotebehovVeilederDTO } from "@/data/motebehov/types/motebehovTypes";
 import { useBehandleMotebehov } from "@/data/motebehov/useBehandleMotebehov";
-import navFarger from "nav-frontend-core";
-import { Button, Panel, Radio, RadioGroup, ReadMore } from "@navikt/ds-react";
-import styled from "styled-components";
+import {
+  Box,
+  Button,
+  Checkbox,
+  Radio,
+  RadioGroup,
+  ReadMore,
+} from "@navikt/ds-react";
 import { FlexRow, PaddingSize } from "@/components/Layout";
 import { useBehandleMotebehovAndSendTilbakemelding } from "@/data/motebehov/useBehandleMotebehovAndSendTilbakemelding";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
@@ -30,10 +34,6 @@ const texts = {
   tilbakemelding:
     "Vi har mottatt ditt ønske om dialogmøte med NAV. Vi vurderer at det på nåværende tidspunkt ikke er aktuelt at NAV kaller inn til et dialogmøte. Du kan når som helst melde inn et nytt behov i sykefraværsperioden.",
 };
-
-const CheckboxPanel = styled(Panel)`
-  border: 1px solid ${navFarger.navGra20};
-`;
 
 const behandleMotebehovKnappLabel = (
   erBehandlet: boolean,
@@ -120,19 +120,20 @@ const BehandleMotebehovKnapp = ({
   }
 
   return motebehovListe.length > 0 ? (
-    <CheckboxPanel>
+    <Box borderColor="border-subtle" borderWidth="1" padding="4">
       <Checkbox
-        label={behandleMotebehovKnappLabel(erBehandlet, sistBehandletMotebehov)}
+        size="small"
         onClick={() => {
           if (harUbehandletMotebehov(motebehovListe)) {
             behandleMotebehov.mutate();
           }
         }}
-        id="marker__utfoert"
         disabled={erBehandlet || behandleMotebehov.isPending}
         defaultChecked={erBehandlet}
-      />
-    </CheckboxPanel>
+      >
+        {behandleMotebehovKnappLabel(erBehandlet, sistBehandletMotebehov)}
+      </Checkbox>
+    </Box>
   ) : null;
 };
 

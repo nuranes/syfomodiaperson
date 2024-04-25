@@ -1,9 +1,9 @@
-import { Select } from "nav-frontend-skjema";
 import React, { ChangeEvent, ReactElement } from "react";
 import {
   SorteringKriterium,
   SorteringsKriteriumVerdi,
 } from "@/utils/sorterSykmeldingerUtils";
+import { Select } from "@navikt/ds-react";
 
 const texts = {
   label: "Sorter etter",
@@ -22,7 +22,7 @@ export const VelgSykmeldingSorteringDropdown = ({
   sorteringsKriterier,
   onSorteringChanged,
 }: VelgSykmeldingSorteringDropdownProps): ReactElement => (
-  <Select label={texts.label} onChange={onSorteringChanged}>
+  <Select size="small" label={texts.label} onChange={onSorteringChanged}>
     {sorteringsKriterier.map((kriterium, index) => (
       <option key={index} value={kriterium.verdi}>
         {kriterium.tekst}
