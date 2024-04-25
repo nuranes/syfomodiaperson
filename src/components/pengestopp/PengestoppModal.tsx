@@ -49,28 +49,34 @@ interface IPengestoppModal {
 interface SykepengestoppArsakTekst {
   type: SykepengestoppArsakType;
   text: string;
+  selectable: boolean;
 }
 
 export const sykepengestoppArsakTekstListe: SykepengestoppArsakTekst[] = [
   {
     type: SykepengestoppArsakType.BESTRIDELSE_SYKMELDING,
     text: "Bestridelse av sykmelding (§ 8-4 første ledd)",
+    selectable: false,
   },
   {
     type: SykepengestoppArsakType.MEDISINSK_VILKAR,
     text: "Medisinsk vilkår (§ 8-4 første ledd)",
+    selectable: true,
   },
   {
     type: SykepengestoppArsakType.TILBAKEDATERT_SYKMELDING,
     text: "Tilbakedatert sykmelding (§ 8-7)",
+    selectable: false,
   },
   {
     type: SykepengestoppArsakType.MANGLENDE_MEDVIRKING,
     text: "Manglende medvirkning (§ 8-8 første ledd)",
+    selectable: true,
   },
   {
     type: SykepengestoppArsakType.AKTIVITETSKRAV,
     text: "Aktivitetskravet (§ 8-8 andre ledd)",
+    selectable: true,
   },
 ];
 
@@ -177,11 +183,13 @@ const PengestoppModal = ({
               onChange={handleChangeArsaker}
               error={aarsakError && texts.arsak.submitError}
             >
-              {sykepengestoppArsakTekstListe.map((arsak, index: number) => (
-                <Checkbox key={index} value={arsak.type}>
-                  {arsak.text}
-                </Checkbox>
-              ))}
+              {sykepengestoppArsakTekstListe
+                .filter(({ selectable }) => selectable)
+                .map((arsak, index: number) => (
+                  <Checkbox key={index} value={arsak.type}>
+                    {arsak.text}
+                  </Checkbox>
+                ))}
             </CheckboxGroup>
             <div className="flex gap-4">
               <Button variant="secondary" onClick={handleCloseModal}>

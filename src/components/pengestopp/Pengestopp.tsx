@@ -1,8 +1,5 @@
 import * as React from "react";
 import { useState } from "react";
-import { Knapp } from "nav-frontend-knapper";
-import AlertStripe from "nav-frontend-alertstriper";
-import styled from "styled-components";
 import PengestoppModal from "./PengestoppModal";
 import PengestoppHistorikk from "./PengestoppHistorikk";
 import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat";
@@ -13,7 +10,7 @@ import {
 } from "@/data/pengestopp/types/FlaggPerson";
 import { unikeArbeidsgivereMedSykmeldingSiste3Maneder } from "@/utils/pengestoppUtils";
 import { usePengestoppStatusQuery } from "@/data/pengestopp/pengestoppQueryHooks";
-import { Box } from "@navikt/ds-react";
+import { Alert, BodyShort, Box, Button } from "@navikt/ds-react";
 
 export const texts = {
   stansSykepenger: "Stanse sykepenger?",
@@ -30,14 +27,6 @@ export const texts = {
 interface IPengestoppProps {
   sykmeldinger: SykmeldingOldFormat[];
 }
-
-const Alert = styled(AlertStripe)`
-  margin-bottom: 1em;
-`;
-
-const StyledP = styled.p`
-  padding: 1em 0;
-`;
 
 const Pengestopp = ({ sykmeldinger }: IPengestoppProps) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -63,19 +52,27 @@ const Pengestopp = ({ sykmeldinger }: IPengestoppProps) => {
 
   return (
     <Box background="surface-default" padding="4" className="mb-4">
-      {isError && <Alert type="feil">{texts.hentingFeiletMessage}</Alert>}
-      {sykmeldtNotEligible && (
-        <Alert type="feil">{texts.sykmeldtNotEligibleError}</Alert>
+      {isError && (
+        <Alert variant="error" size="small" className="mb-4">
+          {texts.hentingFeiletMessage}
+        </Alert>
       )}
-      <Knapp
+      {sykmeldtNotEligible && (
+        <Alert variant="error" size="small" className="mb-4">
+          {texts.sykmeldtNotEligibleError}
+        </Alert>
+      )}
+      <Button
+        variant="secondary"
         onClick={() =>
           toggleModal(true, uniqueArbeidsgivereWithSykmeldingLast3Months)
         }
       >
         {texts.stansSykepenger}
-      </Knapp>
-      <StyledP>{texts.explanation}</StyledP>
-
+      </Button>
+      <BodyShort className="my-4" size="small">
+        {texts.explanation}
+      </BodyShort>
       {pengestopp?.status === Status.STOPP_AUTOMATIKK && (
         <PengestoppHistorikk
           statusEndringList={statusEndringList}
