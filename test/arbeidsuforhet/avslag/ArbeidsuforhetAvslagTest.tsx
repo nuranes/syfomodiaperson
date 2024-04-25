@@ -1,7 +1,6 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
 import React from "react";
 import { screen } from "@testing-library/react";
-import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { expect } from "chai";
 import {
   VurderingResponseDTO,
@@ -11,14 +10,13 @@ import { arbeidsuforhetQueryKeys } from "@/data/arbeidsuforhet/arbeidsuforhetQue
 import { addWeeks } from "@/utils/datoUtils";
 import { ArbeidsuforhetAvslag } from "@/sider/arbeidsuforhet/avslag/ArbeidsuforhetAvslag";
 import { ARBEIDSTAKER_DEFAULT } from "../../../mock/common/mockConstants";
-import { navEnhet } from "../../dialogmote/testData";
 import { queryClientWithMockData } from "../../testQueryClient";
 import {
   createForhandsvarsel,
   createVurdering,
 } from "../arbeidsuforhetTestData";
-import { renderWithRouter } from "../../testRouterUtils";
 import { arbeidsuforhetAvslagPath } from "@/routers/AppRouter";
+import { renderArbeidsuforhetSide } from "../arbeidsuforhetTestUtils";
 
 let queryClient: QueryClient;
 
@@ -30,14 +28,9 @@ const mockArbeidsuforhetVurderinger = (vurderinger: VurderingResponseDTO[]) => {
 };
 
 const renderArbeidsuforhetAvslagSide = () => {
-  renderWithRouter(
-    <QueryClientProvider client={queryClient}>
-      <ValgtEnhetContext.Provider
-        value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
-      >
-        <ArbeidsuforhetAvslag />
-      </ValgtEnhetContext.Provider>
-    </QueryClientProvider>,
+  renderArbeidsuforhetSide(
+    queryClient,
+    <ArbeidsuforhetAvslag />,
     arbeidsuforhetAvslagPath,
     [arbeidsuforhetAvslagPath]
   );

@@ -13,7 +13,6 @@ import { addWeeks, tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
 import { createForhandsvarsel } from "./arbeidsuforhetTestData";
 import { renderWithRouter } from "../testRouterUtils";
 import { arbeidsuforhetPath } from "@/routers/AppRouter";
-import { NotificationContext } from "@/context/notification/NotificationContext";
 
 let queryClient: QueryClient;
 
@@ -30,11 +29,7 @@ const renderForhandsvarselSendt = () => {
       <ValgtEnhetContext.Provider
         value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
       >
-        <NotificationContext.Provider
-          value={{ notification: undefined, setNotification: () => void 0 }}
-        >
-          <ForhandsvarselSendt />
-        </NotificationContext.Provider>
+        <ForhandsvarselSendt />
       </ValgtEnhetContext.Provider>
     </QueryClientProvider>,
     arbeidsuforhetPath,

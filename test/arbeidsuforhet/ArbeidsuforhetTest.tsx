@@ -1,10 +1,8 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
 import React from "react";
 import { queryClientWithMockData } from "../testQueryClient";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import { screen } from "@testing-library/react";
-import { navEnhet } from "../dialogmote/testData";
-import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { expect } from "chai";
 import {
   VurderingResponseDTO,
@@ -17,9 +15,9 @@ import {
   createVurdering,
 } from "./arbeidsuforhetTestData";
 import { Arbeidsuforhet } from "@/sider/arbeidsuforhet/Arbeidsuforhet";
-import { renderWithRouter } from "../testRouterUtils";
 import { arbeidsuforhetPath } from "@/routers/AppRouter";
 import { clickButton } from "../testUtils";
+import { renderArbeidsuforhetSide } from "./arbeidsuforhetTestUtils";
 
 let queryClient: QueryClient;
 
@@ -27,20 +25,6 @@ const mockArbeidsuforhetVurderinger = (vurderinger: VurderingResponseDTO[]) => {
   queryClient.setQueryData(
     arbeidsuforhetQueryKeys.arbeidsuforhet(ARBEIDSTAKER_DEFAULT.personIdent),
     () => vurderinger
-  );
-};
-
-const renderArbeidsuforhetSide = () => {
-  renderWithRouter(
-    <QueryClientProvider client={queryClient}>
-      <ValgtEnhetContext.Provider
-        value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
-      >
-        <Arbeidsuforhet />
-      </ValgtEnhetContext.Provider>
-    </QueryClientProvider>,
-    arbeidsuforhetPath,
-    [arbeidsuforhetPath]
   );
 };
 
@@ -57,7 +41,12 @@ describe("ArbeidsuforhetSide", () => {
         const vurderinger = [];
         mockArbeidsuforhetVurderinger(vurderinger);
 
-        renderArbeidsuforhetSide();
+        renderArbeidsuforhetSide(
+          queryClient,
+          <Arbeidsuforhet />,
+          arbeidsuforhetPath,
+          [arbeidsuforhetPath]
+        );
 
         expect(screen.getByText("Siste vurdering")).to.exist;
         expect(screen.getByRole("button", { name: nyVurderingButtonText })).to
@@ -73,7 +62,12 @@ describe("ArbeidsuforhetSide", () => {
         const vurderinger = [oppfyltVurdering];
         mockArbeidsuforhetVurderinger(vurderinger);
 
-        renderArbeidsuforhetSide();
+        renderArbeidsuforhetSide(
+          queryClient,
+          <Arbeidsuforhet />,
+          arbeidsuforhetPath,
+          [arbeidsuforhetPath]
+        );
 
         expect(screen.getByText("Siste vurdering")).to.exist;
         expect(screen.getByRole("button", { name: nyVurderingButtonText })).to
@@ -89,7 +83,12 @@ describe("ArbeidsuforhetSide", () => {
         const vurderinger = [avslag];
         mockArbeidsuforhetVurderinger(vurderinger);
 
-        renderArbeidsuforhetSide();
+        renderArbeidsuforhetSide(
+          queryClient,
+          <Arbeidsuforhet />,
+          arbeidsuforhetPath,
+          [arbeidsuforhetPath]
+        );
 
         expect(screen.getByText("Siste vurdering")).to.exist;
         expect(screen.getByText("Start ny vurdering")).to.exist;
@@ -110,7 +109,12 @@ describe("ArbeidsuforhetSide", () => {
         const vurderinger = [];
         mockArbeidsuforhetVurderinger(vurderinger);
 
-        renderArbeidsuforhetSide();
+        renderArbeidsuforhetSide(
+          queryClient,
+          <Arbeidsuforhet />,
+          arbeidsuforhetPath,
+          [arbeidsuforhetPath]
+        );
         clickButton(nyVurderingButtonText);
 
         assertOnlyFormIsShowing();
@@ -125,7 +129,12 @@ describe("ArbeidsuforhetSide", () => {
         const vurderinger = [oppfyltVurdering];
         mockArbeidsuforhetVurderinger(vurderinger);
 
-        renderArbeidsuforhetSide();
+        renderArbeidsuforhetSide(
+          queryClient,
+          <Arbeidsuforhet />,
+          arbeidsuforhetPath,
+          [arbeidsuforhetPath]
+        );
         clickButton(nyVurderingButtonText);
 
         assertOnlyFormIsShowing();
@@ -140,7 +149,12 @@ describe("ArbeidsuforhetSide", () => {
         const vurderinger = [oppfyltVurdering];
         mockArbeidsuforhetVurderinger(vurderinger);
 
-        renderArbeidsuforhetSide();
+        renderArbeidsuforhetSide(
+          queryClient,
+          <Arbeidsuforhet />,
+          arbeidsuforhetPath,
+          [arbeidsuforhetPath]
+        );
         clickButton(nyVurderingButtonText);
 
         assertOnlyFormIsShowing();
@@ -156,7 +170,12 @@ describe("ArbeidsuforhetSide", () => {
         const vurderinger = [forhandsvarselBeforeFrist];
         mockArbeidsuforhetVurderinger(vurderinger);
 
-        renderArbeidsuforhetSide();
+        renderArbeidsuforhetSide(
+          queryClient,
+          <Arbeidsuforhet />,
+          arbeidsuforhetPath,
+          [arbeidsuforhetPath]
+        );
 
         expect(screen.queryByRole("button", { name: nyVurderingButtonText })).to
           .not.exist;
@@ -173,7 +192,12 @@ describe("ArbeidsuforhetSide", () => {
         const vurderinger = [forhandsvarselBeforeFrist];
         mockArbeidsuforhetVurderinger(vurderinger);
 
-        renderArbeidsuforhetSide();
+        renderArbeidsuforhetSide(
+          queryClient,
+          <Arbeidsuforhet />,
+          arbeidsuforhetPath,
+          [arbeidsuforhetPath]
+        );
 
         expect(screen.queryByRole("button", { name: nyVurderingButtonText })).to
           .not.exist;

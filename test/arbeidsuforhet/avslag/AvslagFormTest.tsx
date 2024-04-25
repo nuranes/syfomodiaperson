@@ -1,7 +1,6 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
 import React from "react";
 import { screen, waitFor, within } from "@testing-library/react";
-import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { expect } from "chai";
 import {
   VurderingRequestDTO,
@@ -9,30 +8,24 @@ import {
 } from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
 import { arbeidsuforhetOppfyltPath } from "@/routers/AppRouter";
 import { AvslagForm } from "@/sider/arbeidsuforhet/avslag/AvslagForm";
-import { renderWithRouter } from "../../testRouterUtils";
-import { navEnhet } from "../../dialogmote/testData";
 import { queryClientWithMockData } from "../../testQueryClient";
 import { changeTextInput, clickButton, getTextInput } from "../../testUtils";
 import { getAvslagVurderingDocument } from "../documents";
 import { toDatePrettyPrint } from "@/utils/datoUtils";
+import { renderArbeidsuforhetSide } from "../arbeidsuforhetTestUtils";
 
 let queryClient: QueryClient;
 
 const renderAvslagForm = () => {
-  renderWithRouter(
-    <QueryClientProvider client={queryClient}>
-      <ValgtEnhetContext.Provider
-        value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
-      >
-        <AvslagForm />
-      </ValgtEnhetContext.Provider>
-    </QueryClientProvider>,
+  renderArbeidsuforhetSide(
+    queryClient,
+    <AvslagForm />,
     arbeidsuforhetOppfyltPath,
     [arbeidsuforhetOppfyltPath]
   );
 };
 
-describe("OppfyltForm", () => {
+describe("AvslagForm", () => {
   beforeEach(() => {
     queryClient = queryClientWithMockData();
   });

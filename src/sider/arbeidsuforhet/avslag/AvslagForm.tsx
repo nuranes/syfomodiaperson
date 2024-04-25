@@ -21,6 +21,7 @@ import { Link } from "react-router-dom";
 import { arbeidsuforhetPath } from "@/routers/AppRouter";
 import { AvslagDatePicker } from "@/sider/arbeidsuforhet/avslag/AvslagDatePicker";
 import dayjs from "dayjs";
+import { useNotification } from "@/context/notification/NotificationContext";
 
 const texts = {
   title: "Skriv innstilling til NAY",
@@ -41,6 +42,8 @@ const texts = {
   missingBegrunnelse: "Vennligst angi begrunnelse",
   sendVarselButtonText: "Gi avslag",
   avbrytButton: "Avbryt",
+  success:
+    "Innstilling om avslag § 8-4 er lagret i historikken og blir journalført automatisk.",
 };
 
 const begrunnelseMaxLength = 5000;
@@ -53,6 +56,7 @@ export interface ArbeidsuforhetAvslagSkjemaValues {
 export const AvslagForm = () => {
   const sendVurdering = useSendVurderingArbeidsuforhet();
   const { getAvslagDocument } = useArbeidsuforhetVurderingDocument();
+  const { setNotification } = useNotification();
   const formMethods = useForm<ArbeidsuforhetAvslagSkjemaValues>();
   const {
     register,
@@ -71,7 +75,13 @@ export const AvslagForm = () => {
       }),
       gjelderFom: dayjs(values.fom).format("YYYY-MM-DD"),
     };
-    sendVurdering.mutate(vurderingRequestDTO);
+    sendVurdering.mutate(vurderingRequestDTO, {
+      onSuccess: () => {
+        setNotification({
+          message: texts.success,
+        });
+      },
+    });
   };
 
   return (
@@ -82,10 +92,8 @@ export const AvslagForm = () => {
             {texts.title}
           </Heading>
           <AvslagDatePicker />
-          <BodyShort>
-            <p>{texts.info1}</p>
-            <p>{texts.info2}</p>
-          </BodyShort>
+          <BodyShort>{texts.info1}</BodyShort>
+          <BodyShort>{texts.info2}</BodyShort>
           <Textarea
             {...register("begrunnelse", {
               maxLength: begrunnelseMaxLength,

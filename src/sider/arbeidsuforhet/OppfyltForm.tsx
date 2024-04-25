@@ -19,6 +19,7 @@ import { useSendVurderingArbeidsuforhet } from "@/data/arbeidsuforhet/useSendVur
 import { Link } from "react-router-dom";
 import { arbeidsuforhetPath } from "@/routers/AppRouter";
 import { ButtonRow } from "@/components/Layout";
+import { useNotification } from "@/context/notification/NotificationContext";
 
 const texts = {
   title: "Oppfyller bruker vilkårene likevel?",
@@ -36,6 +37,8 @@ const texts = {
   missingBegrunnelse: "Vennligst angi begrunnelse",
   sendVarselButtonText: "Lagre",
   avbrytButton: "Avbryt",
+  success:
+    "Vurderingen om at bruker oppfyller § 8-4 er lagret i historikken og blir journalført automatisk.",
 };
 
 const defaultValues = { begrunnelse: "" };
@@ -48,6 +51,7 @@ interface SkjemaValues {
 export const OppfyltForm = () => {
   const sendVurdering = useSendVurderingArbeidsuforhet();
   const { getOppfyltDocument } = useArbeidsuforhetVurderingDocument();
+  const { setNotification } = useNotification();
   const {
     register,
     watch,
@@ -60,7 +64,13 @@ export const OppfyltForm = () => {
       begrunnelse: values.begrunnelse,
       document: getOppfyltDocument(values.begrunnelse),
     };
-    sendVurdering.mutate(vurderingRequestDTO);
+    sendVurdering.mutate(vurderingRequestDTO, {
+      onSuccess: () => {
+        setNotification({
+          message: texts.success,
+        });
+      },
+    });
   };
 
   return (

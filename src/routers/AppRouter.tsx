@@ -1,5 +1,11 @@
 import React, { ReactElement } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Outlet,
+  Route,
+  Routes,
+} from "react-router-dom";
 import AktivBrukerTilgangLaster from "@/components/AktivBrukerTilgangLaster";
 import SykmeldingerContainer from "@/sider/sykmeldinger/container/SykmeldingerContainer";
 import SykepengesoknaderSide from "@/sider/sykepengsoknader/SykepengesoknaderSide";
@@ -28,6 +34,7 @@ import { ArbeidsuforhetOppfyltSide } from "@/sider/arbeidsuforhet/Arbeidsuforhet
 import { Nokkelinformasjon } from "@/sider/nokkelinformasjon/Nokkelinformasjon";
 import { ArbeidsuforhetAvslagSide } from "@/sider/arbeidsuforhet/avslag/ArbeidsuforhetAvslagSide";
 import { FriskmeldingTilArbeidsformidlingSide } from "@/sider/frisktilarbeid/FriskmeldingTilArbeidsformidlingSide";
+import { NotificationProvider } from "@/context/notification/NotificationContext";
 
 export const appRoutePath = "/sykefravaer";
 
@@ -97,15 +104,24 @@ const AktivBrukerRouter = (): ReactElement => {
             path={`${appRoutePath}/sykepengesoknader`}
             element={<SykepengesoknaderSide />}
           />
-          <Route path={arbeidsuforhetPath} element={<ArbeidsuforhetSide />} />
           <Route
-            path={arbeidsuforhetOppfyltPath}
-            element={<ArbeidsuforhetOppfyltSide />}
-          />
-          <Route
-            path={arbeidsuforhetAvslagPath}
-            element={<ArbeidsuforhetAvslagSide />}
-          />
+            path={arbeidsuforhetPath}
+            element={
+              <NotificationProvider>
+                <Outlet />
+              </NotificationProvider>
+            }
+          >
+            <Route path={arbeidsuforhetPath} element={<ArbeidsuforhetSide />} />
+            <Route
+              path={arbeidsuforhetOppfyltPath}
+              element={<ArbeidsuforhetOppfyltSide />}
+            />
+            <Route
+              path={arbeidsuforhetAvslagPath}
+              element={<ArbeidsuforhetAvslagSide />}
+            />
+          </Route>
           <Route
             path={frisktilarbeidPath}
             element={<FriskmeldingTilArbeidsformidlingSide />}

@@ -1,10 +1,8 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
 import React from "react";
 import { queryClientWithMockData } from "../testQueryClient";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import { screen } from "@testing-library/react";
-import { navEnhet } from "../dialogmote/testData";
-import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { expect } from "chai";
 import {
   VurderingResponseDTO,
@@ -17,8 +15,8 @@ import {
   createVurdering,
 } from "./arbeidsuforhetTestData";
 import { ArbeidsuforhetOppfylt } from "@/sider/arbeidsuforhet/ArbeidsuforhetOppfylt";
-import { renderWithRouter } from "../testRouterUtils";
 import { arbeidsuforhetOppfyltPath } from "@/routers/AppRouter";
+import { renderArbeidsuforhetSide } from "./arbeidsuforhetTestUtils";
 
 let queryClient: QueryClient;
 
@@ -30,14 +28,9 @@ const mockArbeidsuforhetVurderinger = (vurderinger: VurderingResponseDTO[]) => {
 };
 
 const renderArbeidsuforhetOppfyltSide = () => {
-  renderWithRouter(
-    <QueryClientProvider client={queryClient}>
-      <ValgtEnhetContext.Provider
-        value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
-      >
-        <ArbeidsuforhetOppfylt />
-      </ValgtEnhetContext.Provider>
-    </QueryClientProvider>,
+  renderArbeidsuforhetSide(
+    queryClient,
+    <ArbeidsuforhetOppfylt />,
     arbeidsuforhetOppfyltPath,
     [arbeidsuforhetOppfyltPath]
   );
@@ -83,40 +76,40 @@ describe("OppfyltSide", () => {
       ).to.exist;
     });
 
-    it("show succes if latest arbeidsuforhet status is Oppfylt", () => {
-      const forhandsvarselBeforeFrist = createVurdering({
+    it("redirect arbeidsuforhet page if latest arbeidsuforhet status is Oppfylt", () => {
+      const oppfylt = createVurdering({
         type: VurderingType.OPPFYLT,
         begrunnelse: "begrunnelse",
         createdAt: new Date(),
       });
-      const vurderinger = [forhandsvarselBeforeFrist];
+      const vurderinger = [oppfylt];
       mockArbeidsuforhetVurderinger(vurderinger);
 
       renderArbeidsuforhetOppfyltSide();
 
       expect(
-        screen.getByText(
-          "Vurderingen om at bruker oppfyller § 8-4 er lagret i historikken og blir journalført automatisk."
+        screen.queryByText(
+          "Skriv en kort begrunnelse for hvorfor bruker oppfyller vilkårene i § 8-4."
         )
-      ).to.exist;
+      ).to.not.exist;
     });
 
-    it("show error if latest arbeidsuforhet status is Avslag", () => {
-      const forhandsvarselBeforeFrist = createVurdering({
+    it("redirect arbeidsuforhet page if latest arbeidsuforhet status is Avslag", () => {
+      const avslag = createVurdering({
         type: VurderingType.AVSLAG,
         begrunnelse: "begrunnelse",
         createdAt: new Date(),
       });
-      const vurderinger = [forhandsvarselBeforeFrist];
+      const vurderinger = [avslag];
       mockArbeidsuforhetVurderinger(vurderinger);
 
       renderArbeidsuforhetOppfyltSide();
 
       expect(
-        screen.getByText(
-          "Trykk på 'Arbeidsuførhet'-menypunktet for å komme til skjema for forhåndsvarsel."
+        screen.queryByText(
+          "Skriv en kort begrunnelse for hvorfor bruker oppfyller vilkårene i § 8-4."
         )
-      ).to.exist;
+      ).to.not.exist;
     });
   });
 });
