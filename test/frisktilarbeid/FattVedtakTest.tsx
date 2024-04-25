@@ -9,7 +9,7 @@ import {
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
 import React from "react";
-import { FattVedtak } from "@/sider/frisktilarbeid/FattVedtak";
+import { FattVedtakSkjema } from "@/sider/frisktilarbeid/FattVedtakSkjema";
 import { queryClientWithMockData } from "../testQueryClient";
 import { expect } from "chai";
 import { changeTextInput, clickButton, getTextInput } from "../testUtils";
@@ -25,24 +25,24 @@ const mockBehandler = behandlereDialogmeldingMock[0];
 const today = dayjs();
 const inTwelveWeeks = dayjs(addWeeks(today.toDate(), 12));
 
-const renderFattVedtak = () =>
+const renderFattVedtakSkjema = () =>
   render(
     <QueryClientProvider client={queryClient}>
       <ValgtEnhetContext.Provider
         value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
       >
-        <FattVedtak />
+        <FattVedtakSkjema />
       </ValgtEnhetContext.Provider>
     </QueryClientProvider>
   );
 
-describe("FattVedtak", () => {
+describe("FattVedtakSkjema", () => {
   beforeEach(() => {
     queryClient = queryClientWithMockData();
   });
 
   it("viser skjema for å fatte vedtak", () => {
-    renderFattVedtak();
+    renderFattVedtakSkjema();
 
     expect(getTextInput("Friskmeldingen gjelder fra")).to.exist;
     const tilDatoInput = getTextInput(
@@ -63,7 +63,7 @@ describe("FattVedtak", () => {
   });
 
   it("viser behandlersøk ved klikk på 'Søk etter behandler'", () => {
-    renderFattVedtak();
+    renderFattVedtakSkjema();
 
     const searchBehandlerOption = screen.getByRole("radio", {
       name: "Søk etter behandler",
@@ -74,7 +74,7 @@ describe("FattVedtak", () => {
   });
 
   it("validerer fra-dato, begrunnelse og behandler", async () => {
-    renderFattVedtak();
+    renderFattVedtakSkjema();
 
     clickButton("Fatt vedtak");
 
@@ -84,7 +84,7 @@ describe("FattVedtak", () => {
   });
 
   it("fatter vedtak med verdier fra skjema", async () => {
-    renderFattVedtak();
+    renderFattVedtakSkjema();
 
     const fraDato = getTextInput("Friskmeldingen gjelder fra");
     changeTextInput(fraDato, today.format("DD.MM.YYYY"));
@@ -116,7 +116,7 @@ describe("FattVedtak", () => {
   });
 
   it("åpner forhåndsvisning", () => {
-    renderFattVedtak();
+    renderFattVedtakSkjema();
 
     clickButton("Forhåndsvisning");
 

@@ -4,8 +4,8 @@ import Sidetopp from "@/components/Sidetopp";
 import SideLaster from "@/components/SideLaster";
 import * as Tredelt from "@/sider/TredeltSide";
 import { Menypunkter } from "@/components/globalnavigasjon/GlobalNavigasjon";
-import { FattVedtak } from "@/sider/frisktilarbeid/FattVedtak";
 import { useVedtakQuery } from "@/data/frisktilarbeid/vedtakQuery";
+import { FriskmeldingTilArbeidsformidling } from "@/sider/frisktilarbeid/FriskmeldingTilArbeidsformidling";
 
 const texts = {
   title: "Friskmelding til arbeidsformidling",
@@ -20,7 +20,7 @@ export const FriskmeldingTilArbeidsformidlingSide = (): ReactElement => {
       <SideLaster henter={isLoading} hentingFeilet={isError}>
         <Tredelt.Container>
           <Tredelt.FirstColumn>
-            <FattVedtak />
+            <FriskmeldingTilArbeidsformidling />
           </Tredelt.FirstColumn>
           <Tredelt.SecondColumn>
             Her kommer historikk og link servicerutine
