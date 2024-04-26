@@ -44,13 +44,6 @@ describe("FriskmeldingTilArbeidsformidling", () => {
     it("viser forberedelser og knapp for å vurdere vedtak initielt", () => {
       renderFriskmeldingTilArbeidsformidling();
 
-      expect(screen.getByLabelText("Forberedelser")).to.exist;
-      expect(screen.getByLabelText("Fatt vedtak")).to.exist;
-      expect(screen.getByLabelText("Venter på dato")).to.exist;
-      expect(screen.getByLabelText("Avslutt oppgave")).to.exist;
-
-      expect(screen.queryByLabelText("Fullført")).to.not.exist;
-
       expect(screen.getByRole("heading", { name: "Forberedelser" })).to.exist;
       expect(getButton("Vurder vedtak")).to.exist;
       expect(
@@ -65,13 +58,6 @@ describe("FriskmeldingTilArbeidsformidling", () => {
 
       clickButton("Vurder vedtak");
 
-      expect(screen.getByLabelText("Forberedelser")).to.exist;
-      expect(screen.getByLabelText("Fatt vedtak")).to.exist;
-      expect(screen.getByLabelText("Venter på dato")).to.exist;
-      expect(screen.getByLabelText("Avslutt oppgave")).to.exist;
-
-      expect(screen.getAllByLabelText("Fullført")).to.have.length(1);
-
       expect(screen.getByRole("heading", { name: "Forberedelser" })).to.exist;
 
       expect(getTextInput("Friskmeldingen gjelder fra")).to.exist;
@@ -85,19 +71,12 @@ describe("FriskmeldingTilArbeidsformidling", () => {
   });
 
   describe("med vedtak", () => {
-    it("viser venter på dato når vedtak starter etter i morgen", () => {
+    it("viser alert og heading med vedtak-fom når vedtak starter etter i morgen", () => {
       const vedtakFom = addWeeks(new Date(), 1);
       const vedtak = createVedtak(vedtakFom);
       mockVedtak([vedtak]);
 
       renderFriskmeldingTilArbeidsformidling();
-
-      expect(screen.getByLabelText("Forberedelser")).to.exist;
-      expect(screen.getByLabelText("Fatt vedtak")).to.exist;
-      expect(screen.getByLabelText("Venter på dato")).to.exist;
-      expect(screen.getByLabelText("Avslutt oppgave")).to.exist;
-
-      expect(screen.getAllByLabelText("Fullført")).to.have.length(2);
 
       expect(screen.getByRole("img", { name: "Suksess" })).to.exist;
       expect(
@@ -105,10 +84,25 @@ describe("FriskmeldingTilArbeidsformidling", () => {
           /Vedtaket om friskmelding til arbeidsformidling er nå fattet/
         )
       ).to.exist;
-      expect(screen.getByText("Friskmelding til arbeidsformidling starter:")).to
+      expect(
+        screen.getByRole("heading", {
+          name: `Friskmelding til arbeidsformidling starter: ${tilLesbarDatoMedArUtenManedNavn(
+            vedtakFom
+          )}`,
+        })
+      ).to.exist;
+      expect(screen.queryByRole("button", { name: "Avslutt oppgave" })).to.not
         .exist;
-      expect(screen.getByText(tilLesbarDatoMedArUtenManedNavn(vedtakFom))).to
-        .exist;
+    });
+
+    it("viser ikke alert når vedtak starter i morgen", () => {
+      const vedtakFom = dayjs().add(1, "days").toDate();
+      const vedtak = createVedtak(vedtakFom);
+      mockVedtak([vedtak]);
+
+      renderFriskmeldingTilArbeidsformidling();
+
+      expect(screen.queryByRole("img", { name: "Suksess" })).to.not.exist;
     });
 
     it("viser avslutt oppgave når vedtak starter i morgen", () => {
@@ -118,14 +112,24 @@ describe("FriskmeldingTilArbeidsformidling", () => {
 
       renderFriskmeldingTilArbeidsformidling();
 
-      expect(screen.getByLabelText("Forberedelser")).to.exist;
-      expect(screen.getByLabelText("Fatt vedtak")).to.exist;
-      expect(screen.getByLabelText("Venter på dato")).to.exist;
-      expect(screen.getByLabelText("Avslutt oppgave")).to.exist;
+      expect(getButton("Avslutt oppgave")).to.exist;
+    });
 
-      expect(screen.getAllByLabelText("Fullført")).to.have.length(3);
+    it("viser ikke alert når vedtak har startet", () => {
+      const vedtak = createVedtak(new Date());
+      mockVedtak([vedtak]);
 
-      expect(screen.getByRole("heading", { name: "Avslutt oppgave" })).to.exist;
+      renderFriskmeldingTilArbeidsformidling();
+
+      expect(screen.queryByRole("img", { name: "Suksess" })).to.not.exist;
+    });
+
+    it("viser avslutt oppgave når vedtak har startet", () => {
+      const vedtak = createVedtak(new Date());
+      mockVedtak([vedtak]);
+
+      renderFriskmeldingTilArbeidsformidling();
+
       expect(getButton("Avslutt oppgave")).to.exist;
     });
   });
