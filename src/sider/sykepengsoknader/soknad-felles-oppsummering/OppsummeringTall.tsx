@@ -40,10 +40,8 @@ const OppsummeringTall = ({
   tag,
   overskriftsnivaa,
   svartype,
-  undertekst,
 }: OppsummeringSporsmalProps): ReactElement => {
   const text = getSvartypeText(svartype);
-  const label = undertekst || text;
   return (
     <OppsummeringSporsmalscontainer tag={tag}>
       <OppsummeringSporsmalstekst overskriftsnivaa={overskriftsnivaa}>
@@ -54,7 +52,7 @@ const OppsummeringTall = ({
           const verdi = verdiAdjustedIfBelop(svarverdi, svartype);
           return (
             <p className="oppsummering__tekst" key={getKey(tag, index)}>
-              {verdi} {label}
+              {verdi} {text}
             </p>
           );
         })}
