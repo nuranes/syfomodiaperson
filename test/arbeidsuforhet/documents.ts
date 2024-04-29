@@ -9,6 +9,7 @@ import {
   VEILEDER_DEFAULT,
 } from "../../mock/common/mockConstants";
 import { getForhandsvarselArbeidsuforhetTexts } from "@/data/arbeidsuforhet/arbeidsuforhetDocumentTexts";
+import { daysFromToday } from "../testUtils";
 
 const expectedFristDate = addWeeks(new Date(), 3);
 
@@ -81,7 +82,7 @@ export const getOppfyltVurderingDocument = (
 ): DocumentComponentDto[] => {
   return [
     {
-      texts: ["Vurdering av § 8-4 arbeidsuførhet"],
+      texts: ["Du har rett til videre utbetaling av sykepenger"],
       type: DocumentComponentType.HEADER_H1,
     },
     {
@@ -92,12 +93,26 @@ export const getOppfyltVurderingDocument = (
     },
     {
       texts: [
-        `Det ble vurdert oppfylt den ${tilDatoMedManedNavn(new Date())}.`,
+        `I forhåndsvarsel av ${tilDatoMedManedNavn(
+          daysFromToday(-40)
+        )} ble du informert om at NAV vurderte å avslå dine sykepenger. Vi har nå vurdert at vilkåret om arbeidsuførhet er oppfylt, og at du har rett til videre utbetaling av sykepenger.`,
       ],
       type: DocumentComponentType.PARAGRAPH,
     },
     {
-      texts: [`Begrunnelse: ${begrunnelse}`],
+      texts: [
+        `For å få sykepenger må du ha en sykdom eller skade som gjør at du ikke klarer å være i arbeid, eller at du bare klarer å gjøre deler av arbeidet ditt.`,
+      ],
+      type: DocumentComponentType.PARAGRAPH,
+    },
+    {
+      texts: [begrunnelse],
+      type: DocumentComponentType.PARAGRAPH,
+    },
+    {
+      texts: [
+        `Vi har brukt folketrygdloven § 8-4 første ledd når vi har behandlet saken din.`,
+      ],
       type: DocumentComponentType.PARAGRAPH,
     },
     {

@@ -10,9 +10,10 @@ export const ArbeidsuforhetOppfylt = (): ReactElement => {
   const sisteVurdering = data[0];
   const isForhandsvarsel =
     sisteVurdering?.type === VurderingType.FORHANDSVARSEL;
+  const forhandsvarselSendtDato = sisteVurdering?.varsel?.createdAt;
 
-  return isForhandsvarsel ? (
-    <OppfyltForm />
+  return isForhandsvarsel && forhandsvarselSendtDato ? (
+    <OppfyltForm forhandsvarselSendtDato={forhandsvarselSendtDato} />
   ) : (
     <Navigate to={arbeidsuforhetPath} />
   );

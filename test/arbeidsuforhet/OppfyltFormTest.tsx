@@ -7,7 +7,12 @@ import {
   VurderingRequestDTO,
   VurderingType,
 } from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
-import { changeTextInput, clickButton, getTextInput } from "../testUtils";
+import {
+  changeTextInput,
+  clickButton,
+  daysFromToday,
+  getTextInput,
+} from "../testUtils";
 import { OppfyltForm } from "@/sider/arbeidsuforhet/OppfyltForm";
 import { getOppfyltVurderingDocument } from "./documents";
 import { arbeidsuforhetOppfyltPath } from "@/routers/AppRouter";
@@ -18,7 +23,7 @@ let queryClient: QueryClient;
 const renderOppfyltForm = () => {
   renderArbeidsuforhetSide(
     queryClient,
-    <OppfyltForm />,
+    <OppfyltForm forhandsvarselSendtDato={daysFromToday(-40)} />,
     arbeidsuforhetOppfyltPath,
     [arbeidsuforhetOppfyltPath]
   );
@@ -108,7 +113,7 @@ describe("OppfyltForm", () => {
       })[0];
       expect(
         within(forhandsvisningVurdering).getByRole("heading", {
-          name: "Vurdering av § 8-4 arbeidsuførhet",
+          name: "Du har rett til videre utbetaling av sykepenger",
           hidden: true,
         })
       ).to.exist;

@@ -49,11 +49,12 @@ export const getAvslagArbeidsuforhetTexts = (fom: Date | undefined) => ({
     "Vi har brukt folketrygdloven § 8-4 første ledd når vi har behandlet saken din.",
 });
 
-export const getOppfyltArbeidsuforhetTexts = (
-  vurdertDato: Date,
-  begrunnelse: string
-) => ({
-  header: "Vurdering av § 8-4 arbeidsuførhet",
-  vurdert: `Det ble vurdert oppfylt den ${tilDatoMedManedNavn(vurdertDato)}.`,
-  begrunnelse: `Begrunnelse: ${begrunnelse}`,
-});
+export const arbeidsuforhetTexts = {
+  header: "Du har rett til videre utbetaling av sykepenger",
+  previousForhandsvarsel: (forhandsvarselSendtDato: Date) =>
+    `I forhåndsvarsel av ${tilDatoMedManedNavn(
+      forhandsvarselSendtDato
+    )} ble du informert om at NAV vurderte å avslå dine sykepenger. Vi har nå vurdert at vilkåret om arbeidsuførhet er oppfylt, og at du har rett til videre utbetaling av sykepenger.`,
+  forAFaSykepenger: `For å få sykepenger må du ha en sykdom eller skade som gjør at du ikke klarer å være i arbeid, eller at du bare klarer å gjøre deler av arbeidet ditt.`,
+  viHarBruktLoven: `Vi har brukt folketrygdloven § 8-4 første ledd når vi har behandlet saken din.`,
+};

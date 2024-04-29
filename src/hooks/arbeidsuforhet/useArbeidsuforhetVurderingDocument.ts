@@ -8,12 +8,17 @@ import {
 import {
   getAvslagArbeidsuforhetTexts,
   getForhandsvarselArbeidsuforhetTexts,
-  getOppfyltArbeidsuforhetTexts,
+  arbeidsuforhetTexts,
 } from "@/data/arbeidsuforhet/arbeidsuforhetDocumentTexts";
 
 type ForhandsvarselDocumentValues = {
   begrunnelse: string;
   frist: Date;
+};
+
+type OppfyltDocumentValues = {
+  begrunnelse: string;
+  forhandsvarselSendtDato: Date;
 };
 
 type AvslagDocumentValues = {
@@ -25,7 +30,7 @@ export const useArbeidsuforhetVurderingDocument = (): {
   getForhandsvarselDocument(
     values: ForhandsvarselDocumentValues
   ): DocumentComponentDto[];
-  getOppfyltDocument(begrunnelse: string): DocumentComponentDto[];
+  getOppfyltDocument(values: OppfyltDocumentValues): DocumentComponentDto[];
   getAvslagDocument(values: AvslagDocumentValues): DocumentComponentDto[];
 } => {
   const { getHilsen, getIntroGjelder, getVurdertAv, getVeiledernavn } =
@@ -88,23 +93,20 @@ export const useArbeidsuforhetVurderingDocument = (): {
     return documentComponents;
   };
 
-  const getOppfyltDocument = (begrunnelse: string) => {
-    const oppfyltArbeidsuforhetTexts = getOppfyltArbeidsuforhetTexts(
-      new Date(),
-      begrunnelse
-    );
+  const getOppfyltDocument = ({
+    begrunnelse,
+    forhandsvarselSendtDato,
+  }: OppfyltDocumentValues) => {
     const documentComponents = [
-      createHeaderH1(oppfyltArbeidsuforhetTexts.header),
+      createHeaderH1(arbeidsuforhetTexts.header),
       getIntroGjelder(),
-      createParagraph(oppfyltArbeidsuforhetTexts.vurdert),
+      createParagraph(
+        arbeidsuforhetTexts.previousForhandsvarsel(forhandsvarselSendtDato)
+      ),
+      createParagraph(arbeidsuforhetTexts.forAFaSykepenger),
+      createParagraph(begrunnelse),
+      createParagraph(arbeidsuforhetTexts.viHarBruktLoven),
     ];
-
-    if (begrunnelse) {
-      documentComponents.push(
-        createParagraph(oppfyltArbeidsuforhetTexts.begrunnelse)
-      );
-    }
-
     documentComponents.push(getVurdertAv());
 
     return documentComponents;
