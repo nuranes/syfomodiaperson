@@ -25,7 +25,7 @@ describe("UtdragFraSykefravaeret", () => {
 
     expect(screen.getByRole("heading", { name: "Vedtak" })).to.exist;
     const link = screen.getByRole("link", {
-      name: `Se vedtakene slik ${ARBEIDSTAKER_DEFAULT_FULL_NAME} ser dem på nav.no`,
+      name: `Se vedtakene slik ${ARBEIDSTAKER_DEFAULT_FULL_NAME} ser dem på nav.no Ekstern lenke`,
     });
     expect(link.getAttribute("href")).to.contain("spinnsyn-frontend-interne");
     expect(link.getAttribute("href")).to.contain("/syk/sykepenger");

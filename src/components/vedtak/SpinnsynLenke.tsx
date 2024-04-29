@@ -1,20 +1,18 @@
-import Lenke from "nav-frontend-lenker";
 import React from "react";
 import { fullNaisUrlIntern } from "@/utils/miljoUtil";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
-import { ExternalLinkIcon } from "@navikt/aksel-icons";
+import { EksternLenke } from "@/components/EksternLenke";
 
 export const spinnsynUrl = function () {
   return fullNaisUrlIntern("spinnsyn-frontend-interne", "/syk/sykepenger");
 };
 
 export const SpinnsynLenke = () => {
-  const navbruker = useNavBrukerData();
+  const { navn } = useNavBrukerData();
 
   return (
-    <Lenke href={spinnsynUrl()} target="_blank" rel="noopener noreferrer">
-      <span>{`Se vedtakene slik ${navbruker.navn} ser dem på nav.no`}</span>
-      <ExternalLinkIcon fontSize="1.5em" />
-    </Lenke>
+    <EksternLenke
+      href={spinnsynUrl()}
+    >{`Se vedtakene slik ${navn} ser dem på nav.no`}</EksternLenke>
   );
 };
