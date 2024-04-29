@@ -11,7 +11,7 @@ interface Props {
 
 export const DialogmotePanel = ({ children, ...rest }: Props): ReactElement => {
   return (
-    <Box background="surface-default" className="flex flex-col mb-2 p-6 gap-6">
+    <Box background="surface-default" className="flex flex-col mb-4 p-6 gap-6">
       <IconHeader altIcon="moteikon" {...rest} />
       {children}
     </Box>

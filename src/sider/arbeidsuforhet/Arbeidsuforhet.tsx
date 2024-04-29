@@ -13,7 +13,7 @@ export const Arbeidsuforhet = (): ReactElement => {
     useState<boolean>(false);
 
   return (
-    <div className="mb-2">
+    <div className="mb-4">
       {showStartetVurdering || isForhandsvarsel ? (
         <StartetVurdering />
       ) : (

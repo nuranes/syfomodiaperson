@@ -85,7 +85,7 @@ export const Sykmeldingsgrad = () => {
   };
 
   return (
-    <Box background="surface-default" padding={"4"} className={"mb-8"}>
+    <Box background="surface-default" padding={"4"} className={"mb-4"}>
       <Heading size="medium" level="2">
         {texts.title}
       </Heading>

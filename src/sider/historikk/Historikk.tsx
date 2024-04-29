@@ -78,7 +78,7 @@ const Historikk = ({
   return (
     <div className="p-4">
       <Select
-        className="w-fit mb-8"
+        className="w-fit mb-4"
         label={"Sykefraværstilfelle"}
         onChange={(event) =>
           setSelectedTilfelleIndex(Number(event.target.value))

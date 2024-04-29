@@ -17,7 +17,7 @@ const SoknaderTeasere = ({
   tomListeTekst,
   id,
 }: SoknaderTeasereProps): ReactElement => (
-  <div className="blokk--l">
+  <div className="mb-4">
     <header className="inngangspanelerHeader">
       <h2 className="inngangspanelerHeader__tittel">{tittel}</h2>
     </header>
