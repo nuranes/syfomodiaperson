@@ -18,6 +18,7 @@ import { VedtakRequestDTO } from "@/data/frisktilarbeid/frisktilarbeidTypes";
 import { behandlereDialogmeldingMock } from "../../mock/isdialogmelding/behandlereDialogmeldingMock";
 import { addWeeks } from "@/utils/datoUtils";
 import { createHeaderH1 } from "@/utils/documentComponentUtils";
+import { getExpectedBehandlerDocument } from "./frisktilarbeidTestData";
 
 let queryClient: QueryClient;
 
@@ -102,7 +103,10 @@ describe("FattVedtakSkjema", () => {
       tom: inTwelveWeeks.format("YYYY-MM-DD"),
       begrunnelse: "En begrunnelse",
       document: [createHeaderH1("Vedtak")],
-      behandlerDocument: [],
+      behandlerDocument: getExpectedBehandlerDocument(
+        today.toDate(),
+        inTwelveWeeks.toDate()
+      ),
       behandlerNavn: `${mockBehandler.fornavn} ${mockBehandler.mellomnavn} ${mockBehandler.etternavn}`,
       behandlerRef: mockBehandler.behandlerRef,
     };

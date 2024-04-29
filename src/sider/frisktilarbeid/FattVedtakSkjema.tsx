@@ -18,6 +18,7 @@ import { VedtakRequestDTO } from "@/data/frisktilarbeid/frisktilarbeidTypes";
 import dayjs from "dayjs";
 import { behandlerNavn } from "@/utils/behandlerUtils";
 import { createHeaderH1 } from "@/utils/documentComponentUtils";
+import { useFriskmeldingTilArbeidsformidlingDocument } from "@/hooks/frisktilarbeid/useFriskmeldingTilArbeidsformidlingDocument";
 
 const begrunnelseMaxLength = 5000;
 
@@ -41,6 +42,8 @@ export interface FattVedtakSkjemaValues {
 export const FattVedtakSkjema = () => {
   const [selectedBehandler, setSelectedBehandler] = useState<BehandlerDTO>();
   const fattVedtak = useFattVedtak();
+  const { getBehandlermeldingDocument } =
+    useFriskmeldingTilArbeidsformidlingDocument();
   const methods = useForm<FattVedtakSkjemaValues>();
   const {
     register,
@@ -50,7 +53,7 @@ export const FattVedtakSkjema = () => {
   } = methods;
 
   const fraDato = watch("fraDato");
-  const tilDato = fraDato ? addWeeks(fraDato, 12) : undefined;
+  const tilDato = addWeeks(fraDato, 12);
 
   const submit = (values: FattVedtakSkjemaValues) => {
     const vedtakRequestDTO: VedtakRequestDTO = {
@@ -60,7 +63,10 @@ export const FattVedtakSkjema = () => {
       document: [createHeaderH1("Vedtak")],
       behandlerRef: values.behandlerRef,
       behandlerNavn: selectedBehandler ? behandlerNavn(selectedBehandler) : "",
-      behandlerDocument: [],
+      behandlerDocument: getBehandlermeldingDocument({
+        fom: values.fraDato,
+        tom: tilDato,
+      }),
     };
     fattVedtak.mutate(vedtakRequestDTO);
   };
