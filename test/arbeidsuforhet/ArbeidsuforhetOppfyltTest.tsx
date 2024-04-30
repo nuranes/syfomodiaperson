@@ -54,7 +54,7 @@ describe("OppfyltSide", () => {
 
       expect(
         screen.getByText(
-          "Skriv en kort begrunnelse for hvorfor bruker oppfyller vilkårene i § 8-4."
+          "Skriv en kort begrunnelse for hvorfor bruker likevel oppfyller vilkårene i § 8-4, og hvilke opplysninger som ligger til grunn for vurderingen."
         )
       ).to.exist;
     });
@@ -71,7 +71,7 @@ describe("OppfyltSide", () => {
 
       expect(
         screen.getByText(
-          "Skriv en kort begrunnelse for hvorfor bruker oppfyller vilkårene i § 8-4."
+          "Skriv en kort begrunnelse for hvorfor bruker likevel oppfyller vilkårene i § 8-4, og hvilke opplysninger som ligger til grunn for vurderingen."
         )
       ).to.exist;
     });

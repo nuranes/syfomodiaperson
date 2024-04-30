@@ -22,8 +22,12 @@ import { ButtonRow } from "@/components/Layout";
 import { useNotification } from "@/context/notification/NotificationContext";
 
 const texts = {
-  title: "Oppfyller bruker vilkårene likevel?",
-  info: "Skriv en kort begrunnelse for hvorfor bruker oppfyller vilkårene i § 8-4.",
+  title: "Skriv innstilling om oppfylt vilkår",
+  veiledning: {
+    info: "Skriv en kort begrunnelse for hvorfor bruker likevel oppfyller vilkårene i § 8-4, og hvilke opplysninger som ligger til grunn for vurderingen.",
+    hvisFriskmeldingTilArbeidsformidling:
+      "Hvis du har vurdert ordningen friskmelding til arbeidsformidling, skriv hvorfor ordningen eventuelt er aktuell og legg inn henvisning til §8-5.",
+  },
   begrunnelseLabel: "Begrunnelse (obligatorisk)",
   begrunnelseDescription:
     "Åpne forhåndsvisning for å se vurderingen. Når du trykker Lagre journalføres vurderingen automatisk.",
@@ -87,7 +91,10 @@ export const OppfyltForm = ({ forhandsvarselSendtDato }: Props) => {
         <Heading level="2" size="medium">
           {texts.title}
         </Heading>
-        <BodyShort>{texts.info}</BodyShort>
+        <BodyShort>{texts.veiledning.info}</BodyShort>
+        <BodyShort>
+          {texts.veiledning.hvisFriskmeldingTilArbeidsformidling}
+        </BodyShort>
         <Textarea
           {...register("begrunnelse", {
             maxLength: begrunnelseMaxLength,
