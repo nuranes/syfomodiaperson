@@ -10,7 +10,7 @@ interface Props {
 const Sidetopp = ({ tittel }: Props) => {
   return (
     <header>
-      <Heading spacing size="xlarge" id={SIDETOPP_ID} className="text-center">
+      <Heading spacing size="large" id={SIDETOPP_ID}>
         {tittel}
       </Heading>
     </header>
