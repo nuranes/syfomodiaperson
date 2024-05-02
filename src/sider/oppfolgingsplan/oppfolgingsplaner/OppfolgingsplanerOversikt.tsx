@@ -94,7 +94,7 @@ const OppfolgingsplanerOversikt = (
       return erIdag(oppfolgingsplanLPS.opprettet);
     })
     .sort((a, b) => {
-      return new Date(a.opprettet).getTime() - new Date(b.opprettet).getTime();
+      return new Date(b.opprettet).getTime() - new Date(a.opprettet).getTime();
     });
 
   const oppfolgingsplanerLPSProcessed = oppfolgingsplanerLPSMedPersonOppgave
@@ -105,7 +105,7 @@ const OppfolgingsplanerOversikt = (
       return erIkkeIdag(oppfolgingsplanLPS.opprettet);
     })
     .sort((a, b) => {
-      return new Date(a.opprettet).getTime() - new Date(b.opprettet).getTime();
+      return new Date(b.opprettet).getTime() - new Date(a.opprettet).getTime();
     });
 
   aktivePlaner.sort((a, b) => {

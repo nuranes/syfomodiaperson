@@ -3,19 +3,21 @@ import {
   ARBEIDSTAKER_DEFAULT,
   VIRKSOMHET_PONTYPANDY,
 } from "../common/mockConstants";
+import { OppfolgingsplanLPS } from "@/data/oppfolgingsplan/types/OppfolgingsplanLPS";
 
-const getDefaultOppfolgingsplanLPS = (created: Date) => {
+const getDefaultOppfolgingsplanLPS = (created: Date): OppfolgingsplanLPS => {
   return {
     uuid: "5f1e2629-062b-442d-ae1f-3b08e9574cd2",
     fnr: ARBEIDSTAKER_DEFAULT.personIdent,
     virksomhetsnummer: VIRKSOMHET_PONTYPANDY.virksomhetsnummer,
-    virksomhetsnavn: VIRKSOMHET_PONTYPANDY.virksomhetsnavn,
     opprettet: dayjs(created).subtract(1, "days").toJSON(),
     sistEndret: dayjs(created).subtract(1, "days").toJSON(),
   };
 };
 
-export const oppfolgingsplanerLPSMock = (created: Date) => {
+export const oppfolgingsplanerLPSMock = (
+  created: Date
+): OppfolgingsplanLPS[] => {
   return [
     getDefaultOppfolgingsplanLPS(created),
     {

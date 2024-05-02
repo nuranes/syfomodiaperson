@@ -39,7 +39,12 @@ const OppfolgingsplanerOversiktLPS = ({
   );
 
   return (
-    <Box background="surface-default" padding="8" className="mb-2">
+    <Box
+      background="surface-default"
+      padding="8"
+      className="mb-2"
+      data-testid="oppfolgingsplan-lps"
+    >
       <Heading size="small">{virksomhetsnavn}</Heading>
       <p>
         Mottatt:{" "}

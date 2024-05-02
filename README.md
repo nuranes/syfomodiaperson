@@ -14,7 +14,7 @@ Applikasjonen har en mock som kan brukes lokalt. Her mockes diverse endepunkter,
 Du må ha Node v18 og npm v9 installert.
 
 - For å kjøre koden lokalt:
-  - `$ npm install --legacy-peer-deps`
+  - `$ npm install`
   - `$ npm start`
   - Eventuelt kan komandoene kjøres fra `package.json` i intellij.
 - Kjør tester med `npm test` eller `npm test:watch`
@@ -26,7 +26,7 @@ Ved første kjøring:
 
 ```sh
 $ cp .env.template .env # for å sette opp lokale miljøvariabler
-$ npm install --legacy-peer-deps # installerer avhengigheter
+$ npm install # installerer avhengigheter
 ```
 
 ## Redis Cache

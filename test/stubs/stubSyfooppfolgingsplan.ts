@@ -5,9 +5,9 @@ import {
   SYFOOPPFOLGINGSPLANSERVICE_V3_ROOT,
 } from "@/apiConstants";
 import { oppfolgingsplanMock } from "../../mock/syfooppfolgingsplanservice/oppfolgingsplanMock";
-import { oppfolgingsplanerLPSMock } from "../../mock/syfooppfolgingsplanservice/oppfolgingsplanLPSMock";
 import { dokumentinfoMock } from "../../mock/syfooppfolgingsplanservice/dokumentinfoMock";
 import { historikkoppfolgingsplanMock } from "../../mock/syfooppfolgingsplanservice/historikkoppfolgingsplanMock";
+import { oppfolgingsplanerLPSMock } from "../../mock/lps-oppfolgingsplan-mottak/oppfolgingsplanLPSMock";
 
 export const stubOppfolgingsplanApi = (scope: nock.Scope) => {
   return scope

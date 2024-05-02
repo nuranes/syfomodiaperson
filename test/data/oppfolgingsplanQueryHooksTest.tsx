@@ -14,9 +14,9 @@ import {
   stubOppfolgingsplanApi,
   stubOppfolgingsplanLPSApi,
 } from "../stubs/stubSyfooppfolgingsplan";
-import { oppfolgingsplanerLPSMock } from "../../mock/syfooppfolgingsplanservice/oppfolgingsplanLPSMock";
 import { dokumentinfoMock } from "../../mock/syfooppfolgingsplanservice/dokumentinfoMock";
 import { testQueryClient } from "../testQueryClient";
+import { oppfolgingsplanerLPSMock } from "../../mock/lps-oppfolgingsplan-mottak/oppfolgingsplanLPSMock";
 
 let queryClient: any;
 let apiMockScope: any;

@@ -5,8 +5,11 @@ import {
   VIRKSOMHET_PONTYPANDY,
   VIRKSOMHET_UTEN_NARMESTE_LEDER,
 } from "../common/mockConstants";
+import { EregOrganisasjonResponseDTO } from "../../src/data/virksomhet/types/EregOrganisasjonResponseDTO";
 
-export const eregOrganisasjonResponse = (virksomhetsnavn: string) => {
+export const eregOrganisasjonResponse = (
+  virksomhetsnavn: string
+): EregOrganisasjonResponseDTO => {
   return {
     navn: {
       navnelinje1: virksomhetsnavn,
