@@ -19,12 +19,12 @@ import { narmesteLederForVirksomhet } from "@/utils/ledereUtils";
 import { Forhandsvisning } from "@/components/Forhandsvisning";
 import { FormProvider, useForm } from "react-hook-form";
 import TextareaField from "@/components/dialogmote/TextareaField";
-import { DialogmoteDato } from "@/sider/mote/components/DialogmoteDato";
+import { DialogmoteDato } from "@/sider/dialogmoter/components/DialogmoteDato";
 import DialogmoteSted, {
   MAX_LENGTH_STED,
-} from "@/sider/mote/components/DialogmoteSted";
-import DialogmoteVideolink from "@/sider/mote/components/DialogmoteVideolink";
-import DialogmoteKlokkeslett from "@/sider/mote/components/DialogmoteKlokkeslett";
+} from "@/sider/dialogmoter/components/DialogmoteSted";
+import DialogmoteVideolink from "@/sider/dialogmoter/components/DialogmoteVideolink";
+import DialogmoteKlokkeslett from "@/sider/dialogmoter/components/DialogmoteKlokkeslett";
 import { DialogmoteFrist } from "@/components/dialogmote/DialogmoteFrist";
 import { MalformRadioGroup } from "@/components/MalformRadioGroup";
 import * as Amplitude from "@/utils/amplitude";

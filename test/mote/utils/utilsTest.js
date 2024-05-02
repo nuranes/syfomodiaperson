@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import sinon from "sinon";
-import { genererDato } from "@/sider/mote/utils";
+import { genererDato } from "@/sider/dialogmoter/utils";
 
 describe("utils", () => {
   let clock;

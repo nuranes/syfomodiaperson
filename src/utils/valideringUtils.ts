@@ -1,5 +1,5 @@
 import { ReferatSkjemaValues } from "@/components/dialogmote/referat/Referat";
-import { genererDato } from "@/sider/mote/utils";
+import { genererDato } from "@/sider/dialogmoter/utils";
 import { containsWhiteSpace } from "@/utils/stringUtils";
 
 export interface SkjemaFeil {

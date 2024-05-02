@@ -10,7 +10,7 @@ export const texts = {
 export const Meldinger = () => {
   return (
     <>
-      <Heading level="1" size="large" spacing>
+      <Heading level="2" size="medium" spacing>
         {texts.header}
       </Heading>
       <BehandleBehandlerdialogSvarOppgaveKnapp />

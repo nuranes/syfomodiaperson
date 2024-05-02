@@ -3,7 +3,7 @@ import { expect } from "chai";
 import AvlysDialogmoteSkjema, {
   MAX_LENGTH_AVLYS_BEGRUNNELSE,
   texts as avlysningSkjemaTexts,
-} from "@/sider/mote/components/avlys/AvlysDialogmoteSkjema";
+} from "@/sider/dialogmoter/components/avlys/AvlysDialogmoteSkjema";
 import {
   changeTextInput,
   clickButton,

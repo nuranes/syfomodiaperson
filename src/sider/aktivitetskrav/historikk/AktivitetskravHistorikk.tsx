@@ -49,7 +49,7 @@ export const AktivitetskravHistorikk = () => {
       className="flex flex-col mb-4 gap-8"
     >
       <div>
-        <Heading level="2" size="large">
+        <Heading level="2" size="medium">
           {texts.header}
         </Heading>
         <BodyShort size="small">{texts.subHeader}</BodyShort>

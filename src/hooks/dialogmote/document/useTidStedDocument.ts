@@ -1,4 +1,4 @@
-import { EndreTidStedSkjemaValues } from "@/sider/mote/components/endre/EndreDialogmoteSkjema";
+import { EndreTidStedSkjemaValues } from "@/sider/dialogmoter/components/endre/EndreDialogmoteSkjema";
 import {
   createHeaderH1,
   createParagraph,

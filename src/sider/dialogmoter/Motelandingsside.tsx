@@ -8,7 +8,7 @@ import { useDialogmoterQuery } from "@/data/dialogmote/dialogmoteQueryHooks";
 import { useOppfolgingsplanerQuery } from "@/data/oppfolgingsplan/oppfolgingsplanQueryHooks";
 import { useMotebehovQuery } from "@/data/motebehov/motebehovQueryHooks";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
-import { DialogmoteFerdigstilteReferatPanel } from "@/sider/mote/components/DialogmoteFerdigstilteReferatPanel";
+import { DialogmoteFerdigstilteReferatPanel } from "@/sider/dialogmoter/components/DialogmoteFerdigstilteReferatPanel";
 import { DialogmoteStatus } from "@/data/dialogmote/types/dialogmoteTypes";
 import { useDialogmoteunntakQuery } from "@/data/dialogmotekandidat/dialogmoteunntakQueryHooks";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";

@@ -26,12 +26,12 @@ import { EventType } from "@/utils/amplitude";
 import { useMalform } from "@/context/malform/MalformContext";
 import { useBrukerinfoQuery } from "@/data/navbruker/navbrukerQueryHooks";
 import { DialogmoteFrist } from "@/components/dialogmote/DialogmoteFrist";
-import { DialogmoteDato } from "@/sider/mote/components/DialogmoteDato";
-import DialogmoteKlokkeslett from "@/sider/mote/components/DialogmoteKlokkeslett";
+import { DialogmoteDato } from "@/sider/dialogmoter/components/DialogmoteDato";
+import DialogmoteKlokkeslett from "@/sider/dialogmoter/components/DialogmoteKlokkeslett";
 import DialogmoteSted, {
   MAX_LENGTH_STED,
-} from "@/sider/mote/components/DialogmoteSted";
-import DialogmoteVideolink from "@/sider/mote/components/DialogmoteVideolink";
+} from "@/sider/dialogmoter/components/DialogmoteSted";
+import DialogmoteVideolink from "@/sider/dialogmoter/components/DialogmoteVideolink";
 import { FormProvider, useForm } from "react-hook-form";
 import TextareaField from "@/components/dialogmote/TextareaField";
 import { Forhandsvisning } from "@/components/Forhandsvisning";

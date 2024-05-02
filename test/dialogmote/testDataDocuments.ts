@@ -21,7 +21,7 @@ import {
   tilDatoMedManedNavnOgKlokkeslettWithComma,
   tilDatoMedUkedagOgManedNavnOgKlokkeslett,
 } from "@/utils/datoUtils";
-import { genererDato } from "@/sider/mote/utils";
+import { genererDato } from "@/sider/dialogmoter/utils";
 import {
   DocumentComponentDto,
   DocumentComponentType,

@@ -21,7 +21,7 @@ const MeldingTilBehandlerAlert = styled(Alert)`
 export const MeldingTilBehandler = () => {
   return (
     <>
-      <Heading level="1" size="large" spacing>
+      <Heading level="2" size="medium" spacing>
         {texts.header}
       </Heading>
       <MeldingTilBehandlerAlert variant="warning" size="small">

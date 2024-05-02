@@ -11,7 +11,7 @@ export const GjelderOppfolgingstilfelle = ({
   oppfolgingstilfelle,
 }: GjelderOppfolgingstilfelleProps) => {
   return (
-    <BodyShort className="mb-4">{`Gjelder tilfelle ${tilLesbarPeriodeMedArUtenManednavn(
+    <BodyShort>{`Gjelder tilfelle ${tilLesbarPeriodeMedArUtenManednavn(
       oppfolgingstilfelle.start,
       oppfolgingstilfelle.end
     )}`}</BodyShort>

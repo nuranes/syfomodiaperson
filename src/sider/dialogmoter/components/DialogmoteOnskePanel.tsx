@@ -2,7 +2,7 @@ import { UtropstegnImage } from "../../../../img/ImageComponents";
 import MotebehovKvittering from "./MotebehovKvittering";
 import { FlexRow, PaddingSize } from "../../../components/Layout";
 import BehandleMotebehovKnapp from "../../../components/motebehov/BehandleMotebehovKnapp";
-import { DialogmotePanel } from "@/sider/mote/components/DialogmotePanel";
+import { DialogmotePanel } from "@/sider/dialogmoter/components/DialogmotePanel";
 import React from "react";
 import { MotebehovVeilederDTO } from "@/data/motebehov/types/motebehovTypes";
 import { BrukerinfoDTO } from "@/data/navbruker/types/BrukerinfoDTO";

@@ -1,5 +1,5 @@
 import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
-import { AvlysDialogmoteSkjemaValues } from "@/sider/mote/components/avlys/AvlysDialogmoteSkjema";
+import { AvlysDialogmoteSkjemaValues } from "@/sider/dialogmoter/components/avlys/AvlysDialogmoteSkjema";
 import {
   getAvlysningTexts,
   getCommonTexts,

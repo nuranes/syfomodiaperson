@@ -1,7 +1,7 @@
 import React from "react";
 import { narmesteLederForVirksomhet } from "@/utils/ledereUtils";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
-import { NoNarmesteLederAlert } from "@/sider/mote/components/innkalling/NoNarmestLederAlert";
+import { NoNarmesteLederAlert } from "@/sider/dialogmoter/components/innkalling/NoNarmestLederAlert";
 import { VirksomhetChooser } from "@/components/dialogmote/innkalling/virksomhet/VirksomhetChooser";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { BodyShort, Label } from "@navikt/ds-react";

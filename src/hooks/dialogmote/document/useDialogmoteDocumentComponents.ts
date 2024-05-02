@@ -6,7 +6,7 @@ import { getCommonTexts } from "@/data/dialogmote/dialogmoteTexts";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
 import { TidStedSkjemaValues } from "@/data/dialogmote/types/skjemaTypes";
 import { tilDatoMedUkedagOgManedNavnOgKlokkeslett } from "@/utils/datoUtils";
-import { genererDato } from "@/sider/mote/utils";
+import { genererDato } from "@/sider/dialogmoter/utils";
 import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
 import { useDocumentComponents } from "@/hooks/useDocumentComponents";
 import { useMalform } from "@/context/malform/MalformContext";

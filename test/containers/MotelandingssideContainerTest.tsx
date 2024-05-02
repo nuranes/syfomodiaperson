@@ -1,6 +1,6 @@
 import React from "react";
 import { expect } from "chai";
-import Motelandingsside from "@/sider/mote/Motelandingsside";
+import Motelandingsside from "@/sider/dialogmoter/Motelandingsside";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { dialogmoterQueryKeys } from "@/data/dialogmote/dialogmoteQueryHooks";
 import {

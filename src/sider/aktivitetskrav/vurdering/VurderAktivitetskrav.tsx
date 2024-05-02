@@ -48,10 +48,12 @@ export const VurderAktivitetskrav = ({
         background="surface-default"
         className="mb-4 flex flex-col pt-4 pr-4 pb-8 pl-8"
       >
-        <VurderAktivitetskravButtons aktivitetskrav={aktivitetskrav} />
-        <Heading level="2" size="large" className="mb-1">
-          {texts.header}
-        </Heading>
+        <div className="flex flex-row">
+          <Heading level="2" size="medium" className="mb-1">
+            {texts.header}
+          </Heading>
+          <VurderAktivitetskravButtons aktivitetskrav={aktivitetskrav} />
+        </div>
         {oppfolgingstilfelle && (
           <GjelderOppfolgingstilfelle
             oppfolgingstilfelle={oppfolgingstilfelle}

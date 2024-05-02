@@ -29,7 +29,7 @@ export const Nokkelinformasjon = () => {
     >
       <SideLaster henter={henter} hentingFeilet={hentingFeilet}>
         <header>
-          <Heading spacing size="medium" className="hidden">
+          <Heading spacing size="large" className="hidden" level="1">
             {texts.pageTitle}
           </Heading>
         </header>
