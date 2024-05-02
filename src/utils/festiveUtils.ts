@@ -4,17 +4,15 @@ import {
   PepperkakeKvinneImage,
   PepperkakeMannImage,
 } from "../../img/ImageComponents";
-import Snowflakes from "magic-snowflakes";
 import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
-import isBetweeen from "dayjs/plugin/isBetween";
 
 enum Month {
   DECEMBER = 11,
 }
 
-export const isDecember = () => {
+const isDecember = () => {
   const currentMonth = new Date().getMonth();
 
   return currentMonth === Month.DECEMBER;
@@ -32,22 +30,6 @@ export const getMannImage = () => {
     return PepperkakeMannImage;
   }
   return MannImage;
-};
-
-const snowflakes = new Snowflakes({
-  count: 30,
-  speed: 2,
-});
-snowflakes.stop();
-
-export const startSnow = () => {
-  snowflakes.show();
-  snowflakes.start();
-};
-
-export const stopAndHideSnow = () => {
-  snowflakes.hide();
-  snowflakes.stop();
 };
 
 interface EasterSundayNumbers {
@@ -115,13 +97,4 @@ export const isPride = () => {
   return (
     now.isSameOrAfter(prideStart, "day") && now.isSameOrBefore(prideEnd, "day")
   );
-};
-
-export const isHalloween = () => {
-  dayjs.extend(isBetweeen);
-  const halloween = dayjs("2023-10-31");
-  const startHalloween = halloween.clone().subtract(7, "days");
-  const today = dayjs();
-
-  return today.isBetween(startHalloween, halloween, "day", "[]");
 };

@@ -5,13 +5,12 @@ import {
   GlobalNavigasjon,
   Menypunkter,
 } from "@/components/globalnavigasjon/GlobalNavigasjon";
-import { isDecember, isEaster, isPride } from "@/utils/festiveUtils";
+import { isEaster, isPride } from "@/utils/festiveUtils";
 import { Easter } from "@/components/festive/Easter";
 import * as Amplitude from "@/utils/amplitude";
 import { EventType } from "@/utils/amplitude";
 import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
 import { OversiktLenker } from "@/components/personkort/OversiktLenker";
-import SnowButton from "@/components/festive/SnowButton";
 import { Pride } from "@/components/festive/Pride";
 import { Flexjar } from "@/components/flexjar/Flexjar";
 import { Oppfolgingsoppgave } from "@/components/oppfolgingsoppgave/Oppfolgingsoppgave";
@@ -56,7 +55,6 @@ const Side = ({ tittel, aktivtMenypunkt, children }: SideProps) => {
         <div className="flex flex-col" id={MODIA_HEADER_ID}>
           <div className="flex flex-row mt-4 mb-2 w-full">
             <OversiktLenker />
-            {isDecember() && <SnowButton />}
           </div>
           {isPride() && <Pride>&nbsp;</Pride>}
           <Personkort />
