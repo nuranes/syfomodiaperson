@@ -17,14 +17,17 @@ import dayjs from "dayjs";
 import { VedtakRequestDTO } from "@/data/frisktilarbeid/frisktilarbeidTypes";
 import { behandlereDialogmeldingMock } from "../../mock/isdialogmelding/behandlereDialogmeldingMock";
 import { addWeeks } from "@/utils/datoUtils";
-import { createHeaderH1 } from "@/utils/documentComponentUtils";
-import { getExpectedBehandlerDocument } from "./frisktilarbeidTestData";
+import {
+  getExpectedBehandlerDocument,
+  getExpectedVedtakDocument,
+} from "./frisktilarbeidTestData";
 
 let queryClient: QueryClient;
 
 const mockBehandler = behandlereDialogmeldingMock[0];
 const today = dayjs();
 const inTwelveWeeks = dayjs(addWeeks(today.toDate(), 12));
+const enBegrunnelse = "En begrunnelse";
 
 const renderFattVedtakSkjema = () =>
   render(
@@ -94,15 +97,19 @@ describe("FattVedtakSkjema", () => {
     fireEvent.click(velgFastlegeOption);
 
     const begrunnelseInput = getTextInput("Begrunnelse");
-    changeTextInput(begrunnelseInput, "En begrunnelse");
+    changeTextInput(begrunnelseInput, enBegrunnelse);
 
     clickButton("Fatt vedtak");
 
     const expectedVedtakRequest: VedtakRequestDTO = {
       fom: today.format("YYYY-MM-DD"),
       tom: inTwelveWeeks.format("YYYY-MM-DD"),
-      begrunnelse: "En begrunnelse",
-      document: [createHeaderH1("Vedtak")],
+      begrunnelse: enBegrunnelse,
+      document: getExpectedVedtakDocument(
+        today.toDate(),
+        inTwelveWeeks.toDate(),
+        enBegrunnelse
+      ),
       behandlerDocument: getExpectedBehandlerDocument(
         today.toDate(),
         inTwelveWeeks.toDate()

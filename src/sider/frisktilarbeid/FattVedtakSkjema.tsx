@@ -17,7 +17,6 @@ import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { VedtakRequestDTO } from "@/data/frisktilarbeid/frisktilarbeidTypes";
 import dayjs from "dayjs";
 import { behandlerNavn } from "@/utils/behandlerUtils";
-import { createHeaderH1 } from "@/utils/documentComponentUtils";
 import { useFriskmeldingTilArbeidsformidlingDocument } from "@/hooks/frisktilarbeid/useFriskmeldingTilArbeidsformidlingDocument";
 
 const begrunnelseMaxLength = 5000;
@@ -42,7 +41,7 @@ export interface FattVedtakSkjemaValues {
 export const FattVedtakSkjema = () => {
   const [selectedBehandler, setSelectedBehandler] = useState<BehandlerDTO>();
   const fattVedtak = useFattVedtak();
-  const { getBehandlermeldingDocument } =
+  const { getBehandlermeldingDocument, getVedtakDocument } =
     useFriskmeldingTilArbeidsformidlingDocument();
   const methods = useForm<FattVedtakSkjemaValues>();
   const {
@@ -52,15 +51,19 @@ export const FattVedtakSkjema = () => {
     watch,
   } = methods;
 
-  const fraDato = watch("fraDato");
-  const tilDato = addWeeks(fraDato, 12);
+  const fraDato: Date | undefined = watch("fraDato");
+  const tilDato = fraDato ? addWeeks(fraDato, 12) : undefined;
 
   const submit = (values: FattVedtakSkjemaValues) => {
     const vedtakRequestDTO: VedtakRequestDTO = {
       fom: dayjs(values.fraDato).format("YYYY-MM-DD"),
       tom: dayjs(tilDato).format("YYYY-MM-DD"),
       begrunnelse: values.begrunnelse,
-      document: [createHeaderH1("Vedtak")],
+      document: getVedtakDocument({
+        fom: values.fraDato,
+        tom: tilDato,
+        begrunnelse: values.begrunnelse,
+      }),
       behandlerRef: values.behandlerRef,
       behandlerNavn: selectedBehandler ? behandlerNavn(selectedBehandler) : "",
       behandlerDocument: getBehandlermeldingDocument({
@@ -116,7 +119,13 @@ export const FattVedtakSkjema = () => {
             </Button>
             <Forhandsvisning
               contentLabel={texts.previewContentLabel}
-              getDocumentComponents={() => []}
+              getDocumentComponents={() =>
+                getVedtakDocument({
+                  fom: fraDato,
+                  tom: tilDato,
+                  begrunnelse: watch("begrunnelse"),
+                })
+              }
             />
           </div>
         </form>
