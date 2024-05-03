@@ -135,6 +135,10 @@ export const getExpectedVedtakDocument = (
       type: DocumentComponentType.PARAGRAPH,
     },
     {
+      texts: ["Les mer på nav.no/arbeidsledig."],
+      type: DocumentComponentType.PARAGRAPH,
+    },
+    {
       title: "Spørsmål eller endringer",
       texts: [
         "Hvis det skjer en endring i din situasjon, kan det påvirke din rett til utbetaling av sykepenger. Mangelfulle eller feilaktige opplysninger kan medføre krav om tilbakebetaling av sykepenger. Se nav.no/endringer.",
@@ -143,14 +147,14 @@ export const getExpectedVedtakDocument = (
     },
     {
       texts: [
-        "Har du spørsmål om saken din kan du kontakte oss på - nav.no/kontaktoss.",
+        "Har du spørsmål om saken din kan du kontakte oss på nav.no/kontaktoss.",
       ],
       type: DocumentComponentType.PARAGRAPH,
     },
     {
       title: "Rett til innsyn",
       texts: [
-        "Du har rett til innsyn i sakens opplysninger. Dette får du ved å logge deg inn på nav.no, eller ved å ta kontakt - nav.no/kontaktoss.",
+        "Du har rett til innsyn i sakens opplysninger. Dette får du ved å logge deg inn på nav.no, eller ved å ta kontakt nav.no/kontaktoss.",
       ],
       type: DocumentComponentType.PARAGRAPH,
     },

@@ -51,16 +51,17 @@ export const getVedtakTexts = ({ fom, tom }: VedtakTextsValues) => ({
       "Utbetalingen stanser når du får ny jobb, eller hvis du velger å takke nei til et tilbud om en jobb.",
     part3:
       "Hvis du ikke har fått ny jobb innen perioden din med sykepenger er over, kan det være aktuelt for deg å søke om dagpenger. Du må i så fall huske å sende en søknad om dagpenger før perioden med sykepenger er over.",
+    part4: "Les mer på nav.no/arbeidsledig.",
   },
   sporsmal: {
     header: "Spørsmål eller endringer",
     body: "Hvis det skjer en endring i din situasjon, kan det påvirke din rett til utbetaling av sykepenger. Mangelfulle eller feilaktige opplysninger kan medføre krav om tilbakebetaling av sykepenger. Se nav.no/endringer.",
   },
   kontakt:
-    "Har du spørsmål om saken din kan du kontakte oss på - nav.no/kontaktoss.",
+    "Har du spørsmål om saken din kan du kontakte oss på nav.no/kontaktoss.",
   innsyn: {
     header: "Rett til innsyn",
-    body: "Du har rett til innsyn i sakens opplysninger. Dette får du ved å logge deg inn på nav.no, eller ved å ta kontakt - nav.no/kontaktoss.",
+    body: "Du har rett til innsyn i sakens opplysninger. Dette får du ved å logge deg inn på nav.no, eller ved å ta kontakt nav.no/kontaktoss.",
   },
   klage: {
     header: "Du har rett til å klage",
