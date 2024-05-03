@@ -50,6 +50,16 @@ export const VEILEDER_DEFAULT = new Veileder(
   "12345678"
 );
 
+export const ANNEN_VEILEDER_IDENT = "Z970000";
+
+export const ANNEN_VEILEDER = new Veileder(
+  ANNEN_VEILEDER_IDENT,
+  "Valdemar",
+  "Veileder",
+  "valdemar.veileder@nav.no",
+  "12345678"
+);
+
 export const VIRKSOMHET_PONTYPANDY = {
   virksomhetsnavn: "PONTYPANDY FIRE SERVICE",
   virksomhetsnummer: "110110110",

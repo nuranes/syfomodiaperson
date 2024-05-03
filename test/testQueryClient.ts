@@ -4,6 +4,8 @@ import { tilgangBrukerMock } from "../mock/istilgangskontroll/tilgangtilbrukerMo
 import { ledereQueryKeys } from "@/data/leder/ledereQueryHooks";
 import {
   AKTIV_BRUKER_DEFAULT,
+  ANNEN_VEILEDER,
+  ANNEN_VEILEDER_IDENT,
   ARBEIDSTAKER_DEFAULT,
   BEHANDLENDE_ENHET_DEFAULT,
   LEDERE_DEFAULT,
@@ -90,6 +92,10 @@ export const queryClientWithMockData = (): QueryClient => {
   queryClient.setQueryData(
     veilederinfoQueryKeys.veilederinfoByIdent(VEILEDER_IDENT_DEFAULT),
     () => VEILEDER_DEFAULT
+  );
+  queryClient.setQueryData(
+    veilederinfoQueryKeys.veilederinfoByIdent(ANNEN_VEILEDER_IDENT),
+    () => ANNEN_VEILEDER
   );
   queryClient.setQueryData(
     behandlendeEnhetQueryKeys.behandlendeEnhet(

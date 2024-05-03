@@ -10,9 +10,14 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { MemoryRouter } from "react-router-dom";
 import { expect } from "chai";
 import { daysFromToday, getButton } from "../testUtils";
-import { testQueryClient } from "../testQueryClient";
+import { queryClientWithMockData } from "../testQueryClient";
+import {
+  ANNEN_VEILEDER,
+  ANNEN_VEILEDER_IDENT,
+  VEILEDER_DEFAULT,
+} from "../../mock/common/mockConstants";
 
-const queryClient = testQueryClient();
+const queryClient = queryClientWithMockData();
 
 const renderDialogmoteMoteStatusPanel = (dialogmote: DialogmoteDTO) =>
   render(
@@ -100,5 +105,65 @@ describe("DialogmoteMoteStatusPanel", () => {
 
     expect(screen.getByRole("heading", { name: "Endringen er sendt" })).to
       .exist;
+  });
+  describe("Samme veileder har innkalt og er tildelt dialogmøte", () => {
+    const innkaltDialogmote: DialogmoteDTO = {
+      ...dialogmote,
+      tid: new Date().toISOString(),
+      opprettetAv: VEILEDER_DEFAULT.ident,
+      tildeltVeilederIdent: VEILEDER_DEFAULT.ident,
+    };
+    const endretDialogmote: DialogmoteDTO = {
+      ...dialogmote,
+      status: DialogmoteStatus.NYTT_TID_STED,
+      opprettetAv: VEILEDER_DEFAULT.ident,
+      tildeltVeilederIdent: VEILEDER_DEFAULT.ident,
+    };
+
+    it("Viser navn på veileder for innkalt dialogmøte", () => {
+      renderDialogmoteMoteStatusPanel(innkaltDialogmote);
+
+      expect(screen.getByText(`Innkalt av: ${VEILEDER_DEFAULT.fulltNavn()}`)).to
+        .exist;
+    });
+    it("Viser navn på veileder for endret dialogmøte", () => {
+      renderDialogmoteMoteStatusPanel(endretDialogmote);
+
+      expect(screen.getByText(`Innkalt av: ${VEILEDER_DEFAULT.fulltNavn()}`)).to
+        .exist;
+    });
+  });
+  describe("Annen veileder er tildelt dialogmøte", () => {
+    const innkaltDialogmote: DialogmoteDTO = {
+      ...dialogmote,
+      tid: new Date().toISOString(),
+      opprettetAv: VEILEDER_DEFAULT.ident,
+      tildeltVeilederIdent: ANNEN_VEILEDER_IDENT,
+    };
+    const endretDialogmote: DialogmoteDTO = {
+      ...dialogmote,
+      status: DialogmoteStatus.NYTT_TID_STED,
+      opprettetAv: VEILEDER_DEFAULT.ident,
+      tildeltVeilederIdent: ANNEN_VEILEDER_IDENT,
+    };
+
+    it("Viser navn på veiledere som har innkalt og er tildelt for innkalt dialogmøte", () => {
+      renderDialogmoteMoteStatusPanel(innkaltDialogmote);
+
+      expect(
+        screen.getByText(
+          `Innkalt av: ${VEILEDER_DEFAULT.fulltNavn()} (Tildelt: ${ANNEN_VEILEDER.fulltNavn()})`
+        )
+      ).to.exist;
+    });
+    it("Viser navn på veiledere som har innkalt og er tildelt for endret dialogmøte", () => {
+      renderDialogmoteMoteStatusPanel(endretDialogmote);
+
+      expect(
+        screen.getByText(
+          `Innkalt av: ${VEILEDER_DEFAULT.fulltNavn()} (Tildelt: ${ANNEN_VEILEDER.fulltNavn()})`
+        )
+      ).to.exist;
+    });
   });
 });
