@@ -6,7 +6,7 @@ import { expect } from "chai";
 import { testQueryClient } from "../testQueryClient";
 import { stubMaxdateApi } from "../stubs/stubEsyfovarsel";
 import { useMaksdatoQuery } from "@/data/maksdato/useMaksdatoQuery";
-import { maksdatoMock } from "../../mock/syfoperson/persondataMock";
+import { maksdato, maksdatoMock } from "../../mock/syfoperson/persondataMock";
 
 let queryClient: any;
 let apiMockScope: any;
@@ -21,7 +21,7 @@ describe("maksdatoQuery", () => {
   });
 
   it("loads maksdatoDTO for valgt personident", async () => {
-    stubMaxdateApi(apiMockScope, "2023-12-01");
+    stubMaxdateApi(apiMockScope, maksdato);
     const wrapper = queryHookWrapper(queryClient);
 
     const { result } = renderHook(() => useMaksdatoQuery(), {

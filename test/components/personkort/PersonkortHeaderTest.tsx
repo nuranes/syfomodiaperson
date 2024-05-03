@@ -10,10 +10,14 @@ import {
 import { ValgtEnhetProvider } from "@/context/ValgtEnhetContext";
 import { egenansattQueryKeys } from "@/data/egenansatt/egenansattQueryHooks";
 import { ARBEIDSTAKER_DEFAULT } from "../../../mock/common/mockConstants";
-import { brukerinfoMock } from "../../../mock/syfoperson/persondataMock";
+import {
+  brukerinfoMock,
+  maksdato,
+} from "../../../mock/syfoperson/persondataMock";
 import { diskresjonskodeQueryKeys } from "@/data/diskresjonskode/diskresjonskodeQueryHooks";
 import { brukerinfoQueryKeys } from "@/data/navbruker/navbrukerQueryHooks";
 import { daysFromToday } from "../../testUtils";
+import dayjs from "dayjs";
 
 let queryClient: any;
 
@@ -158,7 +162,7 @@ describe("PersonkortHeader", () => {
     renderPersonkortHeader();
 
     expect(screen.getByText("Maksdato:")).to.exist;
-    expect(screen.getByText("01.12.2023")).to.exist;
+    expect(screen.getByText(dayjs(maksdato).format("DD.MM.YYYY"))).to.exist;
     expect(screen.getByText("Utbetalt tom:")).to.exist;
     expect(screen.getByText("01.07.2024")).to.exist;
   });

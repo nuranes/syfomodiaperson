@@ -42,7 +42,7 @@ export const FattVedtak = (): ReactElement => {
   const [fattVedtakStarted, setFattVedtakStarted] = useState(false);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col [&>*]:mb-4">
       <Box
         background="surface-default"
         padding="6"

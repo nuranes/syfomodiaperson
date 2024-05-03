@@ -17,6 +17,9 @@ import dayjs from "dayjs";
 import { VedtakRequestDTO } from "@/data/frisktilarbeid/frisktilarbeidTypes";
 import { behandlereDialogmeldingMock } from "../../mock/isdialogmelding/behandlereDialogmeldingMock";
 import { addWeeks } from "@/utils/datoUtils";
+import { maksdatoQueryKeys } from "@/data/maksdato/useMaksdatoQuery";
+import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
+import { maksdatoMock } from "../../mock/syfoperson/persondataMock";
 import {
   getExpectedBehandlerDocument,
   getExpectedVedtakDocument,
@@ -27,6 +30,7 @@ let queryClient: QueryClient;
 const mockBehandler = behandlereDialogmeldingMock[0];
 const today = dayjs();
 const inTwelveWeeks = dayjs(addWeeks(today.toDate(), 12));
+const threeWeeksAgo = dayjs(addWeeks(today.toDate(), -3));
 const enBegrunnelse = "En begrunnelse";
 
 const renderFattVedtakSkjema = () =>
@@ -49,9 +53,9 @@ describe("FattVedtakSkjema", () => {
     renderFattVedtakSkjema();
 
     expect(getTextInput("Friskmeldingen gjelder fra")).to.exist;
-    const tilDatoInput = getTextInput(
-      "Til dato (automatisk justert 12 uker frem)"
-    );
+    const tilDatoInput = screen.getByRole("textbox", {
+      name: /Til dato/,
+    });
     expect(tilDatoInput).to.exist;
     expect(tilDatoInput).to.have.property("readOnly", true);
 
@@ -64,6 +68,39 @@ describe("FattVedtakSkjema", () => {
 
     expect(screen.getByRole("button", { name: "Fatt vedtak" })).to.exist;
     expect(screen.getByRole("button", { name: "Forhåndsvisning" })).to.exist;
+  });
+
+  it("beregner tom-dato basert på maksdato", () => {
+    const maksdato = {
+      maxDate: {
+        ...maksdatoMock.maxDate,
+        forelopig_beregnet_slutt: addWeeks(new Date(), 10),
+      },
+    };
+
+    queryClient.setQueryData(
+      maksdatoQueryKeys.maksdato(ARBEIDSTAKER_DEFAULT.personIdent),
+      () => maksdato
+    );
+
+    renderFattVedtakSkjema();
+
+    const fraDato = getTextInput("Friskmeldingen gjelder fra");
+    changeTextInput(fraDato, threeWeeksAgo.format("DD.MM.YYYY"));
+
+    expect(screen.getByText("Automatisk justert 12 uker frem")).to.exist;
+    expect(screen.queryByText("Automatisk justert til maksdato")).to.not.exist;
+
+    changeTextInput(fraDato, today.format("DD.MM.YYYY"));
+
+    expect(
+      screen.getByText(
+        "Foreløpig beregnet maksdato er tidligere enn 12 uker frem:",
+        { exact: false }
+      )
+    ).to.exist;
+    expect(screen.getByText("Automatisk justert til maksdato")).to.exist;
+    expect(screen.queryByText("Automatisk justert 12 uker frem")).to.not.exist;
   });
 
   it("viser behandlersøk ved klikk på 'Søk etter behandler'", () => {
