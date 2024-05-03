@@ -35,6 +35,7 @@ export const useFriskmeldingTilArbeidsformidlingDocument = (): {
       createParagraph(behandlermeldingTexts.periode),
       createParagraph(behandlermeldingTexts.vedtak),
       createParagraph(behandlermeldingTexts.hjemmel),
+      createParagraph(behandlermeldingTexts.noSykmelding),
       getHilsen(),
     ];
   };

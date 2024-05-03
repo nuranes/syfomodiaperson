@@ -52,6 +52,12 @@ export const getExpectedBehandlerDocument = (
       type: DocumentComponentType.PARAGRAPH,
     },
     {
+      texts: [
+        "I perioden vedtaket gjelder skal du ikke skrive sykmelding til NAV, med mindre det skjer en forverring i pasientens helsesituasjon.",
+      ],
+      type: DocumentComponentType.PARAGRAPH,
+    },
+    {
       texts: ["Med vennlig hilsen", VEILEDER_DEFAULT.fulltNavn(), "NAV"],
       type: DocumentComponentType.PARAGRAPH,
     },

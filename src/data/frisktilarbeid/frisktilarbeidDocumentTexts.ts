@@ -20,6 +20,8 @@ export const getBehandlermeldingTexts = ({
   )} til ${toReadableDateOrEmpty(tom)}.`,
   vedtak: "Din pasient har fått eget vedtak tilsendt.",
   hjemmel: "Vedtaket er hjemlet i folketrygdloven § 8-5.",
+  noSykmelding:
+    "I perioden vedtaket gjelder skal du ikke skrive sykmelding til NAV, med mindre det skjer en forverring i pasientens helsesituasjon.",
 });
 
 export const getVedtakTexts = ({ fom, tom }: VedtakTextsValues) => ({
