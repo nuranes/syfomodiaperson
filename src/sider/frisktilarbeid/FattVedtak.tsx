@@ -1,5 +1,5 @@
-import React, { ReactElement, useState } from "react";
-import { BodyShort, Box, Button, Heading, List } from "@navikt/ds-react";
+import React, { ReactElement } from "react";
+import { BodyShort, Box, Heading, List } from "@navikt/ds-react";
 import { FattVedtakSkjema } from "@/sider/frisktilarbeid/FattVedtakSkjema";
 
 const texts = {
@@ -21,44 +21,24 @@ const texts = {
   button: "Vurder vedtak",
 };
 
-const VedtakForberedelser = () => (
-  <div>
-    <Heading level="3" size="small">
-      {texts.forberedelser.title}
-    </Heading>
-    <BodyShort size="small">{texts.forberedelser.intro}</BodyShort>
-    <List as="ul" size="small">
-      {texts.forberedelser.preparations.map((text, index) => (
-        <List.Item key={index}>{text}</List.Item>
-      ))}
-    </List>
-    <BodyShort className="mt-6" size="small">
-      {texts.forberedelser.disclaimer}
-    </BodyShort>
-  </div>
-);
-
 export const FattVedtak = (): ReactElement => {
-  const [fattVedtakStarted, setFattVedtakStarted] = useState(false);
-
   return (
     <div className="flex flex-col [&>*]:mb-4">
-      <Box
-        background="surface-default"
-        padding="6"
-        className="flex flex-col gap-4"
-      >
-        <VedtakForberedelser />
-        {!fattVedtakStarted && (
-          <Button
-            className="mt-4 w-fit"
-            onClick={() => setFattVedtakStarted(true)}
-          >
-            {texts.button}
-          </Button>
-        )}
+      <Box background="surface-default" padding="6">
+        <Heading level="3" size="small">
+          {texts.forberedelser.title}
+        </Heading>
+        <BodyShort size="small">{texts.forberedelser.intro}</BodyShort>
+        <List as="ul" size="small">
+          {texts.forberedelser.preparations.map((text, index) => (
+            <List.Item key={index}>{text}</List.Item>
+          ))}
+        </List>
+        <BodyShort className="mt-6" size="small">
+          {texts.forberedelser.disclaimer}
+        </BodyShort>
       </Box>
-      {fattVedtakStarted && <FattVedtakSkjema />}
+      <FattVedtakSkjema />
     </div>
   );
 };
