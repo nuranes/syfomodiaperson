@@ -11,7 +11,7 @@ import {
 import { Forhandsvisning } from "@/components/Forhandsvisning";
 import { FormProvider, useForm } from "react-hook-form";
 import { VedtakFraDato } from "@/sider/frisktilarbeid/VedtakFraDato";
-import { addWeeks } from "@/utils/datoUtils";
+import { addDays, addWeeks } from "@/utils/datoUtils";
 import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
 import { VelgBehandler } from "@/components/behandler/VelgBehandler";
 import { useFattVedtak } from "@/data/frisktilarbeid/useFattVedtak";
@@ -42,9 +42,11 @@ const texts = {
 };
 
 function calculateTomDate(fomDato: Date, maksDato: Date | undefined): Date {
+  // Ettersom det er til-og-med dato, trekker vi fra en dag
   const twelveWeeksFromFomDato = addWeeks(fomDato, 12);
-  if (!maksDato || dayjs(twelveWeeksFromFomDato).isBefore(dayjs(maksDato))) {
-    return twelveWeeksFromFomDato;
+  const tomDato = addDays(twelveWeeksFromFomDato, -1);
+  if (!maksDato || dayjs(tomDato).isBefore(dayjs(maksDato))) {
+    return tomDato;
   } else {
     return maksDato;
   }

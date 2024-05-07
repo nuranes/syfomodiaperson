@@ -16,7 +16,7 @@ import { changeTextInput, clickButton, getTextInput } from "../testUtils";
 import dayjs from "dayjs";
 import { VedtakRequestDTO } from "@/data/frisktilarbeid/frisktilarbeidTypes";
 import { behandlereDialogmeldingMock } from "../../mock/isdialogmelding/behandlereDialogmeldingMock";
-import { addWeeks } from "@/utils/datoUtils";
+import { addDays, addWeeks } from "@/utils/datoUtils";
 import { maksdatoQueryKeys } from "@/data/maksdato/useMaksdatoQuery";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import { maksdatoMock } from "../../mock/syfoperson/persondataMock";
@@ -29,7 +29,9 @@ let queryClient: QueryClient;
 
 const mockBehandler = behandlereDialogmeldingMock[0];
 const today = dayjs();
-const inTwelveWeeks = dayjs(addWeeks(today.toDate(), 12));
+const inTwelveWeeksMinusOneDay = dayjs(
+  addDays(addWeeks(today.toDate(), 12), -1)
+);
 const threeWeeksAgo = dayjs(addWeeks(today.toDate(), -3));
 const enBegrunnelse = "En begrunnelse";
 
@@ -140,16 +142,16 @@ describe("FattVedtakSkjema", () => {
 
     const expectedVedtakRequest: VedtakRequestDTO = {
       fom: today.format("YYYY-MM-DD"),
-      tom: inTwelveWeeks.format("YYYY-MM-DD"),
+      tom: inTwelveWeeksMinusOneDay.format("YYYY-MM-DD"),
       begrunnelse: enBegrunnelse,
       document: getExpectedVedtakDocument(
         today.toDate(),
-        inTwelveWeeks.toDate(),
+        inTwelveWeeksMinusOneDay.toDate(),
         enBegrunnelse
       ),
       behandlerDocument: getExpectedBehandlerDocument(
         today.toDate(),
-        inTwelveWeeks.toDate()
+        inTwelveWeeksMinusOneDay.toDate()
       ),
       behandlerNavn: `${mockBehandler.fornavn} ${mockBehandler.mellomnavn} ${mockBehandler.etternavn}`,
       behandlerRef: mockBehandler.behandlerRef,
