@@ -105,6 +105,29 @@ describe("FattVedtakSkjema", () => {
     expect(screen.queryByText("Automatisk justert 12 uker frem")).to.not.exist;
   });
 
+  it("viser ikke maksdato-alert når ingen dato er valgt og maksdato er undefined", () => {
+    const maksdato = {
+      maxDate: {
+        ...maksdatoMock.maxDate,
+        forelopig_beregnet_slutt: undefined,
+      },
+    };
+
+    queryClient.setQueryData(
+      maksdatoQueryKeys.maksdato(ARBEIDSTAKER_DEFAULT.personIdent),
+      () => maksdato
+    );
+
+    renderFattVedtakSkjema();
+
+    expect(
+      screen.queryByText(
+        "Foreløpig beregnet maksdato er tidligere enn 12 uker frem:",
+        { exact: false }
+      )
+    ).to.not.exist;
+  });
+
   it("viser behandlersøk ved klikk på 'Søk etter behandler'", () => {
     renderFattVedtakSkjema();
 

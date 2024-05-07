@@ -88,9 +88,9 @@ export const FattVedtakSkjema = () => {
     ? calculateTomDate(fraDato, maksDato?.maxDate?.forelopig_beregnet_slutt)
     : undefined;
 
-  const tilDatoIsMaxDato = dayjs(tilDato).isSame(
-    dayjs(maksDato?.maxDate?.forelopig_beregnet_slutt)
-  );
+  const tilDatoIsMaxDato =
+    !!tilDato &&
+    dayjs(tilDato).isSame(dayjs(maksDato?.maxDate?.forelopig_beregnet_slutt));
 
   const submit = (values: FattVedtakSkjemaValues) => {
     const vedtakRequestDTO: VedtakRequestDTO = {
