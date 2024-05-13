@@ -48,7 +48,6 @@ describe("FriskmeldingTilArbeidsformidling", () => {
 
       expect(getTextInput("Friskmeldingen gjelder fra")).to.exist;
       expect(screen.getByRole("textbox", { name: /Til dato/ })).to.exist;
-      expect(screen.getByRole("group", { name: "Velg behandler" })).to.exist;
       expect(getTextInput("Begrunnelse")).to.exist;
       expect(screen.getByRole("button", { name: "Fatt vedtak" })).to.exist;
       expect(screen.getByRole("button", { name: "Forhåndsvisning" })).to.exist;

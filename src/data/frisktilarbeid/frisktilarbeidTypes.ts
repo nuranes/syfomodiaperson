@@ -5,9 +5,6 @@ export interface VedtakRequestDTO {
   tom: string;
   begrunnelse: string;
   document: DocumentComponentDto[];
-  behandlerRef: string;
-  behandlerNavn: string;
-  behandlerDocument: DocumentComponentDto[];
 }
 
 export interface VedtakResponseDTO {

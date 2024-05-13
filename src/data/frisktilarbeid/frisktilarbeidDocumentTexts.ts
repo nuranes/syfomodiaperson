@@ -1,28 +1,9 @@
 import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
 
-export type BehandlermeldingTextsValues = {
-  fom: Date | undefined;
-  tom: Date | undefined;
-};
-
 export type VedtakTextsValues = {
   fom: Date | undefined;
   tom: Date | undefined;
 };
-
-export const getBehandlermeldingTexts = ({
-  fom,
-  tom,
-}: BehandlermeldingTextsValues) => ({
-  header: "Informasjon om vedtak om friskmelding til arbeidsformidling",
-  periode: `Periode fra ${toReadableDateOrEmpty(
-    fom
-  )} til ${toReadableDateOrEmpty(tom)}.`,
-  vedtak: "Din pasient har fått eget vedtak tilsendt.",
-  hjemmel: "Vedtaket er hjemlet i folketrygdloven § 8-5.",
-  noSykmelding:
-    "I perioden vedtaket gjelder skal du ikke skrive sykmelding til NAV, med mindre det skjer en forverring i pasientens helsesituasjon.",
-});
 
 export const getVedtakTexts = ({ fom, tom }: VedtakTextsValues) => ({
   header: "Vedtak om friskmelding til arbeidsformidling",
@@ -38,6 +19,8 @@ export const getVedtakTexts = ({ fom, tom }: VedtakTextsValues) => ({
     part2: "For å registrere deg går du inn på nav.no/arbeid/registrering.",
   },
   hjemmel: "Dette vedtaket er gjort etter folketrygdloven paragraf 8-5.",
+  behandler:
+    "NAV har ikke delt informasjon med legen din om at du er innvilget ordningen friskmeldt til arbeidsformidling. Du må gjerne selv informere legen din om dette. Legen din trenger ikke å skrive ut sykmelding i perioden vedtaket gjelder.",
   begrunnelse: {
     header: "Begrunnelse",
     part1:

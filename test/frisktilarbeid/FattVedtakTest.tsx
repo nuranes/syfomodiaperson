@@ -1,11 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import {
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-  within,
-} from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
 import React from "react";
@@ -15,19 +9,14 @@ import { expect } from "chai";
 import { changeTextInput, clickButton, getTextInput } from "../testUtils";
 import dayjs from "dayjs";
 import { VedtakRequestDTO } from "@/data/frisktilarbeid/frisktilarbeidTypes";
-import { behandlereDialogmeldingMock } from "../../mock/isdialogmelding/behandlereDialogmeldingMock";
 import { addDays, addWeeks } from "@/utils/datoUtils";
 import { maksdatoQueryKeys } from "@/data/maksdato/useMaksdatoQuery";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import { maksdatoMock } from "../../mock/syfoperson/persondataMock";
-import {
-  getExpectedBehandlerDocument,
-  getExpectedVedtakDocument,
-} from "./frisktilarbeidTestData";
+import { getExpectedVedtakDocument } from "./frisktilarbeidTestData";
 
 let queryClient: QueryClient;
 
-const mockBehandler = behandlereDialogmeldingMock[0];
 const today = dayjs();
 const inTwelveWeeksMinusOneDay = dayjs(
   addDays(addWeeks(today.toDate(), 12), -1)
@@ -60,11 +49,6 @@ describe("FattVedtakSkjema", () => {
     });
     expect(tilDatoInput).to.exist;
     expect(tilDatoInput).to.have.property("readOnly", true);
-
-    expect(screen.getByRole("group", { name: "Velg behandler" })).to.exist;
-    expect(screen.getByRole("radio", { name: /Fastlege/ })).to.exist;
-    expect(screen.getByRole("radio", { name: "Søk etter behandler" })).to.exist;
-    expect(screen.queryByRole("searchbox")).to.not.exist;
 
     expect(getTextInput("Begrunnelse")).to.exist;
 
@@ -128,25 +112,13 @@ describe("FattVedtakSkjema", () => {
     ).to.not.exist;
   });
 
-  it("viser behandlersøk ved klikk på 'Søk etter behandler'", () => {
-    renderFattVedtakSkjema();
-
-    const searchBehandlerOption = screen.getByRole("radio", {
-      name: "Søk etter behandler",
-    });
-    fireEvent.click(searchBehandlerOption);
-
-    expect(screen.getByRole("searchbox")).to.exist;
-  });
-
-  it("validerer fra-dato, begrunnelse og behandler", async () => {
+  it("validerer fra-dato og begrunnelse", async () => {
     renderFattVedtakSkjema();
 
     clickButton("Fatt vedtak");
 
     expect(await screen.findByText("Vennligst angi begrunnelse")).to.exist;
     expect(await screen.findByText("Vennligst angi dato")).to.exist;
-    expect(await screen.findByText("Vennligst velg behandler")).to.exist;
   });
 
   it("fatter vedtak med verdier fra skjema", async () => {
@@ -154,9 +126,6 @@ describe("FattVedtakSkjema", () => {
 
     const fraDato = getTextInput("Friskmeldingen gjelder fra");
     changeTextInput(fraDato, today.format("DD.MM.YYYY"));
-
-    const velgFastlegeOption = screen.getByRole("radio", { name: /Fastlege/ });
-    fireEvent.click(velgFastlegeOption);
 
     const begrunnelseInput = getTextInput("Begrunnelse");
     changeTextInput(begrunnelseInput, enBegrunnelse);
@@ -172,12 +141,6 @@ describe("FattVedtakSkjema", () => {
         inTwelveWeeksMinusOneDay.toDate(),
         enBegrunnelse
       ),
-      behandlerDocument: getExpectedBehandlerDocument(
-        today.toDate(),
-        inTwelveWeeksMinusOneDay.toDate()
-      ),
-      behandlerNavn: `${mockBehandler.fornavn} ${mockBehandler.mellomnavn} ${mockBehandler.etternavn}`,
-      behandlerRef: mockBehandler.behandlerRef,
     };
 
     await waitFor(() => {

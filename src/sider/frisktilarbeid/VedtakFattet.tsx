@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 
 const texts = {
   alert:
-    "Vedtaket om friskmelding til arbeidsformidling er nå fattet og sendt til bruker. Du finner igjen vedtaket i historikken. Behandler er automatisk informert om vedtaket. Ny oppgave er lagt til i oversikten din.",
+    "Vedtaket om friskmelding til arbeidsformidling er nå fattet og sendt til bruker. Du finner igjen vedtaket i historikken. Ny oppgave er lagt til i oversikten din.",
   heading: "Friskmelding til arbeidsformidling starter:",
   husk: "Dagen før vedtaket starter må du huske å gjøre følgende:",
   steps: [

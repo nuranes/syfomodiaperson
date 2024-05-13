@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode } from "react";
 import {
   Alert,
   Box,
@@ -12,13 +12,10 @@ import { Forhandsvisning } from "@/components/Forhandsvisning";
 import { FormProvider, useForm } from "react-hook-form";
 import { VedtakFraDato } from "@/sider/frisktilarbeid/VedtakFraDato";
 import { addDays, addWeeks } from "@/utils/datoUtils";
-import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
-import { VelgBehandler } from "@/components/behandler/VelgBehandler";
 import { useFattVedtak } from "@/data/frisktilarbeid/useFattVedtak";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { VedtakRequestDTO } from "@/data/frisktilarbeid/frisktilarbeidTypes";
 import dayjs from "dayjs";
-import { behandlerNavn } from "@/utils/behandlerUtils";
 import { useFriskmeldingTilArbeidsformidlingDocument } from "@/hooks/frisktilarbeid/useFriskmeldingTilArbeidsformidlingDocument";
 import { useMaksdatoQuery } from "@/data/maksdato/useMaksdatoQuery";
 
@@ -30,7 +27,6 @@ const texts = {
   begrunnelseDescription: "Åpne forhåndsvisning for å se hele vedtaket",
   previewContentLabel: "Forhåndsvis vedtaket",
   primaryButton: "Fatt vedtak",
-  velgBehandlerLegend: "Velg behandler",
   tilDatoLabel: "Til dato",
   tilDatoDescription: (tilDatoIsMaxDato: boolean) =>
     tilDatoIsMaxDato
@@ -66,14 +62,11 @@ function DatepickerLabel(): ReactNode {
 export interface FattVedtakSkjemaValues {
   fraDato: Date;
   begrunnelse: string;
-  behandlerRef: string;
 }
 
 export const FattVedtakSkjema = () => {
-  const [selectedBehandler, setSelectedBehandler] = useState<BehandlerDTO>();
   const fattVedtak = useFattVedtak();
-  const { getBehandlermeldingDocument, getVedtakDocument } =
-    useFriskmeldingTilArbeidsformidlingDocument();
+  const { getVedtakDocument } = useFriskmeldingTilArbeidsformidlingDocument();
   const { data: maksDato } = useMaksdatoQuery();
   const methods = useForm<FattVedtakSkjemaValues>();
   const {
@@ -102,12 +95,6 @@ export const FattVedtakSkjema = () => {
         tom: tilDato,
         begrunnelse: values.begrunnelse,
       }),
-      behandlerRef: values.behandlerRef,
-      behandlerNavn: selectedBehandler ? behandlerNavn(selectedBehandler) : "",
-      behandlerDocument: getBehandlermeldingDocument({
-        fom: values.fraDato,
-        tom: tilDato,
-      }),
     };
     fattVedtak.mutate(vedtakRequestDTO);
   };
@@ -135,10 +122,6 @@ export const FattVedtakSkjema = () => {
                 />
               </DatePicker>
             </div>
-            <VelgBehandler
-              legend={texts.velgBehandlerLegend}
-              onBehandlerSelected={setSelectedBehandler}
-            />
             <Textarea
               {...register("begrunnelse", {
                 required: texts.begrunnelseMissing,

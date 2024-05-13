@@ -20,50 +20,6 @@ export const createVedtak = (fom: Date): VedtakResponseDTO => ({
   document: [],
 });
 
-export const getExpectedBehandlerDocument = (
-  fom: Date,
-  tom: Date
-): DocumentComponentDto[] => {
-  return [
-    {
-      texts: ["Informasjon om vedtak om friskmelding til arbeidsformidling"],
-      type: DocumentComponentType.HEADER_H1,
-    },
-    {
-      texts: [
-        `Gjelder ${ARBEIDSTAKER_DEFAULT_FULL_NAME}, f.nr. ${ARBEIDSTAKER_DEFAULT.personIdent}`,
-      ],
-      type: DocumentComponentType.PARAGRAPH,
-    },
-    {
-      texts: [
-        `Periode fra ${tilLesbarDatoMedArUtenManedNavn(
-          fom
-        )} til ${tilLesbarDatoMedArUtenManedNavn(tom)}.`,
-      ],
-      type: DocumentComponentType.PARAGRAPH,
-    },
-    {
-      texts: ["Din pasient har fått eget vedtak tilsendt."],
-      type: DocumentComponentType.PARAGRAPH,
-    },
-    {
-      texts: ["Vedtaket er hjemlet i folketrygdloven § 8-5."],
-      type: DocumentComponentType.PARAGRAPH,
-    },
-    {
-      texts: [
-        "I perioden vedtaket gjelder skal du ikke skrive sykmelding til NAV, med mindre det skjer en forverring i pasientens helsesituasjon.",
-      ],
-      type: DocumentComponentType.PARAGRAPH,
-    },
-    {
-      texts: ["Med vennlig hilsen", VEILEDER_DEFAULT.fulltNavn(), "NAV"],
-      type: DocumentComponentType.PARAGRAPH,
-    },
-  ];
-};
-
 export const getExpectedVedtakDocument = (
   fom: Date,
   tom: Date,
@@ -142,6 +98,12 @@ export const getExpectedVedtakDocument = (
     },
     {
       texts: ["Les mer på nav.no/arbeidsledig."],
+      type: DocumentComponentType.PARAGRAPH,
+    },
+    {
+      texts: [
+        "NAV har ikke delt informasjon med legen din om at du er innvilget ordningen friskmeldt til arbeidsformidling. Du må gjerne selv informere legen din om dette. Legen din trenger ikke å skrive ut sykmelding i perioden vedtaket gjelder.",
+      ],
       type: DocumentComponentType.PARAGRAPH,
     },
     {
