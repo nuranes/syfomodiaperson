@@ -21,6 +21,7 @@ const today = dayjs();
 const inTwelveWeeksMinusOneDay = dayjs(
   addDays(addWeeks(today.toDate(), 12), -1)
 );
+const inTenWeeks = dayjs(addWeeks(new Date(), 10));
 const threeWeeksAgo = dayjs(addWeeks(today.toDate(), -3));
 const enBegrunnelse = "En begrunnelse";
 
@@ -60,7 +61,7 @@ describe("FattVedtakSkjema", () => {
     const maksdato = {
       maxDate: {
         ...maksdatoMock.maxDate,
-        forelopig_beregnet_slutt: addWeeks(new Date(), 10),
+        forelopig_beregnet_slutt: inTenWeeks.toDate(),
       },
     };
 
@@ -136,11 +137,54 @@ describe("FattVedtakSkjema", () => {
       fom: today.format("YYYY-MM-DD"),
       tom: inTwelveWeeksMinusOneDay.format("YYYY-MM-DD"),
       begrunnelse: enBegrunnelse,
-      document: getExpectedVedtakDocument(
-        today.toDate(),
-        inTwelveWeeksMinusOneDay.toDate(),
-        enBegrunnelse
-      ),
+      document: getExpectedVedtakDocument({
+        fom: today.toDate(),
+        tom: inTwelveWeeksMinusOneDay.toDate(),
+        begrunnelse: enBegrunnelse,
+        tilDatoIsMaxDato: false,
+      }),
+    };
+
+    await waitFor(() => {
+      const fattVedtakMutation = queryClient.getMutationCache().getAll().pop();
+      expect(fattVedtakMutation?.state.variables).to.deep.equal(
+        expectedVedtakRequest
+      );
+    });
+  });
+
+  it("fatter vedtak med setning om maksdato når tom-dato er maksdato", async () => {
+    const maksdato = {
+      maxDate: {
+        ...maksdatoMock.maxDate,
+        forelopig_beregnet_slutt: inTenWeeks.toDate(),
+      },
+    };
+
+    queryClient.setQueryData(
+      maksdatoQueryKeys.maksdato(ARBEIDSTAKER_DEFAULT.personIdent),
+      () => maksdato
+    );
+
+    renderFattVedtakSkjema();
+
+    const fraDato = getTextInput("Friskmeldingen gjelder fra");
+    changeTextInput(fraDato, today.format("DD.MM.YYYY"));
+    const begrunnelseInput = getTextInput("Begrunnelse");
+    changeTextInput(begrunnelseInput, enBegrunnelse);
+
+    clickButton("Fatt vedtak");
+
+    const expectedVedtakRequest: VedtakRequestDTO = {
+      fom: today.format("YYYY-MM-DD"),
+      tom: inTenWeeks.format("YYYY-MM-DD"),
+      begrunnelse: enBegrunnelse,
+      document: getExpectedVedtakDocument({
+        fom: today.toDate(),
+        tom: inTenWeeks.toDate(),
+        begrunnelse: enBegrunnelse,
+        tilDatoIsMaxDato: true,
+      }),
     };
 
     await waitFor(() => {

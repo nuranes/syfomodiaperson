@@ -20,11 +20,19 @@ export const createVedtak = (fom: Date): VedtakResponseDTO => ({
   document: [],
 });
 
-export const getExpectedVedtakDocument = (
-  fom: Date,
-  tom: Date,
-  begrunnelse: string
-): DocumentComponentDto[] => {
+type ExpectedVedtakDocumentOptions = {
+  fom: Date;
+  tom: Date;
+  begrunnelse: string;
+  tilDatoIsMaxDato: boolean;
+};
+
+export const getExpectedVedtakDocument = ({
+  fom,
+  tom,
+  begrunnelse,
+  tilDatoIsMaxDato,
+}: ExpectedVedtakDocumentOptions): DocumentComponentDto[] => {
   return [
     {
       texts: ["Vedtak om friskmelding til arbeidsformidling"],
@@ -50,6 +58,18 @@ export const getExpectedVedtakDocument = (
       ],
       type: DocumentComponentType.PARAGRAPH,
     },
+    ...(tilDatoIsMaxDato
+      ? [
+          {
+            texts: [
+              `Siden din maksdato for sykepenger er beregnet til ${tilLesbarDatoMedArUtenManedNavn(
+                tom
+              )}, vil du ikke få sykepenger etter denne datoen.`,
+            ],
+            type: DocumentComponentType.PARAGRAPH,
+          },
+        ]
+      : []),
     {
       texts: [
         `Et vilkår for å motta sykepenger i denne perioden er at du har registrert deg som arbeidssøker hos NAV. For at dette vedtaket skal være gyldig må du derfor gjøre dette før ${tilLesbarDatoMedArUtenManedNavn(

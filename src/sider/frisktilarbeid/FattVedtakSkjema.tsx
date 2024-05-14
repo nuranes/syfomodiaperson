@@ -94,6 +94,7 @@ export const FattVedtakSkjema = () => {
         fom: values.fraDato,
         tom: tilDato,
         begrunnelse: values.begrunnelse,
+        tilDatoIsMaxDato,
       }),
     };
     fattVedtak.mutate(vedtakRequestDTO);
@@ -152,6 +153,7 @@ export const FattVedtakSkjema = () => {
                   fom: fraDato,
                   tom: tilDato,
                   begrunnelse: watch("begrunnelse"),
+                  tilDatoIsMaxDato,
                 })
               }
             />

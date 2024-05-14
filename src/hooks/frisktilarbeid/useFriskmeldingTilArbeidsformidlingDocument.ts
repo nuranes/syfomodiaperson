@@ -12,6 +12,7 @@ import {
 
 type VedtakDocumentValues = VedtakTextsValues & {
   begrunnelse: string | undefined;
+  tilDatoIsMaxDato: boolean;
 };
 
 export const useFriskmeldingTilArbeidsformidlingDocument = (): {
@@ -28,6 +29,13 @@ export const useFriskmeldingTilArbeidsformidlingDocument = (): {
       getBrukerNavnFnr(),
       createParagraph(vedtakTexts.intro),
       createParagraph(vedtakTexts.periode),
+    ];
+
+    if (values.tilDatoIsMaxDato) {
+      documentComponentDtos.push(createParagraph(vedtakTexts.maksdato));
+    }
+
+    documentComponentDtos.push(
       createParagraph(
         vedtakTexts.arbeidssoker.part1,
         vedtakTexts.arbeidssoker.part2
@@ -36,8 +44,8 @@ export const useFriskmeldingTilArbeidsformidlingDocument = (): {
       createParagraphWithTitle(
         vedtakTexts.begrunnelse.header,
         vedtakTexts.begrunnelse.part1
-      ),
-    ];
+      )
+    );
 
     if (values.begrunnelse) {
       documentComponentDtos.push(createParagraph(values.begrunnelse));

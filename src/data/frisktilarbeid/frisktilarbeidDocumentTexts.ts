@@ -12,6 +12,9 @@ export const getVedtakTexts = ({ fom, tom }: VedtakTextsValues) => ({
   periode: `For deg gjelder dette perioden ${toReadableDateOrEmpty(
     fom
   )} til ${toReadableDateOrEmpty(tom)}.`,
+  maksdato: `Siden din maksdato for sykepenger er beregnet til ${tilLesbarDatoMedArUtenManedNavn(
+    tom
+  )}, vil du ikke få sykepenger etter denne datoen.`,
   arbeidssoker: {
     part1: `Et vilkår for å motta sykepenger i denne perioden er at du har registrert deg som arbeidssøker hos NAV. For at dette vedtaket skal være gyldig må du derfor gjøre dette før ${toReadableDateOrEmpty(
       fom
