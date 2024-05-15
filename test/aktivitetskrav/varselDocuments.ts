@@ -132,13 +132,17 @@ export const getSendForhandsvarselDocument = (
     frist: expectedFristDate,
     mal,
   });
-  return [
+  const documentComponents = [
     {
       texts: [sendForhandsvarselTexts.varselInfo.header],
       type: DocumentComponentType.HEADER_H1,
     },
     {
-      texts: [sendForhandsvarselTexts.varselInfo.introWithFristDate],
+      texts: [sendForhandsvarselTexts.varselInfo.intro],
+      type: DocumentComponentType.PARAGRAPH,
+    },
+    {
+      texts: [sendForhandsvarselTexts.varselInfo.stans],
       type: DocumentComponentType.PARAGRAPH,
     },
     {
@@ -157,6 +161,16 @@ export const getSendForhandsvarselDocument = (
       ],
       type: DocumentComponentType.BULLET_POINTS,
     },
+  ];
+
+  if (mal === Brevmal.UTLAND) {
+    documentComponents.push({
+      texts: [sendForhandsvarselTexts.utland.dokumentasjon],
+      type: DocumentComponentType.PARAGRAPH,
+    });
+  }
+
+  documentComponents.push(
     {
       texts: [sendForhandsvarselTexts.giOssTilbakemelding.header],
       type: DocumentComponentType.HEADER_H3,
@@ -186,6 +200,8 @@ export const getSendForhandsvarselDocument = (
     {
       texts: ["Med vennlig hilsen", VEILEDER_DEFAULT.fulltNavn(), "NAV"],
       type: DocumentComponentType.PARAGRAPH,
-    },
-  ];
+    }
+  );
+
+  return documentComponents;
 };

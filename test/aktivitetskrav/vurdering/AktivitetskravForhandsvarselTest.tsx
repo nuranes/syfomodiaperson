@@ -181,6 +181,53 @@ describe("VurderAktivitetskrav forhåndsvarsel", () => {
       );
     });
 
+    it("Send forhåndsvarsel with mal 'Bosatt i Norge'", async () => {
+      renderVurderAktivitetskrav(aktivitetskrav);
+      stubVurderAktivitetskravForhandsvarselApi(apiMockScope);
+      const beskrivelseLabel = "Begrunnelse (obligatorisk)";
+
+      clickTab(tabTexts["FORHANDSVARSEL"]);
+
+      expect(
+        screen.getByRole("heading", {
+          name: "Send forhåndsvarsel",
+        })
+      ).to.exist;
+
+      expect(screen.getByRole("textbox", { name: beskrivelseLabel })).to.exist;
+      expect(screen.getByText("Forhåndsvisning")).to.exist;
+
+      const beskrivelseInput = getTextInput(beskrivelseLabel);
+      changeTextInput(beskrivelseInput, enLangBeskrivelse);
+
+      const velgMalSelect = screen.getByRole("combobox");
+      fireEvent.change(velgMalSelect, {
+        target: { value: "UTLAND" },
+      });
+
+      clickButton("Send");
+
+      await waitFor(() => {
+        const sendForhandsvarselMutation = queryClient
+          .getMutationCache()
+          .getAll()[0];
+        const expectedVurdering: SendForhandsvarselDTO = {
+          fritekst: enLangBeskrivelse,
+          document: getSendForhandsvarselDocument(
+            enLangBeskrivelse,
+            Brevmal.UTLAND
+          ),
+        };
+        expect(sendForhandsvarselMutation.state.variables).to.deep.equal(
+          expectedVurdering
+        );
+      });
+
+      await waitFor(
+        () => expect(screen.queryByText(enLangBeskrivelse)).to.not.exist
+      );
+    });
+
     it("IKKE_OPPFYLT is present when status is forhandsvarsel and it is expired", () => {
       queryClient.setQueryData(
         personoppgaverQueryKeys.personoppgaver(

@@ -37,6 +37,7 @@ const brevMalTexts: {
 } = {
   [Brevmal.MED_ARBEIDSGIVER]: "Har arbeidsgiver",
   [Brevmal.UTEN_ARBEIDSGIVER]: "Har ikke arbeidsgiver",
+  [Brevmal.UTLAND]: "Bosatt i utlandet",
 };
 
 const forhandsvarselFrist = addWeeks(new Date(), 3);

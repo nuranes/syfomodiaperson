@@ -46,7 +46,8 @@ export const useAktivitetskravVarselDocument = (): {
 
     const documentComponents = [
       createHeaderH1(sendForhandsvarselTexts.varselInfo.header),
-      createParagraph(sendForhandsvarselTexts.varselInfo.introWithFristDate),
+      createParagraph(sendForhandsvarselTexts.varselInfo.intro),
+      createParagraph(sendForhandsvarselTexts.varselInfo.stans),
     ];
 
     if (begrunnelse) {
@@ -59,8 +60,16 @@ export const useAktivitetskravVarselDocument = (): {
         sendForhandsvarselTexts.unngaStansInfo.tiltak1,
         sendForhandsvarselTexts.unngaStansInfo.tiltak2,
         sendForhandsvarselTexts.unngaStansInfo.tiltak3
-      ),
+      )
+    );
 
+    if (mal === Brevmal.UTLAND) {
+      documentComponents.push(
+        createParagraph(sendForhandsvarselTexts.utland.dokumentasjon)
+      );
+    }
+
+    documentComponents.push(
       createHeaderH3(sendForhandsvarselTexts.giOssTilbakemelding.header),
       createParagraph(
         sendForhandsvarselTexts.giOssTilbakemelding.tilbakemeldingWithFristDate

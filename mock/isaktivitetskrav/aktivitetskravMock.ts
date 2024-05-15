@@ -102,7 +102,11 @@ const getForhandsvarselDocument = (
     },
     {
       type: DocumentComponentType.PARAGRAPH,
-      texts: [sendForhandsvarselTexts.varselInfo.introWithFristDate],
+      texts: [sendForhandsvarselTexts.varselInfo.intro],
+    },
+    {
+      type: DocumentComponentType.PARAGRAPH,
+      texts: [sendForhandsvarselTexts.varselInfo.stans],
     },
   ];
 
