@@ -76,7 +76,7 @@ const introText = (mal: Brevmal): string => {
     case Brevmal.UTEN_ARBEIDSGIVER:
       return "Du har nå vært sykmeldt i mer enn åtte uker. Da har du plikt til å være i aktivitet.";
     case Brevmal.UTLAND:
-      return "Du har nå vært sykmeldt i mer enn åtte uker. Da har du plikt til å være i aktivitet. Vi gjør oppmerksom på det er vanlig praksis i Norge å være sykmeldt gradert mens man jobber gradert. Det er også vanlig praksis å kombinere jobb, eventuelt gradert jobb, med behandling.";
+      return "Du har nå vært sykmeldt i mer enn åtte uker. Da har du plikt til å være i aktivitet. Vi gjør oppmerksom på at det er vanlig praksis i Norge å være sykmeldt gradert mens man jobber gradert. Det er også vanlig praksis å kombinere jobb, eventuelt gradert jobb, med behandling.";
   }
 };
 
