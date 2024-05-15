@@ -15,4 +15,6 @@ export interface VedtakResponseDTO {
   fom: Date;
   tom: Date;
   document: DocumentComponentDto[];
+  ferdigbehandletAt?: Date;
+  ferdigbehandletBy?: string;
 }

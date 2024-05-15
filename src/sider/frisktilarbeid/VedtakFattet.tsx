@@ -3,11 +3,13 @@ import React, { ReactElement } from "react";
 import { Alert, BodyShort, Box, Button, Heading, List } from "@navikt/ds-react";
 import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
 import dayjs from "dayjs";
+import { useFerdigbehandleVedtak } from "@/data/frisktilarbeid/useFerdigbehandleVedtak";
 
 const texts = {
   alert:
-    "Vedtaket om friskmelding til arbeidsformidling er nå fattet og sendt til bruker. Du finner igjen vedtaket i historikken. Ny oppgave er lagt til i oversikten din.",
-  heading: "Friskmelding til arbeidsformidling starter:",
+    "Vedtaket om friskmelding til arbeidsformidling er nå fattet og sendt til bruker. Ny oppgave er lagt til i oversikten din.",
+  heading: (startText: string) =>
+    `Friskmelding til arbeidsformidling ${startText}:`,
   husk: "Dagen før vedtaket starter må du huske å gjøre følgende:",
   steps: [
     "Gå inn i Arena og avslutt sykefraværet fra oppgaven 'Oppfølging for sykmeldt arbeidstaker'",
@@ -23,9 +25,12 @@ interface VedtakFattetProps {
 }
 
 export const VedtakFattet = ({ vedtak }: VedtakFattetProps): ReactElement => {
+  const ferdigbehandleVedtak = useFerdigbehandleVedtak(vedtak.uuid);
   const vedtakStartedOrStartingTomorrow = !dayjs().isBefore(
     dayjs(vedtak.fom).subtract(1, "days")
   );
+  const hasVedtakStarted = dayjs(vedtak.fom).isBefore(dayjs());
+  const startText = hasVedtakStarted ? "startet" : "starter";
 
   return (
     <div className="flex flex-col gap-4">
@@ -38,7 +43,9 @@ export const VedtakFattet = ({ vedtak }: VedtakFattetProps): ReactElement => {
         className="flex flex-col gap-4"
       >
         <Heading level="2" size="medium">
-          {`${texts.heading} ${tilLesbarDatoMedArUtenManedNavn(vedtak.fom)}`}
+          {`${texts.heading(startText)} ${tilLesbarDatoMedArUtenManedNavn(
+            vedtak.fom
+          )}`}
         </Heading>
         <List as="ol" title={texts.husk}>
           {texts.steps.map((text, index) => (
@@ -48,7 +55,13 @@ export const VedtakFattet = ({ vedtak }: VedtakFattetProps): ReactElement => {
         {vedtakStartedOrStartingTomorrow && (
           <>
             <BodyShort>{texts.avslutt}</BodyShort>
-            <Button className="w-fit">{texts.button}</Button>
+            <Button
+              className="w-fit"
+              loading={ferdigbehandleVedtak.isPending}
+              onClick={() => ferdigbehandleVedtak.mutate()}
+            >
+              {texts.button}
+            </Button>
           </>
         )}
       </Box>

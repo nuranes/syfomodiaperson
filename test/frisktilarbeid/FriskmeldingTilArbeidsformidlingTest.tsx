@@ -116,5 +116,37 @@ describe("FriskmeldingTilArbeidsformidling", () => {
 
       expect(getButton("Avslutt oppgave")).to.exist;
     });
+
+    it("viser ferdigbehandlet vedtak når det finnes", () => {
+      const vedtak = createVedtak(
+        dayjs().subtract(1, "days").toDate(),
+        dayjs().toDate()
+      );
+      mockVedtak([vedtak]);
+
+      renderFriskmeldingTilArbeidsformidling();
+
+      expect(screen.getByText("Start nytt vedtak")).to.exist;
+    });
+
+    it("viser nytt vedtak skjema når bruker trykker 'Nytt vedtak' når ferdigbehandlet vedtak finnes", async () => {
+      const vedtak = createVedtak(
+        dayjs().subtract(1, "days").toDate(),
+        dayjs().toDate()
+      );
+      mockVedtak([vedtak]);
+
+      renderFriskmeldingTilArbeidsformidling();
+
+      getButton("Nytt vedtak").click();
+      expect(await screen.findByText("Forberedelser")).to.exist;
+      expect(await screen.findByText("Friskmeldingen gjelder fra")).to.exist;
+      expect(
+        await screen.findByRole("button", {
+          hidden: true,
+          name: "Fatt vedtak",
+        })
+      );
+    });
   });
 });

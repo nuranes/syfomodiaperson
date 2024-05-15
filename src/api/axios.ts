@@ -103,6 +103,25 @@ export const post = <ResponseData>(
     });
 };
 
+export async function put<ResponseData>(
+  url: string,
+  data?: Record<string, any>,
+  personIdent?: string
+): Promise<ResponseData> {
+  return axios
+    .put(url, data, {
+      headers: defaultRequestHeaders(personIdent),
+    })
+    .then((response) => response.data)
+    .catch((error) => {
+      if (axios.isAxiosError(error)) {
+        handleAxiosError(error);
+      } else {
+        throw new ApiErrorException(generalError(error.message), error.code);
+      }
+    });
+}
+
 export const deleteRequest = <ResponseData>(
   url: string,
   personIdent?: string

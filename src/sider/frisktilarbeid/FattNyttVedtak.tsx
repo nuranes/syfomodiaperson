@@ -21,7 +21,7 @@ const texts = {
   button: "Vurder vedtak",
 };
 
-export const FattVedtak = (): ReactElement => {
+export const FattNyttVedtak = (): ReactElement => {
   return (
     <div className="flex flex-col [&>*]:mb-4">
       <Box background="surface-default" padding="6">

@@ -10,7 +10,10 @@ import {
   DocumentComponentType,
 } from "@/data/documentcomponent/documentComponentTypes";
 
-export const createVedtak = (fom: Date): VedtakResponseDTO => ({
+export const createVedtak = (
+  fom: Date,
+  ferdigbehandletAt: Date | undefined = undefined
+): VedtakResponseDTO => ({
   uuid: "123",
   createdAt: new Date(),
   veilederident: VEILEDER_DEFAULT.ident,
@@ -18,6 +21,8 @@ export const createVedtak = (fom: Date): VedtakResponseDTO => ({
   tom: addWeeks(fom, 12),
   begrunnelse: "begrunnelse",
   document: [],
+  ferdigbehandletAt: ferdigbehandletAt,
+  ferdigbehandletBy: ferdigbehandletAt && VEILEDER_DEFAULT.ident,
 });
 
 type ExpectedVedtakDocumentOptions = {

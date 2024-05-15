@@ -7,6 +7,7 @@ import {
   VedtakRequestDTO,
   VedtakResponseDTO,
 } from "../../src/data/frisktilarbeid/frisktilarbeidTypes";
+import dayjs from "dayjs";
 
 let vedtak: VedtakResponseDTO[] = [];
 
@@ -34,9 +35,33 @@ export const mockIsfrisktilarbeid = (server: any) => {
         document: body.document,
         fom: new Date(body.fom),
         tom: new Date(body.tom),
+        ferdigbehandletAt: undefined,
+        ferdigbehandletBy: undefined,
       };
       vedtak = [sentVedtak, ...vedtak];
       res.status(201).send(JSON.stringify(sentVedtak));
+    }
+  );
+
+  server.put(
+    `${ISFRISKTILARBEID_ROOT}/frisktilarbeid/vedtak/:vedtakUUID/ferdigbehandling`,
+    (req: express.Request, res: express.Response) => {
+      const existingVedtak = vedtak.find(
+        (v) => v.uuid === req.params.vedtakUUID
+      );
+      !!existingVedtak
+        ? res.status(200).send(
+            JSON.stringify({
+              ...existingVedtak,
+              ferdigbehandletAt: dayjs(),
+              ferdigbehandletBy: req.headers[NAV_PERSONIDENT_HEADER],
+            })
+          )
+        : res
+            .status(400)
+            .send(
+              `Did not find vedtak with uuid ${req.params.vedtakUUID} in headers`
+            );
     }
   );
 };
