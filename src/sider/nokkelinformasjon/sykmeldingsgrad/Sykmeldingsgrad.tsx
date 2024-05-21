@@ -42,10 +42,13 @@ export const Sykmeldingsgrad = () => {
     .flatMap((sykmelding) => sykmelding.mulighetForArbeid.perioder)
     .sort((a, b) => a.fom.getTime() - b.fom.getTime());
 
-  const varighetOppfolgingstilfelle = dagerMellomDatoer(
-    perioderListSortert[0].fom,
-    perioderListSortert[perioderListSortert.length - 1].tom
-  );
+  const varighetOppfolgingstilfelle =
+    perioderListSortert.length === 0
+      ? 0
+      : dagerMellomDatoer(
+          perioderListSortert[0].fom,
+          perioderListSortert[perioderListSortert.length - 1].tom
+        );
   const oneYearInDays = 52 * 7;
   const DAYS_IN_GRAPH =
     varighetOppfolgingstilfelle > oneYearInDays
