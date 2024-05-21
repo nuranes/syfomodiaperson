@@ -247,6 +247,11 @@ export function sykmeldingerSortertNyestTilEldstPeriode(
       const dato2 = new Date(
         tidligsteFom(sykmelding2.mulighetForArbeid.perioder)
       );
+      if (dato1.getTime() === dato2.getTime()) {
+        return sykmelding1.mottattTidspunkt > sykmelding2.mottattTidspunkt
+          ? -1
+          : 1;
+      }
       return dato1 > dato2 ? -1 : 1;
     }
     return 0;

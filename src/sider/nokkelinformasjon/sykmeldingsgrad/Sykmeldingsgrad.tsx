@@ -38,12 +38,20 @@ export const Sykmeldingsgrad = () => {
       selectedOppfolgingstilfelle
     );
 
-  const DAYS_IN_GRAPH = 55 * 7;
-  const sykmeldingsgradPerDay = new Int32Array(DAYS_IN_GRAPH);
-
   const perioderListSortert = sykmeldingerIOppfolgingstilfellet
     .flatMap((sykmelding) => sykmelding.mulighetForArbeid.perioder)
     .sort((a, b) => a.fom.getTime() - b.fom.getTime());
+
+  const varighetOppfolgingstilfelle = dagerMellomDatoer(
+    perioderListSortert[0].fom,
+    perioderListSortert[perioderListSortert.length - 1].tom
+  );
+  const oneYearInDays = 52 * 7;
+  const DAYS_IN_GRAPH =
+    varighetOppfolgingstilfelle > oneYearInDays
+      ? varighetOppfolgingstilfelle
+      : oneYearInDays;
+  const sykmeldingsgradPerDay = new Int32Array(DAYS_IN_GRAPH);
 
   perioderListSortert.forEach((periode) => {
     const dayZero = perioderListSortert[0].fom;
