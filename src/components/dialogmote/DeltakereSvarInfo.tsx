@@ -199,6 +199,7 @@ const DeltakerBehandlerSvarPanel = ({
       icon={<DeltakerSvarIcon svarType={latestSvar?.svarType} />}
       deltaker={texts.behandler}
       tittel={`${behandler.behandlerNavn}, ${svarTittelTekst}`}
+      defaultOpen={!!latestSvar}
     >
       <DeltakerBehandlerSvarDetaljer svarList={svarList} />
     </EkspanderbartSvarPanel>
@@ -210,6 +211,7 @@ interface EkspanderbartSvarPanelProps {
   tittel: string;
   icon: ReactElement;
   children: ReactElement;
+  defaultOpen: boolean;
 }
 
 const EkspanderbartSvarPanel = ({
@@ -217,8 +219,9 @@ const EkspanderbartSvarPanel = ({
   deltaker,
   tittel,
   children,
+  defaultOpen,
 }: EkspanderbartSvarPanelProps) => (
-  <ExpansionCard size="small" aria-label={tittel}>
+  <ExpansionCard size="small" aria-label={tittel} defaultOpen={defaultOpen}>
     <ExpansionCard.Header>
       <ExpansionCard.Title size="small">
         <div className="flex gap-1 items-center">
@@ -259,6 +262,7 @@ const DeltakerSvarPanel = ({
       icon={<DeltakerSvarIcon svarType={svar?.svarType} />}
       deltaker={deltakerLabel}
       tittel={title}
+      defaultOpen={!!svar}
     >
       {svar?.svarTekst ? (
         <SvarDetaljerTekst
