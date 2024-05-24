@@ -9,6 +9,8 @@ const texts = {
     vurderArbeidsuforhet: "Vurder §8-4 - Arbeidsuførhet",
     friskmeldingTilArbeidsformidling:
       "Vurder §8-5 - Friskmelding til arbeidsformidling",
+    vurder14a: "Vurder §14a",
+    vurderAnnenYtelse: "Vurder annen ytelse",
     annet: "Annet",
   },
 };
@@ -43,6 +45,8 @@ export enum Oppfolgingsgrunn {
   VURDER_TILTAK_BEHOV = "VURDER_TILTAK_BEHOV",
   VURDER_ARBEIDSUTFORHET = "VURDER_ARBEIDSUFORHET",
   FRISKMELDING_TIL_ARBEIDSFORMIDLING = "FRISKMELDING_TIL_ARBEIDSFORMIDLING",
+  VURDER_14A = "VURDER_14A",
+  VURDER_ANNEN_YTELSE = "VURDER_ANNEN_YTELSE",
   ANNET = "ANNET",
 }
 
@@ -63,5 +67,8 @@ export const oppfolgingsgrunnToText = {
     texts.oppfolgingsgrunn.vurderArbeidsuforhet,
   [Oppfolgingsgrunn.FRISKMELDING_TIL_ARBEIDSFORMIDLING]:
     texts.oppfolgingsgrunn.friskmeldingTilArbeidsformidling,
+  [Oppfolgingsgrunn.VURDER_14A]: texts.oppfolgingsgrunn.vurder14a,
+  [Oppfolgingsgrunn.VURDER_ANNEN_YTELSE]:
+    texts.oppfolgingsgrunn.vurderAnnenYtelse,
   [Oppfolgingsgrunn.ANNET]: texts.oppfolgingsgrunn.annet,
 };
