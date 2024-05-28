@@ -3,6 +3,7 @@ import {
   BodyShort,
   Box,
   Button,
+  Detail,
   Heading,
   Tag,
   Tooltip,
@@ -14,17 +15,12 @@ import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
 import { useVeilederInfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
 import { oppfolgingsgrunnToText } from "@/data/oppfolgingsoppgave/types";
 import { OppfolgingsoppgaveModal } from "@/components/oppfolgingsoppgave/OppfolgingsoppgaveModal";
-import { Veileder } from "@/data/veilederinfo/types/Veileder";
 
 const texts = {
   title: "Oppfølgingsoppgave",
   edit: "Endre",
   remove: "Fjern",
   removeTooltip: "Fjerner oppfølgingsoppgaven fra oversikten",
-  createdBy: (veileder: Veileder, createdAt: Date) =>
-    `Opprettet av: ${veileder.fulltNavn()} (${
-      veileder.ident
-    }), ${tilLesbarDatoMedArUtenManedNavn(createdAt)}`,
 };
 
 export const Oppfolgingsoppgave = () => {
@@ -97,11 +93,26 @@ export const Oppfolgingsoppgave = () => {
           {texts.remove}
         </Button>
       </Tooltip>
-      {veilederinfo && (
-        <BodyShort size="small" textColor="subtle" className="mt-2 text-xs">
-          {texts.createdBy(veilederinfo, oppfolgingsoppgave.createdAt)}
-        </BodyShort>
-      )}
+      <div className="mt-2">
+        <Detail textColor="subtle" className="text-xs">
+          {`Opprettet: ${tilLesbarDatoMedArUtenManedNavn(
+            oppfolgingsoppgave.createdAt
+          )}`}
+        </Detail>
+        <Detail textColor="subtle" className="text-xs">
+          {`Sist oppdatert: ${tilLesbarDatoMedArUtenManedNavn(
+            oppfolgingsoppgave.updatedAt
+          )}`}
+        </Detail>
+        {veilederinfo && (
+          <Detail
+            textColor="subtle"
+            className="text-xs"
+          >{`Sist oppdatert av: ${veilederinfo.fulltNavn()} (${
+            veilederinfo.ident
+          })`}</Detail>
+        )}
+      </div>
       {isModalOpen && (
         <OppfolgingsoppgaveModal
           isOpen={isModalOpen}

@@ -76,11 +76,25 @@ describe("Oppfolgingsoppgave", () => {
         .to.exist;
       expect(await screen.findByRole("button", { hidden: true, name: "Fjern" }))
         .to.exist;
+    });
+    it("renders oppfolgingsoppgave-info", async () => {
+      renderOppfolgingsoppgave();
+
       expect(
         await screen.findByText(
-          `Opprettet av: ${VEILEDER_DEFAULT.fulltNavn()} (${
+          `Opprettet: ${tilLesbarDatoMedArUtenManedNavn(new Date())}`
+        )
+      ).to.exist;
+      expect(
+        await screen.findByText(
+          `Sist oppdatert: ${tilLesbarDatoMedArUtenManedNavn(new Date())}`
+        )
+      ).to.exist;
+      expect(
+        await screen.findByText(
+          `Sist oppdatert av: ${VEILEDER_DEFAULT.fulltNavn()} (${
             VEILEDER_DEFAULT.ident
-          }), ${tilLesbarDatoMedArUtenManedNavn(new Date())}`
+          })`
         )
       ).to.exist;
     });
