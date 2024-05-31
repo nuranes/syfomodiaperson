@@ -61,11 +61,11 @@ describe("ReturLegeerklaring", () => {
       })
     ).to.exist;
     expect(
-      within(previewModal).getByRole("button", {
+      within(previewModal).getAllByRole("button", {
         name: cancelButtonText,
         hidden: true,
       })
-    ).to.exist;
+    ).to.not.be.empty;
   });
   it("click cancel in preview closes preview", () => {
     renderReturLegeerklaring(foresporselLegeerklaringFraBehandler);
@@ -75,10 +75,10 @@ describe("ReturLegeerklaring", () => {
     const previewModal = screen.getByRole("dialog", { hidden: true });
     expect(previewModal).to.exist;
 
-    const closeButton = screen.getByRole("button", {
+    const closeButton = screen.getAllByRole("button", {
       name: cancelButtonText,
       hidden: true,
-    });
+    })[0];
     userEvent.click(closeButton);
 
     expect(screen.queryByRole("dialog")).to.not.exist;

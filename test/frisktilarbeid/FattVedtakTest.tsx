@@ -205,10 +205,10 @@ describe("FattVedtakSkjema", () => {
     })[2];
     expect(forhandsvisModal).to.exist;
     expect(
-      within(forhandsvisModal).getByRole("button", {
+      within(forhandsvisModal).getAllByRole("button", {
         name: "Lukk",
         hidden: true,
       })
-    ).to.exist;
+    ).to.not.be.empty;
   });
 });

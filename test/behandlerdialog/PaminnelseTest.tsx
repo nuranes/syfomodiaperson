@@ -74,11 +74,11 @@ describe("PåminnelseMelding", () => {
       })
     ).to.exist;
     expect(
-      within(previewModal).getByRole("button", {
+      within(previewModal).getAllByRole("button", {
         name: cancelButtonText,
         hidden: true,
       })
-    ).to.exist;
+    ).to.not.be.empty;
   });
   it("click cancel in preview closes preview", () => {
     renderPaminnelseMelding(meldingTilBehandler);
@@ -88,10 +88,10 @@ describe("PåminnelseMelding", () => {
     const previewModal = screen.getAllByRole("dialog", { hidden: true })[1];
     expect(previewModal).to.exist;
 
-    const closeButton = within(previewModal).getByRole("button", {
+    const closeButton = within(previewModal).getAllByRole("button", {
       name: cancelButtonText,
       hidden: true,
-    });
+    })[0];
     userEvent.click(closeButton);
 
     expect(screen.queryByRole("dialog")).to.not.exist;
