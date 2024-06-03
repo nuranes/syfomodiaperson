@@ -22,7 +22,8 @@ import {
   isPersonoppgaveCompletedAfterLastMoteEndring,
 } from "@/utils/dialogmoteUtils";
 import { BodyShort, Button } from "@navikt/ds-react";
-import { useVeilederInfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
+import { DialogmoteVeilederInfo } from "@/components/dialogmote/DialogmoteVeilederInfo";
+import { DialogmoteStedInfo } from "@/components/dialogmote/DialogmoteStedInfo";
 
 const texts = {
   innkallingSendtTrackingContext: "Møtelandingsside: Sendt innkalling",
@@ -34,34 +35,16 @@ const texts = {
   skrivReferat: "Skriv referat",
   fortsettReferat: "Fortsett på referatet",
   moteTid: "Møtetidspunkt",
-  moteSted: "Sted",
-  veilederInnkalt: "Innkalt av",
-  veilederTildelt: "Tildelt",
 };
 
 const Subtitle = (dialogmote: DialogmoteDTO): ReactNode => {
   const moteDatoTid = tilDatoMedUkedagOgManedNavnOgKlokkeslett(dialogmote.tid);
-  const { data: innkaltVeileder } = useVeilederInfoQuery(
-    dialogmote.opprettetAv
-  );
-  const { data: tildeltVeileder } = useVeilederInfoQuery(
-    dialogmote.tildeltVeilederIdent
-  );
-
-  const veilederTekst = () => {
-    const innkaltNavn = innkaltVeileder?.fulltNavn();
-    const tildeltNavn = tildeltVeileder?.fulltNavn();
-
-    return innkaltNavn === tildeltNavn
-      ? `${texts.veilederInnkalt}: ${innkaltNavn}`
-      : `${texts.veilederInnkalt}: ${innkaltNavn} (${texts.veilederTildelt}: ${tildeltNavn})`;
-  };
 
   return (
     <>
       <BodyShort size="small">{`${texts.moteTid}: ${moteDatoTid}`}</BodyShort>
-      <BodyShort size="small">{`${texts.moteSted}: ${dialogmote.sted}`}</BodyShort>
-      <BodyShort size="small">{veilederTekst()}</BodyShort>
+      <DialogmoteStedInfo dialogmote={dialogmote} />
+      <DialogmoteVeilederInfo dialogmote={dialogmote} />
     </>
   );
 };

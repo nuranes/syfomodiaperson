@@ -1,0 +1,38 @@
+import { getHarAapnetTekst, getSvarTekst } from "@/utils/dialogmoteUtils";
+import { EkspanderbartSvarPanel } from "@/components/dialogmote/svar/EkspanderbartSvarPanel";
+import { SvarIcon } from "@/components/dialogmote/svar/SvarIcon";
+import { capitalizeAllWords } from "@/utils/stringUtils";
+import { SvarDetaljer } from "@/components/dialogmote/svar/SvarDetaljer";
+import React from "react";
+import { DialogmotedeltakerArbeidstakerVarselDTO } from "@/data/dialogmote/types/dialogmoteTypes";
+import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
+
+const texts = {
+  label: "Arbeidstakeren:",
+};
+
+interface Props {
+  varsel: DialogmotedeltakerArbeidstakerVarselDTO;
+}
+
+export const ArbeidstakerSvar = ({ varsel }: Props) => {
+  const bruker = useNavBrukerData();
+
+  const svar = varsel?.svar;
+  const svarTittelTekst = !svar
+    ? getHarAapnetTekst(varsel?.varselType, varsel?.lestDato)
+    : getSvarTekst(svar.svarTidspunkt, svar.svarType);
+
+  return (
+    <EkspanderbartSvarPanel
+      title={{
+        icon: <SvarIcon svarType={svar?.svarType} />,
+        label: texts.label,
+        body: `${capitalizeAllWords(bruker.navn)}, ${svarTittelTekst}`,
+      }}
+      defaultOpen={!!svar}
+    >
+      <SvarDetaljer svarTekst={svar?.svarTekst} />
+    </EkspanderbartSvarPanel>
+  );
+};
