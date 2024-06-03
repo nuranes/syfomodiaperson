@@ -25,9 +25,14 @@ const begrunnelseHeaderTekst = (
 interface Props {
   varsel: DialogmotedeltakerBehandlerVarselDTO;
   behandlerNavn: string;
+  defaultClosed?: boolean;
 }
 
-export const BehandlerSvar = ({ varsel, behandlerNavn }: Props) => {
+export const BehandlerSvar = ({
+  varsel,
+  behandlerNavn,
+  defaultClosed = false,
+}: Props) => {
   const svarList = varsel.svar;
   const latestSvar: DialogmotedeltakerBehandlerVarselSvarDTO | undefined =
     svarList[0];
@@ -42,7 +47,7 @@ export const BehandlerSvar = ({ varsel, behandlerNavn }: Props) => {
         label: texts.label,
         body: `${behandlerNavn}, ${svarTittelTekst}`,
       }}
-      defaultOpen={!!latestSvar}
+      defaultOpen={!defaultClosed && !!latestSvar}
     >
       {svarList.length > 1 ? (
         <>

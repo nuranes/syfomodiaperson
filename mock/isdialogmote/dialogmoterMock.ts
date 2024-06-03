@@ -1,9 +1,14 @@
 import {
+  DialogmotedeltakerArbeidsgiverVarselDTO,
+  DialogmotedeltakerArbeidstakerVarselDTO,
   DialogmotedeltakerBehandlerDTO,
+  DialogmotedeltakerBehandlerVarselDTO,
+  DialogmotedeltakerVarselDTO,
   DialogmoteDTO,
   DialogmoteStatus,
   MotedeltakerVarselType,
   SvarType,
+  VarselSvarDTO,
 } from "../../src/data/dialogmote/types/dialogmoteTypes";
 import { BehandlerType } from "../../src/data/behandler/BehandlerDTO";
 import {
@@ -17,18 +22,183 @@ import { getReferatTexts } from "../../src/data/dialogmote/dialogmoteTexts";
 import dayjs from "dayjs";
 import { DocumentComponentType } from "../../src/data/documentcomponent/documentComponentTypes";
 import { Malform } from "../../src/context/malform/MalformContext";
+import { addDays } from "../../src/utils/datoUtils";
+
+type VarselOpts = {
+  varselType: MotedeltakerVarselType.INNKALT | MotedeltakerVarselType.AVLYST;
+  uuid: string;
+  svar?: VarselSvarDTO;
+};
+
+const createVarsel = ({
+  svar,
+  uuid,
+  varselType,
+}: VarselOpts): DialogmotedeltakerVarselDTO => {
+  switch (varselType) {
+    case MotedeltakerVarselType.INNKALT: {
+      return {
+        uuid: uuid + 2,
+        createdAt: "2021-05-26T12:56:26.271381",
+        varselType: varselType,
+        lestDato: "2021-05-26T12:56:26.271381",
+        fritekst: "Ipsum lorum",
+        ...(svar ? { svar } : {}),
+        document: [
+          {
+            type: DocumentComponentType.PARAGRAPH,
+            title: "Tittel innkalling",
+            texts: [],
+          },
+          {
+            type: DocumentComponentType.PARAGRAPH,
+            title: "Møtetid:",
+            texts: ["5. mai 2021"],
+          },
+          {
+            type: DocumentComponentType.PARAGRAPH,
+            texts: ["Brødtekst"],
+          },
+          {
+            type: DocumentComponentType.LINK,
+            texts: ["https://nav.no/"],
+          },
+          {
+            type: DocumentComponentType.PARAGRAPH,
+            texts: ["Med vennlig hilsen", "NAV Staden", "Kari Saksbehandler"],
+          },
+        ],
+      };
+    }
+    case MotedeltakerVarselType.AVLYST: {
+      return {
+        uuid: uuid + 4,
+        createdAt: "2021-05-26T12:56:26.271381",
+        varselType: varselType,
+        lestDato: "2021-05-26T12:56:26.271381",
+        fritekst: "Ipsum lorum",
+        ...(svar ? { svar } : {}),
+        document: [
+          {
+            type: DocumentComponentType.PARAGRAPH,
+            title: "Avlysning",
+            texts: [],
+          },
+          {
+            type: DocumentComponentType.PARAGRAPH,
+            title: "Møtetid:",
+            texts: ["5. mai 2021"],
+          },
+          {
+            type: DocumentComponentType.PARAGRAPH,
+            texts: ["Brødtekst"],
+          },
+          {
+            type: DocumentComponentType.LINK,
+            texts: ["https://nav.no/"],
+          },
+          {
+            type: DocumentComponentType.PARAGRAPH,
+            texts: ["Med vennlig hilsen", "NAV Staden", "Kari Saksbehandler"],
+          },
+        ],
+      };
+    }
+  }
+};
 
 export const createDialogmote = (
   uuid: string,
   moteStatus: DialogmoteStatus,
-  varselType: MotedeltakerVarselType,
-  moteTid: string,
+  moteTid: Date,
   behandler?: DialogmotedeltakerBehandlerDTO
 ) => {
+  const arbeidstakerVarselList: DialogmotedeltakerArbeidstakerVarselDTO[] = [
+    {
+      ...createVarsel({
+        svar: {
+          svarTidspunkt: addDays(moteTid, -3).toJSON(),
+          svarType: SvarType.KOMMER,
+        },
+        uuid,
+        varselType: MotedeltakerVarselType.INNKALT,
+      }),
+      digitalt: true,
+    },
+  ];
+  const arbeidsgiverVarselList: DialogmotedeltakerArbeidsgiverVarselDTO[] = [
+    {
+      ...createVarsel({
+        svar: {
+          svarTidspunkt: addDays(moteTid, -3).toJSON(),
+          svarTekst: "Passer ikke denne dagen.",
+          svarType: SvarType.NYTT_TID_STED,
+        },
+        uuid,
+        varselType: MotedeltakerVarselType.INNKALT,
+      }),
+      status: "",
+    },
+  ];
+  const behandlerVarselList: DialogmotedeltakerBehandlerVarselDTO[] = [
+    {
+      uuid: uuid + 5,
+      createdAt: "2021-05-26T12:56:26.271381",
+      varselType: MotedeltakerVarselType.INNKALT,
+      fritekst: "Ipsum lorum behandler",
+      document: [],
+      svar: [
+        {
+          uuid: uuid + 6,
+          createdAt: "2021-12-05T14:56:26.282386",
+          svarType: SvarType.KOMMER,
+          tekst: "Jeg kommer i møtet.",
+        },
+        {
+          uuid: uuid + 7,
+          createdAt: "2021-12-04T13:56:26.282386",
+          svarType: SvarType.NYTT_TID_STED,
+          tekst: "Jeg vil endre møtet!",
+        },
+        {
+          uuid: uuid + 8,
+          createdAt: "2021-12-03T12:56:26.282386",
+          svarType: SvarType.KOMMER_IKKE,
+          tekst: "Jeg kommer IKKE!!!!!! i møtet.",
+        },
+      ],
+    },
+  ];
+
+  if (moteStatus === DialogmoteStatus.AVLYST) {
+    arbeidstakerVarselList.push({
+      ...createVarsel({
+        uuid,
+        varselType: MotedeltakerVarselType.AVLYST,
+      }),
+      digitalt: true,
+    });
+    arbeidsgiverVarselList.push({
+      ...createVarsel({
+        uuid,
+        varselType: MotedeltakerVarselType.AVLYST,
+      }),
+      status: "",
+    });
+    behandlerVarselList.push({
+      uuid: uuid + 5,
+      createdAt: addDays(moteTid, -4).toJSON(),
+      varselType: MotedeltakerVarselType.AVLYST,
+      fritekst: "Ipsum lorum behandler",
+      document: [],
+      svar: [],
+    });
+  }
+
   const dialogMote: DialogmoteDTO = {
     uuid: uuid,
-    createdAt: "2021-05-26T12:56:26.238385",
-    updatedAt: "2021-05-26T12:56:26.238385",
+    createdAt: addDays(moteTid, -4).toJSON(),
+    updatedAt: addDays(moteTid, -4).toJSON(),
     status: moteStatus,
     opprettetAv: VEILEDER_IDENT_DEFAULT,
     tildeltVeilederIdent: VEILEDER_IDENT_DEFAULT,
@@ -36,103 +206,23 @@ export const createDialogmote = (
     arbeidstaker: {
       personIdent: ARBEIDSTAKER_DEFAULT.personIdent,
       type: "ARBEIDSTAKER",
-      varselList: [
-        {
-          uuid: uuid + 2,
-          createdAt: "2021-05-26T12:56:26.271381",
-          varselType: varselType,
-          digitalt: true,
-          lestDato: "2021-05-26T12:56:26.271381",
-          fritekst: "Ipsum lorum arbeidstaker",
-          document: [
-            {
-              type: DocumentComponentType.PARAGRAPH,
-              title: "Tittel innkalling",
-              texts: [],
-            },
-            {
-              type: DocumentComponentType.PARAGRAPH,
-              title: "Møtetid:",
-              texts: ["5. mai 2021"],
-            },
-            {
-              type: DocumentComponentType.PARAGRAPH,
-              texts: ["Brødtekst"],
-            },
-            {
-              type: DocumentComponentType.LINK,
-              texts: ["https://nav.no/"],
-            },
-            {
-              type: DocumentComponentType.PARAGRAPH,
-              texts: ["Med vennlig hilsen", "NAV Staden", "Kari Saksbehandler"],
-            },
-          ],
-          svar: {
-            svarTidspunkt: "2021-05-26T12:56:26.271381",
-            svarType: SvarType.KOMMER,
-          },
-        },
-      ],
+      varselList: arbeidstakerVarselList,
     },
     arbeidsgiver: {
       virksomhetsnummer: VIRKSOMHET_PONTYPANDY.virksomhetsnummer,
       type: "ARBEIDSGIVER",
-      varselList: [
-        {
-          uuid: uuid + 4,
-          createdAt: "2021-05-26T12:56:26.282386",
-          varselType: varselType,
-          lestDato: "2021-05-26T12:56:26.271381",
-          fritekst: "Ipsum lorum arbeidsgiver",
-          document: [],
-          status: "",
-          svar: {
-            svarTidspunkt: "2021-05-26T12:56:26.271381",
-            svarTekst: "Passer ikke denne dagen.",
-            svarType: SvarType.NYTT_TID_STED,
-          },
-        },
-      ],
+      varselList: arbeidsgiverVarselList,
     },
     ...(behandler
       ? {
           behandler: {
             ...behandler,
-            varselList: [
-              {
-                uuid: uuid + 5,
-                createdAt: "2021-12-01T12:56:26.282386",
-                varselType: varselType,
-                fritekst: "Ipsum lorum behandler",
-                document: [],
-                svar: [
-                  {
-                    uuid: uuid + 6,
-                    createdAt: "2021-12-05T14:56:26.282386",
-                    svarType: SvarType.KOMMER,
-                    tekst: "Jeg kommer i møtet.",
-                  },
-                  {
-                    uuid: uuid + 7,
-                    createdAt: "2021-12-04T13:56:26.282386",
-                    svarType: SvarType.NYTT_TID_STED,
-                    tekst: "Jeg vil endre møtet!",
-                  },
-                  {
-                    uuid: uuid + 8,
-                    createdAt: "2021-12-03T12:56:26.282386",
-                    svarType: SvarType.KOMMER_IKKE,
-                    tekst: "Jeg kommer IKKE!!!!!! i møtet.",
-                  },
-                ],
-              },
-            ],
+            varselList: behandlerVarselList,
           },
         }
       : {}),
     sted: "This is a very lang text that has a lot of characters and describes where the meeting will take place.",
-    tid: moteTid,
+    tid: moteTid.toJSON(),
     videoLink: "https://video.nav.no/xyz",
     referatList: [],
   };
@@ -207,27 +297,23 @@ const behandler = (uuid: string): DialogmotedeltakerBehandlerDTO => {
 export const innkaltDialogmote = createDialogmote(
   "5f1e2629-062b-442d-ae1f-3b08e9574cd3",
   DialogmoteStatus.INNKALT,
-  MotedeltakerVarselType.INNKALT,
-  dayjs().add(2, "days").toJSON()
+  dayjs().add(2, "days").toDate()
 );
 export const avlystDialogmote = createDialogmote(
   "2",
   DialogmoteStatus.AVLYST,
-  MotedeltakerVarselType.AVLYST,
-  "2021-01-15T11:52:13.539843"
+  dayjs().subtract(2, "weeks").toDate()
 );
 export const ferdigstiltDialogmote = createDialogmote(
   "3",
   DialogmoteStatus.FERDIGSTILT,
-  MotedeltakerVarselType.REFERAT,
-  "2020-03-21T12:34:23.539843"
+  dayjs().subtract(2, "years").toDate()
 );
 
 export const innkaltDialogmoteMedBehandler = createDialogmote(
   "4",
   DialogmoteStatus.INNKALT,
-  MotedeltakerVarselType.INNKALT,
-  "2021-11-10T14:22:23.539843",
+  dayjs().add(2, "days").toDate(),
   behandler("4")
 );
 

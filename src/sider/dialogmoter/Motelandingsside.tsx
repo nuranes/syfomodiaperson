@@ -16,6 +16,7 @@ import * as Tredelt from "@/sider/TredeltSide";
 import Side from "@/sider/Side";
 import { Menypunkter } from "@/components/globalnavigasjon/GlobalNavigasjon";
 import { MotehistorikkPanel } from "@/components/dialogmote/motehistorikk/MotehistorikkPanel";
+import { MoteSvarHistorikk } from "@/components/dialogmote/motehistorikk/MoteSvarHistorikk";
 
 const texts = {
   pageTitle: "Møtelandingsside",
@@ -59,7 +60,7 @@ export const Motelandingsside = () => {
     henterDialogmoterFeilet ||
     henterDialogmoteunntakFeilet;
 
-  const isMotehistorikkVisible =
+  const hasMotehistorikk =
     historiskeDialogmoter.length > 0 || dialogmoteunntak.length > 0;
 
   return (
@@ -85,11 +86,14 @@ export const Motelandingsside = () => {
           </Tredelt.FirstColumn>
 
           <Tredelt.SecondColumn>
-            {isMotehistorikkVisible && (
-              <MotehistorikkPanel
-                historiskeMoter={historiskeDialogmoter}
-                dialogmoteunntak={dialogmoteunntak}
-              />
+            {hasMotehistorikk && (
+              <div className="flex flex-col gap-4">
+                <MotehistorikkPanel
+                  historiskeMoter={historiskeDialogmoter}
+                  dialogmoteunntak={dialogmoteunntak}
+                />
+                <MoteSvarHistorikk historiskeMoter={historiskeDialogmoter} />
+              </div>
             )}
           </Tredelt.SecondColumn>
         </Tredelt.Container>

@@ -15,10 +15,7 @@ import { dialogmotekandidatQueryKeys } from "@/data/dialogmotekandidat/dialogmot
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import { dialogmotekandidatMock } from "../../mock/isdialogmotekandidat/dialogmotekandidatMock";
 import { dialogmoterQueryKeys } from "@/data/dialogmote/dialogmoteQueryHooks";
-import {
-  DialogmoteStatus,
-  MotedeltakerVarselType,
-} from "@/data/dialogmote/types/dialogmoteTypes";
+import { DialogmoteStatus } from "@/data/dialogmote/types/dialogmoteTypes";
 import {
   createDialogmote,
   createReferat,
@@ -131,18 +128,17 @@ describe("InnkallingDialogmotePanel", () => {
         dialogmotekandidatQueryKeys.kandidat(ARBEIDSTAKER_DEFAULT.personIdent),
         () => dialogmotekandidatMock
       );
-      const createdAt = dayjs(new Date(dialogmotekandidatMock.kandidatAt))
-        .subtract(1, "days")
-        .toISOString();
+      const createdAt = dayjs(
+        new Date(dialogmotekandidatMock.kandidatAt)
+      ).subtract(1, "days");
       const dialogmote = createDialogmote(
         "1",
         DialogmoteStatus.FERDIGSTILT,
-        MotedeltakerVarselType.REFERAT,
-        createdAt
+        createdAt.toDate()
       );
       const dialogmoteFerdigstiltTidligereEnnKandidat = {
         ...dialogmote,
-        referatList: [createReferat(true, createdAt)],
+        referatList: [createReferat(true, createdAt.toISOString())],
       };
       queryClient.setQueryData(
         dialogmoterQueryKeys.dialogmoter(ARBEIDSTAKER_DEFAULT.personIdent),
@@ -160,18 +156,18 @@ describe("InnkallingDialogmotePanel", () => {
         dialogmotekandidatQueryKeys.kandidat(ARBEIDSTAKER_DEFAULT.personIdent),
         () => dialogmotekandidatMock
       );
-      const createdAt = dayjs(new Date(dialogmotekandidatMock.kandidatAt))
-        .add(1, "days")
-        .toISOString();
+      const createdAt = dayjs(new Date(dialogmotekandidatMock.kandidatAt)).add(
+        1,
+        "days"
+      );
       const dialogmote = createDialogmote(
         "1",
         DialogmoteStatus.FERDIGSTILT,
-        MotedeltakerVarselType.REFERAT,
-        createdAt
+        createdAt.toDate()
       );
       const dialogmoteFerdigstiltEtterKandidat = {
         ...dialogmote,
-        referatList: [createReferat(true, createdAt)],
+        referatList: [createReferat(true, createdAt.toISOString())],
       };
       queryClient.setQueryData(
         dialogmoterQueryKeys.dialogmoter(ARBEIDSTAKER_DEFAULT.personIdent),
@@ -188,19 +184,19 @@ describe("InnkallingDialogmotePanel", () => {
         dialogmotekandidatQueryKeys.kandidat(ARBEIDSTAKER_DEFAULT.personIdent),
         () => dialogmotekandidatMock
       );
-      const createdAt = dayjs(new Date(dialogmotekandidatMock.kandidatAt))
-        .add(1, "days")
-        .toISOString();
+      const createdAt = dayjs(new Date(dialogmotekandidatMock.kandidatAt)).add(
+        1,
+        "days"
+      );
       const dialogmote = createDialogmote(
         "1",
         DialogmoteStatus.FERDIGSTILT,
-        MotedeltakerVarselType.REFERAT,
-        createdAt
+        createdAt.toDate()
       );
 
       const dialogmoteMellomlagreReferatEtterKandidat = {
         ...dialogmote,
-        referatList: [createMellomlagretReferat(createdAt)],
+        referatList: [createMellomlagretReferat(createdAt.toISOString())],
       };
       queryClient.setQueryData(
         dialogmoterQueryKeys.dialogmoter(ARBEIDSTAKER_DEFAULT.personIdent),

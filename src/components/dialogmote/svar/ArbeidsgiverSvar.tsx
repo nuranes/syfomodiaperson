@@ -14,9 +14,14 @@ const texts = {
 interface Props {
   varsel: DialogmotedeltakerArbeidsgiverVarselDTO;
   virksomhetsnummer: string;
+  defaultClosed?: boolean;
 }
 
-export const ArbeidsgiverSvar = ({ varsel, virksomhetsnummer }: Props) => {
+export const ArbeidsgiverSvar = ({
+  varsel,
+  virksomhetsnummer,
+  defaultClosed = false,
+}: Props) => {
   const { getCurrentNarmesteLeder } = useLedereQuery();
   const narmesteLederNavn =
     getCurrentNarmesteLeder(virksomhetsnummer)?.narmesteLederNavn || "";
@@ -33,7 +38,7 @@ export const ArbeidsgiverSvar = ({ varsel, virksomhetsnummer }: Props) => {
         label: texts.label,
         body: `${capitalizeAllWords(narmesteLederNavn)}, ${svarTittelTekst}`,
       }}
-      defaultOpen={!!svar}
+      defaultOpen={!defaultClosed && !!svar}
     >
       <SvarDetaljer svarTekst={svar?.svarTekst} />
     </EkspanderbartSvarPanel>

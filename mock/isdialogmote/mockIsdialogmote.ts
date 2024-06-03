@@ -9,8 +9,8 @@ import { ISDIALOGMOTE_ROOT } from "../../src/apiConstants";
 import {
   DialogmoteDTO,
   DialogmoteStatus,
-  MotedeltakerVarselType,
 } from "../../src/data/dialogmote/types/dialogmoteTypes";
+import dayjs from "dayjs";
 
 let mockedDialogmoter = dialogmoterMock;
 
@@ -24,8 +24,7 @@ export const mockIsdialogmote = (server: any) => {
           createDialogmote(
             "0",
             DialogmoteStatus.INNKALT,
-            MotedeltakerVarselType.INNKALT,
-            "2021-05-26T12:56:26.238385"
+            dayjs().add(10, "days").toDate()
           ),
         ];
         res.sendStatus(200);

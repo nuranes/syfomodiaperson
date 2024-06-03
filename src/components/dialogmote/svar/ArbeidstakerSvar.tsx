@@ -13,9 +13,10 @@ const texts = {
 
 interface Props {
   varsel: DialogmotedeltakerArbeidstakerVarselDTO;
+  defaultClosed?: boolean;
 }
 
-export const ArbeidstakerSvar = ({ varsel }: Props) => {
+export const ArbeidstakerSvar = ({ varsel, defaultClosed = false }: Props) => {
   const bruker = useNavBrukerData();
 
   const svar = varsel?.svar;
@@ -30,7 +31,7 @@ export const ArbeidstakerSvar = ({ varsel }: Props) => {
         label: texts.label,
         body: `${capitalizeAllWords(bruker.navn)}, ${svarTittelTekst}`,
       }}
-      defaultOpen={!!svar}
+      defaultOpen={!defaultClosed && !!svar}
     >
       <SvarDetaljer svarTekst={svar?.svarTekst} />
     </EkspanderbartSvarPanel>
