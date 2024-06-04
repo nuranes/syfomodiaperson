@@ -16,23 +16,28 @@ export const getForhandsvarselTexts = ({
   mal,
 }: ForhandsvarselTextsOptions) => ({
   varselInfo: {
-    header: "Varsel om stans av sykepenger",
+    header: "Varsel om mulig stans av sykepenger",
     intro: introText(mal),
-    stans: `Ut fra opplysningene NAV har i saken har vi vurdert at du ikke oppfyller vilkårene for å unntas aktivitetsplikten. Vi vurderer å stanse sykepengene dine fra og med ${tilDatoMedManedNavn(
+    stans1: `Basert på opplysningene NAV har i saken er du ikke i arbeidsrelatert aktivitet, og det er heller ikke dokumentert at du oppfyller vilkårene for unntak fra aktivitetsplikten. Vi vurderer derfor å stanse sykepengene dine fra og med ${tilDatoMedManedNavn(
       frist
     )}.`,
+    stans2:
+      "Vi har ikke tatt en endelig avgjørelse om å stanse dine sykepenger.",
   },
   unngaStansInfo: {
     header: "Du kan unngå stans av sykepenger",
     tiltak1:
-      "Kommer du helt eller delvis tilbake i arbeid, oppfyller du aktivitetsplikten og kan fortsatt få sykepenger. Aktivitet kan dokumenteres med gradert sykmelding eller i søknaden om sykepenger.",
+      "Tilbake i arbeid: Kommer du helt eller delvis tilbake i arbeid, oppfyller du aktivitetsplikten og kan fortsatt få sykepenger. Aktivitet kan dokumenteres med gradert sykmelding eller i søknaden om sykepenger.",
     tiltak2:
-      "Aktivitetsplikten vil også være oppfylt hvis du deltar i et arbeidsrettet tiltak i regi av NAV. Ta kontakt med NAV hvis du tenker at dette er aktuelt for deg.",
+      "Arbeidsrettet tiltak: Aktivitetsplikten vil også være oppfylt hvis du deltar i et arbeidsrettet tiltak i regi av NAV. Ta kontakt med NAV hvis du tenker at dette er aktuelt for deg.",
     tiltak3: tiltak3Text(mal),
   },
   giOssTilbakemelding: {
     header: "Gi oss tilbakemelding",
     tilbakemeldingWithFristDate: tilbakemeldingText(mal, frist),
+  },
+  kontaktOss: {
+    header: "Kontaktinformasjon",
     kontaktOss: kontaktOssText(mal),
   },
   lovhjemmel: {
@@ -54,9 +59,9 @@ const tiltak3Text = (mal: Brevmal): string => {
   switch (mal) {
     case Brevmal.MED_ARBEIDSGIVER:
     case Brevmal.UTLAND:
-      return "Du kan få unntak fra aktivitetsplikten dersom arbeidsgiveren din gir en skriftlig begrunnelse for hvorfor det ikke er mulig å legge til rette for at du kan jobbe, eller dersom din lege dokumenterer at medisinske grunner klart er til hinder for arbeidsrelatert aktivitet.";
+      return "Unntak fra aktivitetsplikten: Du kan få unntak fra aktivitetsplikten dersom arbeidsgiveren din gir en skriftlig begrunnelse for hvorfor det ikke er mulig å legge til rette for at du kan jobbe, eller dersom din lege dokumenterer at medisinske grunner klart er til hinder for arbeidsrelatert aktivitet.";
     case Brevmal.UTEN_ARBEIDSGIVER:
-      return "Du kan få unntak fra aktivitetsplikten dersom din lege dokumenterer at medisinske grunner klart er til hinder for arbeidsrelatert aktivitet.";
+      return "Unntak fra aktivitetsplikten: Du kan få unntak fra aktivitetsplikten dersom din lege dokumenterer at medisinske grunner klart er til hinder for arbeidsrelatert aktivitet.";
   }
 };
 
@@ -74,9 +79,9 @@ const introText = (mal: Brevmal): string => {
   switch (mal) {
     case Brevmal.MED_ARBEIDSGIVER:
     case Brevmal.UTEN_ARBEIDSGIVER:
-      return "Du har nå vært sykmeldt i mer enn åtte uker. Da har du plikt til å være i aktivitet.";
+      return "Du har nå vært sykmeldt i over åtte uker. Du har da plikt til å være i arbeidstrelatert aktivitet.";
     case Brevmal.UTLAND:
-      return "Du har nå vært sykmeldt i mer enn åtte uker. Da har du plikt til å være i aktivitet. Vi gjør oppmerksom på at det er vanlig praksis i Norge å være sykmeldt gradert mens man jobber gradert. Det er også vanlig praksis å kombinere jobb, eventuelt gradert jobb, med behandling.";
+      return "Du har nå vært sykmeldt i over åtte uker. Du har da plikt til å være i arbeidstrelatert aktivitet. Vi gjør oppmerksom på at det er vanlig praksis i Norge å være sykmeldt gradert mens man jobber gradert. Det er også vanlig praksis å kombinere jobb, eventuelt gradert jobb, med behandling.";
   }
 };
 

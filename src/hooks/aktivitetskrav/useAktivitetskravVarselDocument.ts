@@ -47,7 +47,8 @@ export const useAktivitetskravVarselDocument = (): {
     const documentComponents = [
       createHeaderH1(sendForhandsvarselTexts.varselInfo.header),
       createParagraph(sendForhandsvarselTexts.varselInfo.intro),
-      createParagraph(sendForhandsvarselTexts.varselInfo.stans),
+      createParagraph(sendForhandsvarselTexts.varselInfo.stans1),
+      createParagraph(sendForhandsvarselTexts.varselInfo.stans2),
     ];
 
     if (begrunnelse) {
@@ -74,7 +75,8 @@ export const useAktivitetskravVarselDocument = (): {
       createParagraph(
         sendForhandsvarselTexts.giOssTilbakemelding.tilbakemeldingWithFristDate
       ),
-      createParagraph(sendForhandsvarselTexts.giOssTilbakemelding.kontaktOss),
+      createHeaderH3(sendForhandsvarselTexts.kontaktOss.header),
+      createParagraph(sendForhandsvarselTexts.kontaktOss.kontaktOss),
 
       createHeaderH3(sendForhandsvarselTexts.lovhjemmel.header),
       createParagraph(sendForhandsvarselTexts.lovhjemmel.aktivitetsplikten),

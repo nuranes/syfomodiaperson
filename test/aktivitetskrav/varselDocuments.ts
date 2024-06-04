@@ -142,7 +142,11 @@ export const getSendForhandsvarselDocument = (
       type: DocumentComponentType.PARAGRAPH,
     },
     {
-      texts: [sendForhandsvarselTexts.varselInfo.stans],
+      texts: [sendForhandsvarselTexts.varselInfo.stans1],
+      type: DocumentComponentType.PARAGRAPH,
+    },
+    {
+      texts: [sendForhandsvarselTexts.varselInfo.stans2],
       type: DocumentComponentType.PARAGRAPH,
     },
     {
@@ -182,7 +186,11 @@ export const getSendForhandsvarselDocument = (
       type: DocumentComponentType.PARAGRAPH,
     },
     {
-      texts: [sendForhandsvarselTexts.giOssTilbakemelding.kontaktOss],
+      texts: [sendForhandsvarselTexts.kontaktOss.header],
+      type: DocumentComponentType.HEADER_H3,
+    },
+    {
+      texts: [sendForhandsvarselTexts.kontaktOss.kontaktOss],
       type: DocumentComponentType.PARAGRAPH,
     },
     {
