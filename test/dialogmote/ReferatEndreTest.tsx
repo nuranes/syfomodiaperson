@@ -4,7 +4,7 @@ import Referat, {
   ReferatMode,
   valideringsTexts as referatSkjemaValideringsTexts,
 } from "../../src/components/dialogmote/referat/Referat";
-import { expect, describe, it, beforeEach, afterEach } from "vitest";
+import { expect, describe, it, beforeEach } from "vitest";
 import {
   changeTextInput,
   clickButton,
@@ -21,7 +21,6 @@ import {
 } from "./testData";
 import { screen, within } from "@testing-library/react";
 import { expectedEndretReferatDocument } from "./testDataDocuments";
-import sinon from "sinon";
 import { queryClientWithMockData } from "../testQueryClient";
 import { getReferatTexts } from "@/data/dialogmote/dialogmoteTexts";
 import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
@@ -31,17 +30,10 @@ import { Malform, MalformProvider } from "@/context/malform/MalformContext";
 let queryClient: QueryClient;
 
 describe("ReferatEndreTest", () => {
-  let clock: any;
-  const today = new Date(Date.now());
   const referatTexts = getReferatTexts(Malform.BOKMAL);
 
   beforeEach(() => {
     queryClient = queryClientWithMockData();
-    clock = sinon.useFakeTimers(today.getTime());
-  });
-
-  afterEach(() => {
-    clock.restore();
   });
 
   it("validerer begrunnelse for endring", () => {

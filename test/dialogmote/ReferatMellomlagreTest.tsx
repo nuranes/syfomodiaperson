@@ -3,7 +3,7 @@ import Referat, {
   ReferatMode,
 } from "../../src/components/dialogmote/referat/Referat";
 import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
-import { expect, describe, it, beforeEach, afterEach } from "vitest";
+import { expect, describe, it, beforeEach } from "vitest";
 import { changeTextInput, clickButton, getTextInput } from "../testUtils";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { dialogmoteRoutePath } from "@/routers/AppRouter";
@@ -19,7 +19,6 @@ import {
 } from "./testData";
 import { screen } from "@testing-library/react";
 import { expectedReferatDocument } from "./testDataDocuments";
-import sinon from "sinon";
 import { stubMellomlagreApi } from "../stubs/stubIsdialogmote";
 import { apiMock } from "../stubs/stubApi";
 import { queryClientWithMockData } from "../testQueryClient";
@@ -30,16 +29,8 @@ import { MalformProvider } from "@/context/malform/MalformContext";
 let queryClient: QueryClient;
 
 describe("ReferatMellomlagreTest", () => {
-  let clock: any;
-  const today = new Date(Date.now());
-
   beforeEach(() => {
     queryClient = queryClientWithMockData();
-    clock = sinon.useFakeTimers(today.getTime());
-  });
-
-  afterEach(() => {
-    clock.restore();
   });
 
   it("lagrer referat med verdier fra skjema", () => {

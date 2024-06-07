@@ -37,7 +37,6 @@ import {
 import { screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { expectedReferatDocument } from "./testDataDocuments";
-import sinon from "sinon";
 import { queryClientWithMockData } from "../testQueryClient";
 import { getReferatTexts } from "@/data/dialogmote/dialogmoteTexts";
 import { NewDialogmoteReferatDTO } from "@/data/dialogmote/types/dialogmoteReferatTypes";
@@ -48,17 +47,13 @@ import { StoreKey } from "@/hooks/useLocalStorageState";
 let queryClient: QueryClient;
 
 describe("ReferatTest", () => {
-  let clock: any;
-  const today = new Date(Date.now());
   const referatTexts = getReferatTexts(Malform.BOKMAL);
 
   beforeEach(() => {
     queryClient = queryClientWithMockData();
-    clock = sinon.useFakeTimers(today.getTime());
   });
 
   afterEach(() => {
-    clock.restore();
     localStorage.setItem(StoreKey.MALFORM, Malform.BOKMAL);
   });
 
