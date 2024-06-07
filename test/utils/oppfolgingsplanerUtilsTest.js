@@ -1,5 +1,4 @@
-import { expect, describe, it, beforeEach, afterEach } from "vitest";
-import sinon from "sinon";
+import { expect, describe, it } from "vitest";
 import {
   mockAvbruttActiveOppfolgingsplan,
   mockAvbruttInactiveOppfolgingsplan,
@@ -17,17 +16,6 @@ import {
 } from "../../mock/common/mockConstants";
 
 describe("oppfolgingsplanerUtils", () => {
-  let clock;
-  const today = new Date(Date.now());
-
-  beforeEach(() => {
-    clock = sinon.useFakeTimers(today.getTime());
-  });
-
-  afterEach(() => {
-    clock.restore();
-  });
-
   describe("activeOppfolgingsplaner", () => {
     it("Gives a list of one plan, when one is active", () => {
       const planer = [mockValidActiveOppfolgingsplan];
