@@ -13,7 +13,7 @@ import {
 } from "@/data/dialogmote/types/dialogmoteTypes";
 import { daysFromToday, getButton } from "../testUtils";
 import { MemoryRouter } from "react-router-dom";
-import { expect } from "chai";
+import { expect, describe, it } from "vitest";
 import {
   tilDatoMedManedNavnOgKlokkeslett,
   tilLesbarDatoMedArstall,

@@ -8,7 +8,7 @@ import {
   navEnhet,
 } from "../testData";
 import { fireEvent, screen, within } from "@testing-library/react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import userEvent from "@testing-library/user-event";
 import { dialogmoteRoutePath } from "@/routers/AppRouter";
 import React from "react";

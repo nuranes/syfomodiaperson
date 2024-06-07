@@ -2,7 +2,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { render, screen } from "@testing-library/react";
 import React from "react";
 import PersonkortHeader from "@/components/personkort/PersonkortHeader/PersonkortHeader";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import {
   queryClientWithAktivBruker,
   setQueryDataWithPersonkortdata,

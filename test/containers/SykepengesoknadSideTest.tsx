@@ -1,5 +1,5 @@
 import React from "react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import mockSoknader from "../mockdata/mockSoknader";
 import { screen } from "@testing-library/react";
 import { QueryClientProvider } from "@tanstack/react-query";

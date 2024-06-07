@@ -4,7 +4,7 @@ import {
   varselArbeidsgiver,
 } from "../testData";
 import { render, screen } from "@testing-library/react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import { QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import { DeltakereSvarInfo } from "@/components/dialogmote/DeltakereSvarInfo";

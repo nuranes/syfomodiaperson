@@ -7,7 +7,7 @@ import { queryClientWithMockData } from "../testQueryClient";
 import { apiMock } from "../stubs/stubApi";
 import { navEnhet } from "../dialogmote/testData";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import { changeTextInput, clickButton } from "../testUtils";
 import { stubFlexjarApiError, stubFlexjarApiOk } from "../stubs/stubFlexjar";
 import { defaultErrorTexts } from "@/api/errors";

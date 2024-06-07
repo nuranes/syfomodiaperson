@@ -2,7 +2,7 @@ import { QueryClient } from "@tanstack/react-query";
 import React from "react";
 import { queryClientWithMockData } from "../testQueryClient";
 import { screen, waitFor, within } from "@testing-library/react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import {
   VurderingRequestDTO,
   VurderingType,

@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import React, { useState } from "react";
 import { VelgBehandler } from "@/components/behandler/VelgBehandler";
 import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";

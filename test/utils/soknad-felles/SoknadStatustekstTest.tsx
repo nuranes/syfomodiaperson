@@ -1,5 +1,5 @@
 import React from "react";
-import { expect } from "chai";
+import { expect, describe, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { tilLesbarDatoMedArstall } from "@/utils/datoUtils";
 import SoknadStatustekst from "@/utils/soknad-felles/SoknadStatustekst";

@@ -8,7 +8,7 @@ import {
   stubBehandlendeEnhetApi,
   stubChangeEnhetApi,
 } from "../../stubs/stubSyfobehandlendeEnhet";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import { queryClientWithAktivBruker } from "../../testQueryClient";
 import { PersonDTO } from "@/data/behandlendeenhet/types/BehandlendeEnhet";
 import { DEFAULT_GODKJENT_FNR } from "../../../mock/util/requestUtil";

@@ -1,5 +1,5 @@
 import React from "react";
-import { expect } from "chai";
+import { expect, describe, it } from "vitest";
 
 import Feilmelding from "../../src/components/Feilmelding";
 import { render, screen } from "@testing-library/react";

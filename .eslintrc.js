@@ -18,7 +18,6 @@ module.exports = {
     "prettier", // Make sure this is always the last configuration in the extends array.
   ],
   plugins: ["unused-imports", "no-only-tests"],
-  ignorePatterns: ["test/setup.js", "test/babel-register.js"],
   rules: {
     // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
     "unused-imports/no-unused-imports": "error",

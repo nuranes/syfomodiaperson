@@ -1,5 +1,5 @@
 import React from "react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import AvlysDialogmoteSkjema, {
   MAX_LENGTH_AVLYS_BEGRUNNELSE,
   texts as avlysningSkjemaTexts,

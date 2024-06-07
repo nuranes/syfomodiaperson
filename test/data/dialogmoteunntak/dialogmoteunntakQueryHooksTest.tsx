@@ -1,5 +1,5 @@
 import nock from "nock";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import { renderHook, waitFor } from "@testing-library/react";
 import { apiMock } from "../../stubs/stubApi";
 import { queryHookWrapper } from "../queryHookTestUtils";

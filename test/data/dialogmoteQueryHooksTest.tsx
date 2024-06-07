@@ -2,7 +2,7 @@ import { apiMock } from "../stubs/stubApi";
 import nock from "nock";
 import { stubDialogmoterApi } from "../stubs/stubIsdialogmote";
 import { renderHook, waitFor } from "@testing-library/react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import { useDialogmoterQuery } from "@/data/dialogmote/dialogmoteQueryHooks";
 import { dialogmoterMock } from "../../mock/isdialogmote/dialogmoterMock";
 import { queryHookWrapper } from "./queryHookTestUtils";

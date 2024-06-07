@@ -11,7 +11,7 @@ import Referat, {
 } from "../../src/components/dialogmote/referat/Referat";
 import { texts as deltakereSkjemaTexts } from "../../src/components/dialogmote/referat/Deltakere";
 import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import { texts as valideringsTexts } from "../../src/utils/valideringUtils";
 import {
   changeTextInput,

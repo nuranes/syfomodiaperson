@@ -4,7 +4,7 @@ import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
 import React from "react";
 import { StartNyVurdering } from "@/sider/aktivitetskrav/vurdering/StartNyVurdering";
-import { expect } from "chai";
+import { beforeEach, describe, expect, it } from "vitest";
 import { queryClientWithMockData } from "../testQueryClient";
 import { oppfolgingstilfellePersonQueryKeys } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import {

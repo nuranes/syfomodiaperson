@@ -19,7 +19,7 @@ import {
   EditOppfolgingsoppgaveRequestDTO,
 } from "@/data/oppfolgingsoppgave/types";
 import { generateUUID } from "@/utils/uuidUtils";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import userEvent from "@testing-library/user-event";
 import nock from "nock";
 import { apiMock } from "../stubs/stubApi";

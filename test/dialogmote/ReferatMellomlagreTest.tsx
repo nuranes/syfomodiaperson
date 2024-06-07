@@ -3,7 +3,7 @@ import Referat, {
   ReferatMode,
 } from "../../src/components/dialogmote/referat/Referat";
 import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import { changeTextInput, clickButton, getTextInput } from "../testUtils";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { dialogmoteRoutePath } from "@/routers/AppRouter";

@@ -4,7 +4,7 @@ import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
 import React from "react";
 import { queryClientWithMockData } from "../testQueryClient";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import { Meldinger } from "@/sider/behandlerdialog/meldinger/Meldinger";
 import { behandlerdialogQueryKeys } from "@/data/behandlerdialog/behandlerdialogQueryHooks";
 import {

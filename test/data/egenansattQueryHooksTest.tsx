@@ -2,7 +2,7 @@ import { apiMock } from "../stubs/stubApi";
 import nock from "nock";
 import { queryHookWrapper } from "./queryHookTestUtils";
 import { renderHook, waitFor } from "@testing-library/react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import { stubEgenansattApi } from "../stubs/stubSyfoperson";
 import { useEgenansattQuery } from "@/data/egenansatt/egenansattQueryHooks";
 import { testQueryClient } from "../testQueryClient";

@@ -1,6 +1,6 @@
 import React from "react";
 import { ForhandsvisningModal } from "@/components/ForhandsvisningModal";
-import { expect } from "chai";
+import { expect, describe, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import {
   DocumentComponentDto,

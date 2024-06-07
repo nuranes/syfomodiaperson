@@ -1,13 +1,8 @@
-import chai from "chai";
-import chaiDatetime from "chai-datetime";
 import {
   periodeOverlapperMedPeriode,
   senesteTom,
   tidligsteFom,
 } from "@/utils/periodeUtils";
-
-chai.use(chaiDatetime);
-const expect = chai.expect;
 
 describe("periodeUtils", () => {
   describe("tidligsteFom", () => {

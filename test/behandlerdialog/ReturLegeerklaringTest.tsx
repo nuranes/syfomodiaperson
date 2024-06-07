@@ -1,6 +1,6 @@
 import { changeTextInput, clickButton } from "../testUtils";
 import { render, screen, waitFor, within } from "@testing-library/react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import {
   MeldingDTO,
   ReturLegeerklaringDTO,

@@ -21,7 +21,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import { MoteSvarHistorikk } from "@/components/dialogmote/motehistorikk/MoteSvarHistorikk";
 import { queryClientWithMockData } from "../testQueryClient";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import userEvent from "@testing-library/user-event";
 
 let queryClient: QueryClient;

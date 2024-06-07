@@ -10,7 +10,7 @@ import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
 import React from "react";
 import { queryClientWithMockData } from "../testQueryClient";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import { MeldingTilBehandler } from "@/sider/behandlerdialog/meldingtilbehandler/MeldingTilBehandler";
 import { changeTextInput, clickButton, getTextInput } from "../testUtils";
 import {

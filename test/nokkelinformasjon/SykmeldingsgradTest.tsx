@@ -3,7 +3,7 @@ import { queryClientWithMockData } from "../testQueryClient";
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { Sykmeldingsgrad } from "@/sider/nokkelinformasjon/sykmeldingsgrad/Sykmeldingsgrad";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import { sykmeldingerQueryKeys } from "@/data/sykmelding/sykmeldingQueryHooks";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import { sykmeldingerMock } from "../../mock/syfosmregister/sykmeldingerMock";

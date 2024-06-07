@@ -2,7 +2,7 @@ import { apiMock } from "../stubs/stubApi";
 import nock from "nock";
 import { queryHookWrapper } from "./queryHookTestUtils";
 import { renderHook, waitFor } from "@testing-library/react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import { testQueryClient } from "../testQueryClient";
 import { stubMaxdateApi } from "../stubs/stubEsyfovarsel";
 import { useMaksdatoQuery } from "@/data/maksdato/useMaksdatoQuery";

@@ -1,7 +1,7 @@
 import { renderHook, waitFor } from "@testing-library/react";
 import nock from "nock";
 import { apiMock } from "../stubs/stubApi";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import { queryHookWrapper } from "./queryHookTestUtils";
 import { stubPersoninfoApi } from "../stubs/stubSyfoperson";
 import { useBrukerinfoQuery } from "@/data/navbruker/navbrukerQueryHooks";

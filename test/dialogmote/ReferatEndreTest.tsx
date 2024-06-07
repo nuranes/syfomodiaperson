@@ -4,7 +4,7 @@ import Referat, {
   ReferatMode,
   valideringsTexts as referatSkjemaValideringsTexts,
 } from "../../src/components/dialogmote/referat/Referat";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import {
   changeTextInput,
   clickButton,

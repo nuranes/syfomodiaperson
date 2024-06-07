@@ -14,7 +14,7 @@ import {
   OppfolgingstilfelleDTO,
   OppfolgingstilfellePersonDTO,
 } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import { daysFromToday } from "../testUtils";
 import { navEnhet } from "./testData";
 import { MalformProvider } from "@/context/malform/MalformContext";

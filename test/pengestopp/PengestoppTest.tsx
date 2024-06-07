@@ -17,7 +17,7 @@ import {
   StatusEndring,
   SykepengestoppArsakType,
 } from "@/data/pengestopp/types/FlaggPerson";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 
 let queryClient: QueryClient;
 

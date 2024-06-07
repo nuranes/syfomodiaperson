@@ -3,7 +3,7 @@ import { screen } from "@testing-library/react";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
 import { queryClientWithMockData } from "../testQueryClient";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import React from "react";
 import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQueryHooks";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";

@@ -5,7 +5,7 @@ import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
 import React from "react";
 import { FriskmeldingTilArbeidsformidling } from "@/sider/frisktilarbeid/FriskmeldingTilArbeidsformidling";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import { getButton, getTextInput } from "../testUtils";
 import { VedtakResponseDTO } from "@/data/frisktilarbeid/frisktilarbeidTypes";
 import { vedtakQueryKeys } from "@/data/frisktilarbeid/vedtakQuery";

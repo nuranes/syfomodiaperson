@@ -3,7 +3,7 @@ import React from "react";
 import { queryClientWithMockData } from "../testQueryClient";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import { screen } from "@testing-library/react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import {
   VurderingResponseDTO,
   VurderingType,

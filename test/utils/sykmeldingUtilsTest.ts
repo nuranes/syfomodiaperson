@@ -1,4 +1,4 @@
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import {
   arbeidsgivernavnEllerArbeidssituasjon,
   erArbeidsforEtterPerioden,

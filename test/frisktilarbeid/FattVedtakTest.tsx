@@ -5,7 +5,7 @@ import { navEnhet } from "../dialogmote/testData";
 import React from "react";
 import { FattVedtakSkjema } from "@/sider/frisktilarbeid/FattVedtakSkjema";
 import { queryClientWithMockData } from "../testQueryClient";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import { changeTextInput, clickButton, getTextInput } from "../testUtils";
 import dayjs from "dayjs";
 import { VedtakRequestDTO } from "@/data/frisktilarbeid/frisktilarbeidTypes";

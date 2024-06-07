@@ -13,7 +13,7 @@ import {
 import { render, screen } from "@testing-library/react";
 import { DeltakereSvarInfo } from "@/components/dialogmote/DeltakereSvarInfo";
 import React from "react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import {
   queryClientWithMockData,
   testQueryClient,

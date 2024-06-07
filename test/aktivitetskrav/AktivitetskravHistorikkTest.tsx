@@ -13,7 +13,7 @@ import {
   OppfyltVurderingArsak,
   UnntakVurderingArsak,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import { tilDatoMedManedNavn } from "@/utils/datoUtils";
 import { daysFromToday, getButton } from "../testUtils";
 import userEvent from "@testing-library/user-event";

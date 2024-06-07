@@ -3,7 +3,7 @@ import {
   SykmeldingStatus,
 } from "@/data/sykmelding/types/SykmeldingOldFormat";
 import { erMeldingTilNavInformasjon } from "@/utils/sykmeldinger/sykmeldingUtils";
-import { expect } from "chai";
+import { expect, describe, it } from "vitest";
 import { BehandlingsutfallStatusDTO } from "@/data/sykmelding/types/BehandlingsutfallStatusDTO";
 import { SporsmalSvarDTO } from "@/data/sykmelding/types/SporsmalSvarDTO";
 

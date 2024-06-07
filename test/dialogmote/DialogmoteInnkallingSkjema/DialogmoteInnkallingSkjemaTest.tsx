@@ -1,5 +1,5 @@
 import React from "react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import { texts as valideringsTexts } from "@/utils/valideringUtils";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { dialogmoteRoutePath } from "@/routers/AppRouter";

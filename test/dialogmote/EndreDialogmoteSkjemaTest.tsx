@@ -8,7 +8,7 @@ import {
   getTextInput,
   getTooLongText,
 } from "../testUtils";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import { apiMock } from "../stubs/stubApi";
 import { stubEndreApi } from "../stubs/stubIsdialogmote";
 import { texts } from "@/sider/dialogmoter/components/endre/EndreDialogmoteSkjema";

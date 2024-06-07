@@ -1,4 +1,4 @@
-import { expect } from "chai";
+import { expect, describe, it, afterEach } from "vitest";
 import sinon from "sinon";
 import { isEaster, isPride } from "@/utils/festiveUtils";
 

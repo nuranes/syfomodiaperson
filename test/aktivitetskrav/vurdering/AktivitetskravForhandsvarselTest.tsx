@@ -24,7 +24,7 @@ import {
   CreateAktivitetskravVurderingDTO,
   SendForhandsvarselDTO,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import { getSendForhandsvarselDocument } from "../varselDocuments";
 import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQueryHooks";
 import { personOppgaveUbehandletVurderStans } from "../../../mock/ispersonoppgave/personoppgaveMock";

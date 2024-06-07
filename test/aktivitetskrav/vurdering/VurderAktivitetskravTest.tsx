@@ -33,7 +33,7 @@ import {
   OppfyltVurderingArsak,
   UnntakVurderingArsak,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import { tilLesbarPeriodeMedArUtenManednavn } from "@/utils/datoUtils";
 import dayjs from "dayjs";
 import {

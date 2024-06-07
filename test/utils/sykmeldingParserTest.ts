@@ -1,4 +1,4 @@
-import { expect } from "chai";
+import { expect, describe, it } from "vitest";
 import { toDate } from "@/utils/datoUtils";
 import {
   newSMFormat2OldFormat,

@@ -5,7 +5,7 @@ import {
 } from "@/components/globalnavigasjon/GlobalNavigasjon";
 import React from "react";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 import { oppfolgingsplanQueryKeys } from "@/data/oppfolgingsplan/oppfolgingsplanQueryHooks";
 import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQueryHooks";
