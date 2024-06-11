@@ -1,4 +1,4 @@
-import { expect } from "chai";
+import { expect, describe, it } from "vitest";
 import { capitalizeAllWords } from "@/utils/stringUtils";
 
 const expectedCapitalized = "Stevie Ray Vaughan";

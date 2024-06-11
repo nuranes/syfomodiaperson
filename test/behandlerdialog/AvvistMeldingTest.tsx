@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
 import React from "react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import { MeldingStatusType } from "@/data/behandlerdialog/behandlerdialogTypes";
 import { queryClientWithMockData } from "../testQueryClient";
 import { AvvistMelding } from "@/sider/behandlerdialog/meldinger/AvvistMelding";

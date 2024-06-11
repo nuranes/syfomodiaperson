@@ -2,7 +2,7 @@ import { QueryClient } from "@tanstack/react-query";
 import React from "react";
 import { queryClientWithMockData } from "../testQueryClient";
 import { screen, waitFor, within } from "@testing-library/react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import {
   VurderingRequestDTO,
   VurderingType,
@@ -69,7 +69,7 @@ describe("OppfyltForm", () => {
     it("Gives error when trying to send vurdering without begrunnelse", async () => {
       renderOppfyltForm();
 
-      clickButton("Lagre");
+      await clickButton("Lagre");
 
       expect(await screen.findByText("Vennligst angi begrunnelse")).to.exist;
     });
@@ -81,7 +81,7 @@ describe("OppfyltForm", () => {
       const berunnelseInput = getTextInput(begrunnelseLabel);
 
       changeTextInput(berunnelseInput, begrunnelse);
-      clickButton("Lagre");
+      await clickButton("Lagre");
 
       await waitFor(() => {
         const useSendVurderingArbeidsuforhet = queryClient
@@ -106,7 +106,7 @@ describe("OppfyltForm", () => {
       const begrunnelseInput = getTextInput(begrunnelseLabel);
 
       changeTextInput(begrunnelseInput, begrunnelse);
-      clickButton("Forhåndsvisning");
+      await clickButton("Forhåndsvisning");
 
       const forhandsvisningVurdering = screen.getAllByRole("dialog", {
         hidden: true,

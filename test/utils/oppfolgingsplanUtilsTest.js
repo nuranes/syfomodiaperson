@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { expect } from "chai";
+import { expect, describe, it } from "vitest";
 import { lpsPlanerWithActiveTilfelle } from "@/utils/oppfolgingsplanUtils";
 import {
   ARBEIDSTAKER_DEFAULT,

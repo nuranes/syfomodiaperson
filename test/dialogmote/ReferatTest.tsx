@@ -11,7 +11,7 @@ import Referat, {
 } from "../../src/components/dialogmote/referat/Referat";
 import { texts as deltakereSkjemaTexts } from "../../src/components/dialogmote/referat/Deltakere";
 import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import { texts as valideringsTexts } from "../../src/utils/valideringUtils";
 import {
   changeTextInput,
@@ -37,7 +37,6 @@ import {
 import { screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { expectedReferatDocument } from "./testDataDocuments";
-import sinon from "sinon";
 import { queryClientWithMockData } from "../testQueryClient";
 import { getReferatTexts } from "@/data/dialogmote/dialogmoteTexts";
 import { NewDialogmoteReferatDTO } from "@/data/dialogmote/types/dialogmoteReferatTypes";
@@ -48,17 +47,13 @@ import { StoreKey } from "@/hooks/useLocalStorageState";
 let queryClient: QueryClient;
 
 describe("ReferatTest", () => {
-  let clock: any;
-  const today = new Date(Date.now());
   const referatTexts = getReferatTexts(Malform.BOKMAL);
 
   beforeEach(() => {
     queryClient = queryClientWithMockData();
-    clock = sinon.useFakeTimers(today.getTime());
   });
 
   afterEach(() => {
-    clock.restore();
     localStorage.setItem(StoreKey.MALFORM, Malform.BOKMAL);
   });
 
@@ -72,7 +67,7 @@ describe("ReferatTest", () => {
     ).to.exist;
   });
 
-  it("viser alle deltakere forhåndsutfylt med 'Fra arbeidsgiver' redigerbar og påkrevd", () => {
+  it("viser alle deltakere forhåndsutfylt med 'Fra arbeidsgiver' redigerbar og påkrevd", async () => {
     renderReferat(dialogmote);
 
     expect(
@@ -99,7 +94,7 @@ describe("ReferatTest", () => {
 
     // Sjekk at 'Fra arbeidsgiver' valideres
     changeTextInput(getFraArbeidsgiverInput(), "");
-    clickButton("Lagre og send");
+    await clickButton("Lagre og send");
     expect(screen.getAllByText(valideringsTexts.arbeidsgiverDeltakerMissing)).to
       .not.be.empty;
 
@@ -133,7 +128,7 @@ describe("ReferatTest", () => {
     expect(behandlerMottarReferatInput.checked).to.be.true;
   });
 
-  it("kan endre behandlers deltakelse", () => {
+  it("kan endre behandlers deltakelse", async () => {
     stubFerdigstillApi(apiMock(), dialogmoteMedBehandler.uuid);
     renderReferat(dialogmoteMedBehandler);
     passSkjemaTekstInput();
@@ -142,12 +137,12 @@ describe("ReferatTest", () => {
     const behandlerDeltokCheckbox: HTMLInputElement = screen.getByLabelText(
       deltakereSkjemaTexts.behandlerDeltokLabel
     );
-    userEvent.click(behandlerDeltokCheckbox);
+    await userEvent.click(behandlerDeltokCheckbox);
     const behandlerMottaReferatCheckbox: HTMLInputElement =
       screen.getByLabelText(deltakereSkjemaTexts.behandlerMottaReferatLabel);
-    userEvent.click(behandlerMottaReferatCheckbox);
+    await userEvent.click(behandlerMottaReferatCheckbox);
 
-    clickButton("Lagre og send");
+    await clickButton("Lagre og send");
 
     // Sjekk behandlers deltakelse-felter og brev
     const ferdigstillMutation = queryClient.getMutationCache().getAll().pop();
@@ -165,10 +160,10 @@ describe("ReferatTest", () => {
     );
   });
 
-  it("validerer alle fritekstfelter unntatt veileders oppgave", () => {
+  it("validerer alle fritekstfelter unntatt veileders oppgave", async () => {
     renderReferat(dialogmote);
 
-    clickButton("Lagre og send");
+    await clickButton("Lagre og send");
 
     expect(screen.getAllByText(referatSkjemaValideringsTexts.situasjonMissing))
       .to.not.be.empty;
@@ -186,11 +181,11 @@ describe("ReferatTest", () => {
     ).to.not.be.empty;
   });
 
-  it("validerer navn og funksjon på andre deltakere", () => {
+  it("validerer navn og funksjon på andre deltakere", async () => {
     renderReferat(dialogmote);
 
-    clickButton("Pluss ikon Legg til en deltaker");
-    clickButton("Lagre og send");
+    await clickButton("Pluss ikon Legg til en deltaker");
+    await clickButton("Lagre og send");
 
     // Feilmeldinger i skjema
     expect(screen.getAllByText(valideringsTexts.andreDeltakereMissingNavn)).to
@@ -199,7 +194,7 @@ describe("ReferatTest", () => {
       .to.not.be.empty;
 
     // Slett deltaker og sjekk at feil forsvinner
-    clickButton("Slett ikon");
+    await clickButton("Slett ikon");
     expect(screen.queryAllByText(valideringsTexts.andreDeltakereMissingNavn)).to
       .be.empty;
     expect(
@@ -238,19 +233,19 @@ describe("ReferatTest", () => {
     clickButton("Lagre og send");
   });
 
-  it("ferdigstiller dialogmote ved submit av skjema", () => {
+  it("ferdigstiller dialogmote ved submit av skjema", async () => {
     stubFerdigstillApi(apiMock(), dialogmoteMedBehandler.uuid);
     renderReferat(dialogmoteMedBehandler);
 
     passSkjemaTekstInput();
 
-    clickButton("Pluss ikon Legg til en deltaker");
+    await clickButton("Pluss ikon Legg til en deltaker");
     const annenDeltakerNavnInput = getTextInput("Navn");
     const annenDeltakerFunksjonInput = getTextInput("Funksjon");
     changeTextInput(annenDeltakerNavnInput, annenDeltakerNavn);
     changeTextInput(annenDeltakerFunksjonInput, annenDeltakerFunksjon);
 
-    clickButton("Lagre og send");
+    await clickButton("Lagre og send");
 
     const ferdigstillMutation = queryClient.getMutationCache().getAll().pop();
     const expectedFerdigstilling = {
@@ -273,17 +268,17 @@ describe("ReferatTest", () => {
     );
   });
 
-  it("forhåndsviser referat", () => {
+  it("forhåndsviser referat", async () => {
     renderReferat(dialogmoteMedBehandler);
     passSkjemaTekstInput();
 
-    clickButton("Pluss ikon Legg til en deltaker");
+    await clickButton("Pluss ikon Legg til en deltaker");
     const annenDeltakerNavnInput = getTextInput("Navn");
     const annenDeltakerFunksjonInput = getTextInput("Funksjon");
     changeTextInput(annenDeltakerNavnInput, annenDeltakerNavn);
     changeTextInput(annenDeltakerFunksjonInput, annenDeltakerFunksjon);
 
-    clickButton("Forhåndsvisning");
+    await clickButton("Forhåndsvisning");
     const forhandsvisningReferat = screen.getByRole("dialog", {
       hidden: true,
     });
@@ -295,16 +290,16 @@ describe("ReferatTest", () => {
       });
   });
 
-  it("forhåndsviser referat med nynorsktekster hvis dette er valgt", () => {
+  it("forhåndsviser referat med nynorsktekster hvis dette er valgt", async () => {
     renderReferat(dialogmoteMedBehandler);
     passSkjemaTekstInput();
 
     const malformRadioNynorsk = screen.getByRole("radio", {
       name: "Nynorsk",
     });
-    userEvent.click(malformRadioNynorsk);
+    await userEvent.click(malformRadioNynorsk);
 
-    clickButton("Forhåndsvisning");
+    await clickButton("Forhåndsvisning");
 
     expect(screen.getByText(getReferatTexts(Malform.NYNORSK).intro2)).to.exist;
   });

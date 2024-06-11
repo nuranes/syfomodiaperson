@@ -8,7 +8,7 @@ import {
   getTextInput,
   getTooLongText,
 } from "../testUtils";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import { apiMock } from "../stubs/stubApi";
 import { stubEndreApi } from "../stubs/stubIsdialogmote";
 import { texts } from "@/sider/dialogmoter/components/endre/EndreDialogmoteSkjema";
@@ -53,7 +53,7 @@ describe("EndreDialogmoteSkjemaTest", () => {
   it("validerer begrunnelser og dato", async () => {
     renderEndreDialogmoteSkjema(dialogmote);
 
-    clickButton("Send");
+    await clickButton("Send");
 
     expect(await screen.findByText(texts.begrunnelseArbeidstakerMissing)).to
       .exist;
@@ -64,14 +64,14 @@ describe("EndreDialogmoteSkjemaTest", () => {
   it("validerer begrunnelse til behandler når behandler er med", async () => {
     renderEndreDialogmoteSkjema(dialogmoteMedBehandler);
 
-    clickButton("Send");
+    await clickButton("Send");
 
     expect(await screen.findByText(texts.begrunnelseBehandlerMissing)).to.exist;
   });
   it("valideringsmeldinger forsvinner ved utbedring", async () => {
     renderEndreDialogmoteSkjema(dialogmote);
 
-    clickButton("Send");
+    await clickButton("Send");
 
     expect(await screen.findByText(texts.begrunnelseArbeidstakerMissing)).to
       .exist;
@@ -99,7 +99,7 @@ describe("EndreDialogmoteSkjemaTest", () => {
       moteTekster.fritekstTilArbeidsgiver
     );
     changeTextInput(datoInput, endretMote.dato);
-    clickButton("Send");
+    await clickButton("Send");
 
     // Feilmeldinger forsvinner
     await waitFor(() => {
@@ -139,7 +139,7 @@ describe("EndreDialogmoteSkjemaTest", () => {
     changeTextInput(begrunnelseArbeidsgiverInput, tooLongFritekst);
     changeTextInput(begrunnelseBehandlerInput, tooLongFritekst);
 
-    clickButton("Send");
+    await clickButton("Send");
 
     expect(await screen.findAllByText("1 tegn for mye")).to.not.be.empty;
   });
@@ -149,7 +149,7 @@ describe("EndreDialogmoteSkjemaTest", () => {
     renderEndreDialogmoteSkjema(dialogmote);
     passSkjemaInput();
 
-    clickButton("Send");
+    await clickButton("Send");
 
     await waitFor(() => {
       const endreMutation = queryClient.getMutationCache().getAll()[0];
@@ -180,7 +180,7 @@ describe("EndreDialogmoteSkjemaTest", () => {
     const linkWithWhitespace = `   ${link}  `;
     changeTextInput(videoLinkInput, linkWithWhitespace);
 
-    clickButton("Send");
+    await clickButton("Send");
 
     let endreMutation;
     await waitFor(() => {
@@ -214,7 +214,7 @@ describe("EndreDialogmoteSkjemaTest", () => {
       moteTekster.fritekstTilBehandler
     );
 
-    clickButton("Send");
+    await clickButton("Send");
 
     await waitFor(() => {
       const endreMutation = queryClient.getMutationCache().getAll()[0];
@@ -238,7 +238,7 @@ describe("EndreDialogmoteSkjemaTest", () => {
       expect(endreMutation.state.variables).to.deep.equal(expectedEndring);
     });
   });
-  it("forhåndsviser endret tid og sted til arbeidstaker", () => {
+  it("forhåndsviser endret tid og sted til arbeidstaker", async () => {
     renderEndreDialogmoteSkjema(dialogmote);
     passSkjemaInput();
 
@@ -246,7 +246,7 @@ describe("EndreDialogmoteSkjemaTest", () => {
       name: "Forhåndsvisning",
     });
     expect(previewButtons).to.have.length(2);
-    userEvent.click(previewButtons[0]);
+    await userEvent.click(previewButtons[0]);
 
     const forhandsvisningEndringArbeidstaker = screen.getAllByRole("dialog", {
       hidden: true,
@@ -272,7 +272,7 @@ describe("EndreDialogmoteSkjemaTest", () => {
           .exist;
       });
   });
-  it("forhåndsviser endret tid og sted til arbeidsgiver", () => {
+  it("forhåndsviser endret tid og sted til arbeidsgiver", async () => {
     renderEndreDialogmoteSkjema(dialogmote);
     passSkjemaInput();
 
@@ -280,7 +280,7 @@ describe("EndreDialogmoteSkjemaTest", () => {
       name: "Forhåndsvisning",
     });
     expect(previewButtons).to.have.length(2);
-    userEvent.click(previewButtons[1]);
+    await userEvent.click(previewButtons[1]);
 
     const forhandsvisningEndringArbeidsgiver = screen.getAllByRole("dialog", {
       hidden: true,
@@ -306,7 +306,7 @@ describe("EndreDialogmoteSkjemaTest", () => {
           .exist;
       });
   });
-  it("forhåndsviser endret tid og sted til behandler når behandler er med", () => {
+  it("forhåndsviser endret tid og sted til behandler når behandler er med", async () => {
     stubAktivVeilederinfoApi(apiMockScope);
     stubFeatureTogglesApi(apiMockScope);
     renderEndreDialogmoteSkjema(dialogmoteMedBehandler);
@@ -321,7 +321,7 @@ describe("EndreDialogmoteSkjemaTest", () => {
       name: "Forhåndsvisning",
     });
     expect(previewButtons).to.have.length(3);
-    userEvent.click(previewButtons[2]);
+    await userEvent.click(previewButtons[2]);
 
     const forhandsvisningEndringBehandler = screen.getAllByRole("dialog", {
       hidden: true,
@@ -343,19 +343,19 @@ describe("EndreDialogmoteSkjemaTest", () => {
       });
   });
 
-  it("forhåndsviser endring med nynorsktekster hvis dette er valgt", () => {
+  it("forhåndsviser endring med nynorsktekster hvis dette er valgt", async () => {
     renderEndreDialogmoteSkjema(dialogmoteMedBehandler);
     passSkjemaInput();
 
     const malformRadioNynorsk = screen.getByRole("radio", {
       name: "Nynorsk",
     });
-    userEvent.click(malformRadioNynorsk);
+    await userEvent.click(malformRadioNynorsk);
 
     const forhandsvisningButton = screen.getAllByRole("button", {
       name: "Forhåndsvisning",
     })[0];
-    userEvent.click(forhandsvisningButton);
+    await userEvent.click(forhandsvisningButton);
 
     expect(screen.getByText(getEndreTidStedTexts(Malform.NYNORSK).intro2)).to
       .exist;

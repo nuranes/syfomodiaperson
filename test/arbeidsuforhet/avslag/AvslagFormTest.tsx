@@ -1,7 +1,7 @@
 import { QueryClient } from "@tanstack/react-query";
 import React from "react";
 import { screen, waitFor, within } from "@testing-library/react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import {
   VurderingRequestDTO,
   VurderingType,
@@ -62,11 +62,8 @@ describe("AvslagForm", () => {
     it("Gives errors when trying to send vurdering without date and begrunnelse", async () => {
       renderAvslagForm();
 
-      clickButton("Gi avslag");
+      await clickButton("Gi avslag");
 
-      await waitFor(() => {
-        expect(screen.queryByText("Vennligst angi begrunnelse")).to.not.exist;
-      });
       expect(await screen.findByText("Vennligst angi dato")).to.exist;
       expect(await screen.findByText("Vennligst angi begrunnelse")).to.exist;
     });
@@ -83,7 +80,7 @@ describe("AvslagForm", () => {
 
       changeTextInput(dateInput, toDatePrettyPrint(date) as string);
       changeTextInput(begrunnelseInput, begrunnelse);
-      clickButton("Gi avslag");
+      await clickButton("Gi avslag");
 
       await waitFor(() => {
         const useSendVurderingArbeidsuforhet = queryClient
@@ -114,7 +111,7 @@ describe("AvslagForm", () => {
       changeTextInput(dateInput, toDatePrettyPrint(date) as string);
       changeTextInput(begrunnelseInput, begrunnelse);
 
-      clickButton("Forhåndsvisning");
+      await clickButton("Forhåndsvisning");
 
       const forhandsvisningVurdering = screen.getAllByRole("dialog", {
         hidden: true,

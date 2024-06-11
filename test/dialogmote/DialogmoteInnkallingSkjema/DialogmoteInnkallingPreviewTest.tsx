@@ -8,7 +8,7 @@ import {
   navEnhet,
 } from "../testData";
 import { fireEvent, screen, within } from "@testing-library/react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import userEvent from "@testing-library/user-event";
 import { dialogmoteRoutePath } from "@/routers/AppRouter";
 import React from "react";
@@ -35,7 +35,7 @@ describe("Dialogmoteinnkallingskjema forhåndsvisning", () => {
     mockApiScope = apiMock();
   });
 
-  it("previews innkalling to arbeidstaker", () => {
+  it("previews innkalling to arbeidstaker", async () => {
     renderDialogmoteInnkallingSkjema();
     passSkjemaInput();
 
@@ -43,7 +43,7 @@ describe("Dialogmoteinnkallingskjema forhåndsvisning", () => {
       name: "Forhåndsvisning",
     });
     expect(previewButtons).to.have.length(2);
-    userEvent.click(previewButtons[0]);
+    await userEvent.click(previewButtons[0]);
     const forhandsvisningInnkallingArbeidstaker = screen.getAllByRole(
       "dialog",
       {
@@ -72,7 +72,7 @@ describe("Dialogmoteinnkallingskjema forhåndsvisning", () => {
       });
   });
 
-  it("previews innkalling to arbeidsgiver", () => {
+  it("previews innkalling to arbeidsgiver", async () => {
     renderDialogmoteInnkallingSkjema();
     passSkjemaInput();
 
@@ -80,7 +80,7 @@ describe("Dialogmoteinnkallingskjema forhåndsvisning", () => {
       name: "Forhåndsvisning",
     });
     expect(previewButtons).to.have.length(2);
-    userEvent.click(previewButtons[1]);
+    await userEvent.click(previewButtons[1]);
     const forhandsvisningInnkallingArbeidsgiver = screen.getAllByRole(
       "dialog",
       {
@@ -109,17 +109,17 @@ describe("Dialogmoteinnkallingskjema forhåndsvisning", () => {
       });
   });
 
-  it("previews innkalling to behandler", () => {
+  it("previews innkalling to behandler", async () => {
     stubFeatureTogglesApi(mockApiScope);
     queryClient.setQueryData(
       behandlereQueryKeys.behandlere(arbeidstaker.personident),
       () => [behandler]
     );
     renderDialogmoteInnkallingSkjema();
-    passSkjemaInput();
+    await passSkjemaInput();
 
     const fastlegeInput = screen.getByRole("radio", { name: /Fastlege/ });
-    userEvent.click(fastlegeInput);
+    await userEvent.click(fastlegeInput);
     const fritekstBehandlerInput = getTextInput(
       "Fritekst til behandler (valgfri)"
     );
@@ -129,7 +129,7 @@ describe("Dialogmoteinnkallingskjema forhåndsvisning", () => {
       name: "Forhåndsvisning",
     });
     expect(previewButtons).to.have.length(3);
-    userEvent.click(previewButtons[2]);
+    await userEvent.click(previewButtons[2]);
     const forhandsvisningInnkallingBehandler = screen.getAllByRole("dialog", {
       hidden: true,
     })[3];

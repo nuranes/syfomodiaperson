@@ -6,7 +6,7 @@ import { stubFeatureTogglesApi } from "../../stubs/stubUnleash";
 import { queryHookWrapper } from "../queryHookTestUtils";
 import { renderHook, waitFor } from "@testing-library/react";
 import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import { mockUnleashResponse } from "../../../mock/unleashMocks";
 
 let queryClient: any;

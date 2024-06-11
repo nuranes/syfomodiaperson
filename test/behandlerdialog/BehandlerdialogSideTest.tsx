@@ -5,7 +5,7 @@ import { navEnhet } from "../dialogmote/testData";
 import React from "react";
 import { BehandlerdialogSide } from "@/sider/behandlerdialog/BehandlerdialogSide";
 import { queryClientWithMockData } from "../testQueryClient";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 
 let queryClient: QueryClient;
 

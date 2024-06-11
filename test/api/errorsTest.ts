@@ -1,6 +1,6 @@
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
-import { expect } from "chai";
+import { expect, describe, it, beforeAll } from "vitest";
 import { get, post } from "@/api/axios";
 import { isClientError } from "@/api/errors";
 
@@ -12,7 +12,7 @@ describe("errors test", () => {
   const pathNotFound = "/404";
   const pathInternalServerError = "/500";
 
-  before(() => {
+  beforeAll(() => {
     stub = new MockAdapter(axios);
     stub.onPost(pathBadRequest).replyOnce(400);
     stub.onGet(pathAccessDenied).replyOnce(403, { message: "Denied!" });

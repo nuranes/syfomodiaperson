@@ -1,5 +1,5 @@
 import React from "react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   arbeidsgiver,
@@ -52,7 +52,7 @@ describe("Dialogmoteinnkallingskjema med behandler", () => {
     renderDialogmoteInnkallingSkjema();
 
     const fastlegeInput = screen.getByRole("radio", { name: /Fastlege/ });
-    userEvent.click(fastlegeInput);
+    await userEvent.click(fastlegeInput);
 
     const fritekstArbeidstakerInput = getTextInput(
       "Fritekst til arbeidstakeren (valgfri)"
@@ -72,14 +72,14 @@ describe("Dialogmoteinnkallingskjema med behandler", () => {
       moteTekster.fritekstTilArbeidsgiver
     );
     changeTextInput(fritekstBehandlerInput, moteTekster.fritekstTilBehandler);
-    clickButton("Send innkallingene");
+    await clickButton("Send innkallingene");
 
     expect(screen.queryAllByText(maxLengthErrorMsg)).to.have.length(0);
 
     changeTextInput(fritekstArbeidstakerInput, tooLongFritekst);
     changeTextInput(fritekstArbeidsgiverInput, tooLongFritekst);
     changeTextInput(fritekstBehandlerInput, tooLongFritekst);
-    clickButton("Send innkallingene");
+    await clickButton("Send innkallingene");
 
     expect(await screen.findAllByText(maxLengthErrorMsg)).to.have.length(3);
   });
@@ -88,9 +88,9 @@ describe("Dialogmoteinnkallingskjema med behandler", () => {
     stubInnkallingApi(apiMockScope);
     stubFeatureTogglesApi(apiMockScope);
     renderDialogmoteInnkallingSkjema();
-    passSkjemaInput();
+    await passSkjemaInput();
 
-    clickButton("Send innkallingene");
+    await clickButton("Send innkallingene");
 
     await waitFor(() => {
       const innkallingMutation = queryClient.getMutationCache().getAll()[0];
@@ -157,7 +157,7 @@ const renderDialogmoteInnkallingSkjema = () => {
   );
 };
 
-const passSkjemaInput = () => {
+const passSkjemaInput = async () => {
   const virksomhetSelect = screen.getByRole("radio", {
     name: `Fant ikke virksomhetsnavn for ${arbeidsgiver.orgnr}`,
   });
@@ -166,7 +166,7 @@ const passSkjemaInput = () => {
   const stedInput = getTextInput("Sted");
   const videoLinkInput = getTextInput("Lenke til videomøte (valgfritt)");
   const fastlegeInput = screen.getByRole("radio", { name: /Fastlege/ });
-  userEvent.click(fastlegeInput);
+  await userEvent.click(fastlegeInput);
   const fritekstArbeidstakerInput = getTextInput(
     "Fritekst til arbeidstakeren (valgfri)"
   );

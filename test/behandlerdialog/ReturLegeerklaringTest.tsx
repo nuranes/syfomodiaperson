@@ -1,6 +1,6 @@
 import { changeTextInput, clickButton } from "../testUtils";
 import { render, screen, waitFor, within } from "@testing-library/react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import {
   MeldingDTO,
   ReturLegeerklaringDTO,
@@ -103,12 +103,12 @@ describe("ReturLegeerklaring", () => {
   it("click send validates begrunnelse", async () => {
     renderReturLegeerklaring(foresporselLegeerklaringFraBehandler);
 
-    clickButton(returButtonText);
+    await clickButton(returButtonText);
     const sendButton = screen.getByRole("button", {
       name: sendButtonText,
       hidden: true,
     });
-    userEvent.click(sendButton);
+    await userEvent.click(sendButton);
 
     expect(await screen.findByText("Vennligst angi begrunnelse")).to.exist;
 
@@ -117,7 +117,7 @@ describe("ReturLegeerklaring", () => {
       hidden: true,
     });
     changeTextInput(begrunnelseInput, enBegrunnelseTekst);
-    userEvent.click(sendButton);
+    await userEvent.click(sendButton);
 
     await waitFor(() => {
       expect(screen.queryByText("Vennligst angi begrunnelse")).to.not.exist;
@@ -131,7 +131,7 @@ describe("ReturLegeerklaring", () => {
 
     renderReturLegeerklaring(foresporselLegeerklaringFraBehandler);
 
-    clickButton(returButtonText);
+    await clickButton(returButtonText);
 
     const begrunnelseInput = screen.getByRole("textbox", {
       name: "Begrunnelse",
@@ -143,7 +143,7 @@ describe("ReturLegeerklaring", () => {
       name: sendButtonText,
       hidden: true,
     });
-    userEvent.click(sendButton);
+    await userEvent.click(sendButton);
 
     await waitFor(() => {
       const returLegeerklaringMutation = queryClient

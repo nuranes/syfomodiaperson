@@ -24,7 +24,7 @@ import {
   CreateAktivitetskravVurderingDTO,
   SendForhandsvarselDTO,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import { getSendForhandsvarselDocument } from "../varselDocuments";
 import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQueryHooks";
 import { personOppgaveUbehandletVurderStans } from "../../../mock/ispersonoppgave/personoppgaveMock";
@@ -78,9 +78,9 @@ describe("VurderAktivitetskrav forhåndsvarsel", () => {
       expect(screen.queryByRole("button", { name: "Avvent" })).to.not.exist;
     });
 
-    it("Viser select for valg av mal med 'Med arbeidsgiver' forhåndsvalgt", () => {
+    it("Viser select for valg av mal med 'Med arbeidsgiver' forhåndsvalgt", async () => {
       renderVurderAktivitetskrav(aktivitetskrav);
-      clickTab(tabTexts["FORHANDSVARSEL"]);
+      await clickTab(tabTexts["FORHANDSVARSEL"]);
 
       const velgMalSelect = screen.getByRole("combobox");
       expect(
@@ -100,7 +100,7 @@ describe("VurderAktivitetskrav forhåndsvarsel", () => {
       stubVurderAktivitetskravForhandsvarselApi(apiMockScope);
       const beskrivelseLabel = "Begrunnelse (obligatorisk)";
 
-      clickTab(tabTexts["FORHANDSVARSEL"]);
+      await clickTab(tabTexts["FORHANDSVARSEL"]);
 
       expect(
         screen.getByRole("heading", {
@@ -114,7 +114,7 @@ describe("VurderAktivitetskrav forhåndsvarsel", () => {
       const beskrivelseInput = getTextInput(beskrivelseLabel);
       changeTextInput(beskrivelseInput, enLangBeskrivelse);
 
-      clickButton("Send");
+      await clickButton("Send");
 
       await waitFor(() => {
         const sendForhandsvarselMutation = queryClient
@@ -139,7 +139,7 @@ describe("VurderAktivitetskrav forhåndsvarsel", () => {
       stubVurderAktivitetskravForhandsvarselApi(apiMockScope);
       const beskrivelseLabel = "Begrunnelse (obligatorisk)";
 
-      clickTab(tabTexts["FORHANDSVARSEL"]);
+      await clickTab(tabTexts["FORHANDSVARSEL"]);
 
       expect(
         screen.getByRole("heading", {
@@ -158,7 +158,7 @@ describe("VurderAktivitetskrav forhåndsvarsel", () => {
         target: { value: "UTEN_ARBEIDSGIVER" },
       });
 
-      clickButton("Send");
+      await clickButton("Send");
 
       await waitFor(() => {
         const sendForhandsvarselMutation = queryClient
@@ -186,7 +186,7 @@ describe("VurderAktivitetskrav forhåndsvarsel", () => {
       stubVurderAktivitetskravForhandsvarselApi(apiMockScope);
       const beskrivelseLabel = "Begrunnelse (obligatorisk)";
 
-      clickTab(tabTexts["FORHANDSVARSEL"]);
+      await clickTab(tabTexts["FORHANDSVARSEL"]);
 
       expect(
         screen.getByRole("heading", {
@@ -205,7 +205,7 @@ describe("VurderAktivitetskrav forhåndsvarsel", () => {
         target: { value: "UTLAND" },
       });
 
-      clickButton("Send");
+      await clickButton("Send");
 
       await waitFor(() => {
         const sendForhandsvarselMutation = queryClient
@@ -228,7 +228,7 @@ describe("VurderAktivitetskrav forhåndsvarsel", () => {
       );
     });
 
-    it("IKKE_OPPFYLT is present when status is forhandsvarsel and it is expired", () => {
+    it("IKKE_OPPFYLT is present when status is forhandsvarsel and it is expired", async () => {
       queryClient.setQueryData(
         personoppgaverQueryKeys.personoppgaver(
           ARBEIDSTAKER_DEFAULT.personIdent
@@ -237,7 +237,7 @@ describe("VurderAktivitetskrav forhåndsvarsel", () => {
       );
       renderVurderAktivitetskrav(forhandsvarselAktivitetskrav);
 
-      clickTab(tabTexts["IKKE_OPPFYLT"]);
+      await clickTab(tabTexts["IKKE_OPPFYLT"]);
 
       expect(
         screen.getByRole("heading", {
@@ -248,7 +248,7 @@ describe("VurderAktivitetskrav forhåndsvarsel", () => {
       expect(
         screen.getByText(/Innstilling må skrives og sendes til NAY i Gosys/)
       ).to.exist;
-      clickButton("Lagre");
+      await clickButton("Lagre");
 
       const vurderIkkeOppfyltMutation = queryClient
         .getMutationCache()
@@ -263,19 +263,19 @@ describe("VurderAktivitetskrav forhåndsvarsel", () => {
     });
     it("Fails to send forhåndsvarsel when no beskrivelse is filled in", async () => {
       renderVurderAktivitetskrav(aktivitetskrav);
-      clickTab(tabTexts["FORHANDSVARSEL"]);
-      clickButton("Send");
+      await clickTab(tabTexts["FORHANDSVARSEL"]);
+      await clickButton("Send");
 
       expect(await screen.findByText("Vennligst angi begrunnelse")).to.exist;
     });
     it("Validerer maks tegn beskrivelse", async () => {
       renderVurderAktivitetskrav(aktivitetskrav);
-      clickTab(tabTexts["FORHANDSVARSEL"]);
+      await clickTab(tabTexts["FORHANDSVARSEL"]);
 
       const tooLongBeskrivelse = getTooLongText(5000);
       const beskrivelseInput = getTextInput("Begrunnelse (obligatorisk)");
       changeTextInput(beskrivelseInput, tooLongBeskrivelse);
-      clickButton("Send");
+      await clickButton("Send");
 
       expect(await screen.findByText("1 tegn for mye")).to.exist;
     });

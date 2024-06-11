@@ -1,8 +1,5 @@
-import { expect } from "chai";
+import { expect, describe, it, beforeAll, vi, afterAll } from "vitest";
 import { erGyldigFodselsnummer } from "@/utils/frnValideringUtils";
-import sinon from "sinon";
-import * as miljoutil from "@/utils/miljoUtil";
-import { after } from "mocha";
 
 describe("fnrValideringsUtils", () => {
   describe("erGyldigFodselsnummer in prod", () => {
@@ -108,13 +105,13 @@ describe("fnrValideringsUtils", () => {
   });
 
   describe("erGyldigFodselsnummer in preprod", () => {
-    const erPreProdStub = sinon.stub(miljoutil, "erPreProd");
-
-    before((): void => {
-      erPreProdStub.returns(true);
+    beforeAll(() => {
+      vi.stubGlobal("window", {
+        location: { href: "syfomodiaperson.intern.dev.nav.no" },
+      });
     });
-    after((): void => {
-      erPreProdStub.reset();
+    afterAll(() => {
+      vi.restoreAllMocks();
     });
 
     it("return true if valid NAV synthetic fnr (add 40 to month)", () => {

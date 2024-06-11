@@ -1,5 +1,5 @@
 import React from "react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import { texts as valideringsTexts } from "@/utils/valideringUtils";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { dialogmoteRoutePath } from "@/routers/AppRouter";
@@ -139,7 +139,7 @@ describe("DialogmoteInnkallingSkjema", () => {
 
   it("validerer arbeidsgiver, dato, tid og sted", async () => {
     renderDialogmoteInnkallingSkjema();
-    clickButton("Send innkallingene");
+    await clickButton("Send innkallingene");
 
     expect(await screen.findByText(valideringsTexts.orgMissing)).to.exist;
     expect(await screen.findByText(/Vennligst angi en gyldig dato/)).to.exist;
@@ -149,7 +149,7 @@ describe("DialogmoteInnkallingSkjema", () => {
 
   it("valideringsmeldinger forsvinner ved utbedring", async () => {
     renderDialogmoteInnkallingSkjema();
-    clickButton("Send innkallingene");
+    await clickButton("Send innkallingene");
 
     expect(await screen.findByText(valideringsTexts.orgMissing)).to.exist;
     expect(await screen.findByText(/Vennligst angi en gyldig dato/)).to.exist;
@@ -185,7 +185,7 @@ describe("DialogmoteInnkallingSkjema", () => {
     renderDialogmoteInnkallingSkjema();
     passSkjemaInput();
 
-    clickButton("Send innkallingene");
+    await clickButton("Send innkallingene");
 
     await waitFor(() => {
       const innkallingMutation = queryClient.getMutationCache().getAll()[0];
@@ -306,7 +306,7 @@ describe("DialogmoteInnkallingSkjema", () => {
     const videoLinkInput = getTextInput("Lenke til videomøte (valgfritt)");
     const linkWithWhitespace = `   ${link}  `;
     changeTextInput(videoLinkInput, linkWithWhitespace);
-    clickButton("Send innkallingene");
+    await clickButton("Send innkallingene");
 
     let innkallingMutation;
     await waitFor(() => {
@@ -333,18 +333,18 @@ describe("DialogmoteInnkallingSkjema", () => {
     expect(videoLink).to.equal(link);
   });
 
-  it("velger nynorske brev og endrer tekstene", () => {
+  it("velger nynorske brev og endrer tekstene", async () => {
     renderDialogmoteInnkallingSkjema();
 
     const malformRadioNynorsk = screen.getByRole("radio", {
       name: "Nynorsk",
     });
-    userEvent.click(malformRadioNynorsk);
+    await userEvent.click(malformRadioNynorsk);
 
     const forhandsvisningButton = screen.getAllByRole("button", {
       name: "Forhåndsvisning",
     })[0];
-    userEvent.click(forhandsvisningButton);
+    await userEvent.click(forhandsvisningButton);
 
     expect(
       screen.getByText(getInnkallingTexts(Malform.NYNORSK).arbeidstaker.intro2)

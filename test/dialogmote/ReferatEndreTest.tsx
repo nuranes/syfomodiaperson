@@ -4,7 +4,7 @@ import Referat, {
   ReferatMode,
   valideringsTexts as referatSkjemaValideringsTexts,
 } from "../../src/components/dialogmote/referat/Referat";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import {
   changeTextInput,
   clickButton,
@@ -21,7 +21,6 @@ import {
 } from "./testData";
 import { screen, within } from "@testing-library/react";
 import { expectedEndretReferatDocument } from "./testDataDocuments";
-import sinon from "sinon";
 import { queryClientWithMockData } from "../testQueryClient";
 import { getReferatTexts } from "@/data/dialogmote/dialogmoteTexts";
 import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
@@ -31,23 +30,16 @@ import { Malform, MalformProvider } from "@/context/malform/MalformContext";
 let queryClient: QueryClient;
 
 describe("ReferatEndreTest", () => {
-  let clock: any;
-  const today = new Date(Date.now());
   const referatTexts = getReferatTexts(Malform.BOKMAL);
 
   beforeEach(() => {
     queryClient = queryClientWithMockData();
-    clock = sinon.useFakeTimers(today.getTime());
   });
 
-  afterEach(() => {
-    clock.restore();
-  });
-
-  it("validerer begrunnelse for endring", () => {
+  it("validerer begrunnelse for endring", async () => {
     renderEndreReferat(dialogmoteMedFerdigstiltReferat);
 
-    clickButton("Lagre og send");
+    await clickButton("Lagre og send");
 
     expect(
       screen.getAllByText(
@@ -60,7 +52,7 @@ describe("ReferatEndreTest", () => {
       begrunnelseInput,
       getTooLongText(MAX_LENGTH_BEGRUNNELSE_ENDRING)
     );
-    clickButton("Lagre og send");
+    await clickButton("Lagre og send");
 
     expect(screen.getByText(/tegn tillatt/)).to.exist;
   });
@@ -81,11 +73,11 @@ describe("ReferatEndreTest", () => {
     expect(screen.getByDisplayValue(moteTekster.begrunnelseEndring)).to.exist;
   });
 
-  it("forhåndsviser endret referat", () => {
+  it("forhåndsviser endret referat", async () => {
     renderEndreReferat(dialogmoteMedFerdigstiltReferat);
     passSkjemaInput();
 
-    clickButton("Forhåndsvisning");
+    await clickButton("Forhåndsvisning");
 
     const forhandsvisningReferat = screen.getByRole("dialog", {
       hidden: true,
@@ -105,10 +97,10 @@ describe("ReferatEndreTest", () => {
     ).to.exist;
   });
 
-  it("endrer ferdigstilling av dialogmote ved submit av skjema", () => {
+  it("endrer ferdigstilling av dialogmote ved submit av skjema", async () => {
     renderEndreReferat(dialogmoteMedFerdigstiltReferat);
     passSkjemaInput();
-    clickButton("Lagre og send");
+    await clickButton("Lagre og send");
 
     const endringFerdigstillMutation = queryClient
       .getMutationCache()

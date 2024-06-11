@@ -1,5 +1,4 @@
-import { expect } from "chai";
-import sinon from "sinon";
+import { expect, describe, it } from "vitest";
 import {
   ledereIVirksomheterMedMotebehovsvarFraArbeidstaker,
   ledereMedOppfolgingstilfelleInnenforMotebehovperioden,
@@ -337,17 +336,6 @@ describe("ledereUtils", () => {
   });
 
   describe("lederHasActiveSykmelding", () => {
-    let clock;
-    const today = new Date(Date.now());
-
-    beforeEach(() => {
-      clock = sinon.useFakeTimers(today.getTime());
-    });
-
-    afterEach(() => {
-      clock.restore();
-    });
-
     it("Returns true if there is an active sykmelding for leders virksomhet", () => {
       const leder = mockLederWithActiveSykmelding;
       const sykmeldinger = [mockActiveSykmeldingForLeder];
@@ -398,17 +386,6 @@ describe("ledereUtils", () => {
   });
 
   describe("ledereWithActiveLedereFirst", () => {
-    let clock;
-    const today = new Date(Date.now());
-
-    beforeEach(() => {
-      clock = sinon.useFakeTimers(today.getTime());
-    });
-
-    afterEach(() => {
-      clock.restore();
-    });
-
     it("Returns a list where leder for virksomhet that has active sykmelding comes first", () => {
       const lederList = [
         mockLederWithoutActiveSykmelding,
@@ -427,17 +404,6 @@ describe("ledereUtils", () => {
   });
 
   describe("virksomheterWithoutLeder", () => {
-    let clock;
-    const today = new Date(Date.now());
-
-    beforeEach(() => {
-      clock = sinon.useFakeTimers(today.getTime());
-    });
-
-    afterEach(() => {
-      clock.restore();
-    });
-
     it("Returns a list with one leder if virksomhet in sykmelding does not have leder ", () => {
       const lederList = [mockLederWithoutActiveSykmelding];
       const sykmeldinger = [mockActiveSykmeldingForLeder];

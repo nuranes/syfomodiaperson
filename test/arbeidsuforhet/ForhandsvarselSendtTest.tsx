@@ -5,7 +5,7 @@ import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import { screen } from "@testing-library/react";
 import { navEnhet } from "../dialogmote/testData";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import { ForhandsvarselSendt } from "@/sider/arbeidsuforhet/ForhandsvarselSendt";
 import { VurderingResponseDTO } from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
 import { arbeidsuforhetQueryKeys } from "@/data/arbeidsuforhet/arbeidsuforhetQueryHooks";

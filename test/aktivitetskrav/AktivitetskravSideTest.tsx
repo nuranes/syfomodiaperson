@@ -12,7 +12,7 @@ import { render, screen } from "@testing-library/react";
 import { AktivitetskravSide } from "@/sider/aktivitetskrav/AktivitetskravSide";
 import { navEnhet } from "../dialogmote/testData";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import {
   createAktivitetskrav,
   generateOppfolgingstilfelle,

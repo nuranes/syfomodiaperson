@@ -21,7 +21,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import { MoteSvarHistorikk } from "@/components/dialogmote/motehistorikk/MoteSvarHistorikk";
 import { queryClientWithMockData } from "../testQueryClient";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import userEvent from "@testing-library/user-event";
 
 let queryClient: QueryClient;
@@ -169,11 +169,11 @@ describe("MoteSvarHistorikk", () => {
     expect(screen.getByText(`Innkalt av: ${VEILEDER_DEFAULT.fulltNavn()}`)).to
       .exist;
   });
-  it("viser innkalling med svar for ferdigstilt møte", () => {
+  it("viser innkalling med svar for ferdigstilt møte", async () => {
     renderMoteSvarHistorikk([ferdigstiltMote]);
 
     const accordion = screen.getByRole("button");
-    userEvent.click(accordion);
+    await userEvent.click(accordion);
 
     assertExpandableWithHeader(
       `${ARBEIDSTAKER_DEFAULT_FULL_NAME}, kommer - Svar mottatt 26.05.2021`
@@ -182,11 +182,11 @@ describe("MoteSvarHistorikk", () => {
       `${NARMESTE_LEDER_DEFAULT.navn}, kommer - Svar mottatt 26.05.2021`
     );
   });
-  it("viser innkalling med svar for avlyst møte", () => {
+  it("viser innkalling med svar for avlyst møte", async () => {
     renderMoteSvarHistorikk([avlystMote]);
 
     const accordion = screen.getByRole("button");
-    userEvent.click(accordion);
+    await userEvent.click(accordion);
 
     assertExpandableWithHeader(
       `${NARMESTE_LEDER_DEFAULT.navn}, kommer - Svar mottatt 26.05.2021`

@@ -5,8 +5,8 @@ import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
 import React from "react";
 import { FriskmeldingTilArbeidsformidling } from "@/sider/frisktilarbeid/FriskmeldingTilArbeidsformidling";
-import { expect } from "chai";
-import { getButton, getTextInput } from "../testUtils";
+import { expect, describe, it, beforeEach } from "vitest";
+import { clickButton, getButton, getTextInput } from "../testUtils";
 import { VedtakResponseDTO } from "@/data/frisktilarbeid/frisktilarbeidTypes";
 import { vedtakQueryKeys } from "@/data/frisktilarbeid/vedtakQuery";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
@@ -137,8 +137,8 @@ describe("FriskmeldingTilArbeidsformidling", () => {
       mockVedtak([vedtak]);
 
       renderFriskmeldingTilArbeidsformidling();
+      await clickButton("Nytt vedtak");
 
-      getButton("Nytt vedtak").click();
       expect(await screen.findByText("Forberedelser")).to.exist;
       expect(await screen.findByText("Friskmeldingen gjelder fra")).to.exist;
       expect(

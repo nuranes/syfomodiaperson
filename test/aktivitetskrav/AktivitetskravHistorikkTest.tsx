@@ -13,7 +13,7 @@ import {
   OppfyltVurderingArsak,
   UnntakVurderingArsak,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import { tilDatoMedManedNavn } from "@/utils/datoUtils";
 import { daysFromToday, getButton } from "../testUtils";
 import userEvent from "@testing-library/user-event";
@@ -214,11 +214,11 @@ describe("AktivitetskravHistorikk", () => {
     expect(screen.getByText(vurdertAvTitle)).to.exist;
     expect(screen.getByText(VEILEDER_DEFAULT.fulltNavn())).to.exist;
   });
-  it("Viser knapp for å se hele forhåndsvarsel-brevet dersom vurderingen var et forhåndsvarsel", () => {
+  it("Viser knapp for å se hele forhåndsvarsel-brevet dersom vurderingen var et forhåndsvarsel", async () => {
     renderAktivitetskravHistorikk([forhandsvarselVurdering]);
 
     const vurderingAccordion = screen.getByRole("button");
-    userEvent.click(vurderingAccordion);
+    await userEvent.click(vurderingAccordion);
     const button = screen.getByRole("button", { name: "Se hele brevet" });
 
     expect(screen.getByText(beskrivelseTitle)).to.exist;
@@ -227,7 +227,7 @@ describe("AktivitetskravHistorikk", () => {
     expect(screen.getByText(VEILEDER_DEFAULT.fulltNavn())).to.exist;
     expect(button).to.exist;
 
-    userEvent.click(button);
+    await userEvent.click(button);
 
     const previewModal = screen.getByRole("dialog", { hidden: true });
 

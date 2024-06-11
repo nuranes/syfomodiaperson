@@ -1,7 +1,7 @@
 import { apiMock } from "../stubs/stubApi";
 import nock from "nock";
 import { renderHook, waitFor } from "@testing-library/react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import { stubBehandlendeEnhetApi } from "../stubs/stubSyfobehandlendeEnhet";
 import { useBehandlendeEnhetQuery } from "@/data/behandlendeenhet/behandlendeEnhetQueryHooks";
 import { behandlendeEnhetMock } from "../../mock/syfobehandlendeenhet/behandlendeEnhetMock";

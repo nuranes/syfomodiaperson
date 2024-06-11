@@ -1,4 +1,4 @@
-import { expect } from "chai";
+import { expect, describe, it } from "vitest";
 import {
   arbeidsgivernavnEllerArbeidssituasjon,
   erArbeidsforEtterPerioden,
@@ -26,7 +26,6 @@ import {
 } from "@/data/sykmelding/types/SykmeldingOldFormat";
 import { BehandlingsutfallStatusDTO } from "@/data/sykmelding/types/BehandlingsutfallStatusDTO";
 import { SporsmalSvarDTO } from "@/data/sykmelding/types/SporsmalSvarDTO";
-import sinon from "sinon";
 import dayjs from "dayjs";
 
 const baseSykmelding: SykmeldingOldFormat = {
@@ -54,9 +53,6 @@ const baseSykmelding: SykmeldingOldFormat = {
 };
 
 describe("sykmeldingUtils", () => {
-  let clock: any;
-  let today = new Date("2017-02-01");
-
   describe("finnAvventendeSykmeldingTekst", () => {
     it("skal returnere teksten fra avventende-feltet i en periode, hvis det finnes", () => {
       const innspillTilArbeidsgiver = "Innspill til arbeidsgiver";
@@ -435,14 +431,6 @@ describe("sykmeldingUtils", () => {
   });
 
   describe("sykmeldingerInnenforOppfolgingstilfelle", () => {
-    beforeEach(() => {
-      today = new Date("2017-05-31");
-      clock = sinon.useFakeTimers(today.getTime());
-    });
-    afterEach(() => {
-      clock.restore();
-    });
-
     it("skal returnere en liste med bare sykmeldinger som starter innenfor oppfølgingstilfellet", () => {
       const startDate = new Date("2023-01-01");
       const endDate = new Date("2023-05-01");

@@ -3,7 +3,7 @@ import React from "react";
 import { queryClientWithMockData } from "../testQueryClient";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import { screen } from "@testing-library/react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import {
   VurderingResponseDTO,
   VurderingType,
@@ -105,7 +105,7 @@ describe("ArbeidsuforhetSide", () => {
         expect(screen.queryByText("Fristen er gått ut")).to.not.exist;
       };
 
-      it("after clicking ny vurdering if no there are no existing vurderinger", () => {
+      it("after clicking ny vurdering if no there are no existing vurderinger", async () => {
         const vurderinger = [];
         mockArbeidsuforhetVurderinger(vurderinger);
 
@@ -115,12 +115,12 @@ describe("ArbeidsuforhetSide", () => {
           arbeidsuforhetPath,
           [arbeidsuforhetPath]
         );
-        clickButton(nyVurderingButtonText);
+        await clickButton(nyVurderingButtonText);
 
         assertOnlyFormIsShowing();
       });
 
-      it("after clicking ny vurdering if latest arbeidsuforhet status is oppfylt", () => {
+      it("after clicking ny vurdering if latest arbeidsuforhet status is oppfylt", async () => {
         const oppfyltVurdering = createVurdering({
           type: VurderingType.OPPFYLT,
           begrunnelse: "begrunnelse",
@@ -135,12 +135,12 @@ describe("ArbeidsuforhetSide", () => {
           arbeidsuforhetPath,
           [arbeidsuforhetPath]
         );
-        clickButton(nyVurderingButtonText);
+        await clickButton(nyVurderingButtonText);
 
         assertOnlyFormIsShowing();
       });
 
-      it("after clicking ny vurdering if latest arbeidsuforhet status is avslag", () => {
+      it("after clicking ny vurdering if latest arbeidsuforhet status is avslag", async () => {
         const oppfyltVurdering = createVurdering({
           type: VurderingType.AVSLAG,
           begrunnelse: "",
@@ -155,7 +155,7 @@ describe("ArbeidsuforhetSide", () => {
           arbeidsuforhetPath,
           [arbeidsuforhetPath]
         );
-        clickButton(nyVurderingButtonText);
+        await clickButton(nyVurderingButtonText);
 
         assertOnlyFormIsShowing();
       });

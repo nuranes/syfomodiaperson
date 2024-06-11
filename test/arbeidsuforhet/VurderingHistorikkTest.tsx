@@ -10,7 +10,7 @@ import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
 import React from "react";
 import { VurderingHistorikk } from "@/sider/arbeidsuforhet/historikk/VurderingHistorikk";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import {
   createForhandsvarsel,
   createVurdering,
@@ -110,12 +110,12 @@ describe("VurderingHistorikk", () => {
       );
     });
 
-    it("klikk på overskrift viser begrunnelse, veileder og knapp for å se document for vurderingen", () => {
+    it("klikk på overskrift viser begrunnelse, veileder og knapp for å se document for vurderingen", async () => {
       renderVurderingHistorikk([oppfylt]);
 
       const vurderingButton = screen.getByRole("button");
 
-      userEvent.click(vurderingButton);
+      await userEvent.click(vurderingButton);
 
       expect(screen.getByText("Begrunnelse")).to.exist;
       expect(screen.getByText(oppfylt.begrunnelse)).to.exist;

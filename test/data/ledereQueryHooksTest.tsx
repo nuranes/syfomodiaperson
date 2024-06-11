@@ -3,7 +3,7 @@ import { apiMock } from "../stubs/stubApi";
 import nock from "nock";
 import { queryHookWrapper } from "./queryHookTestUtils";
 import { renderHook, waitFor } from "@testing-library/react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import { stubNarmestelederApi } from "../stubs/stubIsnarmesteleder";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
 import { testQueryClient } from "../testQueryClient";

@@ -1,5 +1,4 @@
-import { expect } from "chai";
-import sinon from "sinon";
+import { expect, describe, it } from "vitest";
 import {
   erMotebehovBehandlet,
   erOppfoelgingsdatoPassertMed16UkerOgIkke26Uker,
@@ -297,17 +296,6 @@ describe("motebehovUtils", () => {
   });
 
   describe("motebehovFromLatestActiveTilfelle", () => {
-    let clock;
-    const today = new Date(Date.now());
-
-    beforeEach(() => {
-      clock = sinon.useFakeTimers(today.getTime());
-    });
-
-    afterEach(() => {
-      clock.restore();
-    });
-
     const oneDayInMillis = 1000 * 60 * 60 * 24;
     const seventeenDaysAgo = new Date(Date.now() - oneDayInMillis * 17);
     const tenDaysAgo = new Date(Date.now() - oneDayInMillis * 10);

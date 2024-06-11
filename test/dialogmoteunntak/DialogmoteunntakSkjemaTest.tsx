@@ -1,5 +1,5 @@
 import React from "react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { fireEvent, screen, waitFor } from "@testing-library/react";
 import { dialogmoteUnntakRoutePath } from "@/routers/AppRouter";
@@ -59,7 +59,7 @@ describe("DialogmoteunntakSkjema", () => {
 
   it("valideringsmeldinger forsvinner ved utbedring", async () => {
     renderDialogmoteunntakSkjema();
-    clickButton(submitButtonText);
+    await clickButton(submitButtonText);
 
     expect(await screen.findByText(unntakSkjemaTexts.arsakErrorMessage)).to.not
       .be.empty;
@@ -83,7 +83,7 @@ describe("DialogmoteunntakSkjema", () => {
       expect(screen.queryAllByText(maxLengthErrorMsg)).to.be.empty;
     });
 
-    clickButton(submitButtonText);
+    await clickButton(submitButtonText);
   });
 
   it("sett unntak med kun med obligatorisk verdier fra skjema", async () => {
@@ -94,7 +94,7 @@ describe("DialogmoteunntakSkjema", () => {
     const unntakArsakText = unntakArsakTexts[0];
     passSkjemaInput(unntakArsakText);
 
-    clickButton(submitButtonText);
+    await clickButton(submitButtonText);
     await waitFor(() => {
       const unntakMutation = queryClient.getMutationCache().getAll()[0];
       const expectedCreateUnntakDTO: CreateUnntakDTO = {
@@ -119,7 +119,7 @@ describe("DialogmoteunntakSkjema", () => {
 
     passSkjemaInput(unntakArsakText, beskrivelse);
 
-    clickButton(submitButtonText);
+    await clickButton(submitButtonText);
 
     await waitFor(() => {
       const unntakMutation = queryClient.getMutationCache().getAll()[0];

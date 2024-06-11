@@ -1,5 +1,5 @@
 import React from "react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import AvlysDialogmoteSkjema, {
   MAX_LENGTH_AVLYS_BEGRUNNELSE,
   texts as avlysningSkjemaTexts,
@@ -44,7 +44,7 @@ describe("AvlysDialogmoteSkjemaTest", () => {
   });
   it("validerer begrunnelser", async () => {
     renderAvlysDialogmoteSkjema(dialogmote);
-    clickButton("Send");
+    await clickButton("Send");
 
     expect(
       await screen.findByText(
@@ -59,7 +59,7 @@ describe("AvlysDialogmoteSkjemaTest", () => {
   });
   it("validerer begrunnelse til behandler når behandler er med", async () => {
     renderAvlysDialogmoteSkjema(dialogmoteMedBehandler);
-    clickButton("Send");
+    await clickButton("Send");
 
     expect(
       await screen.findByText(avlysningSkjemaTexts.begrunnelseBehandlerMissing)
@@ -67,7 +67,7 @@ describe("AvlysDialogmoteSkjemaTest", () => {
   });
   it("valideringsmeldinger forsvinner ved utbedring", async () => {
     renderAvlysDialogmoteSkjema(dialogmote);
-    clickButton("Send");
+    await clickButton("Send");
     expect(
       await screen.findByText(
         avlysningSkjemaTexts.begrunnelseArbeidstakerMissing
@@ -139,7 +139,7 @@ describe("AvlysDialogmoteSkjemaTest", () => {
     changeTextInput(begrunnelseArbeidsgiverInput, tooLongFritekst);
     changeTextInput(begrunnelseBehandlerInput, tooLongFritekst);
 
-    clickButton("Send");
+    await clickButton("Send");
 
     expect(await screen.findAllByText("1 tegn for mye")).to.not.be.empty;
   });
@@ -162,7 +162,7 @@ describe("AvlysDialogmoteSkjemaTest", () => {
       moteTekster.fritekstTilArbeidsgiver
     );
 
-    clickButton("Send");
+    await clickButton("Send");
 
     await waitFor(() => {
       const avlysMutation = queryClient.getMutationCache().getAll()[0];
@@ -203,7 +203,7 @@ describe("AvlysDialogmoteSkjemaTest", () => {
       moteTekster.fritekstTilBehandler
     );
 
-    clickButton("Send");
+    await clickButton("Send");
 
     await waitFor(() => {
       const avlysMutation = queryClient.getMutationCache().getAll()[0];
@@ -246,7 +246,7 @@ describe("AvlysDialogmoteSkjemaTest", () => {
       name: "Forhåndsvisning",
     });
     expect(previewButtons).to.have.length(2);
-    userEvent.click(previewButtons[0]);
+    await userEvent.click(previewButtons[0]);
 
     const forhandsvisningAvlysningArbeidstaker = screen.getAllByRole("dialog", {
       hidden: true,
@@ -272,7 +272,7 @@ describe("AvlysDialogmoteSkjemaTest", () => {
           .exist;
       });
   });
-  it("forhåndsviser avlysning til arbeidsgiver", () => {
+  it("forhåndsviser avlysning til arbeidsgiver", async () => {
     renderAvlysDialogmoteSkjema(dialogmote);
 
     const begrunnelseArbeidstakerInput = getTextInput(
@@ -294,7 +294,7 @@ describe("AvlysDialogmoteSkjemaTest", () => {
       name: "Forhåndsvisning",
     });
     expect(previewButtons).to.have.length(2);
-    userEvent.click(previewButtons[1]);
+    await userEvent.click(previewButtons[1]);
 
     const forhandsvisningAvlysningArbeidsgiver = screen.getAllByRole("dialog", {
       hidden: true,
@@ -319,7 +319,7 @@ describe("AvlysDialogmoteSkjemaTest", () => {
           .exist;
       });
   });
-  it("forhåndsviser avlysning til behandler når behandler er med", () => {
+  it("forhåndsviser avlysning til behandler når behandler er med", async () => {
     renderAvlysDialogmoteSkjema(dialogmoteMedBehandler);
 
     const begrunnelseArbeidstakerInput = getTextInput(
@@ -346,7 +346,7 @@ describe("AvlysDialogmoteSkjemaTest", () => {
       name: "Forhåndsvisning",
     });
     expect(previewButtons).to.have.length(3);
-    userEvent.click(previewButtons[2]);
+    await userEvent.click(previewButtons[2]);
 
     const forhandsvisningAvlysningBehandler = screen.getAllByRole("dialog", {
       hidden: true,
@@ -372,18 +372,18 @@ describe("AvlysDialogmoteSkjemaTest", () => {
       });
   });
 
-  it("forhåndsviser avlysning med nynorsktekster hvis dette er valgt", () => {
+  it("forhåndsviser avlysning med nynorsktekster hvis dette er valgt", async () => {
     renderAvlysDialogmoteSkjema(dialogmoteMedBehandler);
 
     const malformRadioNynorsk = screen.getByRole("radio", {
       name: "Nynorsk",
     });
-    userEvent.click(malformRadioNynorsk);
+    await userEvent.click(malformRadioNynorsk);
 
     const forhandsvisningButton = screen.getAllByRole("button", {
       name: "Forhåndsvisning",
     })[0];
-    userEvent.click(forhandsvisningButton);
+    await userEvent.click(forhandsvisningButton);
 
     expect(
       screen.getByText(getAvlysningTexts(Malform.NYNORSK).intro1, {

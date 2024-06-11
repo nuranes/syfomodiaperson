@@ -19,7 +19,7 @@ import {
   EditOppfolgingsoppgaveRequestDTO,
 } from "@/data/oppfolgingsoppgave/types";
 import { generateUUID } from "@/utils/uuidUtils";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import userEvent from "@testing-library/user-event";
 import nock from "nock";
 import { apiMock } from "../stubs/stubApi";
@@ -105,7 +105,7 @@ describe("Oppfolgingsoppgave", () => {
         hidden: true,
         name: "Fjern",
       });
-      userEvent.click(removeButton);
+      await userEvent.click(removeButton);
 
       const fjernOppfolgingsoppgaveMutation = queryClient
         .getMutationCache()
@@ -121,7 +121,7 @@ describe("Oppfolgingsoppgave", () => {
         hidden: true,
         name: "Endre",
       });
-      userEvent.click(editButton);
+      await userEvent.click(editButton);
 
       const dialogs = await screen.findAllByRole("dialog", {
         hidden: true,
@@ -138,7 +138,7 @@ describe("Oppfolgingsoppgave", () => {
         hidden: true,
         name: "Endre",
       });
-      userEvent.click(editButton);
+      await userEvent.click(editButton);
 
       const fristDateInput = screen.getByRole("textbox", {
         hidden: true,
@@ -151,7 +151,7 @@ describe("Oppfolgingsoppgave", () => {
         hidden: true,
         name: "Lagre",
       });
-      userEvent.click(lagreButton);
+      await userEvent.click(lagreButton);
 
       await waitFor(() => {
         const endreOppfolgingsoppgaveMutation = queryClient
@@ -172,7 +172,7 @@ describe("Oppfolgingsoppgave", () => {
         hidden: true,
         name: "Endre",
       });
-      userEvent.click(editButton);
+      await userEvent.click(editButton);
 
       expect(
         screen.getByRole("textbox", {
@@ -186,7 +186,7 @@ describe("Oppfolgingsoppgave", () => {
         name: "Lagre",
       });
       expect(lagreButton).to.exist;
-      userEvent.click(lagreButton);
+      await userEvent.click(lagreButton);
 
       await screen.findByText("Du må gjøre en endring før du kan lagre.");
     });
@@ -203,7 +203,7 @@ describe("Oppfolgingsoppgave", () => {
         hidden: true,
         name: openOppfolgingsoppgaveButtonText,
       });
-      userEvent.click(openModalButton);
+      await userEvent.click(openModalButton);
 
       expect(
         await screen.findByText(
@@ -226,7 +226,7 @@ describe("Oppfolgingsoppgave", () => {
         hidden: true,
         name: openOppfolgingsoppgaveButtonText,
       });
-      userEvent.click(openModalButton);
+      await userEvent.click(openModalButton);
 
       const selectOppfolgingsgrunn = await screen.findByLabelText(
         "Hvilken oppfølgingsgrunn har du? (obligatorisk)"
@@ -250,7 +250,7 @@ describe("Oppfolgingsoppgave", () => {
         hidden: true,
         name: "Lagre",
       });
-      userEvent.click(lagreButton);
+      await userEvent.click(lagreButton);
 
       await waitFor(() => {
         const lagreOppfolgingsoppgaveMutation = queryClient
@@ -273,7 +273,7 @@ describe("Oppfolgingsoppgave", () => {
         hidden: true,
         name: openOppfolgingsoppgaveButtonText,
       });
-      userEvent.click(openModalButton);
+      await userEvent.click(openModalButton);
 
       const selectOppfolgingsgrunn = await screen.findByLabelText(
         "Hvilken oppfølgingsgrunn har du? (obligatorisk)"
@@ -294,7 +294,7 @@ describe("Oppfolgingsoppgave", () => {
         hidden: true,
         name: openOppfolgingsoppgaveButtonText,
       });
-      userEvent.click(openModalButton);
+      await userEvent.click(openModalButton);
 
       const selectOppfolgingsgrunn = await screen.findByLabelText(
         "Hvilken oppfølgingsgrunn har du? (obligatorisk)"

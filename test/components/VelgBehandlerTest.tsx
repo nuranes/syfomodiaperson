@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import React, { useState } from "react";
 import { VelgBehandler } from "@/components/behandler/VelgBehandler";
 import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
@@ -70,7 +70,7 @@ describe("VelgBehandler", () => {
   it("viser valideringsfeil når man ikke har valgt behandler", async () => {
     renderVelgBehandler();
 
-    clickButton(submitText);
+    await clickButton(submitText);
 
     expect(await screen.findByText("Vennligst velg behandler")).to.exist;
   });
@@ -82,16 +82,16 @@ describe("VelgBehandler", () => {
       name: searchBehandlerOptionText,
     });
     fireEvent.click(searchBehandlerOption);
-    clickButton(submitText);
+    await clickButton(submitText);
 
     expect(await screen.findByText("Vennligst velg behandler")).to.exist;
   });
 
-  it("kan velge behandler fra radioknapper", () => {
+  it("kan velge behandler fra radioknapper", async () => {
     renderVelgBehandler();
 
     const velgFastlegeOption = screen.getByRole("radio", { name: /Fastlege/ });
-    fireEvent.click(velgFastlegeOption);
+    await userEvent.click(velgFastlegeOption);
 
     expect(screen.getByText(mockBehandler.fnr)).to.exist;
     expect(screen.getByText(behandlerRefLegoLasLegesen)).to.exist;
@@ -115,7 +115,7 @@ describe("VelgBehandler", () => {
     const searchResult = await screen.findByRole("button", {
       name: /Baker/,
     });
-    userEvent.click(searchResult);
+    await userEvent.click(searchResult);
 
     expect(screen.getByText(behandlerSearchResultMock.fnr)).to.exist;
     expect(screen.getByText(behandlerSearchResultMock.behandlerRef)).to.exist;

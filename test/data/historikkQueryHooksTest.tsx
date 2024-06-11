@@ -6,7 +6,7 @@ import {
 } from "@/data/historikk/historikkQueryHooks";
 import { apiMock } from "../stubs/stubApi";
 import nock from "nock";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import { historikkmotebehovMock } from "../../mock/syfomotebehov/historikkmotebehovMock";
 import { historikkoppfolgingsplanMock } from "../../mock/syfooppfolgingsplanservice/historikkoppfolgingsplanMock";
 import { stubMotebehovHistorikkApi } from "../stubs/stubSyfomotebehov";

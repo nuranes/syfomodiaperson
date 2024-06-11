@@ -1,5 +1,5 @@
 import React from "react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import { SykmeldingUtdragContainer } from "@/sider/sykepengsoknader/SykmeldingUtdragContainer";
 import {
   mockSykepengeSoknad,
@@ -30,13 +30,13 @@ describe("SykmeldingUtdrag", () => {
     );
   });
 
-  it("Skal vise SykmeldingUtdrag for riktig sykmelding", () => {
+  it("Skal vise SykmeldingUtdrag for riktig sykmelding", async () => {
     render(
       <QueryClientProvider client={queryClient}>
         <SykmeldingUtdragContainer soknad={mockSykepengeSoknad} />
       </QueryClientProvider>
     );
-    userEvent.click(screen.getByRole("button"));
+    await userEvent.click(screen.getByRole("button"));
     expect(sykmelding?.sykmeldingStatus?.arbeidsgiver?.orgNavn).to.equal(
       VIRKSOMHET_PONTYPANDY.virksomhetsnavn
     );

@@ -4,7 +4,7 @@ import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
 import React from "react";
 import { StartNyVurdering } from "@/sider/aktivitetskrav/vurdering/StartNyVurdering";
-import { expect } from "chai";
+import { beforeEach, describe, expect, it } from "vitest";
 import { queryClientWithMockData } from "../testQueryClient";
 import { oppfolgingstilfellePersonQueryKeys } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import {
@@ -144,10 +144,10 @@ describe("StartNyVurdering", () => {
 
       expect(screen.getByText(noAktivitetskravText)).to.exist;
     });
-    it("click button runs mutation with no aktivitetskrav uuid", () => {
+    it("click button runs mutation with no aktivitetskrav uuid", async () => {
       renderStartNyVurdering();
 
-      clickButton(buttonText);
+      await clickButton(buttonText);
 
       const nyVurderingMutation = queryClient.getMutationCache().getAll()[0];
       expect(nyVurderingMutation.state.variables).to.be.undefined;
@@ -177,10 +177,10 @@ describe("StartNyVurdering", () => {
       expect(screen.getByText(expectedVurderingText)).to.exist;
       expect(screen.getByText(newVurderingText)).to.exist;
     });
-    it("click button runs mutation with aktivitetskrav uuid", () => {
+    it("click button runs mutation with aktivitetskrav uuid", async () => {
       renderStartNyVurdering(aktivitetskravUnntak);
 
-      clickButton(buttonText);
+      await clickButton(buttonText);
 
       const nyVurderingMutation = queryClient.getMutationCache().getAll()[0];
       expect(nyVurderingMutation.state.variables).to.deep.equal({
@@ -217,10 +217,10 @@ describe("StartNyVurdering", () => {
       expect(screen.getByText(noAktivitetskravText)).to.exist;
       expect(screen.queryByText(/Det ble vurdert/)).to.not.exist;
     });
-    it("click button runs mutation with no aktivitetskrav uuid", () => {
+    it("click button runs mutation with no aktivitetskrav uuid", async () => {
       renderStartNyVurdering(aktivitetskravUnntakTidligereTilfelle);
 
-      clickButton(buttonText);
+      await clickButton(buttonText);
 
       const nyVurderingMutation = queryClient.getMutationCache().getAll()[0];
       expect(nyVurderingMutation.state.variables).to.be.undefined;

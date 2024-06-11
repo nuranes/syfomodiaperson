@@ -4,7 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import PersonkortLege, {
   FastlegeVikar,
 } from "@/components/personkort/PersonkortLege";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import React from "react";
 import { fastlegerMock } from "../../../mock/fastlegerest/fastlegerMock";
 import { queryClientWithAktivBruker } from "../../testQueryClient";

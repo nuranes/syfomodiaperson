@@ -1,5 +1,5 @@
 import React from "react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { apiMock } from "../../stubs/stubApi";
 import { stubFastlegerApi } from "../../stubs/stubFastlegeRest";
@@ -15,14 +15,14 @@ import userEvent from "@testing-library/user-event";
 let queryClient: QueryClient;
 let apiMockScope: any;
 
-const renderAndExpandPersonkort = () => {
+const renderAndExpandPersonkort = async () => {
   render(
     <QueryClientProvider client={queryClient}>
       <Personkort />
     </QueryClientProvider>
   );
   const expandable = screen.getAllByRole("button")[0];
-  userEvent.click(expandable);
+  await userEvent.click(expandable);
 };
 
 describe("Personkort", () => {
@@ -36,7 +36,7 @@ describe("Personkort", () => {
     stubFastlegerApi(apiMockScope);
   });
 
-  it("Skal vise Sikkerhetstiltak-button-tab hvis bruker har sikkerhetstiltak", () => {
+  it("Skal vise Sikkerhetstiltak-button-tab hvis bruker har sikkerhetstiltak", async () => {
     queryClient.setQueryData(
       brukerinfoQueryKeys.brukerinfo(ARBEIDSTAKER_DEFAULT.personIdent),
       () => ({
@@ -52,18 +52,18 @@ describe("Personkort", () => {
       })
     );
 
-    renderAndExpandPersonkort();
+    await renderAndExpandPersonkort();
 
     expect(getButton("Sikkerhetstiltak")).to.exist;
   });
 
-  it("Skal ikke vise Sikkerhetstiltak-button-tab hvis bruker mangler sikkerhetstiltak", () => {
+  it("Skal ikke vise Sikkerhetstiltak-button-tab hvis bruker mangler sikkerhetstiltak", async () => {
     queryClient.setQueryData(
       brukerinfoQueryKeys.brukerinfo(ARBEIDSTAKER_DEFAULT.personIdent),
       () => brukerinfoMock
     );
 
-    renderAndExpandPersonkort();
+    await renderAndExpandPersonkort();
 
     expect(screen.queryByRole("button", { name: "Sikkerhetstiltak" })).to.not
       .exist;

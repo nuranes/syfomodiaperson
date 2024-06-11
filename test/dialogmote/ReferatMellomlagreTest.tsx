@@ -3,7 +3,7 @@ import Referat, {
   ReferatMode,
 } from "../../src/components/dialogmote/referat/Referat";
 import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import { changeTextInput, clickButton, getTextInput } from "../testUtils";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { dialogmoteRoutePath } from "@/routers/AppRouter";
@@ -19,7 +19,6 @@ import {
 } from "./testData";
 import { screen } from "@testing-library/react";
 import { expectedReferatDocument } from "./testDataDocuments";
-import sinon from "sinon";
 import { stubMellomlagreApi } from "../stubs/stubIsdialogmote";
 import { apiMock } from "../stubs/stubApi";
 import { queryClientWithMockData } from "../testQueryClient";
@@ -30,23 +29,15 @@ import { MalformProvider } from "@/context/malform/MalformContext";
 let queryClient: QueryClient;
 
 describe("ReferatMellomlagreTest", () => {
-  let clock: any;
-  const today = new Date(Date.now());
-
   beforeEach(() => {
     queryClient = queryClientWithMockData();
-    clock = sinon.useFakeTimers(today.getTime());
   });
 
-  afterEach(() => {
-    clock.restore();
-  });
-
-  it("lagrer referat med verdier fra skjema", () => {
+  it("lagrer referat med verdier fra skjema", async () => {
     stubMellomlagreApi(apiMock(), dialogmoteMedBehandler.uuid);
     renderReferat(dialogmoteMedBehandler);
-    passSkjemaTekstInput();
-    clickButton("Lagre");
+    await passSkjemaTekstInput();
+    await clickButton("Lagre");
 
     const mellomlagreMutation = queryClient.getMutationCache().getAll().pop();
     const expectedReferat = {
@@ -110,7 +101,7 @@ const renderReferat = (dialogmoteDTO: DialogmoteDTO) => {
   );
 };
 
-const passSkjemaTekstInput = () => {
+const passSkjemaTekstInput = async () => {
   const situasjonInput = getTextInput("Situasjon og muligheter");
   const konklusjonInput = getTextInput("Konklusjon");
   const arbeidstakerInput = getTextInput("Arbeidstakerens oppgave:");
@@ -118,7 +109,7 @@ const passSkjemaTekstInput = () => {
   const behandlerInput = getTextInput("Behandlerens oppgave (valgfri):");
   const veilederInput = getTextInput("Veilederens oppgave (valgfri):");
 
-  clickButton("Pluss ikon Legg til en deltaker");
+  await clickButton("Pluss ikon Legg til en deltaker");
   const annenDeltakerNavnInput = getTextInput("Navn");
   const annenDeltakerFunksjonInput = getTextInput("Funksjon");
 

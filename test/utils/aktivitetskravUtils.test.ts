@@ -5,7 +5,7 @@ import {
 } from "../testDataUtils";
 import { AktivitetskravStatus } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { daysFromToday } from "../testUtils";
-import { expect } from "chai";
+import { expect, describe, it } from "vitest";
 
 describe("aktivitetskravUtils", () => {
   describe("oppfolgingstilfelleForAktivitetskrav", () => {

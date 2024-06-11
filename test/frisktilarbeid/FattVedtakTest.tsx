@@ -5,7 +5,7 @@ import { navEnhet } from "../dialogmote/testData";
 import React from "react";
 import { FattVedtakSkjema } from "@/sider/frisktilarbeid/FattVedtakSkjema";
 import { queryClientWithMockData } from "../testQueryClient";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import { changeTextInput, clickButton, getTextInput } from "../testUtils";
 import dayjs from "dayjs";
 import { VedtakRequestDTO } from "@/data/frisktilarbeid/frisktilarbeidTypes";
@@ -116,7 +116,7 @@ describe("FattVedtakSkjema", () => {
   it("validerer fra-dato og begrunnelse", async () => {
     renderFattVedtakSkjema();
 
-    clickButton("Fatt vedtak");
+    await clickButton("Fatt vedtak");
 
     expect(await screen.findByText("Vennligst angi begrunnelse")).to.exist;
     expect(await screen.findByText("Vennligst angi dato")).to.exist;
@@ -131,7 +131,7 @@ describe("FattVedtakSkjema", () => {
     const begrunnelseInput = getTextInput("Begrunnelse");
     changeTextInput(begrunnelseInput, enBegrunnelse);
 
-    clickButton("Fatt vedtak");
+    await clickButton("Fatt vedtak");
 
     const expectedVedtakRequest: VedtakRequestDTO = {
       fom: today.format("YYYY-MM-DD"),
@@ -173,7 +173,7 @@ describe("FattVedtakSkjema", () => {
     const begrunnelseInput = getTextInput("Begrunnelse");
     changeTextInput(begrunnelseInput, enBegrunnelse);
 
-    clickButton("Fatt vedtak");
+    await clickButton("Fatt vedtak");
 
     const expectedVedtakRequest: VedtakRequestDTO = {
       fom: today.format("YYYY-MM-DD"),

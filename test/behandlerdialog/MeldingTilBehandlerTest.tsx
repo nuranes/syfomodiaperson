@@ -10,7 +10,7 @@ import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
 import React from "react";
 import { queryClientWithMockData } from "../testQueryClient";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import { MeldingTilBehandler } from "@/sider/behandlerdialog/meldingtilbehandler/MeldingTilBehandler";
 import { changeTextInput, clickButton, getTextInput } from "../testUtils";
 import {
@@ -128,7 +128,7 @@ describe("MeldingTilBehandler", () => {
       ).to.exist;
     });
 
-    it("Forhåndsviser tilleggsopplysninger-melding ved klikk på Forhåndsvisning-knapp", () => {
+    it("Forhåndsviser tilleggsopplysninger-melding ved klikk på Forhåndsvisning-knapp", async () => {
       renderMeldingTilBehandler();
 
       fireEvent.change(screen.getByLabelText(selectLabel), {
@@ -141,7 +141,7 @@ describe("MeldingTilBehandler", () => {
       const previewButton = screen.getByRole("button", {
         name: "Forhåndsvisning",
       });
-      userEvent.click(previewButton);
+      await userEvent.click(previewButton);
 
       const previewModal = screen.getByRole("dialog", {
         hidden: true,
@@ -156,7 +156,7 @@ describe("MeldingTilBehandler", () => {
       });
     });
 
-    it("Forhåndsviser legeerklæring-melding ved klikk på Forhåndsvisning-knapp", () => {
+    it("Forhåndsviser legeerklæring-melding ved klikk på Forhåndsvisning-knapp", async () => {
       renderMeldingTilBehandler();
 
       fireEvent.change(screen.getByLabelText(selectLabel), {
@@ -169,7 +169,7 @@ describe("MeldingTilBehandler", () => {
       const previewButton = screen.getByRole("button", {
         name: "Forhåndsvisning",
       });
-      userEvent.click(previewButton);
+      await userEvent.click(previewButton);
 
       const previewModal = screen.getByRole("dialog", {
         hidden: true,
@@ -184,7 +184,7 @@ describe("MeldingTilBehandler", () => {
       });
     });
 
-    it("Forhåndsviser melding fra NAV-melding ved klikk på Forhåndsvisning-knapp", () => {
+    it("Forhåndsviser melding fra NAV-melding ved klikk på Forhåndsvisning-knapp", async () => {
       renderMeldingTilBehandler();
       fireEvent.change(screen.getByLabelText(selectLabel), {
         target: { value: MeldingType.HENVENDELSE_MELDING_FRA_NAV },
@@ -196,7 +196,7 @@ describe("MeldingTilBehandler", () => {
       const previewButton = screen.getByRole("button", {
         name: "Forhåndsvisning",
       });
-      userEvent.click(previewButton);
+      await userEvent.click(previewButton);
 
       const previewModal = screen.getByRole("dialog", {
         hidden: true,
@@ -214,7 +214,7 @@ describe("MeldingTilBehandler", () => {
     it("Validerer MeldingTilBehandlerSkjema ved innsending", async () => {
       renderMeldingTilBehandler();
 
-      clickButton("Send til behandler");
+      await clickButton("Send til behandler");
 
       await waitFor(() => {
         expect(screen.getByText("Vennligst angi meldingstekst")).to.exist;
@@ -264,7 +264,7 @@ describe("MeldingTilBehandler", () => {
       const meldingInput = getTextInput("Skriv inn meldingstekst");
       changeTextInput(meldingInput, expectedMeldingTilBehandlerDTO.tekst);
 
-      clickButton("Send til behandler");
+      await clickButton("Send til behandler");
 
       await waitFor(() => {
         const meldingTilBehandlerMutation = queryClient

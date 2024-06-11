@@ -1,6 +1,6 @@
 import { sorterSykmeldinger } from "@/utils/sorterSykmeldingerUtils";
 import { SykmeldingOldFormat } from "@/data/sykmelding/types/SykmeldingOldFormat";
-import { expect } from "chai";
+import { expect, describe, it } from "vitest";
 
 const mockSykmelding = (data: unknown): SykmeldingOldFormat => {
   return data as SykmeldingOldFormat;

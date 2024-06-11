@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import PersonkortSykmeldt from "@/components/personkort/PersonkortSykmeldt";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import React from "react";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { vegadresse } from "../../../mock/syfoperson/personAdresseMock";

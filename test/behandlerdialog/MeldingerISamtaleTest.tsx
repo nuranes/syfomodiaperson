@@ -6,7 +6,7 @@ import { navEnhet } from "../dialogmote/testData";
 import { MeldingerISamtale } from "@/sider/behandlerdialog/meldinger/MeldingerISamtale";
 import React from "react";
 import { queryClientWithMockData } from "../testQueryClient";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import { personoppgaverQueryKeys } from "@/data/personoppgave/personoppgaveQueryHooks";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import {

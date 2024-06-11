@@ -2,13 +2,14 @@ import dayjs from "dayjs";
 import userEvent from "@testing-library/user-event";
 import { fireEvent, screen } from "@testing-library/react";
 
-export const clickButton = (buttonText: string) =>
-  userEvent.click(getButton(buttonText));
+export const clickButton = async (buttonText: string) =>
+  await userEvent.click(getButton(buttonText));
 
 export const getButton = (buttonText: string) =>
   screen.getByRole("button", { name: buttonText });
 
-export const clickTab = (tabTitle: string) => userEvent.click(getTab(tabTitle));
+export const clickTab = async (tabTitle: string) =>
+  await userEvent.click(getTab(tabTitle));
 
 const getTab = (tabTitle: string) =>
   screen.getByRole("tab", { name: tabTitle });

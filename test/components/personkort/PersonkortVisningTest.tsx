@@ -1,5 +1,5 @@
 import React from "react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import PersonkortVisning from "../../../src/components/personkort/PersonkortVisning";
 import { PERSONKORTVISNING_TYPE } from "@/konstanter";
 import { QueryClientProvider } from "@tanstack/react-query";

@@ -2,7 +2,7 @@ import { render, screen, waitFor, within } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import React from "react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import nock from "nock";
 import { SendForhandsvarselSkjema } from "@/sider/arbeidsuforhet/SendForhandsvarselSkjema";
 import { stubArbeidsuforhetForhandsvarselApi } from "../stubs/stubIsarbeidsuforhet";
@@ -42,7 +42,7 @@ describe("Forhandsvarselskjema arbeidsuforhet", () => {
     it("Gives error when trying to send forhandsvarsel without changing default begrunnelse", async () => {
       renderForhandsvarselSkjema();
 
-      clickButton("Send");
+      await clickButton("Send");
 
       expect(await screen.findByText("Vennligst angi begrunnelse")).to.exist;
     });
@@ -53,7 +53,7 @@ describe("Forhandsvarselskjema arbeidsuforhet", () => {
       const beskrivelseInput = getTextInput(begrunnelseLabel);
       changeTextInput(beskrivelseInput, "");
 
-      clickButton("Send");
+      await clickButton("Send");
 
       expect(await screen.findByText("Vennligst angi begrunnelse")).to.exist;
     });
@@ -76,7 +76,7 @@ describe("Forhandsvarselskjema arbeidsuforhet", () => {
       const beskrivelseInput = getTextInput(begrunnelseLabel);
       changeTextInput(beskrivelseInput, begrunnelse);
 
-      clickButton("Send");
+      await clickButton("Send");
 
       await waitFor(() => {
         const sendForhandsvarselMutation = queryClient
@@ -103,7 +103,7 @@ describe("Forhandsvarselskjema arbeidsuforhet", () => {
 
       const begrunnelseInput = getTextInput(begrunnelseLabel);
       changeTextInput(begrunnelseInput, begrunnelse);
-      clickButton("Forhåndsvisning");
+      await clickButton("Forhåndsvisning");
 
       const forhandsvisningForhandsvarsel = screen.getAllByRole("dialog", {
         hidden: true,

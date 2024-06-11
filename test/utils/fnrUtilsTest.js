@@ -1,5 +1,4 @@
-import { expect } from "chai";
-import sinon from "sinon";
+import { expect, describe, it, beforeEach } from "vitest";
 import { KJOENN } from "@/konstanter";
 import {
   hentBrukersFoedseldatoFraFnr,
@@ -98,17 +97,10 @@ describe("fnrUtils", () => {
   });
 
   describe("hentBrukersAlderFraFnr", () => {
-    let clock;
     let dagensDato;
-    const today = new Date("2017-01-16");
 
     beforeEach(() => {
-      clock = sinon.useFakeTimers(today.getTime()); // 16. januar 2017
       dagensDato = new Date();
-    });
-
-    afterEach(() => {
-      clock.restore();
     });
 
     const foedselsaar = 1958;

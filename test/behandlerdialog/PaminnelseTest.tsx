@@ -3,7 +3,7 @@ import { render, screen, within } from "@testing-library/react";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
 import React from "react";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import {
   MeldingDTO,
   PaminnelseDTO,
@@ -99,20 +99,20 @@ describe("PåminnelseMelding", () => {
     expect(screen.queryByRole("button", { name: cancelButtonText })).to.not
       .exist;
   });
-  it("click send in preview sends paminnelse with expected values", () => {
+  it("click send in preview sends paminnelse with expected values", async () => {
     const expectedPaminnelseDTO: PaminnelseDTO = {
       document: expectedPaminnelseDocument(meldingTilBehandler),
     };
 
     renderPaminnelseMelding(meldingTilBehandler);
 
-    clickButton(paminnelseButtonText);
+    await clickButton(paminnelseButtonText);
 
     const sendButton = screen.getByRole("button", {
       name: sendButtonText,
       hidden: true,
     });
-    userEvent.click(sendButton);
+    await userEvent.click(sendButton);
 
     const paminnelseMutation = queryClient.getMutationCache().getAll()[0];
 
@@ -120,10 +120,10 @@ describe("PåminnelseMelding", () => {
       expectedPaminnelseDTO
     );
   });
-  it("click fjern oppgave behandler oppgave", () => {
+  it("click fjern oppgave behandler oppgave", async () => {
     renderPaminnelseMelding(meldingTilBehandler);
 
-    clickButton(fjernOppgaveButtonText);
+    await clickButton(fjernOppgaveButtonText);
 
     const paminnelseMutation = queryClient.getMutationCache().getAll()[0];
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { expect } from "chai";
+import { expect, describe, it } from "vitest";
 import SykmeldingPeriodeInfo from "@/sider/sykmeldinger/sykmeldinger/SykmeldingPeriodeInfo";
 import { SykmeldingPeriodeDTO } from "@/data/sykmelding/types/SykmeldingOldFormat";
 import { toDateWithoutNullCheck } from "@/utils/datoUtils";

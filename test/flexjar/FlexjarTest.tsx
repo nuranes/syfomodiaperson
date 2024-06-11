@@ -7,7 +7,7 @@ import { queryClientWithMockData } from "../testQueryClient";
 import { apiMock } from "../stubs/stubApi";
 import { navEnhet } from "../dialogmote/testData";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import { changeTextInput, clickButton } from "../testUtils";
 import { stubFlexjarApiError, stubFlexjarApiOk } from "../stubs/stubFlexjar";
 import { defaultErrorTexts } from "@/api/errors";
@@ -44,9 +44,9 @@ describe("Flexjar", () => {
       .exist;
   });
 
-  it("renders feedback form content after button click", () => {
+  it("renders feedback form content after button click", async () => {
     renderFlexjar();
-    clickButton("Gi oss tilbakemelding");
+    await clickButton("Gi oss tilbakemelding");
 
     expect(screen.getByText("Hvordan opplever du Test-siden?")).to.exist;
     const buttons = screen.getAllByRole("button");
@@ -59,10 +59,10 @@ describe("Flexjar", () => {
     expect(buttons[6].textContent).to.equal("Send tilbakemelding");
   });
 
-  it("renders validation error when sends tilbakemelding and emoji not selected", () => {
+  it("renders validation error when sends tilbakemelding and emoji not selected", async () => {
     renderFlexjar();
-    clickButton("Gi oss tilbakemelding");
-    clickButton("Send tilbakemelding");
+    await clickButton("Gi oss tilbakemelding");
+    await clickButton("Send tilbakemelding");
 
     expect(screen.getByText("Vennligst velg en tilbakemelding")).to.exist;
   });
@@ -70,10 +70,10 @@ describe("Flexjar", () => {
   it("sends tilbakemelding when emoji selected", async () => {
     renderFlexjar();
     stubFlexjarApiOk(apiMockScope);
-    clickButton("Gi oss tilbakemelding");
-    clickButton("Horribel");
+    await clickButton("Gi oss tilbakemelding");
+    await clickButton("Horribel");
 
-    clickButton("Send tilbakemelding");
+    await clickButton("Send tilbakemelding");
 
     expect(await screen.findByRole("img", { name: "Suksess" })).to.exist;
     expect(await screen.findByText("Takk for din tilbakemelding!")).to.exist;
@@ -82,30 +82,30 @@ describe("Flexjar", () => {
   it("does not send tilbakemelding when error", async () => {
     renderFlexjar();
     stubFlexjarApiError(apiMockScope);
-    clickButton("Gi oss tilbakemelding");
-    clickButton("Horribel");
+    await clickButton("Gi oss tilbakemelding");
+    await clickButton("Horribel");
 
-    clickButton("Send tilbakemelding");
+    await clickButton("Send tilbakemelding");
 
     expect(await screen.findByRole("img", { name: "Feil" })).to.exist;
     expect(await screen.findByText(defaultErrorTexts.generalError)).to.exist;
     expect(screen.queryByText("Takk for din tilbakemelding!")).to.not.exist;
   });
 
-  it("renders textarea and alert when emoji selected", () => {
+  it("renders textarea and alert when emoji selected", async () => {
     renderFlexjar();
-    clickButton("Gi oss tilbakemelding");
-    clickButton("Horribel");
+    await clickButton("Gi oss tilbakemelding");
+    await clickButton("Horribel");
 
     expect(screen.getByRole("textbox")).to.exist;
     expect(screen.getByRole("img", { name: "Advarsel" })).to.exist;
   });
 
-  it("sends feedback to flexjar", () => {
+  it("sends feedback to flexjar", async () => {
     renderFlexjar();
-    clickButton("Gi oss tilbakemelding");
-    clickButton("Horribel");
-    clickButton("Send tilbakemelding");
+    await clickButton("Gi oss tilbakemelding");
+    await clickButton("Horribel");
+    await clickButton("Send tilbakemelding");
 
     const expectedFlexjarDTO: FlexjarFeedbackDTO = {
       feedbackId: "Test",
@@ -119,15 +119,15 @@ describe("Flexjar", () => {
     );
   });
 
-  it("sends feedback with text to flexjar", () => {
+  it("sends feedback with text to flexjar", async () => {
     renderFlexjar();
-    clickButton("Gi oss tilbakemelding");
-    clickButton("Horribel");
+    await clickButton("Gi oss tilbakemelding");
+    await clickButton("Horribel");
 
     const feedbackInput = screen.getByRole("textbox");
     const feedbackText = "Ikke bra";
     changeTextInput(feedbackInput, feedbackText);
-    clickButton("Send tilbakemelding");
+    await clickButton("Send tilbakemelding");
 
     const expectedFlexjarDTO: FlexjarFeedbackDTO = {
       feedbackId: "Test",
@@ -141,11 +141,11 @@ describe("Flexjar", () => {
     );
   });
 
-  it("sets localstorage when sending feedback to flexjar", () => {
+  it("sets localstorage when sending feedback to flexjar", async () => {
     renderFlexjar();
-    clickButton("Gi oss tilbakemelding");
-    clickButton("Horribel");
-    clickButton("Send tilbakemelding");
+    await clickButton("Gi oss tilbakemelding");
+    await clickButton("Horribel");
+    await clickButton("Send tilbakemelding");
 
     expect(
       localStorage.getItem(StoreKey.FLEXJAR_ARBEIDSUFORHET_FEEDBACK_DATE)

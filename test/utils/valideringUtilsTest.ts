@@ -3,7 +3,7 @@ import {
   validerSkjemaTekster,
   validerVideoLink,
 } from "@/utils/valideringUtils";
-import { expect } from "chai";
+import { expect, describe, it } from "vitest";
 import { getTooLongText, maxLengthErrorMessage } from "../testUtils";
 
 type Tekster = {

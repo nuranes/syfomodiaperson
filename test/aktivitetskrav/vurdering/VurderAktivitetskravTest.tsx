@@ -33,7 +33,7 @@ import {
   OppfyltVurderingArsak,
   UnntakVurderingArsak,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import { tilLesbarPeriodeMedArUtenManednavn } from "@/utils/datoUtils";
 import dayjs from "dayjs";
 import {
@@ -140,11 +140,11 @@ describe("VurderAktivitetskrav", () => {
     it("Validerer årsak og maks tegn beskrivelse", async () => {
       renderVurderAktivitetskrav(aktivitetskrav);
 
-      clickTab(tabTexts["OPPFYLT"]);
+      await clickTab(tabTexts["OPPFYLT"]);
       const tooLongBeskrivelse = getTooLongText(1000);
       const beskrivelseInput = getTextInput("Begrunnelse");
       changeTextInput(beskrivelseInput, tooLongBeskrivelse);
-      clickButton("Lagre");
+      await clickButton("Lagre");
 
       expect(await screen.findByText("Vennligst angi årsak")).to.exist;
       expect(await screen.findByText("1 tegn for mye")).to.exist;
@@ -153,7 +153,7 @@ describe("VurderAktivitetskrav", () => {
       renderVurderAktivitetskrav(aktivitetskrav);
       stubVurderAktivitetskravApi(apiMockScope);
 
-      clickTab(tabTexts["OPPFYLT"]);
+      await clickTab(tabTexts["OPPFYLT"]);
 
       expect(screen.getByRole("heading", { name: "Er i aktivitet" })).to.exist;
 
@@ -161,7 +161,7 @@ describe("VurderAktivitetskrav", () => {
       fireEvent.click(arsakRadioButton);
       const beskrivelseInput = getTextInput("Begrunnelse");
       changeTextInput(beskrivelseInput, enLangBeskrivelse);
-      clickButton("Lagre");
+      await clickButton("Lagre");
 
       await waitFor(() => {
         const vurderOppfyltMutation = queryClient
@@ -188,11 +188,11 @@ describe("VurderAktivitetskrav", () => {
     it("Validerer årsak og maks tegn beskrivelse", async () => {
       renderVurderAktivitetskrav(aktivitetskrav);
 
-      clickTab(tabTexts["UNNTAK"]);
+      await clickTab(tabTexts["UNNTAK"]);
       const tooLongBeskrivelse = getTooLongText(1000);
       const beskrivelseInput = getTextInput("Begrunnelse (obligatorisk)");
       changeTextInput(beskrivelseInput, tooLongBeskrivelse);
-      clickButton("Lagre");
+      await clickButton("Lagre");
 
       expect(await screen.findByText("Vennligst angi årsak")).to.exist;
       expect(await screen.findByText("1 tegn for mye")).to.exist;
@@ -201,7 +201,7 @@ describe("VurderAktivitetskrav", () => {
       renderVurderAktivitetskrav(aktivitetskrav);
       stubVurderAktivitetskravApi(apiMockScope);
 
-      clickTab(tabTexts["UNNTAK"]);
+      await clickTab(tabTexts["UNNTAK"]);
 
       expect(
         screen.getByRole("heading", {
@@ -213,7 +213,7 @@ describe("VurderAktivitetskrav", () => {
       fireEvent.click(arsakRadioButton);
       const beskrivelseInput = getTextInput("Begrunnelse (obligatorisk)");
       changeTextInput(beskrivelseInput, enLangBeskrivelse);
-      clickButton("Lagre");
+      await clickButton("Lagre");
 
       await waitFor(() => {
         const vurderUnntakMutation = queryClient.getMutationCache().getAll()[0];
@@ -238,7 +238,7 @@ describe("VurderAktivitetskrav", () => {
     it("Validerer maks tegn beskrivelse", async () => {
       renderVurderAktivitetskrav(aktivitetskrav);
 
-      clickButton(buttonTexts["AVVENT"]);
+      await clickButton(buttonTexts["AVVENT"]);
       const avventModal = screen.getAllByRole("dialog", { hidden: true })[0];
       const lagreButton = within(avventModal).getByRole("button", {
         name: "Lagre",
@@ -257,7 +257,7 @@ describe("VurderAktivitetskrav", () => {
     it("Validerer årsaker og dato", async () => {
       renderVurderAktivitetskrav(aktivitetskrav);
 
-      clickButton(buttonTexts["AVVENT"]);
+      await clickButton(buttonTexts["AVVENT"]);
       const avventModal = screen.getAllByRole("dialog", { hidden: true })[0];
       const lagreButton = within(avventModal).getByRole("button", {
         name: "Lagre",
@@ -272,7 +272,7 @@ describe("VurderAktivitetskrav", () => {
       renderVurderAktivitetskrav(aktivitetskrav);
       stubVurderAktivitetskravApi(apiMockScope);
 
-      clickButton(buttonTexts["AVVENT"]);
+      await clickButton(buttonTexts["AVVENT"]);
 
       expect(
         screen.getByRole("heading", {
@@ -346,7 +346,7 @@ describe("VurderAktivitetskrav", () => {
     it("Validerer maks tegn beskrivelse", async () => {
       renderVurderAktivitetskrav(aktivitetskrav);
 
-      clickButton(buttonTexts["IKKE_AKTUELL"]);
+      await clickButton(buttonTexts["IKKE_AKTUELL"]);
 
       const ikkeAktuellModal = screen.getByRole("dialog", {
         hidden: true,
@@ -368,7 +368,7 @@ describe("VurderAktivitetskrav", () => {
     it("Lagre vurdering med verdier fra skjema", async () => {
       renderVurderAktivitetskrav(aktivitetskrav);
 
-      clickButton(buttonTexts["IKKE_AKTUELL"]);
+      await clickButton(buttonTexts["IKKE_AKTUELL"]);
 
       const ikkeAktuellModal = screen.getByRole("dialog", {
         hidden: true,

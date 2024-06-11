@@ -4,7 +4,7 @@ import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
 import React from "react";
 import { queryClientWithMockData } from "../testQueryClient";
-import { expect } from "chai";
+import { expect, describe, it, beforeEach } from "vitest";
 import { Meldinger } from "@/sider/behandlerdialog/meldinger/Meldinger";
 import { behandlerdialogQueryKeys } from "@/data/behandlerdialog/behandlerdialogQueryHooks";
 import {
@@ -234,26 +234,30 @@ describe("Meldinger panel", () => {
         name: /januar/,
       });
       expect(accordions).to.have.length(8);
-      accordions.forEach((accordion) => userEvent.click(accordion));
+      for (const accordion of accordions) {
+        await userEvent.click(accordion);
+      }
       const seMeldingButtons = screen.getAllByRole("button", {
         name: seMeldingButtonTekst,
       });
       expect(seMeldingButtons).to.have.length(11);
     });
 
-    it("Viser melding til behandler ved klikk på 'Se melding'-knapp", () => {
+    it("Viser melding til behandler ved klikk på 'Se melding'-knapp", async () => {
       renderMeldinger();
 
       const accordions = screen.getAllByRole("button", {
         name: /januar/,
       });
       expect(accordions).to.have.length(8);
-      accordions.forEach((accordion) => userEvent.click(accordion));
+      for (const accordion of accordions) {
+        await userEvent.click(accordion);
+      }
 
       const seMeldingButton = screen.getAllByRole("button", {
         name: seMeldingButtonTekst,
       })[0];
-      userEvent.click(seMeldingButton);
+      await userEvent.click(seMeldingButton);
 
       const seMeldingModal = screen.getAllByRole("dialog", {
         hidden: true,
@@ -277,13 +281,15 @@ describe("Meldinger panel", () => {
         () => meldingResponseMedPaminnelse
       );
     });
-    it("Viser overskrift for påminnelse i samtalen", () => {
+    it("Viser overskrift for påminnelse i samtalen", async () => {
       renderMeldinger();
 
       const accordions = screen.getAllByRole("button", {
         name: /januar/,
       });
-      accordions.forEach((accordion) => userEvent.click(accordion));
+      for (const accordion of accordions) {
+        await userEvent.click(accordion);
+      }
 
       expect(
         screen.getByText("Påminnelse om manglende svar vedrørerende pasient")
@@ -295,18 +301,20 @@ describe("Meldinger panel", () => {
       ).to.have.length(2);
     });
 
-    it("Viser påminnelse ved klikk på 'Se melding'-knapp", () => {
+    it("Viser påminnelse ved klikk på 'Se melding'-knapp", async () => {
       renderMeldinger();
 
       const accordions = screen.getAllByRole("button", {
         name: /januar/,
       });
-      accordions.forEach((accordion) => userEvent.click(accordion));
+      for (const accordion of accordions) {
+        await userEvent.click(accordion);
+      }
 
       const seMeldingButton = screen.getAllByRole("button", {
         name: seMeldingButtonTekst,
       })[1];
-      userEvent.click(seMeldingButton);
+      await userEvent.click(seMeldingButton);
 
       const seMeldingModal = screen.getAllByRole("dialog", {
         hidden: true,
@@ -331,13 +339,15 @@ describe("Meldinger panel", () => {
         () => meldingResponseLegeerklaringMedRetur
       );
     });
-    it("Viser begrunnelse for retur i samtalen", () => {
+    it("Viser begrunnelse for retur i samtalen", async () => {
       renderMeldinger();
 
       const accordions = screen.getAllByRole("button", {
         name: new RegExp(getManedText(new Date())),
       });
-      accordions.forEach((accordion) => userEvent.click(accordion));
+      for (const accordion of accordions) {
+        await userEvent.click(accordion);
+      }
 
       expect(screen.getByText(expectedReturBegrunnelse)).to.exist;
       expect(
@@ -347,18 +357,20 @@ describe("Meldinger panel", () => {
       ).to.have.length(2);
     });
 
-    it("Viser retur ved klikk på 'Se melding'-knapp", () => {
+    it("Viser retur ved klikk på 'Se melding'-knapp", async () => {
       renderMeldinger();
 
       const accordions = screen.getAllByRole("button", {
         name: new RegExp(getManedText(new Date())),
       });
-      accordions.forEach((accordion) => userEvent.click(accordion));
+      for (const accordion of accordions) {
+        await userEvent.click(accordion);
+      }
 
       const seMeldingButton = screen.getAllByRole("button", {
         name: seMeldingButtonTekst,
       })[1];
-      userEvent.click(seMeldingButton);
+      await userEvent.click(seMeldingButton);
 
       const seMeldingModal = screen.getAllByRole("dialog", {
         hidden: true,
@@ -372,7 +384,7 @@ describe("Meldinger panel", () => {
 
   describe("Visning av vedlegg", () => {
     describe("for meldinger fra behandler (tilleggsopplysninger)", () => {
-      it("Viser vedlegg-ikon og tekst med vedlegg-nummer", () => {
+      it("Viser vedlegg-ikon og tekst med vedlegg-nummer", async () => {
         const meldingResponse = meldingResponseMedVedlegg;
 
         queryClient.setQueryData(
@@ -393,7 +405,9 @@ describe("Meldinger panel", () => {
         renderMeldinger();
 
         const accordions = screen.getAllByRole("button");
-        accordions.forEach((accordion) => userEvent.click(accordion));
+        for (const accordion of accordions) {
+          await userEvent.click(accordion);
+        }
 
         const vedleggIkoner = screen.getAllByRole("img", {
           name: "Binders-ikon for vedlegg",
@@ -417,7 +431,7 @@ describe("Meldinger panel", () => {
       });
     });
     describe("for melding fra behandler (legeerklæring)", () => {
-      it("Viser vedlegg-ikon og tekst 'Legeerklæring' for første vedlegg", () => {
+      it("Viser vedlegg-ikon og tekst 'Legeerklæring' for første vedlegg", async () => {
         queryClient.setQueryData(
           behandlerdialogQueryKeys.behandlerdialog(
             ARBEIDSTAKER_DEFAULT.personIdent
@@ -428,14 +442,16 @@ describe("Meldinger panel", () => {
         renderMeldinger();
 
         const accordions = screen.getAllByRole("button");
-        accordions.forEach((accordion) => userEvent.click(accordion));
+        for (const accordion of accordions) {
+          await userEvent.click(accordion);
+        }
 
         expect(screen.getByRole("img", { name: "Binders-ikon for vedlegg" })).to
           .exist;
         expect(screen.getByRole("link", { name: "Legeerklæring" })).to.exist;
         expect(screen.queryByRole("link", { name: "Vedlegg 1" })).to.not.exist;
       });
-      it("Viser vedlegg-ikon og tekst med vedlegg-nummer for andre vedlegg enn første", () => {
+      it("Viser vedlegg-ikon og tekst med vedlegg-nummer for andre vedlegg enn første", async () => {
         const meldingResponse = meldingResponseLegeerklaringMedTreVedlegg;
 
         queryClient.setQueryData(
@@ -448,7 +464,9 @@ describe("Meldinger panel", () => {
         renderMeldinger();
 
         const accordions = screen.getAllByRole("button");
-        accordions.forEach((accordion) => userEvent.click(accordion));
+        for (const accordion of accordions) {
+          await userEvent.click(accordion);
+        }
 
         expect(screen.getByRole("img", { name: "Binders-ikon for vedlegg" })).to
           .exist;
