@@ -13,6 +13,7 @@ import { Button } from "@navikt/ds-react";
 import {
   dialogmoteRoutePath,
   dialogmoteUnntakRoutePath,
+  dialogmoteIkkeAktuellRoutePath,
 } from "@/routers/AppRouter";
 import { Link } from "react-router-dom";
 
@@ -26,6 +27,7 @@ export const texts = {
   moteforesporselSendt: "Møteforespørsel sendt",
   settUnntakButton: "Sett unntak",
   nyttMote: "Nytt dialogmøte",
+  ikkeAktuell: "Ikke aktuell",
 };
 
 const dialogmotePanelHeaderText = (isKandidat: boolean): string => {
@@ -58,6 +60,13 @@ export const InnkallingDialogmotePanel = ({
       </Button>
     );
   };
+  const IkkeAktuellButton = () => {
+    return (
+      <Button as={Link} to={dialogmoteIkkeAktuellRoutePath} variant="secondary">
+        {texts.ikkeAktuell}
+      </Button>
+    );
+  };
 
   if (aktivtDialogmote) {
     return <DialogmoteMoteStatusPanel dialogmote={aktivtDialogmote} />;
@@ -78,6 +87,7 @@ export const InnkallingDialogmotePanel = ({
         <FlexRow columnGap={FlexGapSize.MD}>
           <NyttDialogmoteButton />
           {isKandidat && <SettUnntakButton />}
+          {isKandidat && <IkkeAktuellButton />}
         </FlexRow>
       </DialogmotePanel>
     );

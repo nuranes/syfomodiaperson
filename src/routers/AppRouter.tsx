@@ -23,6 +23,7 @@ import { IngenBrukerSide } from "@/components/IngenBrukerSide";
 import { useAktivBruker } from "@/data/modiacontext/modiacontextQueryHooks";
 import DialogmoteEndreReferatContainer from "@/components/dialogmote/referat/DialogmoteEndreReferatContainer";
 import DialogmoteunntakSkjemaContainer from "@/components/dialogmoteunntak/DialogmoteunntakSkjemaContainer";
+import DialogmoteikkeaktuellSkjemaContainer from "@/components/dialogmoteikkeaktuell/DialogmoteikkeaktuellSkjemaContainer";
 import { PersonsokSide } from "@/components/PersonsokSide";
 import { AktivitetskravContainer } from "@/sider/aktivitetskrav/AktivitetskravContainer";
 import { BehandlerdialogContainer } from "@/sider/behandlerdialog/BehandlerdialogContainer";
@@ -40,6 +41,7 @@ export const appRoutePath = "/sykefravaer";
 
 export const dialogmoteRoutePath = `${appRoutePath}/dialogmote`;
 export const dialogmoteUnntakRoutePath = `${appRoutePath}/dialogmoteunntak`;
+export const dialogmoteIkkeAktuellRoutePath = `${appRoutePath}/dialogmoteikkeaktuell`;
 export const moteoversiktRoutePath = `${appRoutePath}/moteoversikt`;
 export const arbeidsuforhetOppfyltPath = `${appRoutePath}/arbeidsuforhet/oppfylt`;
 export const arbeidsuforhetAvslagPath = `${appRoutePath}/arbeidsuforhet/avslag`;
@@ -95,6 +97,10 @@ const AktivBrukerRouter = (): ReactElement => {
           <Route
             path={dialogmoteUnntakRoutePath}
             element={<DialogmoteunntakSkjemaContainer />}
+          />
+          <Route
+            path={dialogmoteIkkeAktuellRoutePath}
+            element={<DialogmoteikkeaktuellSkjemaContainer />}
           />
           <Route
             path={`${appRoutePath}/sykmeldinger`}

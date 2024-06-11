@@ -21,7 +21,7 @@ import {
 import DialogmoteunntakSkjemaStatistikk from "@/components/dialogmoteunntak/DialogmoteunntakSkjemaStatistikk";
 
 export const texts = {
-  noBrev: "Det blir ikke sendt ut brev ved unntak.",
+  noBrev: "Det blir ikke sendt ut varsel eller brev til den sykmeldte.",
   infoKandidatlist: `Når du setter unntak fra dialogmøte vil arbeidstakeren bli fjernet fra kandidatlisten. Dersom du på et senere tidspunkt vurderer at det likevel er nødvendig med et dialogmøte, kan du kalle inn til dialogmøte ved å søke deg frem til denne arbeidstakeren.`,
   arsakLegend: "Årsak til unntak (obligatorisk)",
   arsakErrorMessage: "Vennligst angi årsak.",
@@ -96,7 +96,7 @@ const DialogmoteunntakSkjema = () => {
   };
 
   return (
-    <Box background="surface-default" padding="8">
+    <Box background="surface-default" padding="6">
       <Alert variant="info" size="small" className="p-4 mb-4">
         {texts.noBrev}
       </Alert>
@@ -128,6 +128,7 @@ const DialogmoteunntakSkjema = () => {
         <Textarea
           className="mb-4"
           label={texts.beskrivelseLabel}
+          size="small"
           value={watch("beskrivelse")}
           {...register("beskrivelse", {
             maxLength: dialogmoteunntakSkjemaBeskrivelseMaxLength,
