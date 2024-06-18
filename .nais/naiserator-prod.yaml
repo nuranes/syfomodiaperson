@@ -62,6 +62,7 @@ spec:
         - application: isdialogmotekandidat
         - application: isfrisktilarbeid
         - application: ishuskelapp
+        - application: ismeroppfolging
         - application: isnarmesteleder
         - application: isoppfolgingstilfelle
         - application: ispengestopp
