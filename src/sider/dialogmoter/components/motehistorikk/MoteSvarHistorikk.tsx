@@ -3,17 +3,17 @@ import {
   DialogmoteStatus,
   MotedeltakerVarselType,
 } from "@/data/dialogmote/types/dialogmoteTypes";
-import { FortidenImage } from "../../../../img/ImageComponents";
+import { FortidenImage } from "../../../../../img/ImageComponents";
 import { Accordion, BodyLong, Box, Heading, Label } from "@navikt/ds-react";
 import React, { useState } from "react";
 import { tilDatoMedManedNavn } from "@/utils/datoUtils";
-import { DialogmoteVeilederInfo } from "@/components/dialogmote/DialogmoteVeilederInfo";
-import { DialogmoteStedInfo } from "@/components/dialogmote/DialogmoteStedInfo";
-import { ArbeidsgiverSvar } from "@/components/dialogmote/svar/ArbeidsgiverSvar";
-import { ArbeidstakerSvar } from "@/components/dialogmote/svar/ArbeidstakerSvar";
-import { BehandlerSvar } from "@/components/dialogmote/svar/BehandlerSvar";
+import { DialogmoteVeilederInfo } from "@/sider/dialogmoter/components/DialogmoteVeilederInfo";
+import { DialogmoteStedInfo } from "@/sider/dialogmoter/components/DialogmoteStedInfo";
 import * as Amplitude from "@/utils/amplitude";
 import { EventType } from "@/utils/amplitude";
+import { ArbeidsgiverSvar } from "@/sider/dialogmoter/components/svar/ArbeidsgiverSvar";
+import { ArbeidstakerSvar } from "@/sider/dialogmoter/components/svar/ArbeidstakerSvar";
+import { BehandlerSvar } from "@/sider/dialogmoter/components/svar/BehandlerSvar";
 
 const texts = {
   header: "Møtesvarhistorikk",

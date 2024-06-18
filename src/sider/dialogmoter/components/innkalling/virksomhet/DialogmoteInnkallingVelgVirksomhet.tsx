@@ -2,11 +2,11 @@ import React from "react";
 import { narmesteLederForVirksomhet } from "@/utils/ledereUtils";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
 import { NoNarmesteLederAlert } from "@/sider/dialogmoter/components/innkalling/NoNarmestLederAlert";
-import { VirksomhetChooser } from "@/components/dialogmote/innkalling/virksomhet/VirksomhetChooser";
+import { VirksomhetChooser } from "@/sider/dialogmoter/components/innkalling/virksomhet/VirksomhetChooser";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { BodyShort, Label } from "@navikt/ds-react";
 import { useController } from "react-hook-form";
-import { DialogmoteInnkallingSkjemaValues } from "@/components/dialogmote/innkalling/DialogmoteInnkallingSkjema";
+import { DialogmoteInnkallingSkjemaValues } from "@/sider/dialogmoter/components/innkalling/DialogmoteInnkallingSkjema";
 import { validerArbeidsgiver } from "@/utils/valideringUtils";
 
 const texts = {

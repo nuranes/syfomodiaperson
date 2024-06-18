@@ -19,7 +19,7 @@ import {
 import { render, screen } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
-import { MoteSvarHistorikk } from "@/components/dialogmote/motehistorikk/MoteSvarHistorikk";
+import { MoteSvarHistorikk } from "@/sider/dialogmoter/components/motehistorikk/MoteSvarHistorikk";
 import { queryClientWithMockData } from "../testQueryClient";
 import { expect, describe, it, beforeEach } from "vitest";
 import userEvent from "@testing-library/user-event";

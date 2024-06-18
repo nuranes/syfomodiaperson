@@ -5,7 +5,7 @@ import {
   DialogmoteStatus,
   MotedeltakerVarselType,
 } from "@/data/dialogmote/types/dialogmoteTypes";
-import { MotehistorikkPanel } from "@/components/dialogmote/motehistorikk/MotehistorikkPanel";
+import { MotehistorikkPanel } from "@/sider/dialogmoter/components/motehistorikk/MotehistorikkPanel";
 import { QueryClientProvider } from "@tanstack/react-query";
 import {
   ENHET_GRUNERLOKKA,
@@ -19,7 +19,7 @@ import {
   dialogmoteunntakMedBeskrivelse,
   dialogmoteunntakUtenBeskrivelse,
 } from "../../mock/isdialogmotekandidat/dialogmoteunntakMock";
-import { unntakLenkeText } from "@/components/dialogmote/motehistorikk/MoteHistorikkUnntak";
+import { unntakLenkeText } from "@/sider/dialogmoter/components/motehistorikk/MoteHistorikkUnntak";
 import { testQueryClient } from "../testQueryClient";
 import { UnntakDTO } from "@/data/dialogmotekandidat/types/dialogmoteunntakTypes";
 import { veilederinfoQueryKeys } from "@/data/veilederinfo/veilederinfoQueryHooks";

@@ -7,7 +7,7 @@ import {
   IkkeAktuellArsak,
 } from "@/data/dialogmotekandidat/types/dialogmoteikkeaktuellTypes";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
-import { useSettDialogmoteikkeaktuell } from "@/data/dialogmotekandidat/useSettDialogmoteikkeaktuell";
+import { useSettDialogmoteIkkeAktuell } from "@/data/dialogmotekandidat/useSettDialogmoteIkkeAktuell";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { SubmitHandler, useForm } from "react-hook-form";
 import {
@@ -48,31 +48,29 @@ export const ikkeaktuellArsakTexts: IkkeAktuellArsakText[] = [
   },
 ];
 
-export const dialogmoteikkeaktuellSkjemaBeskrivelseMaxLength = 2000;
+export const skjemaBeskrivelseMaxLength = 2000;
 
-export interface DialogmoteikkeaktuellSkjemaValues {
+interface SkjemaValues {
   arsak: IkkeAktuellArsak;
   beskrivelse?: string;
 }
 
-const DialogmoteikkeaktuellSkjema = () => {
+const DialogmoteIkkeAktuellSkjema = () => {
   const personIdent = useValgtPersonident();
   const { isKandidat } = useDialogmotekandidat();
-  const settDialogmoteikkeaktuell = useSettDialogmoteikkeaktuell();
+  const settDialogmoteikkeaktuell = useSettDialogmoteIkkeAktuell();
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<DialogmoteikkeaktuellSkjemaValues>();
+  } = useForm<SkjemaValues>();
 
   if (!isKandidat || settDialogmoteikkeaktuell.isSuccess) {
     return <Navigate to={moteoversiktRoutePath} />;
   }
 
-  const onSubmit: SubmitHandler<DialogmoteikkeaktuellSkjemaValues> = (
-    values
-  ) => {
+  const onSubmit: SubmitHandler<SkjemaValues> = (values) => {
     const newIkkeAktuell: CreateIkkeAktuellDTO = {
       personIdent: personIdent,
       arsak: values.arsak,
@@ -115,9 +113,9 @@ const DialogmoteikkeaktuellSkjema = () => {
           label={texts.beskrivelseLabel}
           value={watch("beskrivelse")}
           {...register("beskrivelse", {
-            maxLength: dialogmoteikkeaktuellSkjemaBeskrivelseMaxLength,
+            maxLength: skjemaBeskrivelseMaxLength,
           })}
-          maxLength={dialogmoteikkeaktuellSkjemaBeskrivelseMaxLength}
+          maxLength={skjemaBeskrivelseMaxLength}
         />
 
         <Button
@@ -137,4 +135,4 @@ const DialogmoteikkeaktuellSkjema = () => {
   );
 };
 
-export default DialogmoteikkeaktuellSkjema;
+export default DialogmoteIkkeAktuellSkjema;

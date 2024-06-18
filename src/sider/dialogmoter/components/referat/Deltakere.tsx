@@ -6,13 +6,12 @@ import { AndreDeltakere } from "./AndreDeltakere";
 import { useAktivVeilederinfoQuery } from "@/data/veilederinfo/veilederinfoQueryHooks";
 import { DialogmotedeltakerBehandlerDTO } from "@/data/dialogmote/types/dialogmoteTypes";
 import { behandlerDeltokTekst } from "@/utils/behandlerUtils";
-import { ReferatSkjemaValues } from "@/components/dialogmote/referat/Referat";
+import { ReferatSkjemaValues } from "@/sider/dialogmoter/components/referat/Referat";
 import {
   PersonIcon,
   PersonPencilIcon,
   PersonSuitIcon,
 } from "@navikt/aksel-icons";
-import { MedisinskrinImage } from "../../../../img/ImageComponents";
 import {
   BodyLong,
   Checkbox,
@@ -20,6 +19,7 @@ import {
   Heading,
   TextField,
 } from "@navikt/ds-react";
+import { MedisinskrinImage } from "../../../../../img/ImageComponents";
 
 export const texts = {
   title: "Deltakere i møtet",

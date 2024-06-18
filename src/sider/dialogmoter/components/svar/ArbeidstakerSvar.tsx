@@ -1,8 +1,8 @@
 import { getHarAapnetTekst, getSvarTekst } from "@/utils/dialogmoteUtils";
-import { EkspanderbartSvarPanel } from "@/components/dialogmote/svar/EkspanderbartSvarPanel";
-import { SvarIcon } from "@/components/dialogmote/svar/SvarIcon";
+import { EkspanderbartSvarPanel } from "@/sider/dialogmoter/components/svar/EkspanderbartSvarPanel";
+import { SvarIcon } from "@/sider/dialogmoter/components/svar/SvarIcon";
 import { capitalizeAllWords } from "@/utils/stringUtils";
-import { SvarDetaljer } from "@/components/dialogmote/svar/SvarDetaljer";
+import { SvarDetaljer } from "@/sider/dialogmoter/components/svar/SvarDetaljer";
 import React from "react";
 import { DialogmotedeltakerArbeidstakerVarselDTO } from "@/data/dialogmote/types/dialogmoteTypes";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";

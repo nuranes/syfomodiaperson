@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import AvlysDialogmoteSkjema from "./AvlysDialogmoteSkjema";
-import { DialogmoteSideContainer } from "../../../../components/dialogmote/DialogmoteSideContainer";
 import { MalformProvider } from "@/context/malform/MalformContext";
+import { DialogmoteSideContainer } from "@/sider/dialogmoter/components/DialogmoteSideContainer";
 
 const texts = {
   pageTitle: "Avlys dialogmøte",

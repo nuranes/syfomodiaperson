@@ -1,4 +1,4 @@
-import { FortidenImage } from "../../../../img/ImageComponents";
+import { FortidenImage } from "../../../../../img/ImageComponents";
 import React, { ReactElement } from "react";
 import {
   DialogmoteDTO,
@@ -8,7 +8,7 @@ import {
 import { tilDatoMedManedNavn } from "@/utils/datoUtils";
 import { useDialogmoteReferat } from "@/hooks/dialogmote/useDialogmoteReferat";
 import { UnntakDTO } from "@/data/dialogmotekandidat/types/dialogmoteunntakTypes";
-import { MoteHistorikkUnntak } from "@/components/dialogmote/motehistorikk/MoteHistorikkUnntak";
+import { MoteHistorikkUnntak } from "@/sider/dialogmoter/components/motehistorikk/MoteHistorikkUnntak";
 import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
 import { Accordion, BodyLong, Box, Heading } from "@navikt/ds-react";
 import { DocumentComponentVisning } from "@/components/document/DocumentComponentVisning";

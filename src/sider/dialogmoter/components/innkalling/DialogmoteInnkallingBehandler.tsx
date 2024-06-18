@@ -6,7 +6,7 @@ import { ErrorMessage, Radio, RadioGroup } from "@navikt/ds-react";
 import { behandlerDisplayText } from "@/utils/behandlerUtils";
 import BehandlerSearch from "@/components/behandler/BehandlerSearch";
 import { useController } from "react-hook-form";
-import { DialogmoteInnkallingSkjemaValues } from "@/components/dialogmote/innkalling/DialogmoteInnkallingSkjema";
+import { DialogmoteInnkallingSkjemaValues } from "@/sider/dialogmoter/components/innkalling/DialogmoteInnkallingSkjema";
 import { behandlerRefValidationErrors } from "@/utils/valideringUtils";
 
 export const texts = {

@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { UnntakDTO } from "@/data/dialogmotekandidat/types/dialogmoteunntakTypes";
 import { tilDatoMedManedNavn } from "@/utils/datoUtils";
-import { ForhandsvisDocumentAccordionItem } from "@/components/dialogmote/motehistorikk/MotehistorikkPanel";
+import { ForhandsvisDocumentAccordionItem } from "@/sider/dialogmoter/components/motehistorikk/MotehistorikkPanel";
 
 import {
   DocumentComponentDto,

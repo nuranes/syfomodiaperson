@@ -24,7 +24,7 @@ import { MalformProvider } from "@/context/malform/MalformContext";
 import {
   DialogmoteInnkallingSkjema,
   texts,
-} from "@/components/dialogmote/innkalling/DialogmoteInnkallingSkjema";
+} from "@/sider/dialogmoter/components/innkalling/DialogmoteInnkallingSkjema";
 
 let queryClient: any;
 let mockApiScope;

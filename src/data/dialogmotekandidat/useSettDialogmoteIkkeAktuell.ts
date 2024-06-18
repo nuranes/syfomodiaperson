@@ -5,7 +5,7 @@ import { CreateIkkeAktuellDTO } from "@/data/dialogmotekandidat/types/dialogmote
 import { dialogmotekandidatQueryKeys } from "@/data/dialogmotekandidat/dialogmotekandidatQueryHooks";
 import { useValgtPersonident } from "@/hooks/useValgtBruker";
 
-export const useSettDialogmoteikkeaktuell = () => {
+export const useSettDialogmoteIkkeAktuell = () => {
   const queryClient = useQueryClient();
 
   const path = `${ISDIALOGMOTEKANDIDAT_ROOT}/ikkeaktuell/personident`;

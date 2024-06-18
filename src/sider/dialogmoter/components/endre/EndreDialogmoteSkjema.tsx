@@ -18,18 +18,18 @@ import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
 import { narmesteLederForVirksomhet } from "@/utils/ledereUtils";
 import { Forhandsvisning } from "@/components/Forhandsvisning";
 import { FormProvider, useForm } from "react-hook-form";
-import TextareaField from "@/components/dialogmote/TextareaField";
 import { DialogmoteDato } from "@/sider/dialogmoter/components/DialogmoteDato";
 import DialogmoteSted, {
   MAX_LENGTH_STED,
 } from "@/sider/dialogmoter/components/DialogmoteSted";
 import DialogmoteVideolink from "@/sider/dialogmoter/components/DialogmoteVideolink";
 import DialogmoteKlokkeslett from "@/sider/dialogmoter/components/DialogmoteKlokkeslett";
-import { DialogmoteFrist } from "@/components/dialogmote/DialogmoteFrist";
 import { MalformRadioGroup } from "@/components/MalformRadioGroup";
 import * as Amplitude from "@/utils/amplitude";
 import { EventType } from "@/utils/amplitude";
 import { useMalform } from "@/context/malform/MalformContext";
+import TextareaField from "@/sider/dialogmoter/components/TextareaField";
+import { DialogmoteFrist } from "@/sider/dialogmoter/components/DialogmoteFrist";
 
 export const texts = {
   send: "Send",

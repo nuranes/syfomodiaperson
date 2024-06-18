@@ -15,8 +15,8 @@ import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import * as Tredelt from "@/sider/TredeltSide";
 import Side from "@/sider/Side";
 import { Menypunkter } from "@/components/globalnavigasjon/GlobalNavigasjon";
-import { MotehistorikkPanel } from "@/components/dialogmote/motehistorikk/MotehistorikkPanel";
-import { MoteSvarHistorikk } from "@/components/dialogmote/motehistorikk/MoteSvarHistorikk";
+import { MotehistorikkPanel } from "@/sider/dialogmoter/components/motehistorikk/MotehistorikkPanel";
+import { MoteSvarHistorikk } from "@/sider/dialogmoter/components/motehistorikk/MoteSvarHistorikk";
 
 const texts = {
   pageTitle: "Møtelandingsside",

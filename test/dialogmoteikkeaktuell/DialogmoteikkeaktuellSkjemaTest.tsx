@@ -14,12 +14,12 @@ import {
 } from "../testUtils";
 import { queryClientWithMockData } from "../testQueryClient";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
-import DialogmoteikkeaktuellSkjema, {
-  dialogmoteikkeaktuellSkjemaBeskrivelseMaxLength,
+import DialogmoteIkkeAktuellSkjema, {
+  skjemaBeskrivelseMaxLength,
   texts as ikkeaktuellSkjemaTexts,
   IkkeAktuellArsakText,
   ikkeaktuellArsakTexts,
-} from "../../src/components/dialogmoteikkeaktuell/DialogmoteikkeaktuellSkjema";
+} from "@/sider/dialogmoter/components/ikkeaktuell/DialogmoteIkkeAktuellSkjema";
 import { stubAktivVeilederinfoApi } from "../stubs/stubSyfoveileder";
 import { dialogmotekandidatQueryKeys } from "@/data/dialogmotekandidat/dialogmotekandidatQueryHooks";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
@@ -64,9 +64,7 @@ describe("DialogmoteikkeaktuellSkjema", () => {
     expect(await screen.findByText(ikkeaktuellSkjemaTexts.arsakErrorMessage)).to
       .not.be.empty;
 
-    const tooLongBeskrivelse = getTooLongText(
-      dialogmoteikkeaktuellSkjemaBeskrivelseMaxLength
-    );
+    const tooLongBeskrivelse = getTooLongText(skjemaBeskrivelseMaxLength);
     const beskrivelseInput = getTextInput(
       ikkeaktuellSkjemaTexts.beskrivelseLabel
     );
@@ -144,7 +142,7 @@ const renderDialogmoteikkeaktuellSkjema = () => {
       <ValgtEnhetContext.Provider
         value={{ valgtEnhet: navEnhet.id, setValgtEnhet: () => void 0 }}
       >
-        <DialogmoteikkeaktuellSkjema />
+        <DialogmoteIkkeAktuellSkjema />
       </ValgtEnhetContext.Provider>
     </QueryClientProvider>,
     dialogmoteIkkeAktuellRoutePath,

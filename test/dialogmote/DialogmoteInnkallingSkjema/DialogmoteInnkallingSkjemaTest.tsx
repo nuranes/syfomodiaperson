@@ -36,7 +36,7 @@ import { brukerinfoQueryKeys } from "@/data/navbruker/navbrukerQueryHooks";
 import {
   DialogmoteInnkallingSkjema,
   texts,
-} from "@/components/dialogmote/innkalling/DialogmoteInnkallingSkjema";
+} from "@/sider/dialogmoter/components/innkalling/DialogmoteInnkallingSkjema";
 import { behandlereQueryKeys } from "@/data/behandler/behandlereQueryHooks";
 import { BehandlerDTO, BehandlerType } from "@/data/behandler/BehandlerDTO";
 import { StoreKey } from "@/hooks/useLocalStorageState";

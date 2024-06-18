@@ -1,7 +1,3 @@
-import {
-  ReferatMode,
-  ReferatSkjemaValues,
-} from "@/components/dialogmote/referat/Referat";
 import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import {
@@ -28,6 +24,10 @@ import {
 } from "@/data/documentcomponent/documentComponentTypes";
 import { useMalform } from "@/context/malform/MalformContext";
 import { Veileder } from "@/data/veilederinfo/types/Veileder";
+import {
+  ReferatMode,
+  ReferatSkjemaValues,
+} from "@/sider/dialogmoter/components/referat/Referat";
 
 export interface IReferatDocument {
   getReferatDocument(

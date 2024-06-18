@@ -3,11 +3,11 @@ import {
   DialogmotedeltakerBehandlerVarselSvarDTO,
 } from "@/data/dialogmote/types/dialogmoteTypes";
 import { getSvarTekst } from "@/utils/dialogmoteUtils";
-import { EkspanderbartSvarPanel } from "@/components/dialogmote/svar/EkspanderbartSvarPanel";
-import { SvarIcon } from "@/components/dialogmote/svar/SvarIcon";
+import { SvarIcon } from "@/sider/dialogmoter/components/svar/SvarIcon";
 import React from "react";
 import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
-import { SvarDetaljer } from "@/components/dialogmote/svar/SvarDetaljer";
+import { SvarDetaljer } from "@/sider/dialogmoter/components/svar/SvarDetaljer";
+import { EkspanderbartSvarPanel } from "@/sider/dialogmoter/components/svar/EkspanderbartSvarPanel";
 
 const texts = {
   label: "Behandleren:",

@@ -1,7 +1,7 @@
 import React from "react";
 import Referat, {
   ReferatMode,
-} from "../../src/components/dialogmote/referat/Referat";
+} from "../../src/sider/dialogmoter/components/referat/Referat";
 import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
 import { expect, describe, it, beforeEach } from "vitest";
 import { changeTextInput, clickButton, getTextInput } from "../testUtils";
@@ -22,7 +22,7 @@ import { expectedReferatDocument } from "./testDataDocuments";
 import { stubMellomlagreApi } from "../stubs/stubIsdialogmote";
 import { apiMock } from "../stubs/stubApi";
 import { queryClientWithMockData } from "../testQueryClient";
-import { texts as deltakereSkjemaTexts } from "@/components/dialogmote/referat/Deltakere";
+import { texts as deltakereSkjemaTexts } from "@/sider/dialogmoter/components/referat/Deltakere";
 import { renderWithRouter } from "../testRouterUtils";
 import { MalformProvider } from "@/context/malform/MalformContext";
 

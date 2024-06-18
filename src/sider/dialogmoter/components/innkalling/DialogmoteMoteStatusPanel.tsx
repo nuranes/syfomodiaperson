@@ -8,7 +8,7 @@ import {
 import { tilDatoMedUkedagOgManedNavnOgKlokkeslett } from "@/utils/datoUtils";
 import { Link } from "react-router-dom";
 import { dialogmoteRoutePath } from "@/routers/AppRouter";
-import { DeltakereSvarInfo } from "@/components/dialogmote/DeltakereSvarInfo";
+import { DeltakereSvarInfo } from "@/sider/dialogmoter/components/DeltakereSvarInfo";
 import dayjs from "dayjs";
 import { useDialogmoteReferat } from "@/hooks/dialogmote/useDialogmoteReferat";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";
@@ -22,8 +22,8 @@ import {
   isPersonoppgaveCompletedAfterLastMoteEndring,
 } from "@/utils/dialogmoteUtils";
 import { BodyShort, Button } from "@navikt/ds-react";
-import { DialogmoteVeilederInfo } from "@/components/dialogmote/DialogmoteVeilederInfo";
-import { DialogmoteStedInfo } from "@/components/dialogmote/DialogmoteStedInfo";
+import { DialogmoteVeilederInfo } from "@/sider/dialogmoter/components/DialogmoteVeilederInfo";
+import { DialogmoteStedInfo } from "@/sider/dialogmoter/components/DialogmoteStedInfo";
 
 const texts = {
   innkallingSendtTrackingContext: "Møtelandingsside: Sendt innkalling",

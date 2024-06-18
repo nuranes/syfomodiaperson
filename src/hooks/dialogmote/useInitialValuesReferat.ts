@@ -1,5 +1,5 @@
 import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
-import { ReferatSkjemaValues } from "@/components/dialogmote/referat/Referat";
+import { ReferatSkjemaValues } from "@/sider/dialogmoter/components/referat/Referat";
 import { getReferatTexts } from "@/data/dialogmote/dialogmoteTexts";
 import { useMemo } from "react";
 import { useLedereQuery } from "@/data/leder/ledereQueryHooks";

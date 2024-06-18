@@ -12,12 +12,12 @@ import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { Alert, Box, Button, Label } from "@navikt/ds-react";
 import { tilDatoMedUkedagOgManedNavnOgKlokkeslett } from "@/utils/datoUtils";
 import { useForm } from "react-hook-form";
-import TextareaField from "@/components/dialogmote/TextareaField";
 import { Forhandsvisning } from "@/components/Forhandsvisning";
 import { MalformRadioGroup } from "@/components/MalformRadioGroup";
 import * as Amplitude from "@/utils/amplitude";
 import { EventType } from "@/utils/amplitude";
 import { useMalform } from "@/context/malform/MalformContext";
+import TextareaField from "@/sider/dialogmoter/components/TextareaField";
 
 export const MAX_LENGTH_AVLYS_BEGRUNNELSE = 500;
 

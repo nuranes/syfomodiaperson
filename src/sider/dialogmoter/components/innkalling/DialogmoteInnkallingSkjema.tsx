@@ -14,7 +14,7 @@ import {
 import { useOpprettInnkallingDialogmote } from "@/data/dialogmote/useOpprettInnkallingDialogmote";
 import { moteoversiktRoutePath } from "@/routers/AppRouter";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
-import DialogmoteInnkallingBehandler from "@/components/dialogmote/innkalling/DialogmoteInnkallingBehandler";
+import DialogmoteInnkallingBehandler from "@/sider/dialogmoter/components/innkalling/DialogmoteInnkallingBehandler";
 import { BehandlerDTO } from "@/data/behandler/BehandlerDTO";
 import { behandlerNavn } from "@/utils/behandlerUtils";
 import { useSkjemaValuesToDto } from "@/hooks/dialogmote/useSkjemaValuesToDto";
@@ -25,7 +25,6 @@ import * as Amplitude from "@/utils/amplitude";
 import { EventType } from "@/utils/amplitude";
 import { useMalform } from "@/context/malform/MalformContext";
 import { useBrukerinfoQuery } from "@/data/navbruker/navbrukerQueryHooks";
-import { DialogmoteFrist } from "@/components/dialogmote/DialogmoteFrist";
 import { DialogmoteDato } from "@/sider/dialogmoter/components/DialogmoteDato";
 import DialogmoteKlokkeslett from "@/sider/dialogmoter/components/DialogmoteKlokkeslett";
 import DialogmoteSted, {
@@ -33,8 +32,9 @@ import DialogmoteSted, {
 } from "@/sider/dialogmoter/components/DialogmoteSted";
 import DialogmoteVideolink from "@/sider/dialogmoter/components/DialogmoteVideolink";
 import { FormProvider, useForm } from "react-hook-form";
-import TextareaField from "@/components/dialogmote/TextareaField";
 import { Forhandsvisning } from "@/components/Forhandsvisning";
+import TextareaField from "@/sider/dialogmoter/components/TextareaField";
+import { DialogmoteFrist } from "@/sider/dialogmoter/components/DialogmoteFrist";
 
 export interface DialogmoteInnkallingSkjemaValues extends TidStedSkjemaValues {
   fritekstArbeidsgiver: string;

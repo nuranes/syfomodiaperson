@@ -11,13 +11,13 @@ import {
   dialogmoteMedBehandler,
 } from "../testData";
 import { render, screen } from "@testing-library/react";
-import { DeltakereSvarInfo } from "@/components/dialogmote/DeltakereSvarInfo";
 import React from "react";
 import { expect, describe, it, beforeEach } from "vitest";
 import {
   queryClientWithMockData,
   testQueryClient,
 } from "../../testQueryClient";
+import { DeltakereSvarInfo } from "@/sider/dialogmoter/components/DeltakereSvarInfo";
 
 let queryClient: QueryClient;
 

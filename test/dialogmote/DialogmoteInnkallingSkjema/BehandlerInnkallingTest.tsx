@@ -31,7 +31,7 @@ import { MalformProvider } from "@/context/malform/MalformContext";
 import {
   DialogmoteInnkallingSkjema,
   MAX_LENGTH_INNKALLING_FRITEKST,
-} from "@/components/dialogmote/innkalling/DialogmoteInnkallingSkjema";
+} from "@/sider/dialogmoter/components/innkalling/DialogmoteInnkallingSkjema";
 
 let queryClient: QueryClient;
 let apiMockScope;

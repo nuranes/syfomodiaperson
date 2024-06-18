@@ -3,8 +3,8 @@ import Side from "@/sider/Side";
 import SideLaster from "@/components/SideLaster";
 import Sidetopp from "@/components/Sidetopp";
 import * as Tredelt from "@/sider/TredeltSide";
-import { MotehistorikkPanel } from "@/components/dialogmote/motehistorikk/MotehistorikkPanel";
-import DialogmoteikkeaktuellSkjema from "@/components/dialogmoteikkeaktuell/DialogmoteikkeaktuellSkjema";
+import { MotehistorikkPanel } from "@/sider/dialogmoter/components/motehistorikk/MotehistorikkPanel";
+import DialogmoteIkkeAktuellSkjema from "@/sider/dialogmoter/components/ikkeaktuell/DialogmoteIkkeAktuellSkjema";
 import { Menypunkter } from "@/components/globalnavigasjon/GlobalNavigasjon";
 import { useDialogmoterQuery } from "@/data/dialogmote/dialogmoteQueryHooks";
 import { useDialogmoteunntakQuery } from "@/data/dialogmotekandidat/dialogmoteunntakQueryHooks";
@@ -25,7 +25,7 @@ const DialogmoteikkeaktuellSkjemaContainer = () => {
         <Tredelt.Container>
           <Tredelt.FirstColumn>
             <MalformProvider>
-              <DialogmoteikkeaktuellSkjema />
+              <DialogmoteIkkeAktuellSkjema />
             </MalformProvider>
           </Tredelt.FirstColumn>
           <Tredelt.SecondColumn>

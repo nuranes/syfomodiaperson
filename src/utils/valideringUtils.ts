@@ -1,4 +1,4 @@
-import { ReferatSkjemaValues } from "@/components/dialogmote/referat/Referat";
+import { ReferatSkjemaValues } from "@/sider/dialogmoter/components/referat/Referat";
 import { genererDato } from "@/sider/dialogmoter/utils";
 import { containsWhiteSpace } from "@/utils/stringUtils";
 

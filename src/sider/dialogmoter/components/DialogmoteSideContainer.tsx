@@ -1,14 +1,14 @@
 import React, { ReactElement } from "react";
 import { useParams } from "react-router-dom";
-import Side from "../../sider/Side";
-import SideLaster from "../SideLaster";
-import Sidetopp from "../Sidetopp";
-import Feilmelding from "../Feilmelding";
 import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
-import { BrukerKanIkkeVarslesPapirpostAdvarsel } from "@/components/dialogmote/BrukerKanIkkeVarslesPapirpostAdvarsel";
+import { BrukerKanIkkeVarslesPapirpostAdvarsel } from "@/sider/dialogmoter/components/BrukerKanIkkeVarslesPapirpostAdvarsel";
 import { useDialogmoterQuery } from "@/data/dialogmote/dialogmoteQueryHooks";
 import { useBrukerinfoQuery } from "@/data/navbruker/navbrukerQueryHooks";
 import { Menypunkter } from "@/components/globalnavigasjon/GlobalNavigasjon";
+import Side from "@/sider/Side";
+import SideLaster from "@/components/SideLaster";
+import Sidetopp from "@/components/Sidetopp";
+import Feilmelding from "@/components/Feilmelding";
 
 interface DialogmoteSideProps {
   title: string;

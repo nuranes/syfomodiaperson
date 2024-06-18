@@ -12,18 +12,17 @@ import SykepengesoknaderSide from "@/sider/sykepengsoknader/SykepengesoknaderSid
 import DinSykmeldingContainer from "@/sider/sykmeldinger/container/DinSykmeldingContainer";
 import HistorikkContainer from "@/sider/historikk/container/HistorikkContainer";
 import { erGyldigFodselsnummer } from "@/utils/frnValideringUtils";
-import DialogmoteInnkallingContainer from "../components/dialogmote/innkalling/DialogmoteInnkallingContainer";
+import DialogmoteInnkallingContainer from "../sider/dialogmoter/components/innkalling/DialogmoteInnkallingContainer";
 import AvlysDialogmoteContainer from "@/sider/dialogmoter/components/avlys/AvlysDialogmoteContainer";
 import AppSpinner from "../components/AppSpinner";
-import DialogmoteReferatContainer from "../components/dialogmote/referat/DialogmoteReferatContainer";
+import DialogmoteReferatContainer from "../sider/dialogmoter/components/referat/DialogmoteReferatContainer";
 import EndreDialogmoteContainer from "@/sider/dialogmoter/components/endre/EndreDialogmoteContainer";
 import { OppfoelgingsPlanerOversiktContainer } from "@/sider/oppfolgingsplan/container/OppfoelgingsPlanerOversiktContainer";
 import { OppfoelgingsplanContainer } from "@/sider/oppfolgingsplan/container/OppfoelgingsplanContainer";
 import { IngenBrukerSide } from "@/components/IngenBrukerSide";
 import { useAktivBruker } from "@/data/modiacontext/modiacontextQueryHooks";
-import DialogmoteEndreReferatContainer from "@/components/dialogmote/referat/DialogmoteEndreReferatContainer";
 import DialogmoteunntakSkjemaContainer from "@/components/dialogmoteunntak/DialogmoteunntakSkjemaContainer";
-import DialogmoteikkeaktuellSkjemaContainer from "@/components/dialogmoteikkeaktuell/DialogmoteikkeaktuellSkjemaContainer";
+import DialogmoteikkeaktuellSkjemaContainer from "@/sider/dialogmoter/components/ikkeaktuell/DialogmoteikkeaktuellSkjemaContainer";
 import { PersonsokSide } from "@/components/PersonsokSide";
 import { AktivitetskravContainer } from "@/sider/aktivitetskrav/AktivitetskravContainer";
 import { BehandlerdialogContainer } from "@/sider/behandlerdialog/BehandlerdialogContainer";
@@ -36,6 +35,7 @@ import { Nokkelinformasjon } from "@/sider/nokkelinformasjon/Nokkelinformasjon";
 import { ArbeidsuforhetAvslagSide } from "@/sider/arbeidsuforhet/avslag/ArbeidsuforhetAvslagSide";
 import { FriskmeldingTilArbeidsformidlingSide } from "@/sider/frisktilarbeid/FriskmeldingTilArbeidsformidlingSide";
 import { NotificationProvider } from "@/context/notification/NotificationContext";
+import DialogmoteEndreReferatContainer from "@/sider/dialogmoter/components/referat/DialogmoteEndreReferatContainer";
 
 export const appRoutePath = "/sykefravaer";
 

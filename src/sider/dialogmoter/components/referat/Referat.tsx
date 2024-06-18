@@ -1,10 +1,6 @@
 import React, { ReactElement, useState } from "react";
 import { Form, FormSpy } from "react-final-form";
 import arrayMutators from "final-form-arrays";
-import {
-  showTimeIncludingSeconds,
-  tilDatoMedManedNavn,
-} from "@/utils/datoUtils";
 import Deltakere from "./Deltakere";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
@@ -24,11 +20,10 @@ import { moteoversiktRoutePath } from "@/routers/AppRouter";
 import { SkjemaInnsendingFeil } from "@/components/SkjemaInnsendingFeil";
 import { useMellomlagreReferat } from "@/data/dialogmote/useMellomlagreReferat";
 import { useInitialValuesReferat } from "@/hooks/dialogmote/useInitialValuesReferat";
-import { StandardTekster } from "@/components/dialogmote/referat/StandardTekster";
+import { StandardTekster } from "@/sider/dialogmoter/components/referat/StandardTekster";
 import { useEndreReferat } from "@/data/dialogmote/useEndreReferat";
 import dayjs, { Dayjs } from "dayjs";
 import { useDebouncedCallback } from "use-debounce";
-import { SaveFile } from "../../../../img/ImageComponents";
 import { FormState } from "final-form";
 import { DocumentComponentDto } from "@/data/documentcomponent/documentComponentTypes";
 import { Alert, BodyShort, Box, Button, Heading, Link } from "@navikt/ds-react";
@@ -38,7 +33,12 @@ import * as Amplitude from "@/utils/amplitude";
 import { EventType } from "@/utils/amplitude";
 import { useMalform } from "@/context/malform/MalformContext";
 import { Forhandsvisning } from "@/components/Forhandsvisning";
-import { ReferatTextArea } from "@/components/dialogmote/referat/ReferatTextArea";
+import { ReferatTextArea } from "@/sider/dialogmoter/components/referat/ReferatTextArea";
+import {
+  showTimeIncludingSeconds,
+  tilDatoMedManedNavn,
+} from "@/utils/datoUtils";
+import { SaveFile } from "../../../../../img/ImageComponents";
 
 export const MAX_LENGTH_SITUASJON = 6500;
 export const MAX_LENGTH_KONKLUSJON = 1500;

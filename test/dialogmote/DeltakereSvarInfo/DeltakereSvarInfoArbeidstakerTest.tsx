@@ -7,13 +7,13 @@ import { render, screen } from "@testing-library/react";
 import { expect, describe, it, beforeEach } from "vitest";
 import { QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
-import { DeltakereSvarInfo } from "@/components/dialogmote/DeltakereSvarInfo";
 import {
   DialogmoteDTO,
   MotedeltakerVarselType,
   SvarType,
 } from "@/data/dialogmote/types/dialogmoteTypes";
 import { queryClientWithMockData } from "../../testQueryClient";
+import { DeltakereSvarInfo } from "@/sider/dialogmoter/components/DeltakereSvarInfo";
 
 let queryClient: any;
 

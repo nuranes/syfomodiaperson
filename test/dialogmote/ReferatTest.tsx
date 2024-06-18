@@ -8,8 +8,8 @@ import Referat, {
   MAX_LENGTH_VEILEDERS_OPPGAVE,
   ReferatMode,
   valideringsTexts as referatSkjemaValideringsTexts,
-} from "../../src/components/dialogmote/referat/Referat";
-import { texts as deltakereSkjemaTexts } from "../../src/components/dialogmote/referat/Deltakere";
+} from "../../src/sider/dialogmoter/components/referat/Referat";
+import { texts as deltakereSkjemaTexts } from "../../src/sider/dialogmoter/components/referat/Deltakere";
 import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
 import { expect, describe, it, beforeEach, afterEach } from "vitest";
 import { texts as valideringsTexts } from "../../src/utils/valideringUtils";

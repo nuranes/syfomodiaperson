@@ -1,9 +1,4 @@
 import React from "react";
-import Referat, {
-  MAX_LENGTH_BEGRUNNELSE_ENDRING,
-  ReferatMode,
-  valideringsTexts as referatSkjemaValideringsTexts,
-} from "../../src/components/dialogmote/referat/Referat";
 import { expect, describe, it, beforeEach } from "vitest";
 import {
   changeTextInput,
@@ -26,6 +21,11 @@ import { getReferatTexts } from "@/data/dialogmote/dialogmoteTexts";
 import { DialogmoteDTO } from "@/data/dialogmote/types/dialogmoteTypes";
 import { renderWithRouter } from "../testRouterUtils";
 import { Malform, MalformProvider } from "@/context/malform/MalformContext";
+import Referat, {
+  MAX_LENGTH_BEGRUNNELSE_ENDRING,
+  ReferatMode,
+  valideringsTexts as referatSkjemaValideringsTexts,
+} from "@/sider/dialogmoter/components/referat/Referat";
 
 let queryClient: QueryClient;
 

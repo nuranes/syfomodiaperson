@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { DialogmoteInnkallingSide } from "@/components/dialogmote/innkalling/DialogmoteInnkallingContainer";
+import { DialogmoteInnkallingSide } from "@/sider/dialogmoter/components/innkalling/DialogmoteInnkallingContainer";
 import React from "react";
 import { queryClientWithMockData } from "../testQueryClient";
 import { MemoryRouter } from "react-router-dom";
