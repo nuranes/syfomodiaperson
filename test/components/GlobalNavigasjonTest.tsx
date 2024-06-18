@@ -4,7 +4,7 @@ import {
   Menypunkter,
 } from "@/components/globalnavigasjon/GlobalNavigasjon";
 import React from "react";
-import { QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { expect, describe, it, beforeEach } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 import { oppfolgingsplanQueryKeys } from "@/data/oppfolgingsplan/oppfolgingsplanQueryHooks";
@@ -13,12 +13,7 @@ import {
   queryClientWithAktivBruker,
   queryClientWithMockData,
 } from "../testQueryClient";
-import {
-  ARBEIDSTAKER_DEFAULT,
-  BEHANDLENDE_ENHET_DEFAULT,
-  VEILEDER_DEFAULT,
-  VEILEDER_IDENT_DEFAULT,
-} from "../../mock/common/mockConstants";
+import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import { navEnhet } from "../dialogmote/testData";
 import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import {
@@ -27,12 +22,16 @@ import {
   personOppgaveUbehandletBehandlerdialogSvar,
   personOppgaveUbehandletBehandlerdialogUbesvartMelding,
 } from "../../mock/ispersonoppgave/personoppgaveMock";
-import { unleashQueryKeys } from "@/data/unleash/unleashQueryHooks";
-import { mockUnleashResponse } from "../../mock/unleashMocks";
-import { veilederinfoQueryKeys } from "@/data/veilederinfo/veilederinfoQueryHooks";
+import { arbeidsuforhetQueryKeys } from "@/data/arbeidsuforhet/arbeidsuforhetQueryHooks";
+import {
+  createForhandsvarsel,
+  createVurdering,
+} from "../arbeidsuforhet/arbeidsuforhetTestData";
+import { addWeeks } from "@/utils/datoUtils";
+import { VurderingType } from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
 
 const fnr = ARBEIDSTAKER_DEFAULT.personIdent;
-let queryClient: any;
+let queryClient: QueryClient;
 
 const renderGlobalNavigasjon = () =>
   render(
@@ -167,24 +166,71 @@ describe("GlobalNavigasjon", () => {
     expect(screen.getByRole("link", { name: "Aktivitetskrav 1" })).to.exist;
   });
 
-  it("viser rød prikk for menypunkt Arbeidsuforhet når arbeidsuforhet er skrudd på og ubehandlet oppgave for 'vurder avslag'", () => {
-    queryClient.setQueryData(personoppgaverQueryKeys.personoppgaver(fnr), () =>
-      personoppgaverMock()
-    );
+  it("viser rød prikk for menypunkt Arbeidsuforhet når siste vurdering er utløpt forhåndsvarsel", () => {
+    const expiredForhandsvarsel = createForhandsvarsel({
+      createdAt: new Date(),
+      svarfrist: addWeeks(new Date(), -3),
+    });
     queryClient.setQueryData(
-      unleashQueryKeys.toggles(
-        BEHANDLENDE_ENHET_DEFAULT.enhetId,
-        VEILEDER_IDENT_DEFAULT
-      ),
-      () => mockUnleashResponse
+      arbeidsuforhetQueryKeys.arbeidsuforhet(fnr),
+      () => [expiredForhandsvarsel]
     );
-    queryClient.setQueryData(
-      veilederinfoQueryKeys.veilederinfo,
-      () => VEILEDER_DEFAULT
-    );
-
     renderGlobalNavigasjon();
 
     expect(screen.getByRole("link", { name: "Arbeidsuførhet 1" })).to.exist;
+  });
+
+  it("viser ikke rød prikk for menypunkt Arbeidsuforhet når siste vurdering er ikke-utløpt forhåndsvarsel", () => {
+    const notExpiredForhandsvarsel = createForhandsvarsel({
+      createdAt: new Date(),
+      svarfrist: addWeeks(new Date(), 5),
+    });
+    queryClient.setQueryData(
+      arbeidsuforhetQueryKeys.arbeidsuforhet(fnr),
+      () => [notExpiredForhandsvarsel]
+    );
+    renderGlobalNavigasjon();
+
+    expect(screen.getByRole("link", { name: "Arbeidsuførhet" })).to.exist;
+  });
+
+  it("viser ikke rød prikk for menypunkt Arbeidsuforhet når siste vurdering er oppfylt", () => {
+    const oppfyltVurdering = createVurdering({
+      type: VurderingType.OPPFYLT,
+      begrunnelse: "begrunnelse",
+      createdAt: new Date(),
+    });
+    queryClient.setQueryData(
+      arbeidsuforhetQueryKeys.arbeidsuforhet(fnr),
+      () => [oppfyltVurdering]
+    );
+    renderGlobalNavigasjon();
+
+    expect(screen.getByRole("link", { name: "Arbeidsuførhet" })).to.exist;
+  });
+
+  it("viser ikke rød prikk for menypunkt Arbeidsuforhet når siste vurdering er avslag", () => {
+    const avslagVurdering = createVurdering({
+      type: VurderingType.AVSLAG,
+      begrunnelse: "begrunnelse",
+      createdAt: new Date(),
+    });
+    queryClient.setQueryData(
+      arbeidsuforhetQueryKeys.arbeidsuforhet(fnr),
+      () => [avslagVurdering]
+    );
+    renderGlobalNavigasjon();
+
+    expect(screen.getByRole("link", { name: "Arbeidsuførhet" })).to.exist;
+  });
+
+  it("viser ikke rød prikk for menypunkt Arbeidsuforhet når ingen vurdering", () => {
+    queryClient.setQueryData(
+      arbeidsuforhetQueryKeys.arbeidsuforhet(fnr),
+      () => []
+    );
+    renderGlobalNavigasjon();
+
+    expect(screen.getByRole("link", { name: "Arbeidsuførhet" })).to.exist;
   });
 });

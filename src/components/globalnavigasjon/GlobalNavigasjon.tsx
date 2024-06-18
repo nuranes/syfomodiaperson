@@ -16,6 +16,7 @@ import { BodyShort } from "@navikt/ds-react";
 import styled from "styled-components";
 import { EventType, logEvent } from "@/utils/amplitude";
 import { useFeatureToggles } from "@/data/unleash/unleashQueryHooks";
+import { useArbeidsuforhetVurderingQuery } from "@/data/arbeidsuforhet/arbeidsuforhetQueryHooks";
 
 const StyledLink = styled(Link)`
   display: flex;
@@ -103,6 +104,7 @@ export const GlobalNavigasjon = ({
   const { data: oppfolgingsplanerLPS } = useOppfolgingsplanerLPSQuery();
   const { data: motebehov } = useMotebehovQuery();
   const { data: aktivitetskrav } = useAktivitetskravQuery();
+  const { data: arbeidsuforhetVurderinger } = useArbeidsuforhetVurderingQuery();
   const { toggles } = useFeatureToggles();
 
   const oppfolgingsplanerLPSMedPersonOppgave = oppfolgingsplanerLPS.map(
@@ -174,7 +176,8 @@ export const GlobalNavigasjon = ({
           oppfolgingsplaner,
           personoppgaver,
           oppfolgingsplanerLPSMedPersonOppgave,
-          aktivitetskrav
+          aktivitetskrav,
+          arbeidsuforhetVurderinger
         );
 
         const isVedtakMenypunkt = menypunkt === Menypunkter.VEDTAK;

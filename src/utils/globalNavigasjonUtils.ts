@@ -20,6 +20,7 @@ import {
   AktivitetskravStatus,
 } from "@/data/aktivitetskrav/aktivitetskravTypes";
 import { Menypunkter } from "@/components/globalnavigasjon/GlobalNavigasjon";
+import { VurderingResponseDTO } from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
 
 const getNumberOfMoteOppgaver = (
   motebehov: MotebehovVeilederDTO[],
@@ -105,12 +106,10 @@ const getNumberOfBehandlerBerOmBistandOppgaver = (
 };
 
 const getNumberOfArbeidsuforhetOppgaver = (
-  personoppgaver: PersonOppgave[]
+  arbeidsuforhetVurderinger: VurderingResponseDTO[]
 ): number => {
-  return getAllUbehandledePersonOppgaver(
-    personoppgaver,
-    PersonOppgaveType.ARBEIDSUFORHET_VURDER_AVSLAG
-  ).length;
+  const sisteVurdering = arbeidsuforhetVurderinger[0];
+  return sisteVurdering?.varsel?.isExpired ? 1 : 0;
 };
 
 export const numberOfTasks = (
@@ -119,7 +118,8 @@ export const numberOfTasks = (
   oppfolgingsplaner: OppfolgingsplanDTO[],
   personOppgaver: PersonOppgave[],
   oppfolgingsplanerlps: OppfolgingsplanLPSMedPersonoppgave[],
-  aktivitetskrav: AktivitetskravDTO[]
+  aktivitetskrav: AktivitetskravDTO[],
+  arbeidsuforhetVurderinger: VurderingResponseDTO[]
 ): number => {
   switch (menypunkt) {
     case Menypunkter.DIALOGMOTE:
@@ -140,7 +140,7 @@ export const numberOfTasks = (
     case Menypunkter.SYKMELDINGER:
       return getNumberOfBehandlerBerOmBistandOppgaver(personOppgaver);
     case Menypunkter.ARBEIDSUFORHET:
-      return getNumberOfArbeidsuforhetOppgaver(personOppgaver);
+      return getNumberOfArbeidsuforhetOppgaver(arbeidsuforhetVurderinger);
     case Menypunkter.FRISKTILARBEID:
     case Menypunkter.NOKKELINFORMASJON:
     case Menypunkter.SYKEPENGESOKNADER:
