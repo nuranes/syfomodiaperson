@@ -16,7 +16,7 @@ const texts = {
       "Du må fatte et § 14a-vedtak i Arena",
     ],
     disclaimer:
-      "Vedtak om friskmelding til arbeidsformidling kan ikke fattes med tilbakevirkende kraft. Du trenger ikke å sjekke infotrygd når du fatter vedtak herfra.",
+      "Du trenger ikke å sjekke infotrygd når du fatter vedtak herfra.",
   },
   button: "Vurder vedtak",
 };

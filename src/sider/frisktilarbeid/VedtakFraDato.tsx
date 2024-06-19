@@ -17,7 +17,6 @@ export const VedtakFraDato = () => {
   });
   const fraDatoDatePicker = useDatepicker({
     onDateChange: (date: Date | undefined) => field.onChange(date),
-    fromDate: new Date(),
   });
 
   return (
