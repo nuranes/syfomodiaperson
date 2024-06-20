@@ -12,7 +12,7 @@ const texts = {
 const EndreSykmelding = () => {
   const env = erPreProd() ? "intern.dev" : "intern";
   const sykmeldingId = window.location.pathname.split("/")[3];
-  const smregistrering = `https://smregistrering.${env}.nav.no/?sykmeldingid=${sykmeldingId}`;
+  const smregistrering = `https://sykmelding-redirect.${env}.nav.no/smr/?sykmeldingid=${sykmeldingId}`;
 
   return (
     <Box background="surface-default" padding="4" className="mb-4">
