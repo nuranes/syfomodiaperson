@@ -30,12 +30,13 @@ import * as Amplitude from "@/utils/amplitude";
 import Motelandingsside from "@/sider/dialogmoter/Motelandingsside";
 import { SykepengesoknadSide } from "@/sider/sykepengsoknader/container/SykepengesoknadSide";
 import { ArbeidsuforhetSide } from "@/sider/arbeidsuforhet/ArbeidsuforhetSide";
-import { ArbeidsuforhetOppfyltSide } from "@/sider/arbeidsuforhet/ArbeidsuforhetOppfyltSide";
+import { ArbeidsuforhetOppfyltSide } from "@/sider/arbeidsuforhet/oppfylt/ArbeidsuforhetOppfyltSide";
 import { Nokkelinformasjon } from "@/sider/nokkelinformasjon/Nokkelinformasjon";
 import { ArbeidsuforhetAvslagSide } from "@/sider/arbeidsuforhet/avslag/ArbeidsuforhetAvslagSide";
 import { FriskmeldingTilArbeidsformidlingSide } from "@/sider/frisktilarbeid/FriskmeldingTilArbeidsformidlingSide";
 import { NotificationProvider } from "@/context/notification/NotificationContext";
 import DialogmoteEndreReferatContainer from "@/sider/dialogmoter/components/referat/DialogmoteEndreReferatContainer";
+import { Arbeidsuforhet } from "@/sider/arbeidsuforhet/Arbeidsuforhet";
 
 export const appRoutePath = "/sykefravaer";
 
@@ -118,7 +119,14 @@ const AktivBrukerRouter = (): ReactElement => {
               </NotificationProvider>
             }
           >
-            <Route path={arbeidsuforhetPath} element={<ArbeidsuforhetSide />} />
+            <Route
+              path={arbeidsuforhetPath}
+              element={
+                <ArbeidsuforhetSide>
+                  <Arbeidsuforhet />
+                </ArbeidsuforhetSide>
+              }
+            />
             <Route
               path={arbeidsuforhetOppfyltPath}
               element={<ArbeidsuforhetOppfyltSide />}

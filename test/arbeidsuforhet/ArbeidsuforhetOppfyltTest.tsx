@@ -14,7 +14,7 @@ import {
   createForhandsvarsel,
   createVurdering,
 } from "./arbeidsuforhetTestData";
-import { ArbeidsuforhetOppfylt } from "@/sider/arbeidsuforhet/ArbeidsuforhetOppfylt";
+import { ArbeidsuforhetOppfylt } from "@/sider/arbeidsuforhet/oppfylt/ArbeidsuforhetOppfylt";
 import { arbeidsuforhetOppfyltPath } from "@/routers/AppRouter";
 import { renderArbeidsuforhetSide } from "./arbeidsuforhetTestUtils";
 

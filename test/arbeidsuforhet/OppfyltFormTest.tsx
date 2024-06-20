@@ -13,7 +13,7 @@ import {
   daysFromToday,
   getTextInput,
 } from "../testUtils";
-import { OppfyltForm } from "@/sider/arbeidsuforhet/OppfyltForm";
+import { OppfyltForm } from "@/sider/arbeidsuforhet/oppfylt/OppfyltForm";
 import { getOppfyltVurderingDocument } from "./documents";
 import { arbeidsuforhetOppfyltPath } from "@/routers/AppRouter";
 import { renderArbeidsuforhetSide } from "./arbeidsuforhetTestUtils";

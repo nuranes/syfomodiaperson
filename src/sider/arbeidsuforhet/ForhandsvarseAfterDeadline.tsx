@@ -1,14 +1,9 @@
 import React from "react";
 import { useArbeidsuforhetVurderingQuery } from "@/data/arbeidsuforhet/arbeidsuforhetQueryHooks";
-import { BodyShort, Box, Button, Detail, Heading } from "@navikt/ds-react";
-import { ButtonRow } from "@/components/Layout";
+import { BodyShort, Box, Detail, Heading } from "@navikt/ds-react";
 import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
 import { BellIcon } from "@navikt/aksel-icons";
-import { Link } from "react-router-dom";
-import {
-  arbeidsuforhetAvslagPath,
-  arbeidsuforhetOppfyltPath,
-} from "@/routers/AppRouter";
+import { ArbeidsuforhetButtons } from "@/sider/arbeidsuforhet/ArbeidsuforhetButtons";
 
 const texts = {
   title: "Fristen er gått ut",
@@ -16,8 +11,6 @@ const texts = {
     `Fristen for forhåndsvarselet som ble sendt ut ${tilLesbarDatoMedArUtenManedNavn(
       sentDate
     )} er gått ut. Trykk på Innstilling om avslag-knappen hvis vilkårene i § 8-4 ikke er oppfylt og rett til videre sykepenger skal avslås.`,
-  avslag: "Innstilling om avslag",
-  oppfylt: "Oppfylt",
   seSendtVarsel: "Se sendt varsel",
 };
 
@@ -37,14 +30,7 @@ export const ForhandsvarselAfterDeadline = () => {
         <BellIcon title="bjelleikon" fontSize="2em" />
       </div>
       <BodyShort>{texts.passertAlert(forhandsvarsel.createdAt)}</BodyShort>
-      <ButtonRow>
-        <Button as={Link} to={arbeidsuforhetAvslagPath} variant="primary">
-          {texts.avslag}
-        </Button>
-        <Button as={Link} to={arbeidsuforhetOppfyltPath} variant="secondary">
-          {texts.oppfylt}
-        </Button>
-      </ButtonRow>
+      <ArbeidsuforhetButtons isBeforeForhandsvarselDeadline={false} />
     </Box>
   );
 };

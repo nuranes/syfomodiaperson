@@ -1,11 +1,9 @@
 import React from "react";
 import { useArbeidsuforhetVurderingQuery } from "@/data/arbeidsuforhet/arbeidsuforhetQueryHooks";
-import { Alert, BodyLong, Box, Button, Heading } from "@navikt/ds-react";
-import { ButtonRow } from "@/components/Layout";
+import { Alert, BodyLong, Box, Heading } from "@navikt/ds-react";
 import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
 import { ClockIcon } from "@navikt/aksel-icons";
-import { Link } from "react-router-dom";
-import { arbeidsuforhetOppfyltPath } from "@/routers/AppRouter";
+import { ArbeidsuforhetButtons } from "@/sider/arbeidsuforhet/ArbeidsuforhetButtons";
 
 const texts = {
   title: "Venter på svar fra bruker",
@@ -18,8 +16,6 @@ const texts = {
   sendtInfo:
     "Dersom du har mottatt nye opplysninger og vurdert at bruker likevel oppfyller § 8-4, klikker du på Oppfylt-knappen. Du kan ikke avslå før fristen er gått ut.",
   frist: "Fristen går ut: ",
-  oppfylt: "Oppfylt",
-  avslag: "Innstilling om avslag",
   seSendtVarsel: "Se sendt varsel",
 };
 
@@ -48,14 +44,7 @@ export const ForhandsvarselBeforeDeadline = () => {
           <ClockIcon title="klokkeikon" fontSize="2em" />
         </div>
         <BodyLong>{texts.sendtInfo}</BodyLong>
-        <ButtonRow>
-          <Button variant="primary" disabled>
-            {texts.avslag}
-          </Button>
-          <Button as={Link} to={arbeidsuforhetOppfyltPath} variant="secondary">
-            {texts.oppfylt}
-          </Button>
-        </ButtonRow>
+        <ArbeidsuforhetButtons isBeforeForhandsvarselDeadline={true} />
       </Box>
     </div>
   );

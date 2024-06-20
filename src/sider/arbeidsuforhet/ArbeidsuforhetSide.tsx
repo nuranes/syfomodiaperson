@@ -7,13 +7,16 @@ import * as Tredelt from "@/sider/TredeltSide";
 import { Menypunkter } from "@/components/globalnavigasjon/GlobalNavigasjon";
 import { useArbeidsuforhetVurderingQuery } from "@/data/arbeidsuforhet/arbeidsuforhetQueryHooks";
 import { VurderingHistorikk } from "@/sider/arbeidsuforhet/historikk/VurderingHistorikk";
-import { Arbeidsuforhet } from "@/sider/arbeidsuforhet/Arbeidsuforhet";
 
 const texts = {
   title: "Arbeidsuførhet",
 };
 
-export const ArbeidsuforhetSide = (): ReactElement => {
+interface Props {
+  children: ReactElement;
+}
+
+export const ArbeidsuforhetSide = ({ children }: Props): ReactElement => {
   const { isLoading, isError } = useArbeidsuforhetVurderingQuery();
 
   return (
@@ -22,7 +25,7 @@ export const ArbeidsuforhetSide = (): ReactElement => {
       <SideLaster henter={isLoading} hentingFeilet={isError}>
         <Tredelt.Container>
           <Tredelt.FirstColumn>
-            <Arbeidsuforhet />
+            {children}
             <VurderingHistorikk />
           </Tredelt.FirstColumn>
           <Tredelt.SecondColumn>
