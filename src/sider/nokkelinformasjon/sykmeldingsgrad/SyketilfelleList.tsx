@@ -2,15 +2,15 @@ import React from "react";
 import { useOppfolgingstilfellePersonQuery } from "@/data/oppfolgingstilfelle/person/oppfolgingstilfellePersonQueryHooks";
 import { OppfolgingstilfelleDTO } from "@/data/oppfolgingstilfelle/person/types/OppfolgingstilfellePersonDTO";
 import { tilLesbarPeriodeMedArUtenManednavn } from "@/utils/datoUtils";
-import { Radio, RadioGroup } from "@navikt/ds-react";
+import { Radio, RadioGroup, Tooltip } from "@navikt/ds-react";
 import { useSykmeldingerQuery } from "@/data/sykmelding/sykmeldingQueryHooks";
 import {
-  getDiagnosekodeFromLatestSykmelding,
+  getDiagnoseFromLatestSykmelding,
   newAndActivatedSykmeldinger,
   sykmeldingerInnenforOppfolgingstilfelle,
 } from "@/utils/sykmeldinger/sykmeldingUtils";
-import styled from "styled-components";
 import { MedisinskrinImage } from "../../../../img/ImageComponents";
+import { SykmeldingDiagnose } from "@/data/sykmelding/types/SykmeldingOldFormat";
 
 const texts = {
   title: "Siste sykefravær",
@@ -20,15 +20,6 @@ interface SyketilfelleListProps {
   changeSelectedTilfelle: (value: OppfolgingstilfelleDTO) => void;
 }
 
-const KodeSpan = styled.span`
-  margin-left: 0.2em;
-`;
-
-const TilfelleBox = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
 export const SyketilfelleList = ({
   changeSelectedTilfelle,
 }: SyketilfelleListProps) => {
@@ -37,14 +28,14 @@ export const SyketilfelleList = ({
 
   const tenLatestTilfeller = tilfellerDescendingStart?.slice(0, 10);
 
-  const getDiagnosekode = (tilfelle: OppfolgingstilfelleDTO): string => {
+  const getDiagnose = (
+    tilfelle: OppfolgingstilfelleDTO
+  ): SykmeldingDiagnose | undefined => {
     const newAndUsedSykmeldinger = newAndActivatedSykmeldinger(sykmeldinger);
     const sykmeldingerIOppfolgingstilfellet =
       sykmeldingerInnenforOppfolgingstilfelle(newAndUsedSykmeldinger, tilfelle);
 
-    return getDiagnosekodeFromLatestSykmelding(
-      sykmeldingerIOppfolgingstilfellet
-    );
+    return getDiagnoseFromLatestSykmelding(sykmeldingerIOppfolgingstilfellet);
   };
 
   const tilfelleText = (tilfelle: OppfolgingstilfelleDTO) => {
@@ -66,18 +57,21 @@ export const SyketilfelleList = ({
       >
         {tenLatestTilfeller.map(
           (tilfelle: OppfolgingstilfelleDTO, index: number) => {
+            const diagnose = getDiagnose(tilfelle);
             return (
-              <TilfelleBox key={index}>
+              <div className="flex items-center" key={index}>
                 <Radio key={index} value={tilfelle}>
                   {tilfelleText(tilfelle)}
                 </Radio>
-                <>
-                  <div className="ml-2">
-                    <img src={MedisinskrinImage} alt="Medisinskrin" />
-                  </div>
-                  <KodeSpan>{getDiagnosekode(tilfelle)}</KodeSpan>
-                </>
-              </TilfelleBox>
+                {diagnose?.diagnosekode && (
+                  <Tooltip content={diagnose.diagnose ?? "Ukjent diagnosenavn"}>
+                    <div className="ml-2">
+                      <img src={MedisinskrinImage} alt="Medisinskrin" />
+                      <span className="ml-1">{diagnose.diagnosekode}</span>
+                    </div>
+                  </Tooltip>
+                )}
+              </div>
             );
           }
         )}

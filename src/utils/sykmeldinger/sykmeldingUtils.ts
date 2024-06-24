@@ -1,6 +1,7 @@
 import { senesteTom, tidligsteFom } from "../periodeUtils";
 import {
   ArbeidssituasjonType,
+  SykmeldingDiagnose,
   SykmeldingOldFormat,
   SykmeldingPeriodeDTO,
   SykmeldingStatus,
@@ -327,13 +328,10 @@ export const skalVisesSomTidligereSykmelding = (sykmld: SykmeldingOldFormat) =>
     new Date()
   ) >= 3;
 
-export const getDiagnosekodeFromLatestSykmelding = (
+export const getDiagnoseFromLatestSykmelding = (
   sykmeldinger: SykmeldingOldFormat[]
-) => {
+): SykmeldingDiagnose | undefined => {
   const latestSykmelding =
     sykmeldingerSortertNyestTilEldstPeriode(sykmeldinger)[0];
-  const latestDiagnosekode =
-    latestSykmelding?.diagnose?.hoveddiagnose?.diagnosekode;
-
-  return latestDiagnosekode || "";
+  return latestSykmelding?.diagnose?.hoveddiagnose;
 };

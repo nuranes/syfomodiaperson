@@ -10,7 +10,7 @@ import {
   erMeldingTilArbeidsgiverInformasjon,
   erMulighetForArbeidInformasjon,
   finnAvventendeSykmeldingTekst,
-  getDiagnosekodeFromLatestSykmelding,
+  getDiagnoseFromLatestSykmelding,
   latestSykmeldingForVirksomhet,
   newAndActivatedSykmeldinger,
   stringMedAlleGraderingerFraSykmeldingPerioder,
@@ -967,9 +967,9 @@ describe("sykmeldingUtils", () => {
         },
       };
 
-      const diagnosekode = getDiagnosekodeFromLatestSykmelding([sykmelding]);
+      const diagnose = getDiagnoseFromLatestSykmelding([sykmelding]);
 
-      expect(diagnosekode).to.equal(wantedDiagnosekode);
+      expect(diagnose?.diagnosekode).to.equal(wantedDiagnosekode);
     });
 
     it("Returns diagnosekode from latest sykmelding in list", () => {
@@ -999,26 +999,24 @@ describe("sykmeldingUtils", () => {
         },
       };
 
-      const diagnosekode = getDiagnosekodeFromLatestSykmelding([
+      const diagnose = getDiagnoseFromLatestSykmelding([
         latestSykmelding,
         oldestSykmelding,
       ]);
 
-      expect(diagnosekode).to.equal(wantedDiagnosekode);
+      expect(diagnose?.diagnosekode).to.equal(wantedDiagnosekode);
     });
 
     it("Returns empty string if no sykmeldinger in list", () => {
-      const diagnosekode = getDiagnosekodeFromLatestSykmelding([]);
+      const diagnose = getDiagnoseFromLatestSykmelding([]);
 
-      expect(diagnosekode).to.equal("");
+      expect(diagnose?.diagnosekode).to.equal(undefined);
     });
 
     it("Returns empty string if latest sykmelding doesn't have diagnose", () => {
-      const diagnosekode = getDiagnosekodeFromLatestSykmelding([
-        baseSykmelding,
-      ]);
+      const diagnose = getDiagnoseFromLatestSykmelding([baseSykmelding]);
 
-      expect(diagnosekode).to.equal("");
+      expect(diagnose?.diagnosekode).to.equal(undefined);
     });
   });
 });
