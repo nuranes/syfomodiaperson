@@ -10,12 +10,13 @@ import { ValgtEnhetContext } from "@/context/ValgtEnhetContext";
 import { navEnhet } from "../dialogmote/testData";
 import React from "react";
 import { VurderingHistorikk } from "@/sider/arbeidsuforhet/historikk/VurderingHistorikk";
-import { expect, describe, it, beforeEach } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import {
   createForhandsvarsel,
   createVurdering,
 } from "./arbeidsuforhetTestData";
 import {
+  VurderingArsak,
   VurderingResponseDTO,
   VurderingType,
 } from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
@@ -80,6 +81,13 @@ describe("VurderingHistorikk", () => {
       createdAt: avslagCreated,
       begrunnelse: "Ikke rett på sykepenger",
     });
+    const ikkeAktuellCreated = daysFromToday(10);
+    const ikkeAktuell = createVurdering({
+      type: VurderingType.IKKE_AKTUELL,
+      createdAt: ikkeAktuellCreated,
+      begrunnelse: "",
+      arsak: VurderingArsak.FRISKMELDING_TIL_ARBEIDSFORMIDLING,
+    });
 
     it("viser tekst om tidligere vurderinger", () => {
       renderVurderingHistorikk([avslag, forhandsvarsel, oppfylt]);
@@ -95,17 +103,20 @@ describe("VurderingHistorikk", () => {
     });
 
     it("viser klikkbar overskrift med type og dato for hver vurdering", () => {
-      renderVurderingHistorikk([avslag, forhandsvarsel, oppfylt]);
+      renderVurderingHistorikk([ikkeAktuell, avslag, forhandsvarsel, oppfylt]);
 
       const vurderingButtons = screen.getAllByRole("button");
 
       expect(vurderingButtons[0].textContent).to.contain(
-        `Avslag - ${tilDatoMedManedNavn(avslagCreated)}`
+        `Ikke aktuell - ${tilDatoMedManedNavn(ikkeAktuellCreated)}`
       );
       expect(vurderingButtons[1].textContent).to.contain(
-        `Forhåndsvarsel - ${tilDatoMedManedNavn(forhandsvarselCreated)}`
+        `Avslag - ${tilDatoMedManedNavn(avslagCreated)}`
       );
       expect(vurderingButtons[2].textContent).to.contain(
+        `Forhåndsvarsel - ${tilDatoMedManedNavn(forhandsvarselCreated)}`
+      );
+      expect(vurderingButtons[3].textContent).to.contain(
         `Oppfylt - ${tilDatoMedManedNavn(oppfyltCreated)}`
       );
     });
@@ -123,6 +134,18 @@ describe("VurderingHistorikk", () => {
       expect(screen.getByText(VEILEDER_DEFAULT.fulltNavn())).to.exist;
       expect(screen.getByRole("button", { name: "Se oppfylt vurdering" })).to
         .exist;
+    });
+
+    it("klikk på ikke-aktuell viser årsak og veileder for vurderingen", async () => {
+      renderVurderingHistorikk([ikkeAktuell]);
+
+      const vurderingButton = screen.getByRole("button");
+
+      await userEvent.click(vurderingButton);
+
+      expect(screen.queryByText("Begrunnelse")).to.not.exist;
+      expect(screen.getByText("Vurdert av")).to.exist;
+      expect(screen.getByText(VEILEDER_DEFAULT.fulltNavn())).to.exist;
     });
   });
 });

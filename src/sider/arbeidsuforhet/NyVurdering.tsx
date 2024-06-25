@@ -2,6 +2,7 @@ import React, { ReactElement } from "react";
 import { Alert, BodyShort, Box, Button, Heading } from "@navikt/ds-react";
 import { useArbeidsuforhetVurderingQuery } from "@/data/arbeidsuforhet/arbeidsuforhetQueryHooks";
 import {
+  typeTexts,
   VurderingResponseDTO,
   VurderingType,
 } from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
@@ -23,7 +24,7 @@ const lastVurderingText = (vurderinger: VurderingResponseDTO[]) => {
   const lastForhandsvarsel = vurderinger.find(
     (vurdering) => vurdering.type === VurderingType.FORHANDSVARSEL
   );
-  const lastVurderingType = lastVurdering?.type.toLowerCase();
+  const lastVurderingType = typeTexts[lastVurdering.type].toLowerCase();
 
   return `Forrige forhåndsvarsel på 8-4 ble sendt ut ${tilLesbarDatoMedArUtenManedNavn(
     lastForhandsvarsel?.createdAt

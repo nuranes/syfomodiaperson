@@ -1,4 +1,5 @@
 import {
+  VurderingArsak,
   VurderingResponseDTO,
   VurderingType,
 } from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
@@ -23,6 +24,7 @@ export const createForhandsvarsel = ({
     createdAt,
     veilederident: VEILEDER_DEFAULT.ident,
     type: VurderingType.FORHANDSVARSEL,
+    arsak: undefined,
     begrunnelse: "begrunnelse",
     document: getSendForhandsvarselDocument("begrunnelse"),
     varsel: {
@@ -38,12 +40,14 @@ type CreateVurderingOptions = {
   type: VurderingType;
   createdAt: Date;
   begrunnelse: string;
+  arsak?: VurderingArsak;
 };
 
 export const createVurdering = ({
   type,
   begrunnelse,
   createdAt,
+  arsak = undefined,
 }: CreateVurderingOptions): VurderingResponseDTO => {
   return {
     uuid: "123",
@@ -51,6 +55,7 @@ export const createVurdering = ({
     createdAt,
     veilederident: VEILEDER_DEFAULT.ident,
     type,
+    arsak,
     begrunnelse,
     document: getSendForhandsvarselDocument(begrunnelse),
     varsel: undefined,

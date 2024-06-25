@@ -10,6 +10,10 @@ import {
 } from "../../mock/common/mockConstants";
 import { getForhandsvarselArbeidsuforhetTexts } from "@/data/arbeidsuforhet/arbeidsuforhetDocumentTexts";
 import { daysFromToday } from "../testUtils";
+import {
+  arsakTexts,
+  VurderingArsak,
+} from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
 
 const expectedFristDate = addWeeks(new Date(), 3);
 
@@ -157,6 +161,33 @@ export const getAvslagVurderingDocument = (
     },
     {
       texts: [`${VEILEDER_DEFAULT.fulltNavn()}`],
+      type: DocumentComponentType.PARAGRAPH,
+    },
+  ];
+};
+
+export const getIkkeAktuellVurderingDocument = (
+  arsak: VurderingArsak
+): DocumentComponentDto[] => {
+  return [
+    {
+      texts: ["Vurdering av § 8-4 arbeidsuførhet"],
+      type: DocumentComponentType.HEADER_H1,
+    },
+    {
+      texts: [
+        `Gjelder ${ARBEIDSTAKER_DEFAULT_FULL_NAME}, f.nr. ${ARBEIDSTAKER_DEFAULT.personIdent}`,
+      ],
+      type: DocumentComponentType.PARAGRAPH,
+    },
+    {
+      texts: [
+        `Det er vurdert at folketrygdloven § 8-4 ikke kommer til anvendelse i dette tilfellet. Årsak: ${arsakTexts[arsak]}.`,
+      ],
+      type: DocumentComponentType.PARAGRAPH,
+    },
+    {
+      texts: [`Vurdert av ${VEILEDER_DEFAULT.fulltNavn()}`],
       type: DocumentComponentType.PARAGRAPH,
     },
   ];

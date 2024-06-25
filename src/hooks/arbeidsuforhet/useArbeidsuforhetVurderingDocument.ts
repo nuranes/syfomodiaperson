@@ -6,10 +6,14 @@ import {
   createParagraph,
 } from "@/utils/documentComponentUtils";
 import {
+  arbeidsuforhetTexts,
   getAvslagArbeidsuforhetTexts,
   getForhandsvarselArbeidsuforhetTexts,
-  arbeidsuforhetTexts,
 } from "@/data/arbeidsuforhet/arbeidsuforhetDocumentTexts";
+import {
+  arsakTexts,
+  VurderingArsak,
+} from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
 
 type ForhandsvarselDocumentValues = {
   begrunnelse: string;
@@ -26,12 +30,19 @@ type AvslagDocumentValues = {
   fom: Date | undefined;
 };
 
+type IkkeAktuellDocumentValues = {
+  arsak: VurderingArsak;
+};
+
 export const useArbeidsuforhetVurderingDocument = (): {
   getForhandsvarselDocument(
     values: ForhandsvarselDocumentValues
   ): DocumentComponentDto[];
   getOppfyltDocument(values: OppfyltDocumentValues): DocumentComponentDto[];
   getAvslagDocument(values: AvslagDocumentValues): DocumentComponentDto[];
+  getIkkeAktuellDocument(
+    values: IkkeAktuellDocumentValues
+  ): DocumentComponentDto[];
 } => {
   const { getHilsen, getIntroGjelder, getVurdertAv, getVeiledernavn } =
     useDocumentComponents();
@@ -112,9 +123,21 @@ export const useArbeidsuforhetVurderingDocument = (): {
     return documentComponents;
   };
 
+  const getIkkeAktuellDocument = ({ arsak }: IkkeAktuellDocumentValues) => {
+    return [
+      createHeaderH1("Vurdering av § 8-4 arbeidsuførhet"),
+      getIntroGjelder(),
+      createParagraph(
+        `Det er vurdert at folketrygdloven § 8-4 ikke kommer til anvendelse i dette tilfellet. Årsak: ${arsakTexts[arsak]}.`
+      ),
+      getVurdertAv(),
+    ];
+  };
+
   return {
     getForhandsvarselDocument,
     getOppfyltDocument,
     getAvslagDocument,
+    getIkkeAktuellDocument,
   };
 };

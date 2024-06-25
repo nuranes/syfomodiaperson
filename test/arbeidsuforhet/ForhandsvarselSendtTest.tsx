@@ -72,6 +72,7 @@ describe("ForhandsvarselSendt", () => {
         screen.getByRole("button", { name: "Innstilling om avslag" })
       ).to.have.property("disabled", true);
       expect(screen.getByRole("button", { name: "Oppfylt" })).to.exist;
+      expect(screen.getByRole("button", { name: "Ikke aktuell" })).to.exist;
     });
 
     it("show ForhandsvarselAfterDeadline when svarfrist is today (expired)", () => {
@@ -99,6 +100,7 @@ describe("ForhandsvarselSendt", () => {
       expect(screen.getByRole("button", { name: "Innstilling om avslag" })).to
         .exist;
       expect(screen.getByRole("button", { name: "Oppfylt" })).to.exist;
+      expect(screen.getByRole("button", { name: "Ikke aktuell" })).to.exist;
     });
   });
 });

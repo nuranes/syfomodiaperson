@@ -2,6 +2,7 @@ import { Button } from "@navikt/ds-react";
 import { Link } from "react-router-dom";
 import {
   arbeidsuforhetAvslagPath,
+  arbeidsuforhetIkkeAktuellPath,
   arbeidsuforhetOppfyltPath,
 } from "@/routers/AppRouter";
 import React from "react";
@@ -9,6 +10,7 @@ import React from "react";
 const texts = {
   avslag: "Innstilling om avslag",
   oppfylt: "Oppfylt",
+  ikkeAktuell: "Ikke aktuell",
 };
 
 interface Props {
@@ -32,6 +34,9 @@ export const ArbeidsuforhetButtons = ({
     )}
     <Button as={Link} to={arbeidsuforhetOppfyltPath} variant="secondary">
       {texts.oppfylt}
+    </Button>
+    <Button as={Link} to={arbeidsuforhetIkkeAktuellPath} variant="secondary">
+      {texts.ikkeAktuell}
     </Button>
   </div>
 );

@@ -47,6 +47,7 @@ export const mockIsarbeidsuforhet = (server: any) => {
         createdAt: new Date(),
         veilederident: VEILEDER_DEFAULT.ident,
         type: body.type,
+        arsak: body.arsak,
         begrunnelse: body.begrunnelse,
         document: body.document,
         varsel,

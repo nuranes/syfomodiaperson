@@ -37,6 +37,7 @@ import { FriskmeldingTilArbeidsformidlingSide } from "@/sider/frisktilarbeid/Fri
 import { NotificationProvider } from "@/context/notification/NotificationContext";
 import DialogmoteEndreReferatContainer from "@/sider/dialogmoter/components/referat/DialogmoteEndreReferatContainer";
 import { Arbeidsuforhet } from "@/sider/arbeidsuforhet/Arbeidsuforhet";
+import { ArbeidsuforhetIkkeAktuellSide } from "@/sider/arbeidsuforhet/ikkeaktuell/ArbeidsuforhetIkkeAktuellSide";
 
 export const appRoutePath = "/sykefravaer";
 
@@ -46,6 +47,7 @@ export const dialogmoteIkkeAktuellRoutePath = `${appRoutePath}/dialogmoteikkeakt
 export const moteoversiktRoutePath = `${appRoutePath}/moteoversikt`;
 export const arbeidsuforhetOppfyltPath = `${appRoutePath}/arbeidsuforhet/oppfylt`;
 export const arbeidsuforhetAvslagPath = `${appRoutePath}/arbeidsuforhet/avslag`;
+export const arbeidsuforhetIkkeAktuellPath = `${appRoutePath}/arbeidsuforhet/ikkeaktuell`;
 export const arbeidsuforhetPath = `${appRoutePath}/arbeidsuforhet`;
 export const frisktilarbeidPath = `${appRoutePath}/frisktilarbeid`;
 
@@ -134,6 +136,10 @@ const AktivBrukerRouter = (): ReactElement => {
             <Route
               path={arbeidsuforhetAvslagPath}
               element={<ArbeidsuforhetAvslagSide />}
+            />
+            <Route
+              path={arbeidsuforhetIkkeAktuellPath}
+              element={<ArbeidsuforhetIkkeAktuellSide />}
             />
           </Route>
           <Route

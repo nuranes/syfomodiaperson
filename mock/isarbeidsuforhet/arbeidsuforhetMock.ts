@@ -120,6 +120,7 @@ export const mockArbeidsuforhetvurdering: VurderingResponseDTO[] = [
     createdAt: daysFromToday(-40),
     veilederident: VEILEDER_DEFAULT.ident,
     type: VurderingType.OPPFYLT,
+    arsak: undefined,
     begrunnelse: defaultOppfyltBegrunnelse,
     document: getOppfyltDocument(defaultOppfyltBegrunnelse, daysFromToday(-40)),
     varsel: undefined,
@@ -130,6 +131,7 @@ export const mockArbeidsuforhetvurdering: VurderingResponseDTO[] = [
     createdAt: daysFromToday(-50),
     veilederident: VEILEDER_DEFAULT.ident,
     type: VurderingType.FORHANDSVARSEL,
+    arsak: undefined,
     begrunnelse: defaultOppfyltBegrunnelse,
     document: getSendForhandsvarselDocument(
       "En begrunnelse forhåndsvarsel",

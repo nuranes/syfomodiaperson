@@ -2,6 +2,8 @@ import React from "react";
 import { Accordion, BodyShort, Box, Heading } from "@navikt/ds-react";
 import { useArbeidsuforhetVurderingQuery } from "@/data/arbeidsuforhet/arbeidsuforhetQueryHooks";
 import {
+  arsakTexts,
+  typeTexts,
   VurderingResponseDTO,
   VurderingType,
 } from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
@@ -16,26 +18,13 @@ const texts = {
   noVurderinger:
     "Det finnes ingen tidligere vurderinger av §8-4 arbeidsuførhet i Modia",
   begrunnelseLabel: "Begrunnelse",
+  arsakLabel: "Årsak",
   vurdertLabel: "Vurdert av",
 };
 
 interface VurderingHistorikkItemProps {
   vurdering: VurderingResponseDTO;
 }
-
-const headerPrefix = (type: VurderingType): string => {
-  switch (type) {
-    case VurderingType.FORHANDSVARSEL: {
-      return "Forhåndsvarsel";
-    }
-    case VurderingType.OPPFYLT: {
-      return "Oppfylt";
-    }
-    case VurderingType.AVSLAG: {
-      return "Avslag";
-    }
-  }
-};
 
 const getButtonText = (type: VurderingType): string => {
   switch (type) {
@@ -48,25 +37,36 @@ const getButtonText = (type: VurderingType): string => {
     case VurderingType.AVSLAG: {
       return "Se innstilling om avslag";
     }
+    case VurderingType.IKKE_AKTUELL: {
+      throw new Error("Not supported");
+    }
   }
 };
 
 const VurderingHistorikkItem = ({ vurdering }: VurderingHistorikkItemProps) => {
-  const { type, begrunnelse, createdAt, veilederident } = vurdering;
+  const { type, arsak, begrunnelse, createdAt, veilederident } = vurdering;
   const { data: veilederinfo } = useVeilederInfoQuery(veilederident);
-  const header = `${headerPrefix(type)} - ${tilDatoMedManedNavn(createdAt)}`;
-  const buttonText = getButtonText(type);
-
+  const header = `${typeTexts[type]} - ${tilDatoMedManedNavn(createdAt)}`;
   return (
     <Accordion.Item>
       <Accordion.Header>{header}</Accordion.Header>
       <Accordion.Content>
-        <Paragraph label={texts.begrunnelseLabel} body={begrunnelse} />
+        {begrunnelse && (
+          <Paragraph label={texts.begrunnelseLabel} body={begrunnelse} />
+        )}
+        {arsak && (
+          <Paragraph label={texts.arsakLabel} body={arsakTexts[arsak]} />
+        )}
         <Paragraph
           label={texts.vurdertLabel}
           body={veilederinfo?.fulltNavn() ?? ""}
         />
-        <VisBrev document={vurdering.document} buttonText={buttonText} />
+        {type !== VurderingType.IKKE_AKTUELL && (
+          <VisBrev
+            document={vurdering.document}
+            buttonText={getButtonText(type)}
+          />
+        )}
       </Accordion.Content>
     </Accordion.Item>
   );

@@ -3,8 +3,9 @@ import React from "react";
 import { queryClientWithMockData } from "../testQueryClient";
 import { ARBEIDSTAKER_DEFAULT } from "../../mock/common/mockConstants";
 import { screen } from "@testing-library/react";
-import { expect, describe, it, beforeEach } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import {
+  VurderingArsak,
   VurderingResponseDTO,
   VurderingType,
 } from "@/data/arbeidsuforhet/arbeidsuforhetTypes";
@@ -70,6 +71,7 @@ describe("ArbeidsuforhetSide", () => {
         );
 
         expect(screen.getByText("Siste vurdering")).to.exist;
+        expect(screen.getByText(/oppfylt/)).to.exist;
         expect(screen.getByRole("button", { name: nyVurderingButtonText })).to
           .exist;
       });
@@ -91,6 +93,29 @@ describe("ArbeidsuforhetSide", () => {
         );
 
         expect(screen.getByText("Siste vurdering")).to.exist;
+        expect(screen.getByText(/avslag/)).to.exist;
+        expect(screen.getByText("Start ny vurdering")).to.exist;
+      });
+
+      it("if status is ikke aktuell", () => {
+        const ikkeAktuell = createVurdering({
+          type: VurderingType.IKKE_AKTUELL,
+          begrunnelse: "",
+          arsak: VurderingArsak.FRISKMELDT,
+          createdAt: new Date(),
+        });
+        const vurderinger = [ikkeAktuell];
+        mockArbeidsuforhetVurderinger(vurderinger);
+
+        renderArbeidsuforhetSide(
+          queryClient,
+          <Arbeidsuforhet />,
+          arbeidsuforhetPath,
+          [arbeidsuforhetPath]
+        );
+
+        expect(screen.getByText("Siste vurdering")).to.exist;
+        expect(screen.getByText(/ikke aktuell/)).to.exist;
         expect(screen.getByText("Start ny vurdering")).to.exist;
       });
     });
@@ -147,6 +172,27 @@ describe("ArbeidsuforhetSide", () => {
           createdAt: new Date(),
         });
         const vurderinger = [oppfyltVurdering];
+        mockArbeidsuforhetVurderinger(vurderinger);
+
+        renderArbeidsuforhetSide(
+          queryClient,
+          <Arbeidsuforhet />,
+          arbeidsuforhetPath,
+          [arbeidsuforhetPath]
+        );
+        await clickButton(nyVurderingButtonText);
+
+        assertOnlyFormIsShowing();
+      });
+
+      it("after clicking ny vurdering if latest arbeidsuforhet status is ikke aktuell", async () => {
+        const ikkeAktuell = createVurdering({
+          type: VurderingType.IKKE_AKTUELL,
+          begrunnelse: "",
+          arsak: VurderingArsak.FRISKMELDT,
+          createdAt: new Date(),
+        });
+        const vurderinger = [ikkeAktuell];
         mockArbeidsuforhetVurderinger(vurderinger);
 
         renderArbeidsuforhetSide(
