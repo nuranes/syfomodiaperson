@@ -18,6 +18,7 @@ const expectedStandardtekstKeys = [
   "MIDLERTIDIG_LONNSTILSKUDD",
   "OKONOMISK_STOTTE",
   "INGEN_RETTIGHETER",
+  "EKSPERTBISTAND",
 ];
 
 describe("dialogmoteTexts", () => {
@@ -29,13 +30,15 @@ describe("dialogmoteTexts", () => {
   });
 
   it("referattekster har tekster for alle standardtekst-nøkler", () => {
-    expectedStandardtekstKeys.forEach((key) => {
-      expect(
-        getReferatTexts(Malform.BOKMAL).standardTekster.some(
-          (standardTekst) => standardTekst.key === key
-        ),
-        `mangler standardtekst for nøkkel ${key}`
-      ).to.be.true;
+    [Malform.BOKMAL, Malform.NYNORSK].forEach((malform) => {
+      expectedStandardtekstKeys.forEach((key) => {
+        expect(
+          getReferatTexts(malform).standardTekster.some(
+            (standardTekst) => standardTekst.key === key
+          ),
+          `mangler ${malform} standardtekst for nøkkel ${key}`
+        ).to.be.true;
+      });
     });
   });
 });
