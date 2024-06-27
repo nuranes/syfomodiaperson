@@ -30,11 +30,6 @@ const StyledFnr = styled.div`
   }
 `;
 
-const PersonkortH3 = styled.h3`
-  display: flex;
-  align-items: center;
-`;
-
 const PersonkortHeader = () => {
   const navbruker = useNavBrukerData();
   const personident = useValgtPersonident();
@@ -53,14 +48,14 @@ const PersonkortHeader = () => {
           alt="person"
         />
         <div>
-          <PersonkortH3>
+          <h3 className="flex items-center">
             {`${navbruker.navn} (${hentBrukersAlderFraFnr(personident)} år)`}
             {hasGjentakendeSykefravar && (
               <Tooltip content={"Gjentatt sykefravær"}>
                 <ArrowsCirclepathIcon className="ml-2" />
               </Tooltip>
             )}
-          </PersonkortH3>
+          </h3>
 
           <StyledFnr>
             {formaterFnr(personident)}

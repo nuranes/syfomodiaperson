@@ -70,6 +70,7 @@ spec:
         - application: istilgangskontroll
         - application: syfobehandlendeenhet
         - application: syfoperson
+        - application: syfooversiktsrv
         - application: syfoveileder
         - application: syfosmregister
           namespace: teamsykmelding
@@ -179,6 +180,10 @@ spec:
       value: "prod-gcp.teamsykefravr.syfoperson"
     - name: SYFOPERSON_HOST
       value: "http://syfoperson"
+    - name: SYFOOVERSIKTSRV_AAD_APP_CLIENT_ID
+      value: "prod-gcp.teamsykefravr.syfooversiktsrv"
+    - name: SYFOOVERSIKTSRV_HOST
+      value: "http://syfooversiktsrv"
     - name: SYFOSMREGISTER_AAD_APP_CLIENT_ID
       value: "prod-gcp.teamsykmelding.syfosmregister"
     - name: SYFOSMREGISTER_HOST

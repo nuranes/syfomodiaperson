@@ -478,6 +478,24 @@ export const setupProxy = (
   );
 
   router.use(
+    "/api/v2/persontildeling/*",
+    (
+      req: express.Request,
+      res: express.Response,
+      next: express.NextFunction
+    ) => {
+      proxyOnBehalfOf(
+        req,
+        res,
+        next,
+        authClient,
+        issuer,
+        Config.auth.syfooversiktsrv
+      );
+    }
+  );
+
+  router.use(
     "/syfoperson/*",
     (
       req: express.Request,
