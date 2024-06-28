@@ -1,15 +1,20 @@
 import { QueryClientProvider } from "@tanstack/react-query";
-import { render, screen } from "@testing-library/react";
+import { render, renderHook, screen, waitFor } from "@testing-library/react";
 import React from "react";
 import PersonkortHeader from "@/components/personkort/PersonkortHeader/PersonkortHeader";
-import { expect, describe, it, beforeEach } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import {
   queryClientWithAktivBruker,
   setQueryDataWithPersonkortdata,
 } from "../../testQueryClient";
 import { ValgtEnhetProvider } from "@/context/ValgtEnhetContext";
 import { egenansattQueryKeys } from "@/data/egenansatt/egenansattQueryHooks";
-import { ARBEIDSTAKER_DEFAULT } from "../../../mock/common/mockConstants";
+import {
+  ARBEIDSTAKER_DEFAULT,
+  ENHET_GRUNERLOKKA,
+  VEILEDER_DEFAULT,
+  VEILEDER_IDENT_DEFAULT,
+} from "../../../mock/common/mockConstants";
 import {
   brukerinfoMock,
   maksdato,
@@ -18,8 +23,15 @@ import { diskresjonskodeQueryKeys } from "@/data/diskresjonskode/diskresjonskode
 import { brukerinfoQueryKeys } from "@/data/navbruker/navbrukerQueryHooks";
 import { daysFromToday } from "../../testUtils";
 import dayjs from "dayjs";
+import { veilederMock } from "../../../mock/syfoveileder/veilederMock";
+import { veilederinfoQueryKeys } from "@/data/veilederinfo/veilederinfoQueryHooks";
+import { useGetVeilederBrukerKnytning } from "@/components/personkort/hooks/useGetVeilederBrukerKnytning";
+import { apiMock } from "../../stubs/stubApi";
+import { stubSyfooversiktsrvPersontildelingNoContent } from "../../stubs/stubSyfooversiktsrv";
+import { queryHookWrapper } from "../../data/queryHookTestUtils";
 
 let queryClient: any;
+let apiMockScope: any;
 
 const renderPersonkortHeader = () =>
   render(
@@ -33,6 +45,7 @@ const renderPersonkortHeader = () =>
 describe("PersonkortHeader", () => {
   beforeEach(() => {
     queryClient = queryClientWithAktivBruker();
+    apiMockScope = apiMock();
     setQueryDataWithPersonkortdata(queryClient);
   });
 
@@ -198,5 +211,44 @@ describe("PersonkortHeader", () => {
     renderPersonkortHeader();
 
     expect(screen.getByText("Sikkerhetstiltak")).to.exist;
+  });
+
+  describe("TildeltVeileder", () => {
+    it("viser 'Tildelt veileder' når kall for å hente knytning er success", () => {
+      queryClient.setQueryData(
+        ["veilederBrukerKnytning", ARBEIDSTAKER_DEFAULT.personIdent],
+        () => ({
+          personident: ARBEIDSTAKER_DEFAULT.personIdent,
+          tildeltVeilederident: VEILEDER_IDENT_DEFAULT,
+          tildeltEnhet: ENHET_GRUNERLOKKA.nummer,
+        })
+      );
+      queryClient.setQueryData(
+        veilederinfoQueryKeys.veilederinfoByIdent(VEILEDER_IDENT_DEFAULT),
+        () => veilederMock
+      );
+      renderPersonkortHeader();
+
+      expect(
+        screen.getByText(
+          `Tildelt veileder: ${VEILEDER_DEFAULT.fulltNavn()} (${
+            VEILEDER_DEFAULT.ident
+          })`
+        )
+      ).to.exist;
+    });
+
+    it("viser 'Tildelt veileder: ufordelt' når kall for å hente knytning ikke finner noen knytning", async () => {
+      stubSyfooversiktsrvPersontildelingNoContent(apiMockScope);
+      const wrapper = queryHookWrapper(queryClient);
+
+      const { result } = renderHook(() => useGetVeilederBrukerKnytning(), {
+        wrapper,
+      });
+      renderPersonkortHeader();
+
+      await waitFor(() => expect(result.current.isSuccess).to.be.true);
+      await screen.findByText("Ufordelt bruker");
+    });
   });
 });

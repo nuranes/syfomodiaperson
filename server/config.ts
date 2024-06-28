@@ -295,6 +295,15 @@ export const auth = {
       name: "SYFOPERSON_HOST",
     }),
   },
+  syfooversiktsrv: {
+    applicationName: "syfooversiktsrv",
+    clientId: envVar({
+      name: "SYFOOVERSIKTSRV_AAD_APP_CLIENT_ID",
+    }),
+    host: envVar({
+      name: "SYFOOVERSIKTSRV_HOST",
+    }),
+  },
   syfosmregister: {
     applicationName: "syfosmregister",
     clientId: envVar({

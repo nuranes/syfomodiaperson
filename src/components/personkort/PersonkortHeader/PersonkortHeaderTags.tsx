@@ -7,6 +7,7 @@ import { useEgenansattQuery } from "@/data/egenansatt/egenansattQueryHooks";
 import { useNavBrukerData } from "@/data/navbruker/navbruker_hooks";
 import { useDiskresjonskodeQuery } from "@/data/diskresjonskode/diskresjonskodeQueryHooks";
 import { tilLesbarDatoMedArUtenManedNavn } from "@/utils/datoUtils";
+import { TildeltVeileder } from "@/components/personkort/PersonkortHeader/TildeltVeileder";
 
 const texts = {
   fetchDiskresjonskodeFailed: "Klarte ikke hente diskresjonskode for brukeren.",
@@ -33,21 +34,14 @@ export const PersonkortHeaderTags = () => {
     tilrettelagtKommunikasjon?.talesprakTolk?.value;
   const tegnsprakTolkSprakkode =
     tilrettelagtKommunikasjon?.tegnsprakTolk?.value;
-  const visEtiketter =
-    isKode6 ||
-    isKode7 ||
-    isEgenAnsatt ||
-    isDead ||
-    !!talesprakTolkSprakkode ||
-    !!tegnsprakTolkSprakkode ||
-    hasSikkerhetstiltak;
 
-  return visEtiketter ? (
+  return (
     <ErrorBoundary
       apiError={error instanceof ApiErrorException ? error.error : undefined}
       errorMessage={texts.fetchDiskresjonskodeFailed}
     >
       <FlexRow columnGap={FlexGapSize.SM}>
+        <TildeltVeileder />
         {isKode6 && (
           <Tag variant="warning" size="small">
             {texts.kode6}
@@ -86,5 +80,5 @@ export const PersonkortHeaderTags = () => {
         )}
       </FlexRow>
     </ErrorBoundary>
-  ) : null;
+  );
 };
